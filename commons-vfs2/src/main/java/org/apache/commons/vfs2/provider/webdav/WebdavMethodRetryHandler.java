@@ -25,10 +25,12 @@ import org.apache.commons.httpclient.HttpMethodRetryHandler;
  * A retry handler which will retry a failed webdav method one time.
  * <p>
  * Now that webdavlib didnt support adding a MethodRetryHandler only a few operations are restartable yet.
+ * </p>
  *
  * @since 2.0
  */
 public final class WebdavMethodRetryHandler implements HttpMethodRetryHandler {
+
     private static final WebdavMethodRetryHandler INSTANCE = new WebdavMethodRetryHandler();
 
     private WebdavMethodRetryHandler() {

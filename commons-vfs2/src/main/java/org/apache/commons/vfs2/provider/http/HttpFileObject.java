@@ -44,10 +44,12 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * A file object backed by Apache Commons HttpClient.
  * <p>
  * TODO - status codes.
+ * </p>
  *
  * @param <FS> An {@link HttpFileSystem} subclass
  */
 public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObject<FS> {
+
     /**
      * An InputStream that cleans up the HTTP connection on close.
      */
@@ -113,8 +115,10 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
      * {@link FileType#FILE}.
      * <p>
      * It is guaranteed that there are no open output streams for this file when this method is called.
+     * </p>
      * <p>
      * The returned stream does not have to be buffered.
+     * </p>
      */
     @Override
     protected InputStream doGetInputStream() throws Exception {
@@ -135,6 +139,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
      * Returns the last modified time of this file.
      * <p>
      * This implementation throws an exception.
+     * </p>
      */
     @Override
     protected long doGetLastModifiedTime() throws Exception {

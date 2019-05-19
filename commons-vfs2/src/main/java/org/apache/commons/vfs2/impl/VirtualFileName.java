@@ -21,9 +21,10 @@ import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 
 /**
- * A simple Filename to hold the scheme for to be created virtual filesytsem.
+ * A simple Filename to hold the scheme for to be created virtual file system.
  */
 public class VirtualFileName extends AbstractFileName {
+
     public VirtualFileName(final String scheme, final String absPath, final FileType type) {
         super(scheme, absPath, type);
     }

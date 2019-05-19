@@ -32,6 +32,7 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileProvider;
  * Provides access to the content of bzip2 compressed files.
  */
 public class Bzip2FileProvider extends CompressedFileFileProvider {
+
     /** The provider's capabilities */
     protected static final Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays
             .asList(new Capability[] { Capability.GET_LAST_MODIFIED, Capability.GET_TYPE, Capability.LIST_CHILDREN,

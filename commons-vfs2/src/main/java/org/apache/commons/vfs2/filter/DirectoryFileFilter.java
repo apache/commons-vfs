@@ -28,6 +28,7 @@ import org.apache.commons.vfs2.FileType;
  * <p>
  * For example, here is how to print out a list of the current directory's sub
  * directories:
+ * </p>
  *
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();

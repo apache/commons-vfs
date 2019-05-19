@@ -32,10 +32,10 @@ import org.apache.commons.vfs2.FileSystemException;
  * </p>
  * <p>
  * FileOperation is provided by
+ * </p>
  *
  * @see FileOperationProvider Especially the FileOperationProvider is responsible for looking up and instantiating any
  *      concrete FileOperation.
- *      </p>
  *
  * @since 0.1
  */

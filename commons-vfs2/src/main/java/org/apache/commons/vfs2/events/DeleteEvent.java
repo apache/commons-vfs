@@ -23,6 +23,7 @@ import org.apache.commons.vfs2.FileObject;
  * File deletion event.
  */
 public class DeleteEvent extends AbstractFileChangeEvent {
+
     public DeleteEvent(final FileObject file) {
         super(file);
     }

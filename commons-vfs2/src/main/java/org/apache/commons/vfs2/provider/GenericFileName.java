@@ -122,6 +122,7 @@ public class GenericFileName extends AbstractFileName {
      * Append the user credentials.
      * <p>
      * If anything was added, it will be '@' terminated.
+     * </p>
      *
      * @param buffer the string buffer to modify.
      * @param addPassword flag if password should be added or replaced with placeholder (false).

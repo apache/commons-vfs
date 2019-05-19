@@ -27,6 +27,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * An OutputStream that provides buffering and end-of-stream monitoring.
  */
 public class MonitorOutputStream extends BufferedOutputStream {
+
     private final AtomicBoolean finished = new AtomicBoolean(false);
 
     /**
@@ -146,6 +147,7 @@ public class MonitorOutputStream extends BufferedOutputStream {
      * <p>
      * This is a workaround for an oddity with Java's BufferedOutputStream where you can write to even if the stream has
      * been closed.
+     * </p>
      *
      * @throws FileSystemException if already closed.
      * @since 2.0
@@ -160,6 +162,7 @@ public class MonitorOutputStream extends BufferedOutputStream {
      * Called after this stream is closed.
      * <p>
      * This implementation does nothing.
+     * </p>
      *
      * @throws IOException if an error occurs.
      */

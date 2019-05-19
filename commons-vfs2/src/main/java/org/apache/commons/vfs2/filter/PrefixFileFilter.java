@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
  * <p>
  * For example, to print all files and directories in the current directory
  * whose name starts with a <code>.</code>:
+ * </p>
  *
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();

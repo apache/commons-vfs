@@ -26,6 +26,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
  * A {@link FileProvider} that is layered on top of another, such as the contents of a zip or tar file.
  */
 public abstract class AbstractLayeredFileProvider extends AbstractFileProvider {
+
     public AbstractLayeredFileProvider() {
         super();
         setFileNameParser(LayeredFileNameParser.getInstance());
@@ -86,6 +87,7 @@ public abstract class AbstractLayeredFileProvider extends AbstractFileProvider {
      * Creates a layered file system.
      * <p>
      * This method is called if the file system is not cached.
+     * </p>
      *
      * @param scheme The URI scheme.
      * @param file The file to create the file system on top of.

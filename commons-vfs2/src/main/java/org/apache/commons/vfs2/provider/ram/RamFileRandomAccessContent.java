@@ -30,6 +30,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * RAM File Random Access Content.
  */
 public class RamFileRandomAccessContent implements RandomAccessContent {
+
     /**
      * File Pointer
      */

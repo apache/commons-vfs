@@ -25,6 +25,7 @@ import org.apache.commons.vfs2.RandomAccessContent;
  * A RandomAccessContent that provides end-of-stream monitoring.
  */
 public class MonitorRandomAccessContent implements RandomAccessContent {
+
     private final RandomAccessContent content;
     private boolean finished;
 

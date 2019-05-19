@@ -42,6 +42,7 @@ import org.w3c.dom.NodeList;
  * <p>
  * Certain providers are only loaded and available if the dependent library is in your classpath. You have to configure
  * your debugging facility to log "debug" messages to see if a provider was skipped due to "unresolved externals".
+ * </p>
  */
 public class StandardFileSystemManager extends DefaultFileSystemManager {
     private static final String CONFIG_RESOURCE = "providers.xml";
@@ -111,6 +112,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
      * Scans the classpath to find any droped plugin.
      * <p>
      * The plugin-description has to be in {@code /META-INF/vfs-providers.xml}.
+     * </p>
      *
      * @throws FileSystemException if an error occurs.
      */

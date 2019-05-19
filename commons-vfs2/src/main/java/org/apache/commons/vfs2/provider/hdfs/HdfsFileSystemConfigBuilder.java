@@ -31,6 +31,7 @@ import org.apache.hadoop.fs.Path;
  * @since 2.1
  */
 public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
+
     private static final HdfsFileSystemConfigBuilder BUILDER = new HdfsFileSystemConfigBuilder();
     private static final String KEY_CONFIG_NAMES = "configNames";
     private static final String KEY_CONFIG_PATHS = "configPaths";
@@ -75,16 +76,20 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Specifies the name of a config resource to override any specific HDFS settings. The property will be passed on to
      * {@code org.apache.hadoop.conf.Configuration#addResource(String)} after the URL was set as the default name with:
      * {@code Configuration#set(FileSystem.FS_DEFAULT_NAME_KEY, url)}.
+     * </p>
      * <p>
      * One use for this is to set a different value for the {@code dfs.client.use.datanode.hostname} property in order
      * to access HDFS files stored in an AWS installation (from outside their firewall). There are other possible uses
      * too.
+     * </p>
      * <p>
      * This method may be called multiple times and all the specified resources will be loaded in the order they were
      * specified.
+     * </p>
      * <p>
      * Note also, that if a list of names is provided, separated by commas ({@code ","}), that this will work the same
      * as calling this method a number of times with just one name each.
+     * </p>
      *
      * @param opts The FileSystemOptions to modify.
      * @param name resource name of additional configuration or {@code null} to unset all the values set so far.

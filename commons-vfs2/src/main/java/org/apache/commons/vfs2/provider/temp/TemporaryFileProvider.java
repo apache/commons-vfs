@@ -35,6 +35,7 @@ import org.apache.commons.vfs2.provider.local.LocalFileSystem;
  * A provider for temporary files.
  */
 public class TemporaryFileProvider extends AbstractFileProvider implements Comparable<Object> {
+
     private File rootFile;
 
     /*

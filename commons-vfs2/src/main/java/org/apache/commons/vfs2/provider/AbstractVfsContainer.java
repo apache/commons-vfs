@@ -24,6 +24,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * A {@link VfsComponent} that contains a set of sub-components.
  */
 public abstract class AbstractVfsContainer extends AbstractVfsComponent {
+
     /**
      * The components contained by this component.
      */
@@ -34,6 +35,7 @@ public abstract class AbstractVfsContainer extends AbstractVfsComponent {
      * <p>
      * If the sub-component implements {@link VfsComponent}, it is initialised. All sub-components are closed when this
      * component is closed.
+     * </p>
      *
      * @param component the component to add.
      * @throws FileSystemException if any error occurs.

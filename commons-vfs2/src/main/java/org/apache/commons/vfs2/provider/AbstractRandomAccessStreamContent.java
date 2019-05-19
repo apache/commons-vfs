@@ -26,6 +26,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * Implements the part usable for all stream-based random access.
  */
 public abstract class AbstractRandomAccessStreamContent extends AbstractRandomAccessContent {
+
     protected AbstractRandomAccessStreamContent(final RandomAccessMode mode) {
         super(mode);
     }

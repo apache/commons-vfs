@@ -246,7 +246,7 @@ public class CustomRamProviderTest {
             // Expected
         }
     }
-    
+
     /**
      * Tests VFS-625.
      * @throws FileSystemException

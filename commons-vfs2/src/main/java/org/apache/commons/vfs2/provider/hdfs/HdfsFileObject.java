@@ -39,6 +39,7 @@ import org.apache.hadoop.fs.Path;
  * @since 2.1
  */
 public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
+
     private final HdfsFileSystem fs;
     private final FileSystem hdfs;
     private final Path path;

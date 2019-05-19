@@ -24,6 +24,7 @@ import org.apache.commons.vfs2.FileType;
  * A general-purpose file name parser.
  */
 public class GenericFileNameParser extends LocalFileNameParser {
+
     private static final GenericFileNameParser INSTANCE = new GenericFileNameParser();
 
     /**

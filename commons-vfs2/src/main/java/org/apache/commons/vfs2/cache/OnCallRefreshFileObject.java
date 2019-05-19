@@ -30,6 +30,7 @@ import org.apache.commons.vfs2.impl.DecoratedFileObject;
  * This decorator refreshes the fileObject data on every call.
  */
 public class OnCallRefreshFileObject extends DecoratedFileObject {
+
     public OnCallRefreshFileObject(final FileObject fileObject) {
         super(fileObject);
     }

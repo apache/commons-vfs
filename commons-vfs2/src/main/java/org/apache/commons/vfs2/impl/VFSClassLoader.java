@@ -43,8 +43,10 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
  * <p>
  * The search path can consist of VFS FileObjects referring both to folders and JAR files. Any FileObject of type
  * FileType.FILE is assumed to be a JAR and is opened by creating a layered file system with the "jar" scheme.
+ * </p>
  * <p>
  * TODO - Test this with signed Jars and a SecurityManager.
+ * </p>
  *
  * @see FileSystemManager#createFileSystem
  */

@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * <p>
  * Example, showing how to print out a list of the current directory's
  * <i>writable</i> files:
+ * </p>
  *
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();
@@ -42,6 +43,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * <p>
  * Example, showing how to print out a list of the current directory's
  * <i>un-writable</i> files:
+ * </p>
  *
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();
@@ -55,6 +57,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * <p>
  * <b>N.B.</b> For read-only files, use
  * <code>CanReadFileFilter.READ_ONLY</code>.
+ * </p>
  *
  * @author This code was originally ported from Apache Commons IO File Filter
  * @see "http://commons.apache.org/proper/commons-io/"

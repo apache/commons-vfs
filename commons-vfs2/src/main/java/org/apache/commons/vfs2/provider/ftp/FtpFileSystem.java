@@ -35,6 +35,7 @@ import org.apache.commons.vfs2.provider.GenericFileName;
  * An FTP file system.
  */
 public class FtpFileSystem extends AbstractFileSystem {
+
     private static final Log LOG = LogFactory.getLog(FtpFileSystem.class);
 
     // private final String hostname;

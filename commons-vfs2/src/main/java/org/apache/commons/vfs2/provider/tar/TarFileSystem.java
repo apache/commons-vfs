@@ -44,6 +44,7 @@ import org.apache.commons.vfs2.provider.bzip2.Bzip2FileObject;
  * A read-only file system for Tar files.
  */
 public class TarFileSystem extends AbstractFileSystem {
+
     private static final int DEFAULT_INDEX_SIZE = 100;
 
     private static final Log LOG = LogFactory.getLog(TarFileSystem.class);

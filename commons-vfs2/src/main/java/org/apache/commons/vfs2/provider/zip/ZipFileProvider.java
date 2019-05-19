@@ -37,6 +37,7 @@ import org.apache.commons.vfs2.provider.hdfs.HdfsFileSystemConfigBuilder;
  * A file system provider for ZIP files. Provides read-only file systems.
  */
 public class ZipFileProvider extends AbstractLayeredFileProvider {
+
     /** The list of capabilities this provider supports */
     protected static final Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays
             .asList(new Capability[] { Capability.GET_LAST_MODIFIED, Capability.GET_TYPE, Capability.LIST_CHILDREN,

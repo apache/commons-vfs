@@ -26,6 +26,7 @@ import org.apache.commons.vfs2.VFS;
  * A default file name implementation.
  */
 public abstract class AbstractFileName implements FileName {
+
     // URI Characters that are possible in local filenames, but must be escaped
     // for proper URI handling.
     //
@@ -458,8 +459,10 @@ public abstract class AbstractFileName implements FileName {
      * <p>
      * The "requested" type is the one determined during resolving the name. n this case the name is a
      * {@link FileType#FOLDER} if it ends with an "/" else it will be a {@link FileType#FILE}.
+     * </p>
      * <p>
      * Once attached it will be changed to reflect the real type of this resource.
+     * </p>
      *
      * @return {@link FileType#FOLDER} or {@link FileType#FILE}
      */

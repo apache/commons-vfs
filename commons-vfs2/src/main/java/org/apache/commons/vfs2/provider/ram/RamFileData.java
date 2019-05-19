@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.FileType;
  * RAM File Object Data.
  */
 class RamFileData implements Serializable {
+
     static final byte[] EMPTY = new byte[0];
 
     /**

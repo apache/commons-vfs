@@ -23,6 +23,7 @@ import org.apache.commons.vfs2.FileType;
  * A local file URI.
  */
 public class WindowsFileName extends LocalFileName {
+
     protected WindowsFileName(final String scheme, final String rootFile, final String path, final FileType type) {
         super(scheme, rootFile, path, type);
     }

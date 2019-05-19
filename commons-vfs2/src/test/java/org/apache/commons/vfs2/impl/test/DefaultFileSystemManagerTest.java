@@ -25,6 +25,7 @@ import org.apache.commons.vfs2.VFS;
 import org.junit.Test;
 
 public class DefaultFileSystemManagerTest {
+
     @Test(expected = NullPointerException.class)
     public void testResolveFileRelativeThrows() throws FileSystemException {
         VFS.getManager().resolveFile((File) null, "relativePath");

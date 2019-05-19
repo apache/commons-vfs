@@ -19,7 +19,7 @@ package org.apache.commons.vfs2;
 import org.apache.commons.logging.Log;
 
 /**
- * This class is to keep the old logging behaviour (for ant-task) and to be able to correctly use commons-logging.<br>
+ * This class is to keep the old logging behaviour (for ant-task) and to be able to correctly use commons-logging.
  * I hope i could remove it sometimes.
  */
 public final class VfsLog {

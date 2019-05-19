@@ -25,6 +25,7 @@ import org.apache.commons.vfs2.provider.CompositeFileProvider;
  * A file system provider for Tar files. Provides read-only file systems.
  */
 public class Tbz2FileProvider extends CompositeFileProvider {
+
     /** The provider's capabilities */
     protected static final Collection<Capability> capabilities = TarFileProvider.capabilities;
 

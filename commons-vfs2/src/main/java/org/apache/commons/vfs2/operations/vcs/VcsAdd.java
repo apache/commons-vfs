@@ -23,6 +23,7 @@ import org.apache.commons.vfs2.operations.FileOperation;
  * @since 0.1
  */
 public interface VcsAdd extends FileOperation {
+
     /**
      *
      * @param makedir true if directories should be created, false otherwise.

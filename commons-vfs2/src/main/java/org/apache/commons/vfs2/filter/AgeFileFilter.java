@@ -31,6 +31,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * <p>
  * For example, to print all files and directories in the current directory
  * older than one day:
+ * </p>
  *
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();
@@ -165,6 +166,7 @@ public class AgeFileFilter implements FileFilter, Serializable {
      * If last modification time equals cutoff and newer files are required, file
      * <b>IS NOT</b> selected. If last modification time equals cutoff and older
      * files are required, file <b>IS</b> selected.
+     * </p>
      *
      * @param fileInfo the File to check
      *

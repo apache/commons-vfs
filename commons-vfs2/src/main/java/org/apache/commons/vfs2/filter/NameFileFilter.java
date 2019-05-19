@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
  * <p>
  * For example, to print all files and directories in the current directory
  * whose name is <code>Test</code>:
+ * </p>
  *
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();
@@ -83,6 +84,7 @@ public class NameFileFilter implements FileFilter, Serializable {
      * <p>
      * The array is not cloned, so could be changed after constructing the instance.
      * This would be inadvisable however.
+     * </p>
      *
      * @param names the names to allow, must not be null
      */

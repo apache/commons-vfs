@@ -32,6 +32,7 @@ import org.apache.hadoop.fs.Path;
  * @since 2.1
  */
 public class HdfsRandomAccessContent extends AbstractRandomAccessContent {
+
     private final FSDataInputStream fis;
     private final FileSystem fs;
     private final Path path;

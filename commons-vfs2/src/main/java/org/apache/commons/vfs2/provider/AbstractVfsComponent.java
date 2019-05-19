@@ -23,6 +23,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * A partial {@link VfsComponent} implementation.
  */
 public abstract class AbstractVfsComponent implements VfsComponent {
+
     private VfsComponentContext context;
     private Log log;
 

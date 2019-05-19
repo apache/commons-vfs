@@ -28,6 +28,7 @@ import org.apache.commons.vfs2.UserAuthenticator;
  * Configuration options for HTTP.
  */
 public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
+
     protected static final String KEY_FOLLOW_REDIRECT = "followRedirect";
 
     protected static final String KEY_USER_AGENT = "userAgent";
@@ -72,7 +73,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Sets the charset used for url encoding.<br>
+     * Sets the charset used for url encoding.
      *
      * @param opts The FileSystem options.
      * @param chaset the chaset
@@ -82,7 +83,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Sets the charset used for url encoding.<br>
+     * Sets the charset used for url encoding.
      *
      * @param opts The FileSystem options.
      * @return the chaset
@@ -92,8 +93,10 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Sets the proxy to use for http connection.<br>
+     * Sets the proxy to use for http connection.
+     * <p>
      * You have to set the ProxyPort too if you would like to have the proxy really used.
+     * </p>
      *
      * @param opts The FileSystem options.
      * @param proxyHost the host

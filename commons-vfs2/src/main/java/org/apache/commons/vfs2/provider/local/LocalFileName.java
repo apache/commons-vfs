@@ -26,6 +26,7 @@ import org.apache.commons.vfs2.provider.UriParser;
  * A local file URI.
  */
 public class LocalFileName extends AbstractFileName {
+
     private final String rootFile;
 
     protected LocalFileName(final String scheme, final String rootFile, final String path, final FileType type) {

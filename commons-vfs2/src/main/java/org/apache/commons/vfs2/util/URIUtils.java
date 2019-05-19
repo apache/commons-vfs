@@ -27,10 +27,11 @@ import org.apache.commons.vfs2.provider.GenericURLFileName;
 
 /**
  * The URI escape and character encoding and decoding utility.
- * <P>
+ * <p>
  * This was forked from some needed methods such as <code>#encodePath(...)</code> in <code>org.apache.commons.httpclient.util.URIUtil</code>,
  * in order to not be dependent on HttpClient v3 API, when generating and handling {@link GenericURLFileName}s,
  * but it should work with any different HTTP backend provider implementations.
+ * </p>
  */
 public class URIUtils {
 
@@ -82,10 +83,11 @@ public class URIUtils {
 
     /**
      * Internal URL codec utilities.
-     * <P>
+     * <p>
      * This was forked from some needed methods such as <code>#encodeUrl(...)</code> and <code>#hexDigit(int)</code>
      * in <code>org.apache.commons.codec.net.URLCodec</code>, as commons-codec library cannot be pulled in transitively
      * via Http Client v3 library any more.
+     * </p>
      */
     private static class URLCodecUtils {
 
@@ -160,11 +162,12 @@ public class URIUtils {
 
     /**
      * Internal character encoding utilities.
-     * <P>
+     * <p>
      * This was forked from some needed methods such as <code>#getBytes(...)</code> and <code>#getAsciiString(...)</code>
      * in <code>org.apache.commons.httpclient.util.EncodingUtil</code>,
      * in order to not be dependent on HttpClient v3 API, when generating and handling {@link GenericURLFileName}s,
      * but it should work with any different HTTP backend provider implementations.
+     * </p>
      */
     private static class EncodingUtils {
 

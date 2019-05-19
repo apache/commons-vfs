@@ -35,6 +35,7 @@ import org.apache.commons.vfs2.provider.LayeredFileName;
  * A file system provider for Tar files. Provides read-only file systems.
  */
 public class TarFileProvider extends AbstractLayeredFileProvider {
+
     /** The provider's capabilities */
     protected static final Collection<Capability> capabilities = Collections
             .unmodifiableCollection(Arrays.asList(new Capability[] { Capability.GET_LAST_MODIFIED, Capability.GET_TYPE,

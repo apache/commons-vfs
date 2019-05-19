@@ -28,6 +28,7 @@ import org.apache.commons.vfs2.FileType;
  */
 @Deprecated
 public class URLFileName extends GenericFileName {
+
     private static final int BUFFER_SIZE = 250;
 
     private final String queryString;
@@ -40,7 +41,7 @@ public class URLFileName extends GenericFileName {
     }
 
     /**
-     * Get the query string.
+     * Gets the query string.
      *
      * @return the query string part of the filename
      */
@@ -49,7 +50,7 @@ public class URLFileName extends GenericFileName {
     }
 
     /**
-     * Get the path and query string e.g. /path/servlet?param1=true.
+     * Gets the path and query string e.g. /path/servlet?param1=true.
      *
      * @return the path and its query string
      */
@@ -63,7 +64,7 @@ public class URLFileName extends GenericFileName {
     }
 
     /**
-     * Get the path encoded suitable for url like filesystem e.g. (http, webdav).
+     * Gets the path encoded suitable for url like filesystem e.g. (http, webdav).
      *
      * @param charset the charset used for the path encoding
      * @return The encoded path.
@@ -103,7 +104,7 @@ public class URLFileName extends GenericFileName {
     }
 
     /**
-     * Append query string to the uri.
+     * Appends query string to the uri.
      *
      * @return the uri
      */
@@ -122,7 +123,7 @@ public class URLFileName extends GenericFileName {
     }
 
     /**
-     * Encode a URI.
+     * Encodes a URI.
      *
      * @param charset The character set.
      * @return The encoded URI

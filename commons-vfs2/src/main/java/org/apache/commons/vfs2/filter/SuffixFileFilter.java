@@ -30,6 +30,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
  * <p>
  * For example, to retrieve and print all <code>*.java</code> files in the
  * current directory:
+ * </p>
  *
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();
@@ -123,7 +124,7 @@ public class SuffixFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Provide a String representation of this file filter.
+     * Provides a String representation of this file filter.
      *
      * @return a String representation
      */

@@ -31,6 +31,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
  * The config builder for various ftp configuration options.
  */
 public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
+
     private static final String _PREFIX = FtpFileSystemConfigBuilder.class.getName();
 
     private static final FtpFileSystemConfigBuilder BUILDER = new FtpFileSystemConfigBuilder();

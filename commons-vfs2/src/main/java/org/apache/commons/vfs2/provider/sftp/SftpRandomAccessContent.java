@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * Random access content.
  */
 class SftpRandomAccessContent extends AbstractRandomAccessStreamContent {
+
     /** file pointer */
     protected long filePointer = 0;
 

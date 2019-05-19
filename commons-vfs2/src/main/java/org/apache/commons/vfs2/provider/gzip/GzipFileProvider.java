@@ -32,6 +32,7 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileProvider;
  * Provides access to the content of gzip compressed files.
  */
 public class GzipFileProvider extends CompressedFileFileProvider {
+
     /**
      * Capabilities.
      */

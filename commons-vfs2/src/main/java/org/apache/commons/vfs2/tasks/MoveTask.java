@@ -25,6 +25,7 @@ import org.apache.commons.vfs2.Selectors;
  * An Ant task that moves matching files.
  * <p>
  * TODO - Delete matching folders.
+ * </p>
  */
 public class MoveTask extends CopyTask {
     private boolean tryRename;

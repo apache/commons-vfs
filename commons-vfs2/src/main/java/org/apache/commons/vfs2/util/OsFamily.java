@@ -20,6 +20,7 @@ package org.apache.commons.vfs2.util;
  * An enumerated type, which represents an OS family.
  */
 public final class OsFamily {
+
     private final String name;
     private final OsFamily[] families;
 

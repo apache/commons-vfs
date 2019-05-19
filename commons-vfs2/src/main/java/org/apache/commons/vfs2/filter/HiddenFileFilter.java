@@ -27,6 +27,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * <p>
  * Example, showing how to print out a list of the current directory's
  * <i>hidden</i> files:
+ * </p>
  *
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();
@@ -40,6 +41,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * <p>
  * Example, showing how to print out a list of the current directory's
  * <i>visible</i> (i.e. not hidden) files:
+ * </p>
  *
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();

@@ -143,6 +143,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
 
     /**
      * Create an {@link HttpClient} object for an http4 file system.
+     *
      * @param builder Configuration options builder for http4 provider
      * @param rootName The root path
      * @param fileSystemOptions The file system options
@@ -156,6 +157,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
 
     /**
      * Create an {@link HttpClientBuilder} object. Invoked by {@link #createHttpClient(Http4FileSystemConfigBuilder, GenericFileName, FileSystemOptions)}.
+     *
      * @param builder Configuration options builder for HTTP4 provider
      * @param rootName The root path
      * @param fileSystemOptions The FileSystem options
@@ -191,6 +193,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
 
     /**
      * Create {@link SSLContext} for HttpClient. Invoked by {@link #createHttpClientBuilder(Http4FileSystemConfigBuilder, GenericFileName, FileSystemOptions)}.
+     *
      * @param builder Configuration options builder for HTTP4 provider
      * @param fileSystemOptions The FileSystem options
      * @return a {@link SSLContext} for HttpClient
@@ -232,6 +235,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
 
     /**
      * Create an {@link HttpClientContext} object for an http4 file system.
+     *
      * @param builder Configuration options builder for http4 provider
      * @param rootName The root path
      * @param fileSystemOptions The FileSystem options

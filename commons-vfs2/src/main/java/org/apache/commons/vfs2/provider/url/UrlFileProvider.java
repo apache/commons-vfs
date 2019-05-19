@@ -34,6 +34,7 @@ import org.apache.commons.vfs2.provider.AbstractFileProvider;
  * A file provider backed by Java's URL API.
  */
 public class UrlFileProvider extends AbstractFileProvider {
+
     /** The provider's capabilities */
     protected static final Collection<Capability> capabilities = Collections.unmodifiableCollection(
             Arrays.asList(new Capability[] { Capability.READ_CONTENT, Capability.URI, Capability.GET_LAST_MODIFIED }));

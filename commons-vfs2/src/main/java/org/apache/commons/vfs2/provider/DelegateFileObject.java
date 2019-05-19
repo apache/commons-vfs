@@ -39,6 +39,7 @@ import org.apache.commons.vfs2.util.WeakRefFileListener;
  * A file backed by another file.
  * <p>
  * TODO - Extract subclass that overlays the children.
+ * </p>
  *
  * @param <AFS> A subclass of AbstractFileSystem.
  */
@@ -326,6 +327,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      * Called when a file is changed.
      * <p>
      * This will only happen if you monitor the file using {@link org.apache.commons.vfs2.FileMonitor}.
+     * </p>
      *
      * @param event The FileChangeEvent.
      * @throws Exception if an error occurs.

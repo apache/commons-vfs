@@ -26,6 +26,7 @@ import org.apache.commons.vfs2.provider.GenericURLFileName;
  * This was forked from the {@link BitSet}s in <code>org.apache.commons.httpclient.URI</code>,
  * in order to not be dependent on HttpClient v3 API, when generating and handling {@link GenericURLFileName}s,
  * but it should work with any different HTTP backend provider implementations.
+ * </p>
  */
 class URIBitSets {
 
@@ -48,7 +49,7 @@ class URIBitSets {
      * <p><blockquote><pre>
      * digit    = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" |
      *            "8" | "9"
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet digit = new BitSet(256);
     // Static initializer for digit
@@ -63,7 +64,7 @@ class URIBitSets {
      * BitSet for alpha.
      * <p><blockquote><pre>
      * alpha         = lowalpha | upalpha
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet alpha = new BitSet(256);
     // Static initializer for alpha
@@ -81,7 +82,7 @@ class URIBitSets {
      * BitSet for alphanum (join of alpha &amp; digit).
      * <p><blockquote><pre>
      *  alphanum      = alpha | digit
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet alphanum = new BitSet(256);
     // Static initializer for alphanum
@@ -96,7 +97,7 @@ class URIBitSets {
      * <p><blockquote><pre>
      * hex           = digit | "A" | "B" | "C" | "D" | "E" | "F" |
      *                         "a" | "b" | "c" | "d" | "e" | "f"
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet hex = new BitSet(256);
     // Static initializer for hex
@@ -115,7 +116,7 @@ class URIBitSets {
      * BitSet for escaped.
      * <p><blockquote><pre>
      * escaped       = "%" hex hex
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet escaped = new BitSet(256);
     // Static initializer for escaped
@@ -130,7 +131,7 @@ class URIBitSets {
      * <p><blockquote><pre>
      * mark          = "-" | "_" | "." | "!" | "~" | "*" | "'" |
      *                 "(" | ")"
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet mark = new BitSet(256);
     // Static initializer for mark
@@ -152,7 +153,7 @@ class URIBitSets {
      * purpose are called unreserved.
      * <p><blockquote><pre>
      * unreserved    = alphanum | mark
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet unreserved = new BitSet(256);
     // Static initializer for unreserved
@@ -167,7 +168,7 @@ class URIBitSets {
      * <p><blockquote><pre>
      * reserved      = ";" | "/" | "?" | ":" | "@" | "&amp;" | "=" | "+" |
      *                 "$" | ","
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet reserved = new BitSet(256);
     // Static initializer for reserved
@@ -189,7 +190,7 @@ class URIBitSets {
      * BitSet for uric.
      * <p><blockquote><pre>
      * uric          = reserved | unreserved | escaped
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet uric = new BitSet(256);
     // Static initializer for uric
@@ -204,7 +205,7 @@ class URIBitSets {
      * BitSet for fragment (alias for uric).
      * <p><blockquote><pre>
      * fragment      = *uric
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet fragment = uric;
 
@@ -213,7 +214,7 @@ class URIBitSets {
      * BitSet for query (alias for uric).
      * <p><blockquote><pre>
      * query         = *uric
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet query = uric;
 
@@ -223,7 +224,7 @@ class URIBitSets {
      * <p><blockquote><pre>
      * pchar         = unreserved | escaped |
      *                 ":" | "@" | "&amp;" | "=" | "+" | "$" | ","
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet pchar = new BitSet(256);
     // Static initializer for pchar
@@ -244,7 +245,7 @@ class URIBitSets {
      * BitSet for param (alias for pchar).
      * <p><blockquote><pre>
      * param         = *pchar
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet param = pchar;
 
@@ -253,7 +254,7 @@ class URIBitSets {
      * BitSet for segment.
      * <p><blockquote><pre>
      * segment       = *pchar *( ";" param )
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet segment = new BitSet(256);
     // Static initializer for segment
@@ -268,7 +269,7 @@ class URIBitSets {
      * BitSet for path segments.
      * <p><blockquote><pre>
      * path_segments = segment *( "/" segment )
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet path_segments = new BitSet(256);
     // Static initializer for path_segments
@@ -282,7 +283,7 @@ class URIBitSets {
      * URI absolute path.
      * <p><blockquote><pre>
      * abs_path      = "/"  path_segments
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet abs_path = new BitSet(256);
     // Static initializer for abs_path
@@ -297,7 +298,7 @@ class URIBitSets {
      * <p><blockquote><pre>
      * uric_no_slash = unreserved | escaped | ";" | "?" | ":" | "@" |
      *                 "&amp;" | "=" | "+" | "$" | ","
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet uric_no_slash = new BitSet(256);
     // Static initializer for uric_no_slash
@@ -320,7 +321,7 @@ class URIBitSets {
      * URI bitset that combines uric_no_slash and uric.
      * <p><blockquote><pre>
      * opaque_part   = uric_no_slash *uric
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet opaque_part = new BitSet(256);
     // Static initializer for opaque_part
@@ -335,7 +336,7 @@ class URIBitSets {
      * URI bitset that combines absolute path and opaque part.
      * <p><blockquote><pre>
      * path          = [ abs_path | opaque_part ]
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet path = new BitSet(256);
     // Static initializer for path
@@ -355,7 +356,7 @@ class URIBitSets {
      * Bitset that combines digit and dot fo IPv$address.
      * <p><blockquote><pre>
      * IPv4address   = 1*digit "." 1*digit "." 1*digit "." 1*digit
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet IPv4address = new BitSet(256);
     // Static initializer for IPv4address
@@ -369,7 +370,7 @@ class URIBitSets {
      * RFC 2373.
      * <p><blockquote><pre>
      * IPv6address = hexpart [ ":" IPv4address ]
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet IPv6address = new BitSet(256);
     // Static initializer for IPv6address reference
@@ -384,7 +385,7 @@ class URIBitSets {
      * RFC 2732, 2373.
      * <p><blockquote><pre>
      * IPv6reference   = "[" IPv6address "]"
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet IPv6reference = new BitSet(256);
     // Static initializer for IPv6reference
@@ -399,7 +400,7 @@ class URIBitSets {
      * BitSet for toplabel.
      * <p><blockquote><pre>
      * toplabel      = alpha | alpha *( alphanum | "-" ) alphanum
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet toplabel = new BitSet(256);
     // Static initializer for toplabel
@@ -413,7 +414,7 @@ class URIBitSets {
      * BitSet for domainlabel.
      * <p><blockquote><pre>
      * domainlabel   = alphanum | alphanum *( alphanum | "-" ) alphanum
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet domainlabel = toplabel;
 
@@ -422,7 +423,7 @@ class URIBitSets {
      * BitSet for hostname.
      * <p><blockquote><pre>
      * hostname      = *( domainlabel "." ) toplabel [ "." ]
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet hostname = new BitSet(256);
     // Static initializer for hostname
@@ -437,7 +438,7 @@ class URIBitSets {
      * BitSet for host.
      * <p><blockquote><pre>
      * host          = hostname | IPv4address | IPv6reference
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet host = new BitSet(256);
     // Static initializer for host
@@ -452,7 +453,7 @@ class URIBitSets {
      * BitSet for hostport.
      * <p><blockquote><pre>
      * hostport      = host [ ":" port ]
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet hostport = new BitSet(256);
     // Static initializer for hostport
@@ -468,7 +469,7 @@ class URIBitSets {
      * <p><blockquote><pre>
      * userinfo      = *( unreserved | escaped |
      *                    ";" | ":" | "&amp;" | "=" | "+" | "$" | "," )
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet userinfo = new BitSet(256);
     // Static initializer for userinfo
@@ -504,7 +505,7 @@ class URIBitSets {
      * Bitset for server.
      * <p><blockquote><pre>
      * server        = [ [ userinfo "@" ] hostport ]
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet server = new BitSet(256);
     // Static initializer for server
@@ -520,7 +521,7 @@ class URIBitSets {
      * <p><blockquote><pre>
      * reg_name      = 1*( unreserved | escaped | "$" | "," |
      *                     ";" | ":" | "@" | "&amp;" | "=" | "+" )
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet reg_name = new BitSet(256);
     // Static initializer for reg_name
@@ -542,7 +543,7 @@ class URIBitSets {
      * BitSet for authority.
      * <p><blockquote><pre>
      * authority     = server | reg_name
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet authority = new BitSet(256);
     // Static initializer for authority
@@ -556,7 +557,7 @@ class URIBitSets {
      * BitSet for scheme.
      * <p><blockquote><pre>
      * scheme        = alpha *( alpha | digit | "+" | "-" | "." )
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet scheme = new BitSet(256);
     // Static initializer for scheme
@@ -574,7 +575,7 @@ class URIBitSets {
      * <p><blockquote><pre>
      * rel_segment   = 1*( unreserved | escaped |
      *                     ";" | "@" | "&amp;" | "=" | "+" | "$" | "," )
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet rel_segment = new BitSet(256);
     // Static initializer for rel_segment
@@ -595,7 +596,7 @@ class URIBitSets {
      * BitSet for rel_path.
      * <p><blockquote><pre>
      * rel_path      = rel_segment [ abs_path ]
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet rel_path = new BitSet(256);
     // Static initializer for rel_path
@@ -609,7 +610,7 @@ class URIBitSets {
      * BitSet for net_path.
      * <p><blockquote><pre>
      * net_path      = "//" authority [ abs_path ]
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet net_path = new BitSet(256);
     // Static initializer for net_path
@@ -624,7 +625,7 @@ class URIBitSets {
      * BitSet for hier_part.
      * <p><blockquote><pre>
      * hier_part     = ( net_path | abs_path ) [ "?" query ]
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet hier_part = new BitSet(256);
     // Static initializer for hier_part
@@ -640,7 +641,7 @@ class URIBitSets {
      * BitSet for relativeURI.
      * <p><blockquote><pre>
      * relativeURI   = ( net_path | abs_path | rel_path ) [ "?" query ]
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet relativeURI = new BitSet(256);
     // Static initializer for relativeURI
@@ -657,7 +658,7 @@ class URIBitSets {
      * BitSet for absoluteURI.
      * <p><blockquote><pre>
      * absoluteURI   = scheme ":" ( hier_part | opaque_part )
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet absoluteURI = new BitSet(256);
     // Static initializer for absoluteURI
@@ -673,7 +674,7 @@ class URIBitSets {
      * BitSet for URI-reference.
      * <p><blockquote><pre>
      * URI-reference = [ absoluteURI | relativeURI ] [ "#" fragment ]
-     * </pre></blockquote><p>
+     * </pre></blockquote></p>
      */
     protected static final BitSet URI_reference = new BitSet(256);
     // Static initializer for URI_reference

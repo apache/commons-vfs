@@ -30,6 +30,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * <p>
  * For example, to print all files and directories in the current directory
  * whose size is greater than 1 MB:
+ * </p>
  *
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();
@@ -87,8 +88,10 @@ public class SizeFileFilter implements FileFilter, Serializable {
      * If size equals threshold and smaller files are required, file <b>IS NOT</b>
      * selected. If size equals threshold and larger files are required, file
      * <b>IS</b> selected.
+     * </p>
      * <p>
      * Non-existing files return always false (will never be accepted).
+     * </p>
      *
      * @param fileInfo the File to check
      *

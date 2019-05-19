@@ -22,6 +22,7 @@ package org.apache.commons.vfs2.util;
  * @since 2.0
  */
 public final class CryptorFactory {
+
     /**
      * The System property name to identify the Cryptor class to be used.
      */

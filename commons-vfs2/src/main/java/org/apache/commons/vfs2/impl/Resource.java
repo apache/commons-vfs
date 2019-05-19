@@ -30,6 +30,7 @@ import org.apache.commons.vfs2.FileUtil;
  * @see VFSClassLoader
  */
 class Resource {
+
     private final FileObject root;
     private final FileObject resource;
     private final FileObject packageFolder;

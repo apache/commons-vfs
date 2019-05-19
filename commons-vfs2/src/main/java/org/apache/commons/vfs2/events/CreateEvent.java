@@ -23,6 +23,7 @@ import org.apache.commons.vfs2.FileObject;
  * File creation event.
  */
 public class CreateEvent extends AbstractFileChangeEvent {
+
     public CreateEvent(final FileObject file) {
         super(file);
     }

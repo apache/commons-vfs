@@ -25,6 +25,7 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemConfigBuilder;
  * Helps with authentication.
  */
 public final class UserAuthenticatorUtils {
+
     private UserAuthenticatorUtils() {
     }
 

@@ -43,6 +43,7 @@ import org.apache.hadoop.fs.Path;
  * @since 2.1
  */
 public class HdfsFileSystem extends AbstractFileSystem {
+
     private static final Log log = LogFactory.getLog(HdfsFileSystem.class);
 
     private FileSystem fs;

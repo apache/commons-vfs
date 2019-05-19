@@ -30,6 +30,7 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
  * A file in a ZIP file system.
  */
 public class ZipFileObject extends AbstractFileObject<ZipFileSystem> {
+
     /** The ZipEntry. */
     protected ZipEntry entry;
     private final HashSet<String> children = new HashSet<>();

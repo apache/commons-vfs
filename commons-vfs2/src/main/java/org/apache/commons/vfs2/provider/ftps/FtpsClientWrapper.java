@@ -29,10 +29,12 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
  * <p>
  * The only difference to the {@link FTPClientWrapper} is the creation of a {@link FTPSClient} instead of a
  * {@link FTPClient}.
+ * </p>
  *
  * @since 2.0
  */
 class FtpsClientWrapper extends FTPClientWrapper {
+
     FtpsClientWrapper(final GenericFileName root, final FileSystemOptions fileSystemOptions)
             throws FileSystemException {
         super(root, fileSystemOptions);

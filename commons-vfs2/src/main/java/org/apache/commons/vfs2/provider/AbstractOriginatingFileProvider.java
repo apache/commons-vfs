@@ -27,6 +27,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
  * originating file system cannot be layered on top of another file system.
  */
 public abstract class AbstractOriginatingFileProvider extends AbstractFileProvider {
+
     public AbstractOriginatingFileProvider() {
         super();
     }

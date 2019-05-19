@@ -21,6 +21,7 @@ package org.apache.commons.vfs2.operations.vcs;
  * @since 0.1
  */
 public interface VcsModifyListener {
+
     /**
      *
      * @param path The path String.

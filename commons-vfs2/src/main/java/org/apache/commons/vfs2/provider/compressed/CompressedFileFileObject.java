@@ -33,6 +33,7 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
  * @param <FS> A CompressedFileFileSystem
  */
 public abstract class CompressedFileFileObject<FS extends CompressedFileFileSystem> extends AbstractFileObject<FS> {
+
     private final FileObject container;
     private final String[] children;
 

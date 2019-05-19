@@ -27,6 +27,7 @@ import org.apache.commons.vfs2.operations.FileOperation;
  * @since 0.1
  */
 public interface VcsRevert extends FileOperation {
+
     /**
      *
      * @param recursive true if children should be processed.

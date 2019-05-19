@@ -36,6 +36,7 @@ import org.apache.commons.vfs2.util.Os;
  * A file system provider, which uses direct file access.
  */
 public class DefaultLocalFileProvider extends AbstractOriginatingFileProvider implements LocalFileProvider {
+
     /** The provider's capabilities. */
     public static final Collection<Capability> capabilities = Collections.unmodifiableCollection(
             Arrays.asList(new Capability[] { Capability.CREATE, Capability.DELETE, Capability.RENAME,

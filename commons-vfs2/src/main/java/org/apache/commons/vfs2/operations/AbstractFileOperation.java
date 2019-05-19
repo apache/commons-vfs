@@ -23,6 +23,7 @@ import org.apache.commons.vfs2.FileObject;
  * @since 0.1
  */
 public abstract class AbstractFileOperation implements FileOperation {
+
     /**
      * FileObject which the FileOperation is operate on.
      */

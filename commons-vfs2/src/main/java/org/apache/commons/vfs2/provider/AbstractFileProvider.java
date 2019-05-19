@@ -37,6 +37,7 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
      * The cached file systems.
      * <p>
      * This is a mapping from {@link FileSystemKey} (root URI and options) to {@link FileSystem}.
+     * </p>
      */
     private final Map<FileSystemKey, FileSystem> fileSystems = new TreeMap<>(); // @GuardedBy("self")
 
@@ -86,6 +87,7 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
      * Adds a file system to those cached by this provider.
      * <p>
      * The file system may implement {@link VfsComponent}, in which case it is initialised.
+     * </p>
      *
      * @param key The root file of the file system, part of the cache key.
      * @param fs the file system to add.

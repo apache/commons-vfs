@@ -30,6 +30,7 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
  * A file in a Tar file system.
  */
 public class TarFileObject extends AbstractFileObject<TarFileSystem> {
+
     /** The TarArchiveEntry */
     private TarArchiveEntry entry;
     private final HashSet<String> children = new HashSet<>();

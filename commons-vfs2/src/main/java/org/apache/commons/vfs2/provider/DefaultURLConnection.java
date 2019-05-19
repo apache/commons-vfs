@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * A default URL connection that will work for most file systems.
  */
 public final class DefaultURLConnection extends URLConnection {
+
     private final FileContent content;
 
     public DefaultURLConnection(final URL url, final FileContent content) {

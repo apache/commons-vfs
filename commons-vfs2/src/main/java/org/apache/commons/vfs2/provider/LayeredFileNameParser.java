@@ -25,12 +25,13 @@ import org.apache.commons.vfs2.VFS;
  * Implementation for layered filesystems.
  * <p>
  * Additionally encodes the '!' character.
+ * </p>
  */
 public class LayeredFileNameParser extends AbstractFileNameParser {
     private static final LayeredFileNameParser INSTANCE = new LayeredFileNameParser();
 
     /**
-     * Return the Parser.
+     * Returns the Parser.
      *
      * @return The Parser.
      */
@@ -50,7 +51,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser {
     }
 
     /**
-     * Parse the base and name into a FileName.
+     * Parses the base and name into a FileName.
      *
      * @param context The component context.
      * @param base The base FileName.

@@ -512,6 +512,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      * Fires a file changed event.
      * <p>
      * This will only happen if you monitor the file using {@link org.apache.commons.vfs2.FileMonitor}.
+     * </p>
      *
      * @param file The FileObject that changed.
      */

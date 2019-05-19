@@ -27,6 +27,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * implementations.
  */
 public abstract class AbstractRandomAccessContent implements RandomAccessContent {
+
     protected AbstractRandomAccessContent(final RandomAccessMode mode) {
     }
 

@@ -29,8 +29,10 @@ import org.apache.commons.vfs2.FileType;
  * This filter accepts files or directories that are empty.
  * <p>
  * If the <code>File</code> is a directory it checks that it contains no files.
+ * </p>
  * <p>
  * Example, showing how to print out a list of the current directory's empty files/directories:
+ * </p>
  *
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();
@@ -43,6 +45,7 @@ import org.apache.commons.vfs2.FileType;
  *
  * <p>
  * Example, showing how to print out a list of the current directory's non-empty files/directories:
+ * </p>
  *
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();

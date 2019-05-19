@@ -59,12 +59,15 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * @param <AFS> An AbstractFileSystem subclass
  */
 public abstract class AbstractFileObject<AFS extends AbstractFileSystem> implements FileObject {
+
     /*
      * TODO - Chop this class up - move all the protected methods to several interfaces, so that structure and content
      * can be separately overridden.
      *
+     * <p>
      * TODO - Check caps in methods like getChildren(), etc, and give better error messages (eg 'this file type does not
      * support listing children', vs 'this is not a folder')
+     * </p>
      */
 
     private static final FileName[] EMPTY_FILE_ARRAY = {};
@@ -372,6 +375,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * Deletes this file.
      * <p>
      * TODO - This will not fail if this is a non-empty folder.
+     * </p>
      *
      * @return true if this object has been deleted
      * @throws FileSystemException if an error occurs.
@@ -496,8 +500,10 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * <p>
      * This method is called before any of the doBlah() or onBlah() methods. Sub-classes can use this method to perform
      * lazy initialisation.
+     * </p>
      * <p>
      * This implementation does nothing.
+     * </p>
      *
      * @throws Exception if an error occurs.
      */
@@ -549,8 +555,10 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * <p>
      * Called when this file is closed. Note that the file object may be reused later, so should be able to be
      * reattached.
+     * </p>
      * <p>
      * This implementation does nothing.
+     * </p>
      *
      * @throws Exception if an error occurs.
      */
@@ -562,6 +570,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * {@link FileType#IMAGINARY}.
      * <p>
      * This implementation always returns an empty map.
+     * </p>
      *
      * @return The attributes of the file.
      * @throws Exception if an error occurs.
@@ -575,6 +584,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * {@link FileType#IMAGINARY}.
      * <p>
      * This implementation always returns null.
+     * </p>
      *
      * @return The certificates used to sign the file.
      * @throws Exception if an error occurs.
@@ -597,8 +607,10 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * {@link FileType#FILE}.
      * <p>
      * It is guaranteed that there are no open output streams for this file when this method is called.
+     * </p>
      * <p>
      * The returned stream does not have to be buffered.
+     * </p>
      *
      * @return An InputStream to read the file content.
      * @throws Exception if an error occurs.
@@ -610,6 +622,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * {@link FileType#IMAGINARY}.
      * <p>
      * This implementation throws an exception.
+     * </p>
      *
      * @return The last modification time.
      * @throws Exception if an error occurs.
@@ -628,8 +641,10 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * It is guaranteed that there are no open stream (input or output) for this file when this method is called.
      * <p>
      * The returned stream does not have to be buffered.
+     * </p>
      * <p>
      * This implementation throws an exception.
+     * </p>
      *
      * @param bAppend true if the file should be appended to, false if it should be overwritten.
      * @return An OutputStream to write to the file.
@@ -643,6 +658,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * Creates access to the file for random i/o. Is only called if {@link #doGetType} returns {@link FileType#FILE}.
      * <p>
      * It is guaranteed that there are no open output streams for this file when this method is called.
+     * </p>
      *
      * @param mode The mode to access the file.
      * @return The RandomAccessContext.
@@ -666,6 +682,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * {@link FileType#IMAGINARY}.
      * <p>
      * This implementation always returns false.
+     * </p>
      *
      * @return true if the file is executable, false otherwise.
      * @throws Exception if an error occurs.
@@ -679,6 +696,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * {@link FileType#IMAGINARY}.
      * <p>
      * This implementation always returns false.
+     * </p>
      *
      * @return true if the file is hidden, false otherwise.
      * @throws Exception if an error occurs.
@@ -692,6 +710,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * {@link FileType#IMAGINARY}.
      * <p>
      * This implementation always returns true.
+     * </p>
      *
      * @return true if the file is readable, false otherwise.
      * @throws Exception if an error occurs.
@@ -717,6 +736,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * {@link FileType#IMAGINARY}.
      * <p>
      * This implementation always returns true.
+     * </p>
      *
      * @return true if the file is writable.
      * @throws Exception if an error occurs.
@@ -739,11 +759,14 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * Lists the children of this file.
      * <p>
      * Is only called if {@link #doGetType} returns {@link FileType#FOLDER}.
+     * </p>
      * <p>
-     * The return value of this method is cached, so the implementation can be expensive.<br>
+     * The return value of this method is cached, so the implementation can be expensive.
      * Other than {@code doListChildren} you could return FileObject's to e.g. reinitialize the type of the file.
+     * </p>
      * <p>
      * (Introduced for Webdav: "permission denied on resource" during getType())
+     * </p>
      *
      * @return The children of this FileObject.
      * @throws Exception if an error occurs.
@@ -756,8 +779,10 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * Removes an attribute of this file.
      * <p>
      * Is only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     * </p>
      * <p>
      * This implementation throws an exception.
+     * </p>
      *
      * @param attrName The name of the attribute to remove.
      * @throws Exception if an error occurs.
@@ -771,11 +796,13 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * Renames the file.
      * <p>
      * Is only called when:
+     * </p>
      * <ul>
      * <li>{@link #doIsWriteable} returns true.</li>
      * </ul>
      * <p>
      * This implementation throws an exception.
+     * </p>
      *
      * @param newFile A FileObject with the new file name.
      * @throws Exception if an error occurs.
@@ -788,8 +815,10 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * Sets an attribute of this file.
      * <p>
      * Is only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     * </p>
      * <p>
      * This implementation throws an exception.
+     * </p>
      *
      * @param attrName The attribute name.
      * @param value The value to be associated with the attribute name.
@@ -803,8 +832,10 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * Make the file executable.
      * <p>
      * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     * </p>
      * <p>
      * This implementation returns false.
+     * </p>
      *
      * @param executable True to allow access, false to disallow.
      * @param ownerOnly If {@code true}, the permission applies only to the owner; otherwise, it applies to everybody.
@@ -821,8 +852,10 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * Sets the last modified time of this file.
      * <p>
      * Is only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     * </p>
      * <p>
      * This implementation throws an exception.
+     * </p>
      *
      * @param modtime The last modification time.
      * @return true if the time was set.
@@ -836,8 +869,10 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * Make the file or folder readable.
      * <p>
      * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     * </p>
      * <p>
      * This implementation returns false.
+     * </p>
      *
      * @param readable True to allow access, false to disallow
      * @param ownerOnly If {@code true}, the permission applies only to the owner; otherwise, it applies to everybody.
@@ -854,6 +889,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * Make the file or folder writeable.
      * <p>
      * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     * </p>
      *
      * @param writable True to allow access, false to disallow
      * @param ownerOnly If {@code true}, the permission applies only to the owner; otherwise, it applies to everybody.
@@ -1164,12 +1200,12 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Prepares this file for writing. Makes sure it is either a file, or its parent folder exists. Returns an output
-     * stream to use to write the content of the file to.<br>
+     * stream to use to write the content of the file to.
      *
-     * @param bAppend true when append to the file.<br>
+     * @param bAppend true when append to the file.
      *            Note: If the underlying filesystem does not support appending, a FileSystemException is thrown.
      * @return An OutputStream where the new contents of the file can be written.
-     * @throws FileSystemException if an error occurs; for example:<br>
+     * @throws FileSystemException if an error occurs; for example:
      *             bAppend is true, and the underlying FileSystem does not support it
      */
     public OutputStream getOutputStream(final boolean bAppend) throws FileSystemException {
@@ -1325,6 +1361,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * Called when this file is changed.
      * <p>
      * This will only happen if you monitor the file using {@link org.apache.commons.vfs2.FileMonitor}.
+     * </p>
      *
      * @throws Exception if an error occurs.
      */
@@ -1655,6 +1692,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * Called when the type or content of this file changes.
      * <p>
      * This implementation does nothing.
+     * </p>
      *
      * @throws Exception if an error occurs.
      */
@@ -1666,6 +1704,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * children of this file.
      * <p>
      * This implementation does nothing.
+     * </p>
      *
      * @param child The name of the child that changed.
      * @param newType The type of the file.

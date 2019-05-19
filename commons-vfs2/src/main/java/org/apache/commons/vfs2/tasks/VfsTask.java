@@ -30,6 +30,7 @@ import org.apache.tools.ant.Task;
  * the build. Also provides some utility methods.
  */
 public class VfsTask extends Task {
+
     private static StandardFileSystemManager manager;
 
     /**

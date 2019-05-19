@@ -34,6 +34,7 @@ import org.apache.jackrabbit.webdav.property.DavPropertySet;
  * @since 2.0
  */
 public class WebdavFileContentInfoFactory implements FileContentInfoFactory {
+
     @Override
     public FileContentInfo create(final FileContent fileContent) throws FileSystemException {
         final WebdavFileObject file = (WebdavFileObject) FileObjectUtils.getAbstractFileObject(fileContent.getFile());

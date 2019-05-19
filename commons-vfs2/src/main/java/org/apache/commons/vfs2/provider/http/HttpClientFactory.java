@@ -35,6 +35,7 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
  * Create a HttpClient instance.
  */
 public final class HttpClientFactory {
+
     private HttpClientFactory() {
     }
 

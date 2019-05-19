@@ -25,6 +25,7 @@ import org.apache.commons.vfs2.VFS;
  * Description.
  */
 public abstract class CompositeFileProvider extends AbstractFileProvider {
+
     private static final int INITIAL_BUFSZ = 80;
 
     public CompositeFileProvider() {

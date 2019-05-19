@@ -34,6 +34,7 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
  * A local file system.
  */
 public class LocalFileSystem extends AbstractFileSystem {
+
     private final String rootFile;
 
     public LocalFileSystem(final FileName rootName, final String rootFile, final FileSystemOptions opts) {

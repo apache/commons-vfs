@@ -35,6 +35,7 @@ import org.apache.commons.vfs2.provider.UriParser;
  * The Resource provider.
  */
 public class ResourceFileProvider extends AbstractFileProvider {
+
     /** The provider's capabilities */
     protected static final Collection<Capability> capabilities = Collections
             .unmodifiableCollection(Arrays.asList(new Capability[] { Capability.DISPATCHER }));

@@ -42,6 +42,7 @@ import org.apache.commons.vfs2.util.Messages;
  * @see SoftReference
  */
 public class SoftRefFilesCache extends AbstractFilesCache {
+
     private static final int TIMEOUT = 1000;
 
     private static final Log log = LogFactory.getLog(SoftRefFilesCache.class);

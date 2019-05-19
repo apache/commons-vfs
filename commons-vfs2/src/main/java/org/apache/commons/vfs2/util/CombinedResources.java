@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
  * @since 2.0
  */
 public class CombinedResources extends ResourceBundle {
+
     // locale.getLanguage()
     // locale.getCountry()
     // locale.getVariant()

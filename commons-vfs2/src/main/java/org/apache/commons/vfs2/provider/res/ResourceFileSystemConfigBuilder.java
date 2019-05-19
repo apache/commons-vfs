@@ -25,6 +25,7 @@ import org.apache.commons.vfs2.provider.url.UrlFileSystem;
  * The config BUILDER for various ftp configuration options.
  */
 public final class ResourceFileSystemConfigBuilder extends FileSystemConfigBuilder {
+
     private static final ResourceFileSystemConfigBuilder BUILDER = new ResourceFileSystemConfigBuilder();
 
     private ResourceFileSystemConfigBuilder() {

@@ -36,6 +36,7 @@ import org.apache.commons.vfs2.test.AbstractProviderTestCase;
  * VfsClassLoader test cases.
  */
 public class VfsClassLoaderTests extends AbstractProviderTestCase {
+
     /**
      * Returns the capabilities required by the tests of this test case.
      */
@@ -96,6 +97,7 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
      * <p>
      * This is run for all providers, but only when a local provider is present and jar extension is registered it will
      * actually carry out all tests.
+     * </p>
      */
     public void testGetResourcesJARs() throws Exception {
         final FileSystemManager manager = getManager();
@@ -144,6 +146,7 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
      * Tests retrieving resources (from local directory with .jar extension).
      * <p>
      * This test is repeated with various provider configurations but works on local files, only.
+     * </p>
      */
     public void testGetResourcesNoLayerLocal() throws Exception {
         final FileSystemManager manager = getManager();
