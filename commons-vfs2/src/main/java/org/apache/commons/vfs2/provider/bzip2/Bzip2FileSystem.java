@@ -30,6 +30,7 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
  * Filesytem to handle compressed files using the bzip2 method.
  */
 public class Bzip2FileSystem extends CompressedFileFileSystem {
+
     protected Bzip2FileSystem(final FileName rootName, final FileObject parentLayer,
             final FileSystemOptions fileSystemOptions) {
         super(rootName, parentLayer, fileSystemOptions);

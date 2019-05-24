@@ -23,6 +23,7 @@ import org.apache.commons.vfs2.provider.URLFileName;
  * A URL FileName.
  */
 public class UrlFileName extends URLFileName {
+
     /**
      * The constructor.
      *

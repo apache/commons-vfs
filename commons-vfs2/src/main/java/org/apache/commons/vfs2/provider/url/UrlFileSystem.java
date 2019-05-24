@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
  * A File system backed by Java's URL API.
  */
 public class UrlFileSystem extends AbstractFileSystem {
+
     protected UrlFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions) {
         super(rootName, null, fileSystemOptions);
     }

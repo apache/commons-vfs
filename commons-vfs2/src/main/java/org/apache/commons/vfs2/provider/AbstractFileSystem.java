@@ -47,13 +47,14 @@ import org.apache.commons.vfs2.events.ChangedEvent;
 import org.apache.commons.vfs2.events.CreateEvent;
 import org.apache.commons.vfs2.events.DeleteEvent;
 import org.apache.commons.vfs2.impl.DefaultFileSystemConfigBuilder;
+import org.apache.commons.vfs2.util.FileObjectUtils;
 import org.apache.commons.vfs2.util.Messages;
 
 /**
  * A partial {@link org.apache.commons.vfs2.FileSystem} implementation.
  */
 public abstract class AbstractFileSystem extends AbstractVfsComponent implements FileSystem {
-    
+
     private static final Log LOG = LogFactory.getLog(AbstractFileSystem.class);
 
     /**
@@ -376,7 +377,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      */
     @Override
     public File replicateFile(final FileObject file, final FileSelector selector) throws FileSystemException {
-        if (!file.exists()) {
+        if (!FileObjectUtils.exists(file)) {
             throw new FileSystemException("vfs.provider/replicate-missing-file.error", file.getName());
         }
 
@@ -511,6 +512,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      * Fires a file changed event.
      * <p>
      * This will only happen if you monitor the file using {@link org.apache.commons.vfs2.FileMonitor}.
+     * </p>
      *
      * @param file The FileObject that changed.
      */

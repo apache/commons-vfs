@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
  * {@linkplain Matcher#matches() matched} against {@link FileName#getPath()}
  * of all candidate files. If you want to match only against the base filename,
  * make sure to prefix the pattern with {@code ".*\\/"}.
+ * </p>
  *
  * @since 2.1
  */
@@ -40,6 +41,7 @@ public class PatternFileSelector implements FileSelector {
      * Creates a new selector for the given pattern.
      * <p>
      * See {@link PatternFileSelector} for a specification how the pattern is matched.
+     * </p>
      *
      * @param pattern The regular expressed used by this selector.
      */
@@ -51,6 +53,7 @@ public class PatternFileSelector implements FileSelector {
      * Creates a new selector for the given pattern.
      * <p>
      * See {@link PatternFileSelector} for a specification how the pattern is matched.
+     * </p>
      *
      * @param regex The regular expressed used by this selector.
      *
@@ -64,6 +67,7 @@ public class PatternFileSelector implements FileSelector {
      * Creates a new selector for the given Pattern and flags.
      * <p>
      * See {@link PatternFileSelector} for a specification how the pattern is matched.
+     * </p>
      *
      * @param regex The expression to be compiled
      * @param flags Match flags, a bit mask.
@@ -78,6 +82,7 @@ public class PatternFileSelector implements FileSelector {
      * Determines if a file or folder should be selected.
      * <p>
      * See {@link PatternFileSelector} for a specification how the pattern is matched.
+     * </p>
      *
      * @param fileInfo The file selection information.
      * @return true if the file should be selected, false otherwise.
@@ -97,6 +102,7 @@ public class PatternFileSelector implements FileSelector {
      * <p>
      * This implementation always returns true to make sure all
      * leafs are inspected.
+     * </p>
      *
      * @param fileInfo The file selection information.
      * @return true if descendants should be traversed, false otherwise.

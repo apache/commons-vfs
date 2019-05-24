@@ -20,6 +20,7 @@ package org.apache.commons.vfs2;
  * A {@link FileSelector} that selects all files in a particular depth range.
  */
 public class FileDepthSelector implements FileSelector {
+
     /**
      * The minimum depth
      */

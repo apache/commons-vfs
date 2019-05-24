@@ -26,6 +26,7 @@ import java.util.concurrent.ConcurrentMap;
  * Formats messages.
  */
 public final class Messages {
+
     /**
      * Map from message code to MessageFormat object for the message.
      */

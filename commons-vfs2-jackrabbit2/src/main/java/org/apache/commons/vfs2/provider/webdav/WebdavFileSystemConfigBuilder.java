@@ -26,6 +26,7 @@ import org.apache.commons.vfs2.provider.http.HttpFileSystemConfigBuilder;
  * @since 2.0
  */
 public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBuilder {
+
     private static final WebdavFileSystemConfigBuilder BUILDER = new WebdavFileSystemConfigBuilder();
 
     private static final boolean DEFAULT_FOLLOW_REDIRECT = false;

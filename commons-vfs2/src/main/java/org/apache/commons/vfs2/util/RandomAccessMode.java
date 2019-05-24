@@ -20,6 +20,7 @@ package org.apache.commons.vfs2.util;
  * An enumerated type representing the modes of a random access content.
  */
 public enum RandomAccessMode {
+
     /**
      * read.
      */

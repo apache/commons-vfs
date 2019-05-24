@@ -25,10 +25,12 @@ import org.apache.commons.vfs2.FileSystemException;
  * A file provider which handles local files.
  */
 public interface LocalFileProvider extends FileProvider {
+
     /**
      * Determines if a name is an absolute file name.
      * <p>
      * TODO - Move this to a general file name parser interface.
+     * </p>
      *
      * @param name The name to test.
      * @return true if the name is absolute.

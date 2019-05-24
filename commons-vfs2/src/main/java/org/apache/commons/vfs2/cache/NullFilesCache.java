@@ -24,9 +24,11 @@ import org.apache.commons.vfs2.FileSystem;
  * A {@link org.apache.commons.vfs2.FilesCache} implementation.
  * <p>
  * This implementation never ever caches a single file.
+ * </p>
  * <p>
  * <b>Notice</b>: if you use resolveFile(uri) multiple times with the same path, the system will always create a new
  * instance. Changes on one instance of this file are not seen by the others.
+ * </p>
  */
 public class NullFilesCache extends AbstractFilesCache {
     @Override

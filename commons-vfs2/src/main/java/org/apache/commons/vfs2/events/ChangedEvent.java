@@ -23,6 +23,7 @@ import org.apache.commons.vfs2.FileObject;
  * File changed event.
  */
 public class ChangedEvent extends AbstractFileChangeEvent {
+
     public ChangedEvent(final FileObject file) {
         super(file);
     }

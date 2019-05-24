@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.NameScope;
  * This decorator synchronize all access to the FileObject.
  */
 public class SynchronizedFileObject extends DecoratedFileObject {
+
     public SynchronizedFileObject(final FileObject fileObject) {
         super(fileObject);
     }

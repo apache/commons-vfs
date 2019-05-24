@@ -25,6 +25,7 @@ import org.apache.commons.vfs2.provider.http.HttpFileNameParser;
  * @since 2.0
  */
 public class WebdavFileNameParser extends HttpFileNameParser {
+
     private static final WebdavFileNameParser INSTANCE = new WebdavFileNameParser();
 
     public WebdavFileNameParser() {

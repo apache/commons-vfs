@@ -34,8 +34,9 @@ import org.apache.commons.vfs2.operations.FileOperationProvider;
  * </p>
  *
  * <h2><a name="naming">File Naming</a></h2>
- *
+ * <p>
  * A file system manager can recognise several types of file names:
+ * </p>
  * <ul>
  * <li>Absolute URI. These must start with a scheme, such as {@code file:} or {@code ftp:}, followed by a scheme
  * dependent file name. Some examples: {@code file:/c:/somefile} or {@code ftp://somewhere.org/somefile}.</li>
@@ -50,7 +51,88 @@ import org.apache.commons.vfs2.operations.FileOperationProvider;
  * </ul>
  */
 public interface FileSystemManager {
-    
+
+    /**
+     * Adds the specified FileOperationProvider for the specified scheme.
+     * <p>
+     * Several FileOperationProvider's might be registered for the same scheme. For example, for {@code "file"} scheme
+     * we can register {@code SvnWsOperationProvider} and {@code CvsOperationProvider.}
+     * </p>
+     *
+     * @param scheme The scheme assoicated with this provider.
+     * @param operationProvider The FileOperationProvider to add.
+     * @throws FileSystemException if an error occurs.
+     */
+    void addOperationProvider(String scheme, FileOperationProvider operationProvider) throws FileSystemException;
+
+    /**
+     * @see FileSystemManager#addOperationProvider(String, org.apache.commons.vfs2.operations.FileOperationProvider)
+     *
+     * @param schemes The schemes that will be associated with the provider.
+     * @param operationProvider The FileOperationProvider to add.
+     * @throws FileSystemException if an error occurs.
+     */
+    void addOperationProvider(String[] schemes, FileOperationProvider operationProvider) throws FileSystemException;
+
+    /**
+     * Determines if a layered file system can be created for a given file.
+     *
+     * @param file The file to check for.
+     * @return true if the FileSystem can be created.
+     * @throws FileSystemException if an error occurs.
+     */
+    boolean canCreateFileSystem(FileObject file) throws FileSystemException;
+
+    /**
+     * Closes the given filesystem.
+     * <p>
+     * If you use VFS as singleton it is VERY dangerous to call this method.
+     * </p>
+     *
+     * @param filesystem The FileSystem to close.
+     */
+    void closeFileSystem(FileSystem filesystem);
+
+    /**
+     * Creates a layered file system. A layered file system is a file system that is created from the contents of a
+     * file, such as a zip or tar file.
+     *
+     * @param file The file to use to create the file system.
+     * @return The root file of the new file system.
+     * @throws FileSystemException On error creating the file system.
+     */
+    FileObject createFileSystem(FileObject file) throws FileSystemException;
+
+    /**
+     * Creates a layered file system. A layered file system is a file system that is created from the contents of a
+     * file, such as a zip or tar file.
+     *
+     * @param provider The name of the file system provider to use. This name is the same as the scheme used in URI to
+     *            identify the provider.
+     * @param file The file to use to create the file system.
+     * @return The root file of the new file system.
+     * @throws FileSystemException On error creating the file system.
+     */
+    FileObject createFileSystem(String provider, FileObject file) throws FileSystemException;
+
+    /**
+     * Creates a virtual file system. The file system will contain a junction at the fs root to the supplied root file.
+     *
+     * @param rootFile The root file to backs the file system.
+     * @return The root of the new file system.
+     * @throws FileSystemException if an error occurs creating the VirtualFileSystem.
+     */
+    FileObject createVirtualFileSystem(FileObject rootFile) throws FileSystemException;
+
+    /**
+     * Creates an empty virtual file system. Can be populated by adding junctions to it.
+     *
+     * @param rootUri The root URI to use for the new file system. Can be null.
+     * @return The root file of the new file system.
+     * @throws FileSystemException if an error occurs creating the VirtualFileSystem.
+     */
+    FileObject createVirtualFileSystem(String rootUri) throws FileSystemException;
+
     /**
      * Returns the base file used to resolve relative paths.
      *
@@ -58,6 +140,118 @@ public interface FileSystemManager {
      * @throws FileSystemException if an error occurs.
      */
     FileObject getBaseFile() throws FileSystemException;
+
+    /**
+     * Gets the cache strategy used.
+     *
+     * @return the CacheStrategy.
+     */
+    CacheStrategy getCacheStrategy();
+
+    /**
+     * Gets the class to use to determine the content-type (mime-type).
+     *
+     * @return the FileContentInfoFactory.
+     */
+    FileContentInfoFactory getFileContentInfoFactory();
+
+    /**
+     * Gets the file object decorator used.
+     *
+     * @return the file object decorator Class.
+     */
+    Class<?> getFileObjectDecorator();
+
+    /**
+     * Gets the constructor associated to the fileObjectDecorator. We cache it here for performance reasons.
+     *
+     * @return the Constructor associated with the FileObjectDecorator.
+     */
+    Constructor<?> getFileObjectDecoratorConst();
+
+    /**
+     * Gets the cache used to cache file objects.
+     *
+     * @return The FilesCache.
+     */
+    FilesCache getFilesCache();
+
+    /**
+     * Gets the configuration builder for the given scheme.
+     *
+     * @param scheme The schem to use to obtain the FileSystemConfigBuidler.
+     * @return A FileSystemConfigBuilder appropriate for the given scheme.
+     * @throws FileSystemException if the given scheme is not konwn.
+     */
+    FileSystemConfigBuilder getFileSystemConfigBuilder(String scheme) throws FileSystemException;
+
+    /**
+     * Gets Providers for file operations.
+     *
+     * @param scheme the scheme for wich we want to get the list af registered providers.
+     *
+     * @return the registered FileOperationProviders for the specified scheme. If there were no providers registered for
+     *         the scheme, it returns null.
+     *
+     * @throws FileSystemException if an error occurs.
+     */
+    FileOperationProvider[] getOperationProviders(String scheme) throws FileSystemException;
+
+    /**
+     * Gets the capabilities for a given scheme.
+     *
+     * @param scheme The scheme to use to locate the provider's capabilities.
+     * @return A Collection of the various capabilities.
+     * @throws FileSystemException if the given scheme is not konwn.
+     */
+    Collection<Capability> getProviderCapabilities(String scheme) throws FileSystemException;
+
+    /**
+     * Gets the schemes currently available.
+     *
+     * @return An array of available scheme names that are supported.
+     */
+    String[] getSchemes();
+
+    /**
+     * Returns a stream handler factory to enable URL lookup using this FileSystemManager.
+     *
+     * @return the URLStreamHandlerFactory.
+     */
+    URLStreamHandlerFactory getURLStreamHandlerFactory();
+
+    /**
+     * Returns true if this manager has a provider for a particular scheme.
+     *
+     * @param scheme The scheme for which a provider should be checked.
+     * @return true if a provider for the scheme is available.
+     */
+    boolean hasProvider(String scheme);
+
+    /**
+     * Locates a file by name. See {@link #resolveFile(FileObject, String)} for details.
+     *
+     * @param baseFile The base file to use to resolve relative paths. Must not be {@code null}, not even if the
+     *            <i>name</i> is absolute.
+     * @param name The name of the file.
+     * @return The file. Never returns null.
+     * @throws FileSystemException On error parsing the file name.
+     */
+    FileObject resolveFile(File baseFile, String name) throws FileSystemException;
+
+    /**
+     * Locates a file by name. The name is resolved as described <a href="#naming">above</a>. That is, the name can be
+     * either an absolute URI, an absolute file name, or a relative path to be resolved against {@code baseFile}.
+     * <p>
+     * Note that the file does not have to exist when this method is called.
+     * </p>
+     *
+     * @param baseFile The base file to use to resolve relative paths. May be null if the name is an absolute file name.
+     * @param name The name of the file.
+     * @return The file. Never returns null.
+     * @throws FileSystemException On error parsing the file name.
+     */
+    FileObject resolveFile(FileObject baseFile, String name) throws FileSystemException;
 
     /**
      * Locates a file by name. Equivalent to calling {@code resolveFile(getBaseFile(), name)}.
@@ -80,29 +274,24 @@ public interface FileSystemManager {
     FileObject resolveFile(String name, FileSystemOptions fileSystemOptions) throws FileSystemException;
 
     /**
-     * Locates a file by name. The name is resolved as described <a href="#naming">above</a>. That is, the name can be
-     * either an absolute URI, an absolute file name, or a relative path to be resolved against {@code baseFile}.
-     * <p>
-     * Note that the file does not have to exist when this method is called.
-     * </p>
+     * Resolves a URI into a {@link FileObject}.
      *
-     * @param baseFile The base file to use to resolve relative paths. May be null if the name is an absolute file name.
-     * @param name The name of the file.
-     * @return The file. Never returns null.
-     * @throws FileSystemException On error parsing the file name.
+     * @param uri The URI to convert.
+     * @return The {@link FileObject} that represents the URI. Never returns null.
+     * @throws FileSystemException On error converting the file.
+     * @since 2.1
      */
-    FileObject resolveFile(FileObject baseFile, String name) throws FileSystemException;
+    FileObject resolveFile(URI uri) throws FileSystemException;
 
     /**
-     * Locates a file by name. See {@link #resolveFile(FileObject, String)} for details.
+     * Resolves a URL into a {@link FileObject}.
      *
-     * @param baseFile The base file to use to resolve relative paths. Must not be {@code null}, not even if the
-     *            <i>name</i> is absolute.
-     * @param name The name of the file.
-     * @return The file. Never returns null.
-     * @throws FileSystemException On error parsing the file name.
+     * @param url The URL to convert.
+     * @return The {@link FileObject} that represents the URL. Never returns null.
+     * @throws FileSystemException On error converting the file.
+     * @since 2.1
      */
-    FileObject resolveFile(File baseFile, String name) throws FileSystemException;
+    FileObject resolveFile(URL url) throws FileSystemException;
 
     /**
      * Resolves a name, relative to this file name. Equivalent to calling
@@ -128,138 +317,13 @@ public interface FileSystemManager {
     FileName resolveName(FileName root, String name, NameScope scope) throws FileSystemException;
 
     /**
-     * Converts a local file into a {@link FileObject}.
+     * Resolves the uri to a filename.
      *
-     * @param file The file to convert.
-     * @return The {@link FileObject} that represents the local file. Never returns null.
-     * @throws FileSystemException On error converting the file.
+     * @param uri The uri to resolve.
+     * @return A FileName that matches the uri.
+     * @throws FileSystemException if this is not possible.
      */
-    FileObject toFileObject(File file) throws FileSystemException;
-
-    /**
-     * Creates a layered file system. A layered file system is a file system that is created from the contents of a
-     * file, such as a zip or tar file.
-     *
-     * @param provider The name of the file system provider to use. This name is the same as the scheme used in URI to
-     *            identify the provider.
-     * @param file The file to use to create the file system.
-     * @return The root file of the new file system.
-     * @throws FileSystemException On error creating the file system.
-     */
-    FileObject createFileSystem(String provider, FileObject file) throws FileSystemException;
-
-    /**
-     * Closes the given filesystem.
-     * <p>
-     * If you use VFS as singleton it is VERY dangerous to call this method.
-     * </p>
-     *
-     * @param filesystem The FileSystem to close.
-     */
-    void closeFileSystem(FileSystem filesystem);
-
-    /**
-     * Creates a layered file system. A layered file system is a file system that is created from the contents of a
-     * file, such as a zip or tar file.
-     *
-     * @param file The file to use to create the file system.
-     * @return The root file of the new file system.
-     * @throws FileSystemException On error creating the file system.
-     */
-    FileObject createFileSystem(FileObject file) throws FileSystemException;
-
-    /**
-     * Creates an empty virtual file system. Can be populated by adding junctions to it.
-     *
-     * @param rootUri The root URI to use for the new file system. Can be null.
-     * @return The root file of the new file system.
-     * @throws FileSystemException if an error occurs creating the VirtualFileSystem.
-     */
-    FileObject createVirtualFileSystem(String rootUri) throws FileSystemException;
-
-    /**
-     * Creates a virtual file system. The file system will contain a junction at the fs root to the supplied root file.
-     *
-     * @param rootFile The root file to backs the file system.
-     * @return The root of the new file system.
-     * @throws FileSystemException if an error occurs creating the VirtualFileSystem.
-     */
-    FileObject createVirtualFileSystem(FileObject rootFile) throws FileSystemException;
-
-    /**
-     * Returns a stream handler factory to enable URL lookup using this FileSystemManager.
-     *
-     * @return the URLStreamHandlerFactory.
-     */
-    URLStreamHandlerFactory getURLStreamHandlerFactory();
-
-    /**
-     * Determines if a layered file system can be created for a given file.
-     *
-     * @param file The file to check for.
-     * @return true if the FileSystem can be created.
-     * @throws FileSystemException if an error occurs.
-     */
-    boolean canCreateFileSystem(FileObject file) throws FileSystemException;
-
-    /**
-     * Gets the cache used to cache file objects.
-     *
-     * @return The FilesCache.
-     */
-    FilesCache getFilesCache();
-
-    /**
-     * Gets the cache strategy used.
-     *
-     * @return the CacheStrategy.
-     */
-    CacheStrategy getCacheStrategy();
-
-    /**
-     * Gets the file object decorator used.
-     *
-     * @return the file object decorator Class.
-     */
-    Class<?> getFileObjectDecorator();
-
-    /**
-     * Gets the constructor associated to the fileObjectDecorator. We cache it here for performance reasons.
-     *
-     * @return the Constructor associated with the FileObjectDecorator.
-     */
-    Constructor<?> getFileObjectDecoratorConst();
-
-    /**
-     * Gets the class to use to determine the content-type (mime-type).
-     *
-     * @return the FileContentInfoFactory.
-     */
-    FileContentInfoFactory getFileContentInfoFactory();
-
-    /**
-     * Returns true if this manager has a provider for a particular scheme.
-     *
-     * @param scheme The scheme for which a provider should be checked.
-     * @return true if a provider for the scheme is available.
-     */
-    boolean hasProvider(String scheme);
-
-    /**
-     * Gets the schemes currently available.
-     *
-     * @return An array of available scheme names that are supported.
-     */
-    String[] getSchemes();
-
-    /**
-     * Gets the capabilities for a given scheme.
-     *
-     * @param scheme The scheme to use to locate the provider's capabilities.
-     * @return A Collection of the various capabilities.
-     * @throws FileSystemException if the given scheme is not konwn.
-     */
-    Collection<Capability> getProviderCapabilities(String scheme) throws FileSystemException;
+    FileName resolveURI(String uri) throws FileSystemException;
 
     /**
      * Sets the logger to use.
@@ -269,76 +333,12 @@ public interface FileSystemManager {
     void setLogger(Log log);
 
     /**
-     * Get the configuration builder for the given scheme.
+     * Converts a local file into a {@link FileObject}.
      *
-     * @param scheme The schem to use to obtain the FileSystemConfigBuidler.
-     * @return A FileSystemConfigBuilder appropriate for the given scheme.
-     * @throws FileSystemException if the given scheme is not konwn.
-     */
-    FileSystemConfigBuilder getFileSystemConfigBuilder(String scheme) throws FileSystemException;
-
-    /**
-     * Resolves the uri to a filename.
-     *
-     * @param uri The uri to resolve.
-     * @return A FileName that matches the uri.
-     * @throws FileSystemException if this is not possible.
-     */
-    FileName resolveURI(String uri) throws FileSystemException;
-
-    // -- OPERATIONS --
-    /**
-     * Adds the specified FileOperationProvider for the specified scheme.
-     * <p>
-     * Several FileOperationProvider's might be registered for the same scheme. For example, for {@code "file"} scheme
-     * we can register {@code SvnWsOperationProvider} and {@code CvsOperationProvider.}
-     * </p>
-     *
-     * @param scheme The scheme assoicated with this provider.
-     * @param operationProvider The FileOperationProvider to add.
-     * @throws FileSystemException if an error occurs.
-     */
-    void addOperationProvider(String scheme, FileOperationProvider operationProvider) throws FileSystemException;
-
-    /**
-     * @see FileSystemManager#addOperationProvider(String, org.apache.commons.vfs2.operations.FileOperationProvider)
-     *
-     * @param schemes The schemes that will be associated with the provider.
-     * @param operationProvider The FileOperationProvider to add.
-     * @throws FileSystemException if an error occurs.
-     */
-    void addOperationProvider(String[] schemes, FileOperationProvider operationProvider) throws FileSystemException;
-
-    /**
-     * Gets Providers for file operations.
-     *
-     * @param scheme the scheme for wich we want to get the list af registered providers.
-     *
-     * @return the registered FileOperationProviders for the specified scheme. If there were no providers registered for
-     *         the scheme, it returns null.
-     *
-     * @throws FileSystemException if an error occurs.
-     */
-    FileOperationProvider[] getOperationProviders(String scheme) throws FileSystemException;
-
-    /**
-     * Resolves a URI into a {@link FileObject}.
-     *
-     * @param uri The URI to convert.
-     * @return The {@link FileObject} that represents the URI. Never returns null.
+     * @param file The file to convert.
+     * @return The {@link FileObject} that represents the local file. Never returns null.
      * @throws FileSystemException On error converting the file.
-     * @since 2.1
      */
-    FileObject resolveFile(URI uri) throws FileSystemException;
-
-    /**
-     * Resolves a URL into a {@link FileObject}.
-     *
-     * @param url The URL to convert.
-     * @return The {@link FileObject} that represents the URL. Never returns null.
-     * @throws FileSystemException On error converting the file.
-     * @since 2.1
-     */
-    FileObject resolveFile(URL url) throws FileSystemException;
+    FileObject toFileObject(File file) throws FileSystemException;
 
 }

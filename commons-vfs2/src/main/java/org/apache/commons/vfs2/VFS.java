@@ -23,6 +23,7 @@ import java.lang.reflect.Method;
  * The main entry point for the VFS. Used to create {@link FileSystemManager} instances.
  */
 public final class VFS {
+
     /** The URI style */
     private static Boolean uriStyle;
 
@@ -36,6 +37,7 @@ public final class VFS {
      * Returns the default {@link FileSystemManager} instance.
      * <p>
      * Warning, if you close this instance you may affect all current and future users of this manager singleton.
+     * </p>
      *
      * @return The FileSystemManager.
      * @throws FileSystemException if an error occurs creating the manager.

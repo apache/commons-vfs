@@ -27,6 +27,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * A helper class that determines the provider to use for a file.
  */
 class FileTypeMap {
+
     private final Map<String, String> mimeTypeMap = new HashMap<>();
     private final Map<String, String> extensionMap = new HashMap<>();
 
@@ -48,6 +49,7 @@ class FileTypeMap {
      * Find the scheme for the provider of a layered file system.
      * <p>
      * This will check the FileContentInfo or file extension.
+     * </p>
      *
      * @return Scheme supporting the file type or null (if unknonw).
      */

@@ -35,9 +35,10 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 
 /**
- * This class use reflection to set a configuration value using the fileSystemConfigBuilder associated the a scheme.<br>
- * <br>
- * Example:<br>
+ * This class use reflection to set a configuration value using the fileSystemConfigBuilder associated the a scheme.
+ * <p>
+ * Example:
+ * </p>
  *
  * <pre>
  * FileSystemOptions fso = new FileSystemOptions();
@@ -48,6 +49,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
  * </pre>
  */
 public class DelegatingFileSystemOptionsBuilder {
+
     @SuppressWarnings("unchecked") // OK, it is a String
     private static final Class<String>[] STRING_PARAM = new Class[] { String.class };
     private static final Map<String, Class<?>> PRIMATIVE_TO_OBJECT = new TreeMap<>();
@@ -89,8 +91,10 @@ public class DelegatingFileSystemOptionsBuilder {
     }
 
     /**
-     * Constructor.<br>
+     * Constructor.
+     * <p>
      * Pass in your fileSystemManager instance.
+     * </p>
      *
      * @param manager the manager to use to get the fileSystemConfigBuilder assocated to a scheme
      */
@@ -103,7 +107,7 @@ public class DelegatingFileSystemOptionsBuilder {
     }
 
     /**
-     * Set a single string value.
+     * Sets a single string value.
      *
      * @param fso FileSystemOptions
      * @param scheme scheme
@@ -117,7 +121,7 @@ public class DelegatingFileSystemOptionsBuilder {
     }
 
     /**
-     * Set an array of string value.
+     * Sets an array of string value.
      *
      * @param fso FileSystemOptions
      * @param scheme scheme
@@ -133,8 +137,10 @@ public class DelegatingFileSystemOptionsBuilder {
     }
 
     /**
-     * Set a single class value.<br>
+     * Sets a single class value.
+     * <p>
      * The class has to implement a no-args constructor, else the instantiation might fail.
+     * </p>
      *
      * @param fso FileSystemOptions
      * @param scheme scheme
@@ -150,8 +156,10 @@ public class DelegatingFileSystemOptionsBuilder {
     }
 
     /**
-     * Set an array of class values.<br>
+     * Sets an array of class values.
+     * <p>
      * The class has to implement a no-args constructor, else the instantiation might fail.
+     * </p>
      *
      * @param fso FileSystemOptions
      * @param scheme scheme
@@ -174,7 +182,7 @@ public class DelegatingFileSystemOptionsBuilder {
     }
 
     /**
-     * sets the values using the informations of the given context.<br>
+     * Sets the values using the informations of the given context.
      */
     private void setValues(final Context ctx) throws FileSystemException {
         // find all setter methods suitable for the given "name"
@@ -198,7 +206,7 @@ public class DelegatingFileSystemOptionsBuilder {
     }
 
     /**
-     * tries to convert the value and pass it to the given method
+     * Tries to convert the value and pass it to the given method
      */
     private boolean convertValuesAndInvoke(final Method configSetter, final Context ctx) throws FileSystemException {
         final Class<?>[] parameters = configSetter.getParameterTypes();
@@ -300,7 +308,7 @@ public class DelegatingFileSystemOptionsBuilder {
     }
 
     /**
-     * invokes the method with the converted values
+     * Invokes the method with the converted values
      */
     private void invokeSetter(final Class<?> valueParameter, final Context ctx, final Method configSetter,
             final Object values) throws FileSystemException {
@@ -320,7 +328,7 @@ public class DelegatingFileSystemOptionsBuilder {
     }
 
     /**
-     * fills all available set*() methods for the context-scheme into the context.
+     * Fills all available set*() methods for the context-scheme into the context.
      */
     private boolean fillConfigSetters(final Context ctx) throws FileSystemException {
         final Map<String, List<Method>> schemeMethods = getSchemeMethods(ctx.scheme);
@@ -334,7 +342,7 @@ public class DelegatingFileSystemOptionsBuilder {
     }
 
     /**
-     * get (cached) list of set*() methods for the given scheme
+     * Gets (cached) list of set*() methods for the given scheme
      */
     private Map<String, List<Method>> getSchemeMethods(final String scheme) throws FileSystemException {
         Map<String, List<Method>> schemeMethods = beanMethods.get(scheme);
@@ -347,7 +355,7 @@ public class DelegatingFileSystemOptionsBuilder {
     }
 
     /**
-     * create the list of all set*() methods for the given scheme
+     * Creates the list of all set*() methods for the given scheme
      */
     private Map<String, List<Method>> createSchemeMethods(final String scheme) throws FileSystemException {
         final FileSystemConfigBuilder fscb = getManager().getFileSystemConfigBuilder(scheme);

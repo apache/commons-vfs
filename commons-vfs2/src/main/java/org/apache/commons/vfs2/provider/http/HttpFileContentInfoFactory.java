@@ -32,6 +32,7 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
  * Creates FileContentInfo instances for HTTP.
  */
 public class HttpFileContentInfoFactory implements FileContentInfoFactory {
+
     @Override
     public FileContentInfo create(final FileContent fileContent) throws FileSystemException {
 

@@ -24,6 +24,7 @@ import org.apache.commons.vfs2.FileType;
  * A parser for Windows file names.
  */
 public class WindowsFileNameParser extends LocalFileNameParser {
+
     /**
      * Pops the root prefix off a URI, which has had the scheme removed.
      */

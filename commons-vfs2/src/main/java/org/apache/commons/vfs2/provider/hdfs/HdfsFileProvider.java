@@ -35,6 +35,7 @@ import org.apache.commons.vfs2.provider.http.HttpFileNameParser;
  * @since 2.1
  */
 public class HdfsFileProvider extends AbstractOriginatingFileProvider {
+
     static final Collection<Capability> CAPABILITIES = Collections
             .unmodifiableCollection(Arrays.asList(new Capability[] { Capability.GET_TYPE, Capability.READ_CONTENT,
                     Capability.URI, Capability.GET_LAST_MODIFIED, Capability.ATTRIBUTES, Capability.RANDOM_ACCESS_READ,

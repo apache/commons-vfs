@@ -36,6 +36,7 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
  * An HTTP provider that uses commons-httpclient.
  */
 public class HttpFileProvider extends AbstractOriginatingFileProvider {
+
     /** Authenticator information. */
     public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[] {
             UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD };

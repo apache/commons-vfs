@@ -32,6 +32,7 @@ import org.apache.commons.vfs2.provider.GenericFileName;
  * An HTTP file system.
  */
 public class HttpFileSystem extends AbstractFileSystem {
+
     private final HttpClient client;
 
     protected HttpFileSystem(final GenericFileName rootName, final HttpClient client,

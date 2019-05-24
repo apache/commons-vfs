@@ -37,6 +37,7 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
  * Create a FtpClient instance.
  */
 public final class FtpClientFactory {
+
     private FtpClientFactory() {
     }
 

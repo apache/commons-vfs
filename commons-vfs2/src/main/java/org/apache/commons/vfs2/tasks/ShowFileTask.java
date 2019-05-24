@@ -29,6 +29,7 @@ import org.apache.tools.ant.BuildException;
  * An Ant task that writes the details of a file to Ant's log.
  */
 public class ShowFileTask extends VfsTask {
+
     private static final String INDENT = "  ";
     private String url;
     private boolean showContent;

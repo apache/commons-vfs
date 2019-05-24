@@ -36,14 +36,17 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.NameScope;
+import org.apache.commons.vfs2.util.FileObjectUtils;
 
 /**
  * A class loader that can load classes and resources from a search path.
  * <p>
  * The search path can consist of VFS FileObjects referring both to folders and JAR files. Any FileObject of type
  * FileType.FILE is assumed to be a JAR and is opened by creating a layered file system with the "jar" scheme.
+ * </p>
  * <p>
  * TODO - Test this with signed Jars and a SecurityManager.
+ * </p>
  *
  * @see FileSystemManager#createFileSystem
  */
@@ -119,7 +122,7 @@ public class VFSClassLoader extends SecureClassLoader {
      */
     private void addFileObjects(final FileSystemManager manager, final FileObject[] files) throws FileSystemException {
         for (FileObject file : files) {
-            if (!file.exists()) {
+            if (!FileObjectUtils.exists(file)) {
                 // Does not exist - skip
                 continue;
             }

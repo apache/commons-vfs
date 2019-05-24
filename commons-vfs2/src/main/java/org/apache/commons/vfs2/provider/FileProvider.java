@@ -29,8 +29,10 @@ import org.apache.commons.vfs2.FileSystemOptions;
  * A file provider. Each file provider is responsible for handling files for a particular URI scheme.
  * <p>
  * A file provider may also implement {@link VfsComponent}.
+ * </p>
  */
 public interface FileProvider {
+
     /**
      * Locates a file object, by absolute URI.
      *
@@ -63,15 +65,17 @@ public interface FileProvider {
     FileSystemConfigBuilder getConfigBuilder();
 
     /**
-     * Get the filesystem capabilities.<br>
+     * Gets the filesystem capabilities.
+     * <p>
      * These are the same as on the filesystem, but available before the first filesystem was instanciated.
+     * </p>
      *
      * @return a Collection of the file systems Capabilities.
      */
     Collection<Capability> getCapabilities();
 
     /**
-     * Parse the URI into a FileName.
+     * Parses the URI into a FileName.
      *
      * @param root The base FileName.
      * @param uri The file to be accessed.

@@ -78,10 +78,12 @@ import org.w3c.dom.Node;
  * @since 2.0
  */
 public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
+
     /**
      * An OutputStream that writes to a Webdav resource.
      * <p>
      * TODO - Use piped stream to avoid temporary file.
+     * </p>
      */
     private class WebdavOutputStream extends MonitorOutputStream {
         private final WebdavFileObject file;

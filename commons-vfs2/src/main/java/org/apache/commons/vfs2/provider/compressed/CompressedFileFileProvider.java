@@ -32,6 +32,7 @@ import org.apache.commons.vfs2.provider.LayeredFileName;
  * A file system provider for compressed files. Provides read-only file systems.
  */
 public abstract class CompressedFileFileProvider extends AbstractLayeredFileProvider {
+
     public CompressedFileFileProvider() {
         super();
     }

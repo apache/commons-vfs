@@ -16,8 +16,10 @@
  */
 package org.apache.commons.vfs2.test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
@@ -331,5 +333,33 @@ public class ContentTests extends AbstractProviderTestCase {
 
         // Check
         assertTrue(instr1.read() == -1);
+    }
+
+    /**
+     * Tests that input streams are cleaned up on file close.
+     */
+    public void testInputStreamReadAll() throws Exception {
+        // Get the test file
+        try (final FileObject file = getReadFolder().resolveFile("file1.txt")) {
+            assertEquals(FileType.FILE, file.getType());
+            assertTrue(file.isFile());
+
+            final ByteArrayOutputStream output = new ByteArrayOutputStream();
+            file.getContent().write(output);
+            assertEquals(FILE1_CONTENT, new String(output.toByteArray()));
+        }
+    }
+
+    /**
+     * Tests that input streams are cleaned up on file close.
+     */
+    public void testByteArrayReadAll() throws Exception {
+        // Get the test file
+        try (final FileObject file = getReadFolder().resolveFile("file1.txt")) {
+            assertEquals(FileType.FILE, file.getType());
+            assertTrue(file.isFile());
+
+            assertEquals(FILE1_CONTENT, new String(file.getContent().getByteArray()));
+        }
     }
 }

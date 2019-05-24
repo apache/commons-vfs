@@ -36,6 +36,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * interface.
  */
 public class RamFileObject extends AbstractFileObject<RamFileSystem> {
+
     /**
      * RAM File Object Data.
      */

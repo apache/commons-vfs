@@ -52,6 +52,7 @@ public class Http4FileSystem extends AbstractFileSystem {
 
     /**
      * Construct <code>Http4FileSystem</code>.
+     *
      * @param rootName root base name
      * @param fileSystemOptions file system options
      * @param httpClient {@link HttpClient} instance
@@ -99,6 +100,7 @@ public class Http4FileSystem extends AbstractFileSystem {
 
     /**
      * Return the internal {@link HttpClient} instance.
+     *
      * @return the internal {@link HttpClient} instance
      */
     protected HttpClient getHttpClient() {
@@ -107,6 +109,7 @@ public class Http4FileSystem extends AbstractFileSystem {
 
     /**
      * Return the internal {@link HttpClientContext} instance.
+     *
      * @return the internal {@link HttpClientContext} instance
      */
     protected HttpClientContext getHttpClientContext() {
@@ -115,6 +118,7 @@ public class Http4FileSystem extends AbstractFileSystem {
 
     /**
      * Return the internal base <code>URI</code> instance.
+     *
      * @return the internal base <code>URI</code> instance
      */
     protected URI getInternalBaseURI() {

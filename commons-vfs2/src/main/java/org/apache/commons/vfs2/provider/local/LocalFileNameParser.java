@@ -28,6 +28,7 @@ import org.apache.commons.vfs2.provider.VfsComponentContext;
  * A name parser.
  */
 public abstract class LocalFileNameParser extends AbstractFileNameParser {
+
     /**
      * Determines if a name is an absolute file name.
      *

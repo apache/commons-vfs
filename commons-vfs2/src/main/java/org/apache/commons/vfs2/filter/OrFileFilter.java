@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,7 +31,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * file filters. This filter returns {@code true} if any filters in the list
  * return {@code true}. Otherwise, it returns {@code false}. Checking of the
  * file filter list stops when the first filter returns {@code true}.
- * 
+ *
  * @author This code was originally ported from Apache Commons IO File Filter
  * @see "http://commons.apache.org/proper/commons-io/"
  * @since 2.4
@@ -52,7 +52,7 @@ public class OrFileFilter implements FileFilter, ConditionalFileFilter, Serializ
 
     /**
      * Constructs a new file filter that ORs the result of other filters.
-     * 
+     *
      * @param filters array of filters, must not be null or empty
      */
     public OrFileFilter(final FileFilter... filters) {
@@ -70,7 +70,7 @@ public class OrFileFilter implements FileFilter, ConditionalFileFilter, Serializ
     /**
      * Constructs a new instance of <code>OrFileFilter</code> with the specified
      * filters.
-     * 
+     *
      * @param fileFilters the file filters for this filter, copied, null ignored
      */
     public OrFileFilter(final List<FileFilter> fileFilters) {
@@ -114,7 +114,7 @@ public class OrFileFilter implements FileFilter, ConditionalFileFilter, Serializ
 
     /**
      * Provide a String representation of this file filter.
-     * 
+     *
      * @return a String representation
      */
     @Override

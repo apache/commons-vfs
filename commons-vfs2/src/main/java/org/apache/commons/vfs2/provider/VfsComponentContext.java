@@ -31,6 +31,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
  * @see VfsComponent#setContext
  */
 public interface VfsComponentContext {
+
     /**
      * Locate a file by name. See {@link FileSystemManager#resolveFile(FileObject, String)} for a description of how
      * this works.

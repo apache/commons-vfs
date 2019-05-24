@@ -26,6 +26,7 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
  * Provides always the same credentials data passed in with the constructor.
  */
 public class StaticUserAuthenticator implements UserAuthenticator, Comparable<StaticUserAuthenticator> {
+
     private static final Log LOG = LogFactory.getLog(StaticUserAuthenticator.class);
 
     /** The user name */

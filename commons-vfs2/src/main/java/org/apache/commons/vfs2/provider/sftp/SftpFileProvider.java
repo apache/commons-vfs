@@ -37,6 +37,7 @@ import com.jcraft.jsch.Session;
  * A provider for accessing files over SFTP.
  */
 public class SftpFileProvider extends AbstractOriginatingFileProvider {
+
     /** User Information. */
     public static final String ATTR_USER_INFO = "UI";
 

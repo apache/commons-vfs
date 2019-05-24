@@ -45,6 +45,7 @@ import org.apache.commons.vfs2.provider.UriParser;
  * A read-only file system for ZIP and JAR files.
  */
 public class ZipFileSystem extends AbstractFileSystem {
+
     private static final Log LOG = LogFactory.getLog(ZipFileSystem.class);
 
     private final File file;
@@ -59,11 +60,11 @@ public class ZipFileSystem extends AbstractFileSystem {
     public ZipFileSystem(final AbstractFileName rootName, final FileObject parentLayer,
             final FileSystemOptions fileSystemOptions) throws FileSystemException {
         super(rootName, parentLayer, fileSystemOptions);
-        
+
         // Make a local copy of the file
         file = parentLayer.getFileSystem().replicateFile(parentLayer, Selectors.SELECT_SELF);
         this.charset = ZipFileSystemConfigBuilder.getInstance().getCharset(fileSystemOptions);
-        
+
         // Open the Zip file
         if (!file.exists()) {
             // Don't need to do anything

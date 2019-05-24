@@ -31,6 +31,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * Implements {@link org.apache.commons.vfs2.RandomAccessContent RandomAccessContent} for local files.
  */
 class LocalFileRandomAccessContent extends AbstractRandomAccessContent {
+
     // private final LocalFile localFile;
     private final RandomAccessFile raf;
     private final InputStream rafis;

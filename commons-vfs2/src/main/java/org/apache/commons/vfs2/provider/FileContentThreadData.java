@@ -26,6 +26,7 @@ import org.apache.commons.vfs2.RandomAccessContent;
  * Holds the data which needs to be local to the current thread
  */
 class FileContentThreadData {
+
     // private int state = DefaultFileContent.STATE_CLOSED;
 
     private final ArrayList<InputStream> inputStreamList = new ArrayList<>();

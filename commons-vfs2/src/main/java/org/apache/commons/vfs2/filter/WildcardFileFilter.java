@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,7 +40,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
  * For example, to retrieve and print all java files that have the expression
  * test in the name in the current directory:
  * </p>
- * 
+ *
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();
  * FileObject dir = fsManager.toFileObject(new File(&quot;.&quot;));
@@ -50,7 +50,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
  *     System.out.println(files[i]);
  * }
  * </pre>
- * 
+ *
  * @author This code was originally ported from Apache Commons IO File Filter
  * @see "http://commons.apache.org/proper/commons-io/"
  * @since 2.4
@@ -67,7 +67,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
 
     /**
      * Construct a new case-sensitive wildcard filter for a list of wildcards.
-     * 
+     *
      * @param wildcards the list of wildcards to match, not null
      */
     public WildcardFileFilter(final List<String> wildcards) {
@@ -77,7 +77,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
     /**
      * Construct a new wildcard filter for a list of wildcards specifying
      * case-sensitivity.
-     * 
+     *
      * @param caseSensitivity how to handle case sensitivity, null means
      *                        case-sensitive
      * @param wildcards       the list of wildcards to match, not null
@@ -95,7 +95,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
      * <p>
      * The array is not cloned, so could be changed after constructing the instance.
      * This would be inadvisable however.
-     * 
+     *
      * @param wildcards the array of wildcards to match
      */
     public WildcardFileFilter(final String... wildcards) {
@@ -105,7 +105,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
     /**
      * Construct a new wildcard filter for an array of wildcards specifying
      * case-sensitivity.
-     * 
+     *
      * @param caseSensitivity how to handle case sensitivity, null means
      *                        case-sensitive
      * @param wildcards       the array of wildcards to match, not null
@@ -120,9 +120,9 @@ public class WildcardFileFilter implements FileFilter, Serializable {
 
     /**
      * Checks to see if the filename matches one of the wildcards.
-     * 
+     *
      * @param fileInfo the file to check
-     * 
+     *
      * @return true if the filename matches one of the wildcards
      */
     @Override
@@ -138,7 +138,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
 
     /**
      * Provide a String representation of this file filter.
-     * 
+     *
      * @return a String representation
      */
     @Override
@@ -161,7 +161,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
     /**
      * Splits a string into a number of tokens. The text is split by '?' and '*'.
      * Where multiple '*' occur consecutively they are collapsed into a single '*'.
-     * 
+     *
      * @param text the text to split
      * @return the array of tokens, never null
      */
@@ -209,12 +209,12 @@ public class WildcardFileFilter implements FileFilter, Serializable {
      * multiple (zero or more) wildcard characters. N.B. the sequence "*?" does not
      * work properly at present in match strings.
      * </p>
-     * 
+     *
      * @param filename        the filename to match on
      * @param wildcardMatcher the wildcard string to match against
      * @param caseSensitivity what case sensitivity rule to use, null means
      *                        case-sensitive
-     * 
+     *
      * @return true if the filename matches the wilcard string
      */
     // CHECKSTYLE:OFF TODO xxx Cyclomatic complexity of 19 should be refactored

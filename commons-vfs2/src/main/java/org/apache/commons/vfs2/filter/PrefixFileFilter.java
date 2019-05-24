@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,7 +29,8 @@ import org.apache.commons.vfs2.FileSelectInfo;
  * <p>
  * For example, to print all files and directories in the current directory
  * whose name starts with a <code>.</code>:
- * 
+ * </p>
+ *
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();
  * FileObject dir = fsManager.toFileObject(new File(&quot;.&quot;));
@@ -38,7 +39,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
  *     System.out.println(files[i]);
  * }
  * </pre>
- * 
+ *
  * @author This code was originally ported from Apache Commons IO File Filter
  * @see "http://commons.apache.org/proper/commons-io/"
  * @since 2.4
@@ -55,7 +56,7 @@ public class PrefixFileFilter implements FileFilter, Serializable {
 
     /**
      * Constructs a new Prefix file filter for a list of prefixes.
-     * 
+     *
      * @param prefixes the prefixes to allow, must not be null
      */
     public PrefixFileFilter(final List<String> prefixes) {
@@ -65,7 +66,7 @@ public class PrefixFileFilter implements FileFilter, Serializable {
     /**
      * Constructs a new Prefix file filter for a list of prefixes specifying
      * case-sensitivity.
-     * 
+     *
      * @param caseSensitivity how to handle case sensitivity, null means
      *                        case-sensitive
      * @param prefixes        the prefixes to allow, must not be null
@@ -83,7 +84,7 @@ public class PrefixFileFilter implements FileFilter, Serializable {
      * <p>
      * The array is not cloned, so could be changed after constructing the instance.
      * This would be inadvisable however.
-     * 
+     *
      * @param prefixes the prefixes to allow, must not be null
      */
     public PrefixFileFilter(final String... prefixes) {
@@ -93,7 +94,7 @@ public class PrefixFileFilter implements FileFilter, Serializable {
     /**
      * Constructs a new Prefix file filter for any of an array of prefixes
      * specifying case-sensitivity.
-     * 
+     *
      * @param prefixes        the prefixes to allow, must not be null
      * @param caseSensitivity how to handle case sensitivity, null means
      *                        case-sensitive
@@ -108,9 +109,9 @@ public class PrefixFileFilter implements FileFilter, Serializable {
 
     /**
      * Checks to see if the filename starts with the prefix.
-     * 
+     *
      * @param fileInfo the File to check
-     * 
+     *
      * @return true if the filename starts with one of our prefixes
      */
     @Override
@@ -126,7 +127,7 @@ public class PrefixFileFilter implements FileFilter, Serializable {
 
     /**
      * Provide a String representation of this file filter.
-     * 
+     *
      * @return a String representation
      */
     @Override

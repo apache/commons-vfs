@@ -35,6 +35,7 @@ import org.apache.commons.vfs2.provider.zip.ZipFileObject;
  * A file in a Jar file system.
  */
 public class JarFileObject extends ZipFileObject {
+
     private final JarFileSystem fs;
 
     private Attributes attributes;

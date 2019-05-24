@@ -40,7 +40,7 @@ public class GenericURLFileName extends GenericFileName {
     }
 
     /**
-     * Get the query string.
+     * Gets the query string.
      *
      * @return the query string part of the filename
      */
@@ -49,7 +49,7 @@ public class GenericURLFileName extends GenericFileName {
     }
 
     /**
-     * Get the path and query string e.g. /path/servlet?param1=true.
+     * Gets the path and query string e.g. /path/servlet?param1=true.
      *
      * @return the path and its query string
      */
@@ -63,7 +63,7 @@ public class GenericURLFileName extends GenericFileName {
     }
 
     /**
-     * Get the path encoded suitable for url like filesystem e.g. (http, webdav).
+     * Gets the path encoded suitable for url like filesystem e.g. (http, webdav).
      *
      * @param charset the charset used for the path encoding
      * @return The encoded path.
@@ -91,7 +91,7 @@ public class GenericURLFileName extends GenericFileName {
     }
 
     /**
-     * Create a FileName.
+     * Creates a FileName.
      *
      * @param absPath The absolute path.
      * @param type The FileType.
@@ -104,7 +104,7 @@ public class GenericURLFileName extends GenericFileName {
     }
 
     /**
-     * Append query string to the uri.
+     * Appends query string to the uri.
      *
      * @return the uri
      */
@@ -123,7 +123,7 @@ public class GenericURLFileName extends GenericFileName {
     }
 
     /**
-     * Encode a URI.
+     * Encodes a URI.
      *
      * @param charset The character set.
      * @return The encoded URI

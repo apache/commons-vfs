@@ -28,7 +28,6 @@ import org.junit.Assert;
 /**
  * Random set length test cases for file providers.
  *
- * @version $Id$
  */
 public class ProviderRandomSetLengthTests extends AbstractProviderTestCase {
     private static final String TEST_DATA = "This is a test file.";

@@ -20,6 +20,7 @@ package org.apache.commons.vfs2;
  * An enumerated type for file name scope, used when resolving a name relative to a file.
  */
 public enum NameScope {
+
     /**
      * Resolve against the children of the base file. The name is resolved as described by {@link #FILE_SYSTEM}.
      * However, an exception is thrown if the resolved file is not a direct child of the base file.
@@ -44,11 +45,14 @@ public enum NameScope {
      * <p>
      * If the supplied name is an absolute path, then it is resolved relative to the root of the file system that the
      * base file belongs to. If a relative name is supplied, then it is resolved relative to the base file.
+     * </p>
      * <p>
      * The path may use any mix of {@code /}, {@code \}, or file system specific separators to separate elements in the
      * path. It may also contain {@code .} and {@code ..} elements.
+     * </p>
      * <p>
      * A path is considered absolute if it starts with a separator character, and relative if it does not.
+     * </p>
      */
     FILE_SYSTEM("filesystem");
 

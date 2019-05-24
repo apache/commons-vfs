@@ -20,6 +20,7 @@ package org.apache.commons.vfs2;
  * An enumerated type to deal with the various cache strategies.
  */
 public enum CacheStrategy {
+
     /**
      * Deal with cached data manually. Call {@link FileObject#refresh()} to refresh the object data.
      */

@@ -22,7 +22,7 @@ import com.jcraft.jsch.JSchException;
 
 /**
  * Provides identity to a {@link JSch}.
- * 
+ *
  * @since 2.4
  */
 public interface IdentityProvider {

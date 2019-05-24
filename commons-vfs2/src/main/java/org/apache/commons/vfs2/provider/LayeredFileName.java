@@ -23,6 +23,7 @@ import org.apache.commons.vfs2.FileType;
  * A file name for layered files.
  */
 public class LayeredFileName extends AbstractFileName {
+
     private final FileName outerUri;
 
     public LayeredFileName(final String scheme, final FileName outerUri, final String path, final FileType type) {
@@ -40,7 +41,7 @@ public class LayeredFileName extends AbstractFileName {
     }
 
     /**
-     * Create a FileName.
+     * Creates a FileName.
      *
      * @param path The file URI.
      * @param type The FileType.

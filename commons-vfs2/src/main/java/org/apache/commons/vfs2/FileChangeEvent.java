@@ -20,6 +20,7 @@ package org.apache.commons.vfs2;
  * An event fired when a file is changed.
  */
 public class FileChangeEvent {
+
     /**
      * The file object
      */

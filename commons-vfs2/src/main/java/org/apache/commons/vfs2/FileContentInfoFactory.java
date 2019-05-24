@@ -20,6 +20,7 @@ package org.apache.commons.vfs2;
  * Creates {@link FileContentInfo} instances to determine the content-info for given file contents.
  */
 public interface FileContentInfoFactory {
+
     /**
      * Creates a FileContentInfo for a the given FileContent.
      *

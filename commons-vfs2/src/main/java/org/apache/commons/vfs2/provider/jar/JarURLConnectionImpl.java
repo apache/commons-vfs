@@ -35,6 +35,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * A default URL connection that will work for most file systems.
  */
 public class JarURLConnectionImpl extends JarURLConnection {
+
     // This is because JarURLConnection SUCKS
     private static final String HACK_URL = "jar:http://somehost/somejar.jar!/";
 

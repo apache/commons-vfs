@@ -30,6 +30,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * </ul>
  */
 public interface VfsComponent {
+
     /**
      * Sets the Logger to use for the component.
      *

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,7 +29,8 @@ import org.apache.commons.vfs2.FileSelectInfo;
  * <p>
  * For example, to print all files and directories in the current directory
  * whose name is <code>Test</code>:
- * 
+ * </p>
+ *
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();
  * FileObject dir = fsManager.toFileObject(new File(&quot;.&quot;));
@@ -38,7 +39,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
  *     System.out.println(files[i]);
  * }
  * </pre>
- * 
+ *
  * @author This code was originally ported from Apache Commons IO File Filter
  * @see "http://commons.apache.org/proper/commons-io/"
  * @since 2.4
@@ -55,7 +56,7 @@ public class NameFileFilter implements FileFilter, Serializable {
 
     /**
      * Constructs a new case-sensitive name file filter for a list of names.
-     * 
+     *
      * @param names the names to allow, must not be null
      */
     public NameFileFilter(final List<String> names) {
@@ -65,7 +66,7 @@ public class NameFileFilter implements FileFilter, Serializable {
     /**
      * Constructs a new name file filter for a list of names specifying
      * case-sensitivity.
-     * 
+     *
      * @param caseSensitivity how to handle case sensitivity, null means
      *                        case-sensitive
      * @param names           the names to allow, must not be null
@@ -83,7 +84,8 @@ public class NameFileFilter implements FileFilter, Serializable {
      * <p>
      * The array is not cloned, so could be changed after constructing the instance.
      * This would be inadvisable however.
-     * 
+     * </p>
+     *
      * @param names the names to allow, must not be null
      */
     public NameFileFilter(final String... names) {
@@ -93,7 +95,7 @@ public class NameFileFilter implements FileFilter, Serializable {
     /**
      * Constructs a new name file filter for an array of names specifying
      * case-sensitivity.
-     * 
+     *
      * @param caseSensitivity how to handle case sensitivity, null means
      *                        case-sensitive
      * @param names           the names to allow, must not be null
@@ -108,9 +110,9 @@ public class NameFileFilter implements FileFilter, Serializable {
 
     /**
      * Checks to see if the filename matches.
-     * 
+     *
      * @param fileInfo the File to check
-     * 
+     *
      * @return true if the filename matches
      */
     @Override
@@ -126,7 +128,7 @@ public class NameFileFilter implements FileFilter, Serializable {
 
     /**
      * Provide a String representation of this file filter.
-     * 
+     *
      * @return a String representation
      */
     @Override

@@ -24,6 +24,7 @@ import org.apache.commons.vfs2.FileObject;
  * A change event that knows how to notify a listener.
  */
 public abstract class AbstractFileChangeEvent extends FileChangeEvent {
+
     public AbstractFileChangeEvent(final FileObject file) {
         super(file);
     }

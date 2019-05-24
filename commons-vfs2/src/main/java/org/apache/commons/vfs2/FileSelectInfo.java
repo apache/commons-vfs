@@ -20,6 +20,7 @@ package org.apache.commons.vfs2;
  * Information about a file, that is used to select files during the traversal of a hierarchy.
  * <p>
  * TODO - Rename this interface, as it is used by both FileSelector and FileVisitor.
+ * </p>
  */
 public interface FileSelectInfo {
     /**

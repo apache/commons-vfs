@@ -20,6 +20,7 @@ package org.apache.commons.vfs2;
  * A {@link FileSelector} that selects files of a particular type.
  */
 public class FileTypeSelector implements FileSelector {
+
     /** The FileType */
     private final FileType type;
 

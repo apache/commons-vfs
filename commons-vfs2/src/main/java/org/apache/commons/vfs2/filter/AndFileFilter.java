@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,7 +31,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * filter returns {@code true} if all filters in the list return {@code true}.
  * Otherwise, it returns {@code false}. Checking of the file filter list stops
  * when the first filter returns {@code false}.
- * 
+ *
  * @author This code was originally ported from Apache Commons IO File Filter
  * @see "http://commons.apache.org/proper/commons-io/"
  * @since 2.4
@@ -52,7 +52,7 @@ public class AndFileFilter implements FileFilter, ConditionalFileFilter, Seriali
 
     /**
      * Constructs a new file filter that ANDs the result of other filters.
-     * 
+     *
      * @param filters array of filters, must not be null or empty
      */
     public AndFileFilter(final FileFilter... filters) {
@@ -70,7 +70,7 @@ public class AndFileFilter implements FileFilter, ConditionalFileFilter, Seriali
     /**
      * Constructs a new instance of <code>AndFileFilter</code> with the specified
      * list of filters.
-     * 
+     *
      * @param fileFilters a List of FileFilter instances, copied, null ignored
      */
     public AndFileFilter(final List<FileFilter> fileFilters) {
@@ -117,7 +117,7 @@ public class AndFileFilter implements FileFilter, ConditionalFileFilter, Seriali
 
     /**
      * Provide a String representation of this file filter.
-     * 
+     *
      * @return a String representation
      */
     @Override

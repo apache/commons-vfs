@@ -34,6 +34,7 @@ import org.apache.commons.vfs2.provider.GenericFileName;
  * A provider for FTP file systems.
  */
 public class FtpFileProvider extends AbstractOriginatingFileProvider {
+
     /**
      * File Entry Parser.
      */

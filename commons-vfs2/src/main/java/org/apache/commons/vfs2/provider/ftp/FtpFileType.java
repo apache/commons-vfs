@@ -24,6 +24,7 @@ import org.apache.commons.net.ftp.FTP;
  * @since 2.1
  */
 public enum FtpFileType {
+
     /**
      * The ASCII file type.
      */

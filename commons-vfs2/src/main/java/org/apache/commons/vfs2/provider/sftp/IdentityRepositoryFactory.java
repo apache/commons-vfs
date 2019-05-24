@@ -21,11 +21,9 @@ import com.jcraft.jsch.JSch;
 
 /**
  * Creates instances of JSch {@link IdentityRepository}.
- *
- * @version $Id$
  */
 public interface IdentityRepositoryFactory {
-    
+
     /**
      * Creates an Identity repository for a given JSch instance.
      *

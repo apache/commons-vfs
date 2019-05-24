@@ -25,6 +25,7 @@ import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.NameScope;
 import org.apache.commons.vfs2.Selectors;
+import org.apache.commons.vfs2.util.FileObjectUtils;
 import org.apache.commons.vfs2.util.Messages;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -39,13 +40,15 @@ import org.apache.tools.ant.Project;
  * <li>Up-to-date destination file.
  * </ul>
  *
- * TODO - Deal with case where dest file maps to a child of one of the source files.<br>
- * TODO - Deal with case where dest file already exists and is incorrect type (not file, not a folder).<br>
- * TODO - Use visitors.<br>
- * TODO - Add default excludes.<br>
- * TOOD - Allow selector, mapper, filters, etc to be specified.<br>
- * TODO - Handle source/dest directories as well.<br>
- * TODO - Allow selector to be specified for choosing which dest files to sync.
+ * <ul>
+ * <li>TODO - Deal with case where dest file maps to a child of one of the source files.</li>
+ * <li>TODO - Deal with case where dest file already exists and is incorrect type (not file, not a folder).</li>
+ * <li>TODO - Use visitors.</li>
+ * <li>TODO - Add default excludes.</li>
+ * <li>TOOD - Allow selector, mapper, filters, etc to be specified.</li>
+ * <li>TODO - Handle source/dest directories as well.</li>
+ * <li>TODO - Allow selector to be specified for choosing which dest files to sync.</li>
+ * <ul>
  */
 public abstract class AbstractSyncTask extends VfsTask {
     private final ArrayList<SourceInfo> srcFiles = new ArrayList<>();
@@ -340,7 +343,7 @@ public abstract class AbstractSyncTask extends VfsTask {
      * Handles a single source file.
      */
     private void handleFile(final FileObject srcFile, final FileObject destFile) throws Exception {
-        if (!destFile.exists()
+        if (!FileObjectUtils.exists(destFile)
                 || srcFile.getContent().getLastModifiedTime() > destFile.getContent().getLastModifiedTime()) {
             // Destination file is out-of-date
             handleOutOfDateFile(srcFile, destFile);
@@ -354,45 +357,54 @@ public abstract class AbstractSyncTask extends VfsTask {
      * Handles an out-of-date file.
      * <p>
      * This is a file where the destination file either doesn't exist, or is older than the source file.
+     * </p>
      * <p>
      * This implementation does nothing.
+     * </p>
      *
      * @param srcFile The source file.
      * @param destFile The destination file.
      * @throws Exception Implementation can throw any Exception.
      */
     protected void handleOutOfDateFile(final FileObject srcFile, final FileObject destFile) throws Exception {
+        // noop
     }
 
     /**
      * Handles an up-to-date file.
      * <p>
      * This is where the destination file exists and is newer than the source file.
+     * </p>
      * <p>
      * This implementation does nothing.
+     * </p>
      *
      * @param srcFile The source file.
      * @param destFile The destination file.
      * @throws Exception Implementation can throw any Exception.
      */
     protected void handleUpToDateFile(final FileObject srcFile, final FileObject destFile) throws Exception {
+        // noop
     }
 
     /**
      * Handles a destination for which there is no corresponding source file.
      * <p>
      * This implementation does nothing.
+     * </p>
      *
      * @param destFile The existing destination file.
      * @throws Exception Implementation can throw any Exception.
      */
     protected void handleMissingSourceFile(final FileObject destFile) throws Exception {
+        // noop
     }
 
     /**
      * Check if this task cares about destination files with a missing source file.
      * <p>
      * This implementation returns false.
+     * </p>
      *
      * @return True if missing file is detected.
      */

@@ -30,16 +30,20 @@ import org.apache.commons.vfs2.FileSystem;
  * This implementation caches every file with no expire or limit. All files and filesystems are hard reachable
  * references. This implementation holds a list of filesystem specific {@linkplain ConcurrentHashMap ConcurrentHashMaps}
  * in the main cache map.
+ * </p>
  * <p>
  * Cached {@linkplain FileObject FileObjects} as well as {@linkplain FileSystem FileSystems} are only removed when
  * {@link #clear(FileSystem)} is called (i.e. on filesystem close). When the used
  * {@link org.apache.commons.vfs2.FileSystemManager FileSystemManager} is closed, it will also {@linkplain #close()
  * close} this cache (which frees all entries).
+ * </p>
  * <p>
  * Despite its name, this is not the fallback implementation used by
  * {@link org.apache.commons.vfs2.impl.DefaultFileSystemManager#init() DefaultFileSystemManager#init()} anymore.
+ * </p>
  */
 public class DefaultFilesCache extends AbstractFilesCache {
+
     /** The FileSystem cache. Keeps one Map for each FileSystem. */
     private final ConcurrentMap<FileSystem, ConcurrentMap<FileName, FileObject>> filesystemCache = new ConcurrentHashMap<>(
             10);

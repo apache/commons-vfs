@@ -30,6 +30,7 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
  * Filesytem to handle compressed files using the gzip method.
  */
 public class GzipFileSystem extends CompressedFileFileSystem {
+
     protected GzipFileSystem(final FileName rootName, final FileObject parentLayer,
             final FileSystemOptions fileSystemOptions) {
         super(rootName, parentLayer, fileSystemOptions);

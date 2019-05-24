@@ -24,6 +24,7 @@ import javax.crypto.spec.SecretKeySpec;
  * <p>
  * Warning: This uses AES128 with a fixed encryption key. This is only an obfuscation no cryptographic secure
  * protection.
+ * </p>
  *
  * @since 2.0
  */

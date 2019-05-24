@@ -37,6 +37,7 @@ import org.apache.commons.vfs2.provider.zip.ZipFileProvider;
  * like Signing and Manifest Attributes.
  */
 public class JarFileProvider extends ZipFileProvider {
+
     static final Collection<Capability> capabilities;
 
     static {

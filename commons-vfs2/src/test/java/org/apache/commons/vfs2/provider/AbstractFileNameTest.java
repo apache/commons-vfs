@@ -17,30 +17,28 @@
 package org.apache.commons.vfs2.provider;
 
 import org.apache.commons.vfs2.FileName;
-import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileType;
+import org.junit.Assert;
+import org.junit.Test;
 
-/**
- * Provides methods to parse a filename into a {@link org.apache.commons.vfs2.FileName}.
- */
-public interface FileNameParser {
+public class AbstractFileNameTest {
+    @Test
+    public void testHashSignEncoded() {
+        AbstractFileName fileName = new AbstractFileName("file", "/foo/bar/file#name.txt", FileType.FILE) {
+            @Override
+            public FileName createName(String absolutePath, FileType fileType) {
+                return null;
+            }
 
-    /**
-     * Check if a character needs encoding (%nn).
-     *
-     * @param ch the character
-     * @return true if character should be encoded
-     */
-    boolean encodeCharacter(char ch);
+            @Override
+            protected void appendRootUri(StringBuilder buffer, boolean addPassword) {
+                if (addPassword) {
+                    buffer.append("pass");
+                }
+            }
+        };
 
-    /**
-     * Parses a String into a filename.
-     *
-     * @param context The component context.
-     * @param base The base FileName.
-     * @param uri The target file name.
-     * @return A FileName that represents the taret file.
-     * @throws FileSystemException if an error occurs parsing the URI.
-     */
-    FileName parseUri(final VfsComponentContext context, final FileName base, final String uri)
-            throws FileSystemException;
+        Assert.assertEquals("pass/foo/bar/file%23name.txt", fileName.getURI());
+        Assert.assertEquals("/foo/bar/file%23name.txt", fileName.getFriendlyURI());
+    }
 }

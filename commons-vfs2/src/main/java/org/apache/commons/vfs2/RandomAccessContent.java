@@ -25,6 +25,7 @@ import java.io.InputStream;
  * Provides random access over content.
  */
 public interface RandomAccessContent extends DataOutput, DataInput {
+
     /**
      * Closes this random access file stream and releases any system resources associated with the stream.
      * <p>
@@ -32,7 +33,7 @@ public interface RandomAccessContent extends DataOutput, DataInput {
      * </p>
      * <p>
      * If this file has an associated channel then the channel is closed as well.
-     * <p>
+     * </p>
      *
      * @throws IOException if an I/O error occurs.
      */

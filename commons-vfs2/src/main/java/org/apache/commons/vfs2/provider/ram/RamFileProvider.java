@@ -31,6 +31,7 @@ import org.apache.commons.vfs2.provider.AbstractOriginatingFileProvider;
  * RAM File Provider.
  */
 public class RamFileProvider extends AbstractOriginatingFileProvider {
+
     /** The provider's capabilities. */
     public static final Collection<Capability> capabilities = Collections.unmodifiableCollection(
             Arrays.asList(new Capability[] { Capability.CREATE, Capability.DELETE, Capability.RENAME,

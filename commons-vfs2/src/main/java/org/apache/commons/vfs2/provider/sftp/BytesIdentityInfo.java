@@ -22,7 +22,7 @@ import com.jcraft.jsch.JSchException;
 
 /**
  * Structure for an identity based on byte arrays.
- * 
+ *
  * @since 2.4
  */
 public class BytesIdentityInfo implements IdentityProvider {

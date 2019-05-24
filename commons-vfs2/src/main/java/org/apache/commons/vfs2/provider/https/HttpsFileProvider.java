@@ -22,6 +22,7 @@ import org.apache.commons.vfs2.provider.http.HttpFileProvider;
  * An HTTPS provider that uses commons-httpclient.
  */
 public class HttpsFileProvider extends HttpFileProvider {
+
     public HttpsFileProvider() {
         super();
         setFileNameParser(HttpsFileNameParser.getInstance());

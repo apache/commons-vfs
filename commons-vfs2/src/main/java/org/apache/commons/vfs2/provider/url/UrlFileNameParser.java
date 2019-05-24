@@ -30,6 +30,7 @@ import org.apache.commons.vfs2.provider.local.GenericFileNameParser;
  * Composite of URLFilenameParser and GenericFilenameParser
  */
 public class UrlFileNameParser extends AbstractFileNameParser {
+
     private final URLFileNameParser url = new URLFileNameParser(80);
     private final GenericFileNameParser generic = new GenericFileNameParser();
 
@@ -65,9 +66,11 @@ public class UrlFileNameParser extends AbstractFileNameParser {
      * Guess if the given file name is an URL with host or not.
      * <p>
      * VFS treats such URLs differently.
+     * </p>
      * <p>
      * A file name is URL-based if the base is a {@code URLFileName} or there are only 2 slashes after the scheme. e.g:
      * {@code http://host/path}, {@code file:/path/to/file}, {@code file:///path/to/file}.
+     * </p>
      *
      * @param base The filename is relative to this base.
      * @param filename The filename.

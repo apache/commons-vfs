@@ -20,6 +20,7 @@ package org.apache.commons.vfs2;
  * An enumerated type representing the capabilities of files and file systems.
  */
 public enum Capability {
+
     /**
      * File content can be read.
      */
@@ -128,9 +129,11 @@ public enum Capability {
 
     /**
      * The provider itself do not provide a filesystem. It simply resolves a full name and dispatches the request back
-     * to the filesystemmanager.<br>
+     * to the filesystemmanager.
+     * <p>
      * A provider with this capability cant tell much about the capabilities about the finally used filesystem in
      * advance.
+     * </p>
      */
     DISPATCHER,
 

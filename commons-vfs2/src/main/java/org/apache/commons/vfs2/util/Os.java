@@ -27,6 +27,7 @@ import java.util.Set;
  * Class to help determining the OS.
  */
 public final class Os {
+
     /**
      * All Windows based OSes.
      */

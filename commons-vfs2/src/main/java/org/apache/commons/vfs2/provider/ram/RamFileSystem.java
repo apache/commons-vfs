@@ -41,6 +41,7 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
  * A RAM File System.
  */
 public class RamFileSystem extends AbstractFileSystem implements Serializable {
+
     private static final int BUFFER_SIZE = 512;
 
     /**

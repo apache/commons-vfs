@@ -22,6 +22,7 @@ import org.apache.commons.vfs2.FileObject;
  * A task that synchronises the destination folder to look exactly like the source folder (or folders).
  */
 public class SyncTask extends CopyTask {
+
     /**
      * Handles a destination for which there is no corresponding source file.
      */

@@ -30,6 +30,7 @@ import org.apache.commons.vfs2.FileSystem;
  * @since 2.0
  */
 public class WeakRefFileListener implements FileListener {
+
     private final FileSystem fs;
     private final FileName name;
     private final WeakReference<FileListener> listener;
@@ -102,6 +103,7 @@ public class WeakRefFileListener implements FileListener {
      * Called when a file is changed.
      * <p>
      * This will only happen if you monitor the file using {@link org.apache.commons.vfs2.FileMonitor}.
+     * </p>
      *
      * @param event The FileChangeEvent.
      * @throws Exception if an error occurs.

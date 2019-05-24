@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,9 +45,9 @@ public abstract class BaseFilterTest {
 
     /**
      * Creates a file select info object for the given file.
-     * 
+     *
      * @param file File to create an info for.
-     * 
+     *
      * @return File selct info.
      */
     protected static FileSelectInfo createFileSelectInfo(final File file) {
@@ -81,11 +81,11 @@ public abstract class BaseFilterTest {
 
     /**
      * Returns a ZIP file object.
-     * 
+     *
      * @param file File to resolve.
-     * 
+     *
      * @return File object.
-     * 
+     *
      * @throws FileSystemException Error resolving the file.
      */
     protected static FileObject getZipFileObject(final File file) throws FileSystemException {
@@ -95,7 +95,7 @@ public abstract class BaseFilterTest {
 
     /**
      * Asserts that the array contains the given file names.
-     * 
+     *
      * @param files     Array to check.
      * @param filenames File names to find.
      */
@@ -119,7 +119,7 @@ public abstract class BaseFilterTest {
 
     /**
      * Returns the temporary directory.
-     * 
+     *
      * @return java.io.tmpdir
      */
     protected static File getTempDir() {
@@ -128,9 +128,9 @@ public abstract class BaseFilterTest {
 
     /**
      * Returns a sub directory of the temporary directory.
-     * 
+     *
      * @param name Name of the sub directory.
-     * 
+     *
      * @return Sub directory of java.io.tmpdir.
      */
     protected static File getTestDir(final String name) {
@@ -139,7 +139,7 @@ public abstract class BaseFilterTest {
 
     /**
      * Verifies at least all given objects are in the list.
-     * 
+     *
      * @param list    List to use.
      * @param objects Objects to find.
      */
@@ -151,7 +151,7 @@ public abstract class BaseFilterTest {
 
     /**
      * Verifies only the given objects are in the list.
-     * 
+     *
      * @param list    List to scan.
      * @param objects Objects to find.
      */
@@ -164,11 +164,11 @@ public abstract class BaseFilterTest {
 
     /**
      * Adds a file to a ZIP output stream.
-     * 
+     *
      * @param srcFile  File to add - Cannot be <code>null</code>.
      * @param destPath Path to use for the file - May be <code>null</code> or empty.
      * @param out      Destination stream - Cannot be <code>null</code>.
-     * 
+     *
      * @throws IOException Error writing to the output stream.
      */
     private static void zipFile(final File srcFile, final String destPath, final ZipOutputStream out)
@@ -189,14 +189,14 @@ public abstract class BaseFilterTest {
 
     /**
      * Add a directory to a ZIP output stream.
-     * 
+     *
      * @param srcDir   Directory to add - Cannot be <code>null</code> and must be a
      *                 valid directory.
      * @param filter   Filter or <code>null</code> for all files.
      * @param destPath Path to use for the ZIP archive - May be <code>null</code> or
      *                 an empyt string.
      * @param out      Destination stream - Cannot be <code>null</code>.
-     * 
+     *
      * @throws IOException Error writing to the output stream.
      */
     private static void zipDir(final File srcDir, final FileFilter filter, final String destPath,
@@ -217,14 +217,14 @@ public abstract class BaseFilterTest {
      * Creates a ZIP file and adds all files in a directory and all it's sub
      * directories to the archive. Only entries are added that comply to the file
      * filter.
-     * 
+     *
      * @param srcDir   Directory to add - Cannot be <code>null</code> and must be a
      *                 valid directory.
      * @param filter   Filter or <code>null</code> for all files/directories.
      * @param destPath Path to use for the ZIP archive - May be <code>null</code> or
      *                 an empyt string.
      * @param destFile Target ZIP file - Cannot be <code>null</code>.
-     * 
+     *
      * @throws IOException Error writing to the output stream.
      */
     public static void zipDir(final File srcDir, final FileFilter filter, final String destPath, final File destFile)
@@ -252,13 +252,13 @@ public abstract class BaseFilterTest {
     /**
      * Creates a ZIP file and adds all files in a directory and all it's sub
      * directories to the archive.
-     * 
+     *
      * @param srcDir   Directory to add - Cannot be <code>null</code> and must be a
      *                 valid directory.
      * @param destPath Path to use for the ZIP archive - May be <code>null</code> or
      *                 an empyt string.
      * @param destFile Target ZIP file - Cannot be <code>null</code>.
-     * 
+     *
      * @throws IOException Error writing to the output stream.
      */
     public static void zipDir(final File srcDir, final String destPath, final File destFile) throws IOException {
@@ -270,12 +270,12 @@ public abstract class BaseFilterTest {
     /**
      * Concatenate a path and a filename taking <code>null</code> and empty string
      * values into account.
-     * 
+     *
      * @param path      Path - Can be <code>null</code> or an empty string.
      * @param filename  Filename - Cannot be <code>null</code>.
      * @param separator Separator for directories - Can be <code>null</code> or an
      *                  empty string.
-     * 
+     *
      * @return Path and filename divided by the separator.
      */
     public static String concatPathAndFilename(final String path, final String filename, final String separator) {
@@ -310,11 +310,11 @@ public abstract class BaseFilterTest {
 
     /**
      * List all files for a directory.
-     * 
+     *
      * @param srcDir Directory to list the files for - Cannot be <code>null</code>
      *               and must be a valid directory.
      * @param filter Filter or <code>null</code> for all files.
-     * 
+     *
      * @return List of child entries of the directory.
      */
     private static File[] listFiles(final File srcDir, final FileFilter filter) {

@@ -25,10 +25,9 @@ import org.apache.commons.vfs2.util.Os;
 
 /**
  * Utilities for dealing with URIs. See RFC 2396 for details.
- *
- * 2005) $
  */
 public final class UriParser {
+
     /**
      * The set of valid separators. These are all converted to the normalized one. Does <i>not</i> contain the
      * normalized separator

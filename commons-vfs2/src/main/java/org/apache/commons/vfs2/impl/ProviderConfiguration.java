@@ -23,6 +23,7 @@ import java.util.List;
  * This class describes the configuration for a provider.
  * <p>
  * Used by digester in StandardFileSystemManager
+ * </p>
  */
 public class ProviderConfiguration {
     private String className;

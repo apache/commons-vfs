@@ -28,6 +28,7 @@ import org.apache.commons.vfs2.impl.DefaultFileContentInfo;
  * @since 2.1
  */
 public class HdfsFileContentInfoFactory implements FileContentInfoFactory {
+
     private static final String CONTENT = "text/plain";
     private static final String ENCODING = "UTF-8";
 

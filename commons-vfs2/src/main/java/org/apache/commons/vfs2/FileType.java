@@ -20,6 +20,7 @@ package org.apache.commons.vfs2;
  * An enumerated type that represents a file's type.
  */
 public enum FileType {
+
     /**
      * A folder. May contain other files, and have attributes, but does not have any data content.
      */

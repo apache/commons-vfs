@@ -31,6 +31,7 @@ import org.w3c.dom.Element;
  * @since 2.0
  */
 public final class ExceptionConverter {
+
     // avoid instanciation
     private ExceptionConverter() {
     }

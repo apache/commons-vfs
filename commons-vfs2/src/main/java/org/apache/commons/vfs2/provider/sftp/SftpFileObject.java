@@ -48,6 +48,7 @@ import com.jcraft.jsch.SftpException;
  * An SFTP file.
  */
 public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
+
     private static final long MOD_TIME_FACTOR = 1000L;
 
     private SftpATTRS attrs;

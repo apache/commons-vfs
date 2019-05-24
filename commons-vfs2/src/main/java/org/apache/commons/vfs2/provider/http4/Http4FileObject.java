@@ -68,6 +68,7 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
 
     /**
      * Construct <code>Http4FileObject</code>.
+     *
      * @param name file name
      * @param fileSystem file system
      * @throws FileSystemException if any error occurs
@@ -80,6 +81,7 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
 
     /**
      * Construct <code>Http4FileObject</code>.
+     *
      * @param name file name
      * @param fileSystem file system
      * @param builder <code>Http4FileSystemConfigBuilder</code> object
@@ -190,6 +192,7 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
 
     /**
      * Return the internal <code>URI</code> object mapped to this file object.
+     *
      * @return the internal <code>URI</code> object mapped to this file object
      * @throws FileSystemException if any error occurs
      */
@@ -199,6 +202,7 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
 
     /**
      * Return the last executed HEAD <code>HttpResponse</code> object.
+     *
      * @return the last executed HEAD <code>HttpResponse</code> object
      * @throws IOException if IO error occurs
      */
@@ -212,6 +216,7 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
 
     /**
      * Execute the request using the given {@code httpRequest} and return a <code>HttpResponse</code> from the execution.
+     *
      * @param httpRequest <code>HttpUriRequest</code> object
      * @return <code>HttpResponse</code> from the execution
      * @throws IOException if IO error occurs

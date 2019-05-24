@@ -30,6 +30,7 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
  * A file in a Tar file system.
  */
 public class TarFileObject extends AbstractFileObject<TarFileSystem> {
+
     /** The TarArchiveEntry */
     private TarArchiveEntry entry;
     private final HashSet<String> children = new HashSet<>();
@@ -48,7 +49,7 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem> {
      * Sets the details for this file object.
      *
      * Consider this method package private. TODO Might be made package private in the next major version.
-     * 
+     *
      * @param entry Tar archive entry.
      */
     protected void setTarEntry(final TarArchiveEntry entry) {
