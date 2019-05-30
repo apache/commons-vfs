@@ -263,7 +263,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
     @Override
     public String toString() {
         try {
-            // VFS-325: URI may contain percent-encoded values as part of filename, so decode
+            // VFS-325: URI may contain percent-encoded values as part of file name, so decode
             // those characters before returning
             return UriParser.decode(getName().getURI());
         } catch (final FileSystemException e) {

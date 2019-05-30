@@ -60,12 +60,12 @@ public class LayeredFileNameParser extends AbstractFileNameParser {
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public FileName parseUri(final VfsComponentContext context, final FileName base, final String filename)
+    public FileName parseUri(final VfsComponentContext context, final FileName base, final String fileName)
             throws FileSystemException {
         final StringBuilder name = new StringBuilder();
 
         // Extract the scheme
-        final String scheme = UriParser.extractScheme(VFS.getManager().getSchemes(), filename, name);
+        final String scheme = UriParser.extractScheme(VFS.getManager().getSchemes(), fileName, name);
 
         // Extract the Layered file URI
         final String rootUriName = extractRootName(name);

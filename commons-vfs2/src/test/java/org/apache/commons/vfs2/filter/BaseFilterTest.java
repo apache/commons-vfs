@@ -281,10 +281,10 @@ public abstract class BaseFilterTest {
     public static String concatPathAndFilename(final String path, final String fileName, final String separator) {
 
         if (fileName == null) {
-            throw new IllegalArgumentException("filename cannot be null");
+            throw new IllegalArgumentException("file name cannot be null");
         }
         if (fileName.trim().length() == 0) {
-            throw new IllegalArgumentException("filename cannot be empty");
+            throw new IllegalArgumentException("file name cannot be empty");
         }
         if (separator == null) {
             throw new IllegalArgumentException("separator cannot be null");

@@ -43,13 +43,13 @@ public class HostFileNameParser extends AbstractFileNameParser {
     }
 
     @Override
-    public FileName parseUri(final VfsComponentContext context, final FileName base, final String filename)
+    public FileName parseUri(final VfsComponentContext context, final FileName base, final String fileName)
             throws FileSystemException {
         // FTP URI are generic URI (as per RFC 2396)
         final StringBuilder name = new StringBuilder();
 
         // Extract the scheme and authority parts
-        final Authority auth = extractToPath(filename, name);
+        final Authority auth = extractToPath(fileName, name);
 
         // Decode and normalise the file name
         UriParser.canonicalizePath(name, 0, name.length(), this);

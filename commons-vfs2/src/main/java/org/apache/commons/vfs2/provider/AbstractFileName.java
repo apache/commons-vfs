@@ -27,7 +27,7 @@ import org.apache.commons.vfs2.VFS;
  */
 public abstract class AbstractFileName implements FileName {
 
-    // URI Characters that are possible in local filenames, but must be escaped
+    // URI Characters that are possible in local file names, but must be escaped
     // for proper URI handling.
     //
     // How reserved URI chars were selected:
@@ -37,8 +37,8 @@ public abstract class AbstractFileName implements FileName {
     // http://tools.ietf.org/html/rfc3986#section-2.2
     //
     // Since : and / occur before the path, only chars after path are escaped (i.e., # and ?)
-    // ? is a reserved filesystem character for Windows and Unix, so can't be part of a filename.
-    // Therefore only # is a reserved char in a URI as part of the path that can be in the filename.
+    // ? is a reserved filesystem character for Windows and Unix, so can't be part of a file name.
+    // Therefore only # is a reserved char in a URI as part of the path that can be in the file name.
     private static final char[] RESERVED_URI_CHARS = { '#' };
 
     private final String scheme;
@@ -273,7 +273,7 @@ public abstract class AbstractFileName implements FileName {
     private String handleURISpecialCharacters(String uri) {
         if (uri != null && uri.length() > 0) {
             try {
-                // VFS-325: Handle URI special characters in filename
+                // VFS-325: Handle URI special characters in file name
                 // Decode the base uri and re-encode with URI special characters
                 uri = UriParser.decode(uri);
 
@@ -387,7 +387,7 @@ public abstract class AbstractFileName implements FileName {
             final int pos = baseName.lastIndexOf('.');
             // if ((pos == -1) || (pos == baseName.length() - 1))
             // imario@ops.co.at: Review of patch from adagoubard@chello.nl
-            // do not treat filenames like
+            // do not treat file names like
             // .bashrc c:\windows\.java c:\windows\.javaws c:\windows\.jedit c:\windows\.appletviewer
             // as extension
             if (pos < 1 || pos == baseName.length() - 1) {

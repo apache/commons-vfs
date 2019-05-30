@@ -1083,7 +1083,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                     final String file = files[i];
                     cache[i] = fileSystem.getFileSystemManager().resolveName(fileName, file, NameScope.CHILD);
                 }
-                // VFS-285: only assign the children filenames after all of them have been
+                // VFS-285: only assign the children file names after all of them have been
                 // resolved successfully to prevent an inconsistent internal state
                 children = cache;
             }

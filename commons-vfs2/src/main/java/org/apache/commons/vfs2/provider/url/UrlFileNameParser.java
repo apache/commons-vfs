@@ -90,11 +90,11 @@ public class UrlFileNameParser extends AbstractFileNameParser {
      * @param file name The file name.
      * @return number of slashes
      */
-    protected int countSlashes(final String filename) {
+    protected int countSlashes(final String fileName) {
         int state = 0;
         int nuofSlash = 0;
-        for (int pos = 0; pos < filename.length(); pos++) {
-            final char c = filename.charAt(pos);
+        for (int pos = 0; pos < fileName.length(); pos++) {
+            final char c = fileName.charAt(pos);
             if (state == 0) {
                 if (c >= 'a' && c <= 'z') {
                     continue;

@@ -805,7 +805,7 @@ public class DefaultFileSystemManager implements FileSystemManager, AutoCloseabl
         }
         final FileProvider provider = providers.get(scheme);
         if (provider != null) {
-            // TODO: extend the filename parser to be able to parse
+            // TODO: extend the file name parser to be able to parse
             // only a pathname and take the missing informations from
             // the base. Then we can get rid of the string operation.
             // // String fullPath = base.getRootURI() +
