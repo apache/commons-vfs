@@ -129,7 +129,7 @@ public enum Capability {
 
     /**
      * The provider itself do not provide a file system. It simply resolves a full name and dispatches the request back
-     * to the filesystemmanager.
+     * to the file system manager.
      * <p>
      * A provider with this capability cant tell much about the capabilities about the finally used file system in
      * advance.
