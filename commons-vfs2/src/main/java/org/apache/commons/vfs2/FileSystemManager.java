@@ -89,9 +89,9 @@ public interface FileSystemManager {
      * If you use VFS as singleton it is VERY dangerous to call this method.
      * </p>
      *
-     * @param filesystem The FileSystem to close.
+     * @param fileSystem The FileSystem to close.
      */
-    void closeFileSystem(FileSystem filesystem);
+    void closeFileSystem(FileSystem fileSystem);
 
     /**
      * Creates a layered file system. A layered file system is a file system that is created from the contents of a

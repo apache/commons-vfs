@@ -985,15 +985,15 @@ public class DefaultFileSystemManager implements FileSystemManager, AutoCloseabl
      * <p>
      * If you use VFS as singleton it is VERY dangerous to call this method.
      *
-     * @param filesystem The FileSystem to close.
+     * @param fileSystem The FileSystem to close.
      */
     @Override
-    public void closeFileSystem(final FileSystem filesystem) {
+    public void closeFileSystem(final FileSystem fileSystem) {
         // inform the cache ...
-        getFilesCache().clear(filesystem);
+        getFilesCache().clear(fileSystem);
 
         // just in case the cache didnt call _closeFileSystem
-        _closeFileSystem(filesystem);
+        _closeFileSystem(fileSystem);
     }
 
     /**
@@ -1002,15 +1002,15 @@ public class DefaultFileSystemManager implements FileSystemManager, AutoCloseabl
      * If you use VFS as singleton it is VERY dangerous to call this method
      * </p>
      *
-     * @param filesystem The FileSystem to close.
+     * @param fileSystem The FileSystem to close.
      */
-    public void _closeFileSystem(final FileSystem filesystem) {
-        final FileProvider provider = providers.get(filesystem.getRootName().getScheme());
+    public void _closeFileSystem(final FileSystem fileSystem) {
+        final FileProvider provider = providers.get(fileSystem.getRootName().getScheme());
         if (provider != null) {
-            ((AbstractFileProvider) provider).closeFileSystem(filesystem);
-        } else if (filesystem instanceof VirtualFileSystem) {
+            ((AbstractFileProvider) provider).closeFileSystem(fileSystem);
+        } else if (fileSystem instanceof VirtualFileSystem) {
             // vfsProvider does not implement AbstractFileProvider
-            vfsProvider.closeFileSystem(filesystem);
+            vfsProvider.closeFileSystem(fileSystem);
         }
     }
 

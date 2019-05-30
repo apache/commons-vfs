@@ -67,7 +67,7 @@ public interface FileProvider {
     /**
      * Gets the file system capabilities.
      * <p>
-     * These are the same as on the filesystem, but available before the first file system was instanciated.
+     * These are the same as on the file system, but available before the first file system was instanciated.
      * </p>
      *
      * @return a Collection of the file systems Capabilities.

@@ -151,10 +151,10 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
     /**
      * Close the FileSystem.
      *
-     * @param filesystem The FileSystem to close.
+     * @param fileSystem The FileSystem to close.
      */
-    public void closeFileSystem(final FileSystem filesystem) {
-        final AbstractFileSystem fs = (AbstractFileSystem) filesystem;
+    public void closeFileSystem(final FileSystem fileSystem) {
+        final AbstractFileSystem fs = (AbstractFileSystem) fileSystem;
 
         final FileSystemKey key = fs.getCacheKey();
         if (key != null) {

@@ -138,7 +138,7 @@ public enum Capability {
     DISPATCHER,
 
     /**
-     * A compressed filesystem is a file system which use compression.
+     * A compressed file system is a file system which use compression.
      */
     COMPRESS,
 
