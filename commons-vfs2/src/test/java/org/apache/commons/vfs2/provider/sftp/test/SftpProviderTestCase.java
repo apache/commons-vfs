@@ -89,7 +89,7 @@ import junit.framework.TestSuite;
 public class SftpProviderTestCase extends AbstractProviderTestConfig {
 
     /**
-     * The underlying filesystem
+     * The underlying file system
      */
     private SftpFileSystem fileSystem;
 

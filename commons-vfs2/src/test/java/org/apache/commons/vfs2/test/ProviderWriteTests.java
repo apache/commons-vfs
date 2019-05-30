@@ -319,7 +319,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
      */
 
     /**
-     * Tests file copy to and from the same filesystem type. This was a problem w/ FTP.
+     * Tests file copy to and from the same file system type. This was a problem w/ FTP.
      */
     public void testCopySameFileSystem() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
@@ -636,7 +636,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Tests file write to and from the same filesystem type
+     * Tests file write to and from the same file system type
      */
     public void testWriteSameFileSystem() throws Exception {
         final FileObject scratchFolder = createScratchFolder();

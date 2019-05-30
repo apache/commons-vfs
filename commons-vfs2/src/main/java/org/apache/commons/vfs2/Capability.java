@@ -128,22 +128,22 @@ public enum Capability {
     MANIFEST_ATTRIBUTES,
 
     /**
-     * The provider itself do not provide a filesystem. It simply resolves a full name and dispatches the request back
+     * The provider itself do not provide a file system. It simply resolves a full name and dispatches the request back
      * to the filesystemmanager.
      * <p>
-     * A provider with this capability cant tell much about the capabilities about the finally used filesystem in
+     * A provider with this capability cant tell much about the capabilities about the finally used file system in
      * advance.
      * </p>
      */
     DISPATCHER,
 
     /**
-     * A compressed filesystem is a filesystem which use compression.
+     * A compressed filesystem is a file system which use compression.
      */
     COMPRESS,
 
     /**
-     * A virtual filesystem can be an archive like tar or zip.
+     * A virtual file system can be an archive like tar or zip.
      */
     VIRTUAL,
 

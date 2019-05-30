@@ -85,9 +85,9 @@ final class DefaultVfsComponentContext implements VfsComponentContext {
     }
 
     /**
-     * Returns the filesystem manager for the current context
+     * Returns the file system manager for the current context
      *
-     * @return the filesystem manager
+     * @return the file system manager
      */
     @Override
     public FileSystemManager getFileSystemManager() {

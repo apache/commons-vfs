@@ -52,7 +52,7 @@ public interface FileSystem {
      * </p>
      *
      * @param capability The capability to check for.
-     * @return true if this filesystem has the requested capability. Note that not all files in the file system may have
+     * @return true if this file system has the requested capability. Note that not all files in the file system may have
      *         the capability.
      */
     boolean hasCapability(Capability capability);
@@ -165,7 +165,7 @@ public interface FileSystem {
     File replicateFile(FileObject file, FileSelector selector) throws FileSystemException;
 
     /**
-     * Returns the FileSystemOptions used to instantiate this filesystem.
+     * Returns the FileSystemOptions used to instantiate this file system.
      *
      * @return The FileSystemOptions.
      */

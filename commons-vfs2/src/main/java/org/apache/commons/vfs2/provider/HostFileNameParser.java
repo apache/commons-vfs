@@ -24,7 +24,7 @@ import org.apache.commons.vfs2.util.Cryptor;
 import org.apache.commons.vfs2.util.CryptorFactory;
 
 /**
- * Implementation for any url based filesystem.
+ * Implementation for any url based file system.
  * <p>
  * Parses the url into user/password/host/port/path. Does not handle a query string (after ?)
  * </p>

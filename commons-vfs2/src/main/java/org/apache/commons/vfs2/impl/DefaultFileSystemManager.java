@@ -67,7 +67,7 @@ public class DefaultFileSystemManager implements FileSystemManager, AutoCloseabl
     private final Map<String, FileProvider> providers = new HashMap<>();
 
     /**
-     * List of the schemes of virtual filesystems added.
+     * List of the schemes of virtual file systems added.
      */
     private final List<String> virtualFileSystemSchemes = new ArrayList<>();
 
@@ -579,7 +579,7 @@ public class DefaultFileSystemManager implements FileSystemManager, AutoCloseabl
     }
 
     /**
-     * Free all resources used by unused filesystems created by this manager.
+     * Free all resources used by unused file systems created by this manager.
      */
     public void freeUnusedResources() {
         if (!init) {
@@ -981,7 +981,7 @@ public class DefaultFileSystemManager implements FileSystemManager, AutoCloseabl
     }
 
     /**
-     * Closes the given filesystem.
+     * Closes the given file system.
      * <p>
      * If you use VFS as singleton it is VERY dangerous to call this method.
      *

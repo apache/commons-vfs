@@ -200,7 +200,7 @@ public abstract class AbstractFileName implements FileName {
     }
 
     /**
-     * find the root of the filesystem.
+     * find the root of the file system.
      *
      * @return The root FileName.
      */

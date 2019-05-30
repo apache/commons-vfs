@@ -25,7 +25,7 @@ import org.apache.commons.vfs2.provider.VfsComponentContext;
 import org.apache.commons.vfs2.provider.local.GenericFileNameParser;
 
 /**
- * Implementation for any java.net.url based filesystem.
+ * Implementation for any java.net.url based file system.
  * <p>
  * Composite of URLFilenameParser and GenericFilenameParser
  */

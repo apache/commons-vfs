@@ -22,7 +22,7 @@ import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.VFS;
 
 /**
- * Implementation for layered filesystems.
+ * Implementation for layered file systems.
  * <p>
  * Additionally encodes the '!' character.
  * </p>

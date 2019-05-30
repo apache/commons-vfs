@@ -90,7 +90,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     private FileSystemKey cacheKey;
 
     /**
-     * open streams counter for this filesystem
+     * open streams counter for this file system
      */
     private final AtomicInteger openStreams = new AtomicInteger(0);
 
@@ -389,7 +389,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * Returns the FileSystemOptions used to instantiate this filesystem.
+     * Returns the FileSystemOptions used to instantiate this file system.
      *
      * @return the FileSystemOptions.
      */
@@ -399,7 +399,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * Returns the FileSystemManager used to instantiate this filesystem.
+     * Returns the FileSystemManager used to instantiate this file system.
      *
      * @return the FileSystemManager.
      */
@@ -594,7 +594,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * Checks if this filesystem has open streams.
+     * Checks if this file system has open streams.
      *
      * @return true if the FileSystem has open streams.
      */

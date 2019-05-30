@@ -143,7 +143,7 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
     }
 
     /**
-     * Physically deletes the file from the filesystem.
+     * Physically deletes the file from the file system.
      *
      * @param file The File to delete.
      */

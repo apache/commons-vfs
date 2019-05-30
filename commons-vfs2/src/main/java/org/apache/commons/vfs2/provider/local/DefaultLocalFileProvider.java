@@ -100,7 +100,7 @@ public class DefaultLocalFileProvider extends AbstractOriginatingFileProvider im
     }
 
     /**
-     * Creates the filesystem.
+     * Creates the file system.
      */
     @Override
     protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)

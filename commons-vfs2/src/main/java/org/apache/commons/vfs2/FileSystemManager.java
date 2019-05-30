@@ -84,7 +84,7 @@ public interface FileSystemManager {
     boolean canCreateFileSystem(FileObject file) throws FileSystemException;
 
     /**
-     * Closes the given filesystem.
+     * Closes the given file system.
      * <p>
      * If you use VFS as singleton it is VERY dangerous to call this method.
      * </p>

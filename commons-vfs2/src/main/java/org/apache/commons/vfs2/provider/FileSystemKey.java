@@ -19,7 +19,7 @@ package org.apache.commons.vfs2.provider;
 import org.apache.commons.vfs2.FileSystemOptions;
 
 /**
- * Used to identify a filesystem
+ * Used to identify a file system
  */
 class FileSystemKey implements Comparable<FileSystemKey> {
 
