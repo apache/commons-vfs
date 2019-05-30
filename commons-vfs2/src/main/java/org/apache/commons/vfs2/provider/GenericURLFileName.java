@@ -42,7 +42,7 @@ public class GenericURLFileName extends GenericFileName {
     /**
      * Gets the query string.
      *
-     * @return the query string part of the filename
+     * @return the query string part of the file name
      */
     public String getQueryString() {
         return queryString;

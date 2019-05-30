@@ -55,7 +55,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser {
      *
      * @param context The component context.
      * @param base The base FileName.
-     * @param filename The target file name.
+     * @param file name The target file name.
      * @return The constructed FileName.
      * @throws FileSystemException if an error occurs.
      */

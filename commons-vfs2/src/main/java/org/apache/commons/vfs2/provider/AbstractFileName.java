@@ -91,7 +91,7 @@ public abstract class AbstractFileName implements FileName {
     /**
      * Implement Comparable.
      *
-     * @param obj another abstract filename
+     * @param obj another abstract file name
      * @return negative number if less than, 0 if equal, positive if greater than.
      */
     @Override

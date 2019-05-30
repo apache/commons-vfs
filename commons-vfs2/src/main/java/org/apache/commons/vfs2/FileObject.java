@@ -373,7 +373,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
      * If the destFile exists, it is deleted first.
      * </p>
      *
-     * @param destFile the New filename.
+     * @param destFile the New file name.
      * @throws FileSystemException If this file is read-only, or if the source file does not exist, or on error copying
      *             the file.
      */

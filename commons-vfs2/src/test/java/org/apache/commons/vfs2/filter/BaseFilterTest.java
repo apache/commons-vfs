@@ -97,20 +97,20 @@ public abstract class BaseFilterTest {
      * Asserts that the array contains the given file names.
      *
      * @param files     Array to check.
-     * @param filenames File names to find.
+     * @param file names File names to find.
      */
-    protected void assertContains(final FileObject[] files, final String... filenames) {
-        for (final String filename : filenames) {
-            if (!find(files, filename)) {
-                fail("File '" + filename + "' not found in: " + Arrays.asList(files));
+    protected void assertContains(final FileObject[] files, final String... fileNames) {
+        for (final String fileName : fileNames) {
+            if (!find(files, fileName)) {
+                fail("File '" + fileName + "' not found in: " + Arrays.asList(files));
             }
         }
     }
 
-    private boolean find(final FileObject[] files, final String filename) {
+    private boolean find(final FileObject[] files, final String fileName) {
         for (final FileObject file : files) {
             final String name = file.getName().getBaseName();
-            if (name.equals(filename)) {
+            if (name.equals(fileName)) {
                 return true;
             }
         }
@@ -268,22 +268,22 @@ public abstract class BaseFilterTest {
     }
 
     /**
-     * Concatenate a path and a filename taking <code>null</code> and empty string
+     * Concatenate a path and a file name taking <code>null</code> and empty string
      * values into account.
      *
      * @param path      Path - Can be <code>null</code> or an empty string.
-     * @param filename  Filename - Cannot be <code>null</code>.
+     * @param fileName  Filename - Cannot be <code>null</code>.
      * @param separator Separator for directories - Can be <code>null</code> or an
      *                  empty string.
      *
-     * @return Path and filename divided by the separator.
+     * @return Path and file name divided by the separator.
      */
-    public static String concatPathAndFilename(final String path, final String filename, final String separator) {
+    public static String concatPathAndFilename(final String path, final String fileName, final String separator) {
 
-        if (filename == null) {
+        if (fileName == null) {
             throw new IllegalArgumentException("filename cannot be null");
         }
-        if (filename.trim().length() == 0) {
+        if (fileName.trim().length() == 0) {
             throw new IllegalArgumentException("filename cannot be empty");
         }
         if (separator == null) {
@@ -294,13 +294,13 @@ public abstract class BaseFilterTest {
         }
 
         if (path == null) {
-            return filename;
+            return fileName;
         }
         final String trimmedPath = path.trim();
         if (trimmedPath.length() == 0) {
-            return filename;
+            return fileName;
         }
-        final String trimmedFilename = filename.trim();
+        final String trimmedFilename = fileName.trim();
         if (trimmedPath.endsWith(separator)) {
             return trimmedPath + trimmedFilename;
         }

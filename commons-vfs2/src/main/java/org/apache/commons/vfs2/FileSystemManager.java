@@ -297,7 +297,7 @@ public interface FileSystemManager {
      * Resolves a name, relative to this file name. Equivalent to calling
      * {@code resolveName( path, NameScope.FILE_SYSTEM )}.
      *
-     * @param root the base filename
+     * @param root the base file name
      * @param name The name to resolve.
      * @return A {@link FileName} object representing the resolved file name.
      * @throws FileSystemException If the name is invalid.
@@ -308,7 +308,7 @@ public interface FileSystemManager {
      * Resolves a name, relative to the "root" file name. Refer to {@link NameScope} for a description of how names are
      * resolved.
      *
-     * @param root the base filename
+     * @param root the base file name
      * @param name The name to resolve.
      * @param scope The {@link NameScope} to use when resolving the name.
      * @return A {@link FileName} object representing the resolved file name.
@@ -317,7 +317,7 @@ public interface FileSystemManager {
     FileName resolveName(FileName root, String name, NameScope scope) throws FileSystemException;
 
     /**
-     * Resolves the uri to a filename.
+     * Resolves the uri to a file name.
      *
      * @param uri The uri to resolve.
      * @return A FileName that matches the uri.

@@ -72,22 +72,22 @@ public class UrlFileNameParser extends AbstractFileNameParser {
      * {@code http://host/path}, {@code file:/path/to/file}, {@code file:///path/to/file}.
      * </p>
      *
-     * @param base The filename is relative to this base.
-     * @param filename The filename.
-     * @return true if filename contains two slashes or base was URLFileName.
+     * @param base The file name is relative to this base.
+     * @param fileName The file name.
+     * @return true if file name contains two slashes or base was URLFileName.
      */
-    protected boolean isUrlBased(final FileName base, final String filename) {
+    protected boolean isUrlBased(final FileName base, final String fileName) {
         if (base instanceof URLFileName) {
             return true;
         }
 
-        return countSlashes(filename) == 2;
+        return countSlashes(fileName) == 2;
     }
 
     /**
      * This method counts the slashes after the scheme.
      *
-     * @param filename The file name.
+     * @param file name The file name.
      * @return number of slashes
      */
     protected int countSlashes(final String filename) {

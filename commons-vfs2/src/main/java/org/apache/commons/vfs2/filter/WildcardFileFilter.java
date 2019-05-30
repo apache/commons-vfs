@@ -62,7 +62,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
     /** Whether the comparison is case sensitive. */
     private final IOCase caseSensitivity;
 
-    /** The wildcards that will be used to match filenames. */
+    /** The wildcards that will be used to match file names. */
     private final List<String> wildcards;
 
     /**
@@ -119,11 +119,11 @@ public class WildcardFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Checks to see if the filename matches one of the wildcards.
+     * Checks to see if the file name matches one of the wildcards.
      *
      * @param fileInfo the file to check
      *
-     * @return true if the filename matches one of the wildcards
+     * @return true if the file name matches one of the wildcards
      */
     @Override
     public boolean accept(final FileSelectInfo fileInfo) {
@@ -202,7 +202,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
     // CHECKSTYLE:ON
 
     /**
-     * Checks a filename to see if it matches the specified wildcard matcher
+     * Checks a file name to see if it matches the specified wildcard matcher
      * allowing control over case-sensitivity.
      * <p>
      * The wildcard matcher uses the characters '?' and '*' to represent a single or
@@ -210,19 +210,19 @@ public class WildcardFileFilter implements FileFilter, Serializable {
      * work properly at present in match strings.
      * </p>
      *
-     * @param filename        the filename to match on
+     * @param fileName        the file name to match on
      * @param wildcardMatcher the wildcard string to match against
      * @param caseSensitivity what case sensitivity rule to use, null means
      *                        case-sensitive
      *
-     * @return true if the filename matches the wilcard string
+     * @return true if the file name matches the wilcard string
      */
     // CHECKSTYLE:OFF TODO xxx Cyclomatic complexity of 19 should be refactored
-    static boolean wildcardMatch(final String filename, final String wildcardMatcher, IOCase caseSensitivity) {
-        if (filename == null && wildcardMatcher == null) {
+    static boolean wildcardMatch(final String fileName, final String wildcardMatcher, IOCase caseSensitivity) {
+        if (fileName == null && wildcardMatcher == null) {
             return true;
         }
-        if (filename == null || wildcardMatcher == null) {
+        if (fileName == null || wildcardMatcher == null) {
             return false;
         }
         if (caseSensitivity == null) {
@@ -249,7 +249,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
                 if (wcs[wcsIdx].equals("?")) {
                     // ? so move to next text char
                     textIdx++;
-                    if (textIdx > filename.length()) {
+                    if (textIdx > fileName.length()) {
                         break;
                     }
                     anyChars = false;
@@ -258,25 +258,25 @@ public class WildcardFileFilter implements FileFilter, Serializable {
                     // set any chars status
                     anyChars = true;
                     if (wcsIdx == wcs.length - 1) {
-                        textIdx = filename.length();
+                        textIdx = fileName.length();
                     }
 
                 } else {
                     // matching text token
                     if (anyChars) {
                         // any chars then try to locate text token
-                        textIdx = caseSensitivity.checkIndexOf(filename, textIdx, wcs[wcsIdx]);
+                        textIdx = caseSensitivity.checkIndexOf(fileName, textIdx, wcs[wcsIdx]);
                         if (textIdx == -1) {
                             // token not found
                             break;
                         }
-                        final int repeat = caseSensitivity.checkIndexOf(filename, textIdx + 1, wcs[wcsIdx]);
+                        final int repeat = caseSensitivity.checkIndexOf(fileName, textIdx + 1, wcs[wcsIdx]);
                         if (repeat >= 0) {
                             backtrack.push(new int[] { wcsIdx, repeat });
                         }
                     } else {
                         // matching from current position
-                        if (!caseSensitivity.checkRegionMatches(filename, textIdx, wcs[wcsIdx])) {
+                        if (!caseSensitivity.checkRegionMatches(fileName, textIdx, wcs[wcsIdx])) {
                             // couldnt match token
                             break;
                         }
@@ -292,7 +292,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
             }
 
             // full match
-            if (wcsIdx == wcs.length && textIdx == filename.length()) {
+            if (wcsIdx == wcs.length && textIdx == fileName.length()) {
                 return true;
             }
 

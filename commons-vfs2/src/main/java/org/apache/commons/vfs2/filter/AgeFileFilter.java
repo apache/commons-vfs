@@ -170,7 +170,7 @@ public class AgeFileFilter implements FileFilter, Serializable {
      *
      * @param fileInfo the File to check
      *
-     * @return true if the filename matches
+     * @return true if the file name matches
      * @throws FileSystemException Thrown for file system errors.
      */
     @Override

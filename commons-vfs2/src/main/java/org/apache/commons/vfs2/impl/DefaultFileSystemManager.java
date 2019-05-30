@@ -221,7 +221,7 @@ public class DefaultFileSystemManager implements FileSystemManager, AutoCloseabl
     }
 
     /**
-     * Adds an filename extension mapping.
+     * Adds an file name extension mapping.
      *
      * @param extension The file name extension.
      * @param scheme The scheme to use for files with this extension.
@@ -753,7 +753,7 @@ public class DefaultFileSystemManager implements FileSystemManager, AutoCloseabl
     /**
      * Resolves a name, relative to the root.
      *
-     * @param base the base filename
+     * @param base the base file name
      * @param name the name
      * @param scope the {@link NameScope}
      * @return The FileName of the file.
@@ -825,7 +825,7 @@ public class DefaultFileSystemManager implements FileSystemManager, AutoCloseabl
     }
 
     /**
-     * Resolve the uri to a filename.
+     * Resolve the uri to a file name.
      *
      * @param uri The URI to resolve.
      * @return The FileName of the file.

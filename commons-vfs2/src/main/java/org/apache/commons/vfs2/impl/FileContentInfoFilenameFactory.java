@@ -26,7 +26,7 @@ import org.apache.commons.vfs2.FileContentInfoFactory;
 /**
  * The FileContentInfoFilenameFactory.
  * <p>
- * Uses the filename extension to determine the content-type. The content-encoding is not resolved.
+ * Uses the file name extension to determine the content-type. The content-encoding is not resolved.
  */
 public class FileContentInfoFilenameFactory implements FileContentInfoFactory {
     @Override

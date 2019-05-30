@@ -25,7 +25,7 @@ import org.apache.commons.vfs2.FileFilter;
 import org.apache.commons.vfs2.FileSelectInfo;
 
 /**
- * Filters filenames for a certain prefix.
+ * Filters file names for a certain prefix.
  * <p>
  * For example, to print all files and directories in the current directory
  * whose name starts with a <code>.</code>:
@@ -51,7 +51,7 @@ public class PrefixFileFilter implements FileFilter, Serializable {
     /** Whether the comparison is case sensitive. */
     private final IOCase caseSensitivity;
 
-    /** The filename prefixes to search for. */
+    /** The file name prefixes to search for. */
     private final List<String> prefixes;
 
     /**
@@ -108,11 +108,11 @@ public class PrefixFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Checks to see if the filename starts with the prefix.
+     * Checks to see if the file name starts with the prefix.
      *
      * @param fileInfo the File to check
      *
-     * @return true if the filename starts with one of our prefixes
+     * @return true if the file name starts with one of our prefixes
      */
     @Override
     public boolean accept(final FileSelectInfo fileInfo) {

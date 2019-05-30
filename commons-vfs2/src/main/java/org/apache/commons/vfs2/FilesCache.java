@@ -61,14 +61,14 @@ public interface FilesCache {
      * Removes a file from cache.
      *
      * @param fileSystem file system
-     * @param name filename
+     * @param name file name
      */
     void removeFile(final FileSystem fileSystem, final FileName name);
 
     /**
      * If the cache uses timestamps it could use this method to handle updates of them.
      *
-     * @param file filename
+     * @param file file name
      */
     // public void touchFile(final FileObject file);
 }
