@@ -26,7 +26,6 @@ import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 /**
  * Additional URL tests for local file system.
  *
- * @version $Revision$
  */
 public class UrlTests extends AbstractProviderTestCase {
     /**
