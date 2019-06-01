@@ -28,9 +28,9 @@
     <relativePath>../</relativePath>
   </parent>
 
-  <name>Apache Commons VFS Jackrabbit3</name>
-  <artifactId>commons-vfs2-jackrabbit3</artifactId>
-  <description>Apache Commons VFS is a Virtual File System library - Jackrabbit3-based WebDAV provider.</description>
+  <name>Apache Commons VFS Jackrabbit</name>
+  <artifactId>commons-vfs2-jackrabbit</artifactId>
+  <description>Apache Commons VFS is a Virtual File System library - Jackrabbit-based WebDAV provider.</description>
 
   <dependencies>
 
@@ -45,6 +45,11 @@
     </dependency>
 
     <dependency>
+      <groupId>commons-httpclient</groupId>
+      <artifactId>commons-httpclient</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
     </dependency>
@@ -52,13 +57,7 @@
     <dependency>
       <groupId>org.apache.jackrabbit</groupId>
       <artifactId>jackrabbit-webdav</artifactId>
-      <version>${jackrabbit3.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>jcl-over-slf4j</artifactId>
-        </exclusion>
-      </exclusions>
+      <version>${jackrabbit.version}</version>
     </dependency>
 
     <dependency>
@@ -92,10 +91,10 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Test WebDAV with Apache Jackrabbit3 Standalone Components -->
+    <!-- Test WebDAV with Apache Jackrabbit Standalone Components -->
     <dependency>
       <groupId>org.apache.jackrabbit</groupId>
-      <artifactId>jackrabbit-standalone-components</artifactId>
+      <artifactId>jackrabbit-standalone</artifactId>
       <scope>test</scope>
     </dependency>
 

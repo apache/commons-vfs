@@ -45,11 +45,6 @@
     </dependency>
 
     <dependency>
-      <groupId>commons-httpclient</groupId>
-      <artifactId>commons-httpclient</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
     </dependency>
@@ -58,6 +53,12 @@
       <groupId>org.apache.jackrabbit</groupId>
       <artifactId>jackrabbit-webdav</artifactId>
       <version>${jackrabbit2.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>jcl-over-slf4j</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
@@ -91,10 +92,10 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Test WebDAV with Apache Jackrabbit Standalone Components -->
+    <!-- Test WebDAV with Apache Jackrabbit2 Standalone Components -->
     <dependency>
       <groupId>org.apache.jackrabbit</groupId>
-      <artifactId>jackrabbit-standalone</artifactId>
+      <artifactId>jackrabbit-standalone-components</artifactId>
       <scope>test</scope>
     </dependency>
 
