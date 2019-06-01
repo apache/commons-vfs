@@ -53,7 +53,7 @@ public class RegexFileFilter implements FileFilter, Serializable {
     /** Exception message when no pattern is given in the constructor. */
     public static final String PATTERN_IS_MISSING = "Pattern is missing";
 
-    /** The regular expression pattern that will be used to match filenames. */
+    /** The regular expression pattern that will be used to match file names. */
     private final Pattern pattern;
 
     /**
@@ -115,7 +115,7 @@ public class RegexFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Checks to see if the filename matches one of the regular expressions.
+     * Checks to see if the file name matches one of the regular expressions.
      *
      * @param fileInfo the File to check
      *

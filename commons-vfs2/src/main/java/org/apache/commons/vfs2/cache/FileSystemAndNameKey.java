@@ -22,7 +22,7 @@ import org.apache.commons.vfs2.FileSystem;
 /**
  * Key for various cache implementations.
  * <p>
- * It compares the fileSystem (by hashCode) and the filename.
+ * It compares the fileSystem (by hashCode) and the file name.
  * </p>
  */
 class FileSystemAndNameKey implements Comparable<FileSystemAndNameKey> {

@@ -67,7 +67,7 @@ public class DefaultFileSystemManager implements FileSystemManager, AutoCloseabl
     private final Map<String, FileProvider> providers = new HashMap<>();
 
     /**
-     * List of the schemes of virtual filesystems added.
+     * List of the schemes of virtual file systems added.
      */
     private final List<String> virtualFileSystemSchemes = new ArrayList<>();
 
@@ -221,7 +221,7 @@ public class DefaultFileSystemManager implements FileSystemManager, AutoCloseabl
     }
 
     /**
-     * Adds an filename extension mapping.
+     * Adds an file name extension mapping.
      *
      * @param extension The file name extension.
      * @param scheme The scheme to use for files with this extension.
@@ -579,7 +579,7 @@ public class DefaultFileSystemManager implements FileSystemManager, AutoCloseabl
     }
 
     /**
-     * Free all resources used by unused filesystems created by this manager.
+     * Free all resources used by unused file systems created by this manager.
      */
     public void freeUnusedResources() {
         if (!init) {
@@ -753,7 +753,7 @@ public class DefaultFileSystemManager implements FileSystemManager, AutoCloseabl
     /**
      * Resolves a name, relative to the root.
      *
-     * @param base the base filename
+     * @param base the base file name
      * @param name the name
      * @param scope the {@link NameScope}
      * @return The FileName of the file.
@@ -805,7 +805,7 @@ public class DefaultFileSystemManager implements FileSystemManager, AutoCloseabl
         }
         final FileProvider provider = providers.get(scheme);
         if (provider != null) {
-            // TODO: extend the filename parser to be able to parse
+            // TODO: extend the file name parser to be able to parse
             // only a pathname and take the missing informations from
             // the base. Then we can get rid of the string operation.
             // // String fullPath = base.getRootURI() +
@@ -825,7 +825,7 @@ public class DefaultFileSystemManager implements FileSystemManager, AutoCloseabl
     }
 
     /**
-     * Resolve the uri to a filename.
+     * Resolve the uri to a file name.
      *
      * @param uri The URI to resolve.
      * @return The FileName of the file.
@@ -981,19 +981,19 @@ public class DefaultFileSystemManager implements FileSystemManager, AutoCloseabl
     }
 
     /**
-     * Closes the given filesystem.
+     * Closes the given file system.
      * <p>
      * If you use VFS as singleton it is VERY dangerous to call this method.
      *
-     * @param filesystem The FileSystem to close.
+     * @param fileSystem The FileSystem to close.
      */
     @Override
-    public void closeFileSystem(final FileSystem filesystem) {
+    public void closeFileSystem(final FileSystem fileSystem) {
         // inform the cache ...
-        getFilesCache().clear(filesystem);
+        getFilesCache().clear(fileSystem);
 
         // just in case the cache didnt call _closeFileSystem
-        _closeFileSystem(filesystem);
+        _closeFileSystem(fileSystem);
     }
 
     /**
@@ -1002,15 +1002,15 @@ public class DefaultFileSystemManager implements FileSystemManager, AutoCloseabl
      * If you use VFS as singleton it is VERY dangerous to call this method
      * </p>
      *
-     * @param filesystem The FileSystem to close.
+     * @param fileSystem The FileSystem to close.
      */
-    public void _closeFileSystem(final FileSystem filesystem) {
-        final FileProvider provider = providers.get(filesystem.getRootName().getScheme());
+    public void _closeFileSystem(final FileSystem fileSystem) {
+        final FileProvider provider = providers.get(fileSystem.getRootName().getScheme());
         if (provider != null) {
-            ((AbstractFileProvider) provider).closeFileSystem(filesystem);
-        } else if (filesystem instanceof VirtualFileSystem) {
+            ((AbstractFileProvider) provider).closeFileSystem(fileSystem);
+        } else if (fileSystem instanceof VirtualFileSystem) {
             // vfsProvider does not implement AbstractFileProvider
-            vfsProvider.closeFileSystem(filesystem);
+            vfsProvider.closeFileSystem(fileSystem);
         }
     }
 

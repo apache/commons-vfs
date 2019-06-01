@@ -174,9 +174,9 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * Queries the object if a simple rename to the filename of {@code newfile} is possible.
+     * Queries the object if a simple rename to the file name of {@code newfile} is possible.
      *
-     * @param newfile the new filename
+     * @param newfile the new file name
      * @return true if rename is possible
      */
     @Override
@@ -721,7 +721,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Checks if this fileObject is the same file as {@code destFile} just with a different name. E.g. for case
-     * insensitive filesystems like windows.
+     * insensitive file systems like windows.
      *
      * @param destFile The file to compare to.
      * @return true if the FileObjects are the same.
@@ -1083,7 +1083,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                     final String file = files[i];
                     cache[i] = fileSystem.getFileSystemManager().resolveName(fileName, file, NameScope.CHILD);
                 }
-                // VFS-285: only assign the children filenames after all of them have been
+                // VFS-285: only assign the children file names after all of them have been
                 // resolved successfully to prevent an inconsistent internal state
                 children = cache;
             }
@@ -1203,7 +1203,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * stream to use to write the content of the file to.
      *
      * @param bAppend true when append to the file.
-     *            Note: If the underlying filesystem does not support appending, a FileSystemException is thrown.
+     *            Note: If the underlying file system does not support appending, a FileSystemException is thrown.
      * @return An OutputStream where the new contents of the file can be written.
      * @throws FileSystemException if an error occurs; for example:
      *             bAppend is true, and the underlying FileSystem does not support it
@@ -1421,7 +1421,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * This method is meant to add an object where this object holds a strong reference then. E.g. a archive-filesystem
+     * This method is meant to add an object where this object holds a strong reference then. E.g. a archive-file system
      * creates a list of all children and they shouldn't get garbage collected until the container is garbage collected
      *
      * @param strongRef The Object to add.
@@ -1537,7 +1537,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Checks if this fileObject is the same file as {@code destFile} just with a different name. E.g. for case
-     * insensitive filesystems like windows.
+     * insensitive file systems like windows.
      *
      * @param destFile The file to compare to.
      * @return true if the FileObjects are the same.
@@ -1714,7 +1714,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * This will prepare the fileObject to get resynchronized with the underlying filesystem if required.
+     * This will prepare the fileObject to get resynchronized with the underlying file system if required.
      *
      * @throws FileSystemException if an error occurs.
      */

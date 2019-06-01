@@ -26,11 +26,10 @@ import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 /**
  * Additional URL tests for local file system.
  *
- * @version $Revision$
  */
 public class UrlTests extends AbstractProviderTestCase {
     /**
-     * Tests FindFiles with a filename that has a hash sign in it.
+     * Tests FindFiles with a file name that has a hash sign in it.
      */
     public void testHashFindFiles() throws Exception {
         final FileSystemManager fsManager = VFS.getManager();

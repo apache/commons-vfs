@@ -42,7 +42,7 @@ public class GenericURLFileName extends GenericFileName {
     /**
      * Gets the query string.
      *
-     * @return the query string part of the filename
+     * @return the query string part of the file name
      */
     public String getQueryString() {
         return queryString;
@@ -63,7 +63,7 @@ public class GenericURLFileName extends GenericFileName {
     }
 
     /**
-     * Gets the path encoded suitable for url like filesystem e.g. (http, webdav).
+     * Gets the path encoded suitable for url like file system e.g. (http, webdav).
      *
      * @param charset the charset used for the path encoding
      * @return The encoded path.

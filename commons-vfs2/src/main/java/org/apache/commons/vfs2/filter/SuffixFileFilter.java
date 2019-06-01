@@ -25,7 +25,7 @@ import org.apache.commons.vfs2.FileFilter;
 import org.apache.commons.vfs2.FileSelectInfo;
 
 /**
- * Filters files based on the suffix (what the filename ends with). This is used
+ * Filters files based on the suffix (what the file name ends with). This is used
  * in retrieving all the files of a particular type.
  * <p>
  * For example, to retrieve and print all <code>*.java</code> files in the
@@ -52,7 +52,7 @@ public class SuffixFileFilter implements FileFilter, Serializable {
     /** Whether the comparison is case sensitive. */
     private final IOCase caseSensitivity;
 
-    /** The filename suffixes to search for. */
+    /** The file name suffixes to search for. */
     private final List<String> suffixes;
 
     /**
@@ -106,11 +106,11 @@ public class SuffixFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Checks to see if the filename ends with the suffix.
+     * Checks to see if the file name ends with the suffix.
      *
      * @param fileInfo the File to check
      *
-     * @return true if the filename ends with one of our suffixes
+     * @return true if the file name ends with one of our suffixes
      */
     @Override
     public boolean accept(final FileSelectInfo fileInfo) {

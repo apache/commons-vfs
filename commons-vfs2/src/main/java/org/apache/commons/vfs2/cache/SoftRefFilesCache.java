@@ -247,7 +247,7 @@ public class SoftRefFilesCache extends AbstractFilesCache {
         }
         /*
          * This is not thread-safe as another thread might be opening the file system ((DefaultFileSystemManager)
-         * getContext().getFileSystemManager()) ._closeFileSystem(filesystem);
+         * getContext().getFileSystemManager()).closeFileSystem(fileSystem);
          */
     }
 

@@ -26,7 +26,7 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.AbstractVfsContainer;
 
 /**
- * A virtual filesystem provider.
+ * A virtual file system provider.
  */
 public class VirtualFileProvider extends AbstractVfsContainer {
 
@@ -66,10 +66,10 @@ public class VirtualFileProvider extends AbstractVfsContainer {
      * This gets called from DefaultFileManager#_closeFileSystem.
      * </p>
      *
-     * @param filesystem the file system remembered by this provider.
+     * @param fileSystem the file system remembered by this provider.
      */
-    void closeFileSystem(final FileSystem filesystem) {
-        final AbstractFileSystem fs = (AbstractFileSystem) filesystem;
+    void closeFileSystem(final FileSystem fileSystem) {
+        final AbstractFileSystem fs = (AbstractFileSystem) fileSystem;
 
         removeComponent(fs);
         fs.close();

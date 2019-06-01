@@ -20,7 +20,7 @@ import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 
 /**
- * Provides methods to parse a filename into a {@link org.apache.commons.vfs2.FileName}.
+ * Provides methods to parse a file name into a {@link org.apache.commons.vfs2.FileName}.
  */
 public interface FileNameParser {
 
@@ -33,7 +33,7 @@ public interface FileNameParser {
     boolean encodeCharacter(char ch);
 
     /**
-     * Parses a String into a filename.
+     * Parses a String into a file name.
      *
      * @param context The component context.
      * @param base The base FileName.

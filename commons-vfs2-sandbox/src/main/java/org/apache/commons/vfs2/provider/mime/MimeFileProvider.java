@@ -44,7 +44,7 @@ public class MimeFileProvider extends AbstractLayeredFileProvider implements Fil
     }
 
     /**
-     * Creates the filesystem.
+     * Creates the file system.
      */
     @Override
     protected FileSystem doCreateFileSystem(final String scheme, final FileObject file,

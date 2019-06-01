@@ -39,11 +39,11 @@ public interface FilesCache {
     /**
      * Retrieves a FileObject from the cache by name.
      *
-     * @param filesystem The FileSystem.
+     * @param file system The FileSystem.
      * @param name the name
      * @return the file object or null if file is not cached
      */
-    FileObject getFile(final FileSystem filesystem, final FileName name);
+    FileObject getFile(final FileSystem fileSystem, final FileName name);
 
     /**
      * Purges the entries corresponding to the FileSystem.
@@ -60,15 +60,15 @@ public interface FilesCache {
     /**
      * Removes a file from cache.
      *
-     * @param filesystem filesystem
-     * @param name filename
+     * @param fileSystem file system
+     * @param name file name
      */
-    void removeFile(final FileSystem filesystem, final FileName name);
+    void removeFile(final FileSystem fileSystem, final FileName name);
 
     /**
      * If the cache uses timestamps it could use this method to handle updates of them.
      *
-     * @param file filename
+     * @param file file name
      */
     // public void touchFile(final FileObject file);
 }

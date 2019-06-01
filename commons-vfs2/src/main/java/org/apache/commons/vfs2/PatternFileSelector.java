@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
  * <p>
  * The regular expression specified in one of the constructors is
  * {@linkplain Matcher#matches() matched} against {@link FileName#getPath()}
- * of all candidate files. If you want to match only against the base filename,
+ * of all candidate files. If you want to match only against the base file name,
  * make sure to prefix the pattern with {@code ".*\\/"}.
  * </p>
  *

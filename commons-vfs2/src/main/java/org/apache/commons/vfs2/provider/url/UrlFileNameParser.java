@@ -25,7 +25,7 @@ import org.apache.commons.vfs2.provider.VfsComponentContext;
 import org.apache.commons.vfs2.provider.local.GenericFileNameParser;
 
 /**
- * Implementation for any java.net.url based filesystem.
+ * Implementation for any java.net.url based file system.
  * <p>
  * Composite of URLFilenameParser and GenericFilenameParser
  */
@@ -72,29 +72,29 @@ public class UrlFileNameParser extends AbstractFileNameParser {
      * {@code http://host/path}, {@code file:/path/to/file}, {@code file:///path/to/file}.
      * </p>
      *
-     * @param base The filename is relative to this base.
-     * @param filename The filename.
-     * @return true if filename contains two slashes or base was URLFileName.
+     * @param base The file name is relative to this base.
+     * @param fileName The file name.
+     * @return true if file name contains two slashes or base was URLFileName.
      */
-    protected boolean isUrlBased(final FileName base, final String filename) {
+    protected boolean isUrlBased(final FileName base, final String fileName) {
         if (base instanceof URLFileName) {
             return true;
         }
 
-        return countSlashes(filename) == 2;
+        return countSlashes(fileName) == 2;
     }
 
     /**
      * This method counts the slashes after the scheme.
      *
-     * @param filename The file name.
+     * @param file name The file name.
      * @return number of slashes
      */
-    protected int countSlashes(final String filename) {
+    protected int countSlashes(final String fileName) {
         int state = 0;
         int nuofSlash = 0;
-        for (int pos = 0; pos < filename.length(); pos++) {
-            final char c = filename.charAt(pos);
+        for (int pos = 0; pos < fileName.length(); pos++) {
+            final char c = fileName.charAt(pos);
             if (state == 0) {
                 if (c >= 'a' && c <= 'z') {
                     continue;

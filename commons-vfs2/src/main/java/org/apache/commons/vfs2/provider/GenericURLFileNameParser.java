@@ -21,7 +21,7 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 
 /**
- * Generic implementation for any url based filesystem, without depending a specific library.
+ * Generic implementation for any url based file system, without depending a specific library.
  * <p>
  * Parses the url into user/password/host/port/path/queryString.
  * </p>
@@ -38,13 +38,13 @@ public class GenericURLFileNameParser extends HostFileNameParser {
     }
 
     @Override
-    public FileName parseUri(final VfsComponentContext context, final FileName base, final String filename)
+    public FileName parseUri(final VfsComponentContext context, final FileName base, final String fileName)
             throws FileSystemException {
         // FTP URI are generic URI (as per RFC 2396)
         final StringBuilder name = new StringBuilder();
 
         // Extract the scheme and authority parts
-        final Authority auth = extractToPath(filename, name);
+        final Authority auth = extractToPath(fileName, name);
 
         // Extract the queryString
         final String queryString = UriParser.extractQueryString(name);

@@ -60,7 +60,7 @@ public class FtpFileProvider extends AbstractOriginatingFileProvider {
     }
 
     /**
-     * Creates the filesystem.
+     * Creates the file system.
      */
     @Override
     protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)

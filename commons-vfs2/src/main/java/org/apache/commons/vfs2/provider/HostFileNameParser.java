@@ -24,7 +24,7 @@ import org.apache.commons.vfs2.util.Cryptor;
 import org.apache.commons.vfs2.util.CryptorFactory;
 
 /**
- * Implementation for any url based filesystem.
+ * Implementation for any url based file system.
  * <p>
  * Parses the url into user/password/host/port/path. Does not handle a query string (after ?)
  * </p>
@@ -43,13 +43,13 @@ public class HostFileNameParser extends AbstractFileNameParser {
     }
 
     @Override
-    public FileName parseUri(final VfsComponentContext context, final FileName base, final String filename)
+    public FileName parseUri(final VfsComponentContext context, final FileName base, final String fileName)
             throws FileSystemException {
         // FTP URI are generic URI (as per RFC 2396)
         final StringBuilder name = new StringBuilder();
 
         // Extract the scheme and authority parts
-        final Authority auth = extractToPath(filename, name);
+        final Authority auth = extractToPath(fileName, name);
 
         // Decode and normalise the file name
         UriParser.canonicalizePath(name, 0, name.length(), this);

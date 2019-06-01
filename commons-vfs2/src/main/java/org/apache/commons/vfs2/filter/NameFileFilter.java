@@ -25,7 +25,7 @@ import org.apache.commons.vfs2.FileFilter;
 import org.apache.commons.vfs2.FileSelectInfo;
 
 /**
- * Filters filenames for a certain name.
+ * Filters file names for a certain name.
  * <p>
  * For example, to print all files and directories in the current directory
  * whose name is <code>Test</code>:
@@ -109,11 +109,11 @@ public class NameFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Checks to see if the filename matches.
+     * Checks to see if the file name matches.
      *
      * @param fileInfo the File to check
      *
-     * @return true if the filename matches
+     * @return true if the file name matches
      */
     @Override
     public boolean accept(final FileSelectInfo fileInfo) {

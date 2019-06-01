@@ -22,7 +22,7 @@ import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.VFS;
 
 /**
- * Implementation for layered filesystems.
+ * Implementation for layered file systems.
  * <p>
  * Additionally encodes the '!' character.
  * </p>
@@ -55,17 +55,17 @@ public class LayeredFileNameParser extends AbstractFileNameParser {
      *
      * @param context The component context.
      * @param base The base FileName.
-     * @param filename The target file name.
+     * @param file name The target file name.
      * @return The constructed FileName.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public FileName parseUri(final VfsComponentContext context, final FileName base, final String filename)
+    public FileName parseUri(final VfsComponentContext context, final FileName base, final String fileName)
             throws FileSystemException {
         final StringBuilder name = new StringBuilder();
 
         // Extract the scheme
-        final String scheme = UriParser.extractScheme(VFS.getManager().getSchemes(), filename, name);
+        final String scheme = UriParser.extractScheme(VFS.getManager().getSchemes(), fileName, name);
 
         // Extract the Layered file URI
         final String rootUriName = extractRootName(name);

@@ -26,12 +26,12 @@ import java.io.File;
  * </p>
  * <p>
  * This class captures that difference, providing an enumeration to control how
- * filename comparisons should be performed. It also provides methods that use
+ * file name comparisons should be performed. It also provides methods that use
  * the enumeration to perform comparisons.
  * </p>
  * <p>
  * Wherever possible, you should use the <code>check</code> methods in this
- * class to compare filenames.
+ * class to compare file names.
  * </p>
  *
  * @author This code was originally ported from Apache Commons IO File Filter
@@ -52,7 +52,7 @@ public enum IOCase {
 
     /**
      * The constant for case sensitivity determined by the current operating system.
-     * Windows is case-insensitive when comparing filenames, Unix is case-sensitive.
+     * Windows is case-insensitive when comparing file names, Unix is case-sensitive.
      * <p>
      * <strong>Note:</strong> This only caters for Windows and Unix. Other operating
      * systems (e.g. OSX and OpenVMS) are treated as case sensitive if they use the

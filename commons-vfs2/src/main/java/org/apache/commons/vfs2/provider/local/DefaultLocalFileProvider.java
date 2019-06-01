@@ -82,8 +82,8 @@ public class DefaultLocalFileProvider extends AbstractOriginatingFileProvider im
         final StringBuilder uri = new StringBuilder(name.length() + scheme.length());
         uri.append(scheme);
         uri.append(name);
-        final FileName filename = parseUri(null, uri.toString());
-        return findFile(filename, null);
+        final FileName fileName = parseUri(null, uri.toString());
+        return findFile(fileName, null);
     }
 
     /**
@@ -100,7 +100,7 @@ public class DefaultLocalFileProvider extends AbstractOriginatingFileProvider im
     }
 
     /**
-     * Creates the filesystem.
+     * Creates the file system.
      */
     @Override
     protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)

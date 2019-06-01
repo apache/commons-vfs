@@ -39,7 +39,7 @@ class FileTypeMap {
     }
 
     /**
-     * Adds a filename extension mapping.
+     * Adds a file name extension mapping.
      */
     public void addExtension(final String extension, final String scheme) {
         extensionMap.put(extension, scheme);

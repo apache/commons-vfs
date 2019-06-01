@@ -27,13 +27,13 @@ import org.apache.commons.vfs2.FileSystem;
 /**
  * A simple {@link org.apache.commons.vfs2.FilesCache FilesCache} implementation.
  * <p>
- * This implementation caches every file with no expire or limit. All files and filesystems are hard reachable
- * references. This implementation holds a list of filesystem specific {@linkplain ConcurrentHashMap ConcurrentHashMaps}
+ * This implementation caches every file with no expire or limit. All files and file systems are hard reachable
+ * references. This implementation holds a list of file system specific {@linkplain ConcurrentHashMap ConcurrentHashMaps}
  * in the main cache map.
  * </p>
  * <p>
  * Cached {@linkplain FileObject FileObjects} as well as {@linkplain FileSystem FileSystems} are only removed when
- * {@link #clear(FileSystem)} is called (i.e. on filesystem close). When the used
+ * {@link #clear(FileSystem)} is called (i.e. on file system close). When the used
  * {@link org.apache.commons.vfs2.FileSystemManager FileSystemManager} is closed, it will also {@linkplain #close()
  * close} this cache (which frees all entries).
  * </p>
