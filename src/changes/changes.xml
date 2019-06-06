@@ -40,7 +40,7 @@ The <action> type attribute can be add,update,fix,remove.
 
 <document xmlns="http://maven.apache.org/changes/1.0.0">
   <properties>
-    <title>Apache Commons VFS Changes</title>
+    <title>Apache Commons VFS Release Notes</title>
     <author email="dev@commons.apache.org">Apache Commons Developers</author>
   </properties>
 
