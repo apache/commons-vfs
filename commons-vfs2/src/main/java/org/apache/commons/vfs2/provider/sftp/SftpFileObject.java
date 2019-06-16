@@ -77,12 +77,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
             try {
                 inRefresh = true;
                 super.refresh();
-                try {
-                    attrs = null;
-                    getType();
-                } catch (final IOException e) {
-                    throw new FileSystemException(e);
-                }
+                attrs = null;
             } finally {
                 inRefresh = false;
             }
