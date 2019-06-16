@@ -125,6 +125,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-619" dev="ggregory" type="fix" due-to="David Septimus, Bernd">
         Performance issue with SftpFileObject.getChildren() #65.
       </action>
+      <action issue="VFS-717" dev="ggregory" type="fix" due-to="Gary Gregory">
+        Update org.apache.httpcomponents:httpclient from 4.5.8 to 4.5.9.
+      </action>
     </release>
     <release version="2.3" date="2019-02-01" description="New features and bug fix release.">
       <action issue="VFS-645" dev="ggregory" type="fix">
