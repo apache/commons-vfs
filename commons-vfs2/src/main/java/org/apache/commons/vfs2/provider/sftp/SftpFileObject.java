@@ -68,23 +68,6 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     }
 
     /**
-     * @throws FileSystemException if error occurs.
-     * @since 2.0
-     */
-    @Override
-    public void refresh() throws FileSystemException {
-        if (!inRefresh) {
-            try {
-                inRefresh = true;
-                super.refresh();
-                attrs = null;
-            } finally {
-                inRefresh = false;
-            }
-        }
-    }
-
-    /**
      * Determines the type of this file, returns null if the file does not exist.
      */
     @Override
