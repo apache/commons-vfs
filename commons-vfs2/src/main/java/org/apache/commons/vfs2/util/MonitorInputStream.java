@@ -85,8 +85,6 @@ public class MonitorInputStream extends BufferedInputStream {
             return ch;
         }
 
-        // End-of-stream
-        close();
         return EOF_CHAR;
     }
 
