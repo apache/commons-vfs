@@ -49,6 +49,7 @@ public class DefaultFileContentTest {
                         stream.mark(0);
                         final byte[] data = new byte[100];
                         stream.read(data, 0, 7);
+                        stream.read();
                         Assert.assertEquals(expected, new String(data).trim());
                         stream.reset();
                     }
@@ -74,6 +75,7 @@ public class DefaultFileContentTest {
                         stream.mark(0);
                         final byte[] data = new byte[100];
                         readCount = stream.read(data, 0, 7);
+                        stream.read();
                         Assert.assertEquals(readCount, 7);
                         Assert.assertEquals(expected, new String(data).trim());
                         readCount = stream.read(data, 8, 10);
