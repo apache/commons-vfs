@@ -128,6 +128,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-717" dev="ggregory" type="fix" due-to="Gary Gregory">
         Update org.apache.httpcomponents:httpclient from 4.5.8 to 4.5.9.
       </action>
+      <action issue="VFS-718" dev="ggregory" type="fix" due-to="Boris Petrov">
+        MonitorInputStream should not close the stream in "read" #67.
+      </action>
     </release>
     <release version="2.3" date="2019-02-01" description="New features and bug fix release.">
       <action issue="VFS-645" dev="ggregory" type="fix">
