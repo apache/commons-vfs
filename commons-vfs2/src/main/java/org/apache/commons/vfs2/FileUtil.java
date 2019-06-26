@@ -25,7 +25,17 @@ import java.io.OutputStream;
  */
 public final class FileUtil {
 
-    private FileUtil() {
+    /**
+     * Copies the content from a source file to a destination file.
+     *
+     * @param srcFile  The source FileObject.
+     * @param destFile The target FileObject
+     * @throws IOException If an error occurs copying the file.
+     * @see FileContent#write(FileContent)
+     * @see FileContent#write(FileObject)
+     */
+    public static void copyContent(final FileObject srcFile, final FileObject destFile) throws IOException {
+        srcFile.getContent().write(destFile);
     }
 
     /**
@@ -53,17 +63,7 @@ public final class FileUtil {
         file.getContent().write(output);
     }
 
-    /**
-     * Copies the content from a source file to a destination file.
-     *
-     * @param srcFile  The source FileObject.
-     * @param destFile The target FileObject
-     * @throws IOException If an error occurs copying the file.
-     * @see FileContent#write(FileContent)
-     * @see FileContent#write(FileObject)
-     */
-    public static void copyContent(final FileObject srcFile, final FileObject destFile) throws IOException {
-        srcFile.getContent().write(destFile);
+    private FileUtil() {
     }
 
 }
