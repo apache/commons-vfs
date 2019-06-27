@@ -26,7 +26,7 @@ import org.apache.commons.vfs2.impl.DecoratedFileObject;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 
 /**
- * Stuff to get some strange things from an FileObject.
+ * Utility methods for {@link FileObject}.
  */
 public final class FileObjectUtils {
 
