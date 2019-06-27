@@ -282,7 +282,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             final FileObject destFile = resolveFile(relPath, NameScope.DESCENDENT_OR_SELF);
 
             // Clean up the destination file, if necessary
-            if (destFile.exists() && destFile.getType() != srcFile.getType()) {
+            if (FileObjectUtils.exists(destFile) && destFile.getType() != srcFile.getType()) {
                 // The destination file exists, and is not of the same type,
                 // so delete it
                 // TODO - add a pluggable policy for deleting and overwriting existing files

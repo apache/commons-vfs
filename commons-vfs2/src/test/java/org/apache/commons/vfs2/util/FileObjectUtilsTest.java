@@ -19,6 +19,8 @@ package org.apache.commons.vfs2.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 import org.apache.commons.lang3.SystemUtils;
@@ -34,15 +36,51 @@ import org.junit.Test;
  */
 public class FileObjectUtilsTest {
 
+    private void assertProperties(Properties p) {
+        Assert.assertNotNull(p);
+        Assert.assertEquals("1", p.getProperty("one"));
+        Assert.assertEquals("2", p.getProperty("two"));
+    }
+
     @Test
     public void testExistsNotNull() throws FileSystemException {
         Assert.assertTrue(FileObjectUtils.exists(VFS.getManager().toFileObject(SystemUtils.getJavaIoTmpDir())));
     }
 
     @Test
+    public void testgetContentAsString_Charset() throws FileSystemException, IOException {
+        Assert.assertEquals("This is a test file.",
+            FileObjectUtils.getContentAsString(
+                VFS.getManager().toFileObject(new File("src/test/resources/test-data/read-tests/file1.txt")),
+                StandardCharsets.UTF_8));
+    }
+
+    @Test
+    public void testgetContentAsString_CharsetNull() throws FileSystemException, IOException {
+        Assert.assertEquals("This is a test file.",
+            FileObjectUtils.getContentAsString(
+                VFS.getManager().toFileObject(new File("src/test/resources/test-data/read-tests/file1.txt")),
+                (Charset) null));
+    }
+
+    @Test
+    public void testgetContentAsString_String() throws FileSystemException, IOException {
+        Assert.assertEquals("This is a test file.", FileObjectUtils.getContentAsString(
+            VFS.getManager().toFileObject(new File("src/test/resources/test-data/read-tests/file1.txt")), "UTF-8"));
+    }
+
+    @Test
+    public void testgetContentAsString_StringNull() throws FileSystemException, IOException {
+        Assert.assertEquals("This is a test file.",
+            FileObjectUtils.getContentAsString(
+                VFS.getManager().toFileObject(new File("src/test/resources/test-data/read-tests/file1.txt")),
+                (String) null));
+    }
+
+    @Test
     public void testNotExistsNotNull() throws FileSystemException {
-        Assert.assertFalse(FileObjectUtils
-                .exists(VFS.getManager().toFileObject(new File("This file can't possibly exist, right?"))));
+        Assert.assertFalse(
+            FileObjectUtils.exists(VFS.getManager().toFileObject(new File("This file can't possibly exist, right?"))));
     }
 
     @Test
@@ -53,7 +91,7 @@ public class FileObjectUtilsTest {
     @Test
     public void testReadProperties() throws FileSystemException, IOException {
         assertProperties(FileObjectUtils
-                .readProperties(VFS.getManager().toFileObject(new File("src/test/resources/test.properties"))));
+            .readProperties(VFS.getManager().toFileObject(new File("src/test/resources/test.properties"))));
     }
 
     @Test
@@ -61,13 +99,7 @@ public class FileObjectUtilsTest {
         Properties p = new Properties();
         p.setProperty("extraKey", "extraValue");
         assertProperties(FileObjectUtils
-                .readProperties(VFS.getManager().toFileObject(new File("src/test/resources/test.properties")), p));
+            .readProperties(VFS.getManager().toFileObject(new File("src/test/resources/test.properties")), p));
         Assert.assertEquals("extraValue", p.getProperty("extraKey"));
-    }
-
-    private void assertProperties(Properties p) {
-        Assert.assertNotNull(p);
-        Assert.assertEquals("1", p.getProperty("one"));
-        Assert.assertEquals("2", p.getProperty("two"));
     }
 }

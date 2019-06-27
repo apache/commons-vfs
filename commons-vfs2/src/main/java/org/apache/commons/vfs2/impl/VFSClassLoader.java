@@ -35,6 +35,7 @@ import java.util.jar.Attributes.Name;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
+import org.apache.commons.vfs2.FileUtil;
 import org.apache.commons.vfs2.NameScope;
 import org.apache.commons.vfs2.util.FileObjectUtils;
 
@@ -311,9 +312,10 @@ public class VFSClassLoader extends SecureClassLoader {
         final List<URL> result = new ArrayList<>(2);
 
         for (final FileObject baseFile : resources) {
-            final FileObject file = baseFile.resolveFile(name, NameScope.DESCENDENT_OR_SELF);
-            if (file.exists()) {
-                result.add(new Resource(name, baseFile, file).getURL());
+            try (final FileObject file = baseFile.resolveFile(name, NameScope.DESCENDENT_OR_SELF)) {
+                if (FileObjectUtils.exists(file)) {
+                    result.add(new Resource(name, baseFile, file).getURL());
+                }
             }
         }
 
@@ -329,9 +331,10 @@ public class VFSClassLoader extends SecureClassLoader {
      */
     private Resource loadResource(final String name) throws FileSystemException {
         for (final FileObject baseFile : resources) {
-            final FileObject file = baseFile.resolveFile(name, NameScope.DESCENDENT_OR_SELF);
-            if (file.exists()) {
-                return new Resource(name, baseFile, file);
+            try (final FileObject file = baseFile.resolveFile(name, NameScope.DESCENDENT_OR_SELF)) {
+                if (FileObjectUtils.exists(file)) {
+                    return new Resource(name, baseFile, file);
+                }
             }
         }
         return null;
