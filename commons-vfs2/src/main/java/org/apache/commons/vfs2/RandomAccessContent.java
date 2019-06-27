@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2;
 
+import java.io.Closeable;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
@@ -24,7 +25,7 @@ import java.io.InputStream;
 /**
  * Provides random access over content.
  */
-public interface RandomAccessContent extends DataOutput, DataInput {
+public interface RandomAccessContent extends DataOutput, DataInput, Closeable {
 
     /**
      * Closes this random access file stream and releases any system resources associated with the stream.
@@ -37,6 +38,7 @@ public interface RandomAccessContent extends DataOutput, DataInput {
      *
      * @throws IOException if an I/O error occurs.
      */
+    @Override
     void close() throws IOException;
 
     /**
