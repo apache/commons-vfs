@@ -74,39 +74,6 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     private static final int INITIAL_LIST_SIZE = 5;
 
-    private final AbstractFileName fileName;
-    private final AFS fileSystem;
-
-    private FileContent content;
-    // Cached info
-    private boolean attached;
-    private FileType type;
-
-    private FileObject parent;
-    // Changed to hold only the name of the children and let the object
-    // go into the global files cache
-    // private FileObject[] children;
-    private FileName[] children;
-
-    private List<Object> objects;
-
-    /**
-     * FileServices instance.
-     */
-    private FileOperations operations;
-
-    /**
-     *
-     * @param name the file name - muse be an instance of {@link AbstractFileName}
-     * @param fileSystem the file system
-     * @throws ClassCastException if {@code name} is not an instance of {@link AbstractFileName}
-     */
-    protected AbstractFileObject(final AbstractFileName name, final AFS fileSystem) {
-        this.fileName = name;
-        this.fileSystem = fileSystem;
-        fileSystem.fileObjectHanded(this);
-    }
-
     /**
      * Traverses a file.
      */
@@ -142,6 +109,39 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 selected.add(index, file);
             }
         }
+    }
+    private final AbstractFileName fileName;
+
+    private final AFS fileSystem;
+    private FileContent content;
+    // Cached info
+    private boolean attached;
+
+    private FileType type;
+    private FileObject parent;
+
+    // Changed to hold only the name of the children and let the object
+    // go into the global files cache
+    // private FileObject[] children;
+    private FileName[] children;
+
+    private List<Object> objects;
+
+    /**
+     * FileServices instance.
+     */
+    private FileOperations operations;
+
+    /**
+     *
+     * @param name the file name - muse be an instance of {@link AbstractFileName}
+     * @param fileSystem the file system
+     * @throws ClassCastException if {@code name} is not an instance of {@link AbstractFileName}
+     */
+    protected AbstractFileObject(final AbstractFileName name, final AFS fileSystem) {
+        this.fileName = name;
+        this.fileSystem = fileSystem;
+        fileSystem.fileObjectHanded(this);
     }
 
     /**
@@ -1178,16 +1178,6 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * Returns the receiver as a URI String for public display, like, without a password.
-     *
-     * @return A URI String without a password, never {@code null}.
-     */
-    @Override
-    public String getPublicURIString() {
-        return fileName.getFriendlyURI();
-    }
-
-    /**
      * Prepares this file for writing. Makes sure it is either a file, or its parent folder exists. Returns an output
      * stream to use to write the content of the file to.
      *
@@ -1266,6 +1256,16 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             }
             return parent;
         }
+    }
+
+    /**
+     * Returns the receiver as a URI String for public display, like, without a password.
+     *
+     * @return A URI String without a password, never {@code null}.
+     */
+    @Override
+    public String getPublicURIString() {
+        return fileName.getFriendlyURI();
     }
 
     /**
