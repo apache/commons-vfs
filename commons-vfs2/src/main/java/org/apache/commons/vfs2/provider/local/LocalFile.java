@@ -57,15 +57,6 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
     }
 
     /**
-     * Returns the local file that this file object represents.
-     *
-     * @return the local file that this file object represents.
-     */
-    protected File getLocalFile() {
-        return file;
-    }
-
-    /**
      * Attaches this file object to its file resource.
      */
     @Override
@@ -77,6 +68,63 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
             // fileName = UriParser.decode(fileName);
             file = new File(fileName);
         }
+    }
+
+    /**
+     * Creates this folder.
+     */
+    @Override
+    protected void doCreateFolder() throws Exception {
+        if (!file.mkdirs()) {
+            throw new FileSystemException("vfs.provider.local/create-folder.error", file);
+        }
+    }
+
+    /**
+     * Deletes this file, and all children.
+     */
+    @Override
+    protected void doDelete() throws Exception {
+        if (!file.delete()) {
+            throw new FileSystemException("vfs.provider.local/delete-file.error", file);
+        }
+    }
+
+    /**
+     * Returns the size of the file content (in bytes).
+     */
+    @Override
+    protected long doGetContentSize() throws Exception {
+        return file.length();
+    }
+
+    /**
+     * Creates an input stream to read the content from.
+     */
+    @Override
+    protected InputStream doGetInputStream() throws Exception {
+        return new FileInputStream(file);
+    }
+
+    /**
+     * Gets the last modified time of this file.
+     */
+    @Override
+    protected long doGetLastModifiedTime() throws FileSystemException {
+        return file.lastModified();
+    }
+
+    /**
+     * Creates an output stream to write the file content to.
+     */
+    @Override
+    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
+        return new FileOutputStream(file.getPath(), bAppend);
+    }
+
+    @Override
+    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception {
+        return new LocalFileRandomAccessContent(file, mode);
     }
 
     /**
@@ -104,59 +152,6 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
     }
 
     /**
-     * Returns the children of the file.
-     */
-    @Override
-    protected String[] doListChildren() throws Exception {
-        return UriParser.encode(file.list());
-    }
-
-    /**
-     * Deletes this file, and all children.
-     */
-    @Override
-    protected void doDelete() throws Exception {
-        if (!file.delete()) {
-            throw new FileSystemException("vfs.provider.local/delete-file.error", file);
-        }
-    }
-
-    /**
-     * rename this file
-     */
-    @Override
-    protected void doRename(final FileObject newFile) throws Exception {
-        final LocalFile newLocalFile = (LocalFile) FileObjectUtils.getAbstractFileObject(newFile);
-
-        if (!file.renameTo(newLocalFile.getLocalFile())) {
-            throw new FileSystemException("vfs.provider.local/rename-file.error", file.toString(), newFile.toString());
-        }
-    }
-
-    /**
-     * Creates this folder.
-     */
-    @Override
-    protected void doCreateFolder() throws Exception {
-        if (!file.mkdirs()) {
-            throw new FileSystemException("vfs.provider.local/create-folder.error", file);
-        }
-    }
-
-    /**
-     * Determines if this file can be written to.
-     */
-    @Override
-    protected boolean doIsWriteable() throws FileSystemException {
-        return file.canWrite();
-    }
-
-    @Override
-    protected boolean doSetWritable(final boolean writable, final boolean ownerOnly) throws Exception {
-        return file.setWritable(writable, ownerOnly);
-    }
-
-    /**
      * Determines if this file is hidden.
      */
     @Override
@@ -181,63 +176,6 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
     }
 
     @Override
-    protected boolean doSetReadable(final boolean readable, final boolean ownerOnly) throws Exception {
-        return file.setReadable(readable, ownerOnly);
-    }
-
-    @Override
-    protected boolean doSetExecutable(final boolean executable, final boolean ownerOnly) throws Exception {
-        return file.setExecutable(executable, ownerOnly);
-    }
-
-    /**
-     * Gets the last modified time of this file.
-     */
-    @Override
-    protected long doGetLastModifiedTime() throws FileSystemException {
-        return file.lastModified();
-    }
-
-    /**
-     * Sets the last modified time of this file.
-     *
-     * @since 2.0
-     */
-    @Override
-    protected boolean doSetLastModifiedTime(final long modtime) throws FileSystemException {
-        return file.setLastModified(modtime);
-    }
-
-    /**
-     * Creates an input stream to read the content from.
-     */
-    @Override
-    protected InputStream doGetInputStream() throws Exception {
-        return new FileInputStream(file);
-    }
-
-    /**
-     * Creates an output stream to write the file content to.
-     */
-    @Override
-    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
-        return new FileOutputStream(file.getPath(), bAppend);
-    }
-
-    /**
-     * Returns the size of the file content (in bytes).
-     */
-    @Override
-    protected long doGetContentSize() throws Exception {
-        return file.length();
-    }
-
-    @Override
-    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception {
-        return new LocalFileRandomAccessContent(file, mode);
-    }
-
-    @Override
     protected boolean doIsSameFile(final FileObject destFile) throws FileSystemException {
         if (!FileObjectUtils.isInstanceOf(destFile, LocalFile.class)) {
             return false;
@@ -253,6 +191,68 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
         } catch (final IOException e) {
             throw new FileSystemException(e);
         }
+    }
+
+    /**
+     * Determines if this file can be written to.
+     */
+    @Override
+    protected boolean doIsWriteable() throws FileSystemException {
+        return file.canWrite();
+    }
+
+    /**
+     * Returns the children of the file.
+     */
+    @Override
+    protected String[] doListChildren() throws Exception {
+        return UriParser.encode(file.list());
+    }
+
+    /**
+     * rename this file
+     */
+    @Override
+    protected void doRename(final FileObject newFile) throws Exception {
+        final LocalFile newLocalFile = (LocalFile) FileObjectUtils.getAbstractFileObject(newFile);
+
+        if (!file.renameTo(newLocalFile.getLocalFile())) {
+            throw new FileSystemException("vfs.provider.local/rename-file.error", file.toString(), newFile.toString());
+        }
+    }
+
+    @Override
+    protected boolean doSetExecutable(final boolean executable, final boolean ownerOnly) throws Exception {
+        return file.setExecutable(executable, ownerOnly);
+    }
+
+    /**
+     * Sets the last modified time of this file.
+     *
+     * @since 2.0
+     */
+    @Override
+    protected boolean doSetLastModifiedTime(final long modtime) throws FileSystemException {
+        return file.setLastModified(modtime);
+    }
+
+    @Override
+    protected boolean doSetReadable(final boolean readable, final boolean ownerOnly) throws Exception {
+        return file.setReadable(readable, ownerOnly);
+    }
+
+    @Override
+    protected boolean doSetWritable(final boolean writable, final boolean ownerOnly) throws Exception {
+        return file.setWritable(writable, ownerOnly);
+    }
+
+    /**
+     * Returns the local file that this file object represents.
+     *
+     * @return the local file that this file object represents.
+     */
+    protected File getLocalFile() {
+        return file;
     }
 
     /**
