@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -199,6 +200,15 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
     @Override
     protected boolean doIsWriteable() throws FileSystemException {
         return file.canWrite();
+    }
+
+    /**
+     * Determines if this file is a symbolic link.
+     * @since 2.4
+     */
+    @Override
+    protected boolean doIsSymbolicLink() throws FileSystemException {
+        return Files.isSymbolicLink(file.toPath());
     }
 
     /**

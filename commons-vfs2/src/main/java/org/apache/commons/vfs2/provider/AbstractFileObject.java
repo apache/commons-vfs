@@ -732,6 +732,21 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
+     * Determines if this file is a symbolic link. Is only called if {@link #doGetType} does not return
+     * {@link FileType#IMAGINARY}.
+     * <p>
+     * This implementation always returns false.
+     * </p>
+     *
+     * @return true if the file is readable, false otherwise.
+     * @throws Exception if an error occurs.
+     * @since 2.4
+     */
+    protected boolean doIsSymbolicLink() throws Exception {
+        return false;
+    }
+
+    /**
      * Determines if this file can be written to. Is only called if {@link #doGetType} does not return
      * {@link FileType#IMAGINARY}.
      * <p>
@@ -1546,6 +1561,22 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     protected boolean isSameFile(final FileObject destFile) throws FileSystemException {
         attach();
         return doIsSameFile(destFile);
+    }
+
+    /**
+     * Determines if this file can be read.
+     *
+     * @return true if the file can be read, false otherwise.
+     * @throws FileSystemException if an error occurs.
+     * @since 2.4
+     */
+    @Override
+    public boolean isSymbolicLink() throws FileSystemException {
+        try {
+            return exists() ? doIsSymbolicLink() : false;
+        } catch (final Exception exc) {
+            throw new FileSystemException("vfs.provider/check-is-symbolic-link.error", fileName, exc);
+        }
     }
 
     /**

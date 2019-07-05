@@ -111,6 +111,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         assertTrue(file.isFile());
         assertEquals(0, file.getContent().getSize());
         assertFalse(file.isHidden());
+        assertFalse(file.isSymbolicLink());
         assertTrue(file.isReadable());
         assertTrue(file.isWriteable());
 
