@@ -71,6 +71,8 @@ public class SymbolicLinkFileFilterTest extends BaseFilterTest {
 
     @BeforeClass
     public static void beforeClass() throws IOException {
+        Assume.assumeTrue(Boolean.getBoolean(SymbolicLinkFileFilterTest.class.getSimpleName() + ".Enable"));
+
         testDir = getTestDir(SymbolicLinkFileFilterTest.class.getName());
         testDir.mkdir();
 
@@ -94,7 +96,6 @@ public class SymbolicLinkFileFilterTest extends BaseFilterTest {
 
     @AfterClass
     public static void afterClass() throws IOException {
-        Assume.assumeTrue(Boolean.getBoolean(SymbolicLinkFileFilterTest.class.getSimpleName() + ".Enable"));
         targetFile = null;
         targetFileInfo = null;
         linkFile = null;
@@ -104,10 +105,14 @@ public class SymbolicLinkFileFilterTest extends BaseFilterTest {
         if (zipFileObject != null) {
             zipFileObject.close();
         }
-        FileUtils.deleteQuietly(zipFile);
-        zipFile = null;
-        FileUtils.deleteDirectory(testDir);
-        testDir = null;
+        if (zipFile != null) {
+            FileUtils.deleteQuietly(zipFile);
+            zipFile = null;
+        }
+        if (testDir != null) {
+            FileUtils.deleteDirectory(testDir);
+            testDir = null;
+        }
     }
 
     @Test
