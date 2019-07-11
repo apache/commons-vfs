@@ -396,9 +396,10 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * @param opts The FileSystem options.
-     * @return the option value for spesific key exchange algorithm
+     * @return the option value for specific key exchange algorithm
      * @see #setKeyExchangeAlgorithm(FileSystemOptions, String)
-     **/
+     * @since 2.4
+     */
     public String getKeyExchangeAlgorithm(final FileSystemOptions opts) {
         return this.getString(opts, KEY_EXCHANGE_ALGORITHM);
     }
@@ -687,12 +688,13 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     ** Configure Key exchange algoritm explicitly e.g
-     * diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha256,diffie-hellman-group-exchange-sha1,diffie-hellman-group1-sha1
+     * Configures Key exchange algorithm explicitly e.g diffie-hellman-group14-sha1,
+     * diffie-hellman-group-exchange-sha256, diffie-hellman-group-exchange-sha1, diffie-hellman-group1-sha1
      *
      * @param opts                The FileSystem options.
-     * @param keyExchangeAlgoritm The key exchange algoritm picked.
-     **/
+     * @param keyExchangeAlgoritm The key exchange algorithm picked.
+     * @since 2.4
+     */
     public void setKeyExchangeAlgorithm(final FileSystemOptions opts, final String keyExchangeAlgoritm) {
         setParam(opts, KEY_EXCHANGE_ALGORITHM, keyExchangeAlgoritm);
     }

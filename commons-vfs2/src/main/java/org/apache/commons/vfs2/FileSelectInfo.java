@@ -23,7 +23,7 @@ package org.apache.commons.vfs2;
  * </p>
  */
 public interface FileSelectInfo {
-    
+
     /**
      * Returns the base folder of the traversal.
      *

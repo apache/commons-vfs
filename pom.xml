@@ -163,7 +163,7 @@
     <commons.bc.version>2.3</commons.bc.version>
     <commons.releaseManagerName>Gary Gregory</commons.releaseManagerName>    
     <commons.releaseManagerKey>86fdc7e2a11262cb</commons.releaseManagerKey>  
-    <commons.rc.version>RC2</commons.rc.version>
+    <commons.rc.version>RC1</commons.rc.version>
     <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
     <commons.release.desc>(requires Java 8)</commons.release.desc>
     <commons.binary.suffix /> <!-- TODO delete? -->
@@ -192,7 +192,7 @@
     <dependency.locations.enabled>false</dependency.locations.enabled>
     <hadoop.version>2.6.0</hadoop.version>
     <commons.surefire.version>2.19.1</commons.surefire.version>
-    <commons.japicmp.version>0.14.0</commons.japicmp.version>
+    <commons.japicmp.version>0.14.1</commons.japicmp.version>
   </properties>
 
   <build>
@@ -274,7 +274,6 @@
       <plugin>
         <groupId>org.apache.rat</groupId>
         <artifactId>apache-rat-plugin</artifactId>
-        <version>${commons.rat.version}</version>
         <!-- Should agree with config in reporting section -->
         <configuration>
           <excludes combine.children="append">
@@ -289,6 +288,22 @@
           </excludes>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>com.github.siom79.japicmp</groupId>
+        <artifactId>japicmp-maven-plugin</artifactId>
+        <configuration>
+          <parameter>
+            <overrideCompatibilityChangeParameters>
+              <overrideCompatibilityChangeParameter>
+                <compatibilityChange>METHOD_NEW_DEFAULT</compatibilityChange>
+                <binaryCompatible>true</binaryCompatible>
+                <sourceCompatible>true</sourceCompatible>
+                <semanticVersionLevel>PATCH</semanticVersionLevel>
+              </overrideCompatibilityChangeParameter>
+            </overrideCompatibilityChangeParameters>
+          </parameter>
+        </configuration>
+      </plugin>    
     </plugins>
   </build>
 
@@ -361,6 +376,22 @@
           <aggregate>true</aggregate>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>com.github.siom79.japicmp</groupId>
+        <artifactId>japicmp-maven-plugin</artifactId>
+        <configuration>
+          <parameter>
+            <overrideCompatibilityChangeParameters>
+              <overrideCompatibilityChangeParameter>
+                <compatibilityChange>METHOD_NEW_DEFAULT</compatibilityChange>
+                <binaryCompatible>true</binaryCompatible>
+                <sourceCompatible>true</sourceCompatible>
+                <semanticVersionLevel>PATCH</semanticVersionLevel>
+              </overrideCompatibilityChangeParameter>
+            </overrideCompatibilityChangeParameters>
+          </parameter>
+        </configuration>
+      </plugin>      
       <!-- cobertura breaks because it cannot parse annotations in methods. -->
       <!--
       <plugin>

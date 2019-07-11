@@ -143,6 +143,19 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-722" dev="ggregory" type="update" due-to="Gary Gregory">
         Update Apache Commons Collections from 4.3 to 4.4.
       </action>
+      <!-- Source code notes -->
+      <action dev="ggregory" type="update">
+        Source incompatibility: org.apache.commons.vfs2.FileFilter.accept(FileSelectInfo) now throws checked exception FileSystemException.
+      </action>
+      <action dev="ggregory" type="update">
+        Public API note: The overridden methods getURI() and getFriendlyURI() in org.apache.commons.vfs2.provider.local.LocalFileName where removed but are implemented in a superclass.
+      </action>
+      <action dev="ggregory" type="update">
+        Public API note: The overridden method org.apache.commons.vfs2.provider.sftp.SftpFileObject#refresh() was removed but is implemented in a superclass.
+      </action>
+      <action dev="ggregory" type="update">
+        Public API note: The overridden method org.apache.commons.vfs2.provider.sftp.SftpFileProvider#init() was removed but is implemented in a superclass.
+      </action>
     </release>
     <release version="2.3" date="2019-02-01" description="New features and bug fix release.">
       <action issue="VFS-645" dev="ggregory" type="fix">

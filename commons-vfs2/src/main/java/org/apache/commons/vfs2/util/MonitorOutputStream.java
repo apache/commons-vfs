@@ -55,8 +55,10 @@ public class MonitorOutputStream extends BufferedOutputStream {
      * <p>
      * This makes sure the buffers are flushed, close the output stream and it will call {@link #onClose()} and re-throw
      * last exception from any of the three.
+     * </p>
      * <p>
      * This does nothing if the stream is closed already.
+     * </p>
      *
      * @throws IOException if an error occurs.
      */

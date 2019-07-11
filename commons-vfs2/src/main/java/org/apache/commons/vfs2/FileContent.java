@@ -42,6 +42,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * @see FileObject#getContent
  */
 public interface FileContent extends Closeable {
+
     /**
      * Closes all resources used by the content, including any open stream. Commits pending changes to the file.
      * <p>

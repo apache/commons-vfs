@@ -150,7 +150,7 @@ public final class FtpClientFactory {
                         client.setControlEncoding(controlEncoding);
                     }
 
-                    final Boolean autodetectUTF8 = builder.getAutodetectUTF8(fileSystemOptions);
+                    final Boolean autodetectUTF8 = builder.getAutodetectUtf8(fileSystemOptions);
                     if (autodetectUTF8 != null) {
                         client.setAutodetectUTF8(autodetectUTF8);
                     }

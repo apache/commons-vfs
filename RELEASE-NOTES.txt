@@ -1,3 +1,65 @@
+              Apache Commons VFS Project 2.4
+                  RELEASE NOTES
+
+The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.4.
+
+Apache Commons VFS is a Virtual File System library.
+
+New features and bug fix release.
+
+Changes in this version include:
+
+New features:
+o VFS-690:  Allow to set key exchange algorithm explicitly. GitHub #32.
+o VFS-497:  Ported filters from Commons IO #9. Thanks to Michael Schnell.
+o VFS-696:  More efficient comparison in FileExtensionSelector #44. Thanks to Robert DeRose.
+o VFS-660:  Expose workaround for connecting to FTP server from different subnets in PASV mode #35. Thanks to Liu Yubao.
+o VFS-699:  Add setting for FTP encoding auto-detection #58. Thanks to Boris Petrov.
+o VFS-706:  Add ability to specify buffer sizes #59. Thanks to Boris Petrov.
+o VFS-609:  SFTP provider doesn't support a private key as byte array #60. Thanks to stevezhuang, Rostislav, Gary Gregory.
+o VFS-707:  Update Apache HttpClient from 4.5.7 to 4.5.8. Thanks to Gary Gregory.
+o VFS-712:  Add null-safe org.apache.commons.vfs2.util.FileObjectUtils.exists(FileObject). Thanks to Gary Gregory.
+o VFS-713:  Add FileObjectUtils.readProperties(FileObject) method to read a .properties file. Thanks to Gary Gregory.
+o VFS-715:  Add org.apache.commons.vfs2.FileContent.getByteArray(). Thanks to Gary Gregory.
+o VFS-719:  Add methods to get the contents of file objects as strings. Thanks to Gary Gregory.
+o VFS-720:  Implement Closeable for RandomAccessContent #66. Thanks to Boris Petrov.
+o VFS-721:  Add support for symbolic links for the local file system and add FileObject#isSymbolicLink(). Thanks to Gary Gregory.
+
+Fixed Bugs:
+o VFS-694:  Fix inability to start the DefaultFileMonitor after it has been stopped. GitHub PR #55. Thanks to Boris Petrov.
+o VFS-696:  SFTP HTTP and SOCKS proxy authentication. GitHub PR #49. Thanks to rayzzed.
+o VFS-707:  [SFTP] SftpFileSystem.executeCommand(String, StringBuilder) can leak ChannelExec objects. Thanks to Gary Gregory.
+o VFS-709:  [SFTP] SftpFileSystem.getGroupsIds() can initialize underlying data more than once while multithreading. Thanks to Gary Gregory.
+o VFS-710:  [SFTP] SftpFileSystem.getUid() can initialize underlying data more than once while multithreading. Thanks to Gary Gregory.
+o VFS-711:  [SFTP] SftpFileSystem can initialize underlying Session more than once while multithreading. Thanks to Gary Gregory.
+o VFS-662:  [SFTP] SftpFileSystem has Thread-safe issue about idleChannel (#36). Thanks to qxo, Alexey Abashev, Gary Gregory.
+o VFS-700:  Some tests fail on Java 11 and above. Thanks to Gary Gregory, Matthias Krueger.
+o VFS-716:  Fix AbstractFileName.getURI returning unencoded #-sign #64. Thanks to Boris Petrov.
+o VFS-698:  SFTP file attributes are fetched multiple times leading to very slow directory listing; #65. Thanks to David Septimus, Bernd.
+o VFS-717:  Update org.apache.httpcomponents:httpclient from 4.5.8 to 4.5.9. Thanks to Gary Gregory.
+o VFS-718:  MonitorInputStream should not close the stream in "read" #67. Thanks to Boris Petrov.
+
+Changes:
+o VFS-692:  Update Apache Commons Collections from 4.2 to 4.3. Thanks to Gary Gregory.
+o VFS-693:  Add support for customizing FTP transfer aborted status codes. GitHub PR #51. Thanks to Boris Petrov, Gary Gregory.
+o VFS-702:  Simplify adding files to DefaultFileMonitor #57. Thanks to Boris Petrov.
+o VFS-703:  Update Apache Commons Lang from 3.8.1 to 3.9. Thanks to Gary Gregory.
+o VFS-722:  Update Apache Commons Collections from 4.3 to 4.4. Thanks to Gary Gregory.
+o           Source incompatibility: org.apache.commons.vfs2.FileFilter.accept(FileSelectInfo) now throws checked exception FileSystemException.
+o           Public API note: The overridden methods getURI() and getFriendlyURI() in org.apache.commons.vfs2.provider.local.LocalFileName where removed but are implemented in a superclass.
+o           Public API note: The overridden method org.apache.commons.vfs2.provider.sftp.SftpFileObject#refresh() was removed but is implemented in a superclass.
+o           Public API note: The overridden method org.apache.commons.vfs2.provider.sftp.SftpFileProvider#init() was removed but is implemented in a superclass.
+
+
+Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
+
+For complete information on Apache Commons VFS Project, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons VFS Project website:
+
+http://commons.apache.org/proper/commons-vfs/
+
+-----------------------------------------------------------------------------
+
               Apache Commons VFS Project 2.3
                   RELEASE NOTES
 

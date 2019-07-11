@@ -508,6 +508,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @throws Exception if an error occurs.
      */
     protected void doAttach() throws Exception {
+        // noop
     }
 
     /**
@@ -563,6 +564,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @throws Exception if an error occurs.
      */
     protected void doDetach() throws Exception {
+        // noop
     }
 
     /**
@@ -1693,9 +1695,10 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * will be called after this file-object closed all its streams.
+     * Clled after this file-object closed all its streams.
      */
     protected void notifyAllStreamsClosed() {
+        // noop
     }
 
     /**
@@ -1728,6 +1731,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @throws Exception if an error occurs.
      */
     protected void onChange() throws Exception {
+        // noop
     }
 
     /**
@@ -1742,6 +1746,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @throws Exception if an error occurs.
      */
     protected void onChildrenChanged(final FileName child, final FileType newType) throws Exception {
+        // noop
     }
 
     /**

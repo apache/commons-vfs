@@ -149,6 +149,7 @@ public class MonitorInputStream extends BufferedInputStream {
      * @throws IOException if an error occurs.
      */
     protected void onClose() throws IOException {
+        // noop
     }
 
     /**

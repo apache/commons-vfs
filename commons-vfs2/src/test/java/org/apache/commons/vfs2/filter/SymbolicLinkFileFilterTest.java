@@ -39,11 +39,11 @@ import org.junit.Test;
  * </p>
  * <p>
  * To enable this test set the system property "SymbolicLinkFileFilterTest.Enable" to "true".
- * 
+ *
  * <p>
  * To run only this test with Maven:
  * </p>
- * 
+ *
  * <pre>
  * mvn test -Dtest=SymbolicLinkFileFilterTest -pl commons-vfs2 -DSymbolicLinkFileFilterTest.Enable=true
  * </pre>

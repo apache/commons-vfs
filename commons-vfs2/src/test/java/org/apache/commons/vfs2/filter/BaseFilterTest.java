@@ -74,7 +74,7 @@ public abstract class BaseFilterTest {
                         throw new RuntimeException(ex);
                     }
                 }
-                
+
                 @Override
                 public String toString() {
                     return Objects.toString(fileObject);
