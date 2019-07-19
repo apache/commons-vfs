@@ -117,12 +117,12 @@ limitations under the License.
       <subsection name="Binaries">
         <table>
           <tr>
-              <td><a href="[preferred]/commons/vfs/binaries/commons-vfs-2.4.tar.gz">commons-vfs-2.4.tar.gz</a></td>
+              <td><a href="[preferred]/commons/vfs/binaries/commons-vfs-2.4-bin.tar.gz">commons-vfs-2.4-bin.tar.gz</a></td>
               <td><a href="https://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.4-bin.tar.gz.sha512">sha512</a></td>
               <td><a href="https://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.4-bin.tar.gz.asc">pgp</a></td>
           </tr>
           <tr>
-              <td><a href="[preferred]/commons/vfs/binaries/commons-vfs-2.4.zip">commons-vfs-2.4.zip</a></td>
+              <td><a href="[preferred]/commons/vfs/binaries/commons-vfs-2.4-bin.zip">commons-vfs-2.4-bin.zip</a></td>
               <td><a href="https://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.4-bin.zip.sha512">sha512</a></td>
               <td><a href="https://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.4-bin.zip.asc">pgp</a></td>
           </tr>
