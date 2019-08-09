@@ -64,8 +64,9 @@ public class Http4GetContentInfoTest extends TestCase {
     @Test
     public void testGetZeroContents() throws IOException {
         final FileSystemManager fsManager = VFS.getManager();
-        final FileObject fo = fsManager.resolveFile("http4://monpremierlivre.home.blog/");
+        final FileObject fo = fsManager.resolveFile("http4s://donate.apache.org/");
         final FileContent content = fo.getContent();
+        Assert.assertEquals(0L, content.getSize());  // <-- website is expected to render a page with no content-length
         Assert.assertNotNull(content.getString(StandardCharsets.UTF_8));
     }
 }
