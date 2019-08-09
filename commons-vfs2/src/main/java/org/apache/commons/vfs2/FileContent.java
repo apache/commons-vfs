@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +25,7 @@ import java.nio.charset.Charset;
 import java.security.cert.Certificate;
 import java.util.Map;
 
+import org.apache.commons.compress.utils.IOUtils;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
@@ -119,7 +121,6 @@ public interface FileContent extends Closeable {
     /**
      * Returns the content of a file as a byte array.
      *
-     * @param file The file to get the content of.
      * @return The content as a byte array.
      * @throws IOException if the file content cannot be accessed.
      * @since 2.4
@@ -130,14 +131,9 @@ public interface FileContent extends Closeable {
             throw new IllegalStateException(String.format("File content is too large for a byte array: %,d", sizeL));
         }
         final int size = (int) sizeL;
-        final byte[] buf = new byte[size];
-        try (final InputStream in = getInputStream(size)) {
-            int read = 0;
-            for (int pos = 0; pos < size && read >= 0; pos += read) {
-                read = in.read(buf, pos, size - pos);
-            }
-        }
-        return buf;
+        ByteArrayOutputStream buf = new ByteArrayOutputStream(size);
+        IOUtils.copy(getInputStream(size), buf);
+        return buf.toByteArray();
     }
 
     /**
@@ -273,7 +269,6 @@ public interface FileContent extends Closeable {
     /**
      * Returns the content of a file as a String.
      *
-     * @param file The file to get the content of.
      * @param charset The file character set, may be null.
      * @return The content as a byte array.
      * @throws IOException if the file content cannot be accessed.
@@ -286,7 +281,6 @@ public interface FileContent extends Closeable {
     /**
      * Returns the content of a file as a String.
      *
-     * @param file The file to get the content of.
      * @param charset The file character set, may be null.
      * @return The content as a byte array.
      * @throws IOException if the file content cannot be accessed.

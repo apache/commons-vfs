@@ -28,6 +28,9 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
 /**
  * Tests VFS-427 NPE on Http4FileObject.getContent().getContentInfo().
  */
@@ -55,5 +58,14 @@ public class Http4GetContentInfoTest extends TestCase {
         Assert.assertNotNull(content);
         // Used to NPE before fix:
         content.getContentInfo();
+    }
+
+
+    @Test
+    public void testGetZeroContents() throws IOException {
+        final FileSystemManager fsManager = VFS.getManager();
+        final FileObject fo = fsManager.resolveFile("http4://monpremierlivre.home.blog/");
+        final FileContent content = fo.getContent();
+        Assert.assertNotNull(content.getString(StandardCharsets.UTF_8));
     }
 }

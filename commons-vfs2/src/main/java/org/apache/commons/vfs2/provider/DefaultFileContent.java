@@ -353,7 +353,7 @@ public final class DefaultFileContent implements FileContent {
      */
     @Override
     public InputStream getInputStream(final int bufferSize) throws FileSystemException {
-        return buildInputStream(bufferSize);
+        return buildInputStream(bufferSize == 0 ? null : bufferSize);
     }
 
     /**
