@@ -50,6 +50,9 @@ The <action> type attribute can be add,update,fix,remove.
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
 <!-- START Might need to be moved to the next version -->
+      <action issue="VFS-725" dev="ggregory" type="fix" due-to="Gary Gregory">
+        [Local] org.apache.commons.vfs2.FileContent.getLastModifiedTime() is losing milliseconds (always ends in 000).
+      </action>
     </release>
     <release version="2.4" date="2019-07-12" description="New features and bug fix release.">
       <action issue="VFS-690" dev="ggregory" type="add">

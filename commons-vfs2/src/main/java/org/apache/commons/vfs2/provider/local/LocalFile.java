@@ -112,7 +112,13 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
      */
     @Override
     protected long doGetLastModifiedTime() throws FileSystemException {
-        return file.lastModified();
+        // Workaround OpenJDK 8 and 9 bug JDK-8177809
+        // https://bugs.openjdk.java.net/browse/JDK-8177809
+        try {
+            return Files.getLastModifiedTime(file.toPath()).toMillis();
+        } catch (IOException e) {
+            throw new FileSystemException(file.toString(), e);
+        }
     }
 
     /**
