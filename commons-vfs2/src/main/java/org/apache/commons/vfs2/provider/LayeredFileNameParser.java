@@ -54,13 +54,13 @@ public class LayeredFileNameParser extends AbstractFileNameParser {
      * Parses the base and name into a FileName.
      *
      * @param context The component context.
-     * @param base The base FileName.
-     * @param file name The target file name.
+     * @param baseFileName The base FileName.
+     * @param fileName name The target file name.
      * @return The constructed FileName.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public FileName parseUri(final VfsComponentContext context, final FileName base, final String fileName)
+    public FileName parseUri(final VfsComponentContext context, final FileName baseFileName, final String fileName)
             throws FileSystemException {
         final StringBuilder name = new StringBuilder();
 

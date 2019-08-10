@@ -119,7 +119,6 @@ public interface FileContent extends Closeable {
     /**
      * Returns the content of a file as a byte array.
      *
-     * @param file The file to get the content of.
      * @return The content as a byte array.
      * @throws IOException if the file content cannot be accessed.
      * @since 2.4
@@ -273,7 +272,6 @@ public interface FileContent extends Closeable {
     /**
      * Returns the content of a file as a String.
      *
-     * @param file The file to get the content of.
      * @param charset The file character set, may be null.
      * @return The content as a byte array.
      * @throws IOException if the file content cannot be accessed.
@@ -286,7 +284,6 @@ public interface FileContent extends Closeable {
     /**
      * Returns the content of a file as a String.
      *
-     * @param file The file to get the content of.
      * @param charset The file character set, may be null.
      * @return The content as a byte array.
      * @throws IOException if the file content cannot be accessed.

@@ -56,6 +56,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-724" dev="ggregory" type="fix" due-to="William R, Gary Gregory">
         FileContent#getByteArray() throws IllegalArgumentException: Buffer size <= 0 when file size is 0.
       </action>
+      <action                 dev="ggregory" type="fix" due-to="Gary Gregory">
+        Javadoc fixes.
+      </action>
     </release>
     <release version="2.4" date="2019-07-12" description="New features and bug fix release.">
       <action issue="VFS-690" dev="ggregory" type="add">

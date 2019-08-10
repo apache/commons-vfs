@@ -129,7 +129,7 @@ public final class FileObjectUtils {
      *
      * @param fileObject the file to read
      * @return a new {@link Properties}.
-     * @throws IOException
+     * @throws IOException On error getting this file's content.
      * @throws FileSystemException On error getting this file's content.
      * @throws IOException On error getting this file's content.
      * @since 2.4

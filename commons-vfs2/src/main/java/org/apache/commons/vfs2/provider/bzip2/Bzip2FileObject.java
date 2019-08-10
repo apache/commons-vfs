@@ -37,7 +37,7 @@ public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem> {
      *
      * @param name Abstract file name.
      * @param container My container.
-     * @param container My file system.
+     * @param fs My file system.
      *
      * @deprecated Use {@link #Bzip2FileObject(AbstractFileName, FileObject, Bzip2FileSystem)} instead.
      */
