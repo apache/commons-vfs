@@ -1,3 +1,32 @@
+              Apache Commons VFS Project 2.4.1
+              RELEASE NOTES
+              2019-08-10    
+
+The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.4.1-SNAPSHOT
+
+Apache Commons VFS is a Virtual File System library.
+
+New features and bug fix release.
+
+Changes in this version include:
+
+Fixed Bugs:
+o VFS-725:  [Local] org.apache.commons.vfs2.FileContent.getLastModifiedTime() is losing milliseconds (always ends in 000). Thanks to Gary Gregory.
+o VFS-724:  FileContent#getByteArray() throws IllegalArgumentException: Buffer size <= 0 when file size is 0. Thanks to William R, Gary Gregory.
+o           Javadoc fixes. Thanks to Gary Gregory.
+
+
+Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
+
+For complete information on Apache Commons VFS Project, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons VFS Project website:
+
+Visit http://commons.apache.org/proper/commons-vfs/
+
+Download it from http://commons.apache.org/proper/commons-vfs/download_vfs.cgi
+
+-----------------------------------------------------------------------------
+
               Apache Commons VFS Project 2.4
                   RELEASE NOTES
 
