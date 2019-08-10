@@ -71,7 +71,7 @@
             dependencies.
           </p>
           <p>
-           Apache Commons VFS 2.3 and 2.4 requires Java 8.
+           Apache Commons VFS 2.3 and 2.4.x require Java 8.
           </p>
           <p>
            Apache Commons VFS 2.2 requires Java 7.
@@ -85,6 +85,9 @@
         </section>
 
         <section name="News">
+          <p>
+            Apache Commons VFS 2.4.1 is a bug fix release.
+          </p>
           <p>
             Apache Commons VFS 2.4 is a new features and bug fix release.
           </p>
