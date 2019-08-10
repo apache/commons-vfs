@@ -16,12 +16,28 @@
  */
 package org.apache.commons.vfs2.provider.jar.test;
 
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.vfs2.FileContent;
+import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSelector;
+import org.apache.commons.vfs2.FileSystem;
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileSystemManager;
+import org.apache.commons.vfs2.FileType;
+import org.apache.commons.vfs2.NameScope;
 import org.apache.commons.vfs2.VFS;
+import org.apache.commons.vfs2.operations.FileOperations;
+import org.apache.commons.vfs2.provider.jar.JarFileObject;
+import org.apache.hadoop.test.MockitoMaker;
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
  * Tests JAR attributes.
@@ -54,5 +70,18 @@ public class JarAttributesTestCase {
         Assert.assertEquals("1.0", attributes.get("Manifest-Version"));
         // Debugging:
         // this.printAttributes(attributes);
+    }
+
+    @Test
+    public void testGetZeroContents() throws Exception {
+        final FileContent mockedContent = Mockito.mock(FileContent.class);
+        final FileObject nested = JarProviderTestCase.getTestJar(VFS.getManager(), "nested.jar");
+        final FileObject fo = nested.resolveFile("test.jar");
+        final FileContent content = fo.getContent();
+
+        Mockito.when(mockedContent.getSize()).thenThrow(new FileSystemException("No content size!"));
+        Mockito.when(mockedContent.getString(StandardCharsets.UTF_8)).thenReturn(content.getString(StandardCharsets.UTF_8));
+        Assert.assertEquals(0L, mockedContent.getExpectedSize());  // <-- even the mockedContent thrown an exception
+        Assert.assertNotNull(mockedContent.getString(StandardCharsets.UTF_8));
     }
 }

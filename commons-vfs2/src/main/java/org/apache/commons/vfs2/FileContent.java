@@ -119,6 +119,27 @@ public interface FileContent extends Closeable {
     InputStream getInputStream() throws FileSystemException;
 
     /**
+     * Retrieve the expected size of the contents. Same as the {@link #getSize()} method but do not
+     * throw an exception when the size is unknown (when you try to access a generated web page for
+     * example).
+     *
+     * @return the value returned by {@link #getSize()} or zero if the size is unknown.
+     * @throws IllegalStateException if the file content is longer than Integer#MAX_VALUE bytes.
+     * @since 2.4
+     */
+    default int getExpectedSize() {
+        try {
+            final long sizeL = getSize();
+            if (sizeL > Integer.MAX_VALUE) {
+                throw new IllegalStateException(String.format("File content is too large for a byte array: %,d", sizeL));
+            }
+            return (int) sizeL;
+        } catch (FileSystemException ex) {
+            return 0;
+        }
+    }
+
+    /**
      * Returns the content of a file as a byte array.
      *
      * @return The content as a byte array.
@@ -126,11 +147,7 @@ public interface FileContent extends Closeable {
      * @since 2.4
      */
     default byte[] getByteArray() throws IOException {
-        final long sizeL = getSize();
-        if (sizeL > Integer.MAX_VALUE) {
-            throw new IllegalStateException(String.format("File content is too large for a byte array: %,d", sizeL));
-        }
-        final int size = (int) sizeL;
+        final int size = getExpectedSize();
         ByteArrayOutputStream buf = new ByteArrayOutputStream(size);
         IOUtils.copy(getInputStream(size), buf);
         return buf.toByteArray();

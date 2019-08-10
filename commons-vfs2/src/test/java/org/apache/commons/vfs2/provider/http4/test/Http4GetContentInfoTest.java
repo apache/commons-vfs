@@ -60,11 +60,15 @@ public class Http4GetContentInfoTest extends TestCase {
         content.getContentInfo();
     }
 
-
+    /**
+     * Test VFS-724 should be done on a website which render a page with no content size. Note the getSize() is
+     * currently the value sent back by the server then zero usually means no content length attached.
+     *
+     */
     @Test
     public void testGetZeroContents() throws IOException {
         final FileSystemManager fsManager = VFS.getManager();
-        final FileObject fo = fsManager.resolveFile("http4s://donate.apache.org/");
+        final FileObject fo = fsManager.resolveFile("http4s://www.apache.org/dist/");
         final FileContent content = fo.getContent();
         Assert.assertEquals(0L, content.getSize());  // <-- website is expected to render a page with no content-length
         Assert.assertNotNull(content.getString(StandardCharsets.UTF_8));
