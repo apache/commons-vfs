@@ -340,7 +340,7 @@ public final class DefaultFileContent implements FileContent {
      */
     @Override
     public InputStream getInputStream() throws FileSystemException {
-        return buildInputStream(null);
+        return buildInputStream(0);
     }
 
     /**
@@ -401,7 +401,7 @@ public final class DefaultFileContent implements FileContent {
      */
     @Override
     public OutputStream getOutputStream(final boolean bAppend) throws FileSystemException {
-        return buildOutputStream(bAppend, null);
+        return buildOutputStream(bAppend, 0);
     }
 
     /**
@@ -485,7 +485,7 @@ public final class DefaultFileContent implements FileContent {
         }
     }
 
-    private InputStream buildInputStream(final Integer bufferSize) throws FileSystemException {
+    private InputStream buildInputStream(final int bufferSize) throws FileSystemException {
         /*
          * if (getThreadData().getState() == STATE_WRITING || getThreadData().getState() == STATE_RANDOM_ACCESS) { throw
          * new FileSystemException("vfs.provider/read-in-use.error", file); }
@@ -494,7 +494,7 @@ public final class DefaultFileContent implements FileContent {
         // Get the raw input stream
         final InputStream inputStream = fileObject.getInputStream();
 
-        final InputStream wrappedInputStream = bufferSize == null ?
+        final InputStream wrappedInputStream = bufferSize == 0 ?
             new FileContentInputStream(fileObject, inputStream) :
             new FileContentInputStream(fileObject, inputStream, bufferSize);
 
@@ -504,7 +504,7 @@ public final class DefaultFileContent implements FileContent {
         return wrappedInputStream;
     }
 
-    private OutputStream buildOutputStream(final boolean bAppend, final Integer bufferSize) throws FileSystemException {
+    private OutputStream buildOutputStream(final boolean bAppend, final int bufferSize) throws FileSystemException {
         /*
          * if (getThreadData().getState() != STATE_NONE)
          */
@@ -518,7 +518,7 @@ public final class DefaultFileContent implements FileContent {
         final OutputStream outstr = fileObject.getOutputStream(bAppend);
 
         // Create and set wrapper
-        final FileContentOutputStream wrapped = bufferSize == null ?
+        final FileContentOutputStream wrapped = bufferSize == 0 ?
             new FileContentOutputStream(fileObject, outstr) :
             new FileContentOutputStream(fileObject, outstr, bufferSize);
         streams.setOutstr(wrapped);
