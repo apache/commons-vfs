@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,19 +57,22 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 /**
  * A partial file object implementation.
  *
+ * TODO - Chop this class up - move all the protected methods to several interfaces, so that structure and content can
+ * be separately overridden.
+ *
+ * <p>
+ * TODO - Check caps in methods like getChildren(), etc, and give better error messages (eg 'this file type does not
+ * support listing children', vs 'this is not a folder')
+ * </p>
+ * 
  * @param <AFS> An AbstractFileSystem subclass
  */
 public abstract class AbstractFileObject<AFS extends AbstractFileSystem> implements FileObject {
 
-    /*
-     * TODO - Chop this class up - move all the protected methods to several interfaces, so that structure and content
-     * can be separately overridden.
-     *
-     * <p>
-     * TODO - Check caps in methods like getChildren(), etc, and give better error messages (eg 'this file type does not
-     * support listing children', vs 'this is not a folder')
-     * </p>
+    /**
+     * Same as {@link BufferedInputStream}.
      */
+    private static final int DEFAULT_BUFFER_SIZE = 8192;
 
     private static final FileName[] EMPTY_FILE_ARRAY = {};
 
@@ -617,11 +621,30 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @return An InputStream to read the file content.
      * @throws Exception if an error occurs.
      */
-    protected abstract InputStream doGetInputStream() throws Exception;
+    protected InputStream doGetInputStream() throws Exception {
+        // Backward compatibility.
+        return doGetInputStream(DEFAULT_BUFFER_SIZE);
+    }
+
+    /**
+     * Creates an input stream to read the file content from. Is only called if {@link #doGetType} returns
+     * {@link FileType#FILE}.
+     * <p>
+     * It is guaranteed that there are no open output streams for this file when this method is called.
+     * </p>
+     * <p>
+     * The returned stream does not have to be buffered.
+     * </p>
+     * @param bufferSize Buffer size hint.
+     * @return An InputStream to read the file content.
+     * @throws Exception if an error occurs.
+     */
+    protected InputStream doGetInputStream(final int bufferSize) throws Exception {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Returns the last modified time of this file. Is only called if {@link #doGetType} does not return
-     * {@link FileType#IMAGINARY}.
      * <p>
      * This implementation throws an exception.
      * </p>
@@ -1165,14 +1188,20 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @throws FileSystemException if an error occurs.
      */
     public InputStream getInputStream() throws FileSystemException {
-        /*
-         * VFS-210 if (!getType().hasContent()) { throw new FileSystemException("vfs.provider/read-not-file.error",
-         * name); } if (!isReadable()) { throw new FileSystemException("vfs.provider/read-not-readable.error", name); }
-         */
+        return getInputStream(DEFAULT_BUFFER_SIZE);
+    }
 
+    /**
+     * Returns an input stream to use to read the content of the file.
+     * 
+     * @param bufferSize buffer size hint.
+     * @return The InputStream to access this file's content.
+     * @throws FileSystemException if an error occurs.
+     */
+    public InputStream getInputStream(final int bufferSize) throws FileSystemException {
         // Get the raw input stream
         try {
-            return doGetInputStream();
+            return doGetInputStream(bufferSize);
         } catch (final org.apache.commons.vfs2.FileNotFoundException exc) {
             throw new org.apache.commons.vfs2.FileNotFoundException(fileName, exc);
         } catch (final FileNotFoundException exc) {

@@ -52,9 +52,9 @@ public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem> {
     }
 
     @Override
-    protected InputStream doGetInputStream() throws Exception {
+    protected InputStream doGetInputStream(final int bufferSize) throws Exception {
         // check file
-        final InputStream is = getContainer().getContent().getInputStream();
+        final InputStream is = getContainer().getContent().getInputStream(bufferSize);
         return wrapInputStream(getName().getURI(), is);
     }
 

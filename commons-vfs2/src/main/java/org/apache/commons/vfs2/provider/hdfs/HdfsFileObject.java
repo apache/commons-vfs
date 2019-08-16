@@ -110,11 +110,11 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
     }
 
     /**
-     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetInputStream()
+     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetInputStream(int)
      */
     @Override
-    protected InputStream doGetInputStream() throws Exception {
-        return this.hdfs.open(this.path);
+    protected InputStream doGetInputStream(final int bufferSize) throws Exception {
+        return this.hdfs.open(this.path, bufferSize);
     }
 
     /**

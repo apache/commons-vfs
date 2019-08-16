@@ -251,6 +251,20 @@ public class FTPClientWrapper implements FtpClient {
     }
 
     @Override
+    public InputStream retrieveFileStream(final String relPath, final int bufferSize) throws IOException {
+        try {
+            final FTPClient client = getFtpClient();
+            client.setBufferSize(bufferSize);
+            return client.retrieveFileStream(relPath);
+        } catch (final IOException e) {
+            disconnect();
+            final FTPClient client = getFtpClient();
+            client.setBufferSize(bufferSize);
+            return client.retrieveFileStream(relPath);
+        }
+    }
+
+    @Override
     public InputStream retrieveFileStream(final String relPath, final long restartOffset) throws IOException {
         try {
             final FTPClient client = getFtpClient();
@@ -264,6 +278,11 @@ public class FTPClientWrapper implements FtpClient {
         }
     }
 
+    @Override
+    public void setBufferSize(final int bufferSize) throws FileSystemException {
+        getFtpClient().setBufferSize(bufferSize);
+    }
+    
     @Override
     public OutputStream storeFileStream(final String relPath) throws IOException {
         try {

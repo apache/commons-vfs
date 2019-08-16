@@ -103,7 +103,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
      * Creates an input stream to read the content from.
      */
     @Override
-    protected InputStream doGetInputStream() throws Exception {
+    protected InputStream doGetInputStream(int bufferSize) throws Exception {
         return new FileInputStream(file);
     }
 

@@ -57,7 +57,16 @@ public interface FtpClient {
 
     InputStream retrieveFileStream(String relPath) throws IOException;
 
+    default InputStream retrieveFileStream(String relPath, int bufferSize) throws IOException {
+        // Backward compatibility: no buffer size.
+        return retrieveFileStream(relPath);
+    }
+
     InputStream retrieveFileStream(String relPath, long restartOffset) throws IOException;
+
+    default void setBufferSize(int bufferSize) throws FileSystemException {
+        // Backward compatibility: do nothing.
+    }
 
     OutputStream storeFileStream(String relPath) throws IOException;
 

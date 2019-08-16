@@ -492,12 +492,11 @@ public final class DefaultFileContent implements FileContent {
          */
 
         // Get the raw input stream
-        final InputStream inputStream = fileObject.getInputStream();
-
-        final InputStream wrappedInputStream = bufferSize == 0 ?
-            new FileContentInputStream(fileObject, inputStream) :
-            new FileContentInputStream(fileObject, inputStream, bufferSize);
-
+        final InputStream inputStream = bufferSize == 0 ? fileObject.getInputStream()
+                : fileObject.getInputStream(bufferSize);
+        final InputStream wrappedInputStream = bufferSize == 0 
+                    ? new FileContentInputStream(fileObject, inputStream)
+                    : new FileContentInputStream(fileObject, inputStream, bufferSize);
         getOrCreateThreadData().addInstr(wrappedInputStream);
         streamOpened();
 
