@@ -42,8 +42,8 @@ public class FTPClientWrapper implements FtpClient {
     private static final Log LOG = LogFactory.getLog(FTPClientWrapper.class);
 
     protected final FileSystemOptions fileSystemOptions;
-    private final GenericFileName root;
     private FTPClient ftpClient;
+    private final GenericFileName root;
 
     protected FTPClientWrapper(final GenericFileName root, final FileSystemOptions fileSystemOptions)
             throws FileSystemException {
@@ -52,12 +52,39 @@ public class FTPClientWrapper implements FtpClient {
         getFtpClient(); // fail-fast
     }
 
-    public GenericFileName getRoot() {
-        return root;
+    @Override
+    public boolean abort() throws IOException {
+        try {
+            // imario@apache.org: 2005-02-14
+            // it should be better to really "abort" the transfer, but
+            // currently I didnt manage to make it work - so lets "abort" the hard way.
+            // return getFtpClient().abort();
+
+            disconnect();
+            return true;
+        } catch (final IOException e) {
+            disconnect();
+        }
+        return true;
     }
 
-    public FileSystemOptions getFileSystemOptions() {
-        return fileSystemOptions;
+    @Override
+    public OutputStream appendFileStream(final String relPath) throws IOException {
+        try {
+            return getFtpClient().appendFileStream(relPath);
+        } catch (final IOException e) {
+            disconnect();
+            return getFtpClient().appendFileStream(relPath);
+        }
+    }
+
+    @Override
+    public boolean completePendingCommand() throws IOException {
+        if (ftpClient != null) {
+            return getFtpClient().completePendingCommand();
+        }
+
+        return true;
     }
 
     private FTPClient createClient() throws FileSystemException {
@@ -83,17 +110,14 @@ public class FTPClientWrapper implements FtpClient {
                 rootName.getPath(), getFileSystemOptions());
     }
 
-    private FTPClient getFtpClient() throws FileSystemException {
-        if (ftpClient == null) {
-            ftpClient = createClient();
-        }
-
-        return ftpClient;
-    }
-
     @Override
-    public boolean isConnected() throws FileSystemException {
-        return ftpClient != null && ftpClient.isConnected();
+    public boolean deleteFile(final String relPath) throws IOException {
+        try {
+            return getFtpClient().deleteFile(relPath);
+        } catch (final IOException e) {
+            disconnect();
+            return getFtpClient().deleteFile(relPath);
+        }
     }
 
     @Override
@@ -111,6 +135,37 @@ public class FTPClientWrapper implements FtpClient {
                 ftpClient = null;
             }
         }
+    }
+
+    public FileSystemOptions getFileSystemOptions() {
+        return fileSystemOptions;
+    }
+
+    private FTPClient getFtpClient() throws FileSystemException {
+        if (ftpClient == null) {
+            ftpClient = createClient();
+        }
+
+        return ftpClient;
+    }
+
+    @Override
+    public int getReplyCode() throws IOException {
+        return getFtpClient().getReplyCode();
+    }
+
+    @Override
+    public String getReplyString() throws IOException {
+        return getFtpClient().getReplyString();
+    }
+
+    public GenericFileName getRoot() {
+        return root;
+    }
+
+    @Override
+    public boolean isConnected() throws FileSystemException {
+        return ftpClient != null && ftpClient.isConnected();
     }
 
     @Override
@@ -156,22 +211,22 @@ public class FTPClientWrapper implements FtpClient {
     }
 
     @Override
+    public boolean makeDirectory(final String relPath) throws IOException {
+        try {
+            return getFtpClient().makeDirectory(relPath);
+        } catch (final IOException e) {
+            disconnect();
+            return getFtpClient().makeDirectory(relPath);
+        }
+    }
+
+    @Override
     public boolean removeDirectory(final String relPath) throws IOException {
         try {
             return getFtpClient().removeDirectory(relPath);
         } catch (final IOException e) {
             disconnect();
             return getFtpClient().removeDirectory(relPath);
-        }
-    }
-
-    @Override
-    public boolean deleteFile(final String relPath) throws IOException {
-        try {
-            return getFtpClient().deleteFile(relPath);
-        } catch (final IOException e) {
-            disconnect();
-            return getFtpClient().deleteFile(relPath);
         }
     }
 
@@ -183,25 +238,6 @@ public class FTPClientWrapper implements FtpClient {
             disconnect();
             return getFtpClient().rename(oldName, newName);
         }
-    }
-
-    @Override
-    public boolean makeDirectory(final String relPath) throws IOException {
-        try {
-            return getFtpClient().makeDirectory(relPath);
-        } catch (final IOException e) {
-            disconnect();
-            return getFtpClient().makeDirectory(relPath);
-        }
-    }
-
-    @Override
-    public boolean completePendingCommand() throws IOException {
-        if (ftpClient != null) {
-            return getFtpClient().completePendingCommand();
-        }
-
-        return true;
     }
 
     @Override
@@ -229,16 +265,6 @@ public class FTPClientWrapper implements FtpClient {
     }
 
     @Override
-    public OutputStream appendFileStream(final String relPath) throws IOException {
-        try {
-            return getFtpClient().appendFileStream(relPath);
-        } catch (final IOException e) {
-            disconnect();
-            return getFtpClient().appendFileStream(relPath);
-        }
-    }
-
-    @Override
     public OutputStream storeFileStream(final String relPath) throws IOException {
         try {
             return getFtpClient().storeFileStream(relPath);
@@ -246,31 +272,5 @@ public class FTPClientWrapper implements FtpClient {
             disconnect();
             return getFtpClient().storeFileStream(relPath);
         }
-    }
-
-    @Override
-    public boolean abort() throws IOException {
-        try {
-            // imario@apache.org: 2005-02-14
-            // it should be better to really "abort" the transfer, but
-            // currently I didnt manage to make it work - so lets "abort" the hard way.
-            // return getFtpClient().abort();
-
-            disconnect();
-            return true;
-        } catch (final IOException e) {
-            disconnect();
-        }
-        return true;
-    }
-
-    @Override
-    public int getReplyCode() throws IOException {
-        return getFtpClient().getReplyCode();
-    }
-
-    @Override
-    public String getReplyString() throws IOException {
-        return getFtpClient().getReplyString();
     }
 }
