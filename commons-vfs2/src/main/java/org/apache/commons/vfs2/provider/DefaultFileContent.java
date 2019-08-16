@@ -494,6 +494,7 @@ public final class DefaultFileContent implements FileContent {
         // Get the raw input stream
         final InputStream inputStream = bufferSize == 0 ? fileObject.getInputStream()
                 : fileObject.getInputStream(bufferSize);
+        // Double buffering may take place here.
         final InputStream wrappedInputStream = bufferSize == 0 
                     ? new FileContentInputStream(fileObject, inputStream)
                     : new FileContentInputStream(fileObject, inputStream, bufferSize);
