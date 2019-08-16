@@ -29,36 +29,36 @@ import org.apache.commons.vfs2.FileSystemException;
  */
 public interface FtpClient {
 
-    boolean isConnected() throws FileSystemException;
+    boolean abort() throws IOException;
 
-    void disconnect() throws IOException;
+    OutputStream appendFileStream(String relPath) throws IOException;
 
-    FTPFile[] listFiles(String relPath) throws IOException;
-
-    boolean removeDirectory(String relPath) throws IOException;
+    boolean completePendingCommand() throws IOException;
 
     boolean deleteFile(String relPath) throws IOException;
 
-    boolean rename(String oldName, String newName) throws IOException;
+    void disconnect() throws IOException;
+
+    default int getReplyCode() throws IOException {
+        return FTPReply.COMMAND_OK;
+    }
+
+    String getReplyString() throws IOException;
+
+    boolean isConnected() throws FileSystemException;
+
+    FTPFile[] listFiles(String relPath) throws IOException;
 
     boolean makeDirectory(String relPath) throws IOException;
 
-    boolean completePendingCommand() throws IOException;
+    boolean removeDirectory(String relPath) throws IOException;
+
+    boolean rename(String oldName, String newName) throws IOException;
 
     InputStream retrieveFileStream(String relPath) throws IOException;
 
     InputStream retrieveFileStream(String relPath, long restartOffset) throws IOException;
 
-    OutputStream appendFileStream(String relPath) throws IOException;
-
     OutputStream storeFileStream(String relPath) throws IOException;
-
-    boolean abort() throws IOException;
-
-    String getReplyString() throws IOException;
-
-    default int getReplyCode() throws IOException {
-        return FTPReply.COMMAND_OK;
-    }
 
 }
