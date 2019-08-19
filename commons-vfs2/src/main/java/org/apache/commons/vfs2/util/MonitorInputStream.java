@@ -28,8 +28,8 @@ import java.util.concurrent.atomic.AtomicLong;
 public class MonitorInputStream extends BufferedInputStream {
 
     private static final int EOF_CHAR = -1;
-    private final AtomicBoolean finished = new AtomicBoolean(false);
     private final AtomicLong atomicCount = new AtomicLong(0);
+    private final AtomicBoolean finished = new AtomicBoolean(false);
 
     /**
      * Constructs a MonitorInputStream from the passed InputStream
@@ -65,6 +65,56 @@ public class MonitorInputStream extends BufferedInputStream {
         }
 
         return super.available();
+    }
+
+    /**
+     * Closes this input stream and releases any system resources associated with the stream.
+     *
+     * @throws IOException if an error occurs.
+     */
+    @Override
+    public void close() throws IOException {
+        final boolean closed = finished.getAndSet(true);
+        if (closed) {
+            return;
+        }
+
+        // Close the stream
+        IOException exc = null;
+        try {
+            super.close();
+        } catch (final IOException ioe) {
+            exc = ioe;
+        }
+
+        // Notify that the stream has been closed
+        try {
+            onClose();
+        } catch (final IOException ioe) {
+            exc = ioe;
+        }
+
+        if (exc != null) {
+            throw exc;
+        }
+    }
+
+    /**
+     * Gets the number of bytes read by this input stream.
+     *
+     * @return The number of bytes read by this input stream.
+     */
+    public long getCount() {
+        return atomicCount.get();
+    }
+
+    /**
+     * Called after the stream has been closed. This implementation does nothing.
+     *
+     * @throws IOException if an error occurs.
+     */
+    protected void onClose() throws IOException {
+        // noop
     }
 
     /**
@@ -107,55 +157,5 @@ public class MonitorInputStream extends BufferedInputStream {
             atomicCount.addAndGet(nread);
         }
         return nread;
-    }
-
-    /**
-     * Closes this input stream and releases any system resources associated with the stream.
-     *
-     * @throws IOException if an error occurs.
-     */
-    @Override
-    public void close() throws IOException {
-        final boolean closed = finished.getAndSet(true);
-        if (closed) {
-            return;
-        }
-
-        // Close the stream
-        IOException exc = null;
-        try {
-            super.close();
-        } catch (final IOException ioe) {
-            exc = ioe;
-        }
-
-        // Notify that the stream has been closed
-        try {
-            onClose();
-        } catch (final IOException ioe) {
-            exc = ioe;
-        }
-
-        if (exc != null) {
-            throw exc;
-        }
-    }
-
-    /**
-     * Called after the stream has been closed. This implementation does nothing.
-     *
-     * @throws IOException if an error occurs.
-     */
-    protected void onClose() throws IOException {
-        // noop
-    }
-
-    /**
-     * Gets the number of bytes read by this input stream.
-     *
-     * @return The number of bytes read by this input stream.
-     */
-    public long getCount() {
-        return atomicCount.get();
     }
 }
