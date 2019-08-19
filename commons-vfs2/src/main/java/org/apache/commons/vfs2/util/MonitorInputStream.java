@@ -153,7 +153,7 @@ public class MonitorInputStream extends BufferedInputStream {
     }
 
     /**
-     * Get the number of bytes read by this input stream.
+     * Gets the number of bytes read by this input stream.
      *
      * @return The number of bytes read by this input stream.
      */
