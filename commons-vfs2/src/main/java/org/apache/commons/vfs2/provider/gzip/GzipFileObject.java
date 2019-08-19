@@ -52,8 +52,8 @@ public class GzipFileObject extends CompressedFileFileObject<GzipFileSystem> {
 
     @Override
     protected InputStream doGetInputStream(final int bufferSize) throws Exception {
-        final InputStream is = getContainer().getContent().getInputStream();
-        return new GZIPInputStream(is, bufferSize);
+        final InputStream inputStream = getContainer().getContent().getInputStream();
+        return new GZIPInputStream(inputStream, bufferSize);
     }
 
     @Override

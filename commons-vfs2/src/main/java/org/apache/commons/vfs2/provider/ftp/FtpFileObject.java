@@ -485,12 +485,12 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     protected InputStream doGetInputStream(final int bufferSize) throws Exception {
         final FtpClient client = getAbstractFileSystem().getClient();
         try {
-            final InputStream instr = client.retrieveFileStream(relPath, 0);
+            final InputStream inputStream = client.retrieveFileStream(relPath, 0);
             // VFS-210
-            if (instr == null) {
+            if (inputStream == null) {
                 throw new FileNotFoundException(getName().toString());
             }
-            return new FtpInputStream(client, instr, bufferSize);
+            return new FtpInputStream(client, inputStream, bufferSize);
         } catch (final Exception e) {
             getAbstractFileSystem().putClient(client);
             throw e;
