@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -34,6 +35,7 @@ import org.apache.commons.vfs2.util.MonitorInputStream;
 import org.apache.commons.vfs2.util.MonitorOutputStream;
 import org.apache.commons.vfs2.util.MonitorRandomAccessContent;
 import org.apache.commons.vfs2.util.RandomAccessMode;
+import org.apache.commons.vfs2.util.RawMonitorInputStream;
 
 /**
  * The content of a file.
@@ -444,10 +446,15 @@ public final class DefaultFileContent implements FileContent {
 
             // Close the input stream
             while (fileContentThreadData.getInstrsSize() > 0) {
-                final FileContentInputStream inputStream = (FileContentInputStream) fileContentThreadData
-                        .removeInstr(0);
+                final InputStream inputStream = fileContentThreadData.removeInputStream(0);
                 try {
-                    inputStream.close();
+                    if (inputStream instanceof FileContentInputStream) {
+                        ((FileContentInputStream) inputStream).close();
+                    } else if (inputStream instanceof RawFileContentInputStream) {
+                        ((RawFileContentInputStream) inputStream).close();
+                    } else {
+                       caught = new FileSystemException("Unsupported InputStream type: " + inputStream);
+                    }
                 } catch (final FileSystemException ex) {
                     caught = ex;
 
@@ -490,14 +497,29 @@ public final class DefaultFileContent implements FileContent {
          * if (getThreadData().getState() == STATE_WRITING || getThreadData().getState() == STATE_RANDOM_ACCESS) { throw
          * new FileSystemException("vfs.provider/read-in-use.error", file); }
          */
-
         // Get the raw input stream
-        final InputStream inputStream = bufferSize == 0 ? fileObject.getInputStream()
+        // @formatter:off
+        final InputStream inputStream = bufferSize == 0 
+                ? fileObject.getInputStream()
                 : fileObject.getInputStream(bufferSize);
+        // @formatter:on
         // Double buffering may take place here.
-        final InputStream wrappedInputStream = bufferSize == 0 
+//        final InputStream wrappedInputStream = bufferSize == 0 
+//                    ? new FileContentInputStream(fileObject, inputStream)
+//                    : new FileContentInputStream(fileObject, inputStream, bufferSize);
+
+        InputStream wrappedInputStream;
+        if (inputStream instanceof BufferedInputStream) {
+            // Don't double buffer.
+            wrappedInputStream = new RawFileContentInputStream(fileObject, inputStream);
+        } else 
+        {
+            // @formatter:off
+            wrappedInputStream = bufferSize == 0 
                     ? new FileContentInputStream(fileObject, inputStream)
                     : new FileContentInputStream(fileObject, inputStream, bufferSize);
+            // @formatter:on
+        }
         getOrCreateThreadData().addInstr(wrappedInputStream);
         streamOpened();
 
@@ -530,7 +552,7 @@ public final class DefaultFileContent implements FileContent {
     /**
      * Handles the end of input stream.
      */
-    private void endInput(final FileContentInputStream instr) {
+    private void endInput(final InputStream instr) {
         final FileContentThreadData fileContentThreadData = threadLocal.get();
         if (fileContentThreadData != null) {
             fileContentThreadData.removeInstr(instr);
@@ -617,6 +639,46 @@ public final class DefaultFileContent implements FileContent {
 
         FileContentInputStream(final FileObject file, final InputStream instr, final int bufferSize) {
             super(instr, bufferSize);
+            this.file = file;
+        }
+
+        /**
+         * Closes this input stream.
+         */
+        @Override
+        public void close() throws FileSystemException {
+            try {
+                super.close();
+            } catch (final IOException e) {
+                throw new FileSystemException("vfs.provider/close-instr.error", file, e);
+            }
+        }
+
+        /**
+         * Called after the stream has been closed.
+         */
+        @Override
+        protected void onClose() throws IOException {
+            try {
+                super.onClose();
+            } finally {
+                endInput(this);
+            }
+        }
+    }
+
+    /**
+     * An input stream for reading content. Provides buffering, and end-of-stream monitoring.
+     * <p>
+     * This is the same as {@link FileContentInputStream} but without the buffering.
+     * </p>
+     */
+    private final class RawFileContentInputStream extends RawMonitorInputStream {
+        // avoid gc
+        private final FileObject file;
+
+        RawFileContentInputStream(final FileObject file, final InputStream instr) {
+            super(instr);
             this.file = file;
         }
 
