@@ -70,9 +70,10 @@ public class ShowFileTask extends VfsTask {
     @Override
     public void execute() throws BuildException {
         try {
-            final FileObject file = resolveFile(url);
-            log("Details of " + file.getPublicURIString());
-            showFile(file, INDENT);
+            try (final FileObject file = resolveFile(url)) {
+                log("Details of " + file.getPublicURIString());
+                showFile(file, INDENT);
+            }
         } catch (final Exception e) {
             throw new BuildException(e);
         }
@@ -97,9 +98,10 @@ public class ShowFileTask extends VfsTask {
         if (file.exists()) {
             final String newPrefix = prefix + INDENT;
             if (file.getType().hasContent()) {
-                final FileContent content = file.getContent();
-                log(newPrefix + "Content-Length: " + content.getSize());
-                log(newPrefix + "Last-Modified" + new Date(content.getLastModifiedTime()));
+                try (final FileContent content = file.getContent()) {
+                    log(newPrefix + "Content-Length: " + content.getSize());
+                    log(newPrefix + "Last-Modified" + new Date(content.getLastModifiedTime()));
+                }
                 if (showContent) {
                     log(newPrefix + "Content:");
                     logContent(file, newPrefix);
