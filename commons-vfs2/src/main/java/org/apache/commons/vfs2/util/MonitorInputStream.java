@@ -82,10 +82,9 @@ public class MonitorInputStream extends BufferedInputStream {
         final int ch = super.read();
         if (ch != EOF_CHAR) {
             atomicCount.incrementAndGet();
-            return ch;
         }
 
-        return EOF_CHAR;
+        return ch;
     }
 
     /**
@@ -106,9 +105,8 @@ public class MonitorInputStream extends BufferedInputStream {
         final int nread = super.read(buffer, offset, length);
         if (nread != EOF_CHAR) {
             atomicCount.addAndGet(nread);
-            return nread;
         }
-        return EOF_CHAR;
+        return nread;
     }
 
     /**
