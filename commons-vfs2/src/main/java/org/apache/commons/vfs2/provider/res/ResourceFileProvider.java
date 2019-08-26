@@ -59,7 +59,7 @@ public class ResourceFileProvider extends AbstractFileProvider {
     public FileObject findFile(final FileObject baseFile, final String uri, final FileSystemOptions fileSystemOptions)
             throws FileSystemException {
         final StringBuilder buf = new StringBuilder(BUFFER_SIZE);
-        UriParser.extractScheme(VFS.getManager().getSchemes(), uri, buf);
+        UriParser.extractScheme(getContext().getFileSystemManager().getSchemes(), uri, buf);
         final String resourceName = buf.toString();
 
         ClassLoader classLoader = ResourceFileSystemConfigBuilder.getInstance().getClassLoader(fileSystemOptions);

@@ -53,7 +53,7 @@ public abstract class CompositeFileProvider extends AbstractFileProvider {
             throws FileSystemException {
         final StringBuilder buf = new StringBuilder(INITIAL_BUFSZ);
 
-        UriParser.extractScheme(VFS.getManager().getSchemes(), uri, buf);
+        UriParser.extractScheme(getContext().getFileSystemManager().getSchemes(), uri, buf);
 
         final String[] schemes = getSchemes();
         for (final String scheme : schemes) {
