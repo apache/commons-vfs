@@ -1393,7 +1393,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 @Override
                 public URL run() throws MalformedURLException, FileSystemException {
                     final StringBuilder buf = new StringBuilder();
-                    final String scheme = UriParser.extractScheme(VFS.getManager().getSchemes(), fileName.getURI(), buf);
+                    final String scheme = UriParser.extractScheme(fileSystem.getContext().getFileSystemManager().getSchemes(), fileName.getURI(), buf);
                     return new URL(scheme, "", -1, buf.toString(),
                             new DefaultURLStreamHandler(fileSystem.getContext(), fileSystem.getFileSystemOptions()));
                 }

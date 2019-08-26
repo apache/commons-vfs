@@ -83,7 +83,7 @@ public class TemporaryFileProvider extends AbstractFileProvider implements Compa
             final FileSystemOptions properties) throws FileSystemException {
         // Parse the name
         final StringBuilder buffer = new StringBuilder(uri);
-        final String scheme = UriParser.extractScheme(VFS.getManager().getSchemes(), uri, buffer);
+        final String scheme = UriParser.extractScheme(getContext().getFileSystemManager().getSchemes(), uri, buffer);
         UriParser.fixSeparators(buffer);
         UriParser.normalisePath(buffer);
         final String path = buffer.toString();

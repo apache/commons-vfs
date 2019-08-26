@@ -65,7 +65,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser {
         final StringBuilder name = new StringBuilder();
 
         // Extract the scheme
-        final String scheme = UriParser.extractScheme(VFS.getManager().getSchemes(), fileName, name);
+        final String scheme = UriParser.extractScheme(context.getFileSystemManager().getSchemes(), fileName, name);
 
         // Extract the Layered file URI
         final String rootUriName = extractRootName(name);
