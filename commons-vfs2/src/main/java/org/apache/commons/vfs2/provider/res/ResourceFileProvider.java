@@ -43,7 +43,7 @@ public class ResourceFileProvider extends AbstractFileProvider {
     private static final int BUFFER_SIZE = 80;
 
     public ResourceFileProvider() {
-        super();
+        setFileNameParser(ResourceFileNameParser.getInstance());
     }
 
     /**
@@ -60,6 +60,7 @@ public class ResourceFileProvider extends AbstractFileProvider {
             throws FileSystemException {
         final StringBuilder buf = new StringBuilder(BUFFER_SIZE);
         UriParser.extractScheme(getContext().getFileSystemManager().getSchemes(), uri, buf);
+        UriParser.normalisePath(buf);
         final String resourceName = buf.toString();
 
         ClassLoader classLoader = ResourceFileSystemConfigBuilder.getInstance().getClassLoader(fileSystemOptions);
