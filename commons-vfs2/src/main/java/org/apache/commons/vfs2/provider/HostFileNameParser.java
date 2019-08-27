@@ -73,7 +73,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
     protected Authority extractToPath(final VfsComponentContext context, final String uri, final StringBuilder name) throws FileSystemException {
         final Authority auth = new Authority();
 
-        FileSystemManager fsm;
+        final FileSystemManager fsm;
         if (context != null) {
         	fsm = context.getFileSystemManager();
         } else {
