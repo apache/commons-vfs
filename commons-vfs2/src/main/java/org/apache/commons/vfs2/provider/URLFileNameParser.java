@@ -45,7 +45,7 @@ public class URLFileNameParser extends HostFileNameParser {
         final StringBuilder name = new StringBuilder();
 
         // Extract the scheme and authority parts
-        final Authority auth = extractToPath(fileName, name);
+        final Authority auth = extractToPath(context, fileName, name);
 
         // Extract the queryString
         final String queryString = UriParser.extractQueryString(name);

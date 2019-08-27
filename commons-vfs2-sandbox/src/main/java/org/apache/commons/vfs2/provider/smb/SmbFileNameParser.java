@@ -28,62 +28,63 @@ import org.apache.commons.vfs2.provider.VfsComponentContext;
  * Implementation for sftp. set default port to 139
  */
 public class SmbFileNameParser extends URLFileNameParser {
-    private static final SmbFileNameParser INSTANCE = new SmbFileNameParser();
-    private static final int SMB_PORT = 139;
+	private static final SmbFileNameParser INSTANCE = new SmbFileNameParser();
 
-    public SmbFileNameParser() {
-        super(SMB_PORT);
-    }
+	private static final int SMB_PORT = 139;
 
-    public static FileNameParser getInstance() {
-        return INSTANCE;
-    }
+	public SmbFileNameParser() {
+		super(SMB_PORT);
+	}
 
-    @Override
-    public FileName parseUri(final VfsComponentContext context, final FileName base, final String filename)
-            throws FileSystemException {
-        final StringBuilder name = new StringBuilder();
+	public static FileNameParser getInstance() {
+		return INSTANCE;
+	}
 
-        // Extract the scheme and authority parts
-        final Authority auth = extractToPath(filename, name);
+	@Override
+	public FileName parseUri(final VfsComponentContext context, final FileName base, final String filename)
+			throws FileSystemException {
+		final StringBuilder name = new StringBuilder();
 
-        // extract domain
-        String username = auth.getUserName();
-        final String domain = extractDomain(username);
-        if (domain != null) {
-            username = username.substring(domain.length() + 1);
-        }
+		// Extract the scheme and authority parts
+		final Authority auth = extractToPath(context, filename, name);
 
-        // Decode and adjust separators
-        UriParser.canonicalizePath(name, 0, name.length(), this);
-        UriParser.fixSeparators(name);
+		// extract domain
+		String username = auth.getUserName();
+		final String domain = extractDomain(username);
+		if (domain != null) {
+			username = username.substring(domain.length() + 1);
+		}
 
-        // Extract the share
-        final String share = UriParser.extractFirstElement(name);
-        if (share == null || share.length() == 0) {
-            throw new FileSystemException("vfs.provider.smb/missing-share-name.error", filename);
-        }
+		// Decode and adjust separators
+		UriParser.canonicalizePath(name, 0, name.length(), this);
+		UriParser.fixSeparators(name);
 
-        // Normalise the path. Do this after extracting the share name,
-        // to deal with things like smb://hostname/share/..
-        final FileType fileType = UriParser.normalisePath(name);
-        final String path = name.toString();
+		// Extract the share
+		final String share = UriParser.extractFirstElement(name);
+		if (share == null || share.length() == 0) {
+			throw new FileSystemException("vfs.provider.smb/missing-share-name.error", filename);
+		}
 
-        return new SmbFileName(auth.getScheme(), auth.getHostName(), auth.getPort(), username, auth.getPassword(),
-                domain, share, path, fileType);
-    }
+		// Normalise the path. Do this after extracting the share name,
+		// to deal with things like smb://hostname/share/..
+		final FileType fileType = UriParser.normalisePath(name);
+		final String path = name.toString();
 
-    private String extractDomain(final String username) {
-        if (username == null) {
-            return null;
-        }
+		return new SmbFileName(auth.getScheme(), auth.getHostName(), auth.getPort(), username, auth.getPassword(),
+				domain, share, path, fileType);
+	}
 
-        for (int i = 0; i < username.length(); i++) {
-            if (username.charAt(i) == '\\') {
-                return username.substring(0, i);
-            }
-        }
+	private String extractDomain(final String username) {
+		if (username == null) {
+			return null;
+		}
 
-        return null;
-    }
+		for (int i = 0; i < username.length(); i++) {
+			if (username.charAt(i) == '\\') {
+				return username.substring(0, i);
+			}
+		}
+
+		return null;
+	}
 }
