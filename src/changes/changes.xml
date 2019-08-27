@@ -65,7 +65,7 @@ The <action> type attribute can be add,update,fix,remove.
         FileContent#getByteArray() throws IllegalArgumentException: Buffer size &lt;= 0 when file size is 0.
       </action>
       <action issue="VFS-728" dev="ggregory" type="update" due-to="Gary Gregory">
-        Update Apache Commons Compress from 1.18 to 1.19
+        Update Apache Commons Compress from 1.18 to 1.19.
       </action>
       <action                 dev="ggregory" type="fix" due-to="Gary Gregory">
         Javadoc fixes.
