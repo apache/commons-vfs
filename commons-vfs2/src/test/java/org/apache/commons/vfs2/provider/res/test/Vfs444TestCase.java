@@ -50,7 +50,7 @@ public class Vfs444TestCase extends AbstractProviderTestConfig {
         manager.addProvider("res", new ResourceFileProvider());
         manager.addProvider("zip", new ZipFileProvider());
     }
-    
+
     /**
      * Returns the base folder for tests.
      */
@@ -61,18 +61,18 @@ public class Vfs444TestCase extends AbstractProviderTestConfig {
     }
 
     public static class Vfs444Tests extends AbstractProviderTestCase {
-        
+
         public void testResolveFullPathURI0() throws FileSystemException {
             FileName result = getManager().resolveURI("res:test-data/test.zip");
             Assert.assertNotNull(result);
         }
-    
+
         public void testResolveFullPathFile0() throws FileSystemException {
             FileObject result = getManager().resolveFile("res:test-data/test.zip");
             Assert.assertNotNull(result);
             Assert.assertTrue(result.exists());
         }
-    
+
         public void testResolveFullPathURI1() {
             try {
                 getManager().resolveURI("res:/test-data/test.zip");
@@ -82,7 +82,7 @@ public class Vfs444TestCase extends AbstractProviderTestConfig {
                 // nop
             }
         }
-    
+
         public void testResolveFullPathFile1() {
             try {
                 getManager().resolveFile("res:/test-data/test.zip");
@@ -92,32 +92,32 @@ public class Vfs444TestCase extends AbstractProviderTestConfig {
                 // nop
             }
         }
-    
+
         public void testResolveFullPathURI2() {
             try {
                 getManager().resolveURI("res://test-data/test.zip");
-                Assert.fail("res:/test-data/test.zip is not a valid 'res:' URI");
+                Assert.fail("res://test-data/test.zip is not a valid 'res:' URI");
             }
             catch (FileSystemException e) {
                 // nop
             }
         }
-    
+
         public void testResolveFullPathFile2()  {
             try {
                 getManager().resolveFile("res://test-data/test.zip");
-                Assert.fail("res:/test-data/test.zip is not a valid 'res:' URI");
+                Assert.fail("res://test-data/test.zip is not a valid 'res:' URI");
             }
             catch (FileSystemException e) {
                 // nop
             }
         }
-    
+
         public void testResolvePartialPath1() throws FileSystemException {
             FileName result = getManager().resolveURI("res:test-data");
             Assert.assertNotNull(result);
         }
-    
+
         public void testResolvePartialPath2() throws FileSystemException {
             FileName root = getManager().resolveURI("res:test-data");
             FileName file = getManager().resolveName(root, "test.zip");

@@ -66,4 +66,10 @@ public class ResourceFileName extends AbstractFileName {
         buffer.append(getScheme());
         buffer.append(":");
     }
+
+    @Override
+    public String getRootURI() {
+        // resource uris have a blank root.
+        return "";
+    }
 }
