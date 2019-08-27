@@ -18,6 +18,7 @@ package org.apache.commons.vfs2.provider;
 
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.util.Cryptor;
@@ -49,7 +50,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         final StringBuilder name = new StringBuilder();
 
         // Extract the scheme and authority parts
-        final Authority auth = extractToPath(fileName, name);
+        final Authority auth = extractToPath(context, fileName, name);
 
         // Decode and normalise the file name
         UriParser.canonicalizePath(name, 0, name.length(), this);
@@ -69,11 +70,18 @@ public class HostFileNameParser extends AbstractFileNameParser {
      * @return Authority extracted host authority, never null.
      * @throws FileSystemException if authority cannot be extracted.
      */
-    protected Authority extractToPath(final String uri, final StringBuilder name) throws FileSystemException {
+    protected Authority extractToPath(final VfsComponentContext context, final String uri, final StringBuilder name) throws FileSystemException {
         final Authority auth = new Authority();
 
+        final FileSystemManager fsm;
+        if (context != null) {
+        	fsm = context.getFileSystemManager();
+        } else {
+        	fsm = VFS.getManager();
+        }
+        
         // Extract the scheme
-        auth.scheme = UriParser.extractScheme(VFS.getManager().getSchemes(), uri, name);
+        auth.scheme = UriParser.extractScheme(fsm.getSchemes(), uri, name);
 
         // Expecting "//"
         if (name.length() < 2 || name.charAt(0) != '/' || name.charAt(1) != '/') {
