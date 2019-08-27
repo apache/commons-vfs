@@ -45,7 +45,7 @@ public class ResSchemeTestCase {
 
     @Test(expected = FileSystemException.class)
     public void test_resolveFile_String_SSS() throws FileSystemException {
-        Assert.assertTrue(VFS.getManager().resolveFile("res://stest.properties").exists());
+        Assert.assertTrue(VFS.getManager().resolveFile("res://test.properties").exists());
     }
 
     @Test
@@ -65,7 +65,7 @@ public class ResSchemeTestCase {
 
     @Test(expected = FileSystemException.class)
     public void test_resolveFile_URI_SSS() throws FileSystemException, URISyntaxException {
-        Assert.assertTrue(VFS.getManager().resolveFile(new URI("res://stest.properties")).exists());
+        Assert.assertTrue(VFS.getManager().resolveFile(new URI("res://test.properties")).exists());
     }
 
     @Test
