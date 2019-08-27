@@ -56,6 +56,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-704" dev="ggregory" type="fix" due-to="Boris Petrov, Gary Gregory">
         Some providers wrap their input/output streams twice in a BufferedInputStream.
       </action>
+      <action issue="VFS-727" dev="ggregory" type="fix" due-to="Michiel Hendriks, Gary Gregory">
+        Prevented creation of singleton file system manager from providers.
+      </action>
     </release>
     <release version="2.4.1" date="2019-08-10" description="Bug fix release.">
       <action issue="VFS-725" dev="ggregory" type="fix" due-to="Gary Gregory">
