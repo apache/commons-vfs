@@ -59,6 +59,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-727" dev="ggregory" type="fix" due-to="Michiel Hendriks, Gary Gregory">
         Prevented creation of singleton file system manager from providers.
       </action>
+      <action issue="VFS-444" dev="ggregory" type="update" due-to="Walter Eaves, Xavier Dury, Michiel Hendriks, Gary Gregory">
+        ResourceFileProvider "res://" failed to obtain FileObject from resolved FileName.
+      </action>
       <action issue="VFS-728" dev="ggregory" type="update" due-to="Gary Gregory">
         Update Apache Commons Compress from 1.18 to 1.19.
       </action>
