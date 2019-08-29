@@ -57,7 +57,7 @@ public class Vfs444TestCase extends AbstractProviderTestConfig {
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         final String baseDir = AbstractVfsTestCase.getResourceTestDirectory();
-        return manager.resolveFile("zip:res:"+baseDir+"/test.zip");
+        return manager.resolveFile("zip:res:" + baseDir + "/test.zip");
     }
 
     public static class Vfs444Tests extends AbstractProviderTestCase {

@@ -41,11 +41,11 @@ public class ResourceFileNameParser extends GenericFileNameParser {
     protected String extractRootPrefix(final String uri, final StringBuilder name) throws FileSystemException {
         // Resource uri (as used by ClassLoader.getResource()) are assumed to be absolute despite
         // lacking a leading '/'. In fact, a leading '/' prevents resolving to the resource.
-        
-    	if (name.length() == 0 || name.charAt(0) == '/') {
+
+        if (name.length() == 0 || name.charAt(0) == '/') {
             throw new FileSystemException("vfs.provider.res/not-valid-resource-location.error", uri);
         }
-        
+
         return "/";
     }
     
