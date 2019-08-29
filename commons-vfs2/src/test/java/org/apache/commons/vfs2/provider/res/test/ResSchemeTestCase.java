@@ -87,4 +87,16 @@ public class ResSchemeTestCase {
     public void test_resolveURI_String_SSS() throws FileSystemException {
         Assert.assertTrue(VFS.getManager().resolveURI("res:///test.properties").isFile());
     }
+
+    @Test(expected = FileSystemException.class)
+    public void test_resolveURI_String_SSSnull() throws FileSystemException {
+        // Resulting path is empty
+        Assert.assertTrue(VFS.getManager().resolveURI("res:///").isFile());
+    }
+
+    @Test(expected = FileSystemException.class)
+    public void test_resolveFile_String_SSSnull() throws FileSystemException {
+        // Resulting path is empty
+        Assert.assertTrue(VFS.getManager().resolveFile("res:///").exists());
+    }
 }
