@@ -773,7 +773,7 @@
 
             <ul>
                 <li>
-                    <code>res:path/in/classpath/image.png</code><br/>
+                    <code>res://path/in/classpath/image.png</code><br/>
                     might result in
                     <code>jar:file://my/path/to/images.jar!/path/in/classpath/image.png</code><br/>
                 </li>
