@@ -188,7 +188,7 @@
     <commons.clirr.version>2.6</commons.clirr.version>
     <!-- Avoid warnings about being unable to find jars during site building -->
     <dependency.locations.enabled>false</dependency.locations.enabled>
-    <hadoop.version>2.6.0</hadoop.version>
+    <hadoop.version>3.2.0</hadoop.version>
     <commons.surefire.version>2.19.1</commons.surefire.version>
     <commons.japicmp.version>0.14.1</commons.japicmp.version>
   </properties>
@@ -492,6 +492,12 @@
         <artifactId>mail</artifactId>
         <version>1.4.7</version>
       </dependency>
+      <!-- HDFS -->
+      <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-hdfs-client</artifactId>
+        <version>${hadoop.version}</version>
+      </dependency>
       <dependency>
         <groupId>org.apache.hadoop</groupId>
         <artifactId>hadoop-common</artifactId>
@@ -514,7 +520,6 @@
           </exclusion>
         </exclusions>
       </dependency>
-
       <!-- Testing -->
       <dependency>
         <groupId>junit</groupId>
