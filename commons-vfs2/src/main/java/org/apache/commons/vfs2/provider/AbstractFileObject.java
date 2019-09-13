@@ -21,7 +21,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
@@ -1389,14 +1388,11 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public URL getURL() throws FileSystemException {
         try {
-            return AccessController.doPrivileged(new PrivilegedExceptionAction<URL>() {
-                @Override
-                public URL run() throws MalformedURLException, FileSystemException {
-                    final StringBuilder buf = new StringBuilder();
-                    final String scheme = UriParser.extractScheme(fileSystem.getContext().getFileSystemManager().getSchemes(), fileName.getURI(), buf);
-                    return new URL(scheme, "", -1, buf.toString(),
-                            new DefaultURLStreamHandler(fileSystem.getContext(), fileSystem.getFileSystemOptions()));
-                }
+            return AccessController.doPrivileged((PrivilegedExceptionAction<URL>) () -> {
+                final StringBuilder buf = new StringBuilder();
+                final String scheme = UriParser.extractScheme(fileSystem.getContext().getFileSystemManager().getSchemes(), fileName.getURI(), buf);
+                return new URL(scheme, "", -1, buf.toString(),
+                        new DefaultURLStreamHandler(fileSystem.getContext(), fileSystem.getFileSystemOptions()));
             });
         } catch (final PrivilegedActionException e) {
             throw new FileSystemException("vfs.provider/get-url.error", fileName, e.getException());

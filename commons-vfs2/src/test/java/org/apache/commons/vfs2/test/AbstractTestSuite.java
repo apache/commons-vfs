@@ -125,14 +125,11 @@ public abstract class AbstractTestSuite extends TestSetup {
 
     @Override
     public void run(final TestResult result) {
-        final Protectable p = new Protectable() {
-            @Override
-            public void protect() throws Exception {
-                setUp();
-                basicRun(result);
-                tearDown();
-                validateThreadSnapshot();
-            }
+        final Protectable p = () -> {
+            setUp();
+            basicRun(result);
+            tearDown();
+            validateThreadSnapshot();
         };
         result.runProtected(this, p);
     }
