@@ -282,7 +282,7 @@ public class FTPClientWrapper implements FtpClient {
     public void setBufferSize(final int bufferSize) throws FileSystemException {
         getFtpClient().setBufferSize(bufferSize);
     }
-    
+
     @Override
     public OutputStream storeFileStream(final String relPath) throws IOException {
         try {

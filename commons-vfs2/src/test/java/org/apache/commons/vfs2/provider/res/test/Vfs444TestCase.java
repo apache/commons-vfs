@@ -33,7 +33,7 @@ import org.junit.Assert;
 import junit.framework.Test;
 
 /**
- * Test cases for VFS-444. 
+ * Test cases for VFS-444.
  */
 public class Vfs444TestCase extends AbstractProviderTestConfig {
     public static Test suite() throws Exception {
@@ -101,7 +101,7 @@ public class Vfs444TestCase extends AbstractProviderTestConfig {
             FileName root = getManager().resolveURI("res:test-data");
             FileName file = getManager().resolveName(root, "test.zip");
             String uri = file.getURI();
-            FileObject result = getManager().resolveFile(uri); 
+            FileObject result = getManager().resolveFile(uri);
             Assert.assertNotNull(result);
             Assert.assertTrue(result.exists());
         }

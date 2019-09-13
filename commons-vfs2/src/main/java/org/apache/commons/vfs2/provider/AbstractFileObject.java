@@ -63,7 +63,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * TODO - Check caps in methods like getChildren(), etc, and give better error messages (eg 'this file type does not
  * support listing children', vs 'this is not a folder')
  * </p>
- * 
+ *
  * @param <AFS> An AbstractFileSystem subclass
  */
 public abstract class AbstractFileObject<AFS extends AbstractFileSystem> implements FileObject {
@@ -1192,7 +1192,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Returns an input stream to use to read the content of the file.
-     * 
+     *
      * @param bufferSize buffer size hint.
      * @return The InputStream to access this file's content.
      * @throws FileSystemException if an error occurs.

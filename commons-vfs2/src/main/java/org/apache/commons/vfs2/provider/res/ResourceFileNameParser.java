@@ -56,7 +56,7 @@ public class ResourceFileNameParser extends GenericFileNameParser {
 
         return "/";
     }
-    
+
     @Override
     protected FileName createFileName(final String scheme, final String rootFile, final String path,
             final FileType type) {

@@ -499,12 +499,12 @@ public final class DefaultFileContent implements FileContent {
          */
         // Get the raw input stream
         // @formatter:off
-        final InputStream inputStream = bufferSize == 0 
+        final InputStream inputStream = bufferSize == 0
                 ? fileObject.getInputStream()
                 : fileObject.getInputStream(bufferSize);
         // @formatter:on
         // Double buffering may take place here.
-//        final InputStream wrappedInputStream = bufferSize == 0 
+//        final InputStream wrappedInputStream = bufferSize == 0
 //                    ? new FileContentInputStream(fileObject, inputStream)
 //                    : new FileContentInputStream(fileObject, inputStream, bufferSize);
 
@@ -512,10 +512,10 @@ public final class DefaultFileContent implements FileContent {
         if (inputStream instanceof BufferedInputStream) {
             // Don't double buffer.
             wrappedInputStream = new RawFileContentInputStream(fileObject, inputStream);
-        } else 
+        } else
         {
             // @formatter:off
-            wrappedInputStream = bufferSize == 0 
+            wrappedInputStream = bufferSize == 0
                     ? new FileContentInputStream(fileObject, inputStream)
                     : new FileContentInputStream(fileObject, inputStream, bufferSize);
             // @formatter:on

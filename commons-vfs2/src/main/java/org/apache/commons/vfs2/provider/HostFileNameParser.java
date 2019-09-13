@@ -79,7 +79,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         } else {
         	fsm = VFS.getManager();
         }
-        
+
         // Extract the scheme
         auth.scheme = UriParser.extractScheme(fsm.getSchemes(), uri, name);
 
