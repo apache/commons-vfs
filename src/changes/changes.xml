@@ -66,7 +66,7 @@ The <action> type attribute can be add,update,fix,remove.
         Update Apache Commons Compress from 1.18 to 1.19.
       </action>
       <action issue="VFS-729" dev="ggregory" type="update" due-to="Michiel Hendriks, Gary Gregory">
-        Upgrade hadoop to 2.7.4 or later; will use current 3.2.0.
+        Upgrade Hadoop to 2.7.4 or later; will use current 3.2.0.
       </action>
     </release>
     <release version="2.4.1" date="2019-08-10" description="Bug fix release.">
