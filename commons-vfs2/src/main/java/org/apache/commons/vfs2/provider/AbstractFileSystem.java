@@ -193,13 +193,12 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     private FilesCache getFilesCache() {
-        FilesCache files;
-        files = getContext().getFileSystemManager().getFilesCache();
-        if (files == null) {
+        final FilesCache filesCache = getContext().getFileSystemManager().getFilesCache();
+        if (filesCache == null) {
             throw new RuntimeException(Messages.getString("vfs.provider/files-cache-missing.error"));
         }
 
-        return files;
+        return filesCache;
     }
 
     /**
