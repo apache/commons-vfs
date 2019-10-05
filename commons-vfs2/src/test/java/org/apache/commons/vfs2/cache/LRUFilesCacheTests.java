@@ -16,7 +16,11 @@
  */
 package org.apache.commons.vfs2.cache;
 
+import java.util.Objects;
+
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FilesCache;
+import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.junit.Assert;
 
 /**
@@ -68,6 +72,10 @@ public class LRUFilesCacheTests extends AbstractFilesCacheTestsBase {
     }
 
     public void testClass() {
-        assertTrue(getManager().getFilesCache() instanceof LRUFilesCache);
+        @SuppressWarnings("resource")
+        final DefaultFileSystemManager manager = getManager();
+        Assert.assertNotNull("manager", manager);
+        final FilesCache filesCache = manager.getFilesCache();
+        assertTrue(Objects.toString(filesCache), filesCache instanceof LRUFilesCache);
     }
 }
