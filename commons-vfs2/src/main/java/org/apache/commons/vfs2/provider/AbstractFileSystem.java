@@ -189,10 +189,10 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      * @param file the file to add.
      */
     protected void putFileToCache(final FileObject file) {
-        getCache().putFile(file);
+        getFilesCache().putFile(file);
     }
 
-    private FilesCache getCache() {
+    private FilesCache getFilesCache() {
         FilesCache files;
         files = getContext().getFileSystemManager().getFilesCache();
         if (files == null) {
@@ -209,7 +209,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      * @return file object or null if not found.
      */
     protected FileObject getFileFromCache(final FileName name) {
-        return getCache().getFile(this, name);
+        return getFilesCache().getFile(this, name);
     }
 
     /**
@@ -218,7 +218,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      * @param name The file name to remove.
      */
     protected void removeFileFromCache(final FileName name) {
-        getCache().removeFile(this, name);
+        getFilesCache().removeFile(this, name);
     }
 
     /**
