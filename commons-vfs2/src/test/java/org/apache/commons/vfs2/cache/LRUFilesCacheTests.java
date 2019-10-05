@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.cache;
 
 import org.apache.commons.vfs2.FileObject;
+import org.junit.Assert;
 
 /**
  * Tests for {@link LRUFilesCache} used by {@link LRUFilesCacheTestCase}.
@@ -24,6 +25,7 @@ import org.apache.commons.vfs2.FileObject;
 public class LRUFilesCacheTests extends AbstractFilesCacheTestsBase {
     public void testFilesCache() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
+        Assert.assertNotNull("scratchFolder", scratchFolder);
 
         // releaseable
         final FileObject dir1 = scratchFolder.resolveFile("dir1");
