@@ -50,7 +50,7 @@ import org.apache.commons.vfs2.operations.FileOperationProvider;
  * elements. See {@link FileObject#resolveFile} for more details.</li>
  * </ul>
  */
-public interface FileSystemManager {
+public interface FileSystemManager extends AutoCloseable {
 
     /**
      * Adds the specified FileOperationProvider for the specified scheme.
@@ -82,6 +82,16 @@ public interface FileSystemManager {
      * @throws FileSystemException if an error occurs.
      */
     boolean canCreateFileSystem(FileObject file) throws FileSystemException;
+
+    /**
+     * Closes this file system manager.
+     *
+     * @since 2.5.0
+     */
+    @Override
+    default void close() {
+        // noop
+    }
 
     /**
      * Closes the given file system.

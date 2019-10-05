@@ -77,8 +77,11 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" type="update" due-to="Gary Gregory">
         Update tests using org.mockito:mockito-core from 3.0.0 to 3.1.0.
       </action>
-      <action issue="VFS-734" dev="ggregory" type="update" due-to="Gary Gregory">
+      <action issue="VFS-734" dev="ggregory" type="add" due-to="Gary Gregory">
         Add functional interface org.apache.commons.vfs2.function.VfsConsumer.
+      </action>
+      <action issue="VFS-735" dev="ggregory" type="add" due-to="Gary Gregory">
+        Add org.apache.commons.vfs2.FileSystemManager.close() via AutoCloseable.
       </action>
     </release>
     <release version="2.4.1" date="2019-08-10" description="Bug fix release.">

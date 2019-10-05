@@ -60,7 +60,7 @@ import org.apache.commons.vfs2.provider.VfsComponent;
 /**
  * The default file system manager implementation.
  */
-public class DefaultFileSystemManager implements FileSystemManager, AutoCloseable {
+public class DefaultFileSystemManager implements FileSystemManager {
     /**
      * Mapping from URI scheme to FileProvider.
      */
@@ -512,6 +512,7 @@ public class DefaultFileSystemManager implements FileSystemManager, AutoCloseabl
      * <p>
      * The manager is in uninitialized state after this method.
      */
+    @Override
     public void close() {
         if (!init) {
             return;
@@ -1164,4 +1165,5 @@ public class DefaultFileSystemManager implements FileSystemManager, AutoCloseabl
             throw new FileSystemException(e);
         }
     }
+
 }
