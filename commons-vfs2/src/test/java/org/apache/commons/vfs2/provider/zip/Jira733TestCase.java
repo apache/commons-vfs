@@ -50,7 +50,6 @@ public class Jira733TestCase {
             ZipFileObject zipFileObject = (ZipFileObject) fileObject;
             Assert.assertNotNull("getParentLayer() 1", wrappedFileObject.getFileSystem().getParentLayer());
             consumer.accept(wrappedFileObject);
-            // zipFileObject.doAttach();
             Assert.assertNotNull("getParentLayer() 2", wrappedFileObject.getFileSystem().getParentLayer());
         }
     }
@@ -65,8 +64,6 @@ public class Jira733TestCase {
         Assert.assertNotNull("getParentLayer() 1", wrappedFileObject.getFileSystem().getParentLayer());
         wrappedFileObject.exists();
         wrappedFileObject.getContent();
-        // ((ZipFileObject) zipFileObject).doAttach();
-        // TODO FAILS
         Assert.assertNotNull("getParentLayer() 2", wrappedFileObject.getFileSystem().getParentLayer());
     }
 
