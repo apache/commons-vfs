@@ -43,13 +43,14 @@ public class Jira733TestCase {
     public void testZipParentLayer() throws Exception {
         final File file = new File("src/test/resources/test-data/test.zip");
         final String nestedPath = "zip:" + file.getAbsolutePath() + "!/read-tests/file1.txt";
-        final FileObject zipFileObject = VFS.getManager().resolveFile(nestedPath);
-        final FileObject wrappedFileObject = new OnCallRefreshFileObject(zipFileObject);
-        // VFS.getManager().getFilesCache().close();
-        Assert.assertNotNull("getParentLayer() 1", wrappedFileObject.getFileSystem().getParentLayer());
-        wrappedFileObject.exists();
-        wrappedFileObject.getContent();
-        Assert.assertNotNull("getParentLayer() 2", wrappedFileObject.getFileSystem().getParentLayer());
+        try (final FileObject fileObject = VFS.getManager().resolveFile(nestedPath);
+                final FileObject wrappedFileObject = new OnCallRefreshFileObject(fileObject)) {
+            // VFS.getManager().getFilesCache().close();
+            Assert.assertNotNull("getParentLayer() 1", wrappedFileObject.getFileSystem().getParentLayer());
+            wrappedFileObject.exists();
+            wrappedFileObject.getContent();
+            Assert.assertNotNull("getParentLayer() 2", wrappedFileObject.getFileSystem().getParentLayer());
+        }
     }
 
     private void testZipParentLayer(final VfsConsumer<FileObject> consumer) throws Exception {
