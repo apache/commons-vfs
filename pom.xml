@@ -18,7 +18,6 @@
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
@@ -30,7 +29,7 @@
   <name>Apache Commons VFS Project</name>
   <description>Apache Commons VFS is a Virtual File System library.</description>
   <packaging>pom</packaging>
-  <version>2.4-SNAPSHOT</version>
+  <version>2.5.0-SNAPSHOT</version>
 
   <url>http://commons.apache.org/proper/commons-vfs/</url>
   <inceptionYear>2002</inceptionYear>
@@ -161,25 +160,23 @@
     <commons.siteOutputDirectory>${basedir}/../target/site</commons.siteOutputDirectory>
     <commons.releaseNotesLocation>${basedir}/../RELEASE-NOTES.txt</commons.releaseNotesLocation>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
-    <commons.release.version>2.4</commons.release.version>
+    <commons.release.version>2.4.1</commons.release.version>
     <!-- Commons Release Plugin -->
-    <commons.bc.version>2.3</commons.bc.version>
+    <commons.bc.version>2.4.1</commons.bc.version>
     <commons.releaseManagerName>Gary Gregory</commons.releaseManagerName>    
     <commons.releaseManagerKey>86fdc7e2a11262cb</commons.releaseManagerKey>  
-    <commons.rc.version>RC2</commons.rc.version>
+    <commons.rc.version>RC1</commons.rc.version>
     <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
     <commons.release.desc>(requires Java 8)</commons.release.desc>
-    <commons.binary.suffix /> <!-- TODO delete? -->
 
 <!--
     <commons.release.2.version>2.0</commons.release.2.version>
     <commons.release.2.name>commons-vfs-2.0</commons.release.2.name>
     <commons.release.2.desc>(requires Java 1.5+)</commons.release.2.desc>
-    <commons.release.2.binary.suffix />
 -->
 
     <vfs.parent.dir>${basedir}</vfs.parent.dir>
-    <version.checkstyle>3.0.0</version.checkstyle>
+    <version.checkstyle>3.1.0</version.checkstyle>
     <!-- make sure bundle plugin has dependency informations for 'optional' -->
     <commons.osgi.excludeDependencies />
     <commons.osgi.import>
@@ -193,11 +190,11 @@
     <commons.clirr.version>2.6</commons.clirr.version>
     <!-- Avoid warnings about being unable to find jars during site building -->
     <dependency.locations.enabled>false</dependency.locations.enabled>
-    <hadoop.version>2.6.0</hadoop.version>
+    <hadoop.version>3.2.1</hadoop.version>
     <jackrabbit.version>1.6.5</jackrabbit.version>
-    <jackrabbit2.version>2.19.2</jackrabbit2.version>
+    <jackrabbit2.version>2.19.4</jackrabbit2.version>
     <commons.surefire.version>2.19.1</commons.surefire.version>
-    <commons.japicmp.version>0.14.0</commons.japicmp.version>
+    <commons.japicmp.version>0.14.1</commons.japicmp.version>
   </properties>
 
   <build>
@@ -264,8 +261,7 @@
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <!--  version 7.0 requires Java 8 -->
-            <version>6.19</version>
+            <version>8.25</version>
           </dependency>
         </dependencies>        
         <!-- Keep build/reporting in sync -->
@@ -280,11 +276,11 @@
       <plugin>
         <groupId>org.apache.rat</groupId>
         <artifactId>apache-rat-plugin</artifactId>
-        <version>${commons.rat.version}</version>
         <!-- Should agree with config in reporting section -->
         <configuration>
           <excludes combine.children="append">
             <!--  trivial test data text files -->
+            <exclude>src/test/resources/test-data/**/*.bin</exclude>
             <exclude>src/test/resources/test-data/**/*.txt</exclude>
             <exclude>src/test/resources/test-data/**/*.tgz</exclude>
             <exclude>src/test/resources/test-data/**/*.tbz2</exclude>
@@ -295,6 +291,22 @@
           </excludes>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>com.github.siom79.japicmp</groupId>
+        <artifactId>japicmp-maven-plugin</artifactId>
+        <configuration>
+          <parameter>
+            <overrideCompatibilityChangeParameters>
+              <overrideCompatibilityChangeParameter>
+                <compatibilityChange>METHOD_NEW_DEFAULT</compatibilityChange>
+                <binaryCompatible>true</binaryCompatible>
+                <sourceCompatible>true</sourceCompatible>
+                <semanticVersionLevel>PATCH</semanticVersionLevel>
+              </overrideCompatibilityChangeParameter>
+            </overrideCompatibilityChangeParameters>
+          </parameter>
+        </configuration>
+      </plugin>    
     </plugins>
   </build>
 
@@ -367,6 +379,22 @@
           <aggregate>true</aggregate>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>com.github.siom79.japicmp</groupId>
+        <artifactId>japicmp-maven-plugin</artifactId>
+        <configuration>
+          <parameter>
+            <overrideCompatibilityChangeParameters>
+              <overrideCompatibilityChangeParameter>
+                <compatibilityChange>METHOD_NEW_DEFAULT</compatibilityChange>
+                <binaryCompatible>true</binaryCompatible>
+                <sourceCompatible>true</sourceCompatible>
+                <semanticVersionLevel>PATCH</semanticVersionLevel>
+              </overrideCompatibilityChangeParameter>
+            </overrideCompatibilityChangeParameters>
+          </parameter>
+        </configuration>
+      </plugin>      
       <!-- cobertura breaks because it cannot parse annotations in methods. -->
       <!--
       <plugin>
@@ -426,7 +454,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-collections4</artifactId>
-        <version>4.3</version>
+        <version>4.4</version>
       </dependency>
       <dependency>
         <groupId>commons-httpclient</groupId>
@@ -436,12 +464,12 @@
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
-        <version>4.5.8</version>
+        <version>4.5.10</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
-        <version>1.18</version>
+        <version>1.19</version>
       </dependency>
       <dependency>
         <groupId>ant</groupId>
@@ -462,6 +490,12 @@
         <groupId>javax.mail</groupId>
         <artifactId>mail</artifactId>
         <version>1.4.7</version>
+      </dependency>
+      <!-- HDFS -->
+      <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-hdfs-client</artifactId>
+        <version>${hadoop.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.hadoop</groupId>
@@ -485,12 +519,16 @@
           </exclusion>
         </exclusions>
       </dependency>
-
       <!-- Testing -->
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>4.12</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>3.1.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -522,7 +560,7 @@
       <dependency>
         <groupId>org.apache.mina</groupId>
         <artifactId>mina-core</artifactId>
-        <version>2.0.19</version>
+        <version>2.0.20</version>
       </dependency>
       <dependency>
         <groupId>org.bouncycastle</groupId>
@@ -538,7 +576,7 @@
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpcore-nio</artifactId>
-        <version>4.4.11</version>
+        <version>4.4.12</version>
       </dependency>
       <!-- Test WebDAV with Apache Jackrabbit Standalone -->
       <dependency>

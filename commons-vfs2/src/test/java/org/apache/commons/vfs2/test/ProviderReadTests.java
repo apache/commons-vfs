@@ -210,6 +210,14 @@ public class ProviderReadTests extends AbstractProviderTestCase {
     }
 
     /**
+     * Tests that test read folder is not a symbolic link.
+     */
+    public void testFolderIsSymbolicLink() throws Exception {
+        final FileObject folder = getReadFolderDir1();
+        Assert.assertFalse(folder.isSymbolicLink());
+    }
+
+    /**
      * Tests that test read folder is readable.
      */
     public void testFolderIsReadable() throws Exception {

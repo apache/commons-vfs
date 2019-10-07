@@ -24,18 +24,35 @@ public class FileChangeEvent {
     /**
      * The file object
      */
-    private final FileObject file;
+    private final FileObject fileObject;
 
-    public FileChangeEvent(final FileObject file) {
-        this.file = file;
+    /**
+     * Constructs a new instance.
+     *
+     * @param fileObject the file object.
+     */
+    public FileChangeEvent(final FileObject fileObject) {
+        this.fileObject = fileObject;
     }
 
     /**
      * Returns the file that changed.
      *
      * @return The FileObject that was changed.
+     * @deprecated Use {@link #getFileObject()}.
      */
+    @Deprecated
     public FileObject getFile() {
-        return file;
+        return fileObject;
+    }
+
+    /**
+     * Returns the file that changed.
+     *
+     * @return The FileObject that was changed.
+     * @since 2.5.0
+     */
+    public FileObject getFileObject() {
+        return fileObject;
     }
 }

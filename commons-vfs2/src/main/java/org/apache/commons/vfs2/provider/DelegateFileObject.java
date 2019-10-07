@@ -279,8 +279,8 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      * Creates an input stream to read the file content from.
      */
     @Override
-    protected InputStream doGetInputStream() throws Exception {
-        return file.getContent().getInputStream();
+    protected InputStream doGetInputStream(final int bufferSize) throws Exception {
+        return file.getContent().getInputStream(bufferSize);
     }
 
     /**
@@ -299,7 +299,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     public void fileCreated(final FileChangeEvent event) throws Exception {
-        if (event.getFile() != file) {
+        if (event.getFileObject() != file) {
             return;
         }
         if (!ignoreEvent) {
@@ -315,7 +315,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     public void fileDeleted(final FileChangeEvent event) throws Exception {
-        if (event.getFile() != file) {
+        if (event.getFileObject() != file) {
             return;
         }
         if (!ignoreEvent) {
@@ -334,7 +334,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     public void fileChanged(final FileChangeEvent event) throws Exception {
-        if (event.getFile() != file) {
+        if (event.getFileObject() != file) {
             return;
         }
         if (!ignoreEvent) {

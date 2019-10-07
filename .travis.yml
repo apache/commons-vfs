@@ -20,8 +20,8 @@ jdk:
   - openjdk8
   - openjdk11
   - openjdk12
+  - openjdk13
   - openjdk-ea
-  - oraclejdk8
   - oraclejdk11
 
 after_success:

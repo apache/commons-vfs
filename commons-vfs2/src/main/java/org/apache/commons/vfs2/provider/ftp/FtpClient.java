@@ -29,36 +29,45 @@ import org.apache.commons.vfs2.FileSystemException;
  */
 public interface FtpClient {
 
-    boolean isConnected() throws FileSystemException;
-
-    void disconnect() throws IOException;
-
-    FTPFile[] listFiles(String relPath) throws IOException;
-
-    boolean removeDirectory(String relPath) throws IOException;
-
-    boolean deleteFile(String relPath) throws IOException;
-
-    boolean rename(String oldName, String newName) throws IOException;
-
-    boolean makeDirectory(String relPath) throws IOException;
-
-    boolean completePendingCommand() throws IOException;
-
-    InputStream retrieveFileStream(String relPath) throws IOException;
-
-    InputStream retrieveFileStream(String relPath, long restartOffset) throws IOException;
+    boolean abort() throws IOException;
 
     OutputStream appendFileStream(String relPath) throws IOException;
 
-    OutputStream storeFileStream(String relPath) throws IOException;
+    boolean completePendingCommand() throws IOException;
 
-    boolean abort() throws IOException;
+    boolean deleteFile(String relPath) throws IOException;
 
-    String getReplyString() throws IOException;
+    void disconnect() throws IOException;
 
     default int getReplyCode() throws IOException {
         return FTPReply.COMMAND_OK;
     }
+
+    String getReplyString() throws IOException;
+
+    boolean isConnected() throws FileSystemException;
+
+    FTPFile[] listFiles(String relPath) throws IOException;
+
+    boolean makeDirectory(String relPath) throws IOException;
+
+    boolean removeDirectory(String relPath) throws IOException;
+
+    boolean rename(String oldName, String newName) throws IOException;
+
+    InputStream retrieveFileStream(String relPath) throws IOException;
+
+    default InputStream retrieveFileStream(String relPath, int bufferSize) throws IOException {
+        // Backward compatibility: no buffer size.
+        return retrieveFileStream(relPath);
+    }
+
+    InputStream retrieveFileStream(String relPath, long restartOffset) throws IOException;
+
+    default void setBufferSize(int bufferSize) throws FileSystemException {
+        // Backward compatibility: do nothing.
+    }
+
+    OutputStream storeFileStream(String relPath) throws IOException;
 
 }

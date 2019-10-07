@@ -20,6 +20,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.security.cert.Certificate;
 import java.util.Map;
 
@@ -41,6 +42,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * @see FileObject#getContent
  */
 public interface FileContent extends Closeable {
+
     /**
      * Closes all resources used by the content, including any open stream. Commits pending changes to the file.
      * <p>
@@ -115,9 +117,8 @@ public interface FileContent extends Closeable {
     InputStream getInputStream() throws FileSystemException;
 
     /**
-     * Returns the content of a file, as a byte array.
+     * Returns the content of a file as a byte array.
      *
-     * @param file The file to get the content of.
      * @return The content as a byte array.
      * @throws IOException if the file content cannot be accessed.
      * @since 2.4
@@ -267,6 +268,30 @@ public interface FileContent extends Closeable {
      * @throws FileSystemException If the file does not exist, or is being written to, or on error determining the size.
      */
     long getSize() throws FileSystemException;
+
+    /**
+     * Returns the content of a file as a String.
+     *
+     * @param charset The file character set, may be null.
+     * @return The content as a byte array.
+     * @throws IOException if the file content cannot be accessed.
+     * @since 2.4
+     */
+    default String getString(final Charset charset) throws IOException {
+        return new String(getByteArray(), charset == null ? Charset.defaultCharset() : charset);
+    }
+
+    /**
+     * Returns the content of a file as a String.
+     *
+     * @param charset The file character set, may be null.
+     * @return The content as a byte array.
+     * @throws IOException if the file content cannot be accessed.
+     * @since 2.4
+     */
+    default String getString(final String charset) throws IOException {
+        return new String(getByteArray(), charset == null ? Charset.defaultCharset().name() : charset);
+    }
 
     /**
      * Checks if an attribute of the file's content exists.

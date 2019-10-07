@@ -64,6 +64,9 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser {
 
         // Extract the scheme
         String scheme = UriParser.extractScheme(context.getFileSystemManager().getSchemes(), uri, name);
+        if (scheme == null && base != null) {
+            scheme = base.getScheme();
+        }
         if (scheme == null) {
             scheme = "file";
         }

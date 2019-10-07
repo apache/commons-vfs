@@ -482,15 +482,15 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
      * Creates an input stream to read the file content from.
      */
     @Override
-    protected InputStream doGetInputStream() throws Exception {
+    protected InputStream doGetInputStream(final int bufferSize) throws Exception {
         final FtpClient client = getAbstractFileSystem().getClient();
         try {
-            final InputStream instr = client.retrieveFileStream(relPath);
+            final InputStream inputStream = client.retrieveFileStream(relPath, 0);
             // VFS-210
-            if (instr == null) {
+            if (inputStream == null) {
                 throw new FileNotFoundException(getName().toString());
             }
-            return new FtpInputStream(client, instr);
+            return new FtpInputStream(client, inputStream, bufferSize);
         } catch (final Exception e) {
             getAbstractFileSystem().putClient(client);
             throw e;
@@ -563,6 +563,11 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
 
         public FtpInputStream(final FtpClient client, final InputStream in) {
             super(in);
+            this.client = client;
+        }
+
+        public FtpInputStream(final FtpClient client, final InputStream in, final int bufferSize) {
+            super(in, bufferSize);
             this.client = client;
         }
 

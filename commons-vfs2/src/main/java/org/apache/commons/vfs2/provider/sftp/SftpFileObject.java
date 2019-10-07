@@ -68,28 +68,6 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     }
 
     /**
-     * @throws FileSystemException if error occurs.
-     * @since 2.0
-     */
-    @Override
-    public void refresh() throws FileSystemException {
-        if (!inRefresh) {
-            try {
-                inRefresh = true;
-                super.refresh();
-                try {
-                    attrs = null;
-                    getType();
-                } catch (final IOException e) {
-                    throw new FileSystemException(e);
-                }
-            } finally {
-                inRefresh = false;
-            }
-        }
-    }
-
-    /**
      * Determines the type of this file, returns null if the file does not exist.
      */
     @Override
@@ -440,8 +418,9 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     /**
      * Creates an input stream to read the file content from.
      */
+    @SuppressWarnings("resource")
     @Override
-    protected InputStream doGetInputStream() throws Exception {
+    protected InputStream doGetInputStream(final int bufferSize) throws Exception {
         // VFS-113: avoid npe
         synchronized (getAbstractFileSystem()) {
             final ChannelSftp channel = getAbstractFileSystem().getChannel();
@@ -457,7 +436,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
                  * outstr.close(); return new ByteArrayInputStream(outstr.toByteArray());
                  */
 
-                InputStream is;
+                InputStream inputStream;
                 try {
                     // VFS-210: sftp allows to gather an input stream even from a directory and will
                     // fail on first read. So we need to check the type anyway
@@ -465,7 +444,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
                         throw new FileSystemException("vfs.provider/read-not-file.error", getName());
                     }
 
-                    is = channel.get(relPath);
+                    inputStream = channel.get(relPath);
                 } catch (final SftpException e) {
                     if (e.id == ChannelSftp.SSH_FX_NO_SUCH_FILE) {
                         throw new FileNotFoundException(getName());
@@ -474,7 +453,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
                     throw new FileSystemException(e);
                 }
 
-                return new SftpInputStream(channel, is);
+                return new SftpInputStream(channel, inputStream, bufferSize);
 
             } finally {
                 // getAbstractFileSystem().putChannel(channel);
@@ -505,6 +484,11 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
 
         public SftpInputStream(final ChannelSftp channel, final InputStream in) {
             super(in);
+            this.channel = channel;
+        }
+
+        public SftpInputStream(final ChannelSftp channel, final InputStream in, final int bufferSize) {
+            super(in, bufferSize);
             this.channel = channel;
         }
 

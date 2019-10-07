@@ -25,7 +25,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 
 /**
- * Wrap a listener with a WeakReference.
+ * Wraps a listener with a WeakReference.
  *
  * @since 2.0
  */
@@ -42,7 +42,7 @@ public class WeakRefFileListener implements FileListener {
     }
 
     /**
-     * This will install the {@code listener} at the given {@code file}.
+     * Installs the {@code listener} at the given {@code file}.
      *
      * @param file The FileObject to listen on.
      * @param listener The FileListener
@@ -54,7 +54,7 @@ public class WeakRefFileListener implements FileListener {
     }
 
     /**
-     * returns the wrapped listener. If it is gone, the WeakRefFileListener wrapper will remove itself from the list of
+     * Gets the wrapped listener. If it is gone, the WeakRefFileListener wrapper will remove itself from the list of
      * listeners.
      *
      * @return The FileListener.
@@ -63,8 +63,9 @@ public class WeakRefFileListener implements FileListener {
     protected FileListener getListener() throws Exception {
         final FileListener listener = this.listener.get();
         if (listener == null) {
-            final FileObject file = fs.resolveFile(name);
-            file.getFileSystem().removeListener(file, this);
+            try (final FileObject fileObject = fs.resolveFile(name)) {
+                fileObject.getFileSystem().removeListener(fileObject, this);
+            }
         }
         return listener;
     }

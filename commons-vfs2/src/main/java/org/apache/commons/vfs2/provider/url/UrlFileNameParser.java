@@ -87,7 +87,7 @@ public class UrlFileNameParser extends AbstractFileNameParser {
     /**
      * This method counts the slashes after the scheme.
      *
-     * @param file name The file name.
+     * @param fileName The file name.
      * @return number of slashes
      */
     protected int countSlashes(final String fileName) {

@@ -20,6 +20,7 @@ import java.io.Serializable;
 
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileFilter;
+import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
@@ -89,17 +90,19 @@ public class CanWriteFileFilter implements FileFilter, Serializable {
      */
     @Override
     public boolean accept(final FileSelectInfo fileInfo) throws FileSystemException {
-        final FileSystem fileSystem = fileInfo.getFile().getFileSystem();
-        if (fileInfo.getFile().exists()) {
-            if (!fileSystem.hasCapability(Capability.WRITE_CONTENT)) {
+        try (final FileObject file = fileInfo.getFile()) {
+            final FileSystem fileSystem = file.getFileSystem();
+            if (file.exists()) {
+                if (!fileSystem.hasCapability(Capability.WRITE_CONTENT)) {
+                    return false;
+                }
+                return file.isWriteable();
+            }
+            if (!fileSystem.hasCapability(Capability.CREATE)) {
                 return false;
             }
-            return fileInfo.getFile().isWriteable();
+            return file.getParent().isWriteable();
         }
-        if (!fileSystem.hasCapability(Capability.CREATE)) {
-            return false;
-        }
-        return fileInfo.getFile().getParent().isWriteable();
     }
 
 }

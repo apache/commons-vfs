@@ -48,7 +48,7 @@ import org.apache.tools.ant.Project;
  * <li>TOOD - Allow selector, mapper, filters, etc to be specified.</li>
  * <li>TODO - Handle source/dest directories as well.</li>
  * <li>TODO - Allow selector to be specified for choosing which dest files to sync.</li>
- * <ul>
+ * </ul>
  */
 public abstract class AbstractSyncTask extends VfsTask {
     private final ArrayList<SourceInfo> srcFiles = new ArrayList<>();

@@ -123,8 +123,6 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     @Override
     public void close() {
         closeCommunicationLink();
-
-        parentLayer = null;
     }
 
     /**
@@ -189,17 +187,16 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      * @param file the file to add.
      */
     protected void putFileToCache(final FileObject file) {
-        getCache().putFile(file);
+        getFilesCache().putFile(file);
     }
 
-    private FilesCache getCache() {
-        FilesCache files;
-        files = getContext().getFileSystemManager().getFilesCache();
-        if (files == null) {
+    private FilesCache getFilesCache() {
+        final FilesCache filesCache = getContext().getFileSystemManager().getFilesCache();
+        if (filesCache == null) {
             throw new RuntimeException(Messages.getString("vfs.provider/files-cache-missing.error"));
         }
 
-        return files;
+        return filesCache;
     }
 
     /**
@@ -209,7 +206,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      * @return file object or null if not found.
      */
     protected FileObject getFileFromCache(final FileName name) {
-        return getCache().getFile(this, name);
+        return getFilesCache().getFile(this, name);
     }
 
     /**
@@ -218,7 +215,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      * @param name The file name to remove.
      */
     protected void removeFileFromCache(final FileName name) {
-        getCache().removeFile(this, name);
+        getFilesCache().removeFile(this, name);
     }
 
     /**
@@ -538,10 +535,10 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      */
     private void fireEvent(final AbstractFileChangeEvent event) {
         FileListener[] fileListeners = null;
-        final FileObject file = event.getFile();
+        final FileObject fileObject = event.getFileObject();
 
         synchronized (listenerMap) {
-            final ArrayList<?> listeners = listenerMap.get(file.getName());
+            final ArrayList<?> listeners = listenerMap.get(fileObject.getName());
             if (listeners != null) {
                 fileListeners = listeners.toArray(new FileListener[listeners.size()]);
             }
@@ -552,7 +549,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
                 try {
                     event.notify(fileListener);
                 } catch (final Exception e) {
-                    final String message = Messages.getString("vfs.provider/notify-listener.warn", file);
+                    final String message = Messages.getString("vfs.provider/notify-listener.warn", fileObject);
                     // getLogger().warn(message, e);
                     VfsLog.warn(getLogger(), LOG, message, e);
                 }

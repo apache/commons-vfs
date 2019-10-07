@@ -94,7 +94,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @return True if autodetection should be done.
      * @since 2.4
      */
-    public Boolean getAutodetectUTF8(final FileSystemOptions opts) {
+    public Boolean getAutodetectUtf8(final FileSystemOptions opts) {
         return getBoolean(opts, AUTODETECT_UTF8);
     }
 
@@ -279,7 +279,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param autodetectUTF8 true if autodetection should be done.
      * @since 2.4
      */
-    public void setAutodetectUTF8(final FileSystemOptions opts, final Boolean autodetectUTF8) {
+    public void setAutodetectUtf8(final FileSystemOptions opts, final Boolean autodetectUTF8) {
         setParam(opts, AUTODETECT_UTF8, autodetectUTF8);
     }
 

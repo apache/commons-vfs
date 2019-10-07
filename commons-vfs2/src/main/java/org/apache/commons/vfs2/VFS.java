@@ -24,30 +24,11 @@ import java.lang.reflect.Method;
  */
 public final class VFS {
 
-    /** The URI style */
-    private static Boolean uriStyle;
-
     /** The FileSystemManager */
     private static FileSystemManager instance;
 
-    private VFS() {
-    }
-
-    /**
-     * Returns the default {@link FileSystemManager} instance.
-     * <p>
-     * Warning, if you close this instance you may affect all current and future users of this manager singleton.
-     * </p>
-     *
-     * @return The FileSystemManager.
-     * @throws FileSystemException if an error occurs creating the manager.
-     */
-    public static synchronized FileSystemManager getManager() throws FileSystemException {
-        if (instance == null) {
-            instance = createManager("org.apache.commons.vfs2.impl.StandardFileSystemManager");
-        }
-        return instance;
-    }
+    /** The URI style */
+    private static Boolean uriStyle;
 
     /**
      * Creates a file system manager instance.
@@ -56,7 +37,7 @@ public final class VFS {
      * @return The FileSystemManager.
      * @throws FileSystemException if an error occurs creating the manager.
      */
-    private static FileSystemManager createManager(final String managerClassName) throws FileSystemException {
+    private static FileSystemManager createFileSystemManager(final String managerClassName) throws FileSystemException {
         try {
             // Create instance
             final Class<?> mgrClass = Class.forName(managerClassName);
@@ -78,6 +59,22 @@ public final class VFS {
         }
     }
 
+    /**
+     * Returns the default {@link FileSystemManager} instance.
+     * <p>
+     * Warning, if you close this instance you may affect all current and future users of this manager singleton.
+     * </p>
+     *
+     * @return The FileSystemManager.
+     * @throws FileSystemException if an error occurs creating the manager.
+     */
+    public static synchronized FileSystemManager getManager() throws FileSystemException {
+        if (instance == null) {
+            instance = reset();
+        }
+        return instance;
+    }
+
     public static boolean isUriStyle() {
         if (uriStyle == null) {
             uriStyle = Boolean.FALSE;
@@ -85,11 +82,18 @@ public final class VFS {
         return uriStyle.booleanValue();
     }
 
-    public static void setUriStyle(final boolean uriStyle) {
-        if (VFS.uriStyle != null && VFS.uriStyle.booleanValue() != uriStyle) {
-            throw new IllegalStateException("VFS.uriStyle was already set differently.");
+    /**
+     * Resets the FileSystemManager to the default.
+     *
+     * @return the new FileSystemManager.
+     * @throws FileSystemException if an error occurs creating the manager.
+     * @since 2.5.0
+     */
+    public static FileSystemManager reset() throws FileSystemException {
+        if (instance != null) {
+            instance.close();
         }
-        VFS.uriStyle = Boolean.valueOf(uriStyle);
+        return instance = createFileSystemManager("org.apache.commons.vfs2.impl.StandardFileSystemManager");
     }
 
     /**
@@ -100,5 +104,15 @@ public final class VFS {
      */
     public static synchronized void setManager(final FileSystemManager manager) {
         VFS.instance = manager;
+    }
+
+    public static void setUriStyle(final boolean uriStyle) {
+        if (VFS.uriStyle != null && VFS.uriStyle.booleanValue() != uriStyle) {
+            throw new IllegalStateException("VFS.uriStyle was already set differently.");
+        }
+        VFS.uriStyle = Boolean.valueOf(uriStyle);
+    }
+
+    private VFS() {
     }
 }

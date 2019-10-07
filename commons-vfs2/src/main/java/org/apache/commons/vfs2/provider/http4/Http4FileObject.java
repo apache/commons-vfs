@@ -141,7 +141,7 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
 
 
     @Override
-    protected InputStream doGetInputStream() throws Exception {
+    protected InputStream doGetInputStream(final int bufferSize) throws Exception {
         final HttpGet getRequest = new HttpGet(getInternalURI());
         final HttpResponse httpResponse = executeHttpUriRequest(getRequest);
         final int status = httpResponse.getStatusLine().getStatusCode();
@@ -154,7 +154,7 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
             throw new FileSystemException("vfs.provider.http/get.error", getName(), Integer.valueOf(status));
         }
 
-        return new MonitoredHttpResponseContentInputStream(httpResponse);
+        return new MonitoredHttpResponseContentInputStream(httpResponse, bufferSize);
     }
 
     @Override

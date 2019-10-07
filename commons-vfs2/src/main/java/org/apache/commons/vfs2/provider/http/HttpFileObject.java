@@ -61,6 +61,11 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
             this.method = method;
         }
 
+        public HttpInputStream(final GetMethod method, final int bufferSize) throws IOException {
+            super(method.getResponseBodyAsStream(), bufferSize);
+            this.method = method;
+        }
+
         /**
          * Called after the stream has been closed.
          */
@@ -121,7 +126,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
      * </p>
      */
     @Override
-    protected InputStream doGetInputStream() throws Exception {
+    protected InputStream doGetInputStream(final int bufferSize) throws Exception {
         final GetMethod getMethod = new GetMethod();
         setupMethod(getMethod);
         final int status = getAbstractFileSystem().getClient().executeMethod(getMethod);
@@ -132,7 +137,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
             throw new FileSystemException("vfs.provider.http/get.error", getName(), Integer.valueOf(status));
         }
 
-        return new HttpInputStream(getMethod);
+        return new HttpInputStream(getMethod, bufferSize);
     }
 
     /**

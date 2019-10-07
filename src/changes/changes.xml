@@ -40,16 +40,74 @@ The <action> type attribute can be add,update,fix,remove.
 
 <document xmlns="http://maven.apache.org/changes/1.0.0">
   <properties>
-    <title>Apache Commons VFS Changes</title>
+    <title>Apache Commons VFS Release Notes</title>
     <author email="dev@commons.apache.org">Apache Commons Developers</author>
   </properties>
 
   <body>
-    <release version="2.4" date="2019-MM-DD" description="New features and bug fix release.">
+    <release version="2.5.0" date="2019-MM-DD" description="New features and bug fix release.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
 <!-- START Might need to be moved to the next version -->
+      <action issue="VFS-726" dev="ggregory" type="fix" due-to="Cornelius Höfig, Gary Gregory">
+        getInputStream(int bufferSize) on SftpFileObject effectively ignores buffer size.
+      </action>
+      <action issue="VFS-704" dev="ggregory" type="fix" due-to="Boris Petrov, Gary Gregory">
+        Some providers wrap their input/output streams twice in a BufferedInputStream.
+      </action>
+      <action issue="VFS-727" dev="ggregory" type="fix" due-to="Michiel Hendriks, Gary Gregory">
+        Prevented creation of singleton file system manager from providers.
+      </action>
+      <action issue="VFS-444" dev="ggregory" type="update" due-to="Walter Eaves, Xavier Dury, Michiel Hendriks, Gary Gregory">
+        ResourceFileProvider "res://" failed to obtain FileObject from resolved FileName.
+      </action>
+      <action issue="VFS-728" dev="ggregory" type="update" due-to="Gary Gregory">
+        Update Apache Commons Compress from 1.18 to 1.19.
+      </action>
+      <action issue="VFS-729" dev="ggregory" type="update" due-to="Michiel Hendriks, Gary Gregory">
+        Upgrade Hadoop to 2.7.4 or later; will use current 3.2.0.
+      </action>
+      <action issue="VFS-731" dev="ggregory" type="update" due-to="Gary Gregory">
+        Update org.apache.httpcomponents:httpclient from 4.5.9 to 4.5.10.
+      </action>
+      <action issue="VFS-732" dev="ggregory" type="update" due-to="Gary Gregory">
+        Update org.apache.httpcomponents:httpcore-nio from 4.4.11 to 4.4.12.
+      </action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory">
+        Update tests using org.mockito:mockito-core from 3.0.0 to 3.1.0.
+      </action>
+      <action issue="VFS-734" dev="ggregory" type="add" due-to="Gary Gregory">
+        Add functional interface org.apache.commons.vfs2.function.VfsConsumer.
+      </action>
+      <action issue="VFS-735" dev="ggregory" type="add" due-to="Gary Gregory">
+        Add org.apache.commons.vfs2.FileSystemManager.close() via AutoCloseable.
+      </action>
+      <action issue="VFS-736" dev="ggregory" type="add" due-to="Gary Gregory">
+        Add org.apache.commons.vfs2.VFS.reset().
+      </action>
+      <action issue="VFS-737" dev="ggregory" type="add" due-to="Gary Gregory">
+        Update Hadoop from 3.2.0 to 3.2.1.
+      </action>
+      <action issue="VFS-733" dev="ggregory" type="fix" due-to="Falco, Gary Gregory, Bruno P. Kinoshita">
+        Parent layer of ZipFileSystem set to null through OnCallRefreshFileObject and DecoratedFileObject.refresh().
+      </action>
+      <action issue="VFS-738" dev="ggregory" type="add" due-to="Gary Gregory">
+        Deprecate org.apache.commons.vfs2.FileChangeEvent.getFile() in favor of getFileObject().
+      </action>
+    </release>
+    <release version="2.4.1" date="2019-08-10" description="Bug fix release.">
+      <action issue="VFS-725" dev="ggregory" type="fix" due-to="Gary Gregory">
+        [Local] org.apache.commons.vfs2.FileContent.getLastModifiedTime() is losing milliseconds (always ends in 000).
+      </action>
+      <action issue="VFS-724" dev="ggregory" type="fix" due-to="William R, Gary Gregory">
+        FileContent#getByteArray() throws IllegalArgumentException: Buffer size &lt;= 0 when file size is 0.
+      </action>
+      <action                 dev="ggregory" type="fix" due-to="Gary Gregory">
+        Javadoc fixes.
+      </action>
+    </release>
+    <release version="2.4" date="2019-07-12" description="New features and bug fix release.">
       <action issue="VFS-690" dev="ggregory" type="add">
         Allow to set key exchange algorithm explicitly. GitHub #32.
       </action>
@@ -121,6 +179,40 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action issue="VFS-716" dev="ggregory" type="fix" due-to="Boris Petrov">
         Fix AbstractFileName.getURI returning unencoded #-sign #64.
+      </action>
+      <action issue="VFS-698" dev="ggregory" type="fix" due-to="David Septimus, Bernd">
+        SFTP file attributes are fetched multiple times leading to very slow directory listing; #65.
+      </action>
+      <action issue="VFS-717" dev="ggregory" type="fix" due-to="Gary Gregory">
+        Update org.apache.httpcomponents:httpclient from 4.5.8 to 4.5.9.
+      </action>
+      <action issue="VFS-718" dev="ggregory" type="fix" due-to="Boris Petrov">
+        MonitorInputStream should not close the stream in "read" #67.
+      </action>
+      <action issue="VFS-719" dev="ggregory" type="add" due-to="Gary Gregory">
+        Add methods to get the contents of file objects as strings.
+      </action>
+      <action issue="VFS-720" dev="ggregory" type="add" due-to="Boris Petrov">
+        Implement Closeable for RandomAccessContent #66.
+      </action>
+      <action issue="VFS-721" dev="ggregory" type="add" due-to="Gary Gregory">
+        Add support for symbolic links for the local file system and add FileObject#isSymbolicLink().
+      </action>
+      <action issue="VFS-722" dev="ggregory" type="update" due-to="Gary Gregory">
+        Update Apache Commons Collections from 4.3 to 4.4.
+      </action>
+      <!-- Source code notes -->
+      <action dev="ggregory" type="update">
+        Source incompatibility: org.apache.commons.vfs2.FileFilter.accept(FileSelectInfo) now throws checked exception FileSystemException.
+      </action>
+      <action dev="ggregory" type="update">
+        Public API note: The overridden methods getURI() and getFriendlyURI() in org.apache.commons.vfs2.provider.local.LocalFileName where removed but are implemented in a superclass.
+      </action>
+      <action dev="ggregory" type="update">
+        Public API note: The overridden method org.apache.commons.vfs2.provider.sftp.SftpFileObject#refresh() was removed but is implemented in a superclass.
+      </action>
+      <action dev="ggregory" type="update">
+        Public API note: The overridden method org.apache.commons.vfs2.provider.sftp.SftpFileProvider#init() was removed but is implemented in a superclass.
       </action>
     </release>
     <release version="2.3" date="2019-02-01" description="New features and bug fix release.">

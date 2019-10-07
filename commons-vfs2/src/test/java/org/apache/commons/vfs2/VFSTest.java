@@ -17,11 +17,29 @@
 
 package org.apache.commons.vfs2;
 
+import java.nio.file.Paths;
+
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class VFSTest {
+
+    /**
+     * Tests {@link FileSystemManager#close()}.
+     *
+     * @throws FileSystemException
+     * @since 2.5.0
+     */
+    @Test
+    public void test_close() throws FileSystemException {
+        try (FileSystemManager fileSystemManager = new StandardFileSystemManager()) {
+            VFS.setManager(fileSystemManager);
+            VFS.setManager(null);
+        }
+        Assert.assertNotNull(VFS.getManager());
+        Assert.assertFalse(VFS.getManager().resolveFile(Paths.get("DoesNotExist.not").toUri()).exists());
+    }
 
     @Test
     public void test_setManager() throws FileSystemException {

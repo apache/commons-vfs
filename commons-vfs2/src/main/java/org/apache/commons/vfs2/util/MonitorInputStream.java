@@ -28,8 +28,8 @@ import java.util.concurrent.atomic.AtomicLong;
 public class MonitorInputStream extends BufferedInputStream {
 
     private static final int EOF_CHAR = -1;
-    private final AtomicBoolean finished = new AtomicBoolean(false);
     private final AtomicLong atomicCount = new AtomicLong(0);
+    private final AtomicBoolean finished = new AtomicBoolean(false);
 
     /**
      * Constructs a MonitorInputStream from the passed InputStream
@@ -68,52 +68,6 @@ public class MonitorInputStream extends BufferedInputStream {
     }
 
     /**
-     * Reads a character.
-     *
-     * @return The character that was read as an integer.
-     * @throws IOException if an error occurs.
-     */
-    @Override
-    public int read() throws IOException { // lgtm [java/non-sync-override]
-        if (finished.get()) {
-            return EOF_CHAR;
-        }
-
-        final int ch = super.read();
-        if (ch != EOF_CHAR) {
-            atomicCount.incrementAndGet();
-            return ch;
-        }
-
-        // End-of-stream
-        close();
-        return EOF_CHAR;
-    }
-
-    /**
-     * Reads bytes from this input stream.
-     *
-     * @param buffer A byte array in which to place the characters read.
-     * @param offset The offset at which to start reading.
-     * @param length The maximum number of bytes to read.
-     * @return The number of bytes read.
-     * @throws IOException if an error occurs.
-     */
-    @Override
-    public int read(final byte[] buffer, final int offset, final int length) throws IOException { // lgtm [java/non-sync-override]
-        if (finished.get()) {
-            return EOF_CHAR;
-        }
-
-        final int nread = super.read(buffer, offset, length);
-        if (nread != EOF_CHAR) {
-            atomicCount.addAndGet(nread);
-            return nread;
-        }
-        return EOF_CHAR;
-    }
-
-    /**
      * Closes this input stream and releases any system resources associated with the stream.
      *
      * @throws IOException if an error occurs.
@@ -146,19 +100,62 @@ public class MonitorInputStream extends BufferedInputStream {
     }
 
     /**
-     * Called after the stream has been closed. This implementation does nothing.
-     *
-     * @throws IOException if an error occurs.
-     */
-    protected void onClose() throws IOException {
-    }
-
-    /**
-     * Get the number of bytes read by this input stream.
+     * Gets the number of bytes read by this input stream.
      *
      * @return The number of bytes read by this input stream.
      */
     public long getCount() {
         return atomicCount.get();
+    }
+
+    /**
+     * Called after the stream has been closed. This implementation does nothing.
+     *
+     * @throws IOException if an error occurs.
+     */
+    protected void onClose() throws IOException {
+        // noop
+    }
+
+    /**
+     * Reads a character.
+     *
+     * @return The character that was read as an integer.
+     * @throws IOException if an error occurs.
+     */
+    @Override
+    public int read() throws IOException { // lgtm [java/non-sync-override]
+        if (finished.get()) {
+            return EOF_CHAR;
+        }
+
+        final int ch = super.read();
+        if (ch != EOF_CHAR) {
+            atomicCount.incrementAndGet();
+        }
+
+        return ch;
+    }
+
+    /**
+     * Reads bytes from this input stream.
+     *
+     * @param buffer A byte array in which to place the characters read.
+     * @param offset The offset at which to start reading.
+     * @param length The maximum number of bytes to read.
+     * @return The number of bytes read.
+     * @throws IOException if an error occurs.
+     */
+    @Override
+    public int read(final byte[] buffer, final int offset, final int length) throws IOException { // lgtm [java/non-sync-override]
+        if (finished.get()) {
+            return EOF_CHAR;
+        }
+
+        final int nread = super.read(buffer, offset, length);
+        if (nread != EOF_CHAR) {
+            atomicCount.addAndGet(nread);
+        }
+        return nread;
     }
 }

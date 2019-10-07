@@ -35,7 +35,7 @@ import org.apache.commons.vfs2.provider.DelegateFileObject;
  * A logical file system, made up of set of junctions, or links, to files from other file systems.
  * <p>
  * TODO - Handle nested junctions.
- * <p>
+ * </p>
  */
 public class VirtualFileSystem extends AbstractFileSystem {
     private final Map<FileName, FileObject> junctions = new HashMap<>();

@@ -37,7 +37,7 @@ public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem> {
      *
      * @param name Abstract file name.
      * @param container My container.
-     * @param container My file system.
+     * @param fs My file system.
      *
      * @deprecated Use {@link #Bzip2FileObject(AbstractFileName, FileObject, Bzip2FileSystem)} instead.
      */
@@ -52,14 +52,14 @@ public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem> {
     }
 
     @Override
-    protected InputStream doGetInputStream() throws Exception {
+    protected InputStream doGetInputStream(final int bufferSize) throws Exception {
         // check file
-        final InputStream is = getContainer().getContent().getInputStream();
+        final InputStream is = getContainer().getContent().getInputStream(bufferSize);
         return wrapInputStream(getName().getURI(), is);
     }
 
-    public static InputStream wrapInputStream(final String name, final InputStream is) throws IOException {
-        return new BZip2CompressorInputStream(is);
+    public static InputStream wrapInputStream(final String name, final InputStream inputStream) throws IOException {
+        return new BZip2CompressorInputStream(inputStream);
     }
 
     @Override

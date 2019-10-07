@@ -25,7 +25,6 @@ import java.io.PrintStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.URI;
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -62,8 +61,6 @@ import org.apache.sshd.server.ExitCallback;
 import org.apache.sshd.server.FileSystemFactory;
 import org.apache.sshd.server.FileSystemView;
 import org.apache.sshd.server.ForwardingFilter;
-import org.apache.sshd.server.PasswordAuthenticator;
-import org.apache.sshd.server.PublickeyAuthenticator;
 import org.apache.sshd.server.SshFile;
 import org.apache.sshd.server.auth.UserAuthNone;
 import org.apache.sshd.server.command.ScpCommandFactory;
@@ -225,19 +222,8 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig {
             }
         });
         Server.setSubsystemFactories(list);
-        Server.setPasswordAuthenticator(new PasswordAuthenticator() {
-            @Override
-            public boolean authenticate(final String username, final String password, final ServerSession session) {
-                return username != null && username.equals(password);
-            }
-        });
-        Server.setPublickeyAuthenticator(new PublickeyAuthenticator() {
-            @Override
-            public boolean authenticate(final String username, final PublicKey key, final ServerSession session) {
-                // File f = new File("/Users/" + username + "/.ssh/authorized_keys");
-                return true;
-            }
-        });
+        Server.setPasswordAuthenticator((username, password, session) -> username != null && username.equals(password));
+        Server.setPublickeyAuthenticator((username, key, session) -> true);
         Server.setForwardingFilter(new ForwardingFilter() {
             @Override
             public boolean canConnect(final InetSocketAddress address, final ServerSession session) {
@@ -514,28 +500,25 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig {
      */
     private static void connect(final String name, final InputStream in, final OutputStream out,
             final ExitCallback callback) {
-        final Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int code = 0;
-                try {
-                    final byte buffer[] = new byte[1024];
-                    int len;
-                    while ((len = in.read(buffer, 0, buffer.length)) != -1) {
-                        out.write(buffer, 0, len);
-                        out.flush();
-                    }
-                } catch (final SshException ex) {
-                    // Nothing to do, this occurs when the connection
-                    // is closed on the remote side
-                } catch (final IOException ex) {
-                    if (!ex.getMessage().equals("Pipe closed")) {
-                        code = -1;
-                    }
+        final Thread thread = new Thread((Runnable) () -> {
+            int code = 0;
+            try {
+                final byte buffer[] = new byte[1024];
+                int len;
+                while ((len = in.read(buffer, 0, buffer.length)) != -1) {
+                    out.write(buffer, 0, len);
+                    out.flush();
                 }
-                if (callback != null) {
-                    callback.onExit(code);
+            } catch (final SshException ex1) {
+                // Nothing to do, this occurs when the connection
+                // is closed on the remote side
+            } catch (final IOException ex2) {
+                if (!ex2.getMessage().equals("Pipe closed")) {
+                    code = -1;
                 }
+            }
+            if (callback != null) {
+                callback.onExit(code);
             }
         }, name);
         thread.setDaemon(true);

@@ -18,26 +18,25 @@ package org.apache.commons.vfs2.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.Properties;
 
+import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileUtil;
 import org.apache.commons.vfs2.impl.DecoratedFileObject;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 
 /**
- * Stuff to get some strange things from an FileObject.
+ * Utility methods for {@link FileObject}.
  */
 public final class FileObjectUtils {
-
-    private FileObjectUtils() {
-        // noop
-    }
 
     /**
      * Null-safe call to {@link FileObject#exists()}.
      *
-     * @param fileObject
+     * @param fileObject the file object to test, may be null.
      * @return false if {@code fileObject} is null, otherwise, see {@link FileObject#exists()}.
      * @throws FileSystemException On error determining if this file exists.
      * @since 2.4
@@ -67,6 +66,36 @@ public final class FileObjectUtils {
 
         throw new FileSystemException("vfs.util/find-abstract-file-object.error",
                 fileObject == null ? "null" : fileObject.getClass().getName());
+    }
+
+    /**
+     * Returns the content of a file as a String.
+     *
+     * @param file The file to get the content of.
+     * @param charset The file character set, may be null.
+     * @return The content as a byte array.
+     * @throws IOException if the file content cannot be accessed.
+     * @since 2.4
+     */
+    public static String getContentAsString(final FileObject file, final Charset charset) throws IOException {
+        try (final FileContent content = file.getContent()) {
+            return content.getString(charset);
+        }
+    }
+
+    /**
+     * Returns the content of a file as a String.
+     *
+     * @param file The file to get the content of.
+     * @param charset The file character set, may be null.
+     * @return The content as a byte array.
+     * @throws IOException if the file content cannot be accessed.
+     * @since 2.4
+     */
+    public static String getContentAsString(final FileObject file, final String charset) throws IOException {
+        try (final FileContent content = file.getContent()) {
+            return content.getString(charset);
+        }
     }
 
     /**
@@ -100,7 +129,7 @@ public final class FileObjectUtils {
      *
      * @param fileObject the file to read
      * @return a new {@link Properties}.
-     * @throws IOException
+     * @throws IOException On error getting this file's content.
      * @throws FileSystemException On error getting this file's content.
      * @throws IOException On error getting this file's content.
      * @since 2.4
@@ -128,5 +157,9 @@ public final class FileObjectUtils {
             properties.load(inputStream);
         }
         return properties;
+    }
+
+    private FileObjectUtils() {
+        // noop
     }
 }

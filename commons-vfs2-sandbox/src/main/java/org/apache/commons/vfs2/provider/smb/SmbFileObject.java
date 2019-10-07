@@ -187,7 +187,7 @@ public class SmbFileObject extends AbstractFileObject<SmbFileSystem> {
      * Creates an input stream to read the file content from.
      */
     @Override
-    protected InputStream doGetInputStream() throws Exception {
+    protected InputStream doGetInputStream(int bufferSize) throws Exception {
         try {
             return new SmbFileInputStream(file);
         } catch (final SmbException e) {

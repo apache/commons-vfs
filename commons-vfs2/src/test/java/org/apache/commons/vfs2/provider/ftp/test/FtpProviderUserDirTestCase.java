@@ -25,7 +25,6 @@ import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.ftpserver.ftplet.User;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 
 /**
@@ -60,12 +59,7 @@ public class FtpProviderUserDirTestCase extends FtpProviderTestCase {
         FileUtils.deleteDirectory(rootDir);
         // noinspection ResultOfMethodCallIgnored
         rootDir.mkdir();
-        FileUtils.copyDirectory(testDir, initialDir, new FileFilter() {
-            @Override
-            public boolean accept(final File pathname) {
-                return !pathname.getPath().contains(rootDir.getName());
-            }
-        });
+        FileUtils.copyDirectory(testDir, initialDir, pathname -> !pathname.getPath().contains(rootDir.getName()));
 
         return new NativeFileSystemFactory() {
             @Override

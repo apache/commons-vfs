@@ -79,6 +79,9 @@ public class IdentityInfo implements IdentityProvider {
         this.passPhrase = passPhrase;
     }
 
+    /**
+     * @since 2.4
+     */
     @Override
     public void addIdentity(final JSch jsch) throws JSchException {
         jsch.addIdentity(getAbsolutePath(privateKey), getAbsolutePath(publicKey), passPhrase);

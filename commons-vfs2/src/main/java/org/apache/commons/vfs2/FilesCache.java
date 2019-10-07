@@ -39,11 +39,11 @@ public interface FilesCache {
     /**
      * Retrieves a FileObject from the cache by name.
      *
-     * @param file system The FileSystem.
-     * @param name the name
+     * @param fileSystem The FileSystem.
+     * @param fileName the name
      * @return the file object or null if file is not cached
      */
-    FileObject getFile(final FileSystem fileSystem, final FileName name);
+    FileObject getFile(final FileSystem fileSystem, final FileName fileName);
 
     /**
      * Purges the entries corresponding to the FileSystem.

@@ -16,6 +16,9 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
@@ -23,8 +26,10 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * {@code DefaultFileContentTest} tests for bug-VFS-614. This bug involves the stream implementation closing the stream
@@ -33,28 +38,42 @@ import java.io.OutputStream;
 public class DefaultFileContentTest {
     private static final String expected = "testing";
 
+    /**
+     * Test VFS-724 should be done on a website which render a page with no content size. Note the getSize() is
+     * currently the value sent back by the server then zero usually means no content length attached.
+     */
     @Test
-    public void testMarkingWorks() throws Exception {
+    public void testGetZeroContents() throws IOException {
+        final FileSystemManager fsManager = VFS.getManager();
+        try (final FileObject fo = fsManager.resolveFile(new File("."), "src/test/resources/test-data/size-0-file.bin");
+                final FileContent content = fo.getContent()) {
+            Assert.assertEquals(0, content.getSize());
+            Assert.assertEquals(StringUtils.EMPTY, content.getString(StandardCharsets.UTF_8));
+            Assert.assertEquals(StringUtils.EMPTY, content.getString(StandardCharsets.UTF_8.name()));
+            Assert.assertArrayEquals(ArrayUtils.EMPTY_BYTE_ARRAY, content.getByteArray());
+        }
+    }
+
+    private void testInputStreamBufferSize(final int bufferSize) throws Exception {
         final File temp = File.createTempFile("temp-file-name", ".tmp");
         final FileSystemManager fileSystemManager = VFS.getManager();
 
         try (FileObject file = fileSystemManager.resolveFile(temp.getAbsolutePath())) {
-            try (OutputStream outputStream = file.getContent().getOutputStream()) {
-                outputStream.write(expected.getBytes());
-                outputStream.flush();
-            }
-            try (InputStream stream = file.getContent().getInputStream()) {
-                if (stream.markSupported()) {
-                    for (int i = 0; i < 10; i++) {
-                        stream.mark(0);
-                        final byte[] data = new byte[100];
-                        stream.read(data, 0, 7);
-                        Assert.assertEquals(expected, new String(data).trim());
-                        stream.reset();
-                    }
-                }
-            }
+            file.getContent().getInputStream(bufferSize);
         }
+    }
+
+    public void testInputStreamBufferSize0() throws Exception {
+        testInputStreamBufferSize(0);
+    }
+
+    public void testInputStreamBufferSize1() throws Exception {
+        testInputStreamBufferSize(1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInputStreamBufferSizeNegative() throws Exception {
+        testInputStreamBufferSize(-2);
     }
 
     @Test
@@ -74,6 +93,7 @@ public class DefaultFileContentTest {
                         stream.mark(0);
                         final byte[] data = new byte[100];
                         readCount = stream.read(data, 0, 7);
+                        stream.read();
                         Assert.assertEquals(readCount, 7);
                         Assert.assertEquals(expected, new String(data).trim());
                         readCount = stream.read(data, 8, 10);
@@ -85,28 +105,55 @@ public class DefaultFileContentTest {
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testPassingIllegalBufferSizeToInputStream() throws Exception {
+    @Test
+    public void testMarkingWorks() throws Exception {
         final File temp = File.createTempFile("temp-file-name", ".tmp");
         final FileSystemManager fileSystemManager = VFS.getManager();
 
         try (FileObject file = fileSystemManager.resolveFile(temp.getAbsolutePath())) {
-            file.getContent().getInputStream(-2);
+            try (OutputStream outputStream = file.getContent().getOutputStream()) {
+                outputStream.write(expected.getBytes());
+                outputStream.flush();
+            }
+            try (InputStream stream = file.getContent().getInputStream()) {
+                if (stream.markSupported()) {
+                    for (int i = 0; i < 10; i++) {
+                        stream.mark(0);
+                        final byte[] data = new byte[100];
+                        stream.read(data, 0, 7);
+                        stream.read();
+                        Assert.assertEquals(expected, new String(data).trim());
+                        stream.reset();
+                    }
+                }
+            }
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testPassingIllegalBufferSizeToOutputStream() throws Exception {
+    private void testOutputStreamBufferSize(final int bufferSize) throws Exception {
         final File temp = File.createTempFile("temp-file-name", ".tmp");
         final FileSystemManager fileSystemManager = VFS.getManager();
 
         try (FileObject file = fileSystemManager.resolveFile(temp.getAbsolutePath())) {
-            file.getContent().getOutputStream(0);
+            file.getContent().getOutputStream(bufferSize).close();
         }
     }
 
+    public void testOutputStreamBufferSize0() throws Exception {
+        testOutputStreamBufferSize(0);
+    }
+
+    public void testOutputStreamBufferSize1() throws Exception {
+        testOutputStreamBufferSize(1);
+    }
+
     @Test(expected = IllegalArgumentException.class)
-    public void testPassingIllegalBufferSizeToOutputStreamWithAppendFlag() throws Exception {
+    public void testOutputStreamBufferSizeNegative() throws Exception {
+        testOutputStreamBufferSize(-1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testOutputStreamBufferSizeNegativeWithAppendFlag() throws Exception {
         final File temp = File.createTempFile("temp-file-name", ".tmp");
         final FileSystemManager fileSystemManager = VFS.getManager();
 
@@ -114,4 +161,5 @@ public class DefaultFileContentTest {
             file.getContent().getOutputStream(true, -1);
         }
     }
+
 }

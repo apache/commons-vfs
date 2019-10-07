@@ -36,7 +36,7 @@ public class GzipFileObject extends CompressedFileFileObject<GzipFileSystem> {
      *
      * @param name Abstract file name.
      * @param container My container.
-     * @param container My file system.
+     * @param fs My file system.
      *
      * @deprecated Use {@link #GzipFileObject(AbstractFileName, FileObject, GzipFileSystem)} instead.
      */
@@ -51,9 +51,9 @@ public class GzipFileObject extends CompressedFileFileObject<GzipFileSystem> {
     }
 
     @Override
-    protected InputStream doGetInputStream() throws Exception {
-        final InputStream is = getContainer().getContent().getInputStream();
-        return new GZIPInputStream(is);
+    protected InputStream doGetInputStream(final int bufferSize) throws Exception {
+        final InputStream inputStream = getContainer().getContent().getInputStream();
+        return new GZIPInputStream(inputStream, bufferSize);
     }
 
     @Override

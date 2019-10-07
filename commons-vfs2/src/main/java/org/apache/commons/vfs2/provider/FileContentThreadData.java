@@ -66,6 +66,10 @@ class FileContentThreadData {
         return this.inputStreamList.remove(pos);
     }
 
+    InputStream removeInputStream(final int pos) {
+        return this.inputStreamList.remove(pos);
+    }
+
     public void removeInstr(final InputStream inputStream) {
         this.inputStreamList.remove(inputStream);
     }

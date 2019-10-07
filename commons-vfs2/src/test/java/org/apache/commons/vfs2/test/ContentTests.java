@@ -18,6 +18,7 @@ package org.apache.commons.vfs2.test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.vfs2.FileContent;
@@ -360,6 +361,26 @@ public class ContentTests extends AbstractProviderTestCase {
             assertTrue(file.isFile());
 
             assertEquals(FILE1_CONTENT, new String(file.getContent().getByteArray()));
+        }
+    }
+
+    public void testGetString_Charset() throws Exception {
+        // Get the test file
+        try (final FileObject file = getReadFolder().resolveFile("file1.txt")) {
+            assertEquals(FileType.FILE, file.getType());
+            assertTrue(file.isFile());
+
+            assertEquals(FILE1_CONTENT, new String(file.getContent().getString(StandardCharsets.UTF_8)));
+        }
+    }
+
+    public void testGetString_String() throws Exception {
+        // Get the test file
+        try (final FileObject file = getReadFolder().resolveFile("file1.txt")) {
+            assertEquals(FileType.FILE, file.getType());
+            assertTrue(file.isFile());
+
+            assertEquals(FILE1_CONTENT, new String(file.getContent().getString(StandardCharsets.UTF_8.name())));
         }
     }
 }

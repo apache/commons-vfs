@@ -91,7 +91,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem> {
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetInputStream()
      */
     @Override
-    protected InputStream doGetInputStream() throws Exception {
+    protected InputStream doGetInputStream(int bufferSize) throws Exception {
         // VFS-210: ram allows to gather an input stream even from a directory. So we need to check the type anyway.
         if (!getType().hasContent()) {
             throw new FileSystemException("vfs.provider/read-not-file.error", getName());
