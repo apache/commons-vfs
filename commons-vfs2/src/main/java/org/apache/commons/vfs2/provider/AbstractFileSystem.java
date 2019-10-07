@@ -535,10 +535,10 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      */
     private void fireEvent(final AbstractFileChangeEvent event) {
         FileListener[] fileListeners = null;
-        final FileObject file = event.getFile();
+        final FileObject fileObject = event.getFileObject();
 
         synchronized (listenerMap) {
-            final ArrayList<?> listeners = listenerMap.get(file.getName());
+            final ArrayList<?> listeners = listenerMap.get(fileObject.getName());
             if (listeners != null) {
                 fileListeners = listeners.toArray(new FileListener[listeners.size()]);
             }
@@ -549,7 +549,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
                 try {
                     event.notify(fileListener);
                 } catch (final Exception e) {
-                    final String message = Messages.getString("vfs.provider/notify-listener.warn", file);
+                    final String message = Messages.getString("vfs.provider/notify-listener.warn", fileObject);
                     // getLogger().warn(message, e);
                     VfsLog.warn(getLogger(), LOG, message, e);
                 }

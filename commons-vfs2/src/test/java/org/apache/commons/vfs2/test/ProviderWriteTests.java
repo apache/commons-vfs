@@ -588,7 +588,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         public void fileCreated(final FileChangeEvent event) {
             assertTrue("Unexpected create event", events.size() > 0);
             assertSame("Expecting a create event", CREATE, events.remove(0));
-            assertEquals(file, event.getFile());
+            assertEquals(file, event.getFileObject());
             try {
                 assertTrue(file.exists());
             } catch (final FileSystemException e) {
@@ -603,7 +603,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         public void fileDeleted(final FileChangeEvent event) {
             assertTrue("Unexpected delete event", events.size() > 0);
             assertSame("Expecting a delete event", DELETE, events.remove(0));
-            assertEquals(file, event.getFile());
+            assertEquals(file, event.getFileObject());
             try {
                 assertTrue(!file.exists());
             } catch (final FileSystemException e) {
@@ -615,7 +615,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         public void fileChanged(final FileChangeEvent event) throws Exception {
             assertTrue("Unexpected changed event", events.size() > 0);
             assertSame("Expecting a changed event", CHANGED, events.remove(0));
-            assertEquals(file, event.getFile());
+            assertEquals(file, event.getFileObject());
             try {
                 assertTrue(!file.exists());
             } catch (final FileSystemException e) {

@@ -299,7 +299,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     public void fileCreated(final FileChangeEvent event) throws Exception {
-        if (event.getFile() != file) {
+        if (event.getFileObject() != file) {
             return;
         }
         if (!ignoreEvent) {
@@ -315,7 +315,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     public void fileDeleted(final FileChangeEvent event) throws Exception {
-        if (event.getFile() != file) {
+        if (event.getFileObject() != file) {
             return;
         }
         if (!ignoreEvent) {
@@ -334,7 +334,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     public void fileChanged(final FileChangeEvent event) throws Exception {
-        if (event.getFile() != file) {
+        if (event.getFileObject() != file) {
             return;
         }
         if (!ignoreEvent) {
