@@ -89,6 +89,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-737" dev="ggregory" type="add" due-to="Gary Gregory">
         Update Hadoop from 3.2.0 to 3.2.1.
       </action>
+      <action issue="VFS-733" dev="ggregory" type="fix" due-to="Falco, Gary Gregory, Bruno P. Kinoshita">
+        Parent layer of ZipFileSystem set to null through OnCallRefreshFileObject and DecoratedFileObject.refresh().
+      </action>
     </release>
     <release version="2.4.1" date="2019-08-10" description="Bug fix release.">
       <action issue="VFS-725" dev="ggregory" type="fix" due-to="Gary Gregory">

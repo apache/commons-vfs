@@ -123,8 +123,6 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     @Override
     public void close() {
         closeCommunicationLink();
-
-        parentLayer = null;
     }
 
     /**
