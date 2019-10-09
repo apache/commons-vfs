@@ -18,6 +18,7 @@ package org.apache.commons.vfs2.impl.test;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileChangeEvent;
@@ -26,11 +27,12 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileMonitor;
+import org.junit.Ignore;
 
 /**
  * Test to verify DefaultFileMonitor
  */
-public class DefaultFileMonitorTests extends AbstractVfsTestCase {
+public class DefaultFileMonitorTest extends AbstractVfsTestCase {
 
     private FileSystemManager fsManager;
     private File testDir;
@@ -213,10 +215,94 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase {
         }
     }
 
+    /**
+     * VFS-299: Handlers are not removed. One instance is {@link DefaultFileMonitor#removeFile(FileObject)}.
+     *
+     * As a result, the file monitor will fire two created events.
+     */
+    @Ignore("VFS-299")
+    public void testAddRemove() throws Exception {
+        final FileObject file = fsManager.resolveFile(testFile.toURI().toString());
+        final CountingListener listener = new CountingListener();
+        final DefaultFileMonitor monitor = new DefaultFileMonitor(listener);
+        monitor.setDelay(100);
+
+        try {
+            monitor.addFile(file);
+            monitor.removeFile(file);
+            monitor.addFile(file);
+            monitor.start();
+            writeToFile(testFile);
+            Thread.sleep(300);
+            assertEquals("Created event is only fired once", 1, listener.created.get());
+        } finally {
+            monitor.stop();
+        }
+    }
+
+    /**
+     * VFS-299: Handlers are not removed. There is no API for properly decommissioning a file monitor.
+     *
+     * As a result, listeners of stopped monitors still receive events.
+     */
+    @Ignore("VFS-299")
+    public void testStartStop() throws Exception {
+        final FileObject file = fsManager.resolveFile(testFile.toURI().toString());
+
+        final CountingListener stoppedListener = new CountingListener();
+        final DefaultFileMonitor stoppedMonitor = new DefaultFileMonitor(stoppedListener);
+        stoppedMonitor.start();
+        stoppedMonitor.addFile(file);
+        stoppedMonitor.stop();
+
+        // Variant 1: it becomes documented behavior to manually remove all files after stop() such that all listeners are removed
+        // This currently does not work, see DefaultFileMonitorTests#testAddRemove above.
+        // stoppedMonitor.removeFile(file);
+
+        // Variant 2: change behavior of stop(), which then removes all handlers.
+        // This would remove the possibility to pause watching files. Resuming watching for the same files via start(); stop(); start(); would not work.
+
+        // Variant 3: introduce new method DefaultFileMonitor#close which definitely removes all resources held by DefaultFileMonitor.
+
+        final CountingListener activeListener = new CountingListener();
+        final DefaultFileMonitor activeMonitor = new DefaultFileMonitor(activeListener);
+        activeMonitor.setDelay(100);
+        activeMonitor.addFile(file);
+        activeMonitor.start();
+        try {
+            writeToFile(testFile);
+            Thread.sleep(1000);
+
+            assertEquals("The listener of the active monitor received one created event", 1, activeListener.created.get());
+            assertEquals("The listener of the stopped monitor received no events", 0, stoppedListener.created.get());
+        } finally {
+            activeMonitor.stop();
+        }
+    }
+
     private void writeToFile(final File file) throws Exception {
         final FileWriter out = new FileWriter(file);
         out.write("string=value1");
         out.close();
+    }
+
+    private static class CountingListener implements FileListener {
+        private final AtomicLong created = new AtomicLong();
+
+        @Override
+        public void fileCreated(final FileChangeEvent event)  {
+            created.incrementAndGet();
+        }
+
+        @Override
+        public void fileDeleted(final FileChangeEvent event) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void fileChanged(final FileChangeEvent event) {
+            throw new UnsupportedOperationException();
+        }
     }
 
     public class TestFileListener implements FileListener {
