@@ -30,7 +30,7 @@ import org.apache.commons.vfs2.impl.DefaultFileMonitor;
 /**
  * Test to verify DefaultFileMonitor
  */
-public class DefaultFileMonitorTests extends AbstractVfsTestCase {
+public class DefaultFileMonitorTestCase extends AbstractVfsTestCase {
 
     private FileSystemManager fsManager;
     private File testDir;
