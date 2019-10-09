@@ -221,7 +221,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
      * As a result, the file monitor will fire two created events.
      */
     @Ignore("VFS-299")
-    public void testAddRemove() throws Exception {
+    public void ignore_testAddRemove() throws Exception {
         final FileObject file = fsManager.resolveFile(testFile.toURI().toString());
         final CountingListener listener = new CountingListener();
         final DefaultFileMonitor monitor = new DefaultFileMonitor(listener);
@@ -246,7 +246,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
      * As a result, listeners of stopped monitors still receive events.
      */
     @Ignore("VFS-299")
-    public void testStartStop() throws Exception {
+    public void ignore_testStartStop() throws Exception {
         final FileObject file = fsManager.resolveFile(testFile.toURI().toString());
 
         final CountingListener stoppedListener = new CountingListener();
