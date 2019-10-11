@@ -216,6 +216,42 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
     }
 
     /**
+     * Regression during VFS-702: simplification of DefaultFileMonitor#addFile made registering directories on non-recursive file monitors a no-op.
+     *
+     * <p>I assume the following behavior should hold:
+     * <pre>
+     * if recursive:
+     *   recursivelyAddAllFilesAndDirectories()
+     * else:
+     *   if directory:
+     *     // currently not operational
+     *     addDirectFileChildren()
+     *   else
+     *     addFile()</pre>
+     * </p>
+     */
+    public void testAddDirectory() throws Exception {
+        final CountingListener listener = new CountingListener();
+        final DefaultFileMonitor monitor = new DefaultFileMonitor(listener);
+        monitor.setDelay(100);
+
+        final FileObject file = fsManager.resolveFile(testFile.toURI().toString());
+        writeToFile(testFile);
+        monitor.addFile(file.getParent());
+
+        monitor.start();
+        try {
+            writeToFile(testFile);
+            Thread.sleep(1000);
+            assertTrue(testFile.setLastModified(System.currentTimeMillis()));
+            Thread.sleep(300);
+            assertEquals("Monitor retrieved file changed event", 1, listener.changed.get());
+        } finally {
+            monitor.stop();
+        }
+    }
+
+    /**
      * VFS-299: Handlers are not removed. One instance is {@link DefaultFileMonitor#removeFile(FileObject)}.
      *
      * As a result, the file monitor will fire two created events.
@@ -288,6 +324,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
 
     private static class CountingListener implements FileListener {
         private final AtomicLong created = new AtomicLong();
+        private final AtomicLong changed = new AtomicLong();
 
         @Override
         public void fileCreated(final FileChangeEvent event)  {
@@ -301,7 +338,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
 
         @Override
         public void fileChanged(final FileChangeEvent event) {
-            throw new UnsupportedOperationException();
+            changed.incrementAndGet();
         }
     }
 
