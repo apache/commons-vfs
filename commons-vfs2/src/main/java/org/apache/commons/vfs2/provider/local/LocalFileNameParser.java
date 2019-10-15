@@ -16,8 +16,11 @@
  */
 package org.apache.commons.vfs2.provider.local;
 
+import java.net.URI;
+
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.provider.AbstractFileNameParser;
@@ -63,7 +66,7 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser {
         final StringBuilder name = new StringBuilder();
 
         // Extract the scheme
-        String scheme = UriParser.extractScheme(context.getFileSystemManager().getSchemes(), uri, name);
+        String scheme = UriParser.extractScheme(getSchemes(context, base, uri), uri, name);
         if (scheme == null && base != null) {
             scheme = base.getScheme();
         }
@@ -85,6 +88,13 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser {
         final String path = name.toString();
 
         return createFileName(scheme, rootFile, path, fileType);
+    }
+
+    private String[] getSchemes(final VfsComponentContext context, FileName base, String uri) {
+        if (context == null) {
+            return new String[] { base != null ? base.getScheme() : URI.create(uri).getScheme() };
+        }
+        return context.getFileSystemManager().getSchemes();
     }
 
     protected abstract FileName createFileName(String scheme, final String rootFile, final String path,
