@@ -32,7 +32,7 @@ import org.apache.http.client.protocol.HttpClientContext;
 /**
  * A WebDAV file system based on HTTP4.
  *
- * @since 2.4
+ * @since 2.5
  */
 public class Webdav4FileSystem extends Http4FileSystem {
 

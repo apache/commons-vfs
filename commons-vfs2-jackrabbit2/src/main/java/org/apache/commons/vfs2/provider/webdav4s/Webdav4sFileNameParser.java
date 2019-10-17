@@ -22,7 +22,7 @@ import org.apache.commons.vfs2.provider.http4s.Http4sFileNameParser;
 /**
  * Implementation for webdav over https. set default port to 443.
  *
- * @since 2.4
+ * @since 2.5
  */
 public class Webdav4sFileNameParser extends Http4sFileNameParser {
 

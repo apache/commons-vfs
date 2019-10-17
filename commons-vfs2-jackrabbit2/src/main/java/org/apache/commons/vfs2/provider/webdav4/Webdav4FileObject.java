@@ -76,7 +76,7 @@ import org.w3c.dom.Node;
 /**
  * A WebDAV file.
  *
- * @since 2.4
+ * @since 2.5
  */
 public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
     /**

@@ -31,6 +31,8 @@ import org.apache.jackrabbit.webdav.version.VersionControlledResource;
 
 /**
  * Test to verify Webdav Versioning support
+ *
+ * @since 2.5
  */
 public class Webdav4VersioningTests extends AbstractProviderTestCase {
     /**

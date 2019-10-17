@@ -38,7 +38,7 @@ import org.apache.http.client.protocol.HttpClientContext;
 /**
  * A provider for WebDAV based on HTTP4S.
  *
- * @since 2.4
+ * @since 2.5
  */
 public class Webdav4sFileProvider extends Http4sFileProvider {
 

@@ -31,7 +31,7 @@ import org.apache.jackrabbit.webdav.property.DavPropertySet;
 /**
  * Determines the content information for files accessed via WebDAV.
  *
- * @since 2.4
+ * @since 2.5
  */
 public class Webdav4FileContentInfoFactory implements FileContentInfoFactory {
     @Override

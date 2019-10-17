@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.provider.http4.Http4FileSystemConfigBuilder;
 /**
  * Configuration options for WebDav based on HTTP4.
  *
- * @since 2.4
+ * @since 2.5
  */
 public final class Webdav4FileSystemConfigBuilder extends Http4FileSystemConfigBuilder {
 
