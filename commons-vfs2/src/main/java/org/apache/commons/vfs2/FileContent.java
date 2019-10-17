@@ -22,8 +22,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.security.cert.Certificate;
+import java.util.Arrays;
 import java.util.Map;
 
+import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
@@ -92,15 +94,17 @@ public interface FileContent extends Closeable {
         if (sizeL > Integer.MAX_VALUE) {
             throw new IllegalStateException(String.format("File content is too large for a byte array: %,d", sizeL));
         }
-        final int size = (int) sizeL;
+        final boolean sizeUndefined = sizeL < 0;
+        final int size = sizeUndefined ? AbstractFileObject.DEFAULT_BUFFER_SIZE : (int) sizeL;
         final byte[] buf = new byte[size];
+        int pos;
         try (final InputStream in = getInputStream(size)) {
             int read = 0;
-            for (int pos = 0; pos < size && read >= 0; pos += read) {
+            for (pos = 0; pos < size && read >= 0; pos += read) {
                 read = in.read(buf, pos, size - pos);
             }
         }
-        return buf;
+        return sizeUndefined && pos < buf.length ? Arrays.copyOf(buf, ++pos) : buf;
     }
 
     /**
@@ -135,7 +139,7 @@ public interface FileContent extends Closeable {
      * @return An input stream to read the file's content from. The input stream is buffered, so there is no need to
      *         wrap it in a {@code BufferedInputStream}.
      * @throws FileSystemException If the file does not exist, or is being read, or is being written, or on error
-     *             opening the stream.
+     *         opening the stream.
      */
     InputStream getInputStream() throws FileSystemException;
 
@@ -149,7 +153,7 @@ public interface FileContent extends Closeable {
      * @return An input stream to read the file's content from. The input stream is buffered, so there is no need to
      *         wrap it in a {@code BufferedInputStream}.
      * @throws FileSystemException If the file does not exist, or is being read, or is being written, or on error
-     *             opening the stream.
+     *         opening the stream.
      * @since 2.4
      */
     default InputStream getInputStream(final int bufferSize) throws FileSystemException {
@@ -161,7 +165,7 @@ public interface FileContent extends Closeable {
      *
      * @return The last-modified timestamp.
      * @throws FileSystemException If the file does not exist, or is being written to, or on error determining the
-     *             last-modified timestamp.
+     *         last-modified timestamp.
      */
     long getLastModifiedTime() throws FileSystemException;
 
@@ -178,7 +182,7 @@ public interface FileContent extends Closeable {
      * @return An output stream to write the file's content to. The stream is buffered, so there is no need to wrap it
      *         in a {@code BufferedOutputStream}.
      * @throws FileSystemException If the file is read-only, or is being read, or is being written, or on error opening
-     *             the stream.
+     *         the stream.
      */
     OutputStream getOutputStream() throws FileSystemException;
 
@@ -196,7 +200,7 @@ public interface FileContent extends Closeable {
      * @return An output stream to write the file's content to. The stream is buffered, so there is no need to wrap it
      *         in a {@code BufferedOutputStream}.
      * @throws FileSystemException If the file is read-only, or is being read, or is being written, or bAppend is true
-     *             and the implementation does not support it, or on error opening the stream.
+     *         and the implementation does not support it, or on error opening the stream.
      */
     OutputStream getOutputStream(boolean bAppend) throws FileSystemException;
 
@@ -215,7 +219,7 @@ public interface FileContent extends Closeable {
      * @return An output stream to write the file's content to. The stream is buffered, so there is no need to wrap it
      *         in a {@code BufferedOutputStream}.
      * @throws FileSystemException If the file is read-only, or is being read, or is being written, or bAppend is true
-     *             and the implementation does not support it, or on error opening the stream.
+     *         and the implementation does not support it, or on error opening the stream.
      * @since 2.4
      */
     default OutputStream getOutputStream(final boolean bAppend, final int bufferSize) throws FileSystemException {
@@ -236,7 +240,7 @@ public interface FileContent extends Closeable {
      * @return An output stream to write the file's content to. The stream is buffered, so there is no need to wrap it
      *         in a {@code BufferedOutputStream}.
      * @throws FileSystemException If the file is read-only, or is being read, or is being written, or bAppend is true
-     *             and the implementation does not support it, or on error opening the stream.
+     *         and the implementation does not support it, or on error opening the stream.
      * @since 2.4
      */
     default OutputStream getOutputStream(final int bufferSize) throws FileSystemException {
@@ -257,7 +261,7 @@ public interface FileContent extends Closeable {
      * @param mode The mode to use to access the file.
      * @return the stream for reading and writing the file's content.
      * @throws FileSystemException If the file is read-only, or is being read, or is being written, or on error opening
-     *             the stream.
+     *         the stream.
      */
     RandomAccessContent getRandomAccessContent(final RandomAccessMode mode) throws FileSystemException;
 
@@ -325,7 +329,7 @@ public interface FileContent extends Closeable {
      *
      * @param attrName The name of the attribute.
      * @throws FileSystemException If the file does not exist, or is read-only, or does not support attributes, or on
-     *             error removing the attribute.
+     *         error removing the attribute.
      */
     void removeAttribute(String attrName) throws FileSystemException;
 
@@ -335,7 +339,7 @@ public interface FileContent extends Closeable {
      * @param attrName The name of the attribute.
      * @param value The value of the attribute.
      * @throws FileSystemException If the file does not exist, or is read-only, or does not support attributes, or on
-     *             error setting the attribute.
+     *         error setting the attribute.
      */
     void setAttribute(String attrName, Object value) throws FileSystemException;
 
@@ -344,7 +348,7 @@ public interface FileContent extends Closeable {
      *
      * @param modTime The time to set the last-modified timestamp to.
      * @throws FileSystemException If the file is read-only, or is being written to, or on error setting the
-     *             last-modified timestamp.
+     *         last-modified timestamp.
      */
     void setLastModifiedTime(long modTime) throws FileSystemException;
 

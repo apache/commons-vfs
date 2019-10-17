@@ -70,7 +70,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     /**
      * Same as {@link BufferedInputStream}.
      */
-    private static final int DEFAULT_BUFFER_SIZE = 8192;
+    public static final int DEFAULT_BUFFER_SIZE = 8192;
 
     private static final FileName[] EMPTY_FILE_ARRAY = {};
 

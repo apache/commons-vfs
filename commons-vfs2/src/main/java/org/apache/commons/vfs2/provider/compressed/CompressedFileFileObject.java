@@ -36,7 +36,7 @@ public abstract class CompressedFileFileObject<FS extends CompressedFileFileSyst
 
     /**
      * The value returned by {@link #doGetContentSize()} when not overriden by a subclass.
-     * 
+     *
      * @since 2.5.0
      */
     public static final int SIZE_UNDEFINED = -1;
