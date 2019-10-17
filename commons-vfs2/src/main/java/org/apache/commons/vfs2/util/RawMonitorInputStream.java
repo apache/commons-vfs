@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * This is the same as {@link MonitorInputStream} but without the buffering.
  * </p>
  *
- * @since 2.5
+ * @since 2.5.0
  */
 public class RawMonitorInputStream extends FilterInputStream {
 
