@@ -36,7 +36,7 @@
 
   <modules>
     <module>commons-vfs2</module>
-    <module>commons-vfs2-jackrabbit</module>
+    <module>commons-vfs2-jackrabbit1</module>
     <module>commons-vfs2-jackrabbit2</module>
     <module>commons-vfs2-examples</module>
     <module>commons-vfs2-distribution</module>

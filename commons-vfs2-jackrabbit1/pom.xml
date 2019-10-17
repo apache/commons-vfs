@@ -29,7 +29,7 @@
   </parent>
 
   <name>Apache Commons VFS Jackrabbit 1</name>
-  <artifactId>commons-vfs2-jackrabbit</artifactId>
+  <artifactId>commons-vfs2-jackrabbit1</artifactId>
   <description>Apache Commons VFS is a Virtual File System library - Jackrabbit-based WebDAV provider.</description>
 
   <dependencies>
