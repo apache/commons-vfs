@@ -28,7 +28,7 @@
     <relativePath>../</relativePath>
   </parent>
 
-  <name>Apache Commons VFS Jackrabbit2</name>
+  <name>Apache Commons VFS Jackrabbit 2</name>
   <artifactId>commons-vfs2-jackrabbit2</artifactId>
   <description>Apache Commons VFS is a Virtual File System library - Jackrabbit2-based WebDAV provider.</description>
 
