@@ -50,6 +50,9 @@ The <action> type attribute can be add,update,fix,remove.
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
 <!-- START Might need to be moved to the next version -->
+      <action issue="VFS-741" dev="ecki" type="fix">
+        FileObject#getChildren allows listing of files with known scheme prefix (generalizes VFS-398).
+      </action>
       <action issue="VFS-726" dev="ggregory" type="fix" due-to="Cornelius Höfig, Gary Gregory">
         getInputStream(int bufferSize) on SftpFileObject effectively ignores buffer size.
       </action>
