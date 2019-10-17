@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Specification-Title: SpecTitle
+Specification-Vendor: SpecVendor
+Specification-Version: 1.0
+Implementation-Title: ImplTitle
+Implementation-Vendor: ImplVendor
+Implementation-Version: 1.1
+Sealed: false
+
+Name: code/sealed/
+Sealed: true

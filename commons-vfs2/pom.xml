@@ -85,11 +85,6 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>org.apache.jackrabbit</groupId>
-      <artifactId>jackrabbit-webdav</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
       <groupId>com.jcraft</groupId>
       <artifactId>jsch</artifactId>
       <optional>true</optional>
@@ -121,6 +116,16 @@
       <artifactId>slf4j-api</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <scope>test</scope>
+    </dependency>
     <!-- Test SFTP with Apache SHHd Server (MINA) -->
     <dependency>
       <groupId>org.apache.sshd</groupId>
@@ -141,12 +146,6 @@
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpcore-nio</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <!-- Test WebDAV with Apache Jackrabbit-->
-    <dependency>
-      <groupId>org.apache.jackrabbit</groupId>
-      <artifactId>jackrabbit-standalone</artifactId>
       <scope>test</scope>
     </dependency>
     <!-- Test HDFS with Apache Hadoop -->

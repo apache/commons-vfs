@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -105,7 +106,8 @@ public class ParseXmlInZipTestCase {
         try {
             testResolveAndParseXmlInZip("read-xml-tests/name-invalid.xml", "/read-xml-tests/name.xsd");
         } catch (final SAXException e) {
-            Assert.assertTrue(e.toString().contains("Invalid content was found starting with element 'FOO'."));
+            final Pattern p = Pattern.compile("Invalid content was found starting with element.+FOO");
+            Assert.assertTrue(p.matcher(e.toString()).find());
         }
     }
 

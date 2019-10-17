@@ -99,7 +99,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * This parameter expects a value of type {@link Boolean}.
      * </p>
      */
-    private static final String KEY_FOLLOW_REDIRECT = "followRedirect";
+    protected static final String KEY_FOLLOW_REDIRECT = "followRedirect";
 
     /**
      * Defines the User-Agent request header string of the underlying HttpClient.

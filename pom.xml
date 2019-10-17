@@ -36,6 +36,8 @@
 
   <modules>
     <module>commons-vfs2</module>
+    <module>commons-vfs2-jackrabbit</module>
+    <module>commons-vfs2-jackrabbit2</module>
     <module>commons-vfs2-examples</module>
     <module>commons-vfs2-distribution</module>
   </modules>
@@ -189,6 +191,8 @@
     <!-- Avoid warnings about being unable to find jars during site building -->
     <dependency.locations.enabled>false</dependency.locations.enabled>
     <hadoop.version>3.2.1</hadoop.version>
+    <jackrabbit.version>1.6.5</jackrabbit.version>
+    <jackrabbit2.version>2.19.5</jackrabbit2.version>
     <commons.surefire.version>2.19.1</commons.surefire.version>
     <commons.japicmp.version>0.14.1</commons.japicmp.version>
   </properties>
@@ -468,11 +472,6 @@
         <version>1.19</version>
       </dependency>
       <dependency>
-        <groupId>org.apache.jackrabbit</groupId>
-        <artifactId>jackrabbit-webdav</artifactId>
-        <version>1.6.5</version>
-      </dependency>
-      <dependency>
         <groupId>ant</groupId>
         <artifactId>ant</artifactId>
         <version>1.6.5</version>
@@ -545,12 +544,12 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>1.5.11</version>
+        <version>1.7.26</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>jcl-over-slf4j</artifactId>
-        <version>1.5.11</version>
+        <version>1.7.26</version>
       </dependency>
       <!-- Test SFTP with Apache SSHd Server (MINA) -->
       <dependency>
@@ -579,11 +578,12 @@
         <artifactId>httpcore-nio</artifactId>
         <version>4.4.12</version>
       </dependency>
-      <!-- Test WebDAV with Apache Jackrabbit -->
+      <!-- Test WebDAV with Apache Jackrabbit Standalone -->
       <dependency>
         <groupId>org.apache.jackrabbit</groupId>
         <artifactId>jackrabbit-standalone</artifactId>
-        <version>1.6.5</version>
+        <version>${jackrabbit.version}</version>
+        <scope>test</scope>
         <exclusions>
           <exclusion>
             <!-- provides everything inlined. -->
@@ -591,6 +591,25 @@
             <artifactId>*</artifactId>
           </exclusion>
         </exclusions>
+      </dependency>
+      <!-- Test WebDAV with Apache Jackrabbit2 Standalone Components -->
+      <dependency>
+        <groupId>org.apache.jackrabbit</groupId>
+        <artifactId>jackrabbit-standalone-components</artifactId>
+        <version>${jackrabbit2.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-slf4j-impl</artifactId>
+        <version>2.11.2</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>2.11.2</version>
+        <scope>test</scope>
       </dependency>
       <!-- HDFS test dependencies -->
       <dependency>

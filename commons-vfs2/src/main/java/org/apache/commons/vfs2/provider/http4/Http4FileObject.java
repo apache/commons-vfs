@@ -221,7 +221,7 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
      * @return <code>HttpResponse</code> from the execution
      * @throws IOException if IO error occurs
      */
-    HttpResponse executeHttpUriRequest(final HttpUriRequest httpRequest) throws IOException {
+    protected HttpResponse executeHttpUriRequest(final HttpUriRequest httpRequest) throws IOException {
         final HttpClient httpClient = getAbstractFileSystem().getHttpClient();
         final HttpClientContext httpClientContext = getAbstractFileSystem().getHttpClientContext();
         return httpClient.execute(httpRequest, httpClientContext);

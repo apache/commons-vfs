@@ -33,7 +33,15 @@
 
     mvn -Pshell -Dhttp3 -Dhttp4
 
-## Example Test Scenario
+## Test `webdav3` providers
+
+    mvn -Pshell -Dwebdav3
+
+## Test `webdav4` and `webdav4s` providers
+
+    mvn -Pshell -Dwebdav4
+
+## Example Test Scenario with HTTP3 / HTTP4
 
     mvn -Pshell -Dhttp3 -Dhttp4
     ...
@@ -85,3 +93,41 @@ Set `-Dproviders=<custom_providers.xml_resource_name>`.
     pwfs
     > FileSystem of current folder is org.apache.commons.vfs2.provider.http4.Http4FileSystem@6e012f9b (root: http://repo1.maven.org/)
     ...
+
+## Example Test Scenario with WEBDAV3
+
+(After starting a modern WebDAV server such as Apache Jackrabbit Standalone...)
+
+    mvn -Pshell -Dwebdav3
+    cp http3://commons.apache.org/downloads/index.html webdav3://admin:admin@localhost:8080/repository/default/index.html
+    cd webdav3://admin:admin@localhost:8080/repository/default/
+    ls
+    > > Contents of webdav3://admin:admin@localhost:8080/repository/default
+    test.txt
+    index.html
+    cat index.html
+    ...
+
+## Example Test Scenario with WEBDAV4
+
+(After starting a modern WebDAV server such as Apache Jackrabbit Standalone...)
+
+    mvn -Pshell -Dwebdav4
+    cp http4://commons.apache.org/downloads/index.html webdav4://admin:admin@localhost:8080/repository/default/index.html
+    cd webdav4://admin:admin@localhost:8080/repository/default/
+    ls
+    > > Contents of webdav4://admin:admin@localhost:8080/repository/default
+    test.txt
+    index.html
+    cat index.html
+    ...
+    cp http4://commons.apache.org/downloads/index.html webdav4s://admin:admin@67d6eab2.ngrok.io/repository/default/index2.html
+    cd webdav4://admin:admin@67d6eab2.ngrok.io/repository/default/
+    ls
+    > > Contents of webdav4://admin:admin@localhost:8080/repository/default
+    test.txt
+    index.html
+    index2.html
+    cat index2.html
+    ...
+
