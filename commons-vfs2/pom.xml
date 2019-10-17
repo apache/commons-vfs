@@ -185,11 +185,7 @@
   <build>
     <resources>
       <resource>
-        <directory>src/main/java</directory>
-        <excludes>
-          <exclude>**/*.html</exclude>
-          <exclude>**/*.java</exclude>
-        </excludes>
+        <directory>${basedir}/src/main/resources</directory>
       </resource>
       <!-- include NOTICE/LICENSE in generated jar -->
       <resource>
@@ -201,7 +197,6 @@
         </includes>
       </resource>
     </resources>
-
 
     <testResources>
       <testResource>
