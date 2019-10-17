@@ -31,7 +31,7 @@ import javax.jcr.Value;
  *
  * Copied, adapted and pruned down from Jackrabbit 2.4.0.
  *
- * @since 2.5
+ * @since 2.5.0
  */
 class JcrUtils {
 

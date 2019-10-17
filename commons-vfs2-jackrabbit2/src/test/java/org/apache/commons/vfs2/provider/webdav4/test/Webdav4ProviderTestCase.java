@@ -50,7 +50,7 @@ import junit.framework.Test;
 /**
  * Test cases for the WebDAV4 provider.
  *
- * @since 2.5
+ * @since 2.5.0
  */
 public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
 
