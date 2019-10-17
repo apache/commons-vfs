@@ -36,6 +36,8 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import com.google.re2j.Pattern;
+
 /**
  * Tests that we can use JAXP to parse an input stream living inside a Zip file.
  */
@@ -105,7 +107,8 @@ public class ParseXmlInZipTestCase {
         try {
             testResolveAndParseXmlInZip("read-xml-tests/name-invalid.xml", "/read-xml-tests/name.xsd");
         } catch (final SAXException e) {
-            Assert.assertTrue(e.toString().contains("Invalid content was found starting with element 'FOO'."));
+            final Pattern p = Pattern.compile("Invalid content was found starting with element.+FOO");
+            Assert.assertTrue(p.matcher(e.toString()).find());
         }
     }
 
