@@ -34,6 +34,12 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
  */
 public abstract class CompressedFileFileObject<FS extends CompressedFileFileSystem> extends AbstractFileObject<FS> {
 
+    /**
+     * The value returned by {@link #doGetContentSize()} when not overriden by a subclass.
+     * 
+     * @since 2.5.0
+     */
+    public static final int SIZE_UNDEFINED = -1;
     private final FileObject container;
     private final String[] children;
 
@@ -86,7 +92,7 @@ public abstract class CompressedFileFileObject<FS extends CompressedFileFileSyst
      */
     @Override
     protected long doGetContentSize() {
-        return -1;
+        return SIZE_UNDEFINED;
     }
 
     /**
