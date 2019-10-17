@@ -20,7 +20,7 @@ import org.apache.commons.vfs2.provider.FileNameParser;
 import org.apache.commons.vfs2.provider.http4.Http4FileNameParser;
 
 /**
- * Implementation for http. set default port to 80
+ * Implementation for http. set default port to 80.
  *
  * @since 2.5
  */
