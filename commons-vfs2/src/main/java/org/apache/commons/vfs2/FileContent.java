@@ -81,6 +81,29 @@ public interface FileContent extends Closeable {
     Map<String, Object> getAttributes() throws FileSystemException;
 
     /**
+     * Returns the content of a file as a byte array.
+     *
+     * @return The content as a byte array.
+     * @throws IOException if the file content cannot be accessed.
+     * @since 2.4
+     */
+    default byte[] getByteArray() throws IOException {
+        final long sizeL = getSize();
+        if (sizeL > Integer.MAX_VALUE) {
+            throw new IllegalStateException(String.format("File content is too large for a byte array: %,d", sizeL));
+        }
+        final int size = (int) sizeL;
+        final byte[] buf = new byte[size];
+        try (final InputStream in = getInputStream(size)) {
+            int read = 0;
+            for (int pos = 0; pos < size && read >= 0; pos += read) {
+                read = in.read(buf, pos, size - pos);
+            }
+        }
+        return buf;
+    }
+
+    /**
      * Retrieves the certificates if any used to sign this file or folder.
      *
      * @return The certificates, or an empty array if there are no certificates or the file does not support signing.
@@ -115,29 +138,6 @@ public interface FileContent extends Closeable {
      *             opening the stream.
      */
     InputStream getInputStream() throws FileSystemException;
-
-    /**
-     * Returns the content of a file as a byte array.
-     *
-     * @return The content as a byte array.
-     * @throws IOException if the file content cannot be accessed.
-     * @since 2.4
-     */
-    default byte[] getByteArray() throws IOException {
-        final long sizeL = getSize();
-        if (sizeL > Integer.MAX_VALUE) {
-            throw new IllegalStateException(String.format("File content is too large for a byte array: %,d", sizeL));
-        }
-        final int size = (int) sizeL;
-        final byte[] buf = new byte[size];
-        try (final InputStream in = getInputStream(size)) {
-            int read = 0;
-            for (int pos = 0; pos < size && read >= 0; pos += read) {
-                read = in.read(buf, pos, size - pos);
-            }
-        }
-        return buf;
-    }
 
     /**
      * Returns an input stream for reading the file's content.
