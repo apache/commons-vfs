@@ -320,7 +320,7 @@ public final class UriParser {
      * </p>
      * <p>
      * This allows us to handle varying scheme's without making assumptions based on the ':' character. Specifically
-     * handle scheme extraction calls for URI parameters that are not actually uri's, but may be names with ':' in them.
+     * handle scheme extraction calls for URI parameters that are not actually URI's, but may be names with ':' in them.
      * </p>
      * @param schemes The schemes to check.
      * @param uri The potential URI. May also just be a name.

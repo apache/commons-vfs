@@ -24,7 +24,7 @@ public abstract class FileSystemConfigBuilder {
     /** Default prefix to use when resolving system properties */
     private static final String PREFIX = "vfs.";
 
-    /** The root uri of the file system */
+    /** The root URI of the file system */
     private static final String ROOTURI = "rootURI";
 
     /** The prefix to use when resolving system properties */

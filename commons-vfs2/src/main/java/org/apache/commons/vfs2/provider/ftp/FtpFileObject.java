@@ -83,7 +83,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     /**
      * Called by child file objects, to locate their ftp file info.
      *
-     * @param name the file name in its native form ie. without uri stuff (%nn)
+     * @param name the file name in its native form ie. without URI stuff (%nn)
      * @param flush recreate children cache
      */
     private FTPFile getChildFile(final String name, final boolean flush) throws IOException {

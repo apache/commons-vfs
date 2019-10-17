@@ -104,9 +104,9 @@ public class URLFileName extends GenericFileName {
     }
 
     /**
-     * Appends query string to the uri.
+     * Appends query string to the URI.
      *
-     * @return the uri
+     * @return the URI
      */
     @Override
     protected String createURI() {

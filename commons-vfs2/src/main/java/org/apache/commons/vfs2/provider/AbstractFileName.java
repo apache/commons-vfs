@@ -274,12 +274,12 @@ public abstract class AbstractFileName implements FileName {
         if (uri != null && uri.length() > 0) {
             try {
                 // VFS-325: Handle URI special characters in file name
-                // Decode the base uri and re-encode with URI special characters
+                // Decode the base URI and re-encode with URI special characters
                 uri = UriParser.decode(uri);
 
                 return UriParser.encode(uri, RESERVED_URI_CHARS);
             } catch (final FileSystemException e) {
-                // Default to base uri value
+                // Default to base URI value
             }
         }
 

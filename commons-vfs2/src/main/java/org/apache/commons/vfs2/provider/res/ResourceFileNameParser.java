@@ -39,7 +39,7 @@ public class ResourceFileNameParser extends GenericFileNameParser {
 
     @Override
     protected String extractRootPrefix(final String uri, final StringBuilder name) throws FileSystemException {
-        // Resource uri (as used by ClassLoader.getResource()) are assumed to be absolute despite
+        // Resource URI (as used by ClassLoader.getResource()) are assumed to be absolute despite
         // lacking a leading '/'. All leading '/' will be stripped from the name.
 
         int index = 0;

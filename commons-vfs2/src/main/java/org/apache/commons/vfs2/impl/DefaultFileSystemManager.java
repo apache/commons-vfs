@@ -782,7 +782,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
         if (name.length() == 0 || (scheme == null && buffer.charAt(0) != FileName.SEPARATOR_CHAR)) {
             // Supplied path is not absolute
             if (!VFS.isUriStyle()) {
-                // when using uris the parent already do have the trailing "/"
+                // when using URIs the parent already do have the trailing "/"
                 buffer.insert(0, FileName.SEPARATOR_CHAR);
             }
             buffer.insert(0, realBase.getPath());

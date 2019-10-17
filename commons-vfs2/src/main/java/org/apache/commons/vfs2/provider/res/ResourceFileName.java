@@ -69,7 +69,7 @@ public class ResourceFileName extends AbstractFileName {
 
     @Override
     public String getRootURI() {
-        // resource uris have a blank root.
+        // resource URIs have a blank root.
         return "";
     }
 }
