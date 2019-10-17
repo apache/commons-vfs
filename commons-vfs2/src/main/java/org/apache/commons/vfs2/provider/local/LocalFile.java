@@ -103,7 +103,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
      * Creates an input stream to read the content from.
      */
     @Override
-    protected InputStream doGetInputStream(int bufferSize) throws Exception {
+    protected InputStream doGetInputStream(final int bufferSize) throws Exception {
         return new FileInputStream(file);
     }
 
@@ -116,7 +116,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
         // https://bugs.openjdk.java.net/browse/JDK-8177809
         try {
             return Files.getLastModifiedTime(file.toPath()).toMillis();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new FileSystemException(file.toString(), e);
         }
     }

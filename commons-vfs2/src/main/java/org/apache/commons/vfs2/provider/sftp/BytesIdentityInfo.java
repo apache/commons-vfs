@@ -39,7 +39,7 @@ public class BytesIdentityInfo implements IdentityProvider {
      * @param privateKey Private key bytes
      * @param passPhrase The passphrase to decrypt the private key (can be {@code null} if no passphrase is used)
      */
-    public BytesIdentityInfo(byte[] privateKey, byte[] passPhrase) {
+    public BytesIdentityInfo(final byte[] privateKey, final byte[] passPhrase) {
         super();
         this.privateKey = privateKey;
         this.publicKey = null;
@@ -53,7 +53,7 @@ public class BytesIdentityInfo implements IdentityProvider {
      * @param publicKey  The public key part used for connections with exchange of certificates (can be {@code null})
      * @param passPhrase The passphrase to decrypt the private key (can be {@code null} if no passphrase is used)
      */
-    public BytesIdentityInfo(byte[] privateKey, byte[] publicKey, byte[] passPhrase) {
+    public BytesIdentityInfo(final byte[] privateKey, final byte[] publicKey, final byte[] passPhrase) {
         super();
         this.privateKey = privateKey;
         this.publicKey = publicKey;
@@ -61,7 +61,7 @@ public class BytesIdentityInfo implements IdentityProvider {
     }
 
     @Override
-    public void addIdentity(JSch jsch) throws JSchException {
+    public void addIdentity(final JSch jsch) throws JSchException {
         jsch.addIdentity("PrivateKey", privateKey, publicKey, passPhrase);
     }
 

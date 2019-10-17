@@ -30,15 +30,15 @@ import org.apache.commons.vfs2.filter.CanWriteFileFilter;
 // CHECKSTYLE:OFF Example code
 public class CanWriteFileFilterExample {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
 
         // Example, showing how to print out a list of the current directory's
         // writable files:
         {
             System.out.println("---CAN_WRITE---");
-            FileSystemManager fsManager = VFS.getManager();
-            FileObject dir = fsManager.toFileObject(new File("."));
-            FileObject[] files = dir
+            final FileSystemManager fsManager = VFS.getManager();
+            final FileObject dir = fsManager.toFileObject(new File("."));
+            final FileObject[] files = dir
                     .findFiles(new FileFilterSelector(CanWriteFileFilter.CAN_WRITE));
             for (int i = 0; i < files.length; i++) {
                 System.out.println(files[i]);
@@ -49,9 +49,9 @@ public class CanWriteFileFilterExample {
         // un-writable files:
         {
             System.out.println("---CANNOT_WRITE---");
-            FileSystemManager fsManager = VFS.getManager();
-            FileObject dir = fsManager.toFileObject(new File("."));
-            FileObject[] files = dir.findFiles(new FileFilterSelector(
+            final FileSystemManager fsManager = VFS.getManager();
+            final FileObject dir = fsManager.toFileObject(new File("."));
+            final FileObject[] files = dir.findFiles(new FileFilterSelector(
                     CanWriteFileFilter.CANNOT_WRITE));
             for (int i = 0; i < files.length; i++) {
                 System.out.println(files[i]);

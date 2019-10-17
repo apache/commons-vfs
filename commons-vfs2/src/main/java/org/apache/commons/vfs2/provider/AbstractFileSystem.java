@@ -70,7 +70,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     private final Collection<Capability> caps = new HashSet<>();
 
-    private FileObject parentLayer;
+    private final FileObject parentLayer;
 
     /**
      * Map from FileName to an ArrayList of listeners for that file.

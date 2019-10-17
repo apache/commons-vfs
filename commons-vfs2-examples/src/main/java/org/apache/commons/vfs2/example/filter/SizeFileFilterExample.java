@@ -30,14 +30,14 @@ import org.apache.commons.vfs2.filter.SizeFileFilter;
 // CHECKSTYLE:OFF Example code
 public class SizeFileFilterExample {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
 
         // Example, to print all files and directories in the current directory
         // whose size is greater than 1 MB
-        FileSystemManager fsManager = VFS.getManager();
-        FileObject dir = fsManager.toFileObject(new File("."));
-        SizeFileFilter filter = new SizeFileFilter(1024 * 1024);
-        FileObject[] files = dir.findFiles(new FileFilterSelector(filter));
+        final FileSystemManager fsManager = VFS.getManager();
+        final FileObject dir = fsManager.toFileObject(new File("."));
+        final SizeFileFilter filter = new SizeFileFilter(1024 * 1024);
+        final FileObject[] files = dir.findFiles(new FileFilterSelector(filter));
         for (int i = 0; i < files.length; i++) {
             System.out.println(files[i]);
         }

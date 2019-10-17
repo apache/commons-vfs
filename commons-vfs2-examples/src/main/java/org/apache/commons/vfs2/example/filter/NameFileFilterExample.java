@@ -30,13 +30,13 @@ import org.apache.commons.vfs2.filter.NameFileFilter;
 // CHECKSTYLE:OFF Example code
 public class NameFileFilterExample {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
 
         // Example, to print all files and directories in the current directory
         // whose name is Test
-        FileSystemManager fsManager = VFS.getManager();
-        FileObject dir = fsManager.toFileObject(new File("."));
-        FileObject[] files = dir.findFiles(new FileFilterSelector(new NameFileFilter("Test")));
+        final FileSystemManager fsManager = VFS.getManager();
+        final FileObject dir = fsManager.toFileObject(new File("."));
+        final FileObject[] files = dir.findFiles(new FileFilterSelector(new NameFileFilter("Test")));
         for (int i = 0; i < files.length; i++) {
             System.out.println(files[i]);
         }

@@ -36,7 +36,7 @@ import org.junit.Test;
  */
 public class FileObjectUtilsTest {
 
-    private void assertProperties(Properties p) {
+    private void assertProperties(final Properties p) {
         Assert.assertNotNull(p);
         Assert.assertEquals("1", p.getProperty("one"));
         Assert.assertEquals("2", p.getProperty("two"));
@@ -96,7 +96,7 @@ public class FileObjectUtilsTest {
 
     @Test
     public void testReadPropertiesInto() throws FileSystemException, IOException {
-        Properties p = new Properties();
+        final Properties p = new Properties();
         p.setProperty("extraKey", "extraValue");
         assertProperties(FileObjectUtils
             .readProperties(VFS.getManager().toFileObject(new File("src/test/resources/test.properties")), p));

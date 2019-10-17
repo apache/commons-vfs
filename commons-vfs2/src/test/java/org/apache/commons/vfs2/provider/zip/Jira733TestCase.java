@@ -60,6 +60,7 @@ public class Jira733TestCase {
                 final FileObject wrappedFileObject = new OnCallRefreshFileObject(fileObject)) {
             Assert.assertTrue(fileObject instanceof ZipFileObject);
             @SuppressWarnings({ "unused", "resource" })
+            final
             ZipFileObject zipFileObject = (ZipFileObject) fileObject;
             Assert.assertNotNull("getParentLayer() 1", wrappedFileObject.getFileSystem().getParentLayer());
             consumer.accept(wrappedFileObject);

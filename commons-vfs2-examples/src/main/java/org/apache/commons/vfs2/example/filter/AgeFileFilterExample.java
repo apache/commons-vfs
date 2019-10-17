@@ -30,16 +30,16 @@ import org.apache.commons.vfs2.filter.AgeFileFilter;
 // CHECKSTYLE:OFF Example code
 public class AgeFileFilterExample {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
 
-        FileSystemManager fsManager = VFS.getManager();
-        FileObject dir = fsManager.toFileObject(new File("."));
+        final FileSystemManager fsManager = VFS.getManager();
+        final FileObject dir = fsManager.toFileObject(new File("."));
 
         // We are interested in files older than one day
-        long cutoff = System.currentTimeMillis() - (24 * 60 * 60 * 1000);
-        AgeFileFilter filter = new AgeFileFilter(cutoff);
+        final long cutoff = System.currentTimeMillis() - (24 * 60 * 60 * 1000);
+        final AgeFileFilter filter = new AgeFileFilter(cutoff);
 
-        FileObject[] files = dir.findFiles(new FileFilterSelector(filter));
+        final FileObject[] files = dir.findFiles(new FileFilterSelector(filter));
         for (int i = 0; i < files.length; i++) {
             System.out.println(files[i]);
         }

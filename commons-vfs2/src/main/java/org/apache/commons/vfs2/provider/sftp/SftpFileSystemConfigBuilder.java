@@ -215,7 +215,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
         final IdentityProvider[] infos = getIdentityProvider(opts);
         if (infos != null) {
             final List<IdentityInfo> list = new ArrayList<>(infos.length);
-            for (IdentityProvider identityProvider : infos) {
+            for (final IdentityProvider identityProvider : infos) {
                 if (identityProvider instanceof IdentityInfo) {
                     list.add((IdentityInfo) identityProvider);
                 }

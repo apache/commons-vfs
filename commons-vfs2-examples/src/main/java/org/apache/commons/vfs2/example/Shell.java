@@ -142,7 +142,7 @@ public final class Shell {
             final String[] schemes = mgr.getSchemes();
             final List<String> virtual = new ArrayList<>();
             final List<String> physical = new ArrayList<>();
-            for (String scheme : schemes) {
+            for (final String scheme : schemes) {
                 final Collection<Capability> caps = mgr.getProviderCapabilities(scheme);
                 if (caps != null) {
                     if (caps.contains(Capability.VIRTUAL) || caps.contains(Capability.COMPRESS)

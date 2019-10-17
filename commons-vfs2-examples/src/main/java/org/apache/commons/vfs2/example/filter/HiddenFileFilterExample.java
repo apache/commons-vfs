@@ -30,15 +30,15 @@ import org.apache.commons.vfs2.filter.HiddenFileFilter;
 // CHECKSTYLE:OFF Example code
 public class HiddenFileFilterExample {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
 
         // Example, showing how to print out a list of the current directory's
         // hidden files
         {
             System.out.println("---HIDDEN---");
-            FileSystemManager fsManager = VFS.getManager();
-            FileObject dir = fsManager.toFileObject(new File("."));
-            FileObject[] files = dir.findFiles(new FileFilterSelector(HiddenFileFilter.HIDDEN));
+            final FileSystemManager fsManager = VFS.getManager();
+            final FileObject dir = fsManager.toFileObject(new File("."));
+            final FileObject[] files = dir.findFiles(new FileFilterSelector(HiddenFileFilter.HIDDEN));
             for (int i = 0; i < files.length; i++) {
                 System.out.println(files[i]);
             }
@@ -48,9 +48,9 @@ public class HiddenFileFilterExample {
         // visible (i.e. not hidden) files
         {
             System.out.println("---VISIBLE---");
-            FileSystemManager fsManager = VFS.getManager();
-            FileObject dir = fsManager.toFileObject(new File("."));
-            FileObject[] files = dir.findFiles(new FileFilterSelector(HiddenFileFilter.VISIBLE));
+            final FileSystemManager fsManager = VFS.getManager();
+            final FileObject dir = fsManager.toFileObject(new File("."));
+            final FileObject[] files = dir.findFiles(new FileFilterSelector(HiddenFileFilter.VISIBLE));
             for (int i = 0; i < files.length; i++) {
                 System.out.println(files[i]);
             }

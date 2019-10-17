@@ -39,7 +39,7 @@ public class VfsConsumerTest {
         test(fileObject -> fileObject.exists());
     }
 
-    private void test(VfsConsumer<FileObject> consumer) throws FileSystemException {
+    private void test(final VfsConsumer<FileObject> consumer) throws FileSystemException {
         try (FileObject fileObject = VFS.getManager().resolveFile(Paths.get("DoesNotExist.not)").toUri())) {
             consumer.accept(fileObject);
         }

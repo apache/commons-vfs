@@ -204,7 +204,7 @@ public class MimeFileObject extends AbstractFileObject<MimeFileSystem> implement
      * Creates an input stream to read the file content from.
      */
     @Override
-    protected InputStream doGetInputStream(int bufferSize) throws Exception {
+    protected InputStream doGetInputStream(final int bufferSize) throws Exception {
         if (isMultipart()) {
             // deliver the preamble as the only content
 

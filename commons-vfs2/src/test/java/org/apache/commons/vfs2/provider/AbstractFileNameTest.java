@@ -24,14 +24,14 @@ import org.junit.Test;
 public class AbstractFileNameTest {
     @Test
     public void testHashSignEncoded() {
-        AbstractFileName fileName = new AbstractFileName("file", "/foo/bar/file#name.txt", FileType.FILE) {
+        final AbstractFileName fileName = new AbstractFileName("file", "/foo/bar/file#name.txt", FileType.FILE) {
             @Override
-            public FileName createName(String absolutePath, FileType fileType) {
+            public FileName createName(final String absolutePath, final FileType fileType) {
                 return null;
             }
 
             @Override
-            protected void appendRootUri(StringBuilder buffer, boolean addPassword) {
+            protected void appendRootUri(final StringBuilder buffer, final boolean addPassword) {
                 if (addPassword) {
                     buffer.append("pass");
                 }

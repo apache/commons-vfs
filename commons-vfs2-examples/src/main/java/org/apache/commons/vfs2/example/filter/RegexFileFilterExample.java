@@ -30,13 +30,13 @@ import org.apache.commons.vfs2.filter.RegexFileFilter;
 // CHECKSTYLE:OFF Example code
 public class RegexFileFilterExample {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
 
         // Example, to retrieve and print all java files where the name matched
         // the regular expression in the current directory
-        FileSystemManager fsManager = VFS.getManager();
-        FileObject dir = fsManager.toFileObject(new File("."));
-        FileObject[] files = dir.findFiles(new FileFilterSelector(new RegexFileFilter(
+        final FileSystemManager fsManager = VFS.getManager();
+        final FileObject dir = fsManager.toFileObject(new File("."));
+        final FileObject[] files = dir.findFiles(new FileFilterSelector(new RegexFileFilter(
                 "Ë†.*[tT]est(-\\d+)?\\.java$")));
         for (int i = 0; i < files.length; i++) {
             System.out.println(files[i]);

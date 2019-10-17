@@ -30,15 +30,15 @@ import org.apache.commons.vfs2.filter.EmptyFileFilter;
 // CHECKSTYLE:OFF Example code
 public class EmptyFileFilterExample {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
 
         // Example, showing how to print out a list of the current directory's
         // empty files/directories
         {
             System.out.println("---EMPTY---");
-            FileSystemManager fsManager = VFS.getManager();
-            FileObject dir = fsManager.toFileObject(new File("."));
-            FileObject[] files = dir.findFiles(new FileFilterSelector(EmptyFileFilter.EMPTY));
+            final FileSystemManager fsManager = VFS.getManager();
+            final FileObject dir = fsManager.toFileObject(new File("."));
+            final FileObject[] files = dir.findFiles(new FileFilterSelector(EmptyFileFilter.EMPTY));
             for (int i = 0; i < files.length; i++) {
                 System.out.println(files[i]);
             }
@@ -48,9 +48,9 @@ public class EmptyFileFilterExample {
         // non-empty files/directories
         {
             System.out.println("---NOT_EMPTY---");
-            FileSystemManager fsManager = VFS.getManager();
-            FileObject dir = fsManager.toFileObject(new File("."));
-            FileObject[] files = dir.findFiles(new FileFilterSelector(EmptyFileFilter.NOT_EMPTY));
+            final FileSystemManager fsManager = VFS.getManager();
+            final FileObject dir = fsManager.toFileObject(new File("."));
+            final FileObject[] files = dir.findFiles(new FileFilterSelector(EmptyFileFilter.NOT_EMPTY));
             for (int i = 0; i < files.length; i++) {
                 System.out.println(files[i]);
             }

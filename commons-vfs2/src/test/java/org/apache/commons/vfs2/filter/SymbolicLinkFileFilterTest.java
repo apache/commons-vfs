@@ -133,7 +133,7 @@ public class SymbolicLinkFileFilterTest extends BaseFilterTest {
 
     @Test
     public void testZipFile() throws FileSystemException {
-        FileObject[] files = zipFileObject.findFiles(new FileFilterSelector(SymbolicLinkFileFilter.SYMBOLIC));
+        final FileObject[] files = zipFileObject.findFiles(new FileFilterSelector(SymbolicLinkFileFilter.SYMBOLIC));
         Assert.assertEquals(0, files.length);
     }
 

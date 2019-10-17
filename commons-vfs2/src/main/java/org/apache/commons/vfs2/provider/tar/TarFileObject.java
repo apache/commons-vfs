@@ -142,7 +142,7 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem> {
      * called again.
      */
     @Override
-    protected InputStream doGetInputStream(int bufferSize) throws Exception {
+    protected InputStream doGetInputStream(final int bufferSize) throws Exception {
         // VFS-210: zip allows to gather an input stream even from a directory and will
         // return -1 on the first read. getType should not be expensive and keeps the tests
         // running

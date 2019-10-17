@@ -249,7 +249,7 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
                         manager.addProvider("webdav4", new Webdav4FileProvider());
                     }
                     super.setUp();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     e.printStackTrace();
                 }
             }

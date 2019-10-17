@@ -152,7 +152,7 @@ public interface FileContent extends Closeable {
      *             opening the stream.
      * @since 2.4
      */
-    default InputStream getInputStream(int bufferSize) throws FileSystemException {
+    default InputStream getInputStream(final int bufferSize) throws FileSystemException {
         return getInputStream();
     }
 
@@ -218,7 +218,7 @@ public interface FileContent extends Closeable {
      *             and the implementation does not support it, or on error opening the stream.
      * @since 2.4
      */
-    default OutputStream getOutputStream(boolean bAppend, int bufferSize) throws FileSystemException {
+    default OutputStream getOutputStream(final boolean bAppend, final int bufferSize) throws FileSystemException {
         return getOutputStream(bAppend);
     }
 
@@ -239,7 +239,7 @@ public interface FileContent extends Closeable {
      *             and the implementation does not support it, or on error opening the stream.
      * @since 2.4
      */
-    default OutputStream getOutputStream(int bufferSize) throws FileSystemException {
+    default OutputStream getOutputStream(final int bufferSize) throws FileSystemException {
         return getOutputStream();
     }
 

@@ -37,7 +37,7 @@ import junit.framework.Test;
  */
 public class Vfs444TestCase extends AbstractProviderTestConfig {
     public static Test suite() throws Exception {
-        ProviderTestSuite suite = new ProviderTestSuite(new Vfs444TestCase(), true);
+        final ProviderTestSuite suite = new ProviderTestSuite(new Vfs444TestCase(), true);
         suite.addTests(Vfs444Tests.class);
         return suite;
     }
@@ -63,45 +63,45 @@ public class Vfs444TestCase extends AbstractProviderTestConfig {
     public static class Vfs444Tests extends AbstractProviderTestCase {
 
         public void testResolveFullPathURI0() throws FileSystemException {
-            FileName result = getManager().resolveURI("res:test-data/test.zip");
+            final FileName result = getManager().resolveURI("res:test-data/test.zip");
             Assert.assertTrue(result.isFile());
         }
 
         public void testResolveFullPathFile0() throws FileSystemException {
-            FileObject result = getManager().resolveFile("res:test-data/test.zip");
+            final FileObject result = getManager().resolveFile("res:test-data/test.zip");
             Assert.assertTrue(result.exists());
         }
 
         public void testResolveFullPathURI1() throws FileSystemException {
-            FileName result = getManager().resolveURI("res:/test-data/test.zip");
+            final FileName result = getManager().resolveURI("res:/test-data/test.zip");
             Assert.assertTrue(result.isFile());
         }
 
         public void testResolveFullPathFile1() throws FileSystemException {
-            FileObject result = getManager().resolveFile("res:/test-data/test.zip");
+            final FileObject result = getManager().resolveFile("res:/test-data/test.zip");
             Assert.assertTrue(result.exists());
         }
 
         public void testResolveFullPathURI2() throws FileSystemException {
-            FileName result = getManager().resolveURI("res://test-data/test.zip");
+            final FileName result = getManager().resolveURI("res://test-data/test.zip");
             Assert.assertTrue(result.isFile());
         }
 
         public void testResolveFullPathFile2() throws FileSystemException {
-        	FileObject result = getManager().resolveFile("res://test-data/test.zip");
+        	final FileObject result = getManager().resolveFile("res://test-data/test.zip");
             Assert.assertTrue(result.exists());
         }
 
         public void testResolvePartialPath1() throws FileSystemException {
-            FileName result = getManager().resolveURI("res:test-data");
+            final FileName result = getManager().resolveURI("res:test-data");
             Assert.assertTrue(result.isFile());
         }
 
         public void testResolvePartialPath2() throws FileSystemException {
-            FileName root = getManager().resolveURI("res:test-data");
-            FileName file = getManager().resolveName(root, "test.zip");
-            String uri = file.getURI();
-            FileObject result = getManager().resolveFile(uri);
+            final FileName root = getManager().resolveURI("res:test-data");
+            final FileName file = getManager().resolveName(root, "test.zip");
+            final String uri = file.getURI();
+            final FileObject result = getManager().resolveFile(uri);
             Assert.assertNotNull(result);
             Assert.assertTrue(result.exists());
         }

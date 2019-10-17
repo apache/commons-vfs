@@ -30,13 +30,13 @@ import org.apache.commons.vfs2.filter.DirectoryFileFilter;
 // CHECKSTYLE:OFF Example code
 public class DirectoryFileFilterExample {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
 
         // Example, how to print out a list of the current directory's
         // subdirectories
-        FileSystemManager fsManager = VFS.getManager();
-        FileObject dir = fsManager.toFileObject(new File("."));
-        FileObject[] files = dir.findFiles(new FileFilterSelector(DirectoryFileFilter.DIRECTORY));
+        final FileSystemManager fsManager = VFS.getManager();
+        final FileObject dir = fsManager.toFileObject(new File("."));
+        final FileObject[] files = dir.findFiles(new FileFilterSelector(DirectoryFileFilter.DIRECTORY));
         for (int i = 0; i < files.length; i++) {
             System.out.println(files[i]);
         }
