@@ -28,6 +28,7 @@ import org.apache.commons.vfs2.provider.webdav.WebdavFileSystemConfigBuilder;
 import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 import org.apache.jackrabbit.webdav.version.DeltaVConstants;
 import org.apache.jackrabbit.webdav.version.VersionControlledResource;
+import org.junit.Assert;
 
 /**
  * Test to verify Webdav Versioning support
@@ -51,6 +52,7 @@ public class WebdavVersioningTests extends AbstractProviderTestCase {
         assertSame(FileType.FILE, file.getType());
         assertTrue(file.isFile());
         assertEquals(0, file.getContent().getSize());
+        assertTrue(file.getContent().isEmpty());
         assertFalse(file.isExecutable());
         assertFalse(file.isHidden());
         assertTrue(file.isReadable());
@@ -101,6 +103,7 @@ public class WebdavVersioningTests extends AbstractProviderTestCase {
         assertSame(FileType.FILE, file.getType());
         assertTrue(file.isFile());
         assertEquals(0, file.getContent().getSize());
+        assertTrue(file.getContent().isEmpty());
         assertFalse(file.isExecutable());
         assertFalse(file.isHidden());
         assertTrue(file.isReadable());

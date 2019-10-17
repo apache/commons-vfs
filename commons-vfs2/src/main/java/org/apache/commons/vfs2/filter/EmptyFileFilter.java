@@ -95,7 +95,7 @@ public class EmptyFileFilter implements FileFilter, Serializable {
                 return files == null || files.length == 0;
             }
             try (final FileContent content = file.getContent();) {
-                return content.getSize() == 0;
+                return content.isEmpty();
             }
         }
     }

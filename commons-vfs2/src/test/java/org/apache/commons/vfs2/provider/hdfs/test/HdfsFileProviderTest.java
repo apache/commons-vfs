@@ -231,6 +231,7 @@ public class HdfsFileProviderTest {
         final FileObject file = createTestFile(hdfs);
         Assert.assertTrue(fo.exists());
         Assert.assertEquals(0, file.getContent().getSize());
+        Assert.assertTrue(file.getContent().isEmpty());
     }
 
     @Test

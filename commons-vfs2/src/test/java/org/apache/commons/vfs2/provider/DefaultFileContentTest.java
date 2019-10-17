@@ -48,6 +48,7 @@ public class DefaultFileContentTest {
         try (final FileObject fo = fsManager.resolveFile(new File("."), "src/test/resources/test-data/size-0-file.bin");
                 final FileContent content = fo.getContent()) {
             Assert.assertEquals(0, content.getSize());
+            Assert.assertTrue(content.isEmpty());
             Assert.assertEquals(StringUtils.EMPTY, content.getString(StandardCharsets.UTF_8));
             Assert.assertEquals(StringUtils.EMPTY, content.getString(StandardCharsets.UTF_8.name()));
             Assert.assertArrayEquals(ArrayUtils.EMPTY_BYTE_ARRAY, content.getByteArray());

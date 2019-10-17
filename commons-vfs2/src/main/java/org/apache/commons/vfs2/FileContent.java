@@ -303,12 +303,23 @@ public interface FileContent extends Closeable {
     boolean hasAttribute(String attrName) throws FileSystemException;
 
     /**
-     * check if this file has open streams.
+     * Checks if the receiver is empty.
+     * 
+     * @return true if the receiver is empty, false otherwise.
+     * @throws FileSystemException
+     * @since 2.5.0
+     */
+    default boolean isEmpty() throws FileSystemException {
+        return getSize() <= 0;
+    }
+
+    /**
+     * Checks if this file has open streams.
      *
      * @return true if the file is open, false otherwise.
      */
     boolean isOpen();
-
+    
     /**
      * Removes the value of an attribute of the file's content.
      *

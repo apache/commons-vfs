@@ -178,6 +178,8 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
         try (final FileObject fileObject = VFS.getManager()
                 .resolveFile("http://www.w3schools.com/webservices/tempconvert.asmx?action=WSDL")) {
             assert fileObject.getContent().getSize() > 0;
+            assert !fileObject.getContent().isEmpty();
+
         }
     }
 
