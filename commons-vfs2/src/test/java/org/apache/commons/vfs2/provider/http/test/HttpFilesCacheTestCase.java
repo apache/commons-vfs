@@ -16,14 +16,14 @@
  */
 package org.apache.commons.vfs2.provider.http.test;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
 import org.junit.Assert;
 import org.junit.Test;
+
+import junit.framework.TestCase;
 
 /**
  * Tests https://issues.apache.org/jira/browse/VFS-426

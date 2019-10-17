@@ -27,7 +27,6 @@ import org.apache.commons.vfs2.function.VfsConsumer;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class Jira733TestCase {

@@ -31,7 +31,6 @@ import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractLayeredFileProvider;
 import org.apache.commons.vfs2.provider.LayeredFileName;
-import org.apache.commons.vfs2.provider.hdfs.HdfsFileSystemConfigBuilder;
 
 /**
  * A file system provider for ZIP files. Provides read-only file systems.

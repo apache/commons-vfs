@@ -17,8 +17,6 @@
 
 package org.apache.commons.vfs2.provider.res.test;
 
-import junit.framework.Test;
-
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -28,6 +26,8 @@ import org.apache.commons.vfs2.provider.res.ResourceFileProvider;
 import org.apache.commons.vfs2.provider.url.UrlFileProvider;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
+
+import junit.framework.Test;
 
 /**
  * Test cases for the resource provider.

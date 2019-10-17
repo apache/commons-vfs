@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider.hdfs;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
 import org.apache.commons.vfs2.FileSystemOptions;

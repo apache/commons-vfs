@@ -16,10 +16,10 @@
  */
 package org.apache.commons.vfs2.provider.ftps.test;
 
-import junit.framework.Test;
-
 import org.apache.commons.vfs2.provider.ftps.FtpsFileSystemConfigBuilder;
 import org.apache.commons.vfs2.provider.ftps.FtpsMode;
+
+import junit.framework.Test;
 
 /**
  * Tests for FTPS file systems with implicit FTPS connection.

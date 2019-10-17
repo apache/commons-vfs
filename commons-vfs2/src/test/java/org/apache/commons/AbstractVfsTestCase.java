@@ -24,10 +24,10 @@ import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.util.Messages;
+
+import junit.framework.TestCase;
 
 /**
  * A base class for VFS tests. Provides utility methods for locating test resources.

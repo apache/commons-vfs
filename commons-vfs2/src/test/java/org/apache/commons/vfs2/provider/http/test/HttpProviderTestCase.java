@@ -20,8 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import junit.framework.Test;
-
 import org.apache.commons.vfs2.FileNotFolderException;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -36,6 +34,8 @@ import org.apache.commons.vfs2.test.ProviderTestSuite;
 import org.apache.commons.vfs2.util.FreeSocketPortUtil;
 import org.apache.commons.vfs2.util.NHttpFileServer;
 import org.junit.Assert;
+
+import junit.framework.Test;
 
 /**
  * Test cases for the HTTP provider.

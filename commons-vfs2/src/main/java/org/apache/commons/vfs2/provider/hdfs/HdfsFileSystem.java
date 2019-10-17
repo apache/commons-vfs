@@ -16,8 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.hdfs;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;

@@ -47,7 +47,6 @@ import org.apache.commons.vfs2.FileUtil;
 import org.apache.commons.vfs2.NameScope;
 import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.Selectors;
-import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.operations.DefaultFileOperations;
 import org.apache.commons.vfs2.operations.FileOperations;
 import org.apache.commons.vfs2.util.FileObjectUtils;

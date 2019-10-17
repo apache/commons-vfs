@@ -17,7 +17,7 @@
 package org.apache.commons.vfs2.provider.local.test;
 
 import java.io.File;
-import org.apache.commons.vfs2.FileName;
+
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.test.AbstractProviderTestCase;

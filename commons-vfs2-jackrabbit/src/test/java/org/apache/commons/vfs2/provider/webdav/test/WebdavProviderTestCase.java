@@ -30,9 +30,6 @@ import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
 import javax.jcr.Value;
 
-import junit.framework.Test;
-
-import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -47,6 +44,8 @@ import org.apache.commons.vfs2.util.FreeSocketPortUtil;
 import org.apache.jackrabbit.core.TransientRepository;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+
+import junit.framework.Test;
 
 /**
  * Test cases for the WebDAV provider.

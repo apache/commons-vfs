@@ -35,7 +35,6 @@ import java.util.jar.Attributes.Name;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
-import org.apache.commons.vfs2.FileUtil;
 import org.apache.commons.vfs2.NameScope;
 import org.apache.commons.vfs2.util.FileObjectUtils;
 

@@ -16,7 +16,9 @@
  */
 package org.apache.commons.vfs2.provider.ftp.test;
 
-import junit.framework.Test;
+import java.io.File;
+import java.io.IOException;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.ftpserver.filesystem.nativefs.NativeFileSystemFactory;
 import org.apache.ftpserver.ftplet.FileSystemFactory;
@@ -24,8 +26,7 @@ import org.apache.ftpserver.ftplet.FileSystemView;
 import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.ftpserver.ftplet.User;
 
-import java.io.File;
-import java.io.IOException;
+import junit.framework.Test;
 
 /**
  * Tests for FTP file systems (with homeDirIsRoot=true).

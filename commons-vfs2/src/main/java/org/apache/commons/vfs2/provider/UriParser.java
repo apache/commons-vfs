@@ -16,7 +16,6 @@
  */
 package org.apache.commons.vfs2.provider;
 
-import java.util.Set;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
