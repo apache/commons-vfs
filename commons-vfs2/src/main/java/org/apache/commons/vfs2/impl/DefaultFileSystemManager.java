@@ -709,7 +709,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
         }
 
         // Extract the scheme
-        final String scheme = UriParser.extractScheme(getSchemes(),uri);
+        final String scheme = UriParser.extractScheme(getSchemes(), uri);
         if (scheme != null) {
             // An absolute URI - locate the provider
             final FileProvider provider = providers.get(scheme);
