@@ -1119,7 +1119,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 // Create file objects for the children
                 final FileName[] cache = new FileName[files.length];
                 for (int i = 0; i < files.length; i++) {
-                    final String file = files[i];
+                    final String file = "./" + files[i]; // VFS-741: assume scheme prefix is filename only
                     cache[i] = fileSystem.getFileSystemManager().resolveName(fileName, file, NameScope.CHILD);
                 }
                 // VFS-285: only assign the children file names after all of them have been
