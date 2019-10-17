@@ -54,8 +54,7 @@ public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem> {
     @Override
     protected InputStream doGetInputStream(final int bufferSize) throws Exception {
         // check file
-        final InputStream is = getContainer().getContent().getInputStream(bufferSize);
-        return wrapInputStream(getName().getURI(), is);
+        return wrapInputStream(getName().getURI(), getContainer().getContent().getInputStream(bufferSize));
     }
 
     public static InputStream wrapInputStream(final String name, final InputStream inputStream) throws IOException {
@@ -64,8 +63,7 @@ public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem> {
 
     @Override
     protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
-        final OutputStream os = getContainer().getContent().getOutputStream(false);
-        return new BZip2CompressorOutputStream(os);
+        return new BZip2CompressorOutputStream(getContainer().getContent().getOutputStream(false));
     }
 
     private static Bzip2FileSystem cast(final CompressedFileFileSystem fs) {
