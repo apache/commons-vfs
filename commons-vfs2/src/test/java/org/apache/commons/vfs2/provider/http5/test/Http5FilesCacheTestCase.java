@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.http4.test;
+package org.apache.commons.vfs2.provider.http5.test;
 
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -28,16 +28,16 @@ import junit.framework.TestCase;
 /**
  * Tests https://issues.apache.org/jira/browse/VFS-426.
  */
-public class Http4FilesCacheTestCase extends TestCase {
+public class Http5FilesCacheTestCase extends TestCase {
 
     /**
      * Tests https://issues.apache.org/jira/browse/VFS-426
      */
     @Test
     public void testQueryStringUrls() throws FileSystemException {
-        final String noQueryStringUrl = "http4://commons.apache.org/vfs";
-        final String queryStringUrl = "http4://commons.apache.org/vfs?query=string";
-        final String queryStringUrl2 = "http4://commons.apache.org/vfs?query=string&more=stuff";
+        final String noQueryStringUrl = "http5://commons.apache.org/vfs";
+        final String queryStringUrl = "http5://commons.apache.org/vfs?query=string";
+        final String queryStringUrl2 = "http5://commons.apache.org/vfs?query=string&more=stuff";
 
         final FileSystemManager fileSystemManager = VFS.getManager();
 

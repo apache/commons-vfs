@@ -139,6 +139,23 @@
     </profile>
 
     <profile>
+      <id>with-http5</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+        <property>
+          <name>http5</name>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.apache.httpcomponents.client5</groupId>
+          <artifactId>httpclient5</artifactId>
+          <scope>runtime</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <profile>
       <id>with-webdav3</id>
       <activation>
         <property>

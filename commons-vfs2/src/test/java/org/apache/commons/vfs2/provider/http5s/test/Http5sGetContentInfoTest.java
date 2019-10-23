@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.http4s.test;
+package org.apache.commons.vfs2.provider.http5s.test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -25,19 +25,19 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.VFS;
-import org.apache.commons.vfs2.provider.http4.Http4FileSystemConfigBuilder;
+import org.apache.commons.vfs2.provider.http5.Http5FileSystemConfigBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 
 import junit.framework.TestCase;
 
 /**
- * Tests VFS-427 NPE on Http4FileObject.getContent().getContentInfo()
+ * Tests VFS-427 NPE on Http5FileObject.getContent().getContentInfo()
  */
-public class Http4sGetContentInfoTest extends TestCase {
+public class Http5sGetContentInfoTest extends TestCase {
 
     /**
-     * Tests VFS-427 NPE on Http4FileObject.getContent().getContentInfo().
+     * Tests VFS-427 NPE on Http5FileObject.getContent().getContentInfo().
      *
      * @throws FileSystemException thrown when the getContentInfo API fails.
      * @throws MalformedURLException thrown when the System environment contains an invalid URL for an HTTPS proxy.
@@ -55,7 +55,7 @@ public class Http4sGetContentInfoTest extends TestCase {
         final FileSystemOptions opts;
         if (httpsProxyHost != null) {
             opts = new FileSystemOptions();
-            final Http4FileSystemConfigBuilder builder = Http4FileSystemConfigBuilder.getInstance();
+            final Http5FileSystemConfigBuilder builder = Http5FileSystemConfigBuilder.getInstance();
             builder.setProxyHost(opts, httpsProxyHost);
             if (httpsProxyPort >= 0) {
                 builder.setProxyPort(opts, httpsProxyPort);
@@ -65,7 +65,7 @@ public class Http4sGetContentInfoTest extends TestCase {
         }
 
         final FileSystemManager fsManager = VFS.getManager();
-        final FileObject fo = fsManager.resolveFile("http4://www.apache.org/licenses/LICENSE-2.0.txt", opts);
+        final FileObject fo = fsManager.resolveFile("http5://www.apache.org/licenses/LICENSE-2.0.txt", opts);
         final FileContent content = fo.getContent();
         Assert.assertNotNull(content);
         // Used to NPE before fix:

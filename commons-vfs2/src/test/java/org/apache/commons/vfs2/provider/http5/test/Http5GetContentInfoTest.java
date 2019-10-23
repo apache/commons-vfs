@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.http4.test;
+package org.apache.commons.vfs2.provider.http5.test;
 
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
@@ -27,19 +27,19 @@ import org.junit.Test;
 import junit.framework.TestCase;
 
 /**
- * Tests VFS-427 NPE on Http4FileObject.getContent().getContentInfo().
+ * Tests VFS-427 NPE on Http5FileObject.getContent().getContentInfo().
  */
-public class Http4GetContentInfoTest extends TestCase {
+public class Http5GetContentInfoTest extends TestCase {
 
     /**
-     * Tests VFS-427 NPE on Http4FileObject.getContent().getContentInfo().
+     * Tests VFS-427 NPE on Http5FileObject.getContent().getContentInfo().
      *
      * @throws FileSystemException thrown when the getContentInfo API fails.
      */
     @Test
     public void testGetContentInfo() throws FileSystemException {
         final FileSystemManager fsManager = VFS.getManager();
-        final FileObject fo = fsManager.resolveFile("http4://www.apache.org/licenses/LICENSE-2.0.txt");
+        final FileObject fo = fsManager.resolveFile("http5://www.apache.org/licenses/LICENSE-2.0.txt");
         final FileContent content = fo.getContent();
         Assert.assertNotNull(content);
         // Used to NPE before fix:

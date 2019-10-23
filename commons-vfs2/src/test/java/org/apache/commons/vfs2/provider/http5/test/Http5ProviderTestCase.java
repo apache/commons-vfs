@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.http4.test;
+package org.apache.commons.vfs2.provider.http5.test;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,8 +27,8 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs2.provider.http4.Http4FileProvider;
-import org.apache.commons.vfs2.provider.http4.Http4FileSystemConfigBuilder;
+import org.apache.commons.vfs2.provider.http5.Http5FileProvider;
+import org.apache.commons.vfs2.provider.http5.Http5FileSystemConfigBuilder;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
 import org.apache.commons.vfs2.util.FreeSocketPortUtil;
@@ -38,10 +38,10 @@ import org.junit.Assert;
 import junit.framework.Test;
 
 /**
- * Test cases for the HTTP4 provider.
+ * Test cases for the HTTP5 provider.
  *
  */
-public class Http4ProviderTestCase extends AbstractProviderTestConfig {
+public class Http5ProviderTestCase extends AbstractProviderTestConfig {
 
     private static NHttpFileServer Server;
 
@@ -74,14 +74,14 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
      * @throws Exception Thrown when the suite cannot be constructed.
      */
     public static Test suite() throws Exception {
-        return new ProviderTestSuite(new Http4ProviderTestCase()) {
+        return new ProviderTestSuite(new Http5ProviderTestCase()) {
             /**
              * Adds base tests - excludes the nested test cases.
              */
             @Override
             protected void addBaseTests() throws Exception {
                 super.addBaseTests();
-                addTests(Http4ProviderTestCase.class);
+                addTests(Http5ProviderTestCase.class);
             }
 
             @Override
@@ -116,10 +116,10 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
      *
      * @throws IOException Thrown if a free local socket port cannot be found.
      */
-    public Http4ProviderTestCase() throws IOException {
+    public Http5ProviderTestCase() throws IOException {
         SocketPort = FreeSocketPortUtil.findFreeLocalPort();
         // Use %40 for @ in a URL
-        ConnectionUri = "http4://localhost:" + SocketPort;
+        ConnectionUri = "http5://localhost:" + SocketPort;
     }
 
     private void checkReadTestsFolder(final FileObject file) throws FileSystemException {
@@ -144,15 +144,15 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
      */
     @Override
     public void prepare(final DefaultFileSystemManager manager) throws Exception {
-        if (!manager.hasProvider("http4")) {
-            manager.addProvider("http4", new Http4FileProvider());
+        if (!manager.hasProvider("http5")) {
+            manager.addProvider("http5", new Http5FileProvider());
         }
     }
 
     private void testResloveFolderSlash(final String uri, final boolean followRedirect) throws FileSystemException {
         VFS.getManager().getFilesCache().close();
         final FileSystemOptions opts = new FileSystemOptions();
-        Http4FileSystemConfigBuilder.getInstance().setFollowRedirect(opts, followRedirect);
+        Http5FileSystemConfigBuilder.getInstance().setFollowRedirect(opts, followRedirect);
         final FileObject file = VFS.getManager().resolveFile(uri, opts);
         try {
             checkReadTestsFolder(file);
@@ -180,14 +180,14 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
     // Test no longer passing 2016/04/28
     public void ignoreTestHttp405() throws FileSystemException {
         final FileObject fileObject = VFS.getManager()
-                .resolveFile("http4://www.w3schools.com/webservices/tempconvert.asmx?action=WSDL");
+                .resolveFile("http5://www.w3schools.com/webservices/tempconvert.asmx?action=WSDL");
         assert !fileObject.getContent().isEmpty();
     }
 
     /** Ensure VFS-453 options are present. */
     public void testHttpTimeoutConfig() throws FileSystemException {
         final FileSystemOptions opts = new FileSystemOptions();
-        final Http4FileSystemConfigBuilder builder = Http4FileSystemConfigBuilder.getInstance();
+        final Http5FileSystemConfigBuilder builder = Http5FileSystemConfigBuilder.getInstance();
 
         // ensure defaults are 0
         assertEquals(0, builder.getConnectionTimeout(opts));

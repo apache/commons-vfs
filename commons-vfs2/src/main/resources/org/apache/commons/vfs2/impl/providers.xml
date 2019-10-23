@@ -79,16 +79,14 @@
     </provider>
 
     <!-- http5/http5s providers based on HttpClient v5 -->
-    <!-- TODO
     <provider class-name="org.apache.commons.vfs2.provider.http5.Http5FileProvider">
         <scheme name="http5"/>
         <if-available class-name="org.apache.hc.client5.http.classic.HttpClient"/>
     </provider>
-    <provider class-name="org.apache.commons.vfs2.provider.http4s.Http5sFileProvider">
+    <provider class-name="org.apache.commons.vfs2.provider.http5s.Http5sFileProvider">
         <scheme name="http5s"/>
         <if-available class-name="org.apache.hc.client5.http.classic.HttpClient"/>
     </provider>
-    -->
 
     <provider class-name="org.apache.commons.vfs2.provider.sftp.SftpFileProvider">
         <scheme name="sftp"/>
