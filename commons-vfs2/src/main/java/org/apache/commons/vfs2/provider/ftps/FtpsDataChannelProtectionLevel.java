@@ -18,10 +18,27 @@ package org.apache.commons.vfs2.provider.ftps;
 
 /**
  * Protection level of the data channel in a FTPS communication.
+ * <ul>
+ * <li>C - Clear</li>
+ * <li>S - Safe</li>
+ * <li>E - Confidential</li>
+ * <li>P - Private</li>
+ * </ul>
  *
  * @see <a href="http://tools.ietf.org/html/rfc2228#section-3">RFC 2228, section 3</a>
  * @since 2.1
  */
 public enum FtpsDataChannelProtectionLevel {
-    C, S, E, P
+
+    /** Clear. */
+    C,
+
+    /** Safe. */
+    S,
+
+    /** Confidential. */
+    E,
+
+    /** Private. */
+    P
 }
