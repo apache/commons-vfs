@@ -14,27 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.http4;
+package org.apache.commons.vfs2.provider.http5s;
 
-import org.apache.commons.vfs2.provider.FileNameParser;
-import org.apache.commons.vfs2.provider.GenericURLFileNameParser;
+import org.apache.commons.vfs2.provider.http5.Http5FileProvider;
 
 /**
- * <code>FileNameParser</code> implementation for http4 provider, setting default port to 80.
+ * http5s provider that uses HttpComponents HttpClient.
  *
- * @since 2.3
+ * @since 2.5.0
  */
-public class Http4FileNameParser extends GenericURLFileNameParser {
+public class Http5sFileProvider extends Http5FileProvider {
 
-    private static final int DEFAULT_PORT = 80;
-
-    private static final Http4FileNameParser INSTANCE = new Http4FileNameParser();
-
-    public Http4FileNameParser() {
-        super(DEFAULT_PORT);
-    }
-
-    public static FileNameParser getInstance() {
-        return INSTANCE;
+    /**
+     * Construct a <code>Http4sFileProvider</code>.
+     */
+    public Http5sFileProvider() {
+        super();
+        setFileNameParser(Http5sFileNameParser.getInstance());
     }
 }

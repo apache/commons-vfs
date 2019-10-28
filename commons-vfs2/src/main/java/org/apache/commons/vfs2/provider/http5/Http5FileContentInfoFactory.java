@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.http4;
+package org.apache.commons.vfs2.provider.http5;
 
 import java.io.IOException;
 
@@ -24,17 +24,17 @@ import org.apache.commons.vfs2.FileContentInfoFactory;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.impl.DefaultFileContentInfo;
 import org.apache.commons.vfs2.util.FileObjectUtils;
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.entity.ContentType;
-import org.apache.http.protocol.HTTP;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.HttpHeaders;
+import org.apache.hc.core5.http.HttpResponse;
 
 /**
- * Creates <code>FileContentInfoFactory</code> instances for http4 provider.
+ * Creates <code>FileContentInfoFactory</code> instances for http5 provider.
  *
- * @since 2.3
+ * @since 2.5.0
  */
-public class Http4FileContentInfoFactory implements FileContentInfoFactory {
+public class Http5FileContentInfoFactory implements FileContentInfoFactory {
 
     @SuppressWarnings("unchecked")
     @Override
@@ -42,11 +42,11 @@ public class Http4FileContentInfoFactory implements FileContentInfoFactory {
         String contentMimeType = null;
         String contentCharset = null;
 
-        try (final Http4FileObject<Http4FileSystem> http4File = (Http4FileObject<Http4FileSystem>) FileObjectUtils
+        try (final Http5FileObject<Http5FileSystem> http4File = (Http5FileObject<Http5FileSystem>) FileObjectUtils
                 .getAbstractFileObject(fileContent.getFile())) {
             final HttpResponse lastHeadResponse = http4File.getLastHeadResponse();
 
-            final Header header = lastHeadResponse.getFirstHeader(HTTP.CONTENT_TYPE);
+            final Header header = lastHeadResponse.getFirstHeader(HttpHeaders.CONTENT_TYPE);
 
             if (header != null) {
                 final ContentType contentType = ContentType.parse(header.getValue());

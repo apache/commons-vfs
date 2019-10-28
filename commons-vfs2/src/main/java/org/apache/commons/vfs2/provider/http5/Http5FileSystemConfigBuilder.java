@@ -14,22 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.http4;
+package org.apache.commons.vfs2.provider.http5;
 
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticator;
-import org.apache.http.cookie.Cookie;
+import org.apache.hc.client5.http.cookie.Cookie;
 
 /**
- * Configuration options builder utility for http4 provider.
+ * Configuration options builder utility for http5 provider.
  *
- * @since 2.3
+ * @since 2.5.0
  */
-public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
+public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
 
-    private static final Http4FileSystemConfigBuilder BUILDER = new Http4FileSystemConfigBuilder();
+    private static final Http5FileSystemConfigBuilder BUILDER = new Http5FileSystemConfigBuilder();
 
     /**
      * Defines the maximum number of connections allowed overall. This value only applies
@@ -120,6 +120,15 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String KEY_PREEMPTIVE_AUTHENTICATION = "preemptiveAuth";
 
     /**
+     * Defines the enabled TLS versions for the underlying HttpClient.
+     * <p>
+     * This parameter expects a value of type {@link String} as a comma separated string, each token of
+     * which is the name of <code>org.apache.hc.core5.http.ssl.TLS</code> enum. e.g, "V_1_2, V_1_3".
+     * </p>
+     */
+    private static final String KEY_TLS_VERSIONS = "tlsVersions";
+
+    /**
      * The default value for {@link #MAX_TOTAL_CONNECTIONS} configuration.
      */
     private static final int DEFAULT_MAX_CONNECTIONS = 50;
@@ -160,15 +169,21 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final boolean DEFAULT_HOSTNAME_VERIFICATION_ENABLED = true;
 
     /**
+     * The default value for {@link #KEY_TLS_VERSIONS} configuration as a comma separated string, each token of
+     * which is the name of <code>org.apache.hc.core5.http.ssl.TLS</code> enum. e.g, "V_1_2, V_1_3".
+     */
+    private static final String DEFAULT_TLS_VERSIONS = "V_1_2";
+
+    /**
      * Construct an <code>Http4FileSystemConfigBuilder</code>.
      *
      * @param prefix String for properties of this file system.
      */
-    protected Http4FileSystemConfigBuilder(final String prefix) {
+    protected Http5FileSystemConfigBuilder(final String prefix) {
         super(prefix);
     }
 
-    private Http4FileSystemConfigBuilder() {
+    private Http5FileSystemConfigBuilder() {
         super("http.");
     }
 
@@ -177,7 +192,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @return the singleton builder.
      */
-    public static Http4FileSystemConfigBuilder getInstance() {
+    public static Http5FileSystemConfigBuilder getInstance() {
         return BUILDER;
     }
 
@@ -512,8 +527,31 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
         return getBoolean(opts, HOSTNAME_VERIFICATION_ENABLED, DEFAULT_HOSTNAME_VERIFICATION_ENABLED);
     }
 
+    /**
+     * Sets the enabled TLS versions as a comma separated string, each token of which is the name of
+     * <code>org.apache.hc.core5.http.ssl.TLS</code> enum. e.g, "V_1_2, V_1_3".
+     *
+     * @param opts the file system options to modify
+     * @param tlsVersions enabled TLS versions
+     */
+    public void setTlsVersions(final FileSystemOptions opts, final String tlsVersions) {
+        setParam(opts, KEY_TLS_VERSIONS, tlsVersions);
+    }
+
+    /**
+     * Gets the enabled TLS versions as a comma separated string, each token of which is the name of
+     * <code>org.apache.hc.core5.http.ssl.TLS</code> enum. e.g, "V_1_2, V_1_3".
+     *
+     * @param opts the file system options to modify
+     * @return enabled TLS versions
+     */
+    public String getTlsVersions(final FileSystemOptions opts) {
+        final String tlsVersions = (String) getParam(opts, KEY_TLS_VERSIONS);
+        return tlsVersions != null ? tlsVersions : DEFAULT_TLS_VERSIONS;
+    }
+
     @Override
     protected Class<? extends FileSystem> getConfigClass() {
-        return Http4FileSystem.class;
+        return Http5FileSystem.class;
     }
 }

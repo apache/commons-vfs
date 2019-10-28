@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.http4;
+package org.apache.commons.vfs2.provider.http5;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,26 +31,27 @@ import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.provider.GenericURLFileName;
 import org.apache.commons.vfs2.util.RandomAccessMode;
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpHead;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.client.utils.DateUtils;
-import org.apache.http.client.utils.URIUtils;
-import org.apache.http.protocol.HTTP;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpHead;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.protocol.HttpClientContext;
+import org.apache.hc.client5.http.utils.DateUtils;
+import org.apache.hc.client5.http.utils.URIUtils;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.HttpHeaders;
+import org.apache.hc.core5.http.HttpResponse;
+import org.apache.hc.core5.http.HttpStatus;
 
 /**
- * A file object backed by Apache HttpComponents HttpClient.
+ * A file object backed by Apache HttpComponents HttpClient v5.
  *
- * @param <FS> An {@link Http4FileSystem} subclass
+ * @param <FS> An {@link Http5FileSystem} subclass
  *
- * @since 2.3
+ * @since 2.5.0
  */
-public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObject<FS> {
+public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObject<FS> {
 
     /**
      * URL charset string.
@@ -76,9 +77,9 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
      * @throws FileSystemException if any error occurs
      * @throws URISyntaxException if given file name cannot be converted to a URI due to URI syntax error
      */
-    protected Http4FileObject(final AbstractFileName name, final FS fileSystem)
+    protected Http5FileObject(final AbstractFileName name, final FS fileSystem)
             throws FileSystemException, URISyntaxException {
-        this(name, fileSystem, Http4FileSystemConfigBuilder.getInstance());
+        this(name, fileSystem, Http5FileSystemConfigBuilder.getInstance());
     }
 
     /**
@@ -90,8 +91,8 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
      * @throws FileSystemException if any error occurs
      * @throws URISyntaxException if given file name cannot be converted to a URI due to URI syntax error
      */
-    protected Http4FileObject(final AbstractFileName name, final FS fileSystem,
-            final Http4FileSystemConfigBuilder builder) throws FileSystemException, URISyntaxException {
+    protected Http5FileObject(final AbstractFileName name, final FS fileSystem,
+            final Http5FileSystemConfigBuilder builder) throws FileSystemException, URISyntaxException {
         super(name, fileSystem);
         final FileSystemOptions fileSystemOptions = fileSystem.getFileSystemOptions();
         urlCharset = builder.getUrlCharset(fileSystemOptions);
@@ -102,7 +103,7 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
     @Override
     protected FileType doGetType() throws Exception {
         lastHeadResponse = executeHttpUriRequest(new HttpHead(getInternalURI()));
-        final int status = lastHeadResponse.getStatusLine().getStatusCode();
+        final int status = lastHeadResponse.getCode();
 
         if (status == HttpStatus.SC_OK
                 || status == HttpStatus.SC_METHOD_NOT_ALLOWED /* method is not allowed, but resource exist */) {
@@ -120,7 +121,7 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
             return 0L;
         }
 
-        final Header header = lastHeadResponse.getFirstHeader(HTTP.CONTENT_LEN);
+        final Header header = lastHeadResponse.getFirstHeader(HttpHeaders.CONTENT_LENGTH);
 
         if (header == null) {
             // Assume 0 content-length
@@ -145,8 +146,8 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
     @Override
     protected InputStream doGetInputStream(final int bufferSize) throws Exception {
         final HttpGet getRequest = new HttpGet(getInternalURI());
-        final HttpResponse httpResponse = executeHttpUriRequest(getRequest);
-        final int status = httpResponse.getStatusLine().getStatusCode();
+        final ClassicHttpResponse httpResponse = executeHttpUriRequest(getRequest);
+        final int status = httpResponse.getCode();
 
         if (status == HttpStatus.SC_NOT_FOUND) {
             throw new FileNotFoundException(getName());
@@ -161,7 +162,7 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
 
     @Override
     protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception {
-        return new Http4RandomAccessContent<>(this, mode);
+        return new Http5RandomAccessContent<>(this, mode);
     }
 
     @Override
@@ -176,7 +177,7 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
 
     @Override
     protected FileContentInfoFactory getFileContentInfoFactory() {
-        return new Http4FileContentInfoFactory();
+        return new Http5FileContentInfoFactory();
     }
 
     @Override
@@ -217,16 +218,14 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
     }
 
     /**
-     * Execute the request using the given {@code httpRequest} and return a <code>HttpResponse</code> from the execution.
+     * Execute the request using the given {@code httpRequest} and return a <code>ClassicHttpResponse</code> from the execution.
      *
      * @param httpRequest <code>HttpUriRequest</code> object
-     * @return <code>HttpResponse</code> from the execution
+     * @return <code>ClassicHttpResponse</code> from the execution
      * @throws IOException if IO error occurs
-     *
-     * @since 2.5.0
      */
-    protected HttpResponse executeHttpUriRequest(final HttpUriRequest httpRequest) throws IOException {
-        final HttpClient httpClient = getAbstractFileSystem().getHttpClient();
+    protected ClassicHttpResponse executeHttpUriRequest(final HttpUriRequest httpRequest) throws IOException {
+        final CloseableHttpClient httpClient = (CloseableHttpClient) getAbstractFileSystem().getHttpClient();
         final HttpClientContext httpClientContext = getAbstractFileSystem().getHttpClientContext();
         return httpClient.execute(httpRequest, httpClientContext);
     }

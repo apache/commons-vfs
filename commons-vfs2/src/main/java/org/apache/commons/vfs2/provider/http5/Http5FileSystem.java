@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.http4;
+package org.apache.commons.vfs2.provider.http5;
 
 import java.io.IOException;
 import java.net.URI;
@@ -26,16 +26,16 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.protocol.HttpClientContext;
 
 /**
- * http4 file system.
+ * http5 file system.
  *
- * @since 2.3
+ * @since 2.5.0
  */
-public class Http4FileSystem extends AbstractFileSystem {
+public class Http5FileSystem extends AbstractFileSystem {
 
     /**
      * Internal base URI of this file system.
@@ -60,7 +60,7 @@ public class Http4FileSystem extends AbstractFileSystem {
      * @param httpClient {@link HttpClient} instance
      * @param httpClientContext {@link HttpClientContext} instance
      */
-    protected Http4FileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions, final HttpClient httpClient,
+    protected Http5FileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions, final HttpClient httpClient,
             final HttpClientContext httpClientContext) {
         super(rootName, null, fileSystemOptions);
 
@@ -81,12 +81,12 @@ public class Http4FileSystem extends AbstractFileSystem {
 
     @Override
     protected FileObject createFile(final AbstractFileName name) throws Exception {
-        return new Http4FileObject<>(name, this);
+        return new Http5FileObject<>(name, this);
     }
 
     @Override
     protected void addCapabilities(final Collection<Capability> caps) {
-        caps.addAll(Http4FileProvider.capabilities);
+        caps.addAll(Http5FileProvider.capabilities);
     }
 
     @Override

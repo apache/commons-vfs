@@ -29,9 +29,13 @@
 
     mvn -Pshell -Dhttp4
 
-## Test `http3`, `http3s`, `http4` and `http4s` providers together
+## Test `http5` and `http5s` providers
 
-    mvn -Pshell -Dhttp3 -Dhttp4
+    mvn -Pshell -Dhttp5
+
+## Test all `http*` and `http*s` providers together
+
+    mvn -Pshell -Dhttp3 -Dhttp4 -Dhttp5
 
 ## Test `webdav3` providers
 
@@ -41,9 +45,9 @@
 
     mvn -Pshell -Dwebdav4
 
-## Example Test Scenario with HTTP3 / HTTP4
+## Example Test Scenario with HTTP3 / HTTP4 / HTTP5
 
-    mvn -Pshell -Dhttp3 -Dhttp4
+    mvn -Pshell -Dhttp3 -Dhttp4 -Dhttp5
     ...
     cd http3://repo1.maven.org/maven2/org/apache/commons/commons-vfs2/
     ...
@@ -58,6 +62,14 @@
     cat maven-metadata.xml
     ...
     cd http4s://repo1.maven.org/maven2/org/apache/commons/commons-vfs2/
+    ...
+    cat maven-metadata.xml
+    ...
+    cd http5://repo1.maven.org/maven2/org/apache/commons/commons-vfs2/
+    ...
+    cat maven-metadata.xml
+    ...
+    cd http5s://repo1.maven.org/maven2/org/apache/commons/commons-vfs2/
     ...
     cat maven-metadata.xml
     ...
