@@ -113,6 +113,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-744" dev="ggregory" type="fix" due-to="Gary Gregory">
         org.apache.commons.vfs2.FileContent.getByteArray() can throw NegativeArraySizeException for BZip2 files.
       </action>
+      <action issue="VFS-687" dev="ggregory" type="fix" due-to="Woonsan Ko, Gary Gregory">
+        Add http5 and http5s providers (#74)
+      </action>
     </release>
     <release version="2.4.1" date="2019-08-10" description="Bug fix release.">
       <action issue="VFS-725" dev="ggregory" type="fix" due-to="Gary Gregory">
