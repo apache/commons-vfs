@@ -30,6 +30,8 @@ import org.apache.http.client.methods.HttpGet;
 
 /**
  * RandomAccess content using <code>Http4FileObject</code>.
+ *
+ * @since 2.3
  */
 class Http4RandomAccessContent<FS extends Http4FileSystem> extends AbstractRandomAccessStreamContent {
 

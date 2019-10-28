@@ -32,6 +32,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 
 /**
  * http4 file system.
+ *
+ * @since 2.3
  */
 public class Http4FileSystem extends AbstractFileSystem {
 

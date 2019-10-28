@@ -31,6 +31,8 @@ import org.apache.http.protocol.HTTP;
 
 /**
  * Creates <code>FileContentInfoFactory</code> instances for http4 provider.
+ *
+ * @since 2.3
  */
 public class Http4FileContentInfoFactory implements FileContentInfoFactory {
 

@@ -78,6 +78,8 @@ import org.apache.http.ssl.SSLContextBuilder;
 
 /**
  * <code>FileProvider</code> implementation using HttpComponents HttpClient library.
+ *
+ * @since 2.3
  */
 public class Http4FileProvider extends AbstractOriginatingFileProvider {
 

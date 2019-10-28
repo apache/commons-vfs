@@ -20,6 +20,8 @@ import org.apache.commons.vfs2.provider.http4.Http4FileProvider;
 
 /**
  * http4s provider that uses HttpComponents HttpClient.
+ *
+ * @since 2.3
  */
 public class Http4sFileProvider extends Http4FileProvider {
 

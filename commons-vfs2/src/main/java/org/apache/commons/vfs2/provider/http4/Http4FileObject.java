@@ -47,6 +47,8 @@ import org.apache.http.protocol.HTTP;
  * A file object backed by Apache HttpComponents HttpClient.
  *
  * @param <FS> An {@link Http4FileSystem} subclass
+ *
+ * @since 2.3
  */
 public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObject<FS> {
 
@@ -220,6 +222,8 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
      * @param httpRequest <code>HttpUriRequest</code> object
      * @return <code>HttpResponse</code> from the execution
      * @throws IOException if IO error occurs
+     *
+     * @since 2.5.0
      */
     protected HttpResponse executeHttpUriRequest(final HttpUriRequest httpRequest) throws IOException {
         final HttpClient httpClient = getAbstractFileSystem().getHttpClient();
