@@ -32,6 +32,8 @@ import org.apache.hc.client5.http.protocol.HttpClientContext;
 
 /**
  * http5 file system.
+ *
+ * @since 2.5.0
  */
 public class Http5FileSystem extends AbstractFileSystem {
 

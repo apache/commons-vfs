@@ -83,6 +83,8 @@ import org.apache.hc.core5.ssl.SSLContextBuilder;
 
 /**
  * <code>FileProvider</code> implementation using HttpComponents HttpClient v5 library.
+ *
+ * @since 2.5.0
  */
 public class Http5FileProvider extends AbstractOriginatingFileProvider {
 

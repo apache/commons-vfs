@@ -24,6 +24,8 @@ import org.apache.hc.client5.http.cookie.Cookie;
 
 /**
  * Configuration options builder utility for http5 provider.
+ *
+ * @since 2.5.0
  */
 public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
 

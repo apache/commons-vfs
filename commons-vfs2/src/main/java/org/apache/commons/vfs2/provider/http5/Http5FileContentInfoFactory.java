@@ -31,6 +31,8 @@ import org.apache.hc.core5.http.HttpResponse;
 
 /**
  * Creates <code>FileContentInfoFactory</code> instances for http5 provider.
+ *
+ * @since 2.5.0
  */
 public class Http5FileContentInfoFactory implements FileContentInfoFactory {
 

@@ -21,6 +21,8 @@ import org.apache.commons.vfs2.provider.GenericURLFileNameParser;
 
 /**
  * <code>FileNameParser</code> implementation for http5s provider, setting default port to 443.
+ *
+ * @since 2.5.0
  */
 public class Http5sFileNameParser extends GenericURLFileNameParser {
 

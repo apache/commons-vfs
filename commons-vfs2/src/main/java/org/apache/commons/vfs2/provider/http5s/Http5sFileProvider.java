@@ -20,6 +20,8 @@ import org.apache.commons.vfs2.provider.http5.Http5FileProvider;
 
 /**
  * http5s provider that uses HttpComponents HttpClient.
+ *
+ * @since 2.5.0
  */
 public class Http5sFileProvider extends Http5FileProvider {
 

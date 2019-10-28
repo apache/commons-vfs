@@ -23,6 +23,8 @@ import org.apache.hc.core5.http.ClassicHttpResponse;
 
 /**
  * An InputStream that cleans up the <code>org.apache.hc.core5.http.ClassicHttpResponse</code> on close.
+ *
+ * @since 2.5.0
  */
 class MonitoredHttpResponseContentInputStream extends MonitorInputStream {
 
