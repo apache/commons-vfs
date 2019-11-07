@@ -29,6 +29,9 @@ import org.apache.commons.vfs2.FileContentInfoFactory;
  * Uses the file name extension to determine the content-type. The content-encoding is not resolved.
  */
 public class FileContentInfoFilenameFactory implements FileContentInfoFactory {
+
+    private static final FileContentInfo NULL_INFO = new DefaultFileContentInfo(null, null);
+
     @Override
     public FileContentInfo create(final FileContent fileContent) {
         String contentType = null;
@@ -39,6 +42,11 @@ public class FileContentInfoFilenameFactory implements FileContentInfoFactory {
             contentType = fileNameMap.getContentTypeFor(name);
         }
 
-        return new DefaultFileContentInfo(contentType, null);
+        // optimize object creation for common case
+        if (contentType == null) {
+            return NULL_INFO;
+        } else {
+            return new DefaultFileContentInfo(contentType, null);
+        }
     }
 }
