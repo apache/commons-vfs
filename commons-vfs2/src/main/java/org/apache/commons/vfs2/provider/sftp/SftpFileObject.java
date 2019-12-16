@@ -228,6 +228,13 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
         statSelf();
         boolean isInGroup = false;
         if (checkIds) {
+            if(getAbstractFileSystem().isExecDisabled()) {
+                // Exec is disabled, so we won't be able to ascertain the current user's UID and GID.
+                // Return "always-true" permissions as a workaround, knowing that the SFTP server won't
+                // let us perform unauthorized actions anyway.
+                return new UserIsOwnerPosixPermissions(attrs.getPermissions());
+            }
+
             for (final int groupId : getAbstractFileSystem().getGroupsIds()) {
                 if (groupId == attrs.getGId()) {
                     isInGroup = true;

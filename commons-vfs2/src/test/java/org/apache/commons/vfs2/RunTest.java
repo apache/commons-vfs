@@ -49,7 +49,7 @@ public class RunTest {
                 // UrlProviderTestCase.suite(),
                 // ResourceProviderTestCase.suite(),
                 // HttpProviderTestCase.suite(),
-                // SftpProviderTestCase.suite(),
+                // AbstractSftpProviderTestCase.suite(),
                 // JarProviderTestCase.suite(),
                 // NestedJarTestCase.suite(),
                 // ZipProviderTestCase.suite(),

@@ -16,330 +16,28 @@
  */
 package org.apache.commons.vfs2.provider.sftp.test;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.apache.commons.AbstractVfsTestCase;
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileSystemManager;
-import org.apache.commons.vfs2.FileSystemOptions;
-import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs2.provider.sftp.SftpFileProvider;
-import org.apache.commons.vfs2.provider.sftp.SftpFileSystem;
-import org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder;
-import org.apache.commons.vfs2.provider.sftp.SftpStreamProxy;
-import org.apache.commons.vfs2.provider.sftp.TrustEveryoneUserInfo;
-import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.PermissionsTests;
-import org.apache.commons.vfs2.test.ProviderReadTests;
-import org.apache.commons.vfs2.test.ProviderTestConfig;
-import org.apache.commons.vfs2.test.ProviderTestSuite;
-import org.apache.commons.vfs2.util.FreeSocketPortUtil;
-import org.apache.ftpserver.ftplet.FtpException;
-import org.apache.sshd.SshServer;
-import org.apache.sshd.common.NamedFactory;
-import org.apache.sshd.common.Session;
-import org.apache.sshd.common.SshException;
-import org.apache.sshd.common.session.AbstractSession;
-import org.apache.sshd.common.util.Buffer;
-import org.apache.sshd.common.util.SecurityUtils;
-import org.apache.sshd.server.Command;
-import org.apache.sshd.server.Environment;
-import org.apache.sshd.server.ExitCallback;
-import org.apache.sshd.server.FileSystemFactory;
-import org.apache.sshd.server.FileSystemView;
-import org.apache.sshd.server.ForwardingFilter;
-import org.apache.sshd.server.SshFile;
-import org.apache.sshd.server.auth.UserAuthNone;
-import org.apache.sshd.server.command.ScpCommandFactory;
-import org.apache.sshd.server.filesystem.NativeSshFile;
-import org.apache.sshd.server.keyprovider.PEMGeneratorHostKeyProvider;
-import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
-import org.apache.sshd.server.session.ServerSession;
-import org.apache.sshd.server.sftp.SftpSubsystem;
 
-import com.jcraft.jsch.SftpATTRS;
-import com.jcraft.jsch.TestIdentityRepositoryFactory;
-
-import junit.extensions.TestSetup;
 import junit.framework.Test;
-import junit.framework.TestSuite;
 
-/**
- * Tests cases for the SFTP provider.
- * <p>
- * Starts and stops an embedded Apache SSHd (MINA) server.
- * </p>
- */
-public class SftpProviderTestCase extends AbstractProviderTestConfig {
+public class SftpProviderTestCase extends AbstractSftpProviderTestCase {
 
-    /**
-     * The underlying file system
-     */
-    private SftpFileSystem fileSystem;
-
-    /**
-     * Implements FileSystemFactory because SSHd does not know about users and home directories.
-     */
-    static final class TestFileSystemFactory implements FileSystemFactory {
-        /**
-         * Accepts only the known test user.
-         */
-        @Override
-        public FileSystemView createFileSystemView(final Session session) throws IOException {
-            final String userName = session.getUsername();
-            if (!DEFAULT_USER.equals(userName)) {
-                return null;
-            }
-            return new TestFileSystemView(AbstractVfsTestCase.getTestDirectory(), userName);
-        }
+    @Override
+    protected boolean isExecChannelClosed() {
+        return false;
     }
 
     /**
-     * Implements FileSystemView because SSHd does not know about users and home directories.
-     */
-    static final class TestFileSystemView implements FileSystemView {
-        private final String homeDirStr;
-
-        private final String userName;
-
-        // private boolean caseInsensitive;
-
-        public TestFileSystemView(final String homeDirStr, final String userName) {
-            this.homeDirStr = new File(homeDirStr).getAbsolutePath();
-            this.userName = userName;
-        }
-
-        @Override
-        public SshFile getFile(final SshFile baseDir, final String file) {
-            return this.getFile(baseDir.getAbsolutePath(), file);
-        }
-
-        @Override
-        public SshFile getFile(final String file) {
-            return this.getFile(homeDirStr, file);
-        }
-
-        protected SshFile getFile(final String dir, final String file) {
-            final String home = removePrefix(NativeSshFile.normalizeSeparateChar(homeDirStr));
-            String userFileName = removePrefix(NativeSshFile.normalizeSeparateChar(file));
-            final File sshFile = userFileName.startsWith(home) ? new File(userFileName) : new File(home, userFileName);
-            userFileName = removePrefix(NativeSshFile.normalizeSeparateChar(sshFile.getAbsolutePath()));
-            return new TestNativeSshFile(userFileName, sshFile, userName);
-        }
-
-        private String removePrefix(final String s) {
-            final int index = s.indexOf('/');
-            if (index < 1) {
-                return s;
-            }
-            return s.substring(index);
-        }
-    }
-
-    /**
-     * Extends NativeSshFile because its constructor is protected and I do not want to create a whole NativeSshFile
-     * implementation for testing.
-     */
-    static class TestNativeSshFile extends NativeSshFile {
-        TestNativeSshFile(final String fileName, final File file, final String userName) {
-            super(fileName, file, userName);
-        }
-    }
-
-    private static int SocketPort;
-
-    private static final String DEFAULT_USER = "testtest";
-
-    // private static final String DEFAULT_PWD = "testtest";
-
-    private static String ConnectionUri;
-
-    private static SshServer Server;
-
-    private static final String TEST_URI = "test.sftp.uri";
-
-    /** True if we are testing the SFTP stream proxy */
-    private final boolean streamProxyMode;
-
-    private static String getSystemTestUriOverride() {
-        return System.getProperty(TEST_URI);
-    }
-
-    /**
-     * Creates and starts an embedded Apache SSHd Server (MINA).
-     *
-     * @throws FtpException
-     * @throws IOException
-     */
-    private static void setUpClass() throws FtpException, IOException {
-        SocketPort = FreeSocketPortUtil.findFreeLocalPort();
-        // Use %40 for @ in a URL
-        ConnectionUri = String.format("sftp://%s@localhost:%d", DEFAULT_USER, SocketPort);
-
-        if (Server != null) {
-            return;
-        }
-        // System.setProperty("vfs.sftp.sshdir", getTestDirectory() + "/../vfs.sftp.sshdir");
-        final String tmpDir = System.getProperty("java.io.tmpdir");
-        Server = SshServer.setUpDefaultServer();
-        Server.setPort(SocketPort);
-        if (SecurityUtils.isBouncyCastleRegistered()) {
-            // A temporary file will hold the key
-            final File keyFile = File.createTempFile("key", ".pem", new File(tmpDir));
-            keyFile.deleteOnExit();
-            // It has to be deleted in order to be generated
-            keyFile.delete();
-
-            final PEMGeneratorHostKeyProvider keyProvider = new PEMGeneratorHostKeyProvider(keyFile.getAbsolutePath());
-            Server.setKeyPairProvider(keyProvider);
-        } else {
-            Server.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(tmpDir + "/key.ser"));
-        }
-        final List<NamedFactory<Command>> list = new ArrayList<>(1);
-        list.add(new NamedFactory<Command>() {
-
-            @Override
-            public String getName() {
-                return "sftp";
-            }
-
-            @Override
-            public Command create() {
-                return new MySftpSubsystem();
-            }
-        });
-        Server.setSubsystemFactories(list);
-        Server.setPasswordAuthenticator((username, password, session) -> username != null && username.equals(password));
-        Server.setPublickeyAuthenticator((username, key, session) -> true);
-        Server.setForwardingFilter(new ForwardingFilter() {
-            @Override
-            public boolean canConnect(final InetSocketAddress address, final ServerSession session) {
-                return true;
-            }
-
-            @Override
-            public boolean canForwardAgent(final ServerSession session) {
-                return true;
-            }
-
-            @Override
-            public boolean canForwardX11(final ServerSession session) {
-                return true;
-            }
-
-            @Override
-            public boolean canListen(final InetSocketAddress address, final ServerSession session) {
-                return true;
-            }
-        });
-        // Allows the execution of commands
-        Server.setCommandFactory(new ScpCommandFactory(new TestCommandFactory()));
-        // HACK Start
-        // How do we really do simple user to directory matching?
-        Server.setFileSystemFactory(new TestFileSystemFactory());
-        // HACK End
-        Server.start();
-        // HACK Start
-        // How do we really do simple security?
-        // Do this after we start the server to simplify this set up code.
-        Server.getUserAuthFactories().add(new UserAuthNone.Factory());
-        // HACK End
-    }
-
-    static private class BaseProviderTestSuite extends ProviderTestSuite {
-
-        public BaseProviderTestSuite(final ProviderTestConfig providerConfig) throws Exception {
-            super(providerConfig);
-        }
-
-        @Override
-        protected void tearDown() throws Exception {
-            // Close all active sessions
-            // Note that it should be done by super.tearDown()
-            // while closing
-            for (final AbstractSession session : Server.getActiveSessions()) {
-                session.close(true);
-            }
-            super.tearDown();
-        }
-
-    }
-
-    /**
-     * Creates the test suite for the ftp file system.
+     * Creates the test suite for the sftp file system.
      */
     public static Test suite() throws Exception {
-        // The test suite to be returned
-        final TestSuite suite = new TestSuite();
-
-        // --- Standard VFS test suite
-        final SftpProviderTestCase standardTestCase = new SftpProviderTestCase(false);
-        final ProviderTestSuite sftpSuite = new BaseProviderTestSuite(standardTestCase);
-
+        final SftpProviderTestSuite suite = new SftpProviderTestSuite(new SftpProviderTestCase());
         // VFS-405: set/get permissions
-        sftpSuite.addTests(PermissionsTests.class);
-
-        suite.addTest(sftpSuite);
-
-        // --- VFS-440: stream proxy test suite
-        // We override the addBaseTests method so that only
-        // one test is run (we just test that the input/output are correctly forwarded, and
-        // hence if the reading test succeeds/fails the other will also succeed/fail)
-        final SftpProviderTestCase streamProxyTestCase = new SftpProviderTestCase(true);
-        final ProviderTestSuite sftpStreamSuite = new BaseProviderTestSuite(streamProxyTestCase) {
-            @Override
-            protected void addBaseTests() throws Exception {
-                // Just tries to read
-                addTests(ProviderReadTests.class);
-            }
-        };
-        suite.addTest(sftpStreamSuite);
-
-        // Decorate the test suite to set up the Sftp server
-        final TestSetup setup = new TestSetup(suite) {
-            @Override
-            protected void setUp() throws Exception {
-                if (getSystemTestUriOverride() == null) {
-                    setUpClass();
-                }
-                super.setUp();
-            }
-
-            @Override
-            protected void tearDown() throws Exception {
-                // Close SFTP server if needed
-                tearDownClass();
-                super.tearDown();
-            }
-        };
-
-        return setup;
+        suite.addTests(PermissionsTests.class);
+        return suite;
     }
 
-    /**
-     * Stops the embedded Apache SSHd Server (MINA).
-     *
-     * @throws InterruptedException
-     */
-    private static void tearDownClass() throws InterruptedException {
-        if (Server != null) {
-            Server.stop();
-        }
-    }
-
+<<<<<<< a62149bf5bd4f304abab90b90a46d41d07cd32ec
     public SftpProviderTestCase(final boolean streamProxyMode) {
         this.streamProxyMode = streamProxyMode;
     }
@@ -670,4 +368,6 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig {
         }
 
     }
+=======
+>>>>>>> VFS-590 VFS-617 Proceed with moveTo operation if the exec channel for permission checks is closed
 }
