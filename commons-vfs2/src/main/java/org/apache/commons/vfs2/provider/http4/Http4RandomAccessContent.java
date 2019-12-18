@@ -29,7 +29,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 
 /**
- * RandomAccess content using <code>Http4FileObject</code>.
+ * RandomAccess content using {@code Http4FileObject}.
  */
 class Http4RandomAccessContent<FS extends Http4FileSystem> extends AbstractRandomAccessStreamContent {
 

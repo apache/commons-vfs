@@ -254,7 +254,7 @@ public final class Shell {
     }
 
     /**
-     * Does a 'cd' command. If the taget directory does not exist, a message is printed to <code>System.err</code>.
+     * Does a 'cd' command. If the taget directory does not exist, a message is printed to {@code System.err}.
      */
     private void cd(final String[] cmd) throws Exception {
         final String path;

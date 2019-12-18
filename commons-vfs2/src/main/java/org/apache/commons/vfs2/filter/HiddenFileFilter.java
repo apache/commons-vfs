@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSystemException;
 
 /**
- * This filter accepts <code>File</code>s that are hidden.
+ * This filter accepts {@code File}s that are hidden.
  * <p>
  * Example, showing how to print out a list of the current directory's
  * <i>hidden</i> files:

@@ -43,17 +43,17 @@ public class Http5FileSystem extends AbstractFileSystem {
     private final URI internalBaseURI;
 
     /**
-     * Internal <code>HttpClient</code> instance of this file system.
+     * Internal {@code HttpClient} instance of this file system.
      */
     private final HttpClient httpClient;
 
     /**
-     * Internal <code>HttpClientContext</code> instance of this file system.
+     * Internal {@code HttpClientContext} instance of this file system.
      */
     private final HttpClientContext httpClientContext;
 
     /**
-     * Construct <code>Http4FileSystem</code>.
+     * Construct {@code Http4FileSystem}.
      *
      * @param rootName root base name
      * @param fileSystemOptions file system options
@@ -119,9 +119,9 @@ public class Http5FileSystem extends AbstractFileSystem {
     }
 
     /**
-     * Return the internal base <code>URI</code> instance.
+     * Return the internal base {@code URI} instance.
      *
-     * @return the internal base <code>URI</code> instance
+     * @return the internal base {@code URI} instance
      */
     protected URI getInternalBaseURI() {
         return internalBaseURI;

@@ -24,7 +24,7 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 
 /**
- * This filter accepts <code>File</code>s that are files (not directories).
+ * This filter accepts {@code File}s that are files (not directories).
  * <p>
  * For example, here is how to print out a list of the real files within the
  * current directory:

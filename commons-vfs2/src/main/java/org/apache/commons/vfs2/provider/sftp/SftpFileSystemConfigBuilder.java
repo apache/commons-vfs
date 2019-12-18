@@ -258,11 +258,11 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Returns {@link Boolean#TRUE} if VFS should load the OpenSSH config. Defaults to <code>Boolean.FALSE</code> if the
+     * Returns {@link Boolean#TRUE} if VFS should load the OpenSSH config. Defaults to {@code Boolean.FALSE} if the
      * method {@link #setLoadOpenSSHConfig(FileSystemOptions, boolean)} has not been invoked.
      *
      * @param opts The FileSystemOptions.
-     * @return <code>Boolean.TRUE</code> if VFS should load the OpenSSH config.
+     * @return {@code Boolean.TRUE} if VFS should load the OpenSSH config.
      * @see #setLoadOpenSSHConfig
      */
     public boolean isLoadOpenSSHConfig(final FileSystemOptions opts) {
@@ -417,11 +417,11 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * Returns {@link Boolean#TRUE} if VFS should treat the user directory as the root directory. Defaults to
-     * <code>Boolean.TRUE</code> if the method {@link #setUserDirIsRoot(FileSystemOptions, boolean)} has not been
+     * {@code Boolean.TRUE} if the method {@link #setUserDirIsRoot(FileSystemOptions, boolean)} has not been
      * invoked.
      *
      * @param opts The FileSystemOptions.
-     * @return <code>Boolean.TRUE</code> if VFS treats the user directory as the root directory.
+     * @return {@code Boolean.TRUE} if VFS treats the user directory as the root directory.
      * @see #setUserDirIsRoot
      */
     public Boolean getUserDirIsRoot(final FileSystemOptions opts) {

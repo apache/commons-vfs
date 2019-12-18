@@ -30,7 +30,7 @@ import org.apache.hc.core5.http.HttpHeaders;
 import org.apache.hc.core5.http.HttpResponse;
 
 /**
- * Creates <code>FileContentInfoFactory</code> instances for http5 provider.
+ * Creates {@code FileContentInfoFactory} instances for http5 provider.
  *
  * @since 2.5.0
  */

@@ -250,11 +250,11 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * Returns {@link Boolean#TRUE} if VFS should treat the user directory as the root directory. Defaults to
-     * <code>Boolean.TRUE</code> if the method {@link #setUserDirIsRoot(FileSystemOptions, boolean)} has not been
+     * {@code Boolean.TRUE} if the method {@link #setUserDirIsRoot(FileSystemOptions, boolean)} has not been
      * invoked.
      *
      * @param opts The FileSystemOptions.
-     * @return <code>Boolean.TRUE</code> if VFS treats the user directory as the root directory.
+     * @return {@code Boolean.TRUE} if VFS treats the user directory as the root directory.
      * @see #setUserDirIsRoot
      */
     public Boolean getUserDirIsRoot(final FileSystemOptions opts) {

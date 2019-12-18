@@ -171,9 +171,9 @@ public abstract class BaseFilterTest {
     /**
      * Adds a file to a ZIP output stream.
      *
-     * @param srcFile  File to add - Cannot be <code>null</code>.
-     * @param destPath Path to use for the file - May be <code>null</code> or empty.
-     * @param out      Destination stream - Cannot be <code>null</code>.
+     * @param srcFile  File to add - Cannot be {@code null}.
+     * @param destPath Path to use for the file - May be {@code null} or empty.
+     * @param out      Destination stream - Cannot be {@code null}.
      *
      * @throws IOException Error writing to the output stream.
      */
@@ -196,12 +196,12 @@ public abstract class BaseFilterTest {
     /**
      * Add a directory to a ZIP output stream.
      *
-     * @param srcDir   Directory to add - Cannot be <code>null</code> and must be a
+     * @param srcDir   Directory to add - Cannot be {@code null} and must be a
      *                 valid directory.
-     * @param filter   Filter or <code>null</code> for all files.
-     * @param destPath Path to use for the ZIP archive - May be <code>null</code> or
+     * @param filter   Filter or {@code null} for all files.
+     * @param destPath Path to use for the ZIP archive - May be {@code null} or
      *                 an empyt string.
-     * @param out      Destination stream - Cannot be <code>null</code>.
+     * @param out      Destination stream - Cannot be {@code null}.
      *
      * @throws IOException Error writing to the output stream.
      */
@@ -224,12 +224,12 @@ public abstract class BaseFilterTest {
      * directories to the archive. Only entries are added that comply to the file
      * filter.
      *
-     * @param srcDir   Directory to add - Cannot be <code>null</code> and must be a
+     * @param srcDir   Directory to add - Cannot be {@code null} and must be a
      *                 valid directory.
-     * @param filter   Filter or <code>null</code> for all files/directories.
-     * @param destPath Path to use for the ZIP archive - May be <code>null</code> or
+     * @param filter   Filter or {@code null} for all files/directories.
+     * @param destPath Path to use for the ZIP archive - May be {@code null} or
      *                 an empyt string.
-     * @param destFile Target ZIP file - Cannot be <code>null</code>.
+     * @param destFile Target ZIP file - Cannot be {@code null}.
      *
      * @throws IOException Error writing to the output stream.
      */
@@ -259,11 +259,11 @@ public abstract class BaseFilterTest {
      * Creates a ZIP file and adds all files in a directory and all it's sub
      * directories to the archive.
      *
-     * @param srcDir   Directory to add - Cannot be <code>null</code> and must be a
+     * @param srcDir   Directory to add - Cannot be {@code null} and must be a
      *                 valid directory.
-     * @param destPath Path to use for the ZIP archive - May be <code>null</code> or
+     * @param destPath Path to use for the ZIP archive - May be {@code null} or
      *                 an empyt string.
-     * @param destFile Target ZIP file - Cannot be <code>null</code>.
+     * @param destFile Target ZIP file - Cannot be {@code null}.
      *
      * @throws IOException Error writing to the output stream.
      */
@@ -274,12 +274,12 @@ public abstract class BaseFilterTest {
     }
 
     /**
-     * Concatenate a path and a file name taking <code>null</code> and empty string
+     * Concatenate a path and a file name taking {@code null} and empty string
      * values into account.
      *
-     * @param path      Path - Can be <code>null</code> or an empty string.
-     * @param fileName  Filename - Cannot be <code>null</code>.
-     * @param separator Separator for directories - Can be <code>null</code> or an
+     * @param path      Path - Can be {@code null} or an empty string.
+     * @param fileName  Filename - Cannot be {@code null}.
+     * @param separator Separator for directories - Can be {@code null} or an
      *                  empty string.
      *
      * @return Path and file name divided by the separator.
@@ -317,9 +317,9 @@ public abstract class BaseFilterTest {
     /**
      * List all files for a directory.
      *
-     * @param srcDir Directory to list the files for - Cannot be <code>null</code>
+     * @param srcDir Directory to list the files for - Cannot be {@code null}
      *               and must be a valid directory.
-     * @param filter Filter or <code>null</code> for all files.
+     * @param filter Filter or {@code null} for all files.
      *
      * @return List of child entries of the directory.
      */

@@ -28,7 +28,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
  * Filters file names for a certain name.
  * <p>
  * For example, to print all files and directories in the current directory
- * whose name is <code>Test</code>:
+ * whose name is {@code Test}:
  * </p>
  *
  * <pre>

@@ -77,7 +77,7 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.ssl.SSLContextBuilder;
 
 /**
- * <code>FileProvider</code> implementation using HttpComponents HttpClient library.
+ * {@code FileProvider} implementation using HttpComponents HttpClient library.
  *
  * @since 2.3
  */
@@ -241,7 +241,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
      * @param builder Configuration options builder for http4 provider
      * @param rootName The root path
      * @param fileSystemOptions The FileSystem options
-     * @param authData The <code>UserAuthentiationData</code> object
+     * @param authData The {@code UserAuthentiationData} object
      * @return an {@link HttpClientContext} object
      * @throws FileSystemException if an error occurs
      */

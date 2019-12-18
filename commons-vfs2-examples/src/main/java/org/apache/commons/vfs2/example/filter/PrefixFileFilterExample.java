@@ -33,7 +33,7 @@ public class PrefixFileFilterExample {
     public static void main(final String[] args) throws Exception {
 
         // Example, to print all files and directories in the current directory
-        // whose name starts with a <code>.</code>
+        // whose name starts with a {@code .}
         final FileSystemManager fsManager = VFS.getManager();
         final FileObject dir = fsManager.toFileObject(new File("."));
         final FileObject[] files = dir.findFiles(new FileFilterSelector(new PrefixFileFilter(".")));

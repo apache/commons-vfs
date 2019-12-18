@@ -123,7 +123,7 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Defines the enabled TLS versions for the underlying HttpClient.
      * <p>
      * This parameter expects a value of type {@link String} as a comma separated string, each token of
-     * which is the name of <code>org.apache.hc.core5.http.ssl.TLS</code> enum. e.g, "V_1_2, V_1_3".
+     * which is the name of {@code org.apache.hc.core5.http.ssl.TLS} enum. e.g, "V_1_2, V_1_3".
      * </p>
      */
     private static final String KEY_TLS_VERSIONS = "tlsVersions";
@@ -170,12 +170,12 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * The default value for {@link #KEY_TLS_VERSIONS} configuration as a comma separated string, each token of
-     * which is the name of <code>org.apache.hc.core5.http.ssl.TLS</code> enum. e.g, "V_1_2, V_1_3".
+     * which is the name of {@code org.apache.hc.core5.http.ssl.TLS} enum. e.g, "V_1_2, V_1_3".
      */
     private static final String DEFAULT_TLS_VERSIONS = "V_1_2";
 
     /**
-     * Construct an <code>Http4FileSystemConfigBuilder</code>.
+     * Construct an {@code Http4FileSystemConfigBuilder}.
      *
      * @param prefix String for properties of this file system.
      */
@@ -529,7 +529,7 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * Sets the enabled TLS versions as a comma separated string, each token of which is the name of
-     * <code>org.apache.hc.core5.http.ssl.TLS</code> enum. e.g, "V_1_2, V_1_3".
+     * {@code org.apache.hc.core5.http.ssl.TLS} enum. e.g, "V_1_2, V_1_3".
      *
      * @param opts the file system options to modify
      * @param tlsVersions enabled TLS versions
@@ -540,7 +540,7 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * Gets the enabled TLS versions as a comma separated string, each token of which is the name of
-     * <code>org.apache.hc.core5.http.ssl.TLS</code> enum. e.g, "V_1_2, V_1_3".
+     * {@code org.apache.hc.core5.http.ssl.TLS} enum. e.g, "V_1_2, V_1_3".
      *
      * @param opts the file system options to modify
      * @return enabled TLS versions

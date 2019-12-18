@@ -66,8 +66,8 @@ public class SftpStreamProxy implements Proxy {
      * Here are two examples (that can be easily used by using the static members of this class):
      * </p>
      * <ul>
-     * <li><code>nc -q 0 %s %d</code> to use the netcat command ({@linkplain #NETCAT_COMMAND})</li>
-     * <li><code>/bin/bash -c 'exec 3<>/dev/tcp/%s/%d; cat <&3 & cat >&3; kill $!</code> will use bash built-in TCP
+     * <li>{@code nc -q 0 %s %d} to use the netcat command ({@linkplain #NETCAT_COMMAND})</li>
+     * <li>{@code /bin/bash -c 'exec 3<>/dev/tcp/%s/%d; cat <&3 & cat >&3; kill $!} will use bash built-in TCP
      * stream, which can be useful when there is no netcat available. ({@linkplain #BASH_TCP_COMMAND})</li>
      * </ul>
      */

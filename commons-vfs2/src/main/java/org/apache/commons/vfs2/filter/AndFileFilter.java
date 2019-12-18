@@ -68,7 +68,7 @@ public class AndFileFilter implements FileFilter, ConditionalFileFilter, Seriali
     }
 
     /**
-     * Constructs a new instance of <code>AndFileFilter</code> with the specified
+     * Constructs a new instance of {@code AndFileFilter} with the specified
      * list of filters.
      *
      * @param fileFilters a List of FileFilter instances, copied, null ignored

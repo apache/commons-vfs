@@ -58,18 +58,18 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
     private final String urlCharset;
 
     /**
-     * Internal URI mapped to this <code>FileObject</code>.
-     * For example, the internal URI of <code>http4://example.com/a.txt</code> is <code>http://example.com/a.txt</code>.
+     * Internal URI mapped to this {@code FileObject}.
+     * For example, the internal URI of {@code http4://example.com/a.txt} is {@code http://example.com/a.txt}.
      */
     private final URI internalURI;
 
     /**
-     * The last executed HEAD <code>HttpResponse</code> object.
+     * The last executed HEAD {@code HttpResponse} object.
      */
     private HttpResponse lastHeadResponse;
 
     /**
-     * Construct <code>Http4FileObject</code>.
+     * Construct {@code Http4FileObject}.
      *
      * @param name file name
      * @param fileSystem file system
@@ -82,11 +82,11 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
     }
 
     /**
-     * Construct <code>Http4FileObject</code>.
+     * Construct {@code Http4FileObject}.
      *
      * @param name file name
      * @param fileSystem file system
-     * @param builder <code>Http4FileSystemConfigBuilder</code> object
+     * @param builder {@code Http4FileSystemConfigBuilder} object
      * @throws FileSystemException if any error occurs
      * @throws URISyntaxException if given file name cannot be converted to a URI due to URI syntax error
      */
@@ -193,9 +193,9 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
     }
 
     /**
-     * Return the internal <code>URI</code> object mapped to this file object.
+     * Return the internal {@code URI} object mapped to this file object.
      *
-     * @return the internal <code>URI</code> object mapped to this file object
+     * @return the internal {@code URI} object mapped to this file object
      * @throws FileSystemException if any error occurs
      */
     protected URI getInternalURI() throws FileSystemException {
@@ -203,9 +203,9 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
     }
 
     /**
-     * Return the last executed HEAD <code>HttpResponse</code> object.
+     * Return the last executed HEAD {@code HttpResponse} object.
      *
-     * @return the last executed HEAD <code>HttpResponse</code> object
+     * @return the last executed HEAD {@code HttpResponse} object
      * @throws IOException if IO error occurs
      */
     HttpResponse getLastHeadResponse() throws IOException {
@@ -217,10 +217,10 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
     }
 
     /**
-     * Execute the request using the given {@code httpRequest} and return a <code>HttpResponse</code> from the execution.
+     * Execute the request using the given {@code httpRequest} and return a {@code HttpResponse} from the execution.
      *
-     * @param httpRequest <code>HttpUriRequest</code> object
-     * @return <code>HttpResponse</code> from the execution
+     * @param httpRequest {@code HttpUriRequest} object
+     * @return {@code HttpResponse} from the execution
      * @throws IOException if IO error occurs
      *
      * @since 2.5.0

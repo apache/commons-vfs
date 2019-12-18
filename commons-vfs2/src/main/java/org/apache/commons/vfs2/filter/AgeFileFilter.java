@@ -60,14 +60,14 @@ public class AgeFileFilter implements FileFilter, Serializable {
     private final long cutoff;
 
     /**
-     * Tests if the specified <code>File</code> is newer than the specified time
+     * Tests if the specified {@code File} is newer than the specified time
      * reference.
      *
-     * @param fileObject the <code>File</code> of which the modification date must
+     * @param fileObject the {@code File} of which the modification date must
      *                   be compared, must not be {@code null}
      * @param timeMillis the time reference measured in milliseconds since the epoch
      *                   (00:00:00 GMT, January 1, 1970)
-     * @return true if the <code>File</code> exists and has been modified after the
+     * @return true if the {@code File} exists and has been modified after the
      *         given time reference.
      * @throws FileSystemException Thrown for file system errors.
      * @throws IllegalArgumentException if the file is {@code null}

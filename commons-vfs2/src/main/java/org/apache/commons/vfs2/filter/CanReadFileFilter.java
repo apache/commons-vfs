@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSystemException;
 
 /**
- * This filter accepts <code>File</code>s that can be read.
+ * This filter accepts {@code File}s that can be read.
  * <p>
  * Example, showing how to print out a list of the current directory's
  * <i>readable</i> files:

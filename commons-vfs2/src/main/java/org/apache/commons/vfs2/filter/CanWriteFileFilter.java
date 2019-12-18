@@ -26,7 +26,7 @@ import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 
 /**
- * This filter accepts <code>File</code>s that can be written to.
+ * This filter accepts {@code File}s that can be written to.
  * <p>
  * Example, showing how to print out a list of the current directory's
  * <i>writable</i> files:
@@ -57,7 +57,7 @@ import org.apache.commons.vfs2.FileSystemException;
  *
  * <p>
  * <b>N.B.</b> For read-only files, use
- * <code>CanReadFileFilter.READ_ONLY</code>.
+ * {@code CanReadFileFilter.READ_ONLY}.
  * </p>
  *
  * @author This code was originally ported from Apache Commons IO File Filter

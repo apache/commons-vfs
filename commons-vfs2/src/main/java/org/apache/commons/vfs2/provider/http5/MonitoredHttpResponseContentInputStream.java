@@ -22,7 +22,7 @@ import org.apache.commons.vfs2.util.MonitorInputStream;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 
 /**
- * An InputStream that cleans up the <code>org.apache.hc.core5.http.ClassicHttpResponse</code> on close.
+ * An InputStream that cleans up the {@code org.apache.hc.core5.http.ClassicHttpResponse} on close.
  */
 class MonitoredHttpResponseContentInputStream extends MonitorInputStream {
 

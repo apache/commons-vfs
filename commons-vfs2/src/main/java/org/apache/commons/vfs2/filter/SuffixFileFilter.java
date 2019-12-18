@@ -28,7 +28,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
  * Filters files based on the suffix (what the file name ends with). This is used
  * in retrieving all the files of a particular type.
  * <p>
- * For example, to retrieve and print all <code>*.java</code> files in the
+ * For example, to retrieve and print all {@code *.java} files in the
  * current directory:
  * </p>
  *

@@ -160,7 +160,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final boolean DEFAULT_HOSTNAME_VERIFICATION_ENABLED = true;
 
     /**
-     * Construct an <code>Http4FileSystemConfigBuilder</code>.
+     * Construct an {@code Http4FileSystemConfigBuilder}.
      *
      * @param prefix String for properties of this file system.
      */

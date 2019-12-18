@@ -82,7 +82,7 @@ import org.apache.hc.core5.http.ssl.TLS;
 import org.apache.hc.core5.ssl.SSLContextBuilder;
 
 /**
- * <code>FileProvider</code> implementation using HttpComponents HttpClient v5 library.
+ * {@code FileProvider} implementation using HttpComponents HttpClient v5 library.
  *
  * @since 2.5.0
  */
@@ -250,7 +250,7 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
      * @param builder Configuration options builder for http4 provider
      * @param rootName The root path
      * @param fileSystemOptions The FileSystem options
-     * @param authData The <code>UserAuthentiationData</code> object
+     * @param authData The {@code UserAuthentiationData} object
      * @return an {@link HttpClientContext} object
      * @throws FileSystemException if an error occurs
      */

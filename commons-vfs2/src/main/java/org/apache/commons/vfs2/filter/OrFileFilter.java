@@ -68,7 +68,7 @@ public class OrFileFilter implements FileFilter, ConditionalFileFilter, Serializ
     }
 
     /**
-     * Constructs a new instance of <code>OrFileFilter</code> with the specified
+     * Constructs a new instance of {@code OrFileFilter} with the specified
      * filters.
      *
      * @param fileFilters the file filters for this filter, copied, null ignored
