@@ -37,7 +37,7 @@ public class ResourceFileProvider extends AbstractFileProvider {
 
     /** The provider's capabilities */
     protected static final Collection<Capability> capabilities = Collections
-            .unmodifiableCollection(Arrays.asList(new Capability[] { Capability.DISPATCHER }));
+            .unmodifiableCollection(Arrays.asList(Capability.DISPATCHER));
 
     private static final int BUFFER_SIZE = 80;
 

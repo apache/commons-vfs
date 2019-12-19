@@ -51,10 +51,10 @@ public class WebdavFileProvider extends HttpFileProvider {
 
     /** The capabilities of the WebDAV provider */
     protected static final Collection<Capability> capabilities = Collections
-            .unmodifiableCollection(Arrays.asList(new Capability[] { Capability.CREATE, Capability.DELETE,
-                    Capability.RENAME, Capability.GET_TYPE, Capability.LIST_CHILDREN, Capability.READ_CONTENT,
-                    Capability.URI, Capability.WRITE_CONTENT, Capability.GET_LAST_MODIFIED, Capability.ATTRIBUTES,
-                    Capability.RANDOM_ACCESS_READ, Capability.DIRECTORY_READ_CONTENT, }));
+            .unmodifiableCollection(Arrays.asList(Capability.CREATE, Capability.DELETE, Capability.RENAME, Capability.GET_TYPE,
+                    Capability.LIST_CHILDREN, Capability.READ_CONTENT, Capability.URI, Capability.WRITE_CONTENT,
+                    Capability.GET_LAST_MODIFIED, Capability.ATTRIBUTES, Capability.RANDOM_ACCESS_READ,
+                    Capability.DIRECTORY_READ_CONTENT));
 
     public WebdavFileProvider() {
         super();

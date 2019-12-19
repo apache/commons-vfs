@@ -34,11 +34,11 @@ public class RamFileProvider extends AbstractOriginatingFileProvider {
 
     /** The provider's capabilities. */
     public static final Collection<Capability> capabilities = Collections.unmodifiableCollection(
-            Arrays.asList(new Capability[] { Capability.CREATE, Capability.DELETE, Capability.RENAME,
-                    Capability.GET_TYPE, Capability.GET_LAST_MODIFIED, Capability.SET_LAST_MODIFIED_FILE,
+            Arrays.asList(Capability.CREATE, Capability.DELETE, Capability.RENAME, Capability.GET_TYPE,
+                    Capability.GET_LAST_MODIFIED, Capability.SET_LAST_MODIFIED_FILE,
                     Capability.SET_LAST_MODIFIED_FOLDER, Capability.LIST_CHILDREN, Capability.READ_CONTENT,
                     Capability.URI, Capability.WRITE_CONTENT, Capability.APPEND_CONTENT, Capability.RANDOM_ACCESS_READ,
-                    Capability.RANDOM_ACCESS_SET_LENGTH, Capability.RANDOM_ACCESS_WRITE }));
+                    Capability.RANDOM_ACCESS_SET_LENGTH, Capability.RANDOM_ACCESS_WRITE));
 
     /**
      * Constructs a new provider.

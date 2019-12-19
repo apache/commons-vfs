@@ -36,8 +36,8 @@ import org.apache.commons.vfs2.provider.LayeredFileName;
  */
 public class MimeFileProvider extends AbstractLayeredFileProvider implements FileProvider {
     static final Collection<Capability> capabilities = Collections
-            .unmodifiableCollection(Arrays.asList(new Capability[] { Capability.GET_TYPE, Capability.GET_LAST_MODIFIED,
-                    Capability.LIST_CHILDREN, Capability.READ_CONTENT, Capability.URI, Capability.ATTRIBUTES }));
+            .unmodifiableCollection(Arrays.asList(Capability.GET_TYPE, Capability.GET_LAST_MODIFIED, Capability.LIST_CHILDREN,
+                    Capability.READ_CONTENT, Capability.URI, Capability.ATTRIBUTES));
 
     public MimeFileProvider() {
         super();

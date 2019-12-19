@@ -38,9 +38,8 @@ import org.apache.commons.vfs2.provider.LayeredFileName;
 public class ZipFileProvider extends AbstractLayeredFileProvider {
 
     /** The list of capabilities this provider supports */
-    protected static final Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays
-            .asList(new Capability[] { Capability.GET_LAST_MODIFIED, Capability.GET_TYPE, Capability.LIST_CHILDREN,
-                    Capability.READ_CONTENT, Capability.URI, Capability.COMPRESS, Capability.VIRTUAL }));
+    protected static final Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays.asList(Capability.GET_LAST_MODIFIED, Capability.GET_TYPE, Capability.LIST_CHILDREN, Capability.READ_CONTENT,
+            Capability.URI, Capability.COMPRESS, Capability.VIRTUAL));
 
     public ZipFileProvider() {
         super();
