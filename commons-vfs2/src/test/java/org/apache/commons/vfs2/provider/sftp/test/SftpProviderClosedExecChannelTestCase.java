@@ -16,7 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.sftp.test;
 
-import org.apache.commons.vfs2.test.PermissionsTests;
+import org.apache.commons.vfs2.test.*;
 
 import junit.framework.Test;
 
@@ -30,9 +30,18 @@ public class SftpProviderClosedExecChannelTestCase extends AbstractSftpProviderT
      * Creates the test suite for the sftp file system.
      */
     public static Test suite() throws Exception {
-        final SftpProviderTestSuite suite = new SftpProviderTestSuite(new SftpProviderClosedExecChannelTestCase());
-        // VFS-405: set/get permissions
-        suite.addTests(PermissionsTests.class);
+        final SftpProviderTestSuite suite = new SftpProviderTestSuite(new SftpProviderClosedExecChannelTestCase()){
+        @Override
+        protected void addBaseTests() throws Exception {
+            addTests(ProviderReadTests.class);
+            addTests(ProviderWriteTests.class);
+            addTests(ProviderDeleteTests.class);
+            addTests(ProviderRenameTests.class);
+            addTests(NamingTests.class);
+            // VFS-405: set/get permissions
+            addTests(PermissionsTests.class);
+        }
+    };
         return suite;
     }
 }

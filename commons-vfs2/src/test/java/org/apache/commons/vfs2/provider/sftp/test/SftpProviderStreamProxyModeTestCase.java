@@ -48,10 +48,10 @@ public class SftpProviderStreamProxyModeTestCase extends AbstractSftpProviderTes
             protected void addBaseTests() throws Exception {
                 // Just tries to read
                 addTests(ProviderReadTests.class);
+                // VFS-405: set/get permissions
+                addTests(PermissionsTests.class);
             }
         };
-        // VFS-405: set/get permissions
-        suite.addTests(PermissionsTests.class);
         return suite;
     }
 

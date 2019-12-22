@@ -176,13 +176,12 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
      * @throws IOException
      */
     private static void setUpClass(final boolean isExecChannelClosed) throws IOException {
-        SocketPort = FreeSocketPortUtil.findFreeLocalPort();
-        // Use %40 for @ in a URL
-        ConnectionUri = String.format("sftp://%s@localhost:%d", DEFAULT_USER, SocketPort);
-
         if (Server != null) {
             return;
         }
+        SocketPort = FreeSocketPortUtil.findFreeLocalPort();
+        // Use %40 for @ in a URL
+        ConnectionUri = String.format("sftp://%s@localhost:%d", DEFAULT_USER, SocketPort);
         // System.setProperty("vfs.sftp.sshdir", getTestDirectory() + "/../vfs.sftp.sshdir");
         final String tmpDir = System.getProperty("java.io.tmpdir");
         Server = SshServer.setUpDefaultServer();
