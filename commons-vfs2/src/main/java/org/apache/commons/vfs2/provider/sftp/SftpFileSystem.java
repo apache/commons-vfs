@@ -83,7 +83,7 @@ public class SftpFileSystem extends AbstractFileSystem {
     /**
      * Some SFTP-only servers disable the exec channel. When exec is disabled, things like getUId() will always fail.
      */
-    private boolean execDisabled;
+    private final boolean execDisabled;
 
     protected SftpFileSystem(final GenericFileName rootName, final Session session,
             final FileSystemOptions fileSystemOptions) {
@@ -91,7 +91,7 @@ public class SftpFileSystem extends AbstractFileSystem {
         this.session = Objects.requireNonNull(session, "session");
         this.connectTimeoutMillis = SftpFileSystemConfigBuilder.getInstance()
                 .getConnectTimeoutMillis(fileSystemOptions);
-        detectExecDisabled();
+        this.execDisabled = detectExecDisabled();
     }
 
     @Override
@@ -338,12 +338,13 @@ public class SftpFileSystem extends AbstractFileSystem {
      *
      * Attempt to detect this by calling getUid.
      */
-    private void detectExecDisabled() {
+    private boolean detectExecDisabled() {
         try {
             getUId();
+            return false;
         } catch(JSchException | IOException e) {
-            execDisabled = true;
             LOG.debug("Cannot get UID, assuming no exec channel is present", e);
+            return true;
         }
     }
 
