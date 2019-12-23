@@ -327,6 +327,7 @@ public class SftpFileSystem extends AbstractFileSystem {
     }
 
     /**
+     * @return Whether the exec channel is disabled.
      * @see SftpFileSystem#execDisabled
      */
     public boolean isExecDisabled() {

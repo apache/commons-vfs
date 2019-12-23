@@ -38,7 +38,6 @@ import java.util.TreeMap;
  * @see org.apache.commons.vfs2.provider.ftps.FtpsFileSystemConfigBuilder
  * @see org.apache.commons.vfs2.provider.hdfs.HdfsFileSystemConfigBuilder
  * @see org.apache.commons.vfs2.provider.http.HttpFileSystemConfigBuilder
- * @see org.apache.commons.vfs2.provider.webdav.WebdavFileSystemConfigBuilder
  * @see org.apache.commons.vfs2.provider.ram.RamFileSystemConfigBuilder
  * @see org.apache.commons.vfs2.provider.res.ResourceFileSystemConfigBuilder
  * @see org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder

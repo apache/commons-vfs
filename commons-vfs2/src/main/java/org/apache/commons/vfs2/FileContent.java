@@ -310,7 +310,7 @@ public interface FileContent extends Closeable {
      * Checks if the receiver is empty.
      *
      * @return true if the receiver is empty, false otherwise.
-     * @throws FileSystemException
+     * @throws FileSystemException If the file does not exist, or is being written to, or on error determining the size.
      * @since 2.5.0
      */
     default boolean isEmpty() throws FileSystemException {
