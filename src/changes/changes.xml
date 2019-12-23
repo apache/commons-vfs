@@ -122,6 +122,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-617" dev="ggregory" type="fix" due-to="Tim Nickels, Joshua Woods, David Johansson, Bernd Eckenfels, Len, Nim Lhûg, Vineet Tyagi, Gopal Warawate, Alex Pearce, Gary Gregory">
          SFTP isReadable fails if unable to determine group identity. #75.
       </action>
+      <action issue="VFS-749" dev="ggregory" type="update" due-to="Gary Gregory">
+        Update Apache Commons Parent from 48 to 50.
+      </action>
     </release>
     <release version="2.4.1" date="2019-08-10" description="Bug fix release.">
       <action issue="VFS-725" dev="ggregory" type="fix" due-to="Gary Gregory">
