@@ -69,6 +69,12 @@
     <property name="severity" value="warning" />
   </module>
 
+  <!-- Checks for Size Violations. -->
+  <!-- See http://checkstyle.sf.net/config_sizes.html -->
+  <module name="LineLength">
+    <property name="max" value="120" />
+  </module>
+
   <!-- Exceptions -->
   <!--<module name="SuppressionFilter">
     <property name="file" value="conf/checkstyle-suppressions.xml"/>
@@ -81,8 +87,9 @@
     <module name="JavadocMethod">
       <property name="scope" value="public" />
       <property name="allowUndeclaredRTE" value="true" />
-      <property name="allowMissingJavadoc" value="true" />
     </module>
+    <module name="MissingJavadocMethod"/>
+    
     <!-- http://checkstyle.sourceforge.net/config_javadoc.html#JavadocType -->
     <module name="JavadocType">
       <!-- It is unfortunate to have to do this but checkstyle doesn't allow custom tags -->
@@ -122,9 +129,6 @@
     <!-- Checks for Size Violations. -->
     <!-- See http://checkstyle.sf.net/config_sizes.html -->
     <!--<module name="FileLength"/> -->
-    <module name="LineLength">
-      <property name="max" value="120" />
-    </module>
     <module name="MethodLength" />
     <module name="ParameterNumber">
       <property name="max" value="10" />
