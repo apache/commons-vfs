@@ -14,26 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.sftp.test;
+package org.apache.commons.vfs2.provider.sftp;
 
-import org.apache.commons.vfs2.test.PermissionsTests;
+import org.apache.commons.vfs2.util.PosixPermissions;
 
-import junit.framework.Test;
+/**
+ * Pretends that the current user is always the owner and in the same group.
+ */
+public class UserIsOwnerPosixPermissions extends PosixPermissions {
 
-public class SftpProviderTestCase extends AbstractSftpProviderTestCase {
-
-    @Override
-    protected boolean isExecChannelClosed() {
-        return false;
-    }
-
-    /**
-     * Creates the test suite for the sftp file system.
-     */
-    public static Test suite() throws Exception {
-        final SftpProviderTestSuite suite = new SftpProviderTestSuite(new SftpProviderTestCase());
-        // VFS-405: set/get permissions
-        suite.addTests(PermissionsTests.class);
-        return suite;
+    public UserIsOwnerPosixPermissions(final int permissions) {
+        super(permissions, true, true);
     }
 }
