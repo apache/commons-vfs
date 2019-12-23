@@ -102,7 +102,7 @@ The <action> type attribute can be add,update,fix,remove.
         Changes to parseUri breaks backward compatibility by throwing NullPointerException in some cases.
       </action>
       <action issue="VFS-686" dev="ggregory" type="fix" due-to="Woonsan Ko, Gary Gregory">
-        webdav4 provider based on the latest Jackrabbit 2.x #52.
+        Add webdav4 provider based on the latest Jackrabbit 2.x #52.
       </action>
       <action issue="VFS-742" dev="ggregory" type="add" due-to="Gary Gregory">
         Add org.apache.commons.vfs2.FileContent.isEmpty().
@@ -115,6 +115,12 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action issue="VFS-687" dev="ggregory" type="fix" due-to="Woonsan Ko, Gary Gregory">
         Add http5 and http5s providers (#74)
+      </action>
+      <action issue="VFS-590" dev="ggregory" type="fix" due-to="L, Alex Pearce, Gary Gregory">
+         SFTP moveTo operation might fail on permission checks even if the operation itself might succeed. #75.
+      </action>
+      <action issue="VFS-617" dev="ggregory" type="fix" due-to="Tim Nickels, Joshua Woods, David Johansson, Bernd Eckenfels, Len, Nim Lhûg, Vineet Tyagi, Gopal Warawate, Alex Pearce, Gary Gregory">
+         SFTP isReadable fails if unable to determine group identity. #75.
       </action>
     </release>
     <release version="2.4.1" date="2019-08-10" description="Bug fix release.">
