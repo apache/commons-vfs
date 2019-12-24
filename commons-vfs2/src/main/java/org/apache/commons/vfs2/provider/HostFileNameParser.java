@@ -216,6 +216,21 @@ public class HostFileNameParser extends AbstractFileNameParser {
      * @param name Used to return the remainder of the URI.
      * @return Authority extracted host authority, never null.
      * @throws FileSystemException if authority cannot be extracted.
+     * @deprecated Use {@link #extractToPath(VfsComponentContext, String, StringBuilder)}.
+     */
+    @Deprecated
+    protected Authority extractToPath(final String uri, final StringBuilder name) throws FileSystemException {
+        return extractToPath(null, uri, name);
+    }
+        
+    /**
+     * Extracts the scheme, userinfo, hostname and port components of a generic URI.
+     * 
+     * @param context component context. 
+     * @param uri The absolute URI to parse.
+     * @param name Used to return the remainder of the URI.
+     * @return Authority extracted host authority, never null.
+     * @throws FileSystemException if authority cannot be extracted.
      */
     protected Authority extractToPath(final VfsComponentContext context, final String uri, final StringBuilder name) throws FileSystemException {
         final Authority auth = new Authority();
