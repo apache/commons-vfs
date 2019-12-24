@@ -25,9 +25,9 @@ import org.apache.commons.vfs2.util.Cryptor;
 import org.apache.commons.vfs2.util.CryptorFactory;
 
 /**
- * Implementation for any url based file system.
+ * Implementation for any URL based file system.
  * <p>
- * Parses the url into user/password/host/port/path. Does not handle a query string (after ?)
+ * Parses the URL into user/password/host/port/path. Does not handle a query string (after ?)
  * </p>
  *
  * @see URLFileNameParser URLFileNameParser for the implementation which also handles the query string too
@@ -242,7 +242,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         }
 
         /**
-         * Set the connection schema.
+         * Sets the connection schema.
          *
          * @param scheme the connection scheme.
          * @since 2.0
@@ -252,7 +252,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         }
 
         /**
-         * Get the host name.
+         * Gets the host name.
          *
          * @return the host name.
          * @since 2.0
@@ -262,7 +262,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         }
 
         /**
-         * Set the host name.
+         * Sets the host name.
          *
          * @param hostName the host name.
          * @since 2.0
@@ -272,7 +272,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         }
 
         /**
-         * Get the user name.
+         * Gets the user name.
          *
          * @return the user name or null.
          * @since 2.0
@@ -282,7 +282,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         }
 
         /**
-         * Set the user name.
+         * Sets the user name.
          *
          * @param userName the user name.
          * @since 2.0
@@ -292,7 +292,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         }
 
         /**
-         * Get the user password.
+         * Gets the user password.
          *
          * @return the password or null.
          * @since 2.0
@@ -302,7 +302,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         }
 
         /**
-         * Set the user password.
+         * Sets the user password.
          *
          * @param password the user password.
          * @since 2.0
@@ -312,7 +312,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         }
 
         /**
-         * Get the port.
+         * Gets the port.
          *
          * @return the port or -1.
          * @since 2.0
@@ -322,7 +322,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         }
 
         /**
-         * Set the connection port.
+         * Sets the connection port.
          *
          * @param port the port number or -1.
          * @since 2.0
