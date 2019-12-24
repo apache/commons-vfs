@@ -33,7 +33,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 public interface VfsComponentContext {
 
     /**
-     * Locate a file by name. See {@link FileSystemManager#resolveFile(FileObject, String)} for a description of how
+     * Resolves a file by name. See {@link FileSystemManager#resolveFile(FileObject, String)} for a description of how
      * this works.
      *
      * @param baseFile The base FileObject.
@@ -46,7 +46,7 @@ public interface VfsComponentContext {
             throws FileSystemException;
 
     /**
-     * Locate a file by name. See {@link FileSystemManager#resolveFile( String)} for a description of how this works.
+     * Resolves a file by name. See {@link FileSystemManager#resolveFile( String)} for a description of how this works.
      *
      * @param name The name of the file to locate.
      * @param fileSystemOptions The FileSystemOptions.
@@ -56,7 +56,7 @@ public interface VfsComponentContext {
     FileObject resolveFile(String name, FileSystemOptions fileSystemOptions) throws FileSystemException;
 
     /**
-     * Parse a URI into a FileName.
+     * Parses a URI into a FileName.
      *
      * @param uri The URI String.
      * @return The FileName.
@@ -65,7 +65,7 @@ public interface VfsComponentContext {
     FileName parseURI(String uri) throws FileSystemException;
 
     /**
-     * Locates a file replicator for the provider to use.
+     * Gets a file replicator for the provider to use.
      *
      * @return The FileReplicator.
      * @throws FileSystemException if an error occurs.
@@ -73,7 +73,7 @@ public interface VfsComponentContext {
     FileReplicator getReplicator() throws FileSystemException;
 
     /**
-     * Locates a temporary file store for the provider to use.
+     * Gets a temporary file store for the provider to use.
      *
      * @return The TemporaryFileStore.
      * @throws FileSystemException if an error occurs.
@@ -90,7 +90,7 @@ public interface VfsComponentContext {
     FileObject toFileObject(File file) throws FileSystemException;
 
     /**
-     * Returns the file system manager for the current context.
+     * Gets the file system manager for the current context.
      *
      * @return the file system manager
      */
