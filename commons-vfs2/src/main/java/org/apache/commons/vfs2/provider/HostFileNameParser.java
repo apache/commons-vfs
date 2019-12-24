@@ -33,33 +33,179 @@ import org.apache.commons.vfs2.util.CryptorFactory;
  * @see URLFileNameParser URLFileNameParser for the implementation which also handles the query string too
  */
 public class HostFileNameParser extends AbstractFileNameParser {
+    /**
+     * Parsed authority info (scheme, hostname, username/password, port).
+     */
+    protected static class Authority {
+        private String hostName;
+        private String password;
+        private int port;
+        private String scheme;
+        private String userName;
+
+        /**
+         * Gets the host name.
+         *
+         * @return the host name.
+         * @since 2.0
+         */
+        public String getHostName() {
+            return hostName;
+        }
+
+        /**
+         * Gets the user password.
+         *
+         * @return the password or null.
+         * @since 2.0
+         */
+        public String getPassword() {
+            return password;
+        }
+
+        /**
+         * Gets the port.
+         *
+         * @return the port or -1.
+         * @since 2.0
+         */
+        public int getPort() {
+            return port;
+        }
+
+        /**
+         * Get the connection schema.
+         *
+         * @return the connection scheme.
+         * @since 2.0
+         */
+        public String getScheme() {
+            return scheme;
+        }
+
+        /**
+         * Gets the user name.
+         *
+         * @return the user name or null.
+         * @since 2.0
+         */
+        public String getUserName() {
+            return userName;
+        }
+
+        /**
+         * Sets the host name.
+         *
+         * @param hostName the host name.
+         * @since 2.0
+         */
+        public void setHostName(final String hostName) {
+            this.hostName = hostName;
+        }
+
+        /**
+         * Sets the user password.
+         *
+         * @param password the user password.
+         * @since 2.0
+         */
+        public void setPassword(final String password) {
+            this.password = password;
+        }
+
+        /**
+         * Sets the connection port.
+         *
+         * @param port the port number or -1.
+         * @since 2.0
+         */
+        public void setPort(final int port) {
+            this.port = port;
+        }
+
+        /**
+         * Sets the connection schema.
+         *
+         * @param scheme the connection scheme.
+         * @since 2.0
+         */
+        public void setScheme(final String scheme) {
+            this.scheme = scheme;
+        }
+
+        /**
+         * Sets the user name.
+         *
+         * @param userName the user name.
+         * @since 2.0
+         */
+        public void setUserName(final String userName) {
+            this.userName = userName;
+        }
+    }
+
     private final int defaultPort;
 
     public HostFileNameParser(final int defaultPort) {
         this.defaultPort = defaultPort;
     }
 
-    public int getDefaultPort() {
-        return defaultPort;
+    /**
+     * Extracts the hostname from a URI.
+     *
+     * @param name string buffer with the "scheme://[userinfo@]" part has been removed already. Will be modified.
+     * @return the host name or null.
+     */
+    protected String extractHostName(final StringBuilder name) {
+        final int maxlen = name.length();
+        int pos = 0;
+        for (; pos < maxlen; pos++) {
+            final char ch = name.charAt(pos);
+            if (ch == '/' || ch == ';' || ch == '?' || ch == ':' || ch == '@' || ch == '&' || ch == '=' || ch == '+'
+                    || ch == '$' || ch == ',') {
+                break;
+            }
+        }
+        if (pos == 0) {
+            return null;
+        }
+
+        final String hostname = name.substring(0, pos);
+        name.delete(0, pos);
+        return hostname;
     }
 
-    @Override
-    public FileName parseUri(final VfsComponentContext context, final FileName base, final String fileName)
-            throws FileSystemException {
-        // FTP URI are generic URI (as per RFC 2396)
-        final StringBuilder name = new StringBuilder();
+    /**
+     * Extracts the port from a URI.
+     *
+     * @param name string buffer with the "scheme://[userinfo@]hostname" part has been removed already. Will be
+     *            modified.
+     * @param uri full URI for error reporting.
+     * @return The port, or -1 if the URI does not contain a port.
+     * @throws FileSystemException if URI is malformed.
+     * @throws NumberFormatException if port number cannot be parsed.
+     */
+    protected int extractPort(final StringBuilder name, final String uri) throws FileSystemException {
+        if (name.length() < 1 || name.charAt(0) != ':') {
+            return -1;
+        }
 
-        // Extract the scheme and authority parts
-        final Authority auth = extractToPath(context, fileName, name);
+        final int maxlen = name.length();
+        int pos = 1;
+        for (; pos < maxlen; pos++) {
+            final char ch = name.charAt(pos);
+            if (ch < '0' || ch > '9') {
+                break;
+            }
+        }
 
-        // Decode and normalise the file name
-        UriParser.canonicalizePath(name, 0, name.length(), this);
-        UriParser.fixSeparators(name);
-        final FileType fileType = UriParser.normalisePath(name);
-        final String path = name.toString();
+        final String port = name.substring(1, pos);
+        name.delete(0, pos);
+        if (port.isEmpty()) {
+            throw new FileSystemException("vfs.provider/missing-port.error", uri);
+        }
 
-        return new GenericFileName(auth.scheme, auth.hostName, auth.port, defaultPort, auth.userName, auth.password,
-                path, fileType);
+        return Integer.parseInt(port);
     }
 
     /**
@@ -163,172 +309,26 @@ public class HostFileNameParser extends AbstractFileNameParser {
         return null;
     }
 
-    /**
-     * Extracts the hostname from a URI.
-     *
-     * @param name string buffer with the "scheme://[userinfo@]" part has been removed already. Will be modified.
-     * @return the host name or null.
-     */
-    protected String extractHostName(final StringBuilder name) {
-        final int maxlen = name.length();
-        int pos = 0;
-        for (; pos < maxlen; pos++) {
-            final char ch = name.charAt(pos);
-            if (ch == '/' || ch == ';' || ch == '?' || ch == ':' || ch == '@' || ch == '&' || ch == '=' || ch == '+'
-                    || ch == '$' || ch == ',') {
-                break;
-            }
-        }
-        if (pos == 0) {
-            return null;
-        }
-
-        final String hostname = name.substring(0, pos);
-        name.delete(0, pos);
-        return hostname;
+    public int getDefaultPort() {
+        return defaultPort;
     }
 
-    /**
-     * Extracts the port from a URI.
-     *
-     * @param name string buffer with the "scheme://[userinfo@]hostname" part has been removed already. Will be
-     *            modified.
-     * @param uri full URI for error reporting.
-     * @return The port, or -1 if the URI does not contain a port.
-     * @throws FileSystemException if URI is malformed.
-     * @throws NumberFormatException if port number cannot be parsed.
-     */
-    protected int extractPort(final StringBuilder name, final String uri) throws FileSystemException {
-        if (name.length() < 1 || name.charAt(0) != ':') {
-            return -1;
-        }
+    @Override
+    public FileName parseUri(final VfsComponentContext context, final FileName base, final String fileName)
+            throws FileSystemException {
+        // FTP URI are generic URI (as per RFC 2396)
+        final StringBuilder name = new StringBuilder();
 
-        final int maxlen = name.length();
-        int pos = 1;
-        for (; pos < maxlen; pos++) {
-            final char ch = name.charAt(pos);
-            if (ch < '0' || ch > '9') {
-                break;
-            }
-        }
+        // Extract the scheme and authority parts
+        final Authority auth = extractToPath(context, fileName, name);
 
-        final String port = name.substring(1, pos);
-        name.delete(0, pos);
-        if (port.isEmpty()) {
-            throw new FileSystemException("vfs.provider/missing-port.error", uri);
-        }
+        // Decode and normalise the file name
+        UriParser.canonicalizePath(name, 0, name.length(), this);
+        UriParser.fixSeparators(name);
+        final FileType fileType = UriParser.normalisePath(name);
+        final String path = name.toString();
 
-        return Integer.parseInt(port);
-    }
-
-    /**
-     * Parsed authority info (scheme, hostname, username/password, port).
-     */
-    protected static class Authority {
-        private String scheme;
-        private String hostName;
-        private String userName;
-        private String password;
-        private int port;
-
-        /**
-         * Get the connection schema.
-         *
-         * @return the connection scheme.
-         * @since 2.0
-         */
-        public String getScheme() {
-            return scheme;
-        }
-
-        /**
-         * Sets the connection schema.
-         *
-         * @param scheme the connection scheme.
-         * @since 2.0
-         */
-        public void setScheme(final String scheme) {
-            this.scheme = scheme;
-        }
-
-        /**
-         * Gets the host name.
-         *
-         * @return the host name.
-         * @since 2.0
-         */
-        public String getHostName() {
-            return hostName;
-        }
-
-        /**
-         * Sets the host name.
-         *
-         * @param hostName the host name.
-         * @since 2.0
-         */
-        public void setHostName(final String hostName) {
-            this.hostName = hostName;
-        }
-
-        /**
-         * Gets the user name.
-         *
-         * @return the user name or null.
-         * @since 2.0
-         */
-        public String getUserName() {
-            return userName;
-        }
-
-        /**
-         * Sets the user name.
-         *
-         * @param userName the user name.
-         * @since 2.0
-         */
-        public void setUserName(final String userName) {
-            this.userName = userName;
-        }
-
-        /**
-         * Gets the user password.
-         *
-         * @return the password or null.
-         * @since 2.0
-         */
-        public String getPassword() {
-            return password;
-        }
-
-        /**
-         * Sets the user password.
-         *
-         * @param password the user password.
-         * @since 2.0
-         */
-        public void setPassword(final String password) {
-            this.password = password;
-        }
-
-        /**
-         * Gets the port.
-         *
-         * @return the port or -1.
-         * @since 2.0
-         */
-        public int getPort() {
-            return port;
-        }
-
-        /**
-         * Sets the connection port.
-         *
-         * @param port the port number or -1.
-         * @since 2.0
-         */
-        public void setPort(final int port) {
-            this.port = port;
-        }
+        return new GenericFileName(auth.scheme, auth.hostName, auth.port, defaultPort, auth.userName, auth.password,
+                path, fileType);
     }
 }
