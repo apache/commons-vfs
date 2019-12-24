@@ -501,7 +501,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * Attaches this file object to its file resource.
      * <p>
      * This method is called before any of the doBlah() or onBlah() methods. Sub-classes can use this method to perform
-     * lazy initialisation.
+     * lazy initialization.
      * </p>
      * <p>
      * This implementation does nothing.

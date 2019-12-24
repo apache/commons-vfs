@@ -26,7 +26,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 
 /**
  * Allows VFS components to access the services they need, such as the file replicator. A VFS component is supplied with
- * a context as part of its initialisation.
+ * a context as part of its initialization.
  *
  * @see VfsComponent#setContext
  */
