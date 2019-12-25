@@ -192,7 +192,7 @@
               <td>Yes</td>
             </tr>
             <tr>
-              <td><a href="WebDAV">WebDAV</a></td>
+              <td><a href="#WebDAV">WebDAV</a></td>
               <td>Yes</td>
               <td>Yes</td>
               <td>Yes</td>
@@ -550,7 +550,12 @@
 
         <section name="WebDAV">
 
-            <p>Provides access to files on a WebDAV server.</p>
+            <p>
+              Provides access to files on a WebDAV server through the modules
+              <a href="commons-vfs2-jackrabbit1/index.html"><code>commons-vfs2-jackrabbit1</code></a>
+              and 
+              <a href="commons-vfs2-jackrabbit2/index.html"><code>commons-vfs2-jackrabbit2</code></a>.
+            </p>
 
             <p>
                 <b>URI Format</b>

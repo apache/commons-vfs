@@ -71,7 +71,7 @@
             dependencies.
           </p>
           <p>
-           Apache Commons VFS 2.3 and 2.4.x require Java 8.
+           Apache Commons VFS 2.3, 2.4.x, and 2.5.x require Java 8.
           </p>
           <p>
            Apache Commons VFS 2.2 requires Java 7.
@@ -85,6 +85,14 @@
         </section>
 
         <section name="News">
+          <p>
+            Apache Commons VFS 2.5.0 is a new features and bug fix release. Version 2.5.0 adds the modules
+            <a href="commons-vfs2-jackrabbit1/index.html"><code>commons-vfs2-jackrabbit1</code></a>
+            and 
+            <a href="commons-vfs2-jackrabbit2/index.html"><code>commons-vfs2-jackrabbit2</code></a>.
+            The module <a href="commons-vfs2-jackrabbit1/index.html"><code>commons-vfs2-jackrabbit1</code></a>
+            contains WebDAV classes previously delivered in <a href="commons-vfs2/index.html"><code>commons-vfs2</code></a>
+          </p>
           <p>
             Apache Commons VFS 2.4.1 is a bug fix release.
           </p>

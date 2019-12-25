@@ -109,6 +109,10 @@
 
   </dependencies>
 
+  <properties>
+    <vfs.parent.dir>${basedir}/..</vfs.parent.dir>
+  </properties>
+
   <build>
     <resources>
       <resource>
@@ -180,7 +184,67 @@
           </systemPropertyVariables>
         </configuration>
       </plugin>
+      <plugin>
+        <!-- Remove this after 2.5.0  -->
+        <groupId>com.github.siom79.japicmp</groupId>
+        <artifactId>japicmp-maven-plugin</artifactId>
+        <configuration>
+          <oldVersion>
+            <dependency>
+              <groupId>org.apache.commons</groupId>
+              <artifactId>commons-vfs2</artifactId>
+              <version>2.4.1</version>
+              <type>jar</type>
+            </dependency>
+          </oldVersion>
+          <parameter>
+            <includes>
+              <include>org.apache.commons.vfs2.provider.webdav</include>
+            </includes>
+            <overrideCompatibilityChangeParameters>
+              <overrideCompatibilityChangeParameter>
+                <compatibilityChange>METHOD_NEW_DEFAULT</compatibilityChange>
+                <binaryCompatible>true</binaryCompatible>
+                <sourceCompatible>true</sourceCompatible>
+                <semanticVersionLevel>PATCH</semanticVersionLevel>
+              </overrideCompatibilityChangeParameter>
+            </overrideCompatibilityChangeParameters>
+          </parameter>
+        </configuration>
+      </plugin>    
     </plugins>
   </build>
 
+  <reporting>
+    <plugins>
+      <plugin>
+        <!-- Remove this after 2.5.0  -->
+        <groupId>com.github.siom79.japicmp</groupId>
+        <artifactId>japicmp-maven-plugin</artifactId>
+        <configuration>
+          <oldVersion>
+            <dependency>
+              <groupId>org.apache.commons</groupId>
+              <artifactId>commons-vfs2</artifactId>
+              <version>2.4.1</version>
+              <type>jar</type>
+            </dependency>
+          </oldVersion>
+          <parameter>
+            <includes>
+              <include>org.apache.commons.vfs2.provider.webdav</include>
+            </includes>
+            <overrideCompatibilityChangeParameters>
+              <overrideCompatibilityChangeParameter>
+                <compatibilityChange>METHOD_NEW_DEFAULT</compatibilityChange>
+                <binaryCompatible>true</binaryCompatible>
+                <sourceCompatible>true</sourceCompatible>
+                <semanticVersionLevel>PATCH</semanticVersionLevel>
+              </overrideCompatibilityChangeParameter>
+            </overrideCompatibilityChangeParameters>
+          </parameter>
+        </configuration>
+      </plugin>    
+    </plugins>
+  </reporting>
 </project>
