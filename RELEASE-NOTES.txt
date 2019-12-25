@@ -14,10 +14,11 @@ New features:
 o VFS-734:  Add functional interface org.apache.commons.vfs2.function.VfsConsumer. Thanks to Gary Gregory.
 o VFS-735:  Add org.apache.commons.vfs2.FileSystemManager.close() via AutoCloseable. Thanks to Gary Gregory.
 o VFS-736:  Add org.apache.commons.vfs2.VFS.reset(). Thanks to Gary Gregory.
-o VFS-737:  Update Hadoop from 3.2.0 to 3.2.1. Thanks to Gary Gregory.
 o VFS-738:  Deprecate org.apache.commons.vfs2.FileChangeEvent.getFile() in favor of getFileObject(). Thanks to Gary Gregory.
 o VFS-742:  Add org.apache.commons.vfs2.FileContent.isEmpty(). Thanks to Gary Gregory.
 o VFS-743:  Add org.apache.commons.vfs2.provider.compressed.CompressedFileFileObject.SIZE_UNDEFINED. Thanks to Gary Gregory.
+o VFS-687:  Add http5 and http5s providers (#74) Thanks to Woonsan Ko, Gary Gregory.
+o VFS-686:  Add webdav4 provider based on the latest Jackrabbit 2.x #52. Thanks to Woonsan Ko, Gary Gregory.
 
 Fixed Bugs:
 o VFS-741:  FileObject#getChildren allows listing of files with known scheme prefix (generalizes VFS-398).
@@ -26,13 +27,12 @@ o VFS-704:  Some providers wrap their input/output streams twice in a BufferedIn
 o VFS-727:  Prevented creation of singleton file system manager from providers. Thanks to Michiel Hendriks, Gary Gregory.
 o VFS-733:  Parent layer of ZipFileSystem set to null through OnCallRefreshFileObject and DecoratedFileObject.refresh(). Thanks to Falco, Gary Gregory, Bruno P. Kinoshita.
 o VFS-739:  Changes to parseUri breaks backward compatibility by throwing NullPointerException in some cases. Thanks to xia0c, Gary Gregory.
-o VFS-686:  Add webdav4 provider based on the latest Jackrabbit 2.x #52. Thanks to Woonsan Ko, Gary Gregory.
 o VFS-744:  org.apache.commons.vfs2.FileContent.getByteArray() can throw NegativeArraySizeException for BZip2 files. Thanks to Gary Gregory.
-o VFS-687:  Add http5 and http5s providers (#74) Thanks to Woonsan Ko, Gary Gregory.
 o VFS-590:  SFTP moveTo operation might fail on permission checks even if the operation itself might succeed. #75. Thanks to L, Alex Pearce, Gary Gregory.
 o VFS-617:  SFTP isReadable fails if unable to determine group identity. #75. Thanks to Tim Nickels, Joshua Woods, David Johansson, Bernd Eckenfels, Len, Nim Lhûg, Vineet Tyagi, Gopal Warawate, Alex Pearce, Gary Gregory.
 
 Changes:
+o VFS-737:  Update Hadoop from 3.2.0 to 3.2.1. Thanks to Gary Gregory.
 o VFS-444:  ResourceFileProvider "res://" failed to obtain FileObject from resolved FileName. Thanks to Walter Eaves, Xavier Dury, Michiel Hendriks, Gary Gregory.
 o VFS-728:  Update Apache Commons Compress from 1.18 to 1.19. Thanks to Gary Gregory.
 o VFS-729:  Upgrade Hadoop to 2.7.4 or later; will use current 3.2.0. Thanks to Michiel Hendriks, Gary Gregory.
