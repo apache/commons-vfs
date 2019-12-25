@@ -1,8 +1,8 @@
-            Apache Commons VFS Project 2.5.0-SNAPSHOT
+            Apache Commons VFS Project 2.5.0
             RELEASE NOTES
             2019-12-24
 
-The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.5.0-SNAPSHOT
+The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.5.0.
 
 Apache Commons VFS is a Virtual File System library.
 
