@@ -32,6 +32,8 @@ import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.Selectors;
 import org.junit.Assert;
 
+import static junit.framework.TestCase.assertFalse;
+
 /**
  * File system test that check that a file system can be modified.
  */
@@ -71,7 +73,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
 
         // Create direct child of the test folder
         FileObject folder = scratchFolder.resolveFile("dir1");
-        assertTrue(!folder.exists());
+        assertFalse(folder.exists());
         folder.createFolder();
         assertTrue(folder.exists());
         assertSame(FileType.FOLDER, folder.getType());
@@ -80,9 +82,9 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
 
         // Create a descendant, where the intermediate folders don't exist
         folder = scratchFolder.resolveFile("dir2/dir1/dir1");
-        assertTrue(!folder.exists());
-        assertTrue(!folder.getParent().exists());
-        assertTrue(!folder.getParent().getParent().exists());
+        assertFalse(folder.exists());
+        assertFalse(folder.getParent().exists());
+        assertFalse(folder.getParent().getParent().exists());
         folder.createFolder();
         assertTrue(folder.exists());
         assertSame(FileType.FOLDER, folder.getType());
@@ -104,7 +106,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
 
         // Create direct child of the test folder
         FileObject file = scratchFolder.resolveFile("file1.txt");
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
         file.createFile();
         assertTrue(file.exists());
         assertSame(FileType.FILE, file.getType());
@@ -118,7 +120,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
 
         // Create direct child of the test folder - special name
         file = scratchFolder.resolveFile("file1%25.txt");
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
         file.createFile();
         assertTrue(file.exists());
         assertSame(FileType.FILE, file.getType());
@@ -130,9 +132,9 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
 
         // Create a descendant, where the intermediate folders don't exist
         file = scratchFolder.resolveFile("dir1/dir1/file1.txt");
-        assertTrue(!file.exists());
-        assertTrue(!file.getParent().exists());
-        assertTrue(!file.getParent().getParent().exists());
+        assertFalse(file.exists());
+        assertFalse(file.getParent().exists());
+        assertFalse(file.getParent().getParent().exists());
         file.createFile();
         assertTrue(file.exists());
         assertSame(FileType.FILE, file.getType());
@@ -207,19 +209,19 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         FileObject file = folder.resolveFile("file1.txt");
         assertTrue(file.exists());
         file.deleteAll();
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
 
         // Delete a special name file
         file = folder.resolveFile("file%25.txt");
         assertTrue(file.exists());
         file.deleteAll();
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
 
         // Delete an empty folder
         file = folder.resolveFile("emptydir");
         assertTrue(file.exists());
         file.deleteAll();
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
 
         // Recursive delete
         file = folder.resolveFile("dir1");
@@ -227,14 +229,14 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         assertTrue(file.exists());
         assertTrue(file2.exists());
         file.deleteAll();
-        assertTrue(!file.exists());
-        assertTrue(!file2.exists());
+        assertFalse(file.exists());
+        assertFalse(file2.exists());
 
         // Delete a file that does not exist
         file = folder.resolveFile("some-folder/some-file");
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
         file.deleteAll();
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
     }
 
     /**
@@ -253,19 +255,19 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         FileObject file = folder.resolveFile("file1.txt");
         assertTrue(file.exists());
         file.deleteAll();
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
 
         // Delete a special name file
         file = folder.resolveFile("file%25.txt");
         assertTrue(file.exists());
         file.deleteAll();
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
 
         // Delete an empty folder
         file = folder.resolveFile("emptydir");
         assertTrue(file.exists());
         file.deleteAll();
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
 
         // Recursive delete
         file = folder.resolveFile("dir1");
@@ -273,14 +275,14 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         assertTrue(file.exists());
         assertTrue(file2.exists());
         file.deleteAll();
-        assertTrue(!file.exists());
-        assertTrue(!file2.exists());
+        assertFalse(file.exists());
+        assertFalse(file2.exists());
 
         // Delete a file that does not exist
         file = folder.resolveFile("some-folder/some-file");
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
         file.deleteAll();
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
     }
 
     /**
@@ -328,7 +330,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
 
         // Create direct child of the test folder
         final FileObject file = scratchFolder.resolveFile("file1.txt");
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
 
         // Create the source file
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
@@ -343,7 +345,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
 
         // Make sure we can copy the new file to another file on the same filesystem
         final FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
-        assertTrue(!fileCopy.exists());
+        assertFalse(fileCopy.exists());
         fileCopy.copyFrom(file, Selectors.SELECT_SELF);
 
         assertSameContent(content, fileCopy);
@@ -357,7 +359,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
 
         // Create direct child of the test folder
         final FileObject file = scratchFolder.resolveFile("file1.txt");
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
 
         // Create the source file
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
@@ -372,7 +374,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
 
         // Make sure we can copy the new file to another file on the same filesystem
         final FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
-        assertTrue(!fileCopy.exists());
+        assertFalse(fileCopy.exists());
         fileCopy.copyFrom(file, Selectors.SELECT_SELF);
 
         assertSameContent(content, fileCopy);
@@ -392,7 +394,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
 
         // Create direct child of the test folder
         final FileObject file = scratchFolder.resolveFile("file1.txt");
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
 
         // Create the source file
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
@@ -407,7 +409,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
 
         // Make sure we can copy the new file to another file on the same filesystem
         final FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
-        assertTrue(!fileCopy.exists());
+        assertFalse(fileCopy.exists());
         fileCopy.copyFrom(file, Selectors.SELECT_SELF);
 
         assertSameContent(content, fileCopy);
@@ -417,7 +419,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         assertTrue(fileCopy.delete());
 
         // Make sure we can copy the same new file to the same target file on the same filesystem
-        assertTrue(!fileCopy.exists());
+        assertFalse(fileCopy.exists());
         fileCopy.copyFrom(file, Selectors.SELECT_SELF);
 
         assertSameContent(content, fileCopy);
@@ -501,7 +503,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         final FileObject baseFile = createScratchFolder();
 
         final FileObject child = baseFile.resolveFile("newfile.txt");
-        assertTrue(!child.exists());
+        assertFalse(child.exists());
 
         final FileSystem fs = baseFile.getFileSystem();
         final TestListener listener = new TestListener(child);
@@ -606,7 +608,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
             assertSame("Expecting a delete event", DELETE, events.remove(0));
             assertEquals(file, event.getFileObject());
             try {
-                assertTrue(!file.exists());
+                assertFalse(file.exists());
             } catch (final FileSystemException e) {
                 fail();
             }
@@ -618,7 +620,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
             assertSame("Expecting a changed event", CHANGED, events.remove(0));
             assertEquals(file, event.getFileObject());
             try {
-                assertTrue(!file.exists());
+                assertFalse(file.exists());
             } catch (final FileSystemException e) {
                 fail();
             }
@@ -645,7 +647,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
 
         // Create direct child of the test folder
         final FileObject fileSource = scratchFolder.resolveFile("file1.txt");
-        assertTrue(!fileSource.exists());
+        assertFalse(fileSource.exists());
 
         // Create the source file
         final String expectedString = "Here is some sample content for the file.  Blah Blah Blah.";
@@ -660,7 +662,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
 
         // Make sure we can copy the new file to another file on the same filesystem
         final FileObject fileTarget = scratchFolder.resolveFile("file1copy.txt");
-        assertTrue(!fileTarget.exists());
+        assertFalse(fileTarget.exists());
 
         final FileContent contentSource = fileSource.getContent();
         //
@@ -695,7 +697,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
 
         // Create direct child of the test folder
         final FileObject file = scratchFolder.resolveFile("file1.txt");
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
 
         // Create the source file
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
@@ -710,7 +712,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
 
         // Make sure we can copy the new file to another file on the same file system
         final FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
-        assertTrue(!fileCopy.exists());
+        assertFalse(fileCopy.exists());
         file.getContent().write(fileCopy);
 
         assertSameContent(content, fileCopy);

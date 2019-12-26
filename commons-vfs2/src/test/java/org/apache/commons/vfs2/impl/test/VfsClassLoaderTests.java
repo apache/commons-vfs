@@ -122,8 +122,8 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
         }
 
         // verify test setup
-        assertTrue("nested.jar is required for testing", nestedJar.getType() == FileType.FILE);
-        assertTrue("test.jar is required for testing", testJar.getType() == FileType.FILE);
+        assertSame("nested.jar is required for testing", nestedJar.getType(), FileType.FILE);
+        assertSame("test.jar is required for testing", testJar.getType(), FileType.FILE);
 
         // System class loader (null) might be unpredictable in regards
         // to returning resources for META-INF/MANIFEST.MF (see VFS-500)
@@ -161,7 +161,7 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
 
         // setup test folder
         final FileObject dir = manager.resolveFile(baseDir, "read-tests/dir1/subdir4.jar");
-        assertTrue("subdir4.jar/ is required for testing " + dir, dir.getType() == FileType.FOLDER);
+        assertSame("subdir4.jar/ is required for testing " + dir, dir.getType(), FileType.FOLDER);
         assertFalse(manager.canCreateFileSystem(dir));
 
         // prepare classloader

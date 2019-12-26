@@ -136,7 +136,7 @@ public class PermissionsTests extends AbstractProviderTestCase {
 
         // Create direct child of the test folder
         final FileObject file = scratchFolder.resolveFile(FILENAME);
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
 
         // Create the source file
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";

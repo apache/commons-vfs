@@ -47,38 +47,38 @@ public class ProviderRandomReadTests extends AbstractProviderTestCase {
 
             // read first byte
             byte c = ra.readByte();
-            assertEquals(c, TEST_DATA.charAt(0));
-            assertEquals("fp", ra.getFilePointer(), 1);
+            assertEquals(TEST_DATA.charAt(0), c);
+            assertEquals("fp", 1, ra.getFilePointer());
 
             // start at pos 4
             ra.seek(3);
             c = ra.readByte();
-            assertEquals(c, TEST_DATA.charAt(3));
-            assertEquals("fp", ra.getFilePointer(), 4);
+            assertEquals(TEST_DATA.charAt(3), c);
+            assertEquals("fp", 4, ra.getFilePointer());
 
             c = ra.readByte();
-            assertEquals(c, TEST_DATA.charAt(4));
-            assertEquals("fp", ra.getFilePointer(), 5);
+            assertEquals(TEST_DATA.charAt(4), c);
+            assertEquals("fp", 5, ra.getFilePointer());
 
             // restart at pos 4
             ra.seek(3);
             c = ra.readByte();
-            assertEquals(c, TEST_DATA.charAt(3));
-            assertEquals("fp", ra.getFilePointer(), 4);
+            assertEquals(TEST_DATA.charAt(3), c);
+            assertEquals("fp", 4, ra.getFilePointer());
 
             c = ra.readByte();
-            assertEquals(c, TEST_DATA.charAt(4));
-            assertEquals("fp", ra.getFilePointer(), 5);
+            assertEquals(TEST_DATA.charAt(4), c);
+            assertEquals("fp", 5, ra.getFilePointer());
 
             // advance to pos 11
             ra.seek(10);
             c = ra.readByte();
-            assertEquals(c, TEST_DATA.charAt(10));
-            assertEquals("fp", ra.getFilePointer(), 11);
+            assertEquals(TEST_DATA.charAt(10), c);
+            assertEquals("fp", 11, ra.getFilePointer());
 
             c = ra.readByte();
-            assertEquals(c, TEST_DATA.charAt(11));
-            assertEquals("fp", ra.getFilePointer(), 12);
+            assertEquals(TEST_DATA.charAt(11), c);
+            assertEquals("fp", 12, ra.getFilePointer());
         } finally {
             if (file != null) {
                 file.close();

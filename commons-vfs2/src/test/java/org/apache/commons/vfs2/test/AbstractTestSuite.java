@@ -166,7 +166,7 @@ public abstract class AbstractTestSuite extends TestSetup {
 
         // Make some assumptions about the read folder
         Assert.assertTrue("Folder does not exist: " + readFolder, readFolder.exists());
-        Assert.assertFalse(readFolder.getName().getPath().equals(FileName.ROOT_PATH));
+        Assert.assertNotEquals(readFolder.getName().getPath(), FileName.ROOT_PATH);
 
         // Configure the tests
         final Enumeration<Test> tests = testSuite.tests();

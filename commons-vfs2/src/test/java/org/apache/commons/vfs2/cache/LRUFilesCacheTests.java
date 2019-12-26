@@ -64,11 +64,11 @@ public class LRUFilesCacheTests extends AbstractFilesCacheTestsBase {
 
         // check if the cache still holds the right instance
         final FileObject dir2_2 = scratchFolder.resolveFile("dir2");
-        assertTrue(dir2 == dir2_2);
+        assertSame(dir2, dir2_2);
 
         // check if the cache still holds the right instance
         final FileObject dir1_2 = scratchFolder.resolveFile("dir1");
-        assertFalse(dir1 == dir1_2);
+        assertNotSame(dir1, dir1_2);
     }
 
     public void testClass() {

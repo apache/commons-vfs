@@ -67,7 +67,7 @@ public class ZipProviderWithCharsetNullTestCase extends AbstractProviderTestConf
         final FileSystem fileSystem = resolvedFile.getFileSystem();
         Assert.assertTrue(fileSystem instanceof ZipFileSystem);
         final ZipFileSystem zipFileSystem = (ZipFileSystem) fileSystem;
-        Assert.assertEquals(null, zipFileSystem.getCharset());
+        Assert.assertNull(zipFileSystem.getCharset());
         return resolvedFile;
     }
 }
