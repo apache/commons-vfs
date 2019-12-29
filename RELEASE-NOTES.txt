@@ -49,6 +49,8 @@ patches, or suggestions for improvement, see the Apache Apache Commons VFS websi
 
 http://commons.apache.org/proper/commons-vfs/
 
+Download it from http://commons.apache.org/proper/commons-vfs/download_vfs.cgi
+
 -----------------------------------------------------------------------------
 
             Apache Commons VFS 2.4.1
