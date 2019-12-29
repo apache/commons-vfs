@@ -54,8 +54,8 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
 
     @Override
     public void tearDown() throws Exception {
-        if (testFile != null && testFile.exists()) {
-            testFile.delete();
+        if (testFile != null) {
+            testFile.deleteOnExit();
         }
         super.tearDown();
     }
@@ -71,7 +71,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
             writeToFile(testFile);
             Thread.sleep(300);
             assertTrue("No event occurred", changeStatus != 0);
-            assertTrue("Incorrect event", changeStatus == 3);
+            assertEquals("Incorrect event", 3, changeStatus);
         } finally {
             monitor.stop();
         }
@@ -89,7 +89,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
             testFile.delete();
             Thread.sleep(300);
             assertTrue("No event occurred", changeStatus != 0);
-            assertTrue("Incorrect event", changeStatus == 2);
+            assertEquals("Incorrect event", 2, changeStatus);
         } finally {
             monitor.stop();
         }
@@ -112,7 +112,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
             assertTrue("setLastModified succeeded", rc);
             Thread.sleep(300);
             assertTrue("No event occurred", changeStatus != 0);
-            assertTrue("Incorrect event", changeStatus == 1);
+            assertEquals("Incorrect event", 1, changeStatus);
         } finally {
             monitor.stop();
         }
@@ -129,19 +129,19 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
             writeToFile(testFile);
             Thread.sleep(300);
             assertTrue("No event occurred", changeStatus != 0);
-            assertTrue("Incorrect event " + changeStatus, changeStatus == 3);
+            assertEquals("Incorrect event " + changeStatus, 3, changeStatus);
             changeStatus = 0;
             testFile.delete();
             Thread.sleep(300);
             assertTrue("No event occurred", changeStatus != 0);
-            assertTrue("Incorrect event " + changeStatus, changeStatus == 2);
+            assertEquals("Incorrect event " + changeStatus, 2, changeStatus);
             changeStatus = 0;
             Thread.sleep(500);
             monitor.addFile(fileObj);
             writeToFile(testFile);
             Thread.sleep(300);
             assertTrue("No event occurred", changeStatus != 0);
-            assertTrue("Incorrect event " + changeStatus, changeStatus == 3);
+            assertEquals("Incorrect event " + changeStatus, 3, changeStatus);
         } finally {
             monitor.stop();
         }
@@ -161,13 +161,13 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
             testFile.delete();
             Thread.sleep(3000);
             assertTrue("No event occurred", changeStatus != 0);
-            assertTrue("Incorrect event " + changeStatus, changeStatus == 2);
+            assertEquals("Incorrect event " + changeStatus, 2, changeStatus);
             changeStatus = 0;
             Thread.sleep(300);
             writeToFile(testFile);
             Thread.sleep(3000);
             assertTrue("No event occurred", changeStatus != 0);
-            assertTrue("Incorrect event " + changeStatus, changeStatus == 3);
+            assertEquals("Incorrect event " + changeStatus, 3, changeStatus);
         } finally {
             monitor.stop();
         }
@@ -186,7 +186,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
             Thread.sleep(300);
             testFile.delete();
             Thread.sleep(3000);
-            assertTrue("Event should not have occurred", changeStatus == 0);
+            assertEquals("Event should not have occurred", 0, changeStatus);
         } finally {
             monitor.stop();
         }
@@ -209,7 +209,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
             testFile.delete();
             Thread.sleep(300);
             assertTrue("No event occurred", changeStatus != 0);
-            assertTrue("Incorrect event", changeStatus == 2);
+            assertEquals("Incorrect event", 2, changeStatus);
         } finally {
             monitor.stop();
         }

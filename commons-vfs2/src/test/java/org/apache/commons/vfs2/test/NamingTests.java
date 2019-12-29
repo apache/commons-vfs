@@ -162,9 +162,9 @@ public class NamingTests extends AbstractProviderTestCase {
      */
     private void checkDescendentNames(final FileName name, final NameScope scope) throws Exception {
         // Make some assumptions about the name
-        assertTrue(!name.getPath().equals("/"));
-        assertTrue(!name.getPath().endsWith("/a"));
-        assertTrue(!name.getPath().endsWith("/a/b"));
+        assertFalse(name.getPath().equals("/"));
+        assertFalse(name.getPath().endsWith("/a"));
+        assertFalse(name.getPath().endsWith("/a/b"));
 
         // Test names with the same prefix
         final String path = name.getPath() + "/a";

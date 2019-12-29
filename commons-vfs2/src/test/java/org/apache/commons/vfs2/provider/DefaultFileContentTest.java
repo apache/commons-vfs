@@ -64,10 +64,12 @@ public class DefaultFileContentTest {
         }
     }
 
+    @Test
     public void testInputStreamBufferSize0() throws Exception {
         testInputStreamBufferSize(0);
     }
 
+    @Test
     public void testInputStreamBufferSize1() throws Exception {
         testInputStreamBufferSize(1);
     }
@@ -95,10 +97,10 @@ public class DefaultFileContentTest {
                         final byte[] data = new byte[100];
                         readCount = stream.read(data, 0, 7);
                         stream.read();
-                        Assert.assertEquals(readCount, 7);
+                        Assert.assertEquals(7, readCount);
                         Assert.assertEquals(expected, new String(data).trim());
                         readCount = stream.read(data, 8, 10);
-                        Assert.assertEquals(readCount, -1);
+                        Assert.assertEquals(-1, readCount);
                         stream.reset();
                     }
                 }
@@ -140,10 +142,12 @@ public class DefaultFileContentTest {
         }
     }
 
+    @Test
     public void testOutputStreamBufferSize0() throws Exception {
         testOutputStreamBufferSize(0);
     }
 
+    @Test
     public void testOutputStreamBufferSize1() throws Exception {
         testOutputStreamBufferSize(1);
     }

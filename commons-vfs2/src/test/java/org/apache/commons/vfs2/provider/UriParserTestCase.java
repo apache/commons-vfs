@@ -35,12 +35,12 @@ public class UriParserTestCase {
 
 	@Test
 	public void testColonInFileNameAndNotSupportedScheme() {
-		Assert.assertEquals(null, UriParser.extractScheme(schemes, "some:file"));
+        Assert.assertNull(UriParser.extractScheme(schemes, "some:file"));
 	}
 
 	@Test
 	public void testColonInFileNameWithPath() {
-		Assert.assertEquals(null, UriParser.extractScheme(schemes, "some/path/some:file"));
+        Assert.assertNull(UriParser.extractScheme(schemes, "some/path/some:file"));
 	}
 
 	@Test
@@ -74,7 +74,7 @@ public class UriParserTestCase {
 
 	@Test
 	public void testColonInFileName() {
-		Assert.assertEquals(null, UriParser.extractScheme("some/path/some:file"));
+        Assert.assertNull(UriParser.extractScheme("some/path/some:file"));
 	}
 
 }

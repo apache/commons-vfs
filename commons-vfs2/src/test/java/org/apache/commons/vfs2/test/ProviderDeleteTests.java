@@ -83,7 +83,7 @@ public class ProviderDeleteTests extends AbstractProviderTestCase {
     public void testDeleteFiles() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
-        assertEquals(scratchFolder.delete(Selectors.EXCLUDE_SELF), 4);
+        assertEquals(4, scratchFolder.delete(Selectors.EXCLUDE_SELF));
     }
 
     /**
@@ -114,7 +114,7 @@ public class ProviderDeleteTests extends AbstractProviderTestCase {
     public void testDeleteAllFiles() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
-        assertEquals(scratchFolder.delete(new FileTypeSelector(FileType.FILE)), 2);
+        assertEquals(2, scratchFolder.delete(new FileTypeSelector(FileType.FILE)));
     }
 
     /**
@@ -123,6 +123,6 @@ public class ProviderDeleteTests extends AbstractProviderTestCase {
     public void testDeleteOneFiles() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
-        assertEquals(scratchFolder.delete(new FileNameSelector("a.txt")), 1);
+        assertEquals(1, scratchFolder.delete(new FileNameSelector("a.txt")));
     }
 }

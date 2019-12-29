@@ -18,6 +18,7 @@ package org.apache.commons.vfs2.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -69,7 +70,7 @@ public class DelegatingFileSystemOptionsBuilderTest {
 
         assertEquals("http.proxyHost", HttpFileSystemConfigBuilder.getInstance().getProxyHost(opts), "proxy");
         assertEquals("http.proxyPort", HttpFileSystemConfigBuilder.getInstance().getProxyPort(opts), 8080);
-        assertEquals("sftp.userInfo", SftpFileSystemConfigBuilder.getInstance().getUserInfo(opts).getClass(),
+        assertSame("sftp.userInfo", SftpFileSystemConfigBuilder.getInstance().getUserInfo(opts).getClass(),
                 TrustEveryoneUserInfo.class);
 
         final File identities[] = SftpFileSystemConfigBuilder.getInstance().getIdentities(opts);
@@ -90,8 +91,8 @@ public class DelegatingFileSystemOptionsBuilderTest {
             delgate.setConfigString(opts, "http", "proxyPort", "wrong_port");
             fail();
         } catch (final FileSystemException e) {
-            assertEquals(e.getCause().getClass(), InvocationTargetException.class);
-            assertEquals(((InvocationTargetException) e.getCause()).getTargetException().getClass(),
+            assertSame(e.getCause().getClass(), InvocationTargetException.class);
+            assertSame(((InvocationTargetException) e.getCause()).getTargetException().getClass(),
                     NumberFormatException.class);
         }
 

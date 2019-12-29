@@ -19,6 +19,8 @@ package org.apache.commons.vfs2.cache;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystem;
 
+import java.util.Comparator;
+
 /**
  * Key for various cache implementations.
  * <p>

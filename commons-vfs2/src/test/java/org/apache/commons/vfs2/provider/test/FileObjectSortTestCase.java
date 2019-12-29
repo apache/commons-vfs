@@ -116,9 +116,9 @@ public class FileObjectSortTestCase {
     public void testSortListMoveAll() throws FileSystemException {
         final List<FileObject> actualList = Arrays.asList(UnSortedArray);
         final List<FileObject> expectedSortedList = Arrays.asList(SortedArray);
-        Assert.assertFalse(actualList.equals(expectedSortedList));
+        Assert.assertNotEquals(actualList, expectedSortedList);
         Collections.sort(actualList);
-        Assert.assertTrue(actualList.equals(expectedSortedList));
+        Assert.assertEquals(actualList, expectedSortedList);
     }
 
     /**
@@ -131,7 +131,7 @@ public class FileObjectSortTestCase {
         final List<FileObject> actualList = Arrays.asList(SortedArray);
         final List<FileObject> expectedSortedList = Arrays.asList(SortedArray);
         Collections.sort(actualList);
-        Assert.assertTrue(actualList.equals(expectedSortedList));
+        Assert.assertEquals(actualList, expectedSortedList);
     }
 
 }

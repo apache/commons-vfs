@@ -79,8 +79,7 @@ public class LargeTarTestCase {
         assertEquals(1, files.size());
         final FileObject f = files.get(0);
 
-        assertTrue("Expected file not found: " + largeFileName + ".txt",
-                f.getName().getBaseName().equals(largeFileName + ".txt"));
+        assertEquals("Expected file not found: " + largeFileName + ".txt", f.getName().getBaseName(), largeFileName + ".txt");
     }
 
     /*
