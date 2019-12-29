@@ -54,11 +54,11 @@ public class ProviderRenameTests extends AbstractProviderTestCase {
     private void moveFile(final FileObject scratchFolder, final FileObject file, final String content)
             throws FileSystemException, Exception {
         final FileObject fileMove = scratchFolder.resolveFile("file1move.txt");
-        assertTrue(!fileMove.exists());
+        assertFalse(fileMove.exists());
 
         file.moveTo(fileMove);
 
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
         assertTrue(fileMove.exists());
 
         assertSameContent(content, fileMove);
@@ -91,7 +91,7 @@ public class ProviderRenameTests extends AbstractProviderTestCase {
 
         // Create direct child of the test folder
         final FileObject file = scratchFolder.resolveFile("file1.txt");
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
 
         final String content = createTestFile(file);
 
@@ -109,14 +109,14 @@ public class ProviderRenameTests extends AbstractProviderTestCase {
 
         // Create direct child of the test folder
         final FileObject file = scratchFolder.resolveFile("file1.txt");
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
 
         final String content = createTestFile(file);
 
         final FileObject destFolder = scratchFolder.resolveFile("empty-target-folder");
         destFolder.createFolder();
         assertTrue("new destination must be folder", destFolder.getType().hasChildren());
-        assertTrue("new destination must be emty", destFolder.getChildren().length == 0);
+        assertEquals("new destination must be emty", 0, destFolder.getChildren().length);
 
         moveFile(destFolder, file, content);
     }
@@ -132,12 +132,12 @@ public class ProviderRenameTests extends AbstractProviderTestCase {
         folder.createFolder();
         assertTrue(folder.exists());
         final FileObject file = folder.resolveFile("file1.txt");
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
 
         final String content = createTestFile(file);
 
         // Make sure we can move the new file to another file on the same file system
         moveFile(scratchFolder, file, content);
-        assertTrue(folder.getChildren().length == 0);
+        assertEquals(0, folder.getChildren().length);
     }
 }

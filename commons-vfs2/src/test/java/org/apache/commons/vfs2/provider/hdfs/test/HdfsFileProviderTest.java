@@ -148,14 +148,14 @@ public class HdfsFileProviderTest {
         final FileObject dir = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(dir);
         Assert.assertTrue(dir.exists());
-        Assert.assertTrue(dir.getType().equals(FileType.FOLDER));
+        Assert.assertEquals(dir.getType(), FileType.FOLDER);
 
         // Create the file in the directory
         hdfs.create(FILE1_PATH).close();
         final FileObject f = manager.resolveFile(TEST_FILE1);
         Assert.assertNotNull(f);
         Assert.assertTrue(f.exists());
-        Assert.assertTrue(f.getType().equals(FileType.FILE));
+        Assert.assertEquals(f.getType(), FileType.FILE);
         return f;
     }
 
@@ -178,8 +178,8 @@ public class HdfsFileProviderTest {
         final FileObject dir = file.getParent();
 
         final FileObject[] children = dir.getChildren();
-        Assert.assertTrue(children.length == 1);
-        Assert.assertTrue(children[0].getName().equals(file.getName()));
+        Assert.assertEquals(1, children.length);
+        Assert.assertEquals(children[0].getName(), file.getName());
 
     }
 
@@ -298,7 +298,7 @@ public class HdfsFileProviderTest {
         // Create the test file
         final FileObject file = createTestFile(hdfs);
         Assert.assertTrue(fo.exists());
-        Assert.assertFalse(-1 == file.getContent().getLastModifiedTime());
+        Assert.assertNotEquals(-1, file.getContent().getLastModifiedTime());
     }
 
     @Test(expected = FileSystemException.class)

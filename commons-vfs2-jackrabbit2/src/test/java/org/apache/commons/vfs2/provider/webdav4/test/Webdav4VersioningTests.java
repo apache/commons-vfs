@@ -45,9 +45,9 @@ public class Webdav4VersioningTests extends AbstractProviderTestCase {
         builder.setVersioning(opts, true);
         final FileObject file = getManager().resolveFile(scratchFolder, "file1.txt", opts);
         final FileSystemOptions newOpts = file.getFileSystem().getFileSystemOptions();
-        assertTrue(opts == newOpts);
+        assertSame(opts, newOpts);
         assertTrue(builder.isVersioning(newOpts));
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
         file.createFile();
         assertTrue(file.exists());
         assertSame(FileType.FILE, file.getType());
@@ -96,9 +96,9 @@ public class Webdav4VersioningTests extends AbstractProviderTestCase {
         builder.setCreatorName(opts, "testUser");
         final FileObject file = getManager().resolveFile(scratchFolder, "file1.txt", opts);
         final FileSystemOptions newOpts = file.getFileSystem().getFileSystemOptions();
-        assertTrue(opts == newOpts);
+        assertSame(opts, newOpts);
         assertTrue(builder.isVersioning(newOpts));
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
         file.createFile();
         assertTrue(file.exists());
         assertSame(FileType.FILE, file.getType());
@@ -112,7 +112,7 @@ public class Webdav4VersioningTests extends AbstractProviderTestCase {
         Map<?, ?> map = file.getContent().getAttributes();
         final String name = ((GenericURLFileName) file.getName()).getUserName();
         assertTrue(map.containsKey(DeltaVConstants.CREATOR_DISPLAYNAME.toString()));
-        assertEquals(map.get(DeltaVConstants.CREATOR_DISPLAYNAME.toString()), "testUser");
+        assertEquals("testUser", map.get(DeltaVConstants.CREATOR_DISPLAYNAME.toString()));
         if (name != null) {
             assertTrue(map.containsKey(DeltaVConstants.COMMENT.toString()));
             assertEquals("Modified by user " + name, map.get(DeltaVConstants.COMMENT.toString()));
@@ -131,7 +131,7 @@ public class Webdav4VersioningTests extends AbstractProviderTestCase {
         assertSameContent(content, file);
         map = file.getContent().getAttributes();
         assertTrue(map.containsKey(DeltaVConstants.CREATOR_DISPLAYNAME.toString()));
-        assertEquals(map.get(DeltaVConstants.CREATOR_DISPLAYNAME.toString()), "testUser");
+        assertEquals("testUser", map.get(DeltaVConstants.CREATOR_DISPLAYNAME.toString()));
         if (name != null) {
             assertTrue(map.containsKey(DeltaVConstants.COMMENT.toString()));
             assertEquals("Modified by user " + name, map.get(DeltaVConstants.COMMENT.toString()));

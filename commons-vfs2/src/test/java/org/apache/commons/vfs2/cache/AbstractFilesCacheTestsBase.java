@@ -46,7 +46,7 @@ public abstract class AbstractFilesCacheTestsBase extends AbstractProviderTestCa
 
         final FileObject fo2 = getWriteFolder().resolveFile("dir1");
 
-        assertFalse("Objects after cache clear should be different", fo1 == fo2);
+        assertNotSame("Objects after cache clear should be different", fo1, fo2);
     }
 
     /**

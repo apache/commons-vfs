@@ -64,22 +64,22 @@ public class ContentTests extends AbstractProviderTestCase {
         // Test a file
         FileObject file = getReadFolder().resolveFile("file1.txt");
         assertTrue("file exists", file.exists());
-        assertTrue("file exists", file.getType() != FileType.IMAGINARY);
+        assertNotSame("file exists", file.getType(), FileType.IMAGINARY);
 
         // Test a folder
         file = getReadFolder().resolveFile("dir1");
         assertTrue("folder exists", file.exists());
-        assertTrue("folder exists", file.getType() != FileType.IMAGINARY);
+        assertNotSame("folder exists", file.getType(), FileType.IMAGINARY);
 
         // Test an unknown file
         file = getReadFolder().resolveFile("unknown-child");
-        assertTrue("unknown file does not exist", !file.exists());
-        assertTrue("unknown file does not exist", file.getType() == FileType.IMAGINARY);
+        assertFalse("unknown file does not exist", file.exists());
+        assertSame("unknown file does not exist", file.getType(), FileType.IMAGINARY);
 
         // Test an unknown file in an unknown folder
         file = getReadFolder().resolveFile("unknown-folder/unknown-child");
-        assertTrue("unknown file does not exist", !file.exists());
-        assertTrue("unknown file does not exist", file.getType() == FileType.IMAGINARY);
+        assertFalse("unknown file does not exist", file.exists());
+        assertSame("unknown file does not exist", file.getType(), FileType.IMAGINARY);
     }
 
     /**
@@ -113,7 +113,7 @@ public class ContentTests extends AbstractProviderTestCase {
 
     private void testRoot(final FileObject root) throws FileSystemException {
         assertTrue(root.exists());
-        assertTrue(root.getType() != FileType.IMAGINARY);
+        assertNotSame(root.getType(), FileType.IMAGINARY);
     }
 
     /**
@@ -130,14 +130,14 @@ public class ContentTests extends AbstractProviderTestCase {
         // Test when file does not exist
         child = folder.resolveFile("unknown-file");
         assertTrue("folder exists", folder.exists());
-        assertTrue("child does not exist", !child.exists());
+        assertFalse("child does not exist", child.exists());
         assertSame(folder, child.getParent());
 
         // Test when neither exists
         folder = getReadFolder().resolveFile("unknown-folder");
         child = folder.resolveFile("unknown-file");
-        assertTrue("folder does not exist", !folder.exists());
-        assertTrue("child does not exist", !child.exists());
+        assertFalse("folder does not exist", folder.exists());
+        assertFalse("child does not exist", child.exists());
         assertSame(folder, child.getParent());
 
         // Test the parent of the root of the file system
@@ -174,7 +174,7 @@ public class ContentTests extends AbstractProviderTestCase {
 
         // Check for unknown file
         file = getReadFolder().resolveFile("unknown-file");
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
         try {
             file.getChildren();
             fail();
@@ -303,16 +303,16 @@ public class ContentTests extends AbstractProviderTestCase {
 
         // Open some input streams
         final InputStream instr1 = file.getContent().getInputStream();
-        assertTrue(instr1.read() == FILE1_CONTENT.charAt(0));
+        assertEquals(instr1.read(), FILE1_CONTENT.charAt(0));
         final InputStream instr2 = file.getContent().getInputStream();
-        assertTrue(instr2.read() == FILE1_CONTENT.charAt(0));
+        assertEquals(instr2.read(), FILE1_CONTENT.charAt(0));
 
         // Close the file
         file.close();
 
         // Check
-        assertTrue(instr1.read() == -1);
-        assertTrue(instr2.read() == -1);
+        assertEquals(instr1.read(), -1);
+        assertEquals(instr2.read(), -1);
     }
 
     /**
@@ -326,13 +326,13 @@ public class ContentTests extends AbstractProviderTestCase {
 
         // Open some input streams
         final InputStream instr1 = file.getContent().getInputStream();
-        assertTrue(instr1.read() == FILE1_CONTENT.charAt(0));
+        assertEquals(instr1.read(), FILE1_CONTENT.charAt(0));
 
         // Close the file
         file.close();
 
         // Check
-        assertTrue(instr1.read() == -1);
+        assertEquals(instr1.read(), -1);
     }
 
     /**

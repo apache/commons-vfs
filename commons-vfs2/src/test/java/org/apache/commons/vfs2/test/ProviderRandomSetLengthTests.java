@@ -74,7 +74,7 @@ public class ProviderRandomSetLengthTests extends AbstractProviderTestCase {
             Assert.assertEquals(fileString, 1, ra.length());
             // now read 1
             ra.seek(0);
-            Assert.assertEquals(fileString, ra.readByte(), TEST_DATA.charAt(0));
+            Assert.assertEquals(fileString, TEST_DATA.charAt(0), ra.readByte());
 
             try {
                 ra.readByte();

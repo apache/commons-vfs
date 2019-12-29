@@ -56,7 +56,7 @@ public class ProviderWriteAppendTests extends AbstractProviderTestCase {
 
         // Create direct child of the test folder
         final FileObject file = scratchFolder.resolveFile("file1.txt");
-        assertTrue(!file.exists());
+        assertFalse(file.exists());
 
         // Create the source file
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
@@ -81,7 +81,7 @@ public class ProviderWriteAppendTests extends AbstractProviderTestCase {
 
         // Make sure we can copy the new file to another file on the same filesystem
         final FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
-        assertTrue(!fileCopy.exists());
+        assertFalse(fileCopy.exists());
         fileCopy.copyFrom(file, Selectors.SELECT_SELF);
 
         assertSameContent(contentAppend, fileCopy);

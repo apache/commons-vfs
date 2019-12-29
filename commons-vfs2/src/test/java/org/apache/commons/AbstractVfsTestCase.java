@@ -18,7 +18,6 @@ package org.apache.commons;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.regex.Matcher;
@@ -42,24 +41,6 @@ public abstract class AbstractVfsTestCase extends TestCase {
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(":(?:[^/]+)@");
 
     /**
-     * Returns the name of the package containing a class.
-     *
-     * @return The . delimited package name, or an empty string if the class is in the default package.
-     */
-    public static String getPackageName(final Class<?> clazz) {
-        final Package pkg = clazz.getPackage();
-        if (null != pkg) {
-            return pkg.getName();
-        }
-
-        final String name = clazz.getName();
-        if (-1 == name.lastIndexOf(".")) {
-            return "";
-        }
-        return name.substring(0, name.lastIndexOf("."));
-    }
-
-    /**
      * Locates a test resource, and asserts that the resource exists
      *
      * @param name path of the resource, relative to this test's base directory.
@@ -79,7 +60,7 @@ public abstract class AbstractVfsTestCase extends TestCase {
         if (mustExist) {
             assertTrue("Test file \"" + file + "\" does not exist.", file.exists());
         } else {
-            assertTrue("Test file \"" + file + "\" should not exist.", !file.exists());
+            assertFalse("Test file \"" + file + "\" should not exist.", file.exists());
         }
 
         return file;
@@ -145,46 +126,9 @@ public abstract class AbstractVfsTestCase extends TestCase {
     }
 
     /**
-     * Asserts that an exception chain contains the expected messages.
-     *
-     * @param messages The messages, in order. A null entry in this array indicates that the message should be ignored.
-     */
-    public static void assertSameMessage(final String[] messages, final Throwable throwable) {
-        Throwable current = throwable;
-        for (final String message : messages) {
-            assertNotNull(current);
-            if (message != null) {
-                assertEquals(message, current.getMessage());
-            }
-
-            // Get the next exception in the chain
-            current = getCause(current);
-        }
-    }
-
-    /**
-     * Returns the cause of an exception.
-     */
-    public static Throwable getCause(final Throwable throwable) {
-        try {
-            final Method method = throwable.getClass().getMethod("getCause", (Class[]) null);
-            return (Throwable) method.invoke(throwable, (Object[]) null);
-        } catch (final Exception e) {
-            return null;
-        }
-    }
-
-    /**
      * Asserts that an exception contains the expected message.
      */
-    public static void assertSameMessage(final String code, final Throwable throwable) {
-        assertSameMessage(code, new Object[0], throwable);
-    }
-
-    /**
-     * Asserts that an exception contains the expected message.
-     */
-    public static void assertSameMessage(final String code, final Object[] params, final Throwable throwable) {
+    private static void assertSameMessage(final String code, final Object[] params, final Throwable throwable) {
         Object[] parmArray = params;
         if (throwable instanceof FileSystemException) {
             final FileSystemException fse = (FileSystemException) throwable;

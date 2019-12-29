@@ -35,7 +35,7 @@ public class NullFilesCacheTests extends AbstractFilesCacheTestsBase {
         final FileObject dir1 = scratchFolder.resolveFile("dir1");
         final FileObject dir1_2 = scratchFolder.resolveFile("dir1");
 
-        assertFalse("Should always be new instance with NullCache", dir1 == dir1_2);
+        assertNotSame("Should always be new instance with NullCache", dir1, dir1_2);
     }
 
     @Override
