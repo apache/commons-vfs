@@ -1,8 +1,8 @@
-            Apache Commons VFS Project 2.5.0
+            Apache Commons VFS 2.5.0
             RELEASE NOTES
             2019-12-24
 
-The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.5.0.
+The Apache Commons VFS team is pleased to announce the release of Apache Commons VFS 2.5.0.
 
 Apache Commons VFS is a Virtual File System library.
 
@@ -44,18 +44,18 @@ o VFS-749:  Update Apache Commons Parent from 48 to 50. Thanks to Gary Gregory.
 
 Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
 
-For complete information on Apache Commons VFS Project, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons VFS Project website:
+For complete information on Apache Commons VFS, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons VFS website:
 
 http://commons.apache.org/proper/commons-vfs/
 
 -----------------------------------------------------------------------------
 
-            Apache Commons VFS Project 2.4.1
+            Apache Commons VFS 2.4.1
             RELEASE NOTES
             2019-08-10    
 
-The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.4.1-SNAPSHOT
+The Apache Commons VFS team is pleased to announce the release of Apache Commons VFS 2.4.1-SNAPSHOT
 
 Apache Commons VFS is a Virtual File System library.
 
@@ -71,8 +71,8 @@ o           Javadoc fixes. Thanks to Gary Gregory.
 
 Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
 
-For complete information on Apache Commons VFS Project, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons VFS Project website:
+For complete information on Apache Commons VFS, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons VFS website:
 
 Visit http://commons.apache.org/proper/commons-vfs/
 
@@ -80,10 +80,10 @@ Download it from http://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------
 
-            Apache Commons VFS Project 2.4
+            Apache Commons VFS 2.4
             RELEASE NOTES
 
-The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.4.
+The Apache Commons VFS team is pleased to announce the release of Apache Commons VFS 2.4.
 
 Apache Commons VFS is a Virtual File System library.
 
@@ -135,8 +135,8 @@ o           Public API note: The overridden method org.apache.commons.vfs2.provi
 
 Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
 
-For complete information on Apache Commons VFS Project, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons VFS Project website:
+For complete information on Apache Commons VFS, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons VFS website:
 
 Visit http://commons.apache.org/proper/commons-vfs/
 
@@ -144,10 +144,10 @@ Download it from http://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------
 
-              Apache Commons VFS Project 2.3
+              Apache Commons VFS 2.3
                   RELEASE NOTES
 
-The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.3.
+The Apache Commons VFS team is pleased to announce the release of Apache Commons VFS 2.3.
 
 Apache Commons VFS is a Virtual File System library.
 
@@ -194,8 +194,8 @@ o VFS-688:  [SFTP] Update jsch from 0.1.54 to 0.1.55.
 
 Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
 
-For complete information on Apache Commons VFS Project, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons VFS Project website:
+For complete information on Apache Commons VFS, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons VFS website:
 
 Visit http://commons.apache.org/proper/commons-vfs/
 
@@ -203,10 +203,10 @@ Download it from http://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------
 
-              Apache Commons VFS Project 2.2
+              Apache Commons VFS 2.2
                   RELEASE NOTES
 
-The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.2.
+The Apache Commons VFS team is pleased to announce the release of Apache Commons VFS 2.2.
 
 Apache Commons VFS is a Virtual File System library.
 
@@ -240,8 +240,8 @@ o VFS-645:  VfsClassLoaderTests fails on Java 9.
 
 Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
 
-For complete information on Apache Commons VFS Project, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons VFS Project website:
+For complete information on Apache Commons VFS, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons VFS website:
 
 Visit http://commons.apache.org/proper/commons-vfs/
 
