@@ -51,6 +51,7 @@ import org.apache.commons.vfs2.operations.DefaultFileOperations;
 import org.apache.commons.vfs2.operations.FileOperations;
 import org.apache.commons.vfs2.util.FileObjectUtils;
 import org.apache.commons.vfs2.util.RandomAccessMode;
+import org.apache.commons.vfs2.util.SupplierThrowingException;
 
 /**
  * A partial file object implementation.
@@ -1199,12 +1200,20 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     public InputStream getInputStream(final int bufferSize) throws FileSystemException {
         // Get the raw input stream
         try {
-            return doGetInputStream(bufferSize);
+            return tryGetInputStream(() -> doGetInputStream(bufferSize));
+        } catch (final UnsupportedOperationException exc) {
+            return tryGetInputStream(this::doGetInputStream); // backwards compatibility
+        }
+    }
+
+    private InputStream tryGetInputStream(SupplierThrowingException<InputStream, Exception> getInputStream) throws FileSystemException {
+        try {
+            return getInputStream.get();
         } catch (final org.apache.commons.vfs2.FileNotFoundException exc) {
             throw new org.apache.commons.vfs2.FileNotFoundException(fileName, exc);
         } catch (final FileNotFoundException exc) {
             throw new org.apache.commons.vfs2.FileNotFoundException(fileName, exc);
-        } catch (final FileSystemException exc) {
+        } catch (final FileSystemException | UnsupportedOperationException exc) {
             throw exc;
         } catch (final Exception exc) {
             throw new FileSystemException("vfs.provider/read.error", fileName, exc);
