@@ -210,7 +210,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
 
     /**
      * Extracts the scheme, userinfo, hostname and port components of a generic URI.
-     * 
+     *
      * @param uri The absolute URI to parse.
      * @param name Used to return the remainder of the URI.
      * @return Authority extracted host authority, never null.
@@ -221,11 +221,11 @@ public class HostFileNameParser extends AbstractFileNameParser {
     protected Authority extractToPath(final String uri, final StringBuilder name) throws FileSystemException {
         return extractToPath(null, uri, name);
     }
-        
+
     /**
      * Extracts the scheme, userinfo, hostname and port components of a generic URI.
-     * 
-     * @param context component context. 
+     *
+     * @param context component context.
      * @param uri The absolute URI to parse.
      * @param name Used to return the remainder of the URI.
      * @return Authority extracted host authority, never null.
