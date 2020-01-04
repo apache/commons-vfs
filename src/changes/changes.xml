@@ -49,6 +49,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="Eitan Adler" type="fix">
         Clean up tests and simplify assertions #76.
       </action>
+      <action issue="VFS-750" dev="ggregory" due-to="Boris Petrov, Gary Gregory" type="fix">
+        Fix backwards incompatibility in AbstractFileObject.getInputStream().
+      </action>
     </release>
     <release version="2.5.0" date="2019-12-24" description="New features and bug fix release.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->

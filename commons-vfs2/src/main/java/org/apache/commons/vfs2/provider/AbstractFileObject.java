@@ -67,6 +67,8 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  */
 public abstract class AbstractFileObject<AFS extends AbstractFileSystem> implements FileObject {
 
+    private static final String DO_GET_INPUT_STREAM_INT = "doGetInputStream(int)";
+
     /**
      * Same as {@link BufferedInputStream}.
      */
@@ -638,7 +640,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @throws Exception if an error occurs.
      */
     protected InputStream doGetInputStream(final int bufferSize) throws Exception {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException(DO_GET_INPUT_STREAM_INT);
     }
 
     /**
@@ -1205,6 +1207,20 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         } catch (final FileNotFoundException exc) {
             throw new org.apache.commons.vfs2.FileNotFoundException(fileName, exc);
         } catch (final FileSystemException exc) {
+            throw exc;
+        } catch (final UnsupportedOperationException exc) {
+            // Backward compatibility for subclasses before 2.5.0
+            if (DO_GET_INPUT_STREAM_INT.equals(exc.getMessage())) {
+                try {
+                    // Invoke old API.
+                    return doGetInputStream();
+                } catch (Exception e) {
+                    if (e instanceof FileSystemException) {
+                        throw (FileSystemException) e;
+                    }
+                    throw new FileSystemException("vfs.provider/read.error", fileName, exc);
+                }
+            }
             throw exc;
         } catch (final Exception exc) {
             throw new FileSystemException("vfs.provider/read.error", fileName, exc);
