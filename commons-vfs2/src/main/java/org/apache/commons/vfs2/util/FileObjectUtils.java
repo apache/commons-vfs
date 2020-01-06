@@ -18,9 +18,9 @@ package org.apache.commons.vfs2.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.Properties;
-
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -64,15 +64,30 @@ public final class FileObjectUtils {
         }
 
         throw new FileSystemException("vfs.util/find-abstract-file-object.error",
-                fileObject == null ? "null" : fileObject.getClass().getName());
+            fileObject == null ? "null" : fileObject.getClass().getName());
     }
 
     /**
-     * Returns the content of a file as a String.
+     * Gets the content of a file object, as a byte array.
      *
-     * @param file The file to get the content of.
-     * @param charset The file character set, may be null.
+     * @param file Gets the contents of this file object.
      * @return The content as a byte array.
+     * @throws IOException if the file content cannot be accessed.
+     *
+     * @since 2.6.0
+     */
+    public static byte[] getContentAsByteArray(final FileObject file) throws IOException {
+        try (final FileContent content = file.getContent()) {
+            return content.getByteArray();
+        }
+    }
+
+    /**
+     * Gets the content of a file as a String.
+     *
+     * @param file Gets the contents of this file object.
+     * @param charset The file character set, may be null.
+     * @return The content as a string.
      * @throws IOException if the file content cannot be accessed.
      * @since 2.4
      */
@@ -85,9 +100,9 @@ public final class FileObjectUtils {
     /**
      * Returns the content of a file as a String.
      *
-     * @param file The file to get the content of.
+     * @param file Gets the contents of this file object.
      * @param charset The file character set, may be null.
-     * @return The content as a byte array.
+     * @return The content as a string.
      * @throws IOException if the file content cannot be accessed.
      * @since 2.4
      */
@@ -100,13 +115,13 @@ public final class FileObjectUtils {
     /**
      * Checks if the given FileObject is instance of given class argument.
      *
-     * @param fileObject  The FileObject.
+     * @param fileObject The FileObject.
      * @param wantedClass The Class to check.
      * @return true if fileObject is an instance of the specified Class.
      * @throws FileSystemException if an error occurs.
      */
     public static boolean isInstanceOf(final FileObject fileObject, final Class<?> wantedClass)
-            throws FileSystemException {
+        throws FileSystemException {
         Object searchObject = fileObject;
         while (searchObject instanceof DecoratedFileObject) {
             if (wantedClass.isInstance(searchObject)) {
@@ -148,7 +163,7 @@ public final class FileObjectUtils {
      * @since 2.4
      */
     public static Properties readProperties(final FileObject fileObject, final Properties properties)
-            throws FileSystemException, IOException {
+        throws FileSystemException, IOException {
         if (fileObject == null) {
             return properties;
         }
@@ -156,6 +171,36 @@ public final class FileObjectUtils {
             properties.load(inputStream);
         }
         return properties;
+    }
+
+    /**
+     * Writes the content of a file to an OutputStream.
+     *
+     * @param file The FileObject to write.
+     * @param output The OutputStream to write to.
+     * @throws IOException if an error occurs writing the file.
+     * @see FileContent#write(OutputStream)
+     * @since 2.6.0
+     */
+    public static void writeContent(final FileObject file, final OutputStream output) throws IOException {
+        try (final FileContent content = file.getContent()) {
+            content.write(output);
+        }
+    }
+
+    /**
+     * Writes the content from a source file to a destination file.
+     *
+     * @param srcFile The source FileObject.
+     * @param destFile The target FileObject
+     * @throws IOException If an error occurs copying the file.
+     * @see FileContent#write(FileObject)
+     * @since 2.6.0
+     */
+    public static void writeContent(final FileObject srcFile, final FileObject destFile) throws IOException {
+        try (final FileContent content = srcFile.getContent()) {
+            content.write(destFile);
+        }
     }
 
     private FileObjectUtils() {

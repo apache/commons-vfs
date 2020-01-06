@@ -59,6 +59,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Update JUnit from 4.12 to 4.13.
       </action>
+      <action issue="VFS-751" dev="ggregory" due-to="Gary Gregory" type="fix">
+        Deprecate org.apache.commons.vfs2.FileUtil for org.apache.commons.vfs2.util.FileObjectUtils.
+      </action>
     </release>
     <release version="2.5.0" date="2019-12-24" description="New features and bug fix release.">
       <action issue="VFS-741" dev="ecki" type="fix">

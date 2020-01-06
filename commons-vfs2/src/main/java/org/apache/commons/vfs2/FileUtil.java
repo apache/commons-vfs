@@ -19,22 +19,29 @@ package org.apache.commons.vfs2;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.apache.commons.vfs2.util.FileObjectUtils;
+
 /**
  * Utility methods for dealing with FileObjects.
+ * 
+ * @deprecated Use {@link org.apache.commons.vfs2.util.FileObjectUtils}.
  */
+@Deprecated
 public final class FileUtil {
 
     /**
      * Copies the content from a source file to a destination file.
      *
-     * @param srcFile  The source FileObject.
+     * @param srcFile The source FileObject.
      * @param destFile The target FileObject
      * @throws IOException If an error occurs copying the file.
      * @see FileContent#write(FileContent)
      * @see FileContent#write(FileObject)
+     * @deprecated Use {@link org.apache.commons.vfs2.util.FileObjectUtils#writeContent(FileObject, FileObject)}.
      */
+    @Deprecated
     public static void copyContent(final FileObject srcFile, final FileObject destFile) throws IOException {
-        srcFile.getContent().write(destFile);
+        FileObjectUtils.writeContent(srcFile, destFile);
     }
 
     /**
@@ -43,26 +50,32 @@ public final class FileUtil {
      * @param file The file to get the content of.
      * @return The content as a byte array.
      * @throws IOException if the file content cannot be accessed.
+     * @deprecated Use {@link org.apache.commons.vfs2.util.FileObjectUtils#getContentAsByteArray(FileObject)}.
      */
+    @Deprecated
     public static byte[] getContent(final FileObject file) throws IOException {
-        try (final FileContent content = file.getContent()) {
-            return content.getByteArray();
-        }
+        return FileObjectUtils.getContentAsByteArray(file);
     }
 
     /**
      * Writes the content of a file to an OutputStream.
      *
-     * @param file   The FileObject to write.
+     * @param file The FileObject to write.
      * @param output The OutputStream to write to.
      * @throws IOException if an error occurs writing the file.
      * @see FileContent#write(OutputStream)
+     * @deprecated Use {@link org.apache.commons.vfs2.util.FileObjectUtils#writeContent(FileObject, OutputStream)}.
      */
+    @Deprecated
     public static void writeContent(final FileObject file, final OutputStream output) throws IOException {
-        file.getContent().write(output);
+        FileObjectUtils.writeContent(file, output);
     }
 
+    /**
+     * No instances.
+     */
     private FileUtil() {
+        // empty
     }
 
 }

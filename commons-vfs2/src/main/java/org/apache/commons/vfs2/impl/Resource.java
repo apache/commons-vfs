@@ -22,7 +22,7 @@ import java.util.jar.Attributes;
 
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.FileUtil;
+import org.apache.commons.vfs2.util.FileObjectUtils;
 
 /**
  * Helper class for VFSClassLoader. This represents a resource loaded with the classloader.
@@ -100,6 +100,6 @@ class Resource {
      * Returns the data for this resource as a byte array.
      */
     public byte[] getBytes() throws IOException {
-        return FileUtil.getContent(resource);
+        return FileObjectUtils.getContentAsByteArray(resource);
     }
 }

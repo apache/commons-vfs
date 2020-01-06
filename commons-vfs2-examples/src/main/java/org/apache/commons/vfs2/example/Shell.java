@@ -36,11 +36,11 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileType;
-import org.apache.commons.vfs2.FileUtil;
 import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.apache.commons.vfs2.operations.FileOperationProvider;
+import org.apache.commons.vfs2.util.FileObjectUtils;
 
 /**
  * A simple command-line shell for performing file operations.
@@ -234,7 +234,7 @@ public final class Shell {
         final FileObject file = mgr.resolveFile(cwd, cmd[1]);
 
         // Dump the contents to System.out
-        FileUtil.writeContent(file, System.out);
+        FileObjectUtils.writeContent(file, System.out);
         System.out.println();
     }
 
