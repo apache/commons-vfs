@@ -1,3 +1,35 @@
+            Apache Commons VFS Project 2.6.0
+            RELEASE NOTES
+            2020-01-06
+
+The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.6.0.
+
+Apache Commons VFS is a Virtual File System library.
+
+New features and bug fix release.
+
+Changes in this version include:
+
+Fixed Bugs:
+o           Clean up tests and simplify assertions #76. Thanks to Eitan Adler.
+o VFS-750:  Fix backwards incompatibility in AbstractFileObject.getInputStream(). Thanks to Boris Petrov, Gary Gregory.
+o VFS-751:  Deprecate org.apache.commons.vfs2.FileUtil for org.apache.commons.vfs2.util.FileObjectUtils. Thanks to Gary Gregory.
+
+Changes:
+o           Update JUnit from 4.12 to 4.13. Thanks to Gary Gregory.
+
+
+Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
+
+For complete information on Apache Commons VFS Project, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons VFS Project website:
+
+http://commons.apache.org/proper/commons-vfs/
+
+Download page: http://commons.apache.org/proper/commons-vfs/download_pool.cgi
+
+-----------------------------------------------------------------------------
+
             Apache Commons VFS 2.5.0
             RELEASE NOTES
             2019-12-24

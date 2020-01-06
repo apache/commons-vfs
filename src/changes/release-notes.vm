@@ -15,10 +15,11 @@
 ## specific language governing permissions and limitations
 ## under the License.
 ##
-              ${project.name} ${version}
-                  RELEASE NOTES
+            ${project.name} ${version}
+            RELEASE NOTES
+            YYYY-MM-DD
 
-The ${developmentTeam} is pleased to announce the release of ${project.name} ${version}
+The ${developmentTeam} is pleased to announce the release of ${project.name} ${version}.
 
 $introduction.replaceAll("(?<!\015)\012", "
 ").replaceAll("(?m)^ +","")
@@ -122,3 +123,6 @@ patches, or suggestions for improvement, see the Apache ${project.name} website:
 ${project.url}
 
 Download page: ${project.url}download_pool.cgi
+
+-----------------------------------------------------------------------------
+

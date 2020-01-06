@@ -46,7 +46,7 @@ Apache Commons VFS Project
 [![Build Status](https://travis-ci.org/apache/commons-vfs.svg)](https://travis-ci.org/apache/commons-vfs)
 [![Coverage Status](https://coveralls.io/repos/apache/commons-vfs/badge.svg)](https://coveralls.io/r/apache/commons-vfs)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-vfs2/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-vfs2/)
-[![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-vfs2/2.5.0.svg)](https://javadoc.io/doc/org.apache.commons/commons-vfs2/2.5.0)
+[![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-vfs2/2.6.0.svg)](https://javadoc.io/doc/org.apache.commons/commons-vfs2/2.6.0)
 
 Apache Commons VFS is a Virtual File System library.
 
@@ -67,7 +67,7 @@ Alternatively you can pull it from the central Maven repositories:
 <dependency>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-vfs2</artifactId>
-  <version>2.5.0</version>
+  <version>2.6.0</version>
 </dependency>
 ```
 
