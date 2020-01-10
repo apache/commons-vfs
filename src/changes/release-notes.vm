@@ -122,7 +122,7 @@ patches, or suggestions for improvement, see the Apache ${project.name} website:
 
 ${project.url}
 
-Download page: ${project.url}download_pool.cgi
+Download page: ${project.url}download_vfs.cgi
 
 -----------------------------------------------------------------------------
 

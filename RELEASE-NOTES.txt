@@ -26,7 +26,7 @@ patches, or suggestions for improvement, see the Apache Apache Commons VFS Proje
 
 http://commons.apache.org/proper/commons-vfs/
 
-Download page: http://commons.apache.org/proper/commons-vfs/download_pool.cgi
+Download page: http://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------
 
