@@ -43,7 +43,6 @@ import org.apache.commons.vfs2.FileSelector;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
-import org.apache.commons.vfs2.FileUtil;
 import org.apache.commons.vfs2.NameScope;
 import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.Selectors;
@@ -296,7 +295,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             // Copy across
             try {
                 if (srcFile.getType().hasContent()) {
-                    FileUtil.copyContent(srcFile, destFile);
+                    FileObjectUtils.writeContent(srcFile, destFile);
                 } else if (srcFile.getType().hasChildren()) {
                     destFile.createFolder();
                 }
