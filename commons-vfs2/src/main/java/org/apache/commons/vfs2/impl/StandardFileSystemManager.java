@@ -293,6 +293,13 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
     private void addProvider(final Element providerDef, final boolean isDefault) throws FileSystemException {
         final String classname = providerDef.getAttribute("class-name");
 
+        // Make sure the provider class itself is in classpath
+        if (!findClass(classname)) {
+            final String msg = Messages.getString("vfs.impl/skipping-provider-self.debug", classname);
+            VfsLog.debug(getLogger(), getLogger(), msg);
+            return;
+        }
+
         // Make sure all required schemes are available
         final String[] requiredSchemes = getRequiredSchemes(providerDef);
         for (final String requiredScheme : requiredSchemes) {
