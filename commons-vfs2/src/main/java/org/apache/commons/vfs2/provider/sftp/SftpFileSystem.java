@@ -278,7 +278,12 @@ public class SftpFileSystem extends AbstractFileSystem {
                         throw new FileSystemException(
                                 "Could not get the user id of the current user (error code: " + code + ")");
                     }
-                    uid = Integer.parseInt(output.toString().trim());
+                    final String uidString = output.toString().trim();
+                    try {
+                        uid = Integer.parseInt(uidString);
+                    } catch (NumberFormatException e) {
+                        LOG.debug("Cannot convert UID to integer: '" + uidString + "'", e);
+                    }
                 }
             }
         }

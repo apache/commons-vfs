@@ -45,11 +45,16 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="2.6.0" date="2020-06-01" description="New features and bug fix release.">
+    <release version="2.6.1" date="2020-MM-DD" description="Maintenance release.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
 <!-- START Might need to be moved to the next version -->
+      <action issue="VFS-753" dev="ggregory" due-to="John Webb, Gary Gregory" type="fix">
+        NumberFormatException in SftpFileSystem::getUId.
+      </action>
+    </release>
+    <release version="2.6.0" date="2020-06-01" description="New features and bug fix release.">
       <action dev="ggregory" due-to="Eitan Adler" type="fix">
         Clean up tests and simplify assertions #76.
       </action>
