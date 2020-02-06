@@ -105,6 +105,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String PROXY_OPTIONS = _PREFIX + ".PROXY_OPTIONS";
     private static final String PROXY_PASSWORD = _PREFIX + ".PROXY_PASSWORD";
     private static final String PROXY_PORT = _PREFIX + ".PROXY_PORT";
+    private static final String DISABLE_DETECT_EXEC_CHANEL = _PREFIX + ".DISABLE_DETECT_EXEC_CHANEL";
 
     /** HTTP Proxy. */
     public static final ProxyType PROXY_HTTP = new ProxyType("http");
@@ -256,6 +257,21 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public ConfigRepository getConfigRepository(final FileSystemOptions opts) {
         return (ConfigRepository) this.getParam(opts, CONFIG_REPOSITORY);
     }
+
+    /**
+     * Returns {@link true} if the detection of the exec channel should be disabled.
+     * Returns {@link false} if the detection of the exec channel should be enabled.
+     * Defaults to {@code false} if the method {@link #setDisableDetectExecChannel(FileSystemOptions, boolean)} has not been invoked.
+     *
+     * @param opts The FileSystemOptions.
+     * @return {@code true} if detection of exec channel should be disabled.
+     *
+     * @see #setDisableDetectExecChannel(FileSystemOptions, boolean)
+     */
+    public boolean isDisableDetectExecChannel(final FileSystemOptions opts) {
+        return this.getBoolean(opts, DISABLE_DETECT_EXEC_CHANEL, Boolean.FALSE);
+    }
+
 
     /**
      * Returns {@link Boolean#TRUE} if VFS should load the OpenSSH config. Defaults to {@code Boolean.FALSE} if the
@@ -763,4 +779,16 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public void setLoadOpenSSHConfig(final FileSystemOptions opts, final boolean loadOpenSSHConfig) {
         this.setParam(opts, LOAD_OPENSSH_CONFIG, loadOpenSSHConfig ? Boolean.TRUE : Boolean.FALSE);
     }
+
+    /**
+     * Sets whether detection of exec channel is disabled.
+     * If this value is true the FileSystem will not test if the server allows to exec commands and disable the use of the exec channel.
+     *
+     * @param opts        The FileSystem options.
+     * @param disableDetectExecChannel true if the detection of exec channel should be disabled.
+     */
+    public void setDisableDetectExecChannel(final FileSystemOptions opts, final boolean disableDetectExecChannel) {
+        this.setParam(opts, DISABLE_DETECT_EXEC_CHANEL, disableDetectExecChannel ? Boolean.TRUE : Boolean.FALSE);
+    }
+
 }
