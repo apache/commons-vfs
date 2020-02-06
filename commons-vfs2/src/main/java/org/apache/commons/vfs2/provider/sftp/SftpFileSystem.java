@@ -91,7 +91,13 @@ public class SftpFileSystem extends AbstractFileSystem {
         this.session = Objects.requireNonNull(session, "session");
         this.connectTimeoutMillis = SftpFileSystemConfigBuilder.getInstance()
                 .getConnectTimeoutMillis(fileSystemOptions);
-        this.execDisabled = detectExecDisabled();
+        
+        if (SftpFileSystemConfigBuilder.getInstance().isDisableDetectExecChannel(fileSystemOptions)){
+            this.execDisabled = true;
+        }
+        else {
+            this.execDisabled = detectExecDisabled();
+        }
     }
 
     @Override
