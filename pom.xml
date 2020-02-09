@@ -607,7 +607,7 @@
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpcore-nio</artifactId>
-        <version>4.4.12</version>
+        <version>4.4.13</version>
       </dependency>
       <!-- Test WebDAV with Apache Jackrabbit Standalone -->
       <dependency>
