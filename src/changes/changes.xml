@@ -59,6 +59,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-755" dev="ggregory" due-to="Gary Gregory" type="update">
         Update org.apache.httpcomponents:httpclient from 4.5.10 to 4.5.11.
       </action>
+      <action issue="VFS-756" dev="ggregory" due-to="Gary Gregory" type="update">
+        Update org.apache.jackrabbit:jackrabbit-standalone-components from 2.19.6 to 2.20.0.
+      </action>
     </release>
     <release version="2.6.0" date="2020-06-01" description="New features and bug fix release.">
       <action dev="ggregory" due-to="Eitan Adler" type="fix">
