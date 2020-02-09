@@ -45,7 +45,7 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="2.6.1" date="2020-MM-DD" description="Maintenance release.">
+    <release version="2.7.0" date="2020-MM-DD" description="Maintenance release.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
@@ -61,6 +61,9 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action issue="VFS-756" dev="ggregory" due-to="Gary Gregory" type="update">
         Update org.apache.jackrabbit:jackrabbit-standalone-components from 2.19.6 to 2.20.0.
+      </action>
+      <action issue="VFS-757" dev="ggregory" due-to="Gary Gregory" type="update">
+        [SFTP] Configure whether exec detection is enabled #80.
       </action>
     </release>
     <release version="2.6.0" date="2020-06-01" description="New features and bug fix release.">
