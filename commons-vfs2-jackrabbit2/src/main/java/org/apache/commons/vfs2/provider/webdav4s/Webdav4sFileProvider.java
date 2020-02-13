@@ -82,8 +82,7 @@ public class Webdav4sFileProvider extends Http4sFileProvider {
             UserAuthenticatorUtils.cleanup(authData);
         }
 
-        return new Webdav4FileSystem(rootName, fsOpts, httpClient, httpClientContext) {
-        };
+        return new Webdav4sFileSystem(rootName, fsOpts, httpClient, httpClientContext);
     }
 
     @Override

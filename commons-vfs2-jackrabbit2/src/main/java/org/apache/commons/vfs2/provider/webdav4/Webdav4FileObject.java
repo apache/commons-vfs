@@ -219,16 +219,19 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
 
     private final Webdav4FileSystem fileSystem;
 
-    protected Webdav4FileObject(final AbstractFileName name, final Webdav4FileSystem fileSystem)
+    private final String requestScheme;
+
+    protected Webdav4FileObject(final AbstractFileName name, final Webdav4FileSystem fileSystem, final boolean ssl)
             throws FileSystemException, URISyntaxException {
-        this(name, fileSystem, Webdav4FileSystemConfigBuilder.getInstance());
+        this(name, fileSystem, ssl, Webdav4FileSystemConfigBuilder.getInstance());
     }
 
-    protected Webdav4FileObject(final AbstractFileName name, final Webdav4FileSystem fileSystem,
+    protected Webdav4FileObject(final AbstractFileName name, final Webdav4FileSystem fileSystem, final boolean ssl,
             final Webdav4FileSystemConfigBuilder builder) throws FileSystemException, URISyntaxException {
         super(name, fileSystem, builder);
         this.fileSystem = fileSystem;
         this.builder = builder;
+        this.requestScheme = ssl ? "https" : "http";
     }
 
     /**
@@ -614,7 +617,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
             user = name.getUserName();
             password = name.getPassword();
         }
-        final GenericURLFileName newFile = new GenericURLFileName("http", name.getHostName(), name.getPort(), name.getDefaultPort(),
+        final GenericURLFileName newFile = new GenericURLFileName(requestScheme, name.getHostName(), name.getPort(), name.getDefaultPort(),
                 user, password, name.getPath(), name.getType(), name.getQueryString());
         try {
             return newFile.getURIEncoded(this.getUrlCharset());

@@ -14,10 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.webdav4;
-
-import java.net.URLStreamHandler;
-import java.util.Collection;
+package org.apache.commons.vfs2.provider.webdav4s;
 
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
@@ -26,29 +23,25 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.DefaultURLStreamHandler;
 import org.apache.commons.vfs2.provider.http4.Http4FileSystem;
+import org.apache.commons.vfs2.provider.webdav4.Webdav4FileObject;
+import org.apache.commons.vfs2.provider.webdav4.Webdav4FileProvider;
+import org.apache.commons.vfs2.provider.webdav4.Webdav4FileSystem;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.protocol.HttpClientContext;
+
+import java.net.URLStreamHandler;
+import java.util.Collection;
 
 /**
  * A WebDAV file system based on HTTP4.
  *
  * @since 2.5.0
  */
-public class Webdav4FileSystem extends Http4FileSystem {
+public class Webdav4sFileSystem extends Webdav4FileSystem {
 
-    protected Webdav4FileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions,
+    protected Webdav4sFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions,
             final HttpClient httpClient, final HttpClientContext httpClientContext) {
         super(rootName, fileSystemOptions, httpClient, httpClientContext);
-    }
-
-    /**
-     * Returns the capabilities of this file system.
-     *
-     * @param caps The Capabilities to add.
-     */
-    @Override
-    protected void addCapabilities(final Collection<Capability> caps) {
-        caps.addAll(Webdav4FileProvider.capabilities);
     }
 
     /**
@@ -59,15 +52,6 @@ public class Webdav4FileSystem extends Http4FileSystem {
      */
     @Override
     protected FileObject createFile(final AbstractFileName name) throws Exception {
-        return new Webdav4FileObject(name, this,false);
-    }
-
-    /**
-     * Return a URLStreamHandler.
-     *
-     * @return The URLStreamHandler.
-     */
-    public URLStreamHandler getURLStreamHandler() {
-        return new DefaultURLStreamHandler(getContext(), getFileSystemOptions());
+        return new Webdav4FileObject(name, this,true){};
     }
 }
