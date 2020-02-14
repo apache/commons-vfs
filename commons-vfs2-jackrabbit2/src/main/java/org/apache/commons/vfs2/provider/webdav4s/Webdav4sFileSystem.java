@@ -35,7 +35,7 @@ import java.util.Collection;
 /**
  * A WebDAV file system based on HTTP4.
  *
- * @since 2.5.0
+ * @since 2.7.0
  */
 public class Webdav4sFileSystem extends Webdav4FileSystem {
 
@@ -52,6 +52,6 @@ public class Webdav4sFileSystem extends Webdav4FileSystem {
      */
     @Override
     protected FileObject createFile(final AbstractFileName name) throws Exception {
-        return new Webdav4FileObject(name, this,true){};
+        return new Webdav4FileObject(name, this, true){};
     }
 }
