@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
 
 /**
  * Utility methods for dealing with FileObjects.
- * 
+ *
  * @deprecated Use {@link org.apache.commons.vfs2.util.FileObjectUtils}.
  */
 @Deprecated
