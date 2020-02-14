@@ -60,7 +60,7 @@ The <action> type attribute can be add,update,fix,remove.
         Update org.apache.httpcomponents:httpclient from 4.5.10 to 4.5.11.
       </action>
       <action issue="VFS-756" dev="ggregory" due-to="Gary Gregory" type="update">
-        Update org.apache.jackrabbit:jackrabbit-standalone-components from 2.19.6 to 2.20.0.
+        Update org.apache.jackrabbit:jackrabbit-standalone-components from 2.19.6 to 2.21.0.
       </action>
       <action issue="VFS-757" dev="ggregory" due-to="ddg-igh" type="add">
         [SFTP] Configure whether exec detection is enabled #80.
