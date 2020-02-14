@@ -27,9 +27,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.net.ftp.FTPCmd;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileNotFolderException;
@@ -45,6 +47,8 @@ import org.apache.commons.vfs2.util.Messages;
 import org.apache.commons.vfs2.util.MonitorInputStream;
 import org.apache.commons.vfs2.util.MonitorOutputStream;
 import org.apache.commons.vfs2.util.RandomAccessMode;
+
+import static java.util.Objects.nonNull;
 
 /**
  * An FTP file.
@@ -63,6 +67,8 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     private volatile FTPFile fileInfo;
     private volatile Map<String, FTPFile> children;
     private volatile FileObject linkDestination;
+    
+    private final AtomicLong mdtmTimestamp = new AtomicLong(DEFAULT_TIMESTAMP);
     private final AtomicBoolean inRefresh = new AtomicBoolean();
 
     protected FtpFileObject(final AbstractFileName name, final FtpFileSystem fileSystem, final FileName rootName)
@@ -185,6 +191,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
                 super.refresh();
                 synchronized (getFileSystem()) {
                     this.fileInfo = null;
+                    this.mdtmTimestamp.set(DEFAULT_TIMESTAMP);
                 }
                 /*
                  * VFS-210 try { // this will tell the parent to recreate its children collection getInfo(true); } catch
@@ -203,6 +210,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     protected void doDetach() {
         synchronized (getFileSystem()) {
             this.fileInfo = null;
+            this.mdtmTimestamp.set(DEFAULT_TIMESTAMP);
             this.children = null;
         }
     }
@@ -387,6 +395,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
                     throw new FileSystemException("vfs.provider.ftp/delete-file.error", getName());
                 }
                 this.fileInfo = null;
+                this.mdtmTimestamp.set(DEFAULT_TIMESTAMP);
             }
             this.children = EMPTY_FTP_FILE_MAP;
         }
@@ -463,7 +472,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     @Override
     protected long doGetLastModifiedTime() throws Exception {
         synchronized (getFileSystem()) {
-            if (this.fileInfo == null) {
+            if (this.fileInfo == null && this.mdtmTimestamp.get() == DEFAULT_TIMESTAMP) {
                 return DEFAULT_TIMESTAMP;
             }
             if (this.fileInfo.isSymbolicLink()) {
@@ -530,9 +539,44 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         return relPath;
     }
 
-    private long getTimestamp() {
-        final Calendar timestamp = this.fileInfo != null ? this.fileInfo.getTimestamp() : null;
-        return timestamp == null ? DEFAULT_TIMESTAMP : timestamp.getTime().getTime();
+    private long getTimestamp() throws Exception {
+        final long mdtm = this.mdtmTimestamp.get() == DEFAULT_TIMESTAMP ? getMdtmTimestamp() : this.mdtmTimestamp.get();
+        final Calendar listTimestamp = this.fileInfo != null ? this.fileInfo.getTimestamp() : null;
+        return mdtm != DEFAULT_TIMESTAMP ? mdtm : (listTimestamp != null ? listTimestamp.getTimeInMillis() : DEFAULT_TIMESTAMP);
+    }
+    
+    private long getMdtmTimestamp() throws Exception {
+        if (!isMdtmSupported()) {
+            log.debug("mdtm is not supported by remote server for " + getName());
+            return DEFAULT_TIMESTAMP;
+        }
+        final FtpClient client = getAbstractFileSystem().getClient();
+        try {
+            final FTPFile mdtmFile = client.mdtmFile(relPath);
+            if (nonNull(mdtmFile)) {
+                mdtmTimestamp.set(mdtmFile.getTimestamp().getTimeInMillis());
+                return mdtmFile.getTimestamp().getTimeInMillis();
+            }
+            return DEFAULT_TIMESTAMP;
+        } finally {
+            getAbstractFileSystem().putClient(client);
+        }
+    }
+    
+    private boolean isMdtmSupported() throws Exception {
+        final FtpClient client = getAbstractFileSystem().getClient();
+        try {
+            if (client.features()) {
+                final String replyStr = client.getReplyString();
+                return replyStr.contains(FTPCmd.MDTM.getCommand());
+            }
+            return false;
+        } catch (final Exception ex) {
+            log.debug("Unable to determine if remote supports mdtm cmd for " + getName(), ex);
+            throw ex;
+        } finally {
+            getAbstractFileSystem().putClient(client);
+        }
     }
 
     /**

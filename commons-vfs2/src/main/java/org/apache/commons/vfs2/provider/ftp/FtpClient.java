@@ -69,5 +69,8 @@ public interface FtpClient {
     }
 
     OutputStream storeFileStream(String relPath) throws IOException;
-
+    
+    boolean features() throws IOException;
+    
+    FTPFile mdtmFile(final String relPath) throws IOException;
 }

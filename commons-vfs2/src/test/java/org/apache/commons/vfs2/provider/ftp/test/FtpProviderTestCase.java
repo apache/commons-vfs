@@ -31,6 +31,7 @@ import org.apache.commons.vfs2.test.ProviderTestSuite;
 import org.apache.commons.vfs2.util.FreeSocketPortUtil;
 import org.apache.ftpserver.FtpServer;
 import org.apache.ftpserver.FtpServerFactory;
+import org.apache.ftpserver.command.CommandFactory;
 import org.apache.ftpserver.ftplet.FileSystemFactory;
 import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.ftpserver.ftplet.UserManager;
@@ -84,7 +85,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
      * @throws FtpException
      * @throws IOException
      */
-    static void setUpClass(final String rootDirectory, final FileSystemFactory fileSystemFactory)
+    static void setUpClass(final String rootDirectory, final FileSystemFactory fileSystemFactory, final CommandFactory ftpCmdFactory)
             throws FtpException, IOException {
         if (Server != null) {
             return;
@@ -104,6 +105,9 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         serverFactory.setUserManager(userManager);
         if (fileSystemFactory != null) {
             serverFactory.setFileSystem(fileSystemFactory);
+        }
+        if (ftpCmdFactory != null) {
+            serverFactory.setCommandFactory(ftpCmdFactory);
         }
         final ListenerFactory factory = new ListenerFactory();
         // set the port of the listener
@@ -127,12 +131,12 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
     /**
      * Creates the test suite for subclasses of the ftp file system.
      */
-    protected static Test suite(final FtpProviderTestCase testCase) throws Exception {
+    protected static Test suite(final FtpProviderTestCase testCase, final Class<?>... testsToRun) throws Exception {
         return new ProviderTestSuite(testCase) {
             @Override
             protected void setUp() throws Exception {
                 if (getSystemTestUriOverride() == null) {
-                    setUpClass(testCase.getFtpRootDir(), testCase.getFtpFileSystem());
+                    setUpClass(testCase.getFtpRootDir(), testCase.getFtpFileSystem(), testCase.getFtpCommandFactory());
                 }
                 super.setUp();
             }
@@ -147,6 +151,17 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
                     super.tearDown();
                 } finally {
                     tearDownClass();
+                }
+            }
+            
+            @Override
+            protected void addBaseTests() throws Exception {
+                if (testsToRun.length == 0) {
+                    super.addBaseTests();
+                } else {
+                    for (final Class<?> test : testsToRun) {
+                        addTests(test);
+                    }
                 }
             }
         };
@@ -203,6 +218,10 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
      */
     protected String getFtpRootDir() {
         return getTestDirectory();
+    }
+    
+    protected CommandFactory getFtpCommandFactory() {
+        return null;
     }
 
     /**

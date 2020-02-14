@@ -292,4 +292,24 @@ public class FTPClientWrapper implements FtpClient {
             return getFtpClient().storeFileStream(relPath);
         }
     }
+    
+    @Override
+    public boolean features() throws IOException {
+        try {
+            return getFtpClient().features();
+        } catch (final IOException ex) {
+            disconnect();
+            return getFtpClient().features();
+        }
+    }
+    
+    @Override
+    public FTPFile mdtmFile(final String relPath) throws IOException {
+        try {
+            return getFtpClient().mdtmFile(relPath);
+        } catch (final IOException ex) {
+            disconnect();
+            return getFtpClient().mdtmFile(relPath);
+        }
+    }
 }
