@@ -20,6 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -229,6 +230,11 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
         super(name, fileSystem, builder);
         this.fileSystem = fileSystem;
         this.builder = builder;
+    }
+
+    @Override
+    protected URI getInternalURI() throws FileSystemException {
+        return super.getInternalURI();
     }
 
     /**
@@ -614,9 +620,11 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
             user = name.getUserName();
             password = name.getPassword();
         }
-        final GenericURLFileName newFile = new GenericURLFileName("http", name.getHostName(), name.getPort(), name.getDefaultPort(),
-                user, password, name.getPath(), name.getType(), name.getQueryString());
+
         try {
+            final GenericURLFileName newFile = new GenericURLFileName(getInternalURI().getScheme(), name.getHostName(),
+                    name.getPort(), name.getDefaultPort(), user, password, name.getPath(), name.getType(),
+                    name.getQueryString());
             return newFile.getURIEncoded(this.getUrlCharset());
         } catch (final Exception e) {
             return name.getURI();
