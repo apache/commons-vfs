@@ -70,7 +70,13 @@ public interface FtpClient {
 
     OutputStream storeFileStream(String relPath) throws IOException;
     
-    boolean features() throws IOException;
+    default boolean features() throws IOException {
+        // Backward compatibility: return false ("FEAT" not supported)
+        return false;
+    }
     
-    FTPFile mdtmFile(final String relPath) throws IOException;
+    default FTPFile mdtmFile(final String relPath) throws IOException {
+        // Backward compatibility: return empty FTPFile
+        return new FTPFile();
+    }
 }

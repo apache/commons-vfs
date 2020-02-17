@@ -48,8 +48,6 @@ import org.apache.commons.vfs2.util.MonitorInputStream;
 import org.apache.commons.vfs2.util.MonitorOutputStream;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 
-import static java.util.Objects.nonNull;
-
 /**
  * An FTP file.
  */
@@ -538,13 +536,20 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     String getRelPath() {
         return relPath;
     }
-
+    
     private long getTimestamp() throws Exception {
         final long mdtm = this.mdtmTimestamp.get() == DEFAULT_TIMESTAMP ? getMdtmTimestamp() : this.mdtmTimestamp.get();
         final Calendar listTimestamp = this.fileInfo != null ? this.fileInfo.getTimestamp() : null;
         return mdtm != DEFAULT_TIMESTAMP ? mdtm : (listTimestamp != null ? listTimestamp.getTimeInMillis() : DEFAULT_TIMESTAMP);
     }
     
+    /**
+     * Get the more accurate MDTM lastmodified file timestamp if supported by the remote FTP server.
+     * 
+     * @return the MDTM timestamp in milliseconds if supported, otherwise {@link #DEFAULT_TIMESTAMP}.
+     * @throws Exception If an error occurred in underlying FTP client when either determining if
+     * MDTM is supported or obtaining MDTM timestamp.
+     */
     private long getMdtmTimestamp() throws Exception {
         if (!isMdtmSupported()) {
             log.debug("mdtm is not supported by remote server for " + getName());
@@ -553,7 +558,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         final FtpClient client = getAbstractFileSystem().getClient();
         try {
             final FTPFile mdtmFile = client.mdtmFile(relPath);
-            if (nonNull(mdtmFile)) {
+            if (mdtmFile != null) {
                 mdtmTimestamp.set(mdtmFile.getTimestamp().getTimeInMillis());
                 return mdtmFile.getTimestamp().getTimeInMillis();
             }
@@ -563,6 +568,13 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         }
     }
     
+    /**
+     * Determines if the remote FTP server supports the {@code MDTM} feature for obtaining
+     * more accurate lastmodified file timestamps.
+     * 
+     * @return true if MDTM feature is supported, false otherwise
+     * @throws Exception If underlying FTP client encountered an error
+     */
     private boolean isMdtmSupported() throws Exception {
         final FtpClient client = getAbstractFileSystem().getClient();
         try {

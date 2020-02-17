@@ -293,6 +293,14 @@ public class FTPClientWrapper implements FtpClient {
         }
     }
     
+    /**
+     * Determine what extended features the remote FTP server supports.
+     * <p>
+     * If this command is supported, the server will reply with a multi-line response where each line of 
+     * the response contains an extended feature command supported by the server.
+     * 
+     * @throws IOException If the underlying FTP client encountered an error
+     */
     @Override
     public boolean features() throws IOException {
         try {
@@ -303,6 +311,17 @@ public class FTPClientWrapper implements FtpClient {
         }
     }
     
+    /**
+     * The MDTM command is used to preserve a file's original date and time information after file transfer. It is typically
+     * more accurate than the {@code "LIST"} command response. Time values are always represented in UTC (GMT), and in the Gregorian calendar 
+     * regardless of what calendar may have been in use at the date and time the file was last modified.
+     * <p>
+     * NOTE: not all remote FTP servers support {@code MDTM}.
+     * 
+     * @param relPath The relative path of the file object to execute {@code MDTM} command against
+     * @return new {@code FTPFile} object containing the {@code MDTM} timestamp.
+     * @throws IOException If the underlying FTP client encountered an error
+     */
     @Override
     public FTPFile mdtmFile(final String relPath) throws IOException {
         try {
