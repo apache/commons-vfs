@@ -21,8 +21,8 @@ jdk:
   - openjdk11
   - openjdk12
   - openjdk13
-  - openjdk-ea
   - oraclejdk11
-
+allow_failures:
+  - openjdk-ea
 after_success:
   - mvn -V -B -e clean cobertura:cobertura coveralls:report
