@@ -65,6 +65,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-757" dev="ggregory" due-to="ddg-igh" type="add">
         [SFTP] Configure whether exec detection is enabled #80.
       </action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">
+        Update tests from Apache Commons Lang 3.9 to 3.10.
+      </action>
     </release>
     <release version="2.6.0" date="2020-06-01" description="New features and bug fix release.">
       <action dev="ggregory" due-to="Eitan Adler" type="fix">
