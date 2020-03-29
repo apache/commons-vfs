@@ -72,12 +72,9 @@ import org.apache.hc.core5.http.ConnectionReuseStrategy;
 import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.HttpHeaders;
 import org.apache.hc.core5.http.HttpHost;
-import org.apache.hc.core5.http.HttpRequest;
-import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.impl.DefaultConnectionReuseStrategy;
 import org.apache.hc.core5.http.io.SocketConfig;
 import org.apache.hc.core5.http.message.BasicHeader;
-import org.apache.hc.core5.http.protocol.HttpContext;
 import org.apache.hc.core5.http.ssl.TLS;
 import org.apache.hc.core5.ssl.SSLContextBuilder;
 
@@ -178,13 +175,7 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
 
         final ConnectionReuseStrategy connectionReuseStrategy = builder.isKeepAlive(fileSystemOptions)
                 ? DefaultConnectionReuseStrategy.INSTANCE
-                : new ConnectionReuseStrategy() {
-                    @Override
-                    public boolean keepAlive(
-                            final HttpRequest request, final HttpResponse response, final HttpContext context) {
-                        return false;
-                    }
-                };
+                : (request, response, context) -> false;
 
         final HttpClientBuilder httpClientBuilder =
                 HttpClients.custom()
