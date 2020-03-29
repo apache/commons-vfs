@@ -68,6 +68,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Update tests from Apache Commons Lang 3.9 to 3.10.
       </action>
+      <action issue="VFS-768" dev="ggregory" due-to="ddg-igh" type="add">
+        [HTTP] Update Apache httpclient 4.5.11 to 4.5.12 and httpclient5 5.0-beta7 to 5
+      </action>
     </release>
     <release version="2.6.0" date="2020-06-01" description="New features and bug fix release.">
       <action dev="ggregory" due-to="Eitan Adler" type="fix">
