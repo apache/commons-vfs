@@ -105,7 +105,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String PROXY_OPTIONS = _PREFIX + ".PROXY_OPTIONS";
     private static final String PROXY_PASSWORD = _PREFIX + ".PROXY_PASSWORD";
     private static final String PROXY_PORT = _PREFIX + ".PROXY_PORT";
-    private static final String DISABLE_DETECT_EXEC_CHANEL = _PREFIX + ".DISABLE_DETECT_EXEC_CHANEL";
+    private static final String DISABLE_DETECT_EXEC_CHANNEL = _PREFIX + ".DISABLE_DETECT_EXEC_CHANNEL";
 
     /** HTTP Proxy. */
     public static final ProxyType PROXY_HTTP = new ProxyType("http");
@@ -269,7 +269,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @see #setDisableDetectExecChannel(FileSystemOptions, boolean)
      */
     public boolean isDisableDetectExecChannel(final FileSystemOptions opts) {
-        return this.getBoolean(opts, DISABLE_DETECT_EXEC_CHANEL, Boolean.FALSE);
+        return this.getBoolean(opts, DISABLE_DETECT_EXEC_CHANNEL, Boolean.FALSE);
     }
 
 
@@ -788,7 +788,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param disableDetectExecChannel true if the detection of exec channel should be disabled.
      */
     public void setDisableDetectExecChannel(final FileSystemOptions opts, final boolean disableDetectExecChannel) {
-        this.setParam(opts, DISABLE_DETECT_EXEC_CHANEL, disableDetectExecChannel ? Boolean.TRUE : Boolean.FALSE);
+        this.setParam(opts, DISABLE_DETECT_EXEC_CHANNEL, disableDetectExecChannel ? Boolean.TRUE : Boolean.FALSE);
     }
 
 }
