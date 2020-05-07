@@ -38,6 +38,7 @@
     <module>commons-vfs2</module>
     <module>commons-vfs2-jackrabbit1</module>
     <module>commons-vfs2-jackrabbit2</module>
+    <module>commons-vfs2-zookeeper</module>
     <module>commons-vfs2-examples</module>
     <module>commons-vfs2-distribution</module>
   </modules>
@@ -163,8 +164,8 @@
     <commons.release.version>2.7.0</commons.release.version>
     <!-- Commons Release Plugin -->
     <commons.bc.version>2.6.0</commons.bc.version>
-    <commons.releaseManagerName>Gary Gregory</commons.releaseManagerName>    
-    <commons.releaseManagerKey>86fdc7e2a11262cb</commons.releaseManagerKey>  
+    <commons.releaseManagerName>Gary Gregory</commons.releaseManagerName>
+    <commons.releaseManagerKey>86fdc7e2a11262cb</commons.releaseManagerKey>
     <commons.rc.version>RC1</commons.rc.version>
     <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
     <commons.release.desc>(requires Java 8)</commons.release.desc>
@@ -184,7 +185,8 @@
         org.apache.jackrabbit.*;resolution:=optional,
         org.apache.tools.ant.*;resolution:=optional,
         org.apache.commons.httpclient.*;resolution:=optional,
-        *
+        org.apache.commons.curator.*;resolution:=optional,
+      *
     </commons.osgi.import>
     <!-- Newer versions of clirr throw an NPE building the site -->
     <commons.clirr.version>2.6</commons.clirr.version>
@@ -195,7 +197,8 @@
     <jackrabbit2.version>2.21.0</jackrabbit2.version>
     <commons.surefire.version>2.19.1</commons.surefire.version>
     <commons.japicmp.version>0.14.3</commons.japicmp.version>
-    <log4j2.version>2.13.1</log4j2.version>
+    <log4j2.version>2.13.0</log4j2.version>
+    <curator.version>2.12.0</curator.version>
   </properties>
 
   <build>
@@ -420,7 +423,7 @@
             </excludes>
           </parameter>
         </configuration>
-      </plugin>    
+      </plugin>
       <!-- cobertura breaks because it cannot parse annotations in methods. -->
       <!--
       <plugin>
@@ -490,12 +493,12 @@
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
-        <version>4.5.12</version>
+        <version>4.5.11</version>
       </dependency>
       <dependency>
         <groupId>org.apache.httpcomponents.client5</groupId>
         <artifactId>httpclient5</artifactId>
-        <version>5.0</version>
+        <version>5.0-beta7</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -559,12 +562,12 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.3.3</version>
+        <version>3.2.4</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.10</version>
+        <version>3.9</version>
       </dependency>
       <!-- Test FTP with Apache FTP Server (MINA) -->
       <dependency>
@@ -661,6 +664,11 @@
         <artifactId>hadoop-hdfs</artifactId>
         <version>${hadoop.version}</version>
         <type>test-jar</type>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.curator</groupId>
+        <artifactId>curator-test</artifactId>
+        <version>${curator.version}</version>
       </dependency>
       <dependency>
         <groupId>javax.ws.rs</groupId>

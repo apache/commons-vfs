@@ -255,8 +255,11 @@ public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
     protected void assertSameContent(final String expected, final FileObject file) throws Exception {
         // Check the file exists, and is a file
         assertTrue(file.exists());
-        assertSame(FileType.FILE, file.getType());
-        assertTrue(file.isFile());
+        assertTrue(file.getType() == FileType.FILE || file.getType() == FileType.FILE_OR_FOLDER);
+
+        if(file.getType() == FileType.FILE) {
+            assertTrue(file.isFile());
+        }
 
         // Get file content as a binary stream
         final byte[] expectedBin = expected.getBytes("utf-8");
@@ -343,6 +346,10 @@ public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
 
     protected void addEmptyDir(final boolean addEmptyDir) {
         this.addEmptyDir = addEmptyDir;
+    }
+
+    protected boolean getAddEmptyDir() {
+        return this.addEmptyDir;
     }
 
     protected static Test notConfigured(final Class<?> testClass) {

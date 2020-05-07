@@ -81,7 +81,8 @@ public class VerifyingFileSelector extends Assert implements FileSelector {
     public boolean traverseDescendents(final FileSelectInfo fileInfo) throws FileSystemException {
         // Check that the given file is a folder
         final FileObject folder = FileObjectUtils.getAbstractFileObject(fileInfo.getFile());
-        assertSame(FileType.FOLDER, folder.getType());
+        FileType foundType = folder.getType();
+        assertTrue(foundType == FileType.FOLDER || foundType == FileType.FILE_OR_FOLDER);
         assertTrue(folder.isFolder());
 
         // Locate the info for the folder
@@ -95,7 +96,8 @@ public class VerifyingFileSelector extends Assert implements FileSelector {
 
             // Locate the info for the child, and make sure it is folder
             currentFolderInfo = getChild(baseName);
-            assertSame(FileType.FOLDER, currentFolderInfo.type);
+            assertTrue(currentFolderInfo.type == FileType.FILE_OR_FOLDER ||
+                currentFolderInfo.type == FileType.FOLDER);
         }
 
         // Push the folder
