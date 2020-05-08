@@ -197,7 +197,7 @@
     <jackrabbit2.version>2.21.0</jackrabbit2.version>
     <commons.surefire.version>2.19.1</commons.surefire.version>
     <commons.japicmp.version>0.14.3</commons.japicmp.version>
-    <log4j2.version>2.13.0</log4j2.version>
+    <log4j2.version>2.13.2</log4j2.version>
     <curator.version>2.12.0</curator.version>
   </properties>
 
@@ -331,7 +331,7 @@
             </excludes>
           </parameter>
         </configuration>
-      </plugin>    
+      </plugin>
     </plugins>
   </build>
 
@@ -493,12 +493,12 @@
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
-        <version>4.5.11</version>
+        <version>4.5.12</version>
       </dependency>
       <dependency>
         <groupId>org.apache.httpcomponents.client5</groupId>
         <artifactId>httpclient5</artifactId>
-        <version>5.0-beta7</version>
+        <version>5.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>

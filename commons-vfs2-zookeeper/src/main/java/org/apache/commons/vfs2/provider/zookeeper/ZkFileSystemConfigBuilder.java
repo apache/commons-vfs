@@ -24,6 +24,10 @@ import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 
+/**
+ *  Configuration options for Apache Zookeeper.
+ * @since 2.7.0
+ */
 public class ZkFileSystemConfigBuilder extends FileSystemConfigBuilder {
   protected static final String KEY_CONFIGURED_FRAMEWORK = "framework";
   protected static final String KEY_ZK_CONNECTION_STRING = "connectionString";
@@ -48,7 +52,6 @@ public class ZkFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
   private ZkFileSystemConfigBuilder() {
     super("zk.");
-
   }
 
   public static ZkFileSystemConfigBuilder getInstance() {

@@ -32,9 +32,13 @@ import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.curator.framework.CuratorFramework;
 
+/**
+ * FileSystem for Apache Zookeeper.
+ * @since 2.7.0
+ */
 public class ZkFileSystem extends AbstractFileSystem {
 
-  private CuratorFramework framework;
+  private final CuratorFramework framework;
   private boolean ownsClient = false;
 
   protected ZkFileSystem(final FileName rootName,
@@ -50,7 +54,6 @@ public class ZkFileSystem extends AbstractFileSystem {
   protected void doCloseCommunicationLink() {
     if (framework != null && ownsClient) {
       framework.close();
-      framework = null;
     }
   }
 
@@ -94,7 +97,7 @@ public class ZkFileSystem extends AbstractFileSystem {
   }
 
   @Override
-  protected void addCapabilities(Collection<Capability> caps) {
-    caps.addAll(ZkFileProvider.CAPABILITIES);
+  protected void addCapabilities(Collection<Capability> capabilities) {
+    capabilities.addAll(ZkFileProvider.CAPABILITIES);
   }
 }

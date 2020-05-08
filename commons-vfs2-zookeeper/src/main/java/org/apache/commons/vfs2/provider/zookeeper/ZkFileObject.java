@@ -31,10 +31,17 @@ import org.apache.commons.vfs2.provider.UriParser;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.zookeeper.data.Stat;
 
+/**
+ * An Object in Apache Zookeeper.
+ * Zookeeper presents a hierarchical namespace, where ever node can hold data and have children, thus
+ * Thus the ZkFileObject is both a file and folder {@see FileType.FILE_OR_FOLDER}.
+ *
+ * @since 2.7.0
+ */
 public class ZkFileObject extends AbstractFileObject<ZkFileSystem> {
 
-  private CuratorFramework framework;
-  private String path;
+  private final CuratorFramework framework;
+  private final String path;
   private Stat stat;
 
   protected ZkFileObject(final AbstractFileName name,
@@ -57,14 +64,14 @@ public class ZkFileObject extends AbstractFileObject<ZkFileSystem> {
           getName());
     }
 
-    final byte[] data = (this.stat.getDataLength() == 0) ? new byte[0]
+    final byte[] data = this.stat.getDataLength() == 0 ? new byte[0]
         : framework.getData().forPath(this.path);
     return new ByteArrayInputStream(data);
   }
-  
+
   @Override
   protected FileType doGetType() throws Exception {
-    return (this.stat == null) ? FileType.IMAGINARY : FileType.FILE_OR_FOLDER;
+    return this.stat == null ? FileType.IMAGINARY : FileType.FILE_OR_FOLDER;
   }
 
   /**
@@ -103,22 +110,4 @@ public class ZkFileObject extends AbstractFileObject<ZkFileSystem> {
       this.stat = null;
     }
   }
-
-  /**
-   * Determines if the file exists.
-   *
-   * @see org.apache.commons.vfs2.provider.AbstractFileObject#exists()
-   * @return boolean true if file exists, false if not
-   */
-  /*@Override
-  public boolean exists() throws FileSystemException {
-    try {
-      doAttach();
-      return this.stat != null;
-    } catch (final Exception e) {
-      throw new FileSystemException("Unable to check existance: {}", getName(),
-          e);
-    }
-  }
-*/
 }

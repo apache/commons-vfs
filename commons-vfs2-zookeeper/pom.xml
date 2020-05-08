@@ -220,7 +220,7 @@
         <configuration>
           <skip>true</skip>
         </configuration>
-      </plugin>    
+      </plugin>
     </plugins>
   </build>
 
@@ -233,7 +233,7 @@
         <configuration>
           <skip>true</skip>
         </configuration>
-      </plugin>    
+      </plugin>
     </plugins>
   </reporting>
 </project>

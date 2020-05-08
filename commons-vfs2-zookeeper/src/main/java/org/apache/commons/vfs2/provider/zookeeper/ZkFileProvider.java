@@ -33,15 +33,15 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.CuratorFrameworkFactory.Builder;
 
+/**
+ * A FileProvider for Apache Zookeeper.
+ * @since 2.7.0
+ */
 public class ZkFileProvider extends AbstractOriginatingFileProvider {
   static final Collection<Capability> CAPABILITIES =
       Collections.unmodifiableCollection(Arrays.asList(Capability.GET_TYPE,
           Capability.READ_CONTENT, Capability.URI, Capability.WRITE_CONTENT,
           Capability.DIRECTORY_READ_CONTENT, Capability.LIST_CHILDREN));
-
-  public ZkFileProvider() {
-    super();
-  }
 
   @Override
   protected FileSystem doCreateFileSystem(FileName rootName,
