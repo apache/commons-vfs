@@ -436,6 +436,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @return {@code true} if detection of exec channel should be disabled.
      *
      * @see #setDisableDetectExecChannel(FileSystemOptions, boolean)
+     * @since 2.7.0
      */
     public boolean isDisableDetectExecChannel(final FileSystemOptions opts) {
         return this.getBoolean(opts, DISABLE_DETECT_EXEC_CHANNEL, Boolean.FALSE);
@@ -503,6 +504,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param opts        The FileSystem options.
      * @param disableDetectExecChannel true if the detection of exec channel should be disabled.
+     * @since 2.7.0
      */
     public void setDisableDetectExecChannel(final FileSystemOptions opts, final boolean disableDetectExecChannel) {
         this.setParam(opts, DISABLE_DETECT_EXEC_CHANNEL, disableDetectExecChannel ? Boolean.TRUE : Boolean.FALSE);
