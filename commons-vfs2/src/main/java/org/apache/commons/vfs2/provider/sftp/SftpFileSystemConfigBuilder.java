@@ -507,7 +507,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @since 2.7.0
      */
     public void setDisableDetectExecChannel(final FileSystemOptions opts, final boolean disableDetectExecChannel) {
-        this.setParam(opts, DISABLE_DETECT_EXEC_CHANNEL, disableDetectExecChannel ? Boolean.TRUE : Boolean.FALSE);
+        this.setParam(opts, DISABLE_DETECT_EXEC_CHANNEL, toBooleanObject(disableDetectExecChannel));
     }
 
     /**
@@ -620,7 +620,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param loadOpenSSHConfig true if the OpenSSH config should be loaded.
      */
     public void setLoadOpenSSHConfig(final FileSystemOptions opts, final boolean loadOpenSSHConfig) {
-        this.setParam(opts, LOAD_OPENSSH_CONFIG, loadOpenSSHConfig ? Boolean.TRUE : Boolean.FALSE);
+        this.setParam(opts, LOAD_OPENSSH_CONFIG, toBooleanObject(loadOpenSSHConfig));
     }
 
     /**
@@ -780,7 +780,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param userDirIsRoot true if the user directory is the root directory.
      */
     public void setUserDirIsRoot(final FileSystemOptions opts, final boolean userDirIsRoot) {
-        this.setParam(opts, USER_DIR_IS_ROOT, userDirIsRoot ? Boolean.TRUE : Boolean.FALSE);
+        this.setParam(opts, USER_DIR_IS_ROOT, toBooleanObject(userDirIsRoot));
     }
 
     /**

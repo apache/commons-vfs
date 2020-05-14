@@ -51,99 +51,6 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Sets the root URI of the file system.
-     *
-     * @param opts the file system options to modify
-     * @param rootURI The creator name to be associated with the file.
-     *
-     * @since 2.0
-     */
-    public void setRootURI(final FileSystemOptions opts, final String rootURI) {
-        setParam(opts, ROOTURI, rootURI);
-    }
-
-    /**
-     * Gets the root URI of the file system.
-     *
-     * @param opts file system options to work with
-     * @return The root URI
-     *
-     * @since 2.0
-     */
-    public String getRootURI(final FileSystemOptions opts) {
-        return getString(opts, ROOTURI);
-    }
-
-    /**
-     * Sets named parameter.
-     *
-     * @param opts the file system options to modify
-     * @param name set option with this name
-     * @param value boolean value to set
-     *
-     * @since 2.1
-     */
-    protected void setParam(final FileSystemOptions opts, final String name, final boolean value) {
-        setParam(opts, name, Boolean.valueOf(value));
-    }
-
-    /**
-     * Sets named parameter.
-     *
-     * @param opts the file system options to modify
-     * @param name set option with this name
-     * @param value object value to set
-     *
-     * @since 1.0
-     */
-    protected void setParam(final FileSystemOptions opts, final String name, final Object value) {
-        opts.setOption(getConfigClass(), name, value);
-    }
-
-    /**
-     * Gets named parameter.
-     *
-     * @param opts file system options to work with
-     * @param name get option with this name
-     * @return the named option or null
-     *
-     * @since 1.0
-     */
-    protected Object getParam(final FileSystemOptions opts, final String name) {
-        if (opts == null) {
-            return null;
-        }
-
-        return opts.getOption(getConfigClass(), name);
-    }
-
-    /**
-     * Checks if option exists.
-     *
-     * @param opts file system options to work with
-     * @param name the name to look up in {@code opts}
-     * @return true if opts have the named parameter
-     *
-     * @since 1.0
-     */
-    protected boolean hasParam(final FileSystemOptions opts, final String name) {
-        return opts != null && opts.hasOption(getConfigClass(), name);
-    }
-
-    /**
-     * Checks the named setting specified.
-     *
-     * @param opts file system options to work with
-     * @param name the option to check in {@code opts} or system properties
-     * @return true if option exists
-     *
-     * @since 2.0
-     */
-    protected boolean hasObject(final FileSystemOptions opts, final String name) {
-        return hasParam(opts, name) || System.getProperties().containsKey(toPropertyKey(name));
-    }
-
-    /**
      * Gets named option as boolean.
      *
      * @param opts file system options to work with
@@ -296,6 +203,15 @@ public abstract class FileSystemConfigBuilder {
         }
         return value;
     }
+
+    /**
+     * Gets the target of this configuration.
+     *
+     * @return the specific file system class
+     *
+     * @since 1.0
+     */
+    protected abstract Class<? extends FileSystem> getConfigClass();
 
     /**
      * Gets named option as double.
@@ -556,6 +472,47 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
+     * Gets named parameter.
+     *
+     * @param opts file system options to work with
+     * @param name get option with this name
+     * @return the named option or null
+     *
+     * @since 1.0
+     */
+    protected Object getParam(final FileSystemOptions opts, final String name) {
+        if (opts == null) {
+            return null;
+        }
+
+        return opts.getOption(getConfigClass(), name);
+    }
+
+    /**
+     * Gets the system property for the given name.
+     *
+     * @param name The name to lookup combined with the prefix.
+     * @return a system property or null
+     *
+     * @since 2.1
+     */
+    private String getProperty(final String name) {
+        return System.getProperty(toPropertyKey(name));
+    }
+
+    /**
+     * Gets the root URI of the file system.
+     *
+     * @param opts file system options to work with
+     * @return The root URI
+     *
+     * @since 2.0
+     */
+    public String getRootURI(final FileSystemOptions opts) {
+        return getString(opts, ROOTURI);
+    }
+
+    /**
      * Gets named option as short.
      *
      * @param opts file system options to work with
@@ -645,13 +602,79 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets the target of this configuration.
+     * Checks the named setting specified.
      *
-     * @return the specific file system class
+     * @param opts file system options to work with
+     * @param name the option to check in {@code opts} or system properties
+     * @return true if option exists
+     *
+     * @since 2.0
+     */
+    protected boolean hasObject(final FileSystemOptions opts, final String name) {
+        return hasParam(opts, name) || System.getProperties().containsKey(toPropertyKey(name));
+    }
+
+    /**
+     * Checks if option exists.
+     *
+     * @param opts file system options to work with
+     * @param name the name to look up in {@code opts}
+     * @return true if opts have the named parameter
      *
      * @since 1.0
      */
-    protected abstract Class<? extends FileSystem> getConfigClass();
+    protected boolean hasParam(final FileSystemOptions opts, final String name) {
+        return opts != null && opts.hasOption(getConfigClass(), name);
+    }
+
+    /**
+     * Sets named parameter.
+     *
+     * @param opts the file system options to modify
+     * @param name set option with this name
+     * @param value boolean value to set
+     *
+     * @since 2.1
+     */
+    protected void setParam(final FileSystemOptions opts, final String name, final boolean value) {
+        setParam(opts, name, Boolean.valueOf(value));
+    }
+
+    /**
+     * Sets named parameter.
+     *
+     * @param opts the file system options to modify
+     * @param name set option with this name
+     * @param value object value to set
+     *
+     * @since 1.0
+     */
+    protected void setParam(final FileSystemOptions opts, final String name, final Object value) {
+        opts.setOption(getConfigClass(), name, value);
+    }
+
+    /**
+     * Sets the root URI of the file system.
+     *
+     * @param opts the file system options to modify
+     * @param rootURI The creator name to be associated with the file.
+     *
+     * @since 2.0
+     */
+    public void setRootURI(final FileSystemOptions opts, final String rootURI) {
+        setParam(opts, ROOTURI, rootURI);
+    }
+
+    /**
+     * Converts the given primitive boolean to a Boolean object.
+     *
+     * @param value a primitive boolean.
+     * @return the given primitive boolean as Boolean object.
+     * @since 2.7.0
+     */
+    protected Boolean toBooleanObject(final boolean value) {
+        return value ? Boolean.TRUE : Boolean.FALSE;
+    }
 
     /**
      * Converts the given name into a System property key.
@@ -663,18 +686,6 @@ public abstract class FileSystemConfigBuilder {
      */
     private String toPropertyKey(final String name) {
         return this.prefix + name;
-    }
-
-    /**
-     * Gets the system property for the given name.
-     *
-     * @param name The name to lookup combined with the prefix.
-     * @return a system property or null
-     *
-     * @since 2.1
-     */
-    private String getProperty(final String name) {
-        return System.getProperty(toPropertyKey(name));
     }
 
 }

@@ -374,7 +374,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param passiveMode true if passive mode should be used.
      */
     public void setPassiveMode(final FileSystemOptions opts, final boolean passiveMode) {
-        setParam(opts, PASSIVE_MODE, passiveMode ? Boolean.TRUE : Boolean.FALSE);
+        setParam(opts, PASSIVE_MODE, toBooleanObject(passiveMode));
     }
 
     /**
@@ -469,7 +469,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param userDirIsRoot true if the user directory should be treated as the root.
      */
     public void setUserDirIsRoot(final FileSystemOptions opts, final boolean userDirIsRoot) {
-        setParam(opts, USER_DIR_IS_ROOT, userDirIsRoot ? Boolean.TRUE : Boolean.FALSE);
+        setParam(opts, USER_DIR_IS_ROOT, toBooleanObject(userDirIsRoot));
     }
 
     /**
