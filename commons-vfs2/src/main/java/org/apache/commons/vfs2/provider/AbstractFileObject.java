@@ -1213,7 +1213,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 try {
                     // Invoke old API.
                     return doGetInputStream();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     if (e instanceof FileSystemException) {
                         throw (FileSystemException) e;
                     }
