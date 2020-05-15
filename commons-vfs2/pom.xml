@@ -94,7 +94,6 @@
       <artifactId>jsch</artifactId>
       <optional>true</optional>
     </dependency>
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

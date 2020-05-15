@@ -213,6 +213,17 @@
               <td>No</td>
               <td>No</td>
             </tr>
+            <tr>
+              <td><a href="#ZOOKEEPER">Zookeeper</a></td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>No</td>
+              <td>No</td>
+              <td>No</td>
+            </tr>
           </table>
         </section>
 
