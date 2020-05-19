@@ -24,6 +24,7 @@ import org.apache.commons.vfs2.FileFilterSelector;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.util.Os;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -57,6 +58,8 @@ public class CanReadFileFilterTest extends BaseFilterTest {
 
     private static FileObject zipFileObj;
 
+    private static boolean isRootUser;
+
     @BeforeClass
     public static void beforeClass() throws IOException {
 
@@ -79,6 +82,7 @@ public class CanReadFileFilterTest extends BaseFilterTest {
         zipDir(testDir, "", zipFile);
         zipFileObj = getZipFileObject(zipFile);
 
+        isRootUser = (Os.isFamily(Os.OS_FAMILY_UNIX)) && (System.getProperty("user.name").trim().equals("root"));
     }
 
     @AfterClass
@@ -126,8 +130,10 @@ public class CanReadFileFilterTest extends BaseFilterTest {
     public void testAcceptReadOnly() throws FileSystemException {
 
         Assert.assertFalse(CanReadFileFilter.READ_ONLY.accept(writeableFileInfo));
-        Assert.assertTrue(CanReadFileFilter.READ_ONLY.accept(readOnlyFileInfo));
         Assert.assertFalse(CanReadFileFilter.READ_ONLY.accept(notExistingFileInfo));
+        if (!isRootUser) {
+            Assert.assertTrue(CanReadFileFilter.READ_ONLY.accept(readOnlyFileInfo));
+        }
 
     }
 
