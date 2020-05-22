@@ -229,9 +229,7 @@ public abstract class AbstractSyncTask extends VfsTask {
             srcDirName = resolveFile(srcDirUrl).getName();
         }
         final ArrayList<FileObject> srcs = new ArrayList<>();
-        for (int i = 0; i < srcFiles.size(); i++) {
-            // Locate the source file, and make sure it exists
-            final SourceInfo src = srcFiles.get(i);
+        for (final SourceInfo src : srcFiles) {
             final FileObject srcFile = resolveFile(src.file);
             if (!srcFile.exists()) {
                 final String message = Messages.getString("vfs.tasks/sync.src-file-no-exist.warn", srcFile);
@@ -244,8 +242,7 @@ public abstract class AbstractSyncTask extends VfsTask {
 
         // Scan the source files
         final Set<FileObject> destFiles = new HashSet<>();
-        for (int i = 0; i < srcs.size(); i++) {
-            final FileObject rootFile = srcs.get(i);
+        for (final FileObject rootFile : srcs) {
             final FileName rootName = rootFile.getName();
 
             if (rootFile.isFile()) {

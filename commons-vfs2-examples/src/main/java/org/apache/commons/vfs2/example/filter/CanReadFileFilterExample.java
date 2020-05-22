@@ -39,8 +39,8 @@ public class CanReadFileFilterExample {
             final FileSystemManager fsManager = VFS.getManager();
             final FileObject dir = fsManager.toFileObject(new File("."));
             final FileObject[] files = dir.findFiles(new FileFilterSelector(CanReadFileFilter.CAN_READ));
-            for (int i = 0; i < files.length; i++) {
-                System.out.println(files[i]);
+            for (FileObject file : files) {
+                System.out.println(file);
             }
         }
 
@@ -52,8 +52,8 @@ public class CanReadFileFilterExample {
             final FileObject dir = fsManager.toFileObject(new File("."));
             final FileObject[] files = dir
                     .findFiles(new FileFilterSelector(CanReadFileFilter.CANNOT_READ));
-            for (int i = 0; i < files.length; i++) {
-                System.out.println(files[i]);
+            for (FileObject file : files) {
+                System.out.println(file);
             }
         }
 
@@ -64,8 +64,8 @@ public class CanReadFileFilterExample {
             final FileSystemManager fsManager = VFS.getManager();
             final FileObject dir = fsManager.toFileObject(new File("."));
             final FileObject[] files = dir.findFiles(new FileFilterSelector(CanReadFileFilter.READ_ONLY));
-            for (int i = 0; i < files.length; i++) {
-                System.out.println(files[i]);
+            for (FileObject file : files) {
+                System.out.println(file);
             }
         }
 
