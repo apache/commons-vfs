@@ -21,12 +21,12 @@ jdk:
   - openjdk11
   - openjdk12
   - openjdk13
-  - openjdk14
   - oraclejdk11
   - openjdk-ea
 
 matrix:
   allow_failures:
+    - jdk: openjdk14
     - jdk: openjdk-ea
 
 after_success:
