@@ -26,9 +26,9 @@ jdk:
 
 matrix:
   allow_failures:
-    jdk:
-      - openjdk14
-      - openjdk-ea
+    - jdk:
+        - openjdk14
+        - openjdk-ea
 
 after_success:
   - mvn -V -B -e clean cobertura:cobertura coveralls:report
