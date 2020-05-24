@@ -351,4 +351,12 @@ public interface FileSystemManager extends AutoCloseable {
      */
     FileObject toFileObject(File file) throws FileSystemException;
 
+    /**
+     * Converts {@link FileObject} to a local file.
+     *
+     * @param fileObject The file object to convert.
+     * @return the local file.
+     * @throws FileSystemException On error converting the file object.
+     */
+    File toFile(FileObject fileObject) throws FileSystemException;
 }

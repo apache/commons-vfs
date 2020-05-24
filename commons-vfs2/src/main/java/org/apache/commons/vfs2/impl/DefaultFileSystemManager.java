@@ -882,6 +882,27 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
+     * Converts {@link FileObject} to a local file.
+     *
+     * @param fileObject The file object to convert.
+     * @return the local file.
+     * @throws FileSystemException On error converting the file object.
+     */
+    @Override
+    public File toFile(FileObject fileObject) throws FileSystemException{
+        if(fileObject == null || !"file".equals(fileObject.getURL().getProtocol())){
+            return null;
+        }
+        File result = null;
+        try {
+            result = new File(fileObject.getName().getPathDecoded());
+        } catch (Exception e) {
+            throw new FileSystemException(e);
+        }
+        return result;
+    }
+
+    /**
      * Creates a layered file system.
      *
      * @param scheme The scheme to use.
