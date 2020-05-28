@@ -84,7 +84,7 @@ The <action> type attribute can be add,update,fix,remove.
         Update Apache Commons IO from 2.6 to 2.7.
       </action>
     </release>
-    <release version="2.6.0" date="2020-06-01" description="New features and bug fix release.">
+    <release version="2.6.0" date="2020-01-06" description="New features and bug fix release.">
       <action dev="ggregory" due-to="Eitan Adler" type="fix">
         Clean up tests and simplify assertions #76.
       </action>
