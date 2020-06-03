@@ -23,6 +23,9 @@
     <provider class-name="org.apache.commons.vfs2.provider.zip.ZipFileProvider">
         <scheme name="zip"/>
     </provider>
+    <provider class-name="org.apache.commons.vfs2.provider.cczip.CommonsCompressZipFileProvider">
+        <scheme name="commonscompresszip"/>
+    </provider>
     <provider class-name="org.apache.commons.vfs2.provider.tar.TarFileProvider">
         <scheme name="tar"/>
         <if-available class-name="org.apache.commons.compress.archivers.tar.TarArchiveOutputStream"/>
