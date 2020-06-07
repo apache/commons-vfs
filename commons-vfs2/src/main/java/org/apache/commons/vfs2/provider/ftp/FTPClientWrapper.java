@@ -298,11 +298,13 @@ public class FTPClientWrapper implements FtpClient {
      * <p>
      * If this command is supported, the server will reply with a multi-line response where each line of 
      * the response contains an extended feature command supported by the server.
+     * </p>
      * 
      * @throws IOException If the underlying FTP client encountered an error
+     * @since 2.7.0
      */
     @Override
-    public boolean features() throws IOException {
+    public boolean getRemoteFtpFeatures() throws IOException {
         try {
             return getFtpClient().features();
         } catch (final IOException ex) {
@@ -317,10 +319,12 @@ public class FTPClientWrapper implements FtpClient {
      * regardless of what calendar may have been in use at the date and time the file was last modified.
      * <p>
      * NOTE: not all remote FTP servers support {@code MDTM}.
+     * </p>
      * 
      * @param relPath The relative path of the file object to execute {@code MDTM} command against
      * @return new {@code FTPFile} object containing the {@code MDTM} timestamp.
      * @throws IOException If the underlying FTP client encountered an error
+     * 
      */
     @Override
     public FTPFile mdtmFile(final String relPath) throws IOException {

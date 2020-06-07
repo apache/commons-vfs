@@ -544,7 +544,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     }
     
     /**
-     * Get the more accurate MDTM lastmodified file timestamp if supported by the remote FTP server.
+     * Gets the more accurate MDTM lastmodified file timestamp if supported by the remote FTP server.
      * 
      * @return the MDTM timestamp in milliseconds if supported, otherwise {@link #DEFAULT_TIMESTAMP}.
      * @throws Exception If an error occurred in underlying FTP client when either determining if
@@ -578,7 +578,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     private boolean isMdtmSupported() throws Exception {
         final FtpClient client = getAbstractFileSystem().getClient();
         try {
-            if (client.features()) {
+            if (client.getRemoteFtpFeatures()) {
                 final String replyStr = client.getReplyString();
                 return replyStr.contains(FTPCmd.MDTM.getCommand());
             }
