@@ -158,12 +158,8 @@
     <extension-map extension="jar" scheme="jar"/>
     <extension-map extension="bz2" scheme="bz2"/>
     <extension-map extension="gz" scheme="gz"/>
-    <!--
     <extension-map extension="tgz" scheme="tgz"/>
     <extension-map extension="tbz2" scheme="tbz2"/>
-    -->
-    <extension-map extension="tgz" scheme="tar"/>
-    <extension-map extension="tbz2" scheme="tar"/>
 
     <!--
     <filter-map class-name="org.apache.commons.vfs2.content.bzip2.Bzip2Compress">
