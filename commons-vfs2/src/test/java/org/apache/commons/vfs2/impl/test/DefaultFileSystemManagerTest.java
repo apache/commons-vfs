@@ -17,11 +17,15 @@
 package org.apache.commons.vfs2.impl.test;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
+import org.apache.commons.vfs2.provider.gzip.GzipFileObject;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class DefaultFileSystemManagerTest {
@@ -62,5 +66,19 @@ public class DefaultFileSystemManagerTest {
     @Test(expected = FileSystemException.class)
     public void testResolveFileNameNull() throws FileSystemException {
         VFS.getManager().resolveName((FileName) null, "../");
+    }
+
+
+    @Test
+    public void testCreateGzipFileSystem() throws IOException {
+
+        final File gzFile = new File("src/test/resources/test-data/test.gz");
+        FileSystemManager manager = VFS.getManager();
+
+        try (FileObject localFileObject = manager.resolveFile(gzFile.getAbsolutePath());
+             FileObject gzFileObject = manager.createFileSystem(localFileObject);
+        ) {
+            Assert.assertTrue(gzFileObject instanceof GzipFileObject);
+        }
     }
 }
