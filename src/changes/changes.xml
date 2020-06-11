@@ -83,6 +83,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Update Apache Commons IO from 2.6 to 2.7.
       </action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory">
+        Update site reports from org.apache.bcel:bcel 6.4.1 to 6.5.0.
+      </action>
     </release>
     <release version="2.6.0" date="2020-01-06" description="New features and bug fix release.">
       <action dev="ggregory" due-to="Eitan Adler" type="fix">
