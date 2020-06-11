@@ -44,6 +44,7 @@ import org.apache.commons.vfs2.provider.bzip2.Bzip2FileObject;
  * A read-only file system for Tar files.
  */
 public class TarFileSystem extends AbstractFileSystem {
+    private final char[] ENC = {'!'};
 
     private static final int DEFAULT_INDEX_SIZE = 100;
 
@@ -79,7 +80,7 @@ public class TarFileSystem extends AbstractFileSystem {
             TarArchiveEntry entry;
             while ((entry = getTarFile().getNextTarEntry()) != null) {
                 final AbstractFileName name = (AbstractFileName) getFileSystemManager().resolveName(getRootName(),
-                        UriParser.encode(entry.getName()));
+                        UriParser.encode(entry.getName(), ENC));
 
                 // Create the file
                 TarFileObject fileObj;

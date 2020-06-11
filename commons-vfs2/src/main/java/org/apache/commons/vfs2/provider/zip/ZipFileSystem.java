@@ -45,6 +45,7 @@ import org.apache.commons.vfs2.provider.UriParser;
  * A read-only file system for ZIP and JAR files.
  */
 public class ZipFileSystem extends AbstractFileSystem {
+    private final char[] ENC = {'!'};
 
     private static final Log LOG = LogFactory.getLog(ZipFileSystem.class);
 
@@ -84,7 +85,7 @@ public class ZipFileSystem extends AbstractFileSystem {
             while (entries.hasMoreElements()) {
                 final ZipEntry entry = entries.nextElement();
                 final AbstractFileName name = (AbstractFileName) getFileSystemManager().resolveName(getRootName(),
-                        UriParser.encode(entry.getName()));
+                        UriParser.encode(entry.getName(), ENC));
 
                 // Create the file
                 ZipFileObject fileObj;
