@@ -69,7 +69,7 @@ The <action> type attribute can be add,update,fix,remove.
         Update tests from Apache Commons Lang 3.9 to 3.10.
       </action>
       <action issue="VFS-768" dev="ggregory" due-to="ddg-igh" type="add">
-        [HTTP] Update Apache httpclient 4.5.11 to 4.5.12 and httpclient5 5.0-beta7 to 5
+        [HTTP] Update Apache httpclient 4.5.11 to 4.5.12 and httpclient5 5.0-beta7 to 5.0.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Update tests from Log4j 2.13.0 to 2.13.3.
@@ -77,8 +77,17 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Update tests from org.mockito:mockito-core from 3.2.4 to 3.3.3.
       </action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">
+        Update org.apache.jackrabbit:jackrabbit-standalone-components from 2.21.0 to 2.21.1.
+      </action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">
+        Update Apache Commons IO from 2.6 to 2.7.
+      </action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory">
+        Update site reports from org.apache.bcel:bcel 6.4.1 to 6.5.0.
+      </action>
     </release>
-    <release version="2.6.0" date="2020-06-01" description="New features and bug fix release.">
+    <release version="2.6.0" date="2020-01-06" description="New features and bug fix release.">
       <action dev="ggregory" due-to="Eitan Adler" type="fix">
         Clean up tests and simplify assertions #76.
       </action>

@@ -15,19 +15,17 @@
 
 language: java
 sudo: false
-
-jdk:
-  - openjdk8
-  - openjdk11
-  - openjdk12
-  - openjdk13
-  - openjdk14
-  - oraclejdk11
-  - openjdk-ea
-
 matrix:
-  allow_failures:
+  include:
+    - jdk: openjdk8
+    - jdk: openjdk11
+    - jdk: openjdk12
+    - jdk: openjdk13
+    - jdk: openjdk14
+    - jdk: oraclejdk11
     - jdk: openjdk-ea
-
+  allow_failures:
+    - jdk: openjdk14
+    - jdk: openjdk-ea
 after_success:
   - mvn -V -B -e clean cobertura:cobertura coveralls:report
