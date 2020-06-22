@@ -971,13 +971,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         if (objects == null) {
             return null;
         }
-
-        final FileName[] names = new FileName[objects.length];
-        for (int iterObjects = 0; iterObjects < objects.length; iterObjects++) {
-            names[iterObjects] = objects[iterObjects].getName();
-        }
-
-        return names;
+        return Arrays.stream(objects).map(FileObject::getName).toArray(FileName[]::new);
     }
 
     @Override

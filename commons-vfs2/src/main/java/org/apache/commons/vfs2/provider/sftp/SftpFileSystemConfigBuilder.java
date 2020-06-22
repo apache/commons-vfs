@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider.sftp;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.vfs2.FileSystem;
@@ -206,11 +207,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public File[] getIdentities(final FileSystemOptions opts) {
         final IdentityInfo[] info = getIdentityInfo(opts);
         if (info != null) {
-            final File[] files = new File[info.length];
-            for (int i = 0; i < files.length; ++i) {
-                files[i] = info[i].getPrivateKey();
-            }
-            return files;
+            return Arrays.stream(info).map(IdentityInfo::getPrivateKey).toArray(File[]::new);
         }
         return null;
     }
@@ -225,13 +222,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public IdentityInfo[] getIdentityInfo(final FileSystemOptions opts) {
         final IdentityProvider[] infos = getIdentityProvider(opts);
         if (infos != null) {
-            final List<IdentityInfo> list = new ArrayList<>(infos.length);
-            for (final IdentityProvider identityProvider : infos) {
-                if (identityProvider instanceof IdentityInfo) {
-                    list.add((IdentityInfo) identityProvider);
-                }
-            }
-            return list.toArray(new IdentityInfo[list.size()]);
+            return Arrays.stream(infos).filter(info -> info instanceof IdentityInfo)
+                                       .map(info -> (IdentityInfo) info).toArray(IdentityInfo[]::new);
         }
         return null;
     }
@@ -535,10 +527,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public void setIdentities(final FileSystemOptions opts, final File... identityFiles) throws FileSystemException {
         IdentityProvider[] info = null;
         if (identityFiles != null) {
-            info = new IdentityProvider[identityFiles.length];
-            for (int i = 0; i < identityFiles.length; i++) {
-                info[i] = new IdentityInfo(identityFiles[i]);
-            }
+            info = Arrays.stream(identityFiles).map(IdentityInfo::new).toArray(IdentityProvider[]::new);
         }
         this.setParam(opts, IDENTITIES, info);
     }

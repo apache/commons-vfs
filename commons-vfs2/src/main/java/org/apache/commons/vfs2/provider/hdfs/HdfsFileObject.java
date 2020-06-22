@@ -18,6 +18,7 @@ package org.apache.commons.vfs2.provider.hdfs;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -192,13 +193,8 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
             throw new FileNotFolderException(this);
         }
 
-        final FileStatus[] files = this.hdfs.listStatus(this.path);
-        final String[] children = new String[files.length];
-        int i = 0;
-        for (final FileStatus status : files) {
-            children[i++] = status.getPath().getName();
-        }
-        return children;
+        final FileStatus[] fileStatuses = this.hdfs.listStatus(this.path);
+        return Arrays.stream(fileStatuses).map(status -> status.getPath().getName()).toArray(String[]::new);
     }
 
     /**

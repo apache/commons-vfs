@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.cert.Certificate;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -188,11 +189,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
                 throw new FileNotFolderException(getName(), e);
             }
 
-            final String[] childNames = new String[children.length];
-            for (int i = 0; i < children.length; i++) {
-                childNames[i] = children[i].getName().getBaseName();
-            }
-            return childNames;
+            return Arrays.stream(children).map(child -> child.getName().getBaseName()).toArray(String[]::new);
         }
         return children.toArray(new String[children.size()]);
     }
