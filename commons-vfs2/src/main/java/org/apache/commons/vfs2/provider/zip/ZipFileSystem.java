@@ -19,11 +19,9 @@ package org.apache.commons.vfs2.provider.zip;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -79,7 +77,6 @@ public class ZipFileSystem extends AbstractFileSystem {
 
         try {
             // Build the index
-            final List<ZipFileObject> strongRef = new ArrayList<>(getZipFile().size());
             final Enumeration<? extends ZipEntry> entries = getZipFile().entries();
             while (entries.hasMoreElements()) {
                 final ZipEntry entry = entries.nextElement();
@@ -96,8 +93,6 @@ public class ZipFileSystem extends AbstractFileSystem {
 
                 fileObj = createZipFileObject(name, entry);
                 putFileToCache(fileObj);
-                strongRef.add(fileObj);
-                fileObj.holdObject(strongRef);
 
                 // Make sure all ancestors exist
                 // TODO - create these on demand
@@ -110,8 +105,6 @@ public class ZipFileSystem extends AbstractFileSystem {
                     if (parent == null) {
                         parent = createZipFileObject(parentName, null);
                         putFileToCache(parent);
-                        strongRef.add(parent);
-                        parent.holdObject(strongRef);
                     }
 
                     // Attach child to parent

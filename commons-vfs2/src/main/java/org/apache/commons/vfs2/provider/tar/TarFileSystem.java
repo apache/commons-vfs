@@ -20,9 +20,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
@@ -30,6 +30,7 @@ import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.Capability;
+import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
@@ -45,12 +46,15 @@ import org.apache.commons.vfs2.provider.bzip2.Bzip2FileObject;
  */
 public class TarFileSystem extends AbstractFileSystem {
 
-    private static final int DEFAULT_INDEX_SIZE = 100;
-
     private static final Log LOG = LogFactory.getLog(TarFileSystem.class);
 
     private final File file;
     private TarArchiveInputStream tarFile;
+
+    /**
+     * Cache doesn't need to be synchronized since it is read-only.
+     */
+    private final Map<FileName, FileObject> cache = new HashMap<>();
 
     protected TarFileSystem(final AbstractFileName rootName, final FileObject parentLayer,
             final FileSystemOptions fileSystemOptions) throws FileSystemException {
@@ -75,7 +79,6 @@ public class TarFileSystem extends AbstractFileSystem {
 
         // Build the index
         try {
-            final List<TarFileObject> strongRef = new ArrayList<>(DEFAULT_INDEX_SIZE);
             TarArchiveEntry entry;
             while ((entry = getTarFile().getNextTarEntry()) != null) {
                 final AbstractFileName name = (AbstractFileName) getFileSystemManager().resolveName(getRootName(),
@@ -91,8 +94,6 @@ public class TarFileSystem extends AbstractFileSystem {
 
                 fileObj = createTarFileObject(name, entry);
                 putFileToCache(fileObj);
-                strongRef.add(fileObj);
-                fileObj.holdObject(strongRef);
 
                 // Make sure all ancestors exist
                 // TODO - create these on demand
@@ -105,8 +106,6 @@ public class TarFileSystem extends AbstractFileSystem {
                     if (parent == null) {
                         parent = createTarFileObject(parentName, null);
                         putFileToCache(parent);
-                        strongRef.add(parent);
-                        parent.holdObject(strongRef);
                     }
 
                     // Attach child to parent
@@ -215,4 +214,28 @@ public class TarFileSystem extends AbstractFileSystem {
      * will be called after all file-objects closed their streams. protected void notifyAllStreamsClosed() {
      * closeCommunicationLink(); }
      */
+
+    /**
+     * Adds a file object to the cache.
+     */
+    @Override
+    protected void putFileToCache(final FileObject file) {
+        cache.put(file.getName(), file);
+    }
+
+    /**
+     * Returns a cached file.
+     */
+    @Override
+    protected FileObject getFileFromCache(final FileName name) {
+        return cache.get(name);
+    }
+
+    /**
+     * remove a cached file.
+     */
+    @Override
+    protected void removeFileFromCache(final FileName name) {
+        cache.remove(name);
+    }
 }
