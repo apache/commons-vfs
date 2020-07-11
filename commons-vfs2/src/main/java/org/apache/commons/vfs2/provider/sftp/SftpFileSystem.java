@@ -132,8 +132,8 @@ public class SftpFileSystem extends AbstractFileSystem {
                         channel = idleChannel;
                         idleChannel = null;
                     } else {
-						channel = createChannel();
-					}
+                        channel = createChannel();
+                    }
                 }
             } else {
                 channel = createChannel();
@@ -155,29 +155,27 @@ public class SftpFileSystem extends AbstractFileSystem {
         }
     }
 	
-	/**
+    /**
      * Returns an SFTP channel to the server.
      *
      * @return new channel.
      * @throws JSchException if anything goes wrong with SSH protocol.
      * @throws IOException   if an I/O error is detected.
      */
-	private ChannelSftp createChannel() throws JSchException, IOException {
-	    ChannelSftp channel = (ChannelSftp) getSession().openChannel("sftp");
-		channel.connect(connectTimeoutMillis);
-		final Boolean userDirIsRoot = SftpFileSystemConfigBuilder.getInstance()
-				.getUserDirIsRoot(getFileSystemOptions());
-		final String workingDirectory = getRootName().getPath();
-		if (workingDirectory != null && (userDirIsRoot == null || !userDirIsRoot.booleanValue())) {
-			try {
-				channel.cd(workingDirectory);
-			} catch (final SftpException e) {
-				throw new FileSystemException("vfs.provider.sftp/change-work-directory.error", workingDirectory,
-						e);
-			}
-		}
+    private ChannelSftp createChannel() throws JSchException, IOException {
+        final ChannelSftp channel = (ChannelSftp) getSession().openChannel("sftp");
+        channel.connect(connectTimeoutMillis);
+        final Boolean userDirIsRoot = SftpFileSystemConfigBuilder.getInstance().getUserDirIsRoot(getFileSystemOptions());
+        final String workingDirectory = getRootName().getPath();
+        if (workingDirectory != null && (userDirIsRoot == null || !userDirIsRoot.booleanValue())) {
+            try {
+                channel.cd(workingDirectory);
+            } catch (final SftpException e) {
+                throw new FileSystemException("vfs.provider.sftp/change-work-directory.error", workingDirectory,e);
+            }
+        }
         return channel;		
-	}
+    }
 
     /**
      * Ensures that the session link is established.
