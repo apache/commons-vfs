@@ -45,32 +45,37 @@ public class GetContentInfoFunctionalTest {
      */
     @Test
     public void testGetContentInfo() throws FileSystemException, MalformedURLException {
-        String httpsProxyHost = null;
-        int httpsProxyPort = -1;
-        final String httpsProxy = System.getenv("https_proxy");
-        if (httpsProxy != null) {
-            final URL url = new URL(httpsProxy);
-            httpsProxyHost = url.getHost();
-            httpsProxyPort = url.getPort();
-        }
-        final FileSystemOptions opts;
-        if (httpsProxyHost != null) {
-            opts = new FileSystemOptions();
-            final HttpFileSystemConfigBuilder builder = HttpFileSystemConfigBuilder.getInstance();
-            builder.setProxyHost(opts, httpsProxyHost);
-            if (httpsProxyPort >= 0) {
-                builder.setProxyPort(opts, httpsProxyPort);
-            }
-        } else {
-            opts = null;
-        }
-
         final FileSystemManager fsManager = VFS.getManager();
-        try (final FileObject fo = fsManager.resolveFile("http://www.apache.org/licenses/LICENSE-2.0.txt", opts);
+        final String uri = "http://www.apache.org/licenses/LICENSE-2.0.txt";
+        try (final FileObject fo = fsManager.resolveFile(uri, getOptionsWithProxy());
              final FileContent content = fo.getContent();) {
             Assert.assertNotNull(content);
             // Used to NPE before fix:
             content.getContentInfo();
         }
+    }
+
+    FileSystemOptions getOptionsWithProxy() throws MalformedURLException {
+        // get proxy host and port from env var "https_proxy"
+        String proxyHost = null;
+        int proxyPort = -1;
+        final String proxyUrl = System.getenv("https_proxy");
+        if (proxyUrl != null) {
+            final URL url = new URL(proxyUrl);
+            proxyHost = url.getHost();
+            proxyPort = url.getPort();
+        }
+
+        // return null if proxy host or port invalid
+        if (proxyHost == null || proxyPort == -1) {
+            return null;
+        }
+
+        // return options with proxy
+        final HttpFileSystemConfigBuilder builder = HttpFileSystemConfigBuilder.getInstance();
+        final FileSystemOptions opts = new FileSystemOptions();
+        builder.setProxyHost(opts, proxyHost);
+        builder.setProxyPort(opts, proxyPort);
+        return opts;
     }
 }
