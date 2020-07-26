@@ -192,7 +192,7 @@
     <dependency.locations.enabled>false</dependency.locations.enabled>
     <hadoop.version>3.2.1</hadoop.version>
     <jackrabbit.version>1.6.5</jackrabbit.version>
-    <jackrabbit2.version>2.21.1</jackrabbit2.version>
+    <jackrabbit2.version>2.21.3</jackrabbit2.version>
     <commons.surefire.version>2.19.1</commons.surefire.version>
     <commons.japicmp.version>0.14.3</commons.japicmp.version>
     <log4j2.version>2.13.3</log4j2.version>
@@ -495,7 +495,7 @@
       <dependency>
         <groupId>org.apache.httpcomponents.client5</groupId>
         <artifactId>httpclient5</artifactId>
-        <version>5.0</version>
+        <version>5.0.1</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -559,7 +559,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.3.3</version>
+        <version>3.4.4</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>

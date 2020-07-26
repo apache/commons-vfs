@@ -60,7 +60,7 @@ The <action> type attribute can be add,update,fix,remove.
         Update org.apache.httpcomponents:httpclient from 4.5.10 to 4.5.11.
       </action>
       <action issue="VFS-756" dev="ggregory" due-to="Gary Gregory" type="update">
-        Update org.apache.jackrabbit:jackrabbit-standalone-components from 2.19.6 to 2.21.0.
+        Update org.apache.jackrabbit:jackrabbit-standalone-components from 2.19.6 to 2.21.3.
       </action>
       <action issue="VFS-757" dev="ggregory" due-to="ddg-igh" type="add">
         [SFTP] Configure whether exec detection is enabled #80.
@@ -69,16 +69,13 @@ The <action> type attribute can be add,update,fix,remove.
         Update tests from Apache Commons Lang 3.9 to 3.11.
       </action>
       <action issue="VFS-768" dev="ggregory" due-to="ddg-igh" type="add">
-        [HTTP] Update Apache httpclient 4.5.11 to 4.5.12 and httpclient5 5.0-beta7 to 5.0.
+        [HTTP] Update Apache httpclient 4.5.11 to 4.5.12 and httpclient5 5.0-beta7 to 5.0.1.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Update tests from Log4j 2.13.0 to 2.13.3.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">
-        Update tests from org.mockito:mockito-core from 3.2.4 to 3.3.3.
-      </action>
-      <action type="update" dev="ggregory" due-to="Gary Gregory">
-        Update org.apache.jackrabbit:jackrabbit-standalone-components from 2.21.0 to 2.21.1.
+        Update tests from org.mockito:mockito-core from 3.2.4 to 3.4.4.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Update Apache Commons IO from 2.6 to 2.7.
