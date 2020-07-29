@@ -53,6 +53,13 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-753" dev="ggregory" due-to="John Webb, Gary Gregory" type="fix">
         NumberFormatException in SftpFileSystem::getUId.
       </action>
+      <action issue="VFS-779" dev="ggregory" due-to="Gary Gregory" type="fix">
+        Possible null pointer dereference in org.apache.commons.vfs2.impl.DefaultFileReplicator.close() due to return value of called method.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="fix">
+        Add org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.isDisableDetectExecChannel(FileSystemOptions) and setDisableDetectExecChannel(FileSystemOptions, boolean).
+        Add org.apache.commons.vfs2.FileSystemConfigBuilder.toBooleanObject(boolean).
+      </action>
       <action issue="VFS-754" dev="ggregory" due-to="Gary Gregory" type="update">
         Update Apache Commons Compress from 1.19 to 1.20.
       </action>

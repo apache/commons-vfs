@@ -99,9 +99,12 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
         }
 
         // Clean up the temp directory, if it is empty
-        if (tempDir != null && tempDir.exists() && tempDir.list().length == 0) {
-            tempDir.delete();
-            tempDir = null;
+        if (tempDir != null && tempDir.exists()) {
+            final String[] list = tempDir.list();
+            if (list != null && list.length == 0) {
+                tempDir.delete();
+                tempDir = null;
+            }
         }
     }
 
