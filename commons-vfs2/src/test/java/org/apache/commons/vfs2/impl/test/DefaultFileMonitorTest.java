@@ -146,7 +146,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
                 Thread.sleep(500);
                 monitor.addFile(fileObject);
                 writeToFile(testFile);
-                Thread.sleep(500);
+                Thread.sleep(1000);
                 assertTrue("No event occurred", changeStatus != null);
                 assertEquals("Incorrect event " + changeStatus, Status.CREATED, changeStatus);
             } finally {
