@@ -60,6 +60,9 @@ The <action> type attribute can be add,update,fix,remove.
         Add org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.isDisableDetectExecChannel(FileSystemOptions) and setDisableDetectExecChannel(FileSystemOptions, boolean).
         Add org.apache.commons.vfs2.FileSystemConfigBuilder.toBooleanObject(boolean).
       </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        org.apache.commons.vfs2.provider.VfsComponent now implements java.io.Closeable.
+      </action>
       <action issue="VFS-754" dev="ggregory" due-to="Gary Gregory" type="update">
         Update Apache Commons Compress from 1.19 to 1.20.
       </action>
