@@ -26,4 +26,4 @@ matrix:
     - jdk: openjdk14
     - jdk: openjdk-ea
 after_success:
-  - mvn -V -B -e clean cobertura:cobertura coveralls:report
+  - mvn -V --no-transfer-progress -B -e clean cobertura:cobertura coveralls:report
