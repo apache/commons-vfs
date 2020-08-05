@@ -24,6 +24,7 @@ import java.net.URL;
 import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -200,9 +201,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
         setupComponent(provider);
 
         // Add to map
-        for (final String scheme : urlSchemes) {
-            providers.put(scheme, provider);
-        }
+        Arrays.stream(urlSchemes).forEach(scheme -> providers.put(scheme, provider));
 
         if (provider instanceof LocalFileProvider && localFileProvider == null) {
             localFileProvider = (LocalFileProvider) provider;
@@ -523,9 +522,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
         // are closed here
 
         // Close the file system providers.
-        for (final FileProvider provider : providers.values()) {
-            closeComponent(provider);
-        }
+        providers.values().forEach(this::closeComponent);
 
         // Close the other components
         closeComponent(vfsProvider);
@@ -540,11 +537,8 @@ public class DefaultFileSystemManager implements FileSystemManager {
         providers.clear();
 
         // FileOperations are components, too
-        for (final List<FileOperationProvider> opproviders : operationProviders.values()) {
-            for (final FileOperationProvider p : opproviders) {
-                closeComponent(p);
-            }
-        }
+        operationProviders.values().forEach(opproviders -> opproviders.forEach(this::closeComponent));
+
         // unregister all
         operationProviders.clear();
 

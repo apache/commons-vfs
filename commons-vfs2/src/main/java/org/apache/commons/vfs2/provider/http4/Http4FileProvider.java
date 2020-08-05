@@ -349,9 +349,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
         final Cookie[] cookies = builder.getCookies(fileSystemOptions);
 
         if (cookies != null) {
-            for (final Cookie cookie : cookies) {
-                cookieStore.addCookie(cookie);
-            }
+            Arrays.stream(cookies).forEach(cookieStore::addCookie);
         }
 
         return cookieStore;

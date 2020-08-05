@@ -307,11 +307,8 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
                 .build();
 
         final String[] tlsVersions = builder.getTlsVersions(fileSystemOptions).split("\\s*,\\s*");
-        final TLS[] tlsArray = new TLS[tlsVersions.length];
 
-        for (int i = 0; i < tlsVersions.length; i++) {
-            tlsArray[i] = TLS.valueOf(tlsVersions[i]);
-        }
+        final TLS[] tlsArray = Arrays.stream(tlsVersions).map(TLS::valueOf).toArray(TLS[]::new);
 
         final SSLConnectionSocketFactory sslSocketFactory = SSLConnectionSocketFactoryBuilder.create()
                 .setSslContext(createSSLContext(builder, fileSystemOptions))
@@ -363,9 +360,7 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
         final Cookie[] cookies = builder.getCookies(fileSystemOptions);
 
         if (cookies != null) {
-            for (final Cookie cookie : cookies) {
-                cookieStore.addCookie(cookie);
-            }
+            Arrays.stream(cookies).forEach(cookieStore::addCookie);
         }
 
         return cookieStore;
