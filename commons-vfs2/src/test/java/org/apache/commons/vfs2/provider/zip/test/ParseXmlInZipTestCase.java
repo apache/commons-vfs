@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -32,7 +33,9 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -41,6 +44,8 @@ import org.xml.sax.SAXException;
  * Tests that we can use JAXP to parse an input stream living inside a Zip file.
  */
 public class ParseXmlInZipTestCase {
+
+    private Locale defaultLocale;
 
     private File createTempFile() throws IOException {
         final File zipFile = new File("src/test/resources/test-data/read-xml-tests.zip");
@@ -78,6 +83,20 @@ public class ParseXmlInZipTestCase {
         }
         documentBuilder.setErrorHandler(new TestErrorHandler(containerFile + " - " + sourceFile));
         return documentBuilder;
+    }
+
+    @Before
+    public void changeDefaultLocale() {
+        // save origin default Locale
+        defaultLocale = Locale.getDefault();
+
+        // change default Locale to US. Prevent Regular Matching fail.
+        Locale.setDefault(new Locale("en", "US"));
+    }
+
+    @After
+    public void resetDefaultLocale() {
+        Locale.setDefault(defaultLocale);
     }
 
     @Test
