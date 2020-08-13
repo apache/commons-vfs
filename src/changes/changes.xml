@@ -58,6 +58,8 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="fix">
         Add org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.isDisableDetectExecChannel(FileSystemOptions) and setDisableDetectExecChannel(FileSystemOptions, boolean).
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="fix">
         Add org.apache.commons.vfs2.FileSystemConfigBuilder.toBooleanObject(boolean).
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
