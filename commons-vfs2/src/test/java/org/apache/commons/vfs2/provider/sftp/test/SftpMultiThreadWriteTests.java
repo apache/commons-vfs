@@ -37,15 +37,6 @@ import java.util.concurrent.TimeUnit;
 public class SftpMultiThreadWriteTests extends AbstractProviderTestCase {
 
     /**
-     * Returns the capabilities required by the tests of this test case.
-     */
-    @Override
-    protected Capability[] getRequiredCaps() {
-        return new Capability[]{Capability.CREATE, Capability.DELETE, Capability.GET_TYPE, Capability.LIST_CHILDREN,
-                Capability.READ_CONTENT, Capability.WRITE_CONTENT};
-    }
-
-    /**
      * Sets up a scratch folder for the test to use.
      */
     protected FileObject createScratchFolder() throws Exception {
@@ -56,6 +47,15 @@ public class SftpMultiThreadWriteTests extends AbstractProviderTestCase {
         scratchFolder.createFolder();
 
         return scratchFolder;
+    }
+
+    /**
+     * Returns the capabilities required by the tests of this test case.
+     */
+    @Override
+    protected Capability[] getRequiredCaps() {
+        return new Capability[] {Capability.CREATE, Capability.DELETE, Capability.GET_TYPE, Capability.LIST_CHILDREN,
+            Capability.READ_CONTENT, Capability.WRITE_CONTENT};
     }
 
     /**
