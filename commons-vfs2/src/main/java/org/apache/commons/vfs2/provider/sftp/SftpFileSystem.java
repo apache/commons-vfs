@@ -133,7 +133,9 @@ public class SftpFileSystem extends AbstractFileSystem {
                         idleChannel = null;
                     }
                 }
-            } else {
+            }
+
+            if (channel == null) {
                 channel = (ChannelSftp) getSession().openChannel("sftp");
                 channel.connect(connectTimeoutMillis);
                 final Boolean userDirIsRoot = SftpFileSystemConfigBuilder.getInstance()
