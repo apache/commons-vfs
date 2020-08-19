@@ -86,6 +86,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-780" dev="ggregory" due-to="Wuchte" type="fix">
         SftpFileSystem returns null channel and produce NPE - fix get… #110.
       </action>
+      <action dev="ggregory" due-to="PeterAlfredLee" type="add">
+        Fix some test error when jvm's default language is not US en #107. 
+      </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Update tests from Apache Commons Lang 3.9 to 3.11.
       </action>
