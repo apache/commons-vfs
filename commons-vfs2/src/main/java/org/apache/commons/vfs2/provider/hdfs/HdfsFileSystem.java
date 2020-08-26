@@ -86,7 +86,7 @@ public class HdfsFileSystem extends AbstractFileSystem {
      */
     @Override
     protected FileObject createFile(final AbstractFileName name) throws Exception {
-        throw new FileSystemException("Operation not supported");
+        return resolveFile(name);
     }
 
     /**
@@ -166,6 +166,7 @@ public class HdfsFileSystem extends AbstractFileSystem {
             }
             final Path filePath = new Path(path);
             file = new HdfsFileObject((AbstractFileName) name, this, fs, filePath);
+            file = decorateFileObject(file);
             if (useCache) {
                 this.putFileToCache(file);
             }
