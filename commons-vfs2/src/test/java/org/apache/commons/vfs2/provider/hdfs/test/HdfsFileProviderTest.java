@@ -286,7 +286,7 @@ public class HdfsFileProviderTest {
         // Create the test file
         final FileObject file = createTestFile(hdfs);
         Assert.assertTrue(fo.exists());
-        Assert.assertFalse(file.isWriteable());
+        Assert.assertTrue(file.isWriteable());
     }
 
     @Test
