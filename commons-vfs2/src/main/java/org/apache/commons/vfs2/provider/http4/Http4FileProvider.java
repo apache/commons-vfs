@@ -276,9 +276,9 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
                 if (proxyAuthData != null) {
                     final UsernamePasswordCredentials proxyCreds = new UsernamePasswordCredentials(
                             UserAuthenticatorUtils.toString(
-                                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, null)),
+                                    UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.USERNAME, null)),
                             UserAuthenticatorUtils.toString(
-                                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, null)));
+                                    UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.PASSWORD, null)));
 
                     credsProvider.setCredentials(new AuthScope(proxyHost.getHostName(), AuthScope.ANY_PORT),
                             proxyCreds);
