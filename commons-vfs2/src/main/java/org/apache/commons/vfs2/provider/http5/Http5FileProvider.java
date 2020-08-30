@@ -259,8 +259,8 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
                 UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword()));
 
         if (username != null && !username.isEmpty()) {
-            // -1 for any port
-            credsProvider.setCredentials(new AuthScope(rootName.getHostName(), -1),
+            // set root port
+            credsProvider.setCredentials(new AuthScope(rootName.getHostName(), rootName.getPort()),
                     new UsernamePasswordCredentials(username, password));
         }
 
@@ -280,8 +280,8 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
                                     UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, null)),
                             UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, null));
 
-                    // -1 for any port
-                    credsProvider.setCredentials(new AuthScope(proxyHost.getHostName(), -1),
+                    // set proxy host port
+                    credsProvider.setCredentials(new AuthScope(proxyHost.getHostName(), proxyHost.getPort()),
                             proxyCreds);
                 }
 
