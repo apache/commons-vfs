@@ -232,6 +232,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
         this.builder = builder;
     }
 
+    // For the unit test to access this.
     @Override
     protected URI getInternalURI() throws FileSystemException {
         return super.getInternalURI();
