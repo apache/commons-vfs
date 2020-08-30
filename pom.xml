@@ -192,10 +192,10 @@
     <dependency.locations.enabled>false</dependency.locations.enabled>
     <hadoop.version>3.2.1</hadoop.version>
     <jackrabbit.version>1.6.5</jackrabbit.version>
-    <jackrabbit2.version>2.21.0</jackrabbit2.version>
+    <jackrabbit2.version>2.21.3</jackrabbit2.version>
     <commons.surefire.version>2.19.1</commons.surefire.version>
     <commons.japicmp.version>0.14.3</commons.japicmp.version>
-    <log4j2.version>2.13.0</log4j2.version>
+    <log4j2.version>2.13.3</log4j2.version>
   </properties>
 
   <build>
@@ -210,7 +210,7 @@
             <dependency>
               <groupId>org.apache.bcel</groupId>
               <artifactId>bcel</artifactId>
-              <version>6.4.1</version>
+              <version>6.5.0</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -490,12 +490,12 @@
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
-        <version>4.5.11</version>
+        <version>4.5.12</version>
       </dependency>
       <dependency>
         <groupId>org.apache.httpcomponents.client5</groupId>
         <artifactId>httpclient5</artifactId>
-        <version>5.0-beta7</version>
+        <version>5.0.1</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -559,12 +559,12 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.2.4</version>
+        <version>3.4.4</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.9</version>
+        <version>3.11</version>
       </dependency>
       <!-- Test FTP with Apache FTP Server (MINA) -->
       <dependency>
@@ -601,7 +601,7 @@
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
-        <version>2.6</version>
+        <version>2.7</version>
       </dependency>
       <!-- Test HTTP with Apache HttpComponent Core -->
       <dependency>

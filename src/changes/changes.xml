@@ -53,6 +53,21 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-753" dev="ggregory" due-to="John Webb, Gary Gregory" type="fix">
         NumberFormatException in SftpFileSystem::getUId.
       </action>
+      <action issue="VFS-779" dev="ggregory" due-to="Gary Gregory" type="fix">
+        Possible null pointer dereference in org.apache.commons.vfs2.impl.DefaultFileReplicator.close() due to return value of called method.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="fix">
+        Add org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.isDisableDetectExecChannel(FileSystemOptions) and setDisableDetectExecChannel(FileSystemOptions, boolean).
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="fix">
+        Add org.apache.commons.vfs2.FileSystemConfigBuilder.toBooleanObject(boolean).
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        org.apache.commons.vfs2.provider.VfsComponent now implements java.io.Closeable.
+      </action>
+      <action dev="ggregory" due-to="PeterAlfredLee" type="update">
+        Modify some loop using stream API #96.
+      </action>
       <action issue="VFS-754" dev="ggregory" due-to="Gary Gregory" type="update">
         Update Apache Commons Compress from 1.19 to 1.20.
       </action>
@@ -60,13 +75,46 @@ The <action> type attribute can be add,update,fix,remove.
         Update org.apache.httpcomponents:httpclient from 4.5.10 to 4.5.11.
       </action>
       <action issue="VFS-756" dev="ggregory" due-to="Gary Gregory" type="update">
-        Update org.apache.jackrabbit:jackrabbit-standalone-components from 2.19.6 to 2.21.0.
+        Update org.apache.jackrabbit:jackrabbit-standalone-components from 2.19.6 to 2.21.3.
       </action>
       <action issue="VFS-757" dev="ggregory" due-to="ddg-igh" type="add">
         [SFTP] Configure whether exec detection is enabled #80.
       </action>
+      <action dev="ggregory" due-to="PeterAlfredLee" type="add">
+        Add proxy config for some Http/Https test #108.
+      </action>
+      <action issue="VFS-780" dev="ggregory" due-to="Wuchte" type="fix">
+        SftpFileSystem returns null channel and produce NPE - fix get… #110.
+      </action>
+      <action dev="ggregory" due-to="PeterAlfredLee" type="add">
+        Fix some test error when jvm's default language is not US en #107. 
+      </action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">
+        Update tests from Apache Commons Lang 3.9 to 3.11.
+      </action>
+      <action issue="VFS-768" dev="ggregory" due-to="ddg-igh" type="add">
+        Update Apache httpclient 4.5.11 to 4.5.12 and httpclient5 5.0-beta7 to 5.0.1.
+      </action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">
+        Update tests from Log4j 2.13.0 to 2.13.3.
+      </action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">
+        Update tests from org.mockito:mockito-core from 3.2.4 to 3.4.4.
+      </action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">
+        Update Apache Commons IO from 2.6 to 2.7.
+      </action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory">
+        Update site reports from org.apache.bcel:bcel 6.4.1 to 6.5.0.
+      </action>
+      <action dev="ggregory" type="update" due-to="Dependabot">
+        Update actions/checkout from v1 to v2.3.1 #100, #109.
+      </action>
+      <action dev="ggregory" type="update" due-to="Dependabot">
+        Update actions/setup-java from v1.4.0 to v1.4.1 #111.
+      </action>
     </release>
-    <release version="2.6.0" date="2020-06-01" description="New features and bug fix release.">
+    <release version="2.6.0" date="2020-01-06" description="New features and bug fix release.">
       <action dev="ggregory" due-to="Eitan Adler" type="fix">
         Clean up tests and simplify assertions #76.
       </action>

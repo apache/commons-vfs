@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider.sftp;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.vfs2.FileSystem;
@@ -33,9 +34,6 @@ import com.jcraft.jsch.UserInfo;
  * The config builder for various SFTP configuration options.
  */
 public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
-
-    private static final int DEFAULT_CONNECT_TIMEOUT_MILLIS = 0;
-    private static final int DEFAULT_SESSION_TIMEOUT_MILLIS = 0;
 
     /**
      * Proxy type.
@@ -84,6 +82,9 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
             return this.proxyType.hashCode();
         }
     }
+    private static final int DEFAULT_CONNECT_TIMEOUT_MILLIS = 0;
+
+    private static final int DEFAULT_SESSION_TIMEOUT_MILLIS = 0;
 
     private static final String _PREFIX = SftpFileSystemConfigBuilder.class.getName();
     private static final SftpFileSystemConfigBuilder BUILDER = new SftpFileSystemConfigBuilder();
@@ -105,7 +106,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String PROXY_OPTIONS = _PREFIX + ".PROXY_OPTIONS";
     private static final String PROXY_PASSWORD = _PREFIX + ".PROXY_PASSWORD";
     private static final String PROXY_PORT = _PREFIX + ".PROXY_PORT";
-    private static final String DISABLE_DETECT_EXEC_CHANEL = _PREFIX + ".DISABLE_DETECT_EXEC_CHANEL";
+    private static final String DISABLE_DETECT_EXEC_CHANNEL = _PREFIX + ".DISABLE_DETECT_EXEC_CHANNEL";
 
     /** HTTP Proxy. */
     public static final ProxyType PROXY_HTTP = new ProxyType("http");
@@ -162,6 +163,16 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
+     * Gets the config repository.
+     *
+     * @param opts The FileSystem options.
+     * @return the ConfigRepository
+     */
+    public ConfigRepository getConfigRepository(final FileSystemOptions opts) {
+        return (ConfigRepository) this.getParam(opts, CONFIG_REPOSITORY);
+    }
+
+    /**
      * @param opts The FileSystem options.
      * @return The connect timeout value in milliseconds.
      * @see #setConnectTimeoutMillis
@@ -196,11 +207,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public File[] getIdentities(final FileSystemOptions opts) {
         final IdentityInfo[] info = getIdentityInfo(opts);
         if (info != null) {
-            final File[] files = new File[info.length];
-            for (int i = 0; i < files.length; ++i) {
-                files[i] = info[i].getPrivateKey();
-            }
-            return files;
+            return Arrays.stream(info).map(IdentityInfo::getPrivateKey).toArray(File[]::new);
         }
         return null;
     }
@@ -215,13 +222,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public IdentityInfo[] getIdentityInfo(final FileSystemOptions opts) {
         final IdentityProvider[] infos = getIdentityProvider(opts);
         if (infos != null) {
-            final List<IdentityInfo> list = new ArrayList<>(infos.length);
-            for (final IdentityProvider identityProvider : infos) {
-                if (identityProvider instanceof IdentityInfo) {
-                    list.add((IdentityInfo) identityProvider);
-                }
-            }
-            return list.toArray(new IdentityInfo[list.size()]);
+            return Arrays.stream(infos).filter(info -> info instanceof IdentityInfo)
+                                       .map(info -> (IdentityInfo) info).toArray(IdentityInfo[]::new);
         }
         return null;
     }
@@ -249,41 +251,15 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Gets the config repository.
-     *
      * @param opts The FileSystem options.
-     * @return the ConfigRepository
+     * @return the option value for specific key exchange algorithm
+     * @see #setKeyExchangeAlgorithm(FileSystemOptions, String)
+     * @since 2.4
      */
-    public ConfigRepository getConfigRepository(final FileSystemOptions opts) {
-        return (ConfigRepository) this.getParam(opts, CONFIG_REPOSITORY);
+    public String getKeyExchangeAlgorithm(final FileSystemOptions opts) {
+        return this.getString(opts, KEY_EXCHANGE_ALGORITHM);
     }
 
-    /**
-     * Returns {@link true} if the detection of the exec channel should be disabled.
-     * Returns {@link false} if the detection of the exec channel should be enabled.
-     * Defaults to {@code false} if the method {@link #setDisableDetectExecChannel(FileSystemOptions, boolean)} has not been invoked.
-     *
-     * @param opts The FileSystemOptions.
-     * @return {@code true} if detection of exec channel should be disabled.
-     *
-     * @see #setDisableDetectExecChannel(FileSystemOptions, boolean)
-     */
-    public boolean isDisableDetectExecChannel(final FileSystemOptions opts) {
-        return this.getBoolean(opts, DISABLE_DETECT_EXEC_CHANEL, Boolean.FALSE);
-    }
-
-
-    /**
-     * Returns {@link Boolean#TRUE} if VFS should load the OpenSSH config. Defaults to {@code Boolean.FALSE} if the
-     * method {@link #setLoadOpenSSHConfig(FileSystemOptions, boolean)} has not been invoked.
-     *
-     * @param opts The FileSystemOptions.
-     * @return {@code Boolean.TRUE} if VFS should load the OpenSSH config.
-     * @see #setLoadOpenSSHConfig
-     */
-    public boolean isLoadOpenSSHConfig(final FileSystemOptions opts) {
-        return this.getBoolean(opts, LOAD_OPENSSH_CONFIG, Boolean.FALSE);
-    }
 
     /**
      * @param opts The FileSystem options.
@@ -412,16 +388,6 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * @param opts The FileSystem options.
-     * @return the option value for specific key exchange algorithm
-     * @see #setKeyExchangeAlgorithm(FileSystemOptions, String)
-     * @since 2.4
-     */
-    public String getKeyExchangeAlgorithm(final FileSystemOptions opts) {
-        return this.getString(opts, KEY_EXCHANGE_ALGORITHM);
-    }
-
-    /**
-     * @param opts The FileSystem options.
      * @return The timeout value in milliseconds.
      * @see #setTimeout
      * @deprecated Use {@link #getSessionTimeoutMillis(FileSystemOptions)}
@@ -454,6 +420,33 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
+     * Returns {@code true} if the detection of the exec channel should be disabled.
+     * Returns {@code false} if the detection of the exec channel should be enabled.
+     * Defaults to {@code false} if the method {@link #setDisableDetectExecChannel(FileSystemOptions, boolean)} has not been invoked.
+     *
+     * @param opts The FileSystemOptions.
+     * @return {@code true} if detection of exec channel should be disabled.
+     *
+     * @see #setDisableDetectExecChannel(FileSystemOptions, boolean)
+     * @since 2.7.0
+     */
+    public boolean isDisableDetectExecChannel(final FileSystemOptions opts) {
+        return this.getBoolean(opts, DISABLE_DETECT_EXEC_CHANNEL, Boolean.FALSE);
+    }
+
+    /**
+     * Returns {@link Boolean#TRUE} if VFS should load the OpenSSH config. Defaults to {@code Boolean.FALSE} if the
+     * method {@link #setLoadOpenSSHConfig(FileSystemOptions, boolean)} has not been invoked.
+     *
+     * @param opts The FileSystemOptions.
+     * @return {@code Boolean.TRUE} if VFS should load the OpenSSH config.
+     * @see #setLoadOpenSSHConfig
+     */
+    public boolean isLoadOpenSSHConfig(final FileSystemOptions opts) {
+        return this.getBoolean(opts, LOAD_OPENSSH_CONFIG, Boolean.FALSE);
+    }
+
+    /**
      * Configures the compression algorithms to use.
      * <p>
      * For example, use {@code "zlib,none"} to enable compression.
@@ -471,6 +464,22 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
+     * Sets the config repository. e.g. {@code /home/user/.ssh/config}.
+     * <p>
+     * This is useful when you want to use OpenSSHConfig.
+     * </p>
+     *
+     * @param opts             The FileSystem options.
+     * @param configRepository An config repository.
+     * @throws FileSystemException if an error occurs.
+     * @see <a href="http://www.jcraft.com/jsch/examples/OpenSSHConfig.java.html">OpenSSHConfig</a>
+     */
+    public void setConfigRepository(final FileSystemOptions opts, final ConfigRepository configRepository)
+            throws FileSystemException {
+        this.setParam(opts, CONFIG_REPOSITORY, configRepository);
+    }
+
+    /**
      * Sets the timeout value to create a Jsch connection.
      *
      * @param opts    The FileSystem options.
@@ -479,6 +488,18 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public void setConnectTimeoutMillis(final FileSystemOptions opts, final Integer timeout) {
         this.setParam(opts, CONNECT_TIMEOUT_MILLIS, timeout);
+    }
+
+    /**
+     * Sets whether detection of exec channel is disabled.
+     * If this value is true the FileSystem will not test if the server allows to exec commands and disable the use of the exec channel.
+     *
+     * @param opts        The FileSystem options.
+     * @param disableDetectExecChannel true if the detection of exec channel should be disabled.
+     * @since 2.7.0
+     */
+    public void setDisableDetectExecChannel(final FileSystemOptions opts, final boolean disableDetectExecChannel) {
+        this.setParam(opts, DISABLE_DETECT_EXEC_CHANNEL, toBooleanObject(disableDetectExecChannel));
     }
 
     /**
@@ -506,10 +527,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public void setIdentities(final FileSystemOptions opts, final File... identityFiles) throws FileSystemException {
         IdentityProvider[] info = null;
         if (identityFiles != null) {
-            info = new IdentityProvider[identityFiles.length];
-            for (int i = 0; i < identityFiles.length; i++) {
-                info[i] = new IdentityInfo(identityFiles[i]);
-            }
+            info = Arrays.stream(identityFiles).map(IdentityInfo::new).toArray(IdentityProvider[]::new);
         }
         this.setParam(opts, IDENTITIES, info);
     }
@@ -559,19 +577,15 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Sets the config repository. e.g. {@code /home/user/.ssh/config}.
-     * <p>
-     * This is useful when you want to use OpenSSHConfig.
-     * </p>
+     * Configures Key exchange algorithm explicitly e.g diffie-hellman-group14-sha1,
+     * diffie-hellman-group-exchange-sha256, diffie-hellman-group-exchange-sha1, diffie-hellman-group1-sha1
      *
-     * @param opts             The FileSystem options.
-     * @param configRepository An config repository.
-     * @throws FileSystemException if an error occurs.
-     * @see <a href="http://www.jcraft.com/jsch/examples/OpenSSHConfig.java.html">OpenSSHConfig</a>
+     * @param opts                The FileSystem options.
+     * @param keyExchangeAlgoritm The key exchange algorithm picked.
+     * @since 2.4
      */
-    public void setConfigRepository(final FileSystemOptions opts, final ConfigRepository configRepository)
-            throws FileSystemException {
-        this.setParam(opts, CONFIG_REPOSITORY, configRepository);
+    public void setKeyExchangeAlgorithm(final FileSystemOptions opts, final String keyExchangeAlgoritm) {
+        setParam(opts, KEY_EXCHANGE_ALGORITHM, keyExchangeAlgoritm);
     }
 
     /**
@@ -586,6 +600,16 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public void setKnownHosts(final FileSystemOptions opts, final File knownHosts) throws FileSystemException {
         this.setParam(opts, KNOWN_HOSTS, knownHosts);
+    }
+
+    /**
+     * Sets the whether to load OpenSSH config.
+     *
+     * @param opts              The FileSystem options.
+     * @param loadOpenSSHConfig true if the OpenSSH config should be loaded.
+     */
+    public void setLoadOpenSSHConfig(final FileSystemOptions opts, final boolean loadOpenSSHConfig) {
+        this.setParam(opts, LOAD_OPENSSH_CONFIG, toBooleanObject(loadOpenSSHConfig));
     }
 
     /**
@@ -704,18 +728,6 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Configures Key exchange algorithm explicitly e.g diffie-hellman-group14-sha1,
-     * diffie-hellman-group-exchange-sha256, diffie-hellman-group-exchange-sha1, diffie-hellman-group1-sha1
-     *
-     * @param opts                The FileSystem options.
-     * @param keyExchangeAlgoritm The key exchange algorithm picked.
-     * @since 2.4
-     */
-    public void setKeyExchangeAlgorithm(final FileSystemOptions opts, final String keyExchangeAlgoritm) {
-        setParam(opts, KEY_EXCHANGE_ALGORITHM, keyExchangeAlgoritm);
-    }
-
-    /**
      * Configures the host key checking to use.
      * <p>
      * Valid arguments are: {@code "yes"}, {@code "no"} and {@code "ask"}.
@@ -757,7 +769,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param userDirIsRoot true if the user directory is the root directory.
      */
     public void setUserDirIsRoot(final FileSystemOptions opts, final boolean userDirIsRoot) {
-        this.setParam(opts, USER_DIR_IS_ROOT, userDirIsRoot ? Boolean.TRUE : Boolean.FALSE);
+        this.setParam(opts, USER_DIR_IS_ROOT, toBooleanObject(userDirIsRoot));
     }
 
     /**
@@ -768,27 +780,6 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public void setUserInfo(final FileSystemOptions opts, final UserInfo info) {
         this.setParam(opts, UserInfo.class.getName(), info);
-    }
-
-    /**
-     * Sets the whether to load OpenSSH config.
-     *
-     * @param opts              The FileSystem options.
-     * @param loadOpenSSHConfig true if the OpenSSH config should be loaded.
-     */
-    public void setLoadOpenSSHConfig(final FileSystemOptions opts, final boolean loadOpenSSHConfig) {
-        this.setParam(opts, LOAD_OPENSSH_CONFIG, loadOpenSSHConfig ? Boolean.TRUE : Boolean.FALSE);
-    }
-
-    /**
-     * Sets whether detection of exec channel is disabled.
-     * If this value is true the FileSystem will not test if the server allows to exec commands and disable the use of the exec channel.
-     *
-     * @param opts        The FileSystem options.
-     * @param disableDetectExecChannel true if the detection of exec channel should be disabled.
-     */
-    public void setDisableDetectExecChannel(final FileSystemOptions opts, final boolean disableDetectExecChannel) {
-        this.setParam(opts, DISABLE_DETECT_EXEC_CHANEL, disableDetectExecChannel ? Boolean.TRUE : Boolean.FALSE);
     }
 
 }

@@ -83,7 +83,7 @@ public class NamingTests extends AbstractProviderTestCase {
         // §5 Encode \
         file = getManager().resolveFile("dir%5cchild");
         // 18-6-2005 imario@apache.org: all file separators normalized to "/"
-        // decided to do this to get the same behaviour as in §4 on windows
+        // decided to do this to get the same behavior as in §4 on windows
         // platforms
         // assertEquals(path + "/dir\\child", file.getName().getPathDecoded());
         assertEquals(path + "/dir/child", file.getName().getPathDecoded());

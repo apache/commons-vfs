@@ -34,6 +34,7 @@ public class SftpProviderTestCase extends AbstractSftpProviderTestCase {
         final SftpProviderTestSuite suite = new SftpProviderTestSuite(new SftpProviderTestCase());
         // VFS-405: set/get permissions
         suite.addTests(PermissionsTests.class);
+        suite.addTests(SftpMultiThreadWriteTests.class);
         return suite;
     }
 }

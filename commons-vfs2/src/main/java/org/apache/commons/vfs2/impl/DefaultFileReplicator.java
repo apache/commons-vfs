@@ -92,16 +92,18 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
     public void close() {
         // Delete the temporary files
         synchronized (copies) {
-            while (copies.size() > 0) {
-                final File file = (File) removeFile();
-                deleteFile(file);
+            while (!copies.isEmpty()) {
+                deleteFile((File) removeFile());
             }
         }
 
         // Clean up the temp directory, if it is empty
-        if (tempDir != null && tempDir.exists() && tempDir.list().length == 0) {
-            tempDir.delete();
-            tempDir = null;
+        if (tempDir != null && tempDir.exists()) {
+            final String[] list = tempDir.list();
+            if (list != null && list.length == 0) {
+                tempDir.delete();
+                tempDir = null;
+            }
         }
     }
 

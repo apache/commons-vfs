@@ -36,7 +36,7 @@ public class VfsConsumerTest {
      */
     @Test
     public void test() throws FileSystemException {
-        test(fileObject -> fileObject.exists());
+        test(FileObject::exists);
     }
 
     private void test(final VfsConsumer<FileObject> consumer) throws FileSystemException {

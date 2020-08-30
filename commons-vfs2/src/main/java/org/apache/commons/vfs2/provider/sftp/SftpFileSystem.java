@@ -133,7 +133,9 @@ public class SftpFileSystem extends AbstractFileSystem {
                         idleChannel = null;
                     }
                 }
-            } else {
+            }
+
+            if (channel == null) {
                 channel = (ChannelSftp) getSession().openChannel("sftp");
                 channel.connect(connectTimeoutMillis);
                 final Boolean userDirIsRoot = SftpFileSystemConfigBuilder.getInstance()
@@ -286,7 +288,7 @@ public class SftpFileSystem extends AbstractFileSystem {
                     final String uidString = output.toString().trim();
                     try {
                         uid = Integer.parseInt(uidString);
-                    } catch (NumberFormatException e) {
+                    } catch (final NumberFormatException e) {
                         LOG.debug("Cannot convert UID to integer: '" + uidString + "'", e);
                     }
                 }

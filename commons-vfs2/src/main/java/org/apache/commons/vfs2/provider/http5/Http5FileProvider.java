@@ -72,12 +72,9 @@ import org.apache.hc.core5.http.ConnectionReuseStrategy;
 import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.HttpHeaders;
 import org.apache.hc.core5.http.HttpHost;
-import org.apache.hc.core5.http.HttpRequest;
-import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.impl.DefaultConnectionReuseStrategy;
 import org.apache.hc.core5.http.io.SocketConfig;
 import org.apache.hc.core5.http.message.BasicHeader;
-import org.apache.hc.core5.http.protocol.HttpContext;
 import org.apache.hc.core5.http.ssl.TLS;
 import org.apache.hc.core5.ssl.SSLContextBuilder;
 
@@ -178,13 +175,7 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
 
         final ConnectionReuseStrategy connectionReuseStrategy = builder.isKeepAlive(fileSystemOptions)
                 ? DefaultConnectionReuseStrategy.INSTANCE
-                : new ConnectionReuseStrategy() {
-                    @Override
-                    public boolean keepAlive(
-                            final HttpRequest request, final HttpResponse response, final HttpContext context) {
-                        return false;
-                    }
-                };
+                : (request, response, context) -> false;
 
         final HttpClientBuilder httpClientBuilder =
                 HttpClients.custom()
@@ -316,11 +307,8 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
                 .build();
 
         final String[] tlsVersions = builder.getTlsVersions(fileSystemOptions).split("\\s*,\\s*");
-        final TLS[] tlsArray = new TLS[tlsVersions.length];
 
-        for (int i = 0; i < tlsVersions.length; i++) {
-            tlsArray[i] = TLS.valueOf(tlsVersions[i]);
-        }
+        final TLS[] tlsArray = Arrays.stream(tlsVersions).map(TLS::valueOf).toArray(TLS[]::new);
 
         final SSLConnectionSocketFactory sslSocketFactory = SSLConnectionSocketFactoryBuilder.create()
                 .setSslContext(createSSLContext(builder, fileSystemOptions))
@@ -372,9 +360,7 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
         final Cookie[] cookies = builder.getCookies(fileSystemOptions);
 
         if (cookies != null) {
-            for (final Cookie cookie : cookies) {
-                cookieStore.addCookie(cookie);
-            }
+            Arrays.stream(cookies).forEach(cookieStore::addCookie);
         }
 
         return cookieStore;
