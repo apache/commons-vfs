@@ -335,9 +335,10 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
             final FileSystemOptions fileSystemOptions) {
         final String proxyHost = builder.getProxyHost(fileSystemOptions);
         final int proxyPort = builder.getProxyPort(fileSystemOptions);
+        final String proxyScheme = builder.getProxyScheme(fileSystemOptions);
 
         if (proxyHost != null && proxyHost.length() > 0 && proxyPort > 0) {
-            return new HttpHost(proxyHost, proxyPort);
+            return new HttpHost(proxyHost, proxyPort, proxyScheme);
         }
 
         return null;

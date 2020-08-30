@@ -21,6 +21,7 @@ import org.apache.commons.vfs2.FileSystemConfigBuilder;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticator;
 import org.apache.hc.client5.http.cookie.Cookie;
+import org.apache.hc.core5.http.HttpHost;
 
 /**
  * Configuration options builder utility for http5 provider.
@@ -243,6 +244,18 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
+     * Sets the proxy-scheme to use for http connection. You have to set the ProxyHost too if you would like to have the
+     * proxy really used.
+     *
+     * @param opts The FileSystem options.
+     * @param proxyScheme the protocol scheme
+     * @see #setProxyHost
+     */
+    public void setProxyScheme(final FileSystemOptions opts, final String proxyScheme) {
+        setParam(opts, "proxyScheme", proxyScheme);
+    }
+
+    /**
      * Gets the proxy to use for http connection. You have to set the ProxyPort too if you would like to have the proxy
      * really used.
      *
@@ -264,6 +277,18 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public int getProxyPort(final FileSystemOptions opts) {
         return getInteger(opts, "proxyPort", 0);
+    }
+
+    /**
+     * Gets the proxy-scheme to use for http the connection. You have to set the ProxyHost too if you would like to have
+     * the proxy really used.
+     *
+     * @param opts The FileSystem options.
+     * @return proxyScheme: the http/https scheme of proxy server
+     * @see #setProxyHost
+     */
+    public String getProxyScheme(final FileSystemOptions opts) {
+        return getString(opts, "proxyScheme", HttpHost.DEFAULT_SCHEME.getId());
     }
 
     /**
