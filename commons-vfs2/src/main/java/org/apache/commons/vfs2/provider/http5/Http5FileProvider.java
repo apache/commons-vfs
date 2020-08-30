@@ -205,7 +205,6 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
             final FileSystemOptions fileSystemOptions) throws FileSystemException {
         try {
             final SSLContextBuilder sslContextBuilder = new SSLContextBuilder();
-            sslContextBuilder.setKeyStoreType(builder.getKeyStoreType(fileSystemOptions));
 
             File keystoreFileObject = null;
             final String keystoreFile = builder.getKeyStoreFile(fileSystemOptions);
@@ -261,7 +260,7 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
 
         if (username != null && !username.isEmpty()) {
             // -1 for any port
-            credsProvider.setCredentials(new AuthScope(rootName.getHostName(), rootName.getPort()),
+            credsProvider.setCredentials(new AuthScope(rootName.getHostName(), -1),
                     new UsernamePasswordCredentials(username, password));
         }
 
@@ -278,11 +277,11 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
                 if (proxyAuthData != null) {
                     final UsernamePasswordCredentials proxyCreds = new UsernamePasswordCredentials(
                             UserAuthenticatorUtils.toString(
-                                    UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.USERNAME, null)),
-                            UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.PASSWORD, null));
+                                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, null)),
+                            UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, null));
 
                     // -1 for any port
-                    credsProvider.setCredentials(new AuthScope(proxyHost.getHostName(), proxyHost.getPort()),
+                    credsProvider.setCredentials(new AuthScope(proxyHost.getHostName(), -1),
                             proxyCreds);
                 }
 
@@ -345,11 +344,11 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
 
     private HttpHost getProxyHttpHost(final Http5FileSystemConfigBuilder builder,
             final FileSystemOptions fileSystemOptions) {
-        final String proxyScheme = builder.getProxyScheme(fileSystemOptions);
         final String proxyHost = builder.getProxyHost(fileSystemOptions);
         final int proxyPort = builder.getProxyPort(fileSystemOptions);
+
         if (proxyHost != null && proxyHost.length() > 0 && proxyPort > 0) {
-            return new HttpHost(proxyScheme, proxyHost, proxyPort);
+            return new HttpHost(proxyHost, proxyPort);
         }
 
         return null;

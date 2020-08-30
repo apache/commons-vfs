@@ -54,16 +54,11 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.config.Registry;
-import org.apache.http.config.RegistryBuilder;
 import org.apache.http.config.SocketConfig;
 import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.conn.routing.HttpRoutePlanner;
-import org.apache.http.conn.socket.ConnectionSocketFactory;
-import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.DefaultHostnameVerifier;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustAllStrategy;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.DefaultConnectionReuseStrategy;
@@ -179,14 +174,13 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
         final ConnectionReuseStrategy connectionReuseStrategy = builder.isKeepAlive(fileSystemOptions)
                 ? DefaultConnectionReuseStrategy.INSTANCE
                 : NoConnectionReuseStrategy.INSTANCE;
-        SSLContext sslContext = createSSLContext(builder, fileSystemOptions);
-        HostnameVerifier hostNameVerifier = createHostnameVerifier(builder, fileSystemOptions);
+
         final HttpClientBuilder httpClientBuilder =
                 HttpClients.custom()
                 .setRoutePlanner(createHttpRoutePlanner(builder, fileSystemOptions))
-                .setConnectionManager(createConnectionManager(builder, fileSystemOptions, sslContext, hostNameVerifier))
-                .setSSLContext(sslContext)
-                .setSSLHostnameVerifier(hostNameVerifier)
+                .setConnectionManager(createConnectionManager(builder, fileSystemOptions))
+                .setSSLContext(createSSLContext(builder, fileSystemOptions))
+                .setSSLHostnameVerifier(createHostnameVerifier(builder, fileSystemOptions))
                 .setConnectionReuseStrategy(connectionReuseStrategy)
                 .setDefaultRequestConfig(createDefaultRequestConfig(builder, fileSystemOptions))
                 .setDefaultHeaders(defaultHeaders)
@@ -211,8 +205,6 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
             final FileSystemOptions fileSystemOptions) throws FileSystemException {
         try {
             final SSLContextBuilder sslContextBuilder = new SSLContextBuilder();
-
-            sslContextBuilder.setKeyStoreType(builder.getKeyStoreType(fileSystemOptions));
 
             File keystoreFileObject = null;
             final String keystoreFile = builder.getKeyStoreFile(fileSystemOptions);
@@ -267,7 +259,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
                 UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword())));
 
         if (username != null && !username.isEmpty()) {
-            credsProvider.setCredentials(new AuthScope(rootName.getHostName(), rootName.getPort()),
+            credsProvider.setCredentials(new AuthScope(rootName.getHostName(), AuthScope.ANY_PORT),
                     new UsernamePasswordCredentials(username, password));
         }
 
@@ -284,11 +276,11 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
                 if (proxyAuthData != null) {
                     final UsernamePasswordCredentials proxyCreds = new UsernamePasswordCredentials(
                             UserAuthenticatorUtils.toString(
-                                    UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.USERNAME, null)),
+                                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, null)),
                             UserAuthenticatorUtils.toString(
-                                    UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.PASSWORD, null)));
+                                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, null)));
 
-                    credsProvider.setCredentials(new AuthScope(proxyHost.getHostName(), proxyHost.getPort()),
+                    credsProvider.setCredentials(new AuthScope(proxyHost.getHostName(), AuthScope.ANY_PORT),
                             proxyCreds);
                 }
 
@@ -305,16 +297,8 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
     }
 
     private HttpClientConnectionManager createConnectionManager(final Http4FileSystemConfigBuilder builder,
-            final FileSystemOptions fileSystemOptions, SSLContext sslContext, HostnameVerifier verifier) throws FileSystemException {
-
-        final SSLConnectionSocketFactory sslFactory = new SSLConnectionSocketFactory(sslContext, verifier);
-        final Registry<ConnectionSocketFactory> socketFactoryRegistry =
-                RegistryBuilder.<ConnectionSocketFactory> create()
-                        .register("https", sslFactory)
-                        .register("http", new PlainConnectionSocketFactory())
-                        .build();
-
-        final PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
+            final FileSystemOptions fileSystemOptions) throws FileSystemException {
+        final PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager();
         connManager.setMaxTotal(builder.getMaxTotalConnections(fileSystemOptions));
         connManager.setDefaultMaxPerRoute(builder.getMaxConnectionsPerHost(fileSystemOptions));
 
@@ -351,10 +335,9 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
             final FileSystemOptions fileSystemOptions) {
         final String proxyHost = builder.getProxyHost(fileSystemOptions);
         final int proxyPort = builder.getProxyPort(fileSystemOptions);
-        final String proxyScheme = builder.getProxyScheme(fileSystemOptions);
 
         if (proxyHost != null && proxyHost.length() > 0 && proxyPort > 0) {
-            return new HttpHost(proxyHost, proxyPort, proxyScheme);
+            return new HttpHost(proxyHost, proxyPort);
         }
 
         return null;

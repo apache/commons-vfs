@@ -16,12 +16,10 @@
  */
 package org.apache.commons.vfs2.provider.http4;
 
-import java.security.KeyStore;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticator;
-import org.apache.http.HttpHost;
 import org.apache.http.cookie.Cookie;
 
 /**
@@ -88,11 +86,6 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * </p>
      */
     private static final String KEYSTORE_PASS = "http.keystorePass";
-
-    /**
-     * Defines the keystore type for the underlying HttpClient.
-     */
-    private static final String KEYSTORE_TYPE = "http.keyStoreType";
 
     /**
      * Defines whether the host name should be verified or not in SSL connections.
@@ -235,18 +228,6 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Sets the proxy-scheme to use for http connection. You have to set the ProxyHost too if you would like to have the
-     * proxy really used.
-     *
-     * @param opts The FileSystem options.
-     * @param proxyScheme the protocol scheme
-     * @see #setProxyHost
-     */
-    public void setProxyScheme(final FileSystemOptions opts, final String proxyScheme) {
-        setParam(opts, "proxyScheme", proxyScheme);
-    }
-
-    /**
      * Gets the proxy to use for http connection. You have to set the ProxyPort too if you would like to have the proxy
      * really used.
      *
@@ -268,18 +249,6 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public int getProxyPort(final FileSystemOptions opts) {
         return getInteger(opts, "proxyPort", 0);
-    }
-
-    /**
-     * Gets the proxy-scheme to use for http the connection. You have to set the ProxyHost too if you would like to have
-     * the proxy really used.
-     *
-     * @param opts The FileSystem options.
-     * @return proxyScheme: the http/https scheme of proxy server
-     * @see #setProxyHost
-     */
-    public String getProxyScheme(final FileSystemOptions opts) {
-        return getString(opts, "proxyScheme", HttpHost.DEFAULT_SCHEME_NAME);
     }
 
     /**
@@ -523,23 +492,6 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
         return (String) getParam(opts, KEYSTORE_PASS);
     }
 
-    /**
-     * Set keystore type for SSL connections.
-     * @param opts the file system options to modify
-     * @param keyStoreType keystore type for SSL connections
-     */
-    public void setKeyStoreType(final FileSystemOptions opts, final String keyStoreType) {
-        setParam(opts, KEYSTORE_TYPE, keyStoreType);
-    }
-
-    /**
-     * Get keystore type for SSL connections.
-     * @param opts the file system options to modify
-     * @return keystore type for SSL connections
-     */
-    public String getKeyStoreType(final FileSystemOptions opts) {
-        return getString(opts, KEYSTORE_TYPE, KeyStore.getDefaultType());
-    }
     /**
      * Sets if the hostname should be verified in SSL context.
      *
