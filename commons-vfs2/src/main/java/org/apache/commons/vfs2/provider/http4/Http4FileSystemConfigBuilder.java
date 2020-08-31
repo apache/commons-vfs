@@ -502,6 +502,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Set keystore type for SSL connections.
      * @param opts the file system options to modify
      * @param keyStoreType keystore type for SSL connections
+     * @since 2.7.0
      */
     public void setKeyStoreType(final FileSystemOptions opts, final String keyStoreType) {
         setParam(opts, KEYSTORE_TYPE, keyStoreType);
@@ -511,6 +512,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Get keystore type for SSL connections.
      * @param opts the file system options to modify
      * @return keystore type for SSL connections
+     * @since 2.7.0
      */
     public String getKeyStoreType(final FileSystemOptions opts) {
         return getString(opts, KEYSTORE_TYPE, KeyStore.getDefaultType());
