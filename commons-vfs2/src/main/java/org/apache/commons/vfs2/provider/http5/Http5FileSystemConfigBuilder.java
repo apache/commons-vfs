@@ -113,6 +113,14 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String KEY_USER_AGENT = "userAgent";
 
     /**
+     * Defines http scheme for proxy host
+     *<p>
+     *This parameter expects a value of type {@link String}.
+     *</p>
+     */
+    private static final String PROXY_SCHEME = "proxyScheme";
+
+    /**
      * Defines whether the preemptive authentication should be enabled or not.
      * <p>
      * This parameter expects a value of type {@link Boolean}.
@@ -250,9 +258,10 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param opts The FileSystem options.
      * @param proxyScheme the protocol scheme
      * @see #setProxyHost
+     * @since 2.7.0
      */
     public void setProxyScheme(final FileSystemOptions opts, final String proxyScheme) {
-        setParam(opts, "proxyScheme", proxyScheme);
+        setParam(opts, PROXY_SCHEME, proxyScheme);
     }
 
     /**
@@ -286,9 +295,10 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param opts The FileSystem options.
      * @return proxyScheme: the http/https scheme of proxy server
      * @see #setProxyHost
+     * @since 2.7.0
      */
     public String getProxyScheme(final FileSystemOptions opts) {
-        return getString(opts, "proxyScheme", HttpHost.DEFAULT_SCHEME.getId());
+        return getString(opts, PROXY_SCHEME, HttpHost.DEFAULT_SCHEME.getId());
     }
 
     /**
