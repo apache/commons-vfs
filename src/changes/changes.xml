@@ -72,16 +72,16 @@ The <action> type attribute can be add,update,fix,remove.
         [SFTP] Configure whether exec detection is enabled #80.
       </action>
       <action dev="ggregory" due-to="PeterAlfredLee" type="add">
-        Add proxy config for some Http/Https test #108.
+        Add proxy config for some HTTP/HTTPS test #108.
       </action>
       <action issue="VFS-780" dev="ggregory" due-to="Wuchte" type="fix">
         SftpFileSystem returns null channel and produce NPE - fix get… #110.
       </action>
       <action dev="ggregory" due-to="PeterAlfredLee" type="add">
-        Fix some test error when jvm's default language is not US en #107. 
+        Fix some test error when JVM's default language is not US en #107. 
       </action>
       <action issue="VFS-788" dev="ggregory" due-to="satish bhor" type="fix">
-        [webdav/webdav4]Jackrabbit1 and jackrabbit2 modules getting same OSGi symbolic name.
+        [webdav/webdav4] Jackrabbit1 and jackrabbit2 modules getting same OSGi symbolic name.
       </action>
       <action issue="VFS-787" dev="ggregory" due-to="satish bhor" type="add">
         Allow users to set proxy schemes like http/https #122.
