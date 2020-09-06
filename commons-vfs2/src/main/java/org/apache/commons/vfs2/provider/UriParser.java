@@ -171,7 +171,7 @@ public final class UriParser {
     }
 
     /**
-     * Removes %nn encodings from a string.
+     * Converts "special" characters to their %nn value.
      *
      * @param decodedStr The decoded String.
      * @return The encoded String.

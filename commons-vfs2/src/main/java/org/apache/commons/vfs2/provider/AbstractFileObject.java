@@ -1041,8 +1041,9 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         final FileObject[] children = getChildren();
         for (final FileObject element : children) {
             final FileName child = element.getName();
+            final String childBaseName = child.getBaseName();
             // TODO - use a comparator to compare names
-            if (child.getBaseName().equals(name)) {
+            if (childBaseName.equals(name) || UriParser.decode(childBaseName).equals(name)) {
                 return resolveFile(child);
             }
         }

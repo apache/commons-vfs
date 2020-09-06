@@ -179,4 +179,28 @@ public class ZipFileObjectTestCase {
         }
         assertDelete(newZipFile);
     }
+
+    /**
+     * Test read file with special name in a zip file
+     */
+    @Test
+    public void testReadSpecialNameFileInZipFile() throws FileSystemException {
+
+        final File testFile = new File("src/test/resources/test-data/special_fileName.zip");
+        final String[] fileNames = {"file.txt", "file^.txt", "file~.txt", "file?.txt", "file@.txt", "file$.txt",
+                                    "file*.txt", "file&.txt", "file#.txt", "file%.txt", "file!.txt"};
+        final FileSystemManager manager = VFS.getManager();
+        final String baseUrl = "zip:file:"+testFile.getAbsolutePath();
+
+        // test
+        try (final FileObject fileObject = manager.resolveFile(baseUrl)) {
+            // test getChildren() number equal
+            Assert.assertEquals(fileObject.getChildren().length, fileNames.length);
+
+            // test getChild(String)
+            for (final String fileName : fileNames) {
+                Assert.assertNotNull("can't read file " + fileName, fileObject.getChild(fileName));
+            }
+        }
+    }
 }
