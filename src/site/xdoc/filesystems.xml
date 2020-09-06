@@ -527,6 +527,7 @@
                  <ul>
                    <li><b>proxyHost</b> The proxy host to connect through.</li>
                    <li><b>proxyPort</b> The proxy port to use.</li>
+                   <li><b>proxyScheme</b> The proxy scheme (http/https) to use.</li>
                    <li><b>cookies</b> An array of Cookies to add to the request.</li>
                    <li><b>maxConnectionsPerHost</b> The maximum number of connections allowed to
                    a specific host and port. The default is 5.</li>

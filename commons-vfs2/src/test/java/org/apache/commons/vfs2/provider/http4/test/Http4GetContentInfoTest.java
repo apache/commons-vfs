@@ -73,6 +73,7 @@ public class Http4GetContentInfoTest extends TestCase {
         final FileSystemOptions opts = new FileSystemOptions();
         builder.setProxyHost(opts, proxyHost);
         builder.setProxyPort(opts, proxyPort);
+        builder.setProxyScheme(opts, "http");
         return opts;
     }
 }
