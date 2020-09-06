@@ -83,6 +83,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-788" dev="ggregory" due-to="satish bhor" type="fix">
         [webdav/webdav4]Jackrabbit1 and jackrabbit2 modules getting same osgi symbolic name.
       </action>
+      <action issue="VFS-787" dev="ggregory" due-to="satish bhor" type="fix">
+        Allow users to set proxy schemes like http/https #122
+      </action>
       <!-- UPDATES -->
       <action issue="VFS-755" dev="ggregory" due-to="Gary Gregory" type="update">
         Update org.apache.httpcomponents:httpclient from 4.5.10 to 4.5.11.
