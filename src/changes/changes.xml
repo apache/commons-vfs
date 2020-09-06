@@ -121,7 +121,7 @@ The <action> type attribute can be add,update,fix,remove.
         Update actions/checkout from v1 to v2.3.1 #100, #109.
       </action>
       <action dev="ggregory" type="update" due-to="Dependabot">
-        Update actions/setup-java from v1.4.0 to v1.4.1 #111.
+        Update actions/setup-java from v1.4.0 to v1.4.2 #111, #113.
       </action>
     </release>
     <release version="2.6.0" date="2020-01-06" description="New features and bug fix release.">
