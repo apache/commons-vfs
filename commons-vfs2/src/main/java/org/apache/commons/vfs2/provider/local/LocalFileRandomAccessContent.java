@@ -36,6 +36,8 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent {
     private final RandomAccessFile raf;
     private final InputStream rafis;
 
+    private final static int BYTE_VALUE_MASK = 0xFF;
+
     LocalFileRandomAccessContent(final File localFile, final RandomAccessMode mode) throws FileSystemException {
         super(mode);
 
@@ -45,7 +47,7 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent {
                 @Override
                 public int read() throws IOException {
                     try {
-                        return raf.readByte();
+                        return raf.readByte() & BYTE_VALUE_MASK;
                     } catch (final EOFException e) {
                         return -1;
                     }
