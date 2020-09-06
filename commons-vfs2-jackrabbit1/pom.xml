@@ -111,6 +111,9 @@
 
   <properties>
     <vfs.parent.dir>${basedir}/..</vfs.parent.dir>
+    <commons.componentid>vfs2-jackrabbit1</commons.componentid>
+    <commons.packageId>vfs2-jackrabbit1</commons.packageId>
+    <commons.module.name>org.apache.commons.vfs2.jackrabbit1</commons.module.name>
   </properties>
 
   <build>
