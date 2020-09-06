@@ -89,6 +89,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-786" dev="ggregory" due-to="satish bhor" type="add">
         Allow users to set custom keystore types like JCEKS, PKCS12 #121.
       </action>
+      <action issue="VFS-624" dev="ggregory" due-to="PeterAlfredLee" type="fix">
+        Fix for read() in constructors of LocalFileRandomAccessContent and RamFileRandomAccessContent #93.
+      </action>      
       <!-- UPDATES -->
       <action issue="VFS-755" dev="ggregory" due-to="Gary Gregory" type="update">
         Update org.apache.httpcomponents:httpclient from 4.5.10 to 4.5.11.
