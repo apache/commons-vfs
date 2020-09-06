@@ -68,15 +68,6 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="PeterAlfredLee" type="update">
         Modify some loop using stream API #96.
       </action>
-      <action issue="VFS-754" dev="ggregory" due-to="Gary Gregory" type="update">
-        Update Apache Commons Compress from 1.19 to 1.20.
-      </action>
-      <action issue="VFS-755" dev="ggregory" due-to="Gary Gregory" type="update">
-        Update org.apache.httpcomponents:httpclient from 4.5.10 to 4.5.11.
-      </action>
-      <action issue="VFS-756" dev="ggregory" due-to="Gary Gregory" type="update">
-        Update org.apache.jackrabbit:jackrabbit-standalone-components from 2.19.6 to 2.21.3.
-      </action>
       <action issue="VFS-757" dev="ggregory" due-to="ddg-igh" type="add">
         [SFTP] Configure whether exec detection is enabled #80.
       </action>
@@ -88,6 +79,19 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="ggregory" due-to="PeterAlfredLee" type="add">
         Fix some test error when jvm's default language is not US en #107. 
+      </action>
+      <action issue="VFS-788" dev="ggregory" due-to="satish bhor" type="fix">
+        [webdav/webdav4]Jackrabbit1 and jackrabbit2 modules getting same osgi symbolic name.
+      </action>
+      <!-- UPDATES -->
+      <action issue="VFS-755" dev="ggregory" due-to="Gary Gregory" type="update">
+        Update org.apache.httpcomponents:httpclient from 4.5.10 to 4.5.11.
+      </action>
+      <action issue="VFS-756" dev="ggregory" due-to="Gary Gregory" type="update">
+        Update org.apache.jackrabbit:jackrabbit-standalone-components from 2.19.6 to 2.21.3.
+      </action>
+      <action issue="VFS-754" dev="ggregory" due-to="Gary Gregory" type="update">
+        Update Apache Commons Compress from 1.19 to 1.20.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Update tests from Apache Commons Lang 3.9 to 3.11.
