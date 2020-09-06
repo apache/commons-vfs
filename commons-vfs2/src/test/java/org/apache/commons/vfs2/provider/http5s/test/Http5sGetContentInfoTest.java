@@ -16,9 +16,15 @@
  */
 package org.apache.commons.vfs2.provider.http5s.test;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -35,6 +41,8 @@ import junit.framework.TestCase;
  * Tests VFS-427 NPE on Http5FileObject.getContent().getContentInfo()
  */
 public class Http5sGetContentInfoTest extends TestCase {
+
+    private static final String SERVER_JCEKS_RES = "org.apache.httpserver/star_apache_cert.ts";
 
     /**
      * Tests VFS-427 NPE on Http5FileObject.getContent().getContentInfo().
@@ -53,6 +61,23 @@ public class Http5sGetContentInfoTest extends TestCase {
         content.getContentInfo();
     }
 
+    /**
+     * Tests VFS-786 set keystore type.
+     *
+     * @throws FileSystemException thrown when the getContentInfo API fails.
+     * @throws MalformedURLException thrown when the System environment contains an invalid URL for an HTTPS proxy.
+     */
+    @Test
+    public void testSSLGetContentInfo() throws IOException {
+        final FileSystemManager fsManager = VFS.getManager();
+        final String uri = "http5s://www.apache.org/licenses/LICENSE-2.0.txt";
+        final FileObject fo = fsManager.resolveFile(uri, getOptionsWithSSL());
+        final FileContent content = fo.getContent();
+        try(InputStream is = content.getInputStream()){
+            String text = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
+            assertNotNull(text);
+        }
+    }
     FileSystemOptions getOptionsWithProxy() throws MalformedURLException {
         // get proxy host and port from env var "https_proxy"
         String proxyHost = null;
@@ -69,6 +94,7 @@ public class Http5sGetContentInfoTest extends TestCase {
             return null;
         }
 
+
         // return options with proxy
         final Http5FileSystemConfigBuilder builder = Http5FileSystemConfigBuilder.getInstance();
         final FileSystemOptions opts = new FileSystemOptions();
@@ -76,4 +102,15 @@ public class Http5sGetContentInfoTest extends TestCase {
         builder.setProxyPort(opts, proxyPort);
         return opts;
     }
+
+   private FileSystemOptions getOptionsWithSSL() throws MalformedURLException {
+        final Http5FileSystemConfigBuilder builder = Http5FileSystemConfigBuilder.getInstance();
+        final FileSystemOptions opts = new FileSystemOptions();
+        final URL serverJksResource = ClassLoader.getSystemClassLoader().getResource(SERVER_JCEKS_RES);
+        builder.setKeyStoreFile(opts, serverJksResource.getFile());
+        builder.setKeyStorePass(opts, "Hello_1234");
+        builder.setKeyStoreType(opts, "JCEKS");
+        return opts;
+    }
+
 }
