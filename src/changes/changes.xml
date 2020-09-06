@@ -91,7 +91,10 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action issue="VFS-624" dev="ggregory" due-to="PeterAlfredLee" type="fix">
         Fix for read() in constructors of LocalFileRandomAccessContent and RamFileRandomAccessContent #93.
-      </action>      
+      </action>
+      <action issue="VFS-769" dev="ggregory" due-to="PeterAlfredLee" type="fix">
+        Fix .tgz and .tbz2 createFileSystem fails #94
+      </action>
       <!-- UPDATES -->
       <action issue="VFS-755" dev="ggregory" due-to="Gary Gregory" type="update">
         Update org.apache.httpcomponents:httpclient from 4.5.10 to 4.5.11.
