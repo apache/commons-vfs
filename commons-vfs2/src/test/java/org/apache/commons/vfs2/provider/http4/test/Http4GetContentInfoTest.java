@@ -22,6 +22,7 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.VFS;
+import org.apache.commons.vfs2.auth.StaticUserAuthenticator;
 import org.apache.commons.vfs2.provider.http4.Http4FileSystemConfigBuilder;
 import org.junit.Assert;
 import org.junit.Test;
@@ -50,6 +51,55 @@ public class Http4GetContentInfoTest extends TestCase {
         Assert.assertNotNull(content);
         // Used to NPE before fix:
         content.getContentInfo();
+    }
+
+
+    /**
+     * Tests VFS-782 pass correct proxy authentication credentials.
+     *
+     * @throws FileSystemException thrown when the authentication fails.
+     */
+    @Test
+    public void testGetContentWithProxyAuthInfo() throws FileSystemException, MalformedURLException {
+        final FileSystemManager fsManager = VFS.getManager();
+        final String uri = "http4://www.apache.org/licenses/LICENSE-2.0.txt";
+        final FileObject fo = fsManager.resolveFile(uri, getOptionsWithProxyAuthentication());
+        final FileContent content = fo.getContent();
+        Assert.assertNotNull(content);
+        content.getContentInfo();
+    }
+
+    private FileSystemOptions getOptionsWithProxyAuthentication() throws MalformedURLException {
+        // get proxy host and port from env var "https_proxy"
+        String proxyHost = null;
+        int proxyPort = -1;
+        String user[] = null;
+        final String proxyUrl = System.getenv("https_proxy");
+        if (proxyUrl != null) {
+            final URL url = new URL(proxyUrl);
+            proxyHost = url.getHost();
+            proxyPort = url.getPort();
+            final String userInfo = url.getUserInfo();
+            if(userInfo != null){
+                user = userInfo.split(":");
+
+            }
+        }
+
+        // return null if proxy host or port invalid
+        if (proxyHost == null || proxyPort == -1) {
+            return null;
+        }
+
+        // return options with proxy
+        final Http4FileSystemConfigBuilder builder = Http4FileSystemConfigBuilder.getInstance();
+        final FileSystemOptions opts = new FileSystemOptions();
+        builder.setProxyHost(opts, proxyHost);
+        builder.setProxyPort(opts, proxyPort);
+        if (user != null){
+            builder.setProxyAuthenticator(opts, new StaticUserAuthenticator(null, user[0], user[1]));
+        }
+        return opts;
     }
 
     FileSystemOptions getOptionsWithProxy() throws MalformedURLException {
