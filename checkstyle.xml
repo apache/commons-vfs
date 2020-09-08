@@ -86,7 +86,6 @@
     <!-- See http://checkstyle.sf.net/config_javadoc.html -->
     <module name="JavadocMethod">
       <property name="scope" value="public" />
-      <property name="allowUndeclaredRTE" value="true" />
     </module>
     <module name="MissingJavadocMethod"/>
     

@@ -176,7 +176,7 @@
 -->
 
     <vfs.parent.dir>${basedir}</vfs.parent.dir>
-    <version.checkstyle>3.1.0</version.checkstyle>
+    <version.checkstyle>3.1.1</version.checkstyle>
     <!-- make sure bundle plugin has dependency informations for 'optional' -->
     <commons.osgi.excludeDependencies />
     <commons.osgi.import>
