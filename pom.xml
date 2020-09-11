@@ -190,7 +190,7 @@
     <commons.clirr.version>2.6</commons.clirr.version>
     <!-- Avoid warnings about being unable to find jars during site building -->
     <dependency.locations.enabled>false</dependency.locations.enabled>
-    <hadoop.version>3.2.1</hadoop.version>
+    <hadoop.version>3.3.0</hadoop.version>
     <jackrabbit.version>1.6.5</jackrabbit.version>
     <jackrabbit2.version>2.21.3</jackrabbit2.version>
     <commons.surefire.version>2.19.1</commons.surefire.version>
