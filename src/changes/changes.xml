@@ -147,6 +147,9 @@ The <action> type attribute can be add,update,fix,remove.
         Updates hadoop-common from 3.2.1 to 3.3.0.
         Updates hadoop-hdfs from 3.2.1 to 3.3.0.
       </action>
+      <action dev="ggregory" type="update" due-to="Dependabot">
+        Update mina-core from 2.0.20 to 2.1.4 #112.
+      </action>
     </release>
     <release version="2.6.0" date="2020-01-06" description="New features and bug fix release.">
       <action dev="ggregory" due-to="Eitan Adler" type="fix">
