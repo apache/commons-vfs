@@ -16,11 +16,11 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import java.util.Arrays;
+
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
-
-import java.util.Arrays;
 
 /**
  * Description.

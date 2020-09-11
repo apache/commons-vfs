@@ -16,8 +16,14 @@
  */
 package org.apache.commons.vfs2.test;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
+import static org.junit.Assert.assertArrayEquals;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URLConnection;
+
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileContent;
@@ -31,13 +37,8 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
 import org.junit.Assert;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.URLConnection;
-
-import static org.junit.Assert.assertArrayEquals;
+import junit.framework.Test;
+import junit.framework.TestCase;
 
 /**
  * File system test cases, which verifies the structure and naming functionality.

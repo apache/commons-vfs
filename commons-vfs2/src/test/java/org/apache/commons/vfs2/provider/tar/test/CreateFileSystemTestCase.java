@@ -16,15 +16,15 @@
  */
 package org.apache.commons.vfs2.provider.tar.test;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.provider.tar.TarFileObject;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.io.File;
-import java.io.IOException;
 
 /**
  * test use DefaultFileSystemManager.createFileSystem method to create tar,tgz,tbz2 file system

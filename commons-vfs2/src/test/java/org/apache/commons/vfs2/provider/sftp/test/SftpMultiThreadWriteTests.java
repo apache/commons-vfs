@@ -16,12 +16,6 @@
  */
 package org.apache.commons.vfs2.provider.sftp.test;
 
-import org.apache.commons.vfs2.Capability;
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.Selectors;
-import org.apache.commons.vfs2.VFS;
-import org.apache.commons.vfs2.test.AbstractProviderTestCase;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +24,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.vfs2.Capability;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.Selectors;
+import org.apache.commons.vfs2.VFS;
+import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 
 /**
  * MultiThread tests for writing with SFTP provider.

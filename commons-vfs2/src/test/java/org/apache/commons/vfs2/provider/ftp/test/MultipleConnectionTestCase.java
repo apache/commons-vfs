@@ -17,7 +17,6 @@
 package org.apache.commons.vfs2.provider.ftp.test;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.SocketException;
 
 import org.apache.commons.net.ftp.FTPClient;

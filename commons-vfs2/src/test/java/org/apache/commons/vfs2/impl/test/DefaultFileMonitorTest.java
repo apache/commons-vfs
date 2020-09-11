@@ -30,8 +30,6 @@ import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileMonitor;
 import org.junit.Ignore;
 
-import junit.framework.Assert;
-
 /**
  * Test to verify DefaultFileMonitor
  */

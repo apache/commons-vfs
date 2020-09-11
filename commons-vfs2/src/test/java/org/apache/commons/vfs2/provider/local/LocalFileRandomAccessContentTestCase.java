@@ -16,13 +16,13 @@
  */
 package org.apache.commons.vfs2.provider.local;
 
-import org.apache.commons.vfs2.util.RandomAccessMode;
-import org.junit.Assert;
-import org.junit.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
+import org.apache.commons.vfs2.util.RandomAccessMode;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * @since 2.7.0

@@ -16,6 +16,9 @@
  */
 package org.apache.commons.vfs2.provider.http.test;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -25,9 +28,6 @@ import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.provider.http.HttpFileSystemConfigBuilder;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * Tests VFS-427 NPE on HttpFileObject.getContent().getContentInfo()
