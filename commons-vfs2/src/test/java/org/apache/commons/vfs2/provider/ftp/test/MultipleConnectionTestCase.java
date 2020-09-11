@@ -17,7 +17,6 @@
 package org.apache.commons.vfs2.provider.ftp.test;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.SocketException;
 
 import org.apache.commons.net.ftp.FTPClient;
@@ -37,7 +36,7 @@ public class MultipleConnectionTestCase {
     }
 
     @AfterClass
-    public static void tearDownClass() throws MalformedURLException, FtpException {
+    public static void tearDownClass() {
         FtpProviderTestCase.tearDownClass();
     }
 
@@ -46,7 +45,7 @@ public class MultipleConnectionTestCase {
     }
 
     @Test
-    public void testConnectRoot() throws SocketException, IOException {
+    public void testConnectRoot() throws IOException {
         resolveRoot();
         resolveRoot();
     }
@@ -60,12 +59,8 @@ public class MultipleConnectionTestCase {
             client1.connect(hostname, FtpProviderTestCase.getSocketPort());
             client2.connect(hostname, FtpProviderTestCase.getSocketPort());
         } finally {
-            if (client1 != null) {
-                client1.disconnect();
-            }
-            if (client2 != null) {
-                client2.disconnect();
-            }
+            client1.disconnect();
+            client2.disconnect();
         }
     }
 }

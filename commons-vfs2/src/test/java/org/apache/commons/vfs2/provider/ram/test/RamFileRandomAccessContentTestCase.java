@@ -16,6 +16,10 @@
  */
 package org.apache.commons.vfs2.provider.ram.test;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.provider.ram.RamFileObject;
@@ -23,10 +27,6 @@ import org.apache.commons.vfs2.provider.ram.RamFileRandomAccessContent;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
  * @since 2.7.0
@@ -50,7 +50,7 @@ public class RamFileRandomAccessContentTestCase {
         // read test data,first data should be 0xFF instead of -1. Will read -1 finally (EOF)
         try (InputStream in = new RamFileRandomAccessContent((RamFileObject) file, RandomAccessMode.READ).getInputStream()) {
             // read first data
-            int read = in.read();
+            final int read = in.read();
             Assert.assertNotEquals(EOF, read);
             Assert.assertEquals(0xFF, read);
 

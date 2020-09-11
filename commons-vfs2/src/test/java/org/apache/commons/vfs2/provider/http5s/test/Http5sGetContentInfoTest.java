@@ -22,9 +22,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
+
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -74,7 +74,7 @@ public class Http5sGetContentInfoTest extends TestCase {
         final FileObject fo = fsManager.resolveFile(uri, getOptionsWithSSL());
         final FileContent content = fo.getContent();
         try(InputStream is = content.getInputStream()){
-            String text = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
+            final String text = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
             assertNotNull(text);
         }
     }

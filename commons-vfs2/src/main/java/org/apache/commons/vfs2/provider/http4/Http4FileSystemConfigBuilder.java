@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider.http4;
 
 import java.security.KeyStore;
+
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
 import org.apache.commons.vfs2.FileSystemOptions;

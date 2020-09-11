@@ -345,7 +345,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
         }
 
         try {
-            fileObjectDecoratorConst = fileObjectDecorator.getConstructor(new Class[] { FileObject.class });
+            fileObjectDecoratorConst = fileObjectDecorator.getConstructor(FileObject.class);
         } catch (final NoSuchMethodException e) {
             throw new FileSystemException("vfs.impl/invalid-decorator.error", fileObjectDecorator.getName(), e);
         }

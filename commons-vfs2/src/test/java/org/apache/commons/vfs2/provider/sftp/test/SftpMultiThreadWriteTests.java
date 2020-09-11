@@ -16,12 +16,6 @@
  */
 package org.apache.commons.vfs2.provider.sftp.test;
 
-import org.apache.commons.vfs2.Capability;
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.Selectors;
-import org.apache.commons.vfs2.VFS;
-import org.apache.commons.vfs2.test.AbstractProviderTestCase;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +24,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.vfs2.Capability;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.Selectors;
+import org.apache.commons.vfs2.VFS;
+import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 
 /**
  * MultiThread tests for writing with SFTP provider.
@@ -64,11 +64,11 @@ public class SftpMultiThreadWriteTests extends AbstractProviderTestCase {
     public void testParallelCopyFromLocalFileSystem() throws Exception {
         final File localFile = new File("src/test/resources/test-data/test.zip");
 
-        FileObject localFileObject = VFS.getManager().toFileObject(localFile);
+        final FileObject localFileObject = VFS.getManager().toFileObject(localFile);
 
         final FileObject scratchFolder = createScratchFolder();
 
-        List<Callable<Boolean>> tasks = new ArrayList<>();
+        final List<Callable<Boolean>> tasks = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             final String fileName = "file" + i + "copy.txt";
             tasks.add(() -> {
@@ -77,20 +77,20 @@ public class SftpMultiThreadWriteTests extends AbstractProviderTestCase {
 
                     assertFalse(fileCopy.exists());
                     fileCopy.copyFrom(localFileObject, Selectors.SELECT_SELF);
-                } catch (Throwable e) {
+                } catch (final Throwable e) {
                     return false;
                 }
                 return true;
             });
         }
 
-        ExecutorService service = Executors.newFixedThreadPool(10);
+        final ExecutorService service = Executors.newFixedThreadPool(10);
         try {
-            List<Future<Boolean>> futures = service.invokeAll(tasks);
+            final List<Future<Boolean>> futures = service.invokeAll(tasks);
             assertTrue(futures.stream().allMatch(fut -> {
                 try {
                     return fut.get(5, TimeUnit.SECONDS);
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     return false;
                 }
             }));

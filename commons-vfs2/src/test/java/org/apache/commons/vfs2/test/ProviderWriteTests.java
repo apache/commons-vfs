@@ -32,8 +32,6 @@ import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.Selectors;
 import org.junit.Assert;
 
-import static junit.framework.TestCase.assertFalse;
-
 /**
  * File system test that check that a file system can be modified.
  */

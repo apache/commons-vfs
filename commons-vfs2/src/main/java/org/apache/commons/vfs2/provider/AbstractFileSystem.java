@@ -347,8 +347,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
         if (getFileSystemManager().getFileObjectDecoratorConst() != null) {
             try {
-                file = (FileObject) getFileSystemManager().getFileObjectDecoratorConst()
-                        .newInstance(new Object[] { file });
+                file = (FileObject) getFileSystemManager().getFileObjectDecoratorConst().newInstance(file);
             } catch (final InstantiationException e) {
                 throw new FileSystemException("vfs.impl/invalid-decorator.error",
                         getFileSystemManager().getFileObjectDecorator().getName(), e);
