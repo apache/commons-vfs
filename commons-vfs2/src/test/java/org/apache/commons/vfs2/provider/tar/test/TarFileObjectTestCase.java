@@ -55,7 +55,7 @@ public class TarFileObjectTestCase {
         testReadSpecialNameFileInFile("src/test/resources/test-data/special_fileName.tbz2", "tbz2");
     }
 
-    private void testReadSpecialNameFileInFile(String testFilePath, String scheme) throws FileSystemException {
+    private void testReadSpecialNameFileInFile(final String testFilePath, final String scheme) throws FileSystemException {
 
         final File testFile = new File(testFilePath);
         final String[] fileNames = {"file.txt", "file^.txt", "file~.txt", "file?.txt", "file@.txt", "file$.txt",

@@ -36,7 +36,7 @@ public class CreateFileSystemTestCase {
     private FileObject createFileSystem(final String testFilePath) throws IOException {
 
         final File testFile = new File(testFilePath);
-        FileSystemManager manager = VFS.getManager();
+        final FileSystemManager manager = VFS.getManager();
 
         // create fileSystem and return fileObject
         try (FileObject localFileObject = manager.resolveFile(testFile.getAbsolutePath())) {
@@ -47,7 +47,7 @@ public class CreateFileSystemTestCase {
     @Test
     public void testTarFile() throws IOException {
 
-        String testFilePath = "src/test/resources/test-data/test.tar";
+        final String testFilePath = "src/test/resources/test-data/test.tar";
         try (FileObject fileObject = createFileSystem(testFilePath)) {
             Assert.assertTrue(fileObject instanceof TarFileObject);
         }
@@ -56,7 +56,7 @@ public class CreateFileSystemTestCase {
     @Test
     public void testTgzFile() throws IOException {
 
-        String testFilePath = "src/test/resources/test-data/test.tgz";
+        final String testFilePath = "src/test/resources/test-data/test.tgz";
         try (FileObject fileObject = createFileSystem(testFilePath)) {
             Assert.assertTrue(fileObject instanceof TarFileObject);
         }
@@ -65,7 +65,7 @@ public class CreateFileSystemTestCase {
     @Test
     public void testTbz2File() throws IOException {
 
-        String testFilePath = "src/test/resources/test-data/test.tbz2";
+        final String testFilePath = "src/test/resources/test-data/test.tbz2";
         try (FileObject fileObject = createFileSystem(testFilePath)) {
             Assert.assertTrue(fileObject instanceof TarFileObject);
         }

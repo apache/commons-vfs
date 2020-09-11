@@ -50,7 +50,7 @@ public class RamFileRandomAccessContentTestCase {
         // read test data,first data should be 0xFF instead of -1. Will read -1 finally (EOF)
         try (InputStream in = new RamFileRandomAccessContent((RamFileObject) file, RandomAccessMode.READ).getInputStream()) {
             // read first data
-            int read = in.read();
+            final int read = in.read();
             Assert.assertNotEquals(EOF, read);
             Assert.assertEquals(0xFF, read);
 

@@ -37,12 +37,12 @@ public class LocalFileRandomAccessContentTestCase {
     @Test
     public void testInputStreamRead0xff() throws IOException {
         // open test file,this file has only one byte data 0xff
-        File file = new File("src/test/resources/test-data/0xff_file.txt");
+        final File file = new File("src/test/resources/test-data/0xff_file.txt");
 
         // read test data,first data should be 0xFF instead of -1. Will read -1 finally (EOF)
         try (InputStream in = new LocalFileRandomAccessContent(file, RandomAccessMode.READ).getInputStream()) {
             // read first data
-            int read = in.read();
+            final int read = in.read();
             Assert.assertNotEquals(EOF, read);
             Assert.assertEquals(0xFF, read);
 
