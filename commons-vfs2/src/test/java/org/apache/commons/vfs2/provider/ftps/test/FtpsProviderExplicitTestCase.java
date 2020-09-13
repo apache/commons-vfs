@@ -26,6 +26,7 @@ import junit.framework.Test;
  * Tests for FTPS file systems with explicit FTPS connection.
  */
 public class FtpsProviderExplicitTestCase extends AbstractFtpsProviderTestCase {
+
     @Override
     protected boolean isImplicit() {
         return false;

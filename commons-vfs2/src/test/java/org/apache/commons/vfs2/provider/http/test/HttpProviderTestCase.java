@@ -31,7 +31,6 @@ import org.apache.commons.vfs2.provider.http.HttpFileProvider;
 import org.apache.commons.vfs2.provider.http.HttpFileSystemConfigBuilder;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
-import org.apache.commons.vfs2.util.FreeSocketPortUtil;
 import org.apache.commons.vfs2.util.NHttpFileServer;
 import org.junit.Assert;
 
@@ -63,7 +62,9 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
      * @throws Exception
      */
     private static void setUpClass() throws Exception {
-        Server = NHttpFileServer.start(SocketPort, new File(getTestDirectory()), 5000);
+        Server = NHttpFileServer.start(0, new File(getTestDirectory()), 5000);
+        SocketPort = Server.getPort();
+        ConnectionUri = "http://localhost:" + SocketPort;
     }
 
     /**
@@ -108,17 +109,6 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
         if (Server != null) {
             Server.shutdown(5000, TimeUnit.SECONDS);
         }
-    }
-
-    /**
-     * Builds a new test case.
-     *
-     * @throws IOException Thrown if a free local socket port cannot be found.
-     */
-    public HttpProviderTestCase() throws IOException {
-        SocketPort = FreeSocketPortUtil.findFreeLocalPort();
-        // Use %40 for @ in a URL
-        ConnectionUri = "http://localhost:" + SocketPort;
     }
 
     private void checkReadTestsFolder(final FileObject file) throws FileSystemException {

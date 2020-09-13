@@ -172,12 +172,10 @@ public class FTPClientWrapper implements FtpClient {
     public FTPFile[] listFiles(final String relPath) throws IOException {
         try {
             // VFS-210: return getFtpClient().listFiles(relPath);
-            final FTPFile[] files = listFilesInDirectory(relPath);
-            return files;
+            return listFilesInDirectory(relPath);
         } catch (final IOException e) {
             disconnect();
-            final FTPFile[] files = listFilesInDirectory(relPath);
-            return files;
+            return listFilesInDirectory(relPath);
         }
     }
 

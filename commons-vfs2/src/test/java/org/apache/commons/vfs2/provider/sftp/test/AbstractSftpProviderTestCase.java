@@ -41,7 +41,6 @@ import org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder;
 import org.apache.commons.vfs2.provider.sftp.TrustEveryoneUserInfo;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
-import org.apache.commons.vfs2.util.FreeSocketPortUtil;
 import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.sshd.SshServer;
 import org.apache.sshd.common.NamedFactory;
@@ -179,13 +178,10 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
         if (Server != null) {
             return;
         }
-        SocketPort = FreeSocketPortUtil.findFreeLocalPort();
-        // Use %40 for @ in a URL
-        ConnectionUri = String.format("sftp://%s@localhost:%d", DEFAULT_USER, SocketPort);
         // System.setProperty("vfs.sftp.sshdir", getTestDirectory() + "/../vfs.sftp.sshdir");
         final String tmpDir = System.getProperty("java.io.tmpdir");
         Server = SshServer.setUpDefaultServer();
-        Server.setPort(SocketPort);
+        Server.setPort(0);
         if (SecurityUtils.isBouncyCastleRegistered()) {
             // A temporary file will hold the key
             final File keyFile = File.createTempFile("key", ".pem", new File(tmpDir));
@@ -242,6 +238,8 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
         Server.setFileSystemFactory(new TestFileSystemFactory());
         // HACK End
         Server.start();
+        SocketPort = Server.getPort();
+        ConnectionUri = String.format("sftp://%s@localhost:%d", DEFAULT_USER, SocketPort);
         // HACK Start
         // How do we really do simple security?
         // Do this after we start the server to simplify this set up code.

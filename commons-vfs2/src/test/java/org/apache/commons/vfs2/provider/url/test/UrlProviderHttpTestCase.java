@@ -26,7 +26,6 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.url.UrlFileProvider;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
-import org.apache.commons.vfs2.util.FreeSocketPortUtil;
 import org.apache.commons.vfs2.util.NHttpFileServer;
 
 import junit.framework.Test;
@@ -57,7 +56,9 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig {
      * @throws Exception
      */
     private static void setUpClass() throws Exception {
-        Server = NHttpFileServer.start(SocketPort, new File(getTestDirectory()), 5000);
+        Server = NHttpFileServer.start(0, new File(getTestDirectory()), 5000);
+        SocketPort = Server.getPort();
+        ConnectionUri = "http://localhost:" + SocketPort;
     }
 
     public static Test suite() throws Exception {
@@ -90,9 +91,7 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig {
     }
 
     public UrlProviderHttpTestCase() throws IOException {
-        SocketPort = FreeSocketPortUtil.findFreeLocalPort();
-        // Use %40 for @ in a URL
-        ConnectionUri = "http://localhost:" + SocketPort;
+        // empty
     }
 
     /**

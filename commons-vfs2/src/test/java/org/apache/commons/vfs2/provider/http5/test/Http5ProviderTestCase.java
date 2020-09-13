@@ -31,7 +31,6 @@ import org.apache.commons.vfs2.provider.http5.Http5FileProvider;
 import org.apache.commons.vfs2.provider.http5.Http5FileSystemConfigBuilder;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
-import org.apache.commons.vfs2.util.FreeSocketPortUtil;
 import org.apache.commons.vfs2.util.NHttpFileServer;
 import org.junit.Assert;
 
@@ -64,7 +63,9 @@ public class Http5ProviderTestCase extends AbstractProviderTestConfig {
      * @throws Exception
      */
     private static void setUpClass() throws Exception {
-        Server = NHttpFileServer.start(SocketPort, new File(getTestDirectory()), 5000);
+        Server = NHttpFileServer.start(0, new File(getTestDirectory()), 5000);
+        SocketPort = Server.getPort();
+        ConnectionUri = "http5://localhost:" + SocketPort;
     }
 
     /**
@@ -109,17 +110,6 @@ public class Http5ProviderTestCase extends AbstractProviderTestConfig {
         if (Server != null) {
             Server.shutdown(5000, TimeUnit.SECONDS);
         }
-    }
-
-    /**
-     * Builds a new test case.
-     *
-     * @throws IOException Thrown if a free local socket port cannot be found.
-     */
-    public Http5ProviderTestCase() throws IOException {
-        SocketPort = FreeSocketPortUtil.findFreeLocalPort();
-        // Use %40 for @ in a URL
-        ConnectionUri = "http5://localhost:" + SocketPort;
     }
 
     private void checkReadTestsFolder(final FileObject file) throws FileSystemException {
