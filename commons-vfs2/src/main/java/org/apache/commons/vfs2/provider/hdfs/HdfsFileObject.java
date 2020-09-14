@@ -78,11 +78,9 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
         try {
             newfileStat = this.hdfs.getFileStatus(new Path(newfile.getName().getPath()));
         } catch (final FileNotFoundException e) {
-            // do nothing
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e);
+            // do nothing       
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
         if (newfileStat == null) {
             return true;
