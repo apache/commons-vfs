@@ -101,6 +101,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-777" dev="ggregory" due-to="Bing-ok, Gary Gregory" type="fix">
         NoSuchMethodError due to multiple versions of commons-codec:commons-codec:jar.
       </action>
+      <action issue="VFS-570" dev="ggregory" due-to="garpinc, Gary Gregory" type="add">
+        Add HDFS write support #114.
+      </action>
       <!-- UPDATES -->
       <action issue="VFS-755" dev="ggregory" due-to="Gary Gregory" type="update">
         Update org.apache.httpcomponents:httpclient from 4.5.10 to 4.5.11.

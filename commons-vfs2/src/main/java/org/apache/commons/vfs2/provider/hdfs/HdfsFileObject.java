@@ -32,7 +32,6 @@ import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.util.RandomAccessMode;
-import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -73,22 +72,13 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
         if (!super.canRenameTo(newfile)) {
             return false;
         }
-
-        FileStatus newfileStat = null;
         try {
-            newfileStat = this.hdfs.getFileStatus(new Path(newfile.getName().getPath()));
+            return this.hdfs.getFileStatus(new Path(newfile.getName().getPath())) == null;
         } catch (final FileNotFoundException e) {
-            // do nothing       
+            return false;
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
-        if (newfileStat == null) {
-            return true;
-        } else if (newfileStat.isDirectory() || newfileStat.isFile()) {
-            return false;
-        }
-
-        return false;
     }
 
     /**
@@ -140,20 +130,20 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
     }
 
     /**
-     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetOutputStream()
+     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetOutputStream(boolean)
+     * @since 2.7.0
      */
     @Override
     protected OutputStream doGetOutputStream(final boolean append) throws Exception {
         if (append) {
             throw new FileSystemException("vfs.provider/write-append-not-supported.error", this.path.getName());
-        } else {
-            FSDataOutputStream out = hdfs.create(this.path);
-            return out;
         }
+        return hdfs.create(this.path);
     }
 
     /**
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doDelete()
+     * @since 2.7.0
      */
     @Override
     protected void doDelete() throws Exception {
@@ -162,6 +152,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
 
     /**
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doCreateFolder()
+     * @since 2.7.0
      */
     @Override
     protected void doCreateFolder() throws Exception {
@@ -170,6 +161,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
 
     /**
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doRename(FileObject)
+     * @since 2.7.0
      */
     @Override
     protected void doRename(FileObject newfile) throws Exception {
