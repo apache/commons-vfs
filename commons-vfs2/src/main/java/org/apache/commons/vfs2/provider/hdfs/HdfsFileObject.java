@@ -76,7 +76,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
             return this.hdfs.getFileStatus(new Path(newfile.getName().getPath())) == null;
         } catch (final FileNotFoundException e) {
             return false;
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new IllegalStateException(e);
         }
     }
@@ -269,7 +269,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
      * @since 2.7.0
      */
     @Override
-    protected void doRename(FileObject newfile) throws Exception {
+    protected void doRename(final FileObject newfile) throws Exception {
         hdfs.rename(this.path, new Path(newfile.getName().getPath()));
     }
 
@@ -288,7 +288,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
     protected boolean doSetLastModifiedTime(final long modtime) throws Exception {
         try {
             hdfs.setTimes(this.path, modtime, System.currentTimeMillis());
-        } catch (IOException ioe) {
+        } catch (final IOException ioe) {
             throw new FileSystemException(ioe);
         }
         return true;
