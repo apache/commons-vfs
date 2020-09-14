@@ -95,6 +95,24 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
     }
 
     /**
+     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doCreateFolder()
+     * @since 2.7.0
+     */
+    @Override
+    protected void doCreateFolder() throws Exception {
+        hdfs.mkdirs(this.path);
+    }
+
+    /**
+     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doDelete()
+     * @since 2.7.0
+     */
+    @Override
+    protected void doDelete() throws Exception {
+        hdfs.delete(this.path, true);
+    }
+
+    /**
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetAttributes()
      */
     @Override
@@ -130,45 +148,6 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
     }
 
     /**
-     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetOutputStream(boolean)
-     * @since 2.7.0
-     */
-    @Override
-    protected OutputStream doGetOutputStream(final boolean append) throws Exception {
-        if (append) {
-            throw new FileSystemException("vfs.provider/write-append-not-supported.error", this.path.getName());
-        }
-        return hdfs.create(this.path);
-    }
-
-    /**
-     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doDelete()
-     * @since 2.7.0
-     */
-    @Override
-    protected void doDelete() throws Exception {
-        hdfs.delete(this.path, true);
-    }
-
-    /**
-     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doCreateFolder()
-     * @since 2.7.0
-     */
-    @Override
-    protected void doCreateFolder() throws Exception {
-        hdfs.mkdirs(this.path);
-    }
-
-    /**
-     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doRename(FileObject)
-     * @since 2.7.0
-     */
-    @Override
-    protected void doRename(FileObject newfile) throws Exception {
-        hdfs.rename(this.path, new Path(newfile.getName().getPath()));
-    }
-
-    /**
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetLastModifiedTime()
      */
     @Override
@@ -178,6 +157,18 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
             return this.stat.getModificationTime();
         }
         return -1;
+    }
+
+    /**
+     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetOutputStream(boolean)
+     * @since 2.7.0
+     */
+    @Override
+    protected OutputStream doGetOutputStream(final boolean append) throws Exception {
+        if (append) {
+            throw new FileSystemException("vfs.provider/write-append-not-supported.error", this.path.getName());
+        }
+        return hdfs.create(this.path);
     }
 
     /**
@@ -271,6 +262,15 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
     @Override
     protected void doRemoveAttribute(final String attrName) throws Exception {
         throw new UnsupportedOperationException();
+    }
+
+    /**
+     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doRename(FileObject)
+     * @since 2.7.0
+     */
+    @Override
+    protected void doRename(FileObject newfile) throws Exception {
+        hdfs.rename(this.path, new Path(newfile.getName().getPath()));
     }
 
     /**
