@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2;
 
+import java.util.Objects;
+
 /**
  * Abstract class which has the right to fill FileSystemOptions.
  */
@@ -654,7 +656,7 @@ public abstract class FileSystemConfigBuilder {
      * @since 1.0
      */
     protected void setParam(final FileSystemOptions fileSystemOptions, final String name, final Object value) {
-        fileSystemOptions.setOption(getConfigClass(), name, value);
+        Objects.requireNonNull(fileSystemOptions, "fileSystemOptions").setOption(getConfigClass(), name, value);
     }
 
     /**
