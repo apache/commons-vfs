@@ -109,14 +109,12 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
      * Locates a cached file system.
      *
      * @param key The root file of the file system, part of the cache key.
-     * @param fileSystemOptions file system options the file system instance must have.
+     * @param fileSystemOptions file system options the file system instance must have, may be null.
      * @return The file system instance, or null if it is not cached.
      */
     protected FileSystem findFileSystem(final Comparable<?> key, final FileSystemOptions fileSystemOptions) {
-        final FileSystemKey treeKey = new FileSystemKey(key, fileSystemOptions);
-
         synchronized (fileSystems) {
-            return fileSystems.get(treeKey);
+            return fileSystems.get(new FileSystemKey(key, fileSystemOptions));
         }
     }
 
