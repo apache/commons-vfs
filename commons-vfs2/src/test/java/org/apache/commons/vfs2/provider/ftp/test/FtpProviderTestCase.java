@@ -28,7 +28,6 @@ import org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder;
 import org.apache.commons.vfs2.provider.ftp.FtpFileType;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
-import org.apache.commons.vfs2.util.FreeSocketPortUtil;
 import org.apache.ftpserver.FtpServer;
 import org.apache.ftpserver.FtpServerFactory;
 import org.apache.ftpserver.ftplet.FileSystemFactory;
@@ -70,12 +69,6 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         return System.getProperty(TEST_URI);
     }
 
-    static void init() throws IOException {
-        SocketPort = FreeSocketPortUtil.findFreeLocalPort();
-        // Use %40 for @ in a URL
-        ConnectionUri = "ftp://test:test@localhost:" + SocketPort;
-    }
-
     /**
      * Creates and starts an embedded Apache FTP Server (MINA).
      *
@@ -89,7 +82,6 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         if (Server != null) {
             return;
         }
-        init();
         final FtpServerFactory serverFactory = new FtpServerFactory();
         final PropertiesUserManagerFactory propertiesUserManagerFactory = new PropertiesUserManagerFactory();
         final URL userPropsResource = ClassLoader.getSystemClassLoader().getResource(USER_PROPS_RES);
@@ -107,7 +99,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         }
         final ListenerFactory factory = new ListenerFactory();
         // set the port of the listener
-        factory.setPort(SocketPort);
+        factory.setPort(0);
 
         // replace the default listener
         serverFactory.addListener("default", factory.createListener());
@@ -115,6 +107,8 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         // start the server
         Server = serverFactory.createServer();
         Server.start();
+        SocketPort = ((org.apache.ftpserver.impl.DefaultFtpServer) Server).getListener("default").getPort();
+        ConnectionUri = "ftp://test:test@localhost:" + SocketPort;
     }
 
     /**

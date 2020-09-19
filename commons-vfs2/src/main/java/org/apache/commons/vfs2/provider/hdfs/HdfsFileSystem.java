@@ -86,7 +86,7 @@ public class HdfsFileSystem extends AbstractFileSystem {
      */
     @Override
     protected FileObject createFile(final AbstractFileName name) throws Exception {
-        throw new FileSystemException("Operation not supported");
+        return resolveFile(name);
     }
 
     /**
@@ -150,14 +150,14 @@ public class HdfsFileSystem extends AbstractFileSystem {
             }
         }
 
-        final boolean useCache = null != getContext().getFileSystemManager().getFilesCache();
-        FileObject file;
+        final boolean useCache = null != getFileSystemManager().getFilesCache();
+        FileObject fileObject;
         if (useCache) {
-            file = this.getFileFromCache(name);
+            fileObject = this.getFileFromCache(name);
         } else {
-            file = null;
+            fileObject = null;
         }
-        if (null == file) {
+        if (null == fileObject) {
             String path = null;
             try {
                 path = URLDecoder.decode(name.getPath(), "UTF-8");
@@ -165,18 +165,19 @@ public class HdfsFileSystem extends AbstractFileSystem {
                 path = name.getPath();
             }
             final Path filePath = new Path(path);
-            file = new HdfsFileObject((AbstractFileName) name, this, fs, filePath);
+            fileObject = new HdfsFileObject((AbstractFileName) name, this, fs, filePath);
+            fileObject = decorateFileObject(fileObject);
             if (useCache) {
-                this.putFileToCache(file);
+                this.putFileToCache(fileObject);
             }
         }
         /**
          * resync the file information if requested
          */
         if (getFileSystemManager().getCacheStrategy().equals(CacheStrategy.ON_RESOLVE)) {
-            file.refresh();
+            fileObject.refresh();
         }
-        return file;
+        return fileObject;
     }
 
 }

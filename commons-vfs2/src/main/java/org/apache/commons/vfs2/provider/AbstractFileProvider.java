@@ -64,7 +64,6 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
         synchronized (fileSystems) {
             fileSystems.clear();
         }
-
         super.close();
     }
 
@@ -73,13 +72,13 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
      *
      * @param scheme The protocol to use to access the file.
      * @param file a FileObject.
-     * @param properties Options to the file system.
+     * @param fileSystemOptions Options to the file system.
      * @return A FileObject associated with the new FileSystem.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public FileObject createFileSystem(final String scheme, final FileObject file, final FileSystemOptions properties)
-            throws FileSystemException {
+    public FileObject createFileSystem(final String scheme, final FileObject file,
+        final FileSystemOptions fileSystemOptions) throws FileSystemException {
         // Can't create a layered file system
         throw new FileSystemException("vfs.provider/not-layered-fs.error", scheme);
     }
@@ -110,14 +109,12 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
      * Locates a cached file system.
      *
      * @param key The root file of the file system, part of the cache key.
-     * @param fileSystemProps file system options the file system instance must have.
+     * @param fileSystemOptions file system options the file system instance must have, may be null.
      * @return The file system instance, or null if it is not cached.
      */
-    protected FileSystem findFileSystem(final Comparable<?> key, final FileSystemOptions fileSystemProps) {
-        final FileSystemKey treeKey = new FileSystemKey(key, fileSystemProps);
-
+    protected FileSystem findFileSystem(final Comparable<?> key, final FileSystemOptions fileSystemOptions) {
         synchronized (fileSystems) {
-            return fileSystems.get(treeKey);
+            return fileSystems.get(new FileSystemKey(key, fileSystemOptions));
         }
     }
 

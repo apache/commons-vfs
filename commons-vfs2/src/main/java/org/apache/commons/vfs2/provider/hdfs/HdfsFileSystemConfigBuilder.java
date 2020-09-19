@@ -41,15 +41,15 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String KEY_CONFIG_STREAM = "configStream";
     private static final String KEY_CONFIG_CONF = "configConf";
 
-    private HdfsFileSystemConfigBuilder() {
-        super("hdfs.");
-    }
-
     /**
      * @return HdfsFileSystemConfigBuilder instance
      */
     public static HdfsFileSystemConfigBuilder getInstance() {
         return BUILDER;
+    }
+
+    private HdfsFileSystemConfigBuilder() {
+        super("hdfs.");
     }
 
     /**
@@ -58,6 +58,28 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
     @Override
     protected Class<? extends FileSystem> getConfigClass() {
         return HdfsFileSystem.class;
+    }
+
+    /**
+     * Get alternate configuration object.
+     *
+     * @return alternate configuration object or {@code null}.
+     * @param opts The FileSystemOptions.
+     * @see #setConfigConfiguration(FileSystemOptions, Configuration)
+     */
+    public Configuration getConfigConfiguration(final FileSystemOptions opts) {
+        return (Configuration) this.getParam(opts, KEY_CONFIG_CONF);
+    }
+
+    /**
+     * Get alternate configuration input stream.
+     *
+     * @return alternate configuration input stream or {@code null}.
+     * @param opts The FileSystemOptions.
+     * @see #setConfigInputStream(FileSystemOptions, InputStream)
+     */
+    public InputStream getConfigInputStream(final FileSystemOptions opts) {
+        return (InputStream) this.getParam(opts, KEY_CONFIG_STREAM);
     }
 
     /**
@@ -70,6 +92,85 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public String[] getConfigNames(final FileSystemOptions opts) {
         final String names = this.getString(opts, KEY_CONFIG_NAMES);
         return names == null || names.isEmpty() ? null : names.split(",");
+    }
+
+    /**
+     * Get paths of alternate configuration file system files.
+     *
+     * @return list of full paths of alternate configuration files or {@code null}.
+     * @param opts The FileSystemOptions.
+     * @see #setConfigPath(FileSystemOptions, Path)
+     */
+    public Path[] getConfigPaths(final FileSystemOptions opts) {
+        final String pathNames = this.getString(opts, KEY_CONFIG_PATHS);
+        if (pathNames == null || pathNames.isEmpty()) {
+            return null;
+        }
+        final String[] paths = pathNames.split(",");
+        return Arrays.stream(paths).map(Path::new).toArray(Path[]::new);
+    }
+
+    /**
+     * Get URLs of alternate configurations.
+     *
+     * @return list of alternate configuration URLs or {@code null}.
+     * @param opts The FileSystemOptions.
+     * @see #setConfigURL(FileSystemOptions, URL)
+     */
+    public URL[] getConfigURLs(final FileSystemOptions opts) {
+        try {
+            final String urlNames = this.getString(opts, KEY_CONFIG_URLS);
+            if (urlNames == null || urlNames.isEmpty()) {
+                return null;
+            }
+            final String[] urls = urlNames.split(",");
+            final URL[] realURLs = new URL[urls.length];
+            for (int i = 0; i < urls.length; i++) {
+                realURLs[i] = new URL(urls[i]);
+            }
+            return realURLs;
+        } catch (final MalformedURLException mue) {
+            // This should never happen because we save it in the proper form
+        }
+        return null;
+    }
+
+    /**
+     * Sets the configuration object to be loaded after the defaults.
+     * <p>
+     * Specifies an already initialized configuration object to override any specific HDFS settings. The property will
+     * be passed on to {@code org.apache.hadoop.conf.Configuration#addResource(Configuration)} after the URL was set as
+     * the default name with: {@code Configuration#set(FileSystem.FS_DEFAULT_NAME_KEY, url)}.
+     * <p>
+     * One use for this is to set a different value for the {@code dfs.client.use.datanode.hostname} property in order
+     * to access HDFS files stored in an AWS installation (from outside their firewall). There are other possible uses
+     * too.
+     *
+     * @param opts The FileSystemOptions to modify.
+     * @param configuration additional configuration object or {@code null} to unset any configuration object previously
+     *            set.
+     */
+    public void setConfigConfiguration(final FileSystemOptions opts, final Configuration configuration) {
+        this.setParam(opts, KEY_CONFIG_CONF, configuration);
+    }
+
+    /**
+     * Sets the input stream of configuration file to be loaded after the defaults.
+     * <p>
+     * Specifies an input stream connected to a config file to override any specific HDFS settings. The property will be
+     * passed on to {@code org.apache.hadoop.conf.Configuration#addResource(InputStream)} after the URL was set as the
+     * default name with: {@code Configuration#set(FileSystem.FS_DEFAULT_NAME_KEY, url)}.
+     * <p>
+     * One use for this is to set a different value for the {@code dfs.client.use.datanode.hostname} property in order
+     * to access HDFS files stored in an AWS installation (from outside their firewall). There are other possible uses
+     * too.
+     *
+     * @param opts The FileSystemOptions to modify.
+     * @param inputStream input stream of additional configuration file or {@code null} to unset the configuration input
+     *            stream previously set up.
+     */
+    public void setConfigInputStream(final FileSystemOptions opts, final InputStream inputStream) {
+        this.setParam(opts, KEY_CONFIG_STREAM, inputStream);
     }
 
     /**
@@ -111,22 +212,6 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Get paths of alternate configuration file system files.
-     *
-     * @return list of full paths of alternate configuration files or {@code null}.
-     * @param opts The FileSystemOptions.
-     * @see #setConfigPath(FileSystemOptions, Path)
-     */
-    public Path[] getConfigPaths(final FileSystemOptions opts) {
-        final String pathNames = this.getString(opts, KEY_CONFIG_PATHS);
-        if (pathNames == null || pathNames.isEmpty()) {
-            return null;
-        }
-        final String[] paths = pathNames.split(",");
-        return Arrays.stream(paths).map(Path::new).toArray(Path[]::new);
-    }
-
-    /**
      * Sets the full path of configuration file to be loaded after the defaults.
      * <p>
      * Specifies the path of a local file system config file to override any specific HDFS settings. The property will
@@ -158,31 +243,6 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Get URLs of alternate configurations.
-     *
-     * @return list of alternate configuration URLs or {@code null}.
-     * @param opts The FileSystemOptions.
-     * @see #setConfigURL(FileSystemOptions, URL)
-     */
-    public URL[] getConfigURLs(final FileSystemOptions opts) {
-        try {
-            final String urlNames = this.getString(opts, KEY_CONFIG_URLS);
-            if (urlNames == null || urlNames.isEmpty()) {
-                return null;
-            }
-            final String[] urls = urlNames.split(",");
-            final URL[] realURLs = new URL[urls.length];
-            for (int i = 0; i < urls.length; i++) {
-                realURLs[i] = new URL(urls[i]);
-            }
-            return realURLs;
-        } catch (final MalformedURLException mue) {
-            // This should never happen because we save it in the proper form
-        }
-        return null;
-    }
-
-    /**
      * Sets the URL of configuration file to be loaded after the defaults.
      * <p>
      * Specifies the URL of a config file to override any specific HDFS settings. The property will be passed on to
@@ -210,66 +270,6 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
                 this.setParam(opts, KEY_CONFIG_URLS, previousURLNames + "," + url.toString());
             }
         }
-    }
-
-    /**
-     * Get alternate configuration input stream.
-     *
-     * @return alternate configuration input stream or {@code null}.
-     * @param opts The FileSystemOptions.
-     * @see #setConfigInputStream(FileSystemOptions, InputStream)
-     */
-    public InputStream getConfigInputStream(final FileSystemOptions opts) {
-        return (InputStream) this.getParam(opts, KEY_CONFIG_STREAM);
-    }
-
-    /**
-     * Sets the input stream of configuration file to be loaded after the defaults.
-     * <p>
-     * Specifies an input stream connected to a config file to override any specific HDFS settings. The property will be
-     * passed on to {@code org.apache.hadoop.conf.Configuration#addResource(InputStream)} after the URL was set as the
-     * default name with: {@code Configuration#set(FileSystem.FS_DEFAULT_NAME_KEY, url)}.
-     * <p>
-     * One use for this is to set a different value for the {@code dfs.client.use.datanode.hostname} property in order
-     * to access HDFS files stored in an AWS installation (from outside their firewall). There are other possible uses
-     * too.
-     *
-     * @param opts The FileSystemOptions to modify.
-     * @param inputStream input stream of additional configuration file or {@code null} to unset the configuration input
-     *            stream previously set up.
-     */
-    public void setConfigInputStream(final FileSystemOptions opts, final InputStream inputStream) {
-        this.setParam(opts, KEY_CONFIG_STREAM, inputStream);
-    }
-
-    /**
-     * Get alternate configuration object.
-     *
-     * @return alternate configuration object or {@code null}.
-     * @param opts The FileSystemOptions.
-     * @see #setConfigConfiguration(FileSystemOptions, Configuration)
-     */
-    public Configuration getConfigConfiguration(final FileSystemOptions opts) {
-        return (Configuration) this.getParam(opts, KEY_CONFIG_CONF);
-    }
-
-    /**
-     * Sets the configuration object to be loaded after the defaults.
-     * <p>
-     * Specifies an already initialized configuration object to override any specific HDFS settings. The property will
-     * be passed on to {@code org.apache.hadoop.conf.Configuration#addResource(Configuration)} after the URL was set as
-     * the default name with: {@code Configuration#set(FileSystem.FS_DEFAULT_NAME_KEY, url)}.
-     * <p>
-     * One use for this is to set a different value for the {@code dfs.client.use.datanode.hostname} property in order
-     * to access HDFS files stored in an AWS installation (from outside their firewall). There are other possible uses
-     * too.
-     *
-     * @param opts The FileSystemOptions to modify.
-     * @param configuration additional configuration object or {@code null} to unset any configuration object previously
-     *            set.
-     */
-    public void setConfigConfiguration(final FileSystemOptions opts, final Configuration configuration) {
-        this.setParam(opts, KEY_CONFIG_CONF, configuration);
     }
 
 }

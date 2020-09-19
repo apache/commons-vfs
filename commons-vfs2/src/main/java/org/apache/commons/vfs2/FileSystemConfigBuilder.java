@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2;
 
+import java.util.Objects;
+
 /**
  * Abstract class which has the right to fill FileSystemOptions.
  */
@@ -53,21 +55,21 @@ public abstract class FileSystemConfigBuilder {
     /**
      * Gets named option as boolean.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @return the option in {@code opts} or system properties, otherwise null
      * @see #getBoolean(FileSystemOptions, String, Boolean)
      *
      * @since 2.0
      */
-    protected Boolean getBoolean(final FileSystemOptions opts, final String name) {
-        return getBoolean(opts, name, null);
+    protected Boolean getBoolean(final FileSystemOptions fileSystemOptions, final String name) {
+        return getBoolean(fileSystemOptions, name, null);
     }
 
     /**
      * Gets named option as boolean.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @param defaultValue value to return if option is not present
      * @return the option in {@code opts} or system properties, otherwise {@code defaultValue}
@@ -75,14 +77,15 @@ public abstract class FileSystemConfigBuilder {
      *
      * @since 2.0
      */
-    protected boolean getBoolean(final FileSystemOptions opts, final String name, final boolean defaultValue) {
-        return getBoolean(opts, name, Boolean.valueOf(defaultValue)).booleanValue();
+    protected boolean getBoolean(final FileSystemOptions fileSystemOptions, final String name,
+        final boolean defaultValue) {
+        return getBoolean(fileSystemOptions, name, Boolean.valueOf(defaultValue)).booleanValue();
     }
 
     /**
      * Gets named option as boolean.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @param defaultValue value to return if option is not present
      * @return the option in {@code opts} or system properties, otherwise {@code defaultValue}
@@ -90,8 +93,9 @@ public abstract class FileSystemConfigBuilder {
      *
      * @since 2.0
      */
-    protected Boolean getBoolean(final FileSystemOptions opts, final String name, final Boolean defaultValue) {
-        Boolean value = (Boolean) getParam(opts, name);
+    protected Boolean getBoolean(final FileSystemOptions fileSystemOptions, final String name,
+        final Boolean defaultValue) {
+        Boolean value = (Boolean) getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
             if (str == null) {
@@ -105,21 +109,21 @@ public abstract class FileSystemConfigBuilder {
     /**
      * Gets named option as byte.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @return the option in {@code opts} or system properties, otherwise null
      * @see #getByte(FileSystemOptions, String, Byte)
      *
      * @since 2.0
      */
-    protected Byte getByte(final FileSystemOptions opts, final String name) {
-        return getByte(opts, name, null);
+    protected Byte getByte(final FileSystemOptions fileSystemOptions, final String name) {
+        return getByte(fileSystemOptions, name, null);
     }
 
     /**
      * Gets named option as byte.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @param defaultValue value to return if option is not present
      * @return the option in {@code opts} or system properties, otherwise {@code defaultValue}
@@ -127,22 +131,22 @@ public abstract class FileSystemConfigBuilder {
      *
      * @since 2.0
      */
-    protected byte getByte(final FileSystemOptions opts, final String name, final byte defaultValue) {
-        return getByte(opts, name, Byte.valueOf(defaultValue)).byteValue();
+    protected byte getByte(final FileSystemOptions fileSystemOptions, final String name, final byte defaultValue) {
+        return getByte(fileSystemOptions, name, Byte.valueOf(defaultValue)).byteValue();
     }
 
     /**
      * Gets named option as byte.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @param defaultValue value to return if option is not present
      * @return the option in {@code opts} or system properties, otherwise {@code defaultValue}
      *
      * @since 2.0
      */
-    protected Byte getByte(final FileSystemOptions opts, final String name, final Byte defaultValue) {
-        Byte value = (Byte) getParam(opts, name);
+    protected Byte getByte(final FileSystemOptions fileSystemOptions, final String name, final Byte defaultValue) {
+        Byte value = (Byte) getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
             if (str == null) {
@@ -156,21 +160,21 @@ public abstract class FileSystemConfigBuilder {
     /**
      * Gets named option as character.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @return the option in {@code opts} or system properties, otherwise null
      * @see #getCharacter(FileSystemOptions, String, Character)
      *
      * @since 2.0
      */
-    protected Character getCharacter(final FileSystemOptions opts, final String name) {
-        return getCharacter(opts, name, null);
+    protected Character getCharacter(final FileSystemOptions fileSystemOptions, final String name) {
+        return getCharacter(fileSystemOptions, name, null);
     }
 
     /**
      * Gets named option as character.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @param defaultValue value to return if option is not present
      * @return the option in {@code opts} or system properties, otherwise {@code defaultValue}
@@ -178,22 +182,23 @@ public abstract class FileSystemConfigBuilder {
      *
      * @since 2.0
      */
-    protected char getCharacter(final FileSystemOptions opts, final String name, final char defaultValue) {
-        return getCharacter(opts, name, new Character(defaultValue)).charValue();
+    protected char getCharacter(final FileSystemOptions fileSystemOptions, final String name, final char defaultValue) {
+        return getCharacter(fileSystemOptions, name, new Character(defaultValue)).charValue();
     }
 
     /**
      * Gets named option as character.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @param defaultValue value to return if option is not present
      * @return the option in {@code opts} or system properties, otherwise {@code defaultValue}
      *
      * @since 2.0
      */
-    protected Character getCharacter(final FileSystemOptions opts, final String name, final Character defaultValue) {
-        Character value = (Character) getParam(opts, name);
+    protected Character getCharacter(final FileSystemOptions fileSystemOptions, final String name,
+        final Character defaultValue) {
+        Character value = (Character) getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
             if (str == null || str.length() <= 0) {
@@ -216,21 +221,21 @@ public abstract class FileSystemConfigBuilder {
     /**
      * Gets named option as double.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @return the option in {@code opts} or system properties, otherwise null
      * @see #getDouble(FileSystemOptions, String, Double)
      *
      * @since 2.0
      */
-    protected Double getDouble(final FileSystemOptions opts, final String name) {
-        return getDouble(opts, name, null);
+    protected Double getDouble(final FileSystemOptions fileSystemOptions, final String name) {
+        return getDouble(fileSystemOptions, name, null);
     }
 
     /**
      * Gets named option as double.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @param defaultValue value to return if option is not present
      * @return the option in {@code opts} or system properties, otherwise {@code defaultValue}
@@ -238,22 +243,24 @@ public abstract class FileSystemConfigBuilder {
      *
      * @since 2.0
      */
-    protected double getDouble(final FileSystemOptions opts, final String name, final double defaultValue) {
-        return getDouble(opts, name, new Double(defaultValue)).doubleValue();
+    protected double getDouble(final FileSystemOptions fileSystemOptions, final String name,
+        final double defaultValue) {
+        return getDouble(fileSystemOptions, name, new Double(defaultValue)).doubleValue();
     }
 
     /**
      * Gets named option as double.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @param defaultValue value to return if option is not present
      * @return the option in {@code opts} or system properties, otherwise {@code defaultValue}
      *
      * @since 2.0
      */
-    protected Double getDouble(final FileSystemOptions opts, final String name, final Double defaultValue) {
-        Double value = (Double) getParam(opts, name);
+    protected Double getDouble(final FileSystemOptions fileSystemOptions, final String name,
+        final Double defaultValue) {
+        Double value = (Double) getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
             if (str == null || str.length() <= 0) {
@@ -269,7 +276,7 @@ public abstract class FileSystemConfigBuilder {
      *
      * @param <E> enumeration type
      * @param enumClass class of enumeration type
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name *
      * @return the option in {@code opts} or system properties, otherwise null
      * @see #getEnum(Class, FileSystemOptions, String, Enum)
@@ -277,8 +284,9 @@ public abstract class FileSystemConfigBuilder {
      *
      * @since 2.1
      */
-    protected <E extends Enum<E>> E getEnum(final Class<E> enumClass, final FileSystemOptions opts, final String name) {
-        return this.<E>getEnum(enumClass, opts, name, null);
+    protected <E extends Enum<E>> E getEnum(final Class<E> enumClass, final FileSystemOptions fileSystemOptions,
+        final String name) {
+        return this.<E>getEnum(enumClass, fileSystemOptions, name, null);
     }
 
     /**
@@ -286,7 +294,7 @@ public abstract class FileSystemConfigBuilder {
      *
      * @param <E> enumeration type
      * @param enumClass class of enumeration type
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @param defaultValue value to return if option is not present
      * @return the option in {@code opts} or system properties, otherwise {@code defaultValue}
@@ -295,10 +303,10 @@ public abstract class FileSystemConfigBuilder {
      *
      * @since 2.1
      */
-    protected <E extends Enum<E>> E getEnum(final Class<E> enumClass, final FileSystemOptions opts, final String name,
-            final E defaultValue) {
+    protected <E extends Enum<E>> E getEnum(final Class<E> enumClass, final FileSystemOptions fileSystemOptions,
+        final String name, final E defaultValue) {
         @SuppressWarnings("unchecked")
-        E value = (E) getParam(opts, name);
+        E value = (E) getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
             if (str == null) {
@@ -312,7 +320,7 @@ public abstract class FileSystemConfigBuilder {
     /**
      * Gets named option as float.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @return the option in {@code opts} or system properties, otherwise null
      * @see #getFloat(FileSystemOptions, String, Float)
@@ -320,14 +328,14 @@ public abstract class FileSystemConfigBuilder {
      *
      * @since 2.0
      */
-    protected Float getFloat(final FileSystemOptions opts, final String name) {
-        return getFloat(opts, name, null);
+    protected Float getFloat(final FileSystemOptions fileSystemOptions, final String name) {
+        return getFloat(fileSystemOptions, name, null);
     }
 
     /**
      * Gets named option as float.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @param defaultValue value to return if option is not present
      * @return the option in {@code opts} or system properties, otherwise {@code defaultValue}
@@ -336,14 +344,14 @@ public abstract class FileSystemConfigBuilder {
      *
      * @since 2.0
      */
-    protected float getFloat(final FileSystemOptions opts, final String name, final float defaultValue) {
-        return getFloat(opts, name, new Float(defaultValue)).floatValue();
+    protected float getFloat(final FileSystemOptions fileSystemOptions, final String name, final float defaultValue) {
+        return getFloat(fileSystemOptions, name, new Float(defaultValue)).floatValue();
     }
 
     /**
      * Gets named option as float.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @param defaultValue value to return if option is not present
      * @return the option in {@code opts} or system properties, otherwise {@code defaultValue}
@@ -351,8 +359,8 @@ public abstract class FileSystemConfigBuilder {
      *
      * @since 2.0
      */
-    protected Float getFloat(final FileSystemOptions opts, final String name, final Float defaultValue) {
-        Float value = (Float) getParam(opts, name);
+    protected Float getFloat(final FileSystemOptions fileSystemOptions, final String name, final Float defaultValue) {
+        Float value = (Float) getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
             if (str == null || str.length() <= 0) {
@@ -366,7 +374,7 @@ public abstract class FileSystemConfigBuilder {
     /**
      * Gets named option as integer.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @return the option in {@code opts} or system properties, otherwise null
      * @see #getInteger(FileSystemOptions, String, Integer)
@@ -374,14 +382,14 @@ public abstract class FileSystemConfigBuilder {
      *
      * @since 2.0
      */
-    protected Integer getInteger(final FileSystemOptions opts, final String name) {
-        return getInteger(opts, name, null);
+    protected Integer getInteger(final FileSystemOptions fileSystemOptions, final String name) {
+        return getInteger(fileSystemOptions, name, null);
     }
 
     /**
      * Gets named option as integer.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @param defaultValue value to return if option is not present
      * @return the option in {@code opts} or system properties, otherwise {@code defaultValue}
@@ -390,14 +398,14 @@ public abstract class FileSystemConfigBuilder {
      *
      * @since 2.0
      */
-    protected int getInteger(final FileSystemOptions opts, final String name, final int defaultValue) {
-        return getInteger(opts, name, Integer.valueOf(defaultValue)).intValue();
+    protected int getInteger(final FileSystemOptions fileSystemOptions, final String name, final int defaultValue) {
+        return getInteger(fileSystemOptions, name, Integer.valueOf(defaultValue)).intValue();
     }
 
     /**
      * Gets named option as integer.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @param defaultValue value to return if option is not present
      * @return the option in {@code opts} or system properties, otherwise {@code defaultValue}
@@ -405,8 +413,9 @@ public abstract class FileSystemConfigBuilder {
      *
      * @since 2.0
      */
-    protected Integer getInteger(final FileSystemOptions opts, final String name, final Integer defaultValue) {
-        Integer value = (Integer) getParam(opts, name);
+    protected Integer getInteger(final FileSystemOptions fileSystemOptions, final String name,
+        final Integer defaultValue) {
+        Integer value = (Integer) getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
             if (str == null) {
@@ -420,7 +429,7 @@ public abstract class FileSystemConfigBuilder {
     /**
      * Gets named option as long.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @return the option in {@code opts} or system properties, otherwise null
      * @see #getLong(FileSystemOptions, String, Long)
@@ -428,14 +437,14 @@ public abstract class FileSystemConfigBuilder {
      *
      * @since 2.0
      */
-    protected Long getLong(final FileSystemOptions opts, final String name) {
-        return getLong(opts, name, null);
+    protected Long getLong(final FileSystemOptions fileSystemOptions, final String name) {
+        return getLong(fileSystemOptions, name, null);
     }
 
     /**
      * Gets named option as long.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @param defaultValue value to return if option is not present
      * @return the option in {@code opts} or system properties, otherwise {@code defaultValue}
@@ -444,14 +453,14 @@ public abstract class FileSystemConfigBuilder {
      *
      * @since 2.0
      */
-    protected long getLong(final FileSystemOptions opts, final String name, final long defaultValue) {
-        return getLong(opts, name, Long.valueOf(defaultValue)).longValue();
+    protected long getLong(final FileSystemOptions fileSystemOptions, final String name, final long defaultValue) {
+        return getLong(fileSystemOptions, name, Long.valueOf(defaultValue)).longValue();
     }
 
     /**
      * Gets named option as long.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @param defaultValue value to return if option is not present
      * @return the option in {@code opts} or system properties, otherwise {@code defaultValue}
@@ -459,8 +468,8 @@ public abstract class FileSystemConfigBuilder {
      *
      * @since 2.0
      */
-    protected Long getLong(final FileSystemOptions opts, final String name, final Long defaultValue) {
-        Long value = (Long) getParam(opts, name);
+    protected Long getLong(final FileSystemOptions fileSystemOptions, final String name, final Long defaultValue) {
+        Long value = (Long) getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
             if (str == null) {
@@ -474,18 +483,14 @@ public abstract class FileSystemConfigBuilder {
     /**
      * Gets named parameter.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name get option with this name
      * @return the named option or null
      *
      * @since 1.0
      */
-    protected Object getParam(final FileSystemOptions opts, final String name) {
-        if (opts == null) {
-            return null;
-        }
-
-        return opts.getOption(getConfigClass(), name);
+    protected Object getParam(final FileSystemOptions fileSystemOptions, final String name) {
+        return fileSystemOptions == null ? null : fileSystemOptions.getOption(getConfigClass(), name);
     }
 
     /**
@@ -503,19 +508,19 @@ public abstract class FileSystemConfigBuilder {
     /**
      * Gets the root URI of the file system.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @return The root URI
      *
      * @since 2.0
      */
-    public String getRootURI(final FileSystemOptions opts) {
-        return getString(opts, ROOTURI);
+    public String getRootURI(final FileSystemOptions fileSystemOptions) {
+        return getString(fileSystemOptions, ROOTURI);
     }
 
     /**
      * Gets named option as short.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @return the option in {@code opts} or system properties, otherwise null
      * @see #getShort(FileSystemOptions, String, Short)
@@ -523,14 +528,14 @@ public abstract class FileSystemConfigBuilder {
      *
      * @since 2.0
      */
-    protected Short getShort(final FileSystemOptions opts, final String name) {
-        return getShort(opts, name, null);
+    protected Short getShort(final FileSystemOptions fileSystemOptions, final String name) {
+        return getShort(fileSystemOptions, name, null);
     }
 
     /**
      * Gets named option as short.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @param defaultValue value to return if option is not present
      * @return the option in {@code opts} or system properties, otherwise {@code defaultValue}
@@ -539,14 +544,14 @@ public abstract class FileSystemConfigBuilder {
      *
      * @since 2.0
      */
-    protected short getShort(final FileSystemOptions opts, final String name, final short defaultValue) {
-        return getShort(opts, name, Short.valueOf(defaultValue)).shortValue();
+    protected short getShort(final FileSystemOptions fileSystemOptions, final String name, final short defaultValue) {
+        return getShort(fileSystemOptions, name, Short.valueOf(defaultValue)).shortValue();
     }
 
     /**
      * Gets named option as short.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @param defaultValue value to return if option is not present
      * @return the option in {@code opts} or system properties, otherwise {@code defaultValue}
@@ -554,8 +559,8 @@ public abstract class FileSystemConfigBuilder {
      *
      * @since 2.0
      */
-    protected Short getShort(final FileSystemOptions opts, final String name, final Short defaultValue) {
-        Short value = (Short) getParam(opts, name);
+    protected Short getShort(final FileSystemOptions fileSystemOptions, final String name, final Short defaultValue) {
+        Short value = (Short) getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
             if (str == null) {
@@ -569,29 +574,30 @@ public abstract class FileSystemConfigBuilder {
     /**
      * Gets named option as String.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @return the option in {@code opts} or system properties, otherwise null
      * @see #getString(FileSystemOptions, String, String)
      *
      * @since 2.0
      */
-    protected String getString(final FileSystemOptions opts, final String name) {
-        return getString(opts, name, null);
+    protected String getString(final FileSystemOptions fileSystemOptions, final String name) {
+        return getString(fileSystemOptions, name, null);
     }
 
     /**
      * Gets named option as String.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @param defaultValue value to return if option is not present
      * @return the option in {@code opts} or system properties, otherwise {@code defaultValue}
      *
      * @since 2.0
      */
-    protected String getString(final FileSystemOptions opts, final String name, final String defaultValue) {
-        String value = (String) getParam(opts, name);
+    protected String getString(final FileSystemOptions fileSystemOptions, final String name,
+        final String defaultValue) {
+        String value = (String) getParam(fileSystemOptions, name);
         if (value == null) {
             value = getProperty(name);
             if (value == null) {
@@ -604,65 +610,65 @@ public abstract class FileSystemConfigBuilder {
     /**
      * Checks the named setting specified.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the option to check in {@code opts} or system properties
      * @return true if option exists
      *
      * @since 2.0
      */
-    protected boolean hasObject(final FileSystemOptions opts, final String name) {
-        return hasParam(opts, name) || System.getProperties().containsKey(toPropertyKey(name));
+    protected boolean hasObject(final FileSystemOptions fileSystemOptions, final String name) {
+        return hasParam(fileSystemOptions, name) || System.getProperties().containsKey(toPropertyKey(name));
     }
 
     /**
      * Checks if option exists.
      *
-     * @param opts file system options to work with
+     * @param fileSystemOptions file system options to query, may be null.
      * @param name the name to look up in {@code opts}
      * @return true if opts have the named parameter
      *
      * @since 1.0
      */
-    protected boolean hasParam(final FileSystemOptions opts, final String name) {
-        return opts != null && opts.hasOption(getConfigClass(), name);
+    protected boolean hasParam(final FileSystemOptions fileSystemOptions, final String name) {
+        return fileSystemOptions != null && fileSystemOptions.hasOption(getConfigClass(), name);
     }
 
     /**
-     * Sets named parameter.
+     * Sets the named parameter.
      *
-     * @param opts the file system options to modify
+     * @param fileSystemOptions the file system options to modify
      * @param name set option with this name
      * @param value boolean value to set
      *
      * @since 2.1
      */
-    protected void setParam(final FileSystemOptions opts, final String name, final boolean value) {
-        setParam(opts, name, Boolean.valueOf(value));
+    protected void setParam(final FileSystemOptions fileSystemOptions, final String name, final boolean value) {
+        setParam(fileSystemOptions, name, Boolean.valueOf(value));
     }
 
     /**
-     * Sets named parameter.
+     * Sets the named parameter.
      *
-     * @param opts the file system options to modify
+     * @param fileSystemOptions the file system options to modify
      * @param name set option with this name
      * @param value object value to set
      *
      * @since 1.0
      */
-    protected void setParam(final FileSystemOptions opts, final String name, final Object value) {
-        opts.setOption(getConfigClass(), name, value);
+    protected void setParam(final FileSystemOptions fileSystemOptions, final String name, final Object value) {
+        Objects.requireNonNull(fileSystemOptions, "fileSystemOptions").setOption(getConfigClass(), name, value);
     }
 
     /**
      * Sets the root URI of the file system.
      *
-     * @param opts the file system options to modify
+     * @param fileSystemOptions the file system options to modify
      * @param rootURI The creator name to be associated with the file.
      *
      * @since 2.0
      */
-    public void setRootURI(final FileSystemOptions opts, final String rootURI) {
-        setParam(opts, ROOTURI, rootURI);
+    public void setRootURI(final FileSystemOptions fileSystemOptions, final String rootURI) {
+        setParam(fileSystemOptions, ROOTURI, rootURI);
     }
 
     /**

@@ -29,7 +29,6 @@ import org.apache.commons.vfs2.provider.ftps.FtpsFileProvider;
 import org.apache.commons.vfs2.provider.ftps.FtpsFileSystemConfigBuilder;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
-import org.apache.commons.vfs2.util.FreeSocketPortUtil;
 import org.apache.ftpserver.FtpServer;
 import org.apache.ftpserver.FtpServerFactory;
 import org.apache.ftpserver.ftplet.FtpException;
@@ -73,12 +72,6 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         return System.getProperty(TEST_URI);
     }
 
-    static void init() throws IOException {
-        SocketPort = FreeSocketPortUtil.findFreeLocalPort();
-        // Use %40 for @ in a URL
-        ConnectionUri = "ftps://test:test@localhost:" + SocketPort;
-    }
-
     /**
      * Creates and starts an embedded Apache FTP Server (MINA).
      *
@@ -90,7 +83,6 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         if (Server != null) {
             return;
         }
-        init();
         final FtpServerFactory serverFactory = new FtpServerFactory();
         final PropertiesUserManagerFactory propertiesUserManagerFactory = new PropertiesUserManagerFactory();
         final URL userPropsResource = ClassLoader.getSystemClassLoader().getResource(USER_PROPS_RES);
@@ -103,8 +95,8 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         user.setHomeDirectory(getTestDirectory());
         serverFactory.setUserManager(userManager);
         final ListenerFactory factory = new ListenerFactory();
-        // set the port of the listener
-        factory.setPort(SocketPort);
+        // Let the OS find use an ephemeral port by using 0 here.
+        factory.setPort(0);
 
         // define SSL configuration
         final URL serverJksResource = ClassLoader.getSystemClassLoader().getResource(SERVER_JKS_RES);
@@ -125,6 +117,8 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         // start the server
         Server = serverFactory.createServer();
         Server.start();
+        SocketPort = ((org.apache.ftpserver.impl.DefaultFtpServer) Server).getListener("default").getPort();
+        ConnectionUri = "ftps://test:test@localhost:" + SocketPort;
     }
 
     /**

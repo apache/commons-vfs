@@ -17,7 +17,9 @@
 package org.apache.commons.vfs2.provider.hdfs;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -67,7 +69,16 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
      */
     @Override
     public boolean canRenameTo(final FileObject newfile) {
-        throw new UnsupportedOperationException();
+        if (!super.canRenameTo(newfile)) {
+            return false;
+        }
+        try {
+            return this.hdfs.getFileStatus(new Path(newfile.getName().getPath())) == null;
+        } catch (final FileNotFoundException e) {
+            return false;
+        } catch (final IOException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     /**
@@ -81,6 +92,24 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
             this.stat = null;
             return;
         }
+    }
+
+    /**
+     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doCreateFolder()
+     * @since 2.7.0
+     */
+    @Override
+    protected void doCreateFolder() throws Exception {
+        hdfs.mkdirs(this.path);
+    }
+
+    /**
+     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doDelete()
+     * @since 2.7.0
+     */
+    @Override
+    protected void doDelete() throws Exception {
+        hdfs.delete(this.path, true);
     }
 
     /**
@@ -123,10 +152,23 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
      */
     @Override
     protected long doGetLastModifiedTime() throws Exception {
+        doAttach();
         if (null != this.stat) {
             return this.stat.getModificationTime();
         }
         return -1;
+    }
+
+    /**
+     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetOutputStream(boolean)
+     * @since 2.7.0
+     */
+    @Override
+    protected OutputStream doGetOutputStream(final boolean append) throws Exception {
+        if (append) {
+            throw new FileSystemException("vfs.provider/write-append-not-supported.error", this.path.getName());
+        }
+        return hdfs.create(this.path);
     }
 
     /**
@@ -181,7 +223,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
      */
     @Override
     protected boolean doIsWriteable() throws Exception {
-        return false;
+        return true;
     }
 
     /**
@@ -223,6 +265,15 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
     }
 
     /**
+     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doRename(FileObject)
+     * @since 2.7.0
+     */
+    @Override
+    protected void doRename(final FileObject newfile) throws Exception {
+        hdfs.rename(this.path, new Path(newfile.getName().getPath()));
+    }
+
+    /**
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doSetAttribute(java.lang.String, java.lang.Object)
      */
     @Override
@@ -235,7 +286,12 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
      */
     @Override
     protected boolean doSetLastModifiedTime(final long modtime) throws Exception {
-        throw new UnsupportedOperationException();
+        try {
+            hdfs.setTimes(this.path, modtime, System.currentTimeMillis());
+        } catch (final IOException ioe) {
+            throw new FileSystemException(ioe);
+        }
+        return true;
     }
 
     /**
