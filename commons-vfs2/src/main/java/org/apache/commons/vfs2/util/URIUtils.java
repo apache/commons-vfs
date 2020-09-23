@@ -183,7 +183,7 @@ public class URIUtils {
      */
     private static final String DEFAULT_PROTOCOL_CHARSET = "UTF-8";
 
-    private static String encode(final String unescaped, final BitSet allowed, final String charset) throws URISyntaxException {
+    private static String encode(final String unescaped, final BitSet allowed, final String charset) {
         final byte[] rawdata = URLCodecUtils.encodeUrl(allowed, EncodingUtils.getBytes(unescaped, charset));
         return EncodingUtils.getAsciiString(rawdata, 0, rawdata.length);
     }
@@ -195,7 +195,7 @@ public class URIUtils {
      * @param unescaped an unescaped string
      * @return the escaped string
      *
-     * @throws URISyntaxException if the default protocol charset is not supported
+     * @throws URISyntaxException not thrown but kept for source compatibility
      */
     public static String encodePath(final String unescaped) throws URISyntaxException {
         return encodePath(unescaped, DEFAULT_PROTOCOL_CHARSET);
@@ -209,7 +209,7 @@ public class URIUtils {
      * @param charset the charset
      * @return the escaped string
      *
-     * @throws URISyntaxException if the charset is not supported
+     * @throws URISyntaxException not thrown but kept for source compatibility
      */
     public static String encodePath(final String unescaped, final String charset) throws URISyntaxException {
         if (unescaped == null) {
