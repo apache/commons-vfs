@@ -16,8 +16,6 @@
  */
 package org.apache.commons.vfs2.provider;
 
-import java.net.URISyntaxException;
-
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
@@ -73,9 +71,8 @@ public class GenericURLFileName extends GenericFileName {
         if (getQueryString() == null) {
             if (charset != null) {
                 return URIUtils.encodePath(getPathDecoded(), charset);
-            } else {
-                return URIUtils.encodePath(getPathDecoded());
             }
+            return URIUtils.encodePath(getPathDecoded());
         }
 
         final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
