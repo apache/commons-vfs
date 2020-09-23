@@ -39,6 +39,24 @@ public class UrlTests extends AbstractProviderTestCase {
     }
 
     /**
+     * Tests that unknown files have no content.
+     */
+    public void testUnknownURL() throws Exception {
+        // Try getting the content of an unknown file
+        final FileObject unknownFile = getReadFolder().resolveFile("unknown-file");
+        assertFalse(unknownFile.exists());
+
+        final URLConnection connection = unknownFile.getURL().openConnection();
+        try {
+            connection.getInputStream();
+            fail();
+        } catch (final IOException e) {
+            assertSameMessage("vfs.provider/read-not-file.error", unknownFile, e);
+        }
+        assertEquals(-1, connection.getContentLength());
+    }
+
+    /**
      * Tests url.
      */
     public void testURL() throws Exception {
@@ -90,24 +108,6 @@ public class UrlTests extends AbstractProviderTestCase {
         assertEquals("Two files resolved by URI must be equals on " + uri, f1, f2);
         assertSame("Resolving two times should not produce new filesystem on " + uri, f1.getFileSystem(),
                 f2.getFileSystem());
-    }
-
-    /**
-     * Tests that unknown files have no content.
-     */
-    public void testUnknownURL() throws Exception {
-        // Try getting the content of an unknown file
-        final FileObject unknownFile = getReadFolder().resolveFile("unknown-file");
-        assertFalse(unknownFile.exists());
-
-        final URLConnection connection = unknownFile.getURL().openConnection();
-        try {
-            connection.getInputStream();
-            fail();
-        } catch (final IOException e) {
-            assertSameMessage("vfs.provider/read-not-file.error", unknownFile, e);
-        }
-        assertEquals(-1, connection.getContentLength());
     }
 
 }
