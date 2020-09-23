@@ -153,7 +153,7 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
         return System.getProperty(TEST_URI);
     }
 
-    private static TransientRepository getTransientRepository(final File repoDirectory) throws IOException {
+    private static TransientRepository getTransientRepository(final File repoDirectory) {
         return new TransientRepository(new File(repoDirectory, "repository.xml"), repoDirectory);
     }
 
@@ -270,10 +270,8 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
      * <li>Remove temporary repository directory.</li>
      * </ol>
      * Stops the embedded Apache WebDAV Server.
-     *
-     * @throws Exception @throws
      */
-    private static void tearDownClass() throws Exception {
+    private static void tearDownClass() {
         // Stop Jackrabbit Main for graceful shutdown
         jrMain.shutdown();
 

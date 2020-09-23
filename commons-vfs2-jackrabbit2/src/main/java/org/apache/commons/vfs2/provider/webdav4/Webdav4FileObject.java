@@ -20,7 +20,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -220,12 +219,12 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
     private final Webdav4FileSystem fileSystem;
 
     protected Webdav4FileObject(final AbstractFileName name, final Webdav4FileSystem fileSystem)
-            throws FileSystemException, URISyntaxException {
+            throws FileSystemException {
         this(name, fileSystem, Webdav4FileSystemConfigBuilder.getInstance());
     }
 
     protected Webdav4FileObject(final AbstractFileName name, final Webdav4FileSystem fileSystem,
-            final Webdav4FileSystemConfigBuilder builder) throws FileSystemException, URISyntaxException {
+            final Webdav4FileSystemConfigBuilder builder) throws FileSystemException {
         super(name, fileSystem, builder);
         this.fileSystem = fileSystem;
         this.builder = builder;
@@ -588,7 +587,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
         return i >= 0 ? path.substring(i + 1) : path;
     }
 
-    private void setupRequest(final HttpUriRequest request) throws FileSystemException {
+    private void setupRequest(final HttpUriRequest request) {
         // NOTE: *FileSystemConfigBuilder takes care of redirect option and user agent.
         request.addHeader("Cache-control", "no-cache");
         request.addHeader("Cache-store", "no-store");

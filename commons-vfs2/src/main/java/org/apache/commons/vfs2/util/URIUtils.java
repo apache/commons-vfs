@@ -18,7 +18,6 @@ package org.apache.commons.vfs2.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
 import java.util.BitSet;
 
 import org.apache.commons.logging.Log;
@@ -194,10 +193,8 @@ public class URIUtils {
      *
      * @param unescaped an unescaped string
      * @return the escaped string
-     *
-     * @throws URISyntaxException not thrown but kept for source compatibility
      */
-    public static String encodePath(final String unescaped) throws URISyntaxException {
+    public static String encodePath(final String unescaped) {
         return encodePath(unescaped, DEFAULT_PROTOCOL_CHARSET);
     }
 
@@ -208,10 +205,8 @@ public class URIUtils {
      * @param unescaped an unescaped string
      * @param charset the charset
      * @return the escaped string
-     *
-     * @throws URISyntaxException not thrown but kept for source compatibility
      */
-    public static String encodePath(final String unescaped, final String charset) throws URISyntaxException {
+    public static String encodePath(final String unescaped, final String charset) {
         if (unescaped == null) {
             throw new IllegalArgumentException("The string to encode may not be null.");
         }

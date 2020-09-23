@@ -74,10 +74,9 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
      * @param name file name
      * @param fileSystem file system
      * @throws FileSystemException if any error occurs
-     * @throws URISyntaxException if given file name cannot be converted to a URI due to URI syntax error
      */
     protected Http4FileObject(final AbstractFileName name, final FS fileSystem)
-            throws FileSystemException, URISyntaxException {
+            throws FileSystemException {
         this(name, fileSystem, Http4FileSystemConfigBuilder.getInstance());
     }
 
@@ -88,10 +87,9 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
      * @param fileSystem file system
      * @param builder {@code Http4FileSystemConfigBuilder} object
      * @throws FileSystemException if any error occurs
-     * @throws URISyntaxException if given file name cannot be converted to a URI due to URI syntax error
      */
     protected Http4FileObject(final AbstractFileName name, final FS fileSystem,
-            final Http4FileSystemConfigBuilder builder) throws FileSystemException, URISyntaxException {
+            final Http4FileSystemConfigBuilder builder) throws FileSystemException {
         super(name, fileSystem);
         final FileSystemOptions fileSystemOptions = fileSystem.getFileSystemOptions();
         urlCharset = builder.getUrlCharset(fileSystemOptions);
