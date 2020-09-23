@@ -47,12 +47,7 @@ public class UrlTests extends AbstractProviderTestCase {
 
         assertEquals(file.getName().getURI(), url.toExternalForm());
 
-        final URL parentURL;
-        try {
-            parentURL = new URL(url, "..");
-        } catch (final MalformedURLException e) {
-            throw e;
-        }
+        final URL parentURL = new URL(url, "..");
         assertEquals(file.getParent().getURL(), parentURL);
 
         final URL rootURL = new URL(url, "/");
