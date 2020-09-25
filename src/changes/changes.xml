@@ -133,7 +133,7 @@ The <action> type attribute can be add,update,fix,remove.
         Update site reports from org.apache.bcel:bcel 6.4.1 to 6.5.0.
       </action>
       <action dev="ggregory" type="update" due-to="Dependabot">
-        Update actions/checkout from v1 to v2.3.1 #100, #109.
+        Update actions/checkout from v1 to v2.3.3 #100, #109, #130.
       </action>
       <action dev="ggregory" type="update" due-to="Dependabot">
         Update actions/setup-java from v1.4.0 to v1.4.2 #111, #113.
