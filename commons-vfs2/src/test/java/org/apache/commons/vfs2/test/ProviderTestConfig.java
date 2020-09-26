@@ -39,8 +39,8 @@ public interface ProviderTestConfig {
     /**
      * Returns the base folder for tests. This folder must exist, and contain the following structure:
      * <ul>
-     * <li>/read-tests
-     * <li>/write-tests
+     * <li>"/read-tests"</li>
+     * <li>"/write-tests"</li>
      * </ul>
      */
     FileObject getBaseTestFolder(FileSystemManager manager) throws Exception;
