@@ -17,7 +17,6 @@
 package org.apache.commons.vfs2.test;
 
 import java.net.URI;
-import java.net.URL;
 
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
