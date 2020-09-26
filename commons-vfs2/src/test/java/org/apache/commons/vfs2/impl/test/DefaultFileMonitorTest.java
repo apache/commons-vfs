@@ -208,9 +208,12 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
             monitor.addFile(fileObject);
 
             monitor.start();
-            writeToFile(testFile);
-            Thread.sleep(500);
-            monitor.stop();
+            try {
+                writeToFile(testFile);
+                Thread.sleep(500);
+            } finally {
+                monitor.stop();
+            }
 
             monitor.start();
             try {
@@ -260,8 +263,11 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
             final CountingListener stoppedListener = new CountingListener();
             final DefaultFileMonitor stoppedMonitor = new DefaultFileMonitor(stoppedListener);
             stoppedMonitor.start();
-            stoppedMonitor.addFile(fileObject);
-            stoppedMonitor.stop();
+            try {
+                stoppedMonitor.addFile(fileObject);
+            } finally {
+                stoppedMonitor.stop();
+            }
 
             // Variant 1: it becomes documented behavior to manually remove all files after stop() such that all
             // listeners
