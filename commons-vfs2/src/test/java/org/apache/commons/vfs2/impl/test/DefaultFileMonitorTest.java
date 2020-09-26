@@ -57,7 +57,9 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
     @Override
     public void tearDown() throws Exception {
         if (testFile != null) {
-            testFile.deleteOnExit();
+            if (!testFile.delete()) {
+                testFile.deleteOnExit();
+            }
         }
         super.tearDown();
     }
