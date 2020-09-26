@@ -73,7 +73,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
             monitor.start();
             try {
                 writeToFile(testFile);
-                Thread.sleep(500);
+                Thread.sleep(DELAY_MILLIS * 5);
                 assertTrue("No event occurred", changeStatus != null);
                 assertEquals("Incorrect event", Status.CREATED, changeStatus);
             } finally {
@@ -112,11 +112,11 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
             try {
                 // Need a long delay to insure the new timestamp doesn't truncate to be the same as
                 // the current timestammp. Java only guarantees the timestamp will be to 1 second.
-                Thread.sleep(1000);
+                Thread.sleep(DELAY_MILLIS * 10);
                 final long value = System.currentTimeMillis();
                 final boolean rc = testFile.setLastModified(value);
                 assertTrue("setLastModified succeeded", rc);
-                Thread.sleep(500);
+                Thread.sleep(DELAY_MILLIS * 5);
                 assertTrue("No event occurred", changeStatus != null);
                 assertEquals("Incorrect event", Status.CHANGED, changeStatus);
             } finally {
@@ -134,19 +134,19 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
             monitor.start();
             try {
                 writeToFile(testFile);
-                Thread.sleep(500);
+                Thread.sleep(DELAY_MILLIS * 5);
                 assertTrue("No event occurred", changeStatus != null);
                 assertEquals("Incorrect event " + changeStatus, Status.CREATED, changeStatus);
                 changeStatus = null;
                 testFile.delete();
-                Thread.sleep(500);
+                Thread.sleep(DELAY_MILLIS * 5);
                 assertTrue("No event occurred", changeStatus != null);
                 assertEquals("Incorrect event " + changeStatus, Status.DELETED, changeStatus);
                 changeStatus = null;
-                Thread.sleep(500);
+                Thread.sleep(DELAY_MILLIS * 5);
                 monitor.addFile(fileObject);
                 writeToFile(testFile);
-                Thread.sleep(1000);
+                Thread.sleep(DELAY_MILLIS * 10);
                 assertTrue("No event occurred", changeStatus != null);
                 assertEquals("Incorrect event " + changeStatus, Status.CREATED, changeStatus);
             } finally {
@@ -165,15 +165,15 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
             monitor.start();
             try {
                 changeStatus = null;
-                Thread.sleep(500);
+                Thread.sleep(DELAY_MILLIS * 5);
                 testFile.delete();
-                Thread.sleep(3000);
+                Thread.sleep(DELAY_MILLIS * 30);
                 assertTrue("No event occurred", changeStatus != null);
                 assertEquals("Incorrect event " + changeStatus, Status.DELETED, changeStatus);
                 changeStatus = null;
-                Thread.sleep(500);
+                Thread.sleep(DELAY_MILLIS * 5);
                 writeToFile(testFile);
-                Thread.sleep(3000);
+                Thread.sleep(DELAY_MILLIS * 30);
                 assertTrue("No event occurred", changeStatus != null);
                 assertEquals("Incorrect event " + changeStatus, Status.CREATED, changeStatus);
             } finally {
@@ -192,9 +192,9 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
             monitor.start();
             try {
                 changeStatus = null;
-                Thread.sleep(500);
+                Thread.sleep(DELAY_MILLIS * 5);
                 testFile.delete();
-                Thread.sleep(3000);
+                Thread.sleep(DELAY_MILLIS * 30);
                 assertEquals("Event should not have occurred", null, changeStatus);
             } finally {
                 monitor.stop();
@@ -212,7 +212,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
             monitor.start();
             try {
                 writeToFile(testFile);
-                Thread.sleep(500);
+                Thread.sleep(DELAY_MILLIS * 5);
             } finally {
                 monitor.stop();
             }
@@ -220,7 +220,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
             monitor.start();
             try {
                 testFile.delete();
-                Thread.sleep(500);
+                Thread.sleep(DELAY_MILLIS * 5);
                 assertTrue("No event occurred", changeStatus != null);
                 assertEquals("Incorrect event", Status.DELETED, changeStatus);
             } finally {
@@ -246,7 +246,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
                 monitor.addFile(fileObject);
                 monitor.start();
                 writeToFile(testFile);
-                Thread.sleep(300);
+                Thread.sleep(DELAY_MILLIS * 3);
                 assertEquals("Created event is only fired once", 1, listener.created.get());
             } finally {
                 monitor.stop();
@@ -292,7 +292,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
             activeMonitor.start();
             try {
                 writeToFile(testFile);
-                Thread.sleep(1000);
+                Thread.sleep(DELAY_MILLIS * 10);
 
                 assertEquals("The listener of the active monitor received one created event", 1,
                     activeListener.created.get());
