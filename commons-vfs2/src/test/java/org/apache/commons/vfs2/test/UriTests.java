@@ -26,7 +26,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.junit.Test;
 
 /**
- * URL test cases for providers.
+ * URI test cases for providers.
  */
 public class UriTests extends AbstractProviderTestCase {
 
@@ -59,9 +59,6 @@ public class UriTests extends AbstractProviderTestCase {
         assertEquals(FileName.ROOT_PATH, file.getName().getPath());
     }
 
-    /**
-     * Tests url.
-     */
     @Test
     public void testGetURI() throws Exception {
         final FileObject fileObject = getReadFolder().resolveFile("some-dir/");
