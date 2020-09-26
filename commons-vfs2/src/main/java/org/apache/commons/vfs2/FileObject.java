@@ -292,14 +292,6 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     FileType getType() throws FileSystemException;
 
     /**
-     * Returns a URL representing this file.
-     *
-     * @return the URL for the file.
-     * @throws FileSystemException if an error occurs.
-     */
-    URL getURL() throws FileSystemException;
-
-    /**
      * Returns a URI representing this file.
      *
      * @return the URI for the file.
@@ -308,6 +300,14 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     default URI getURI() {
         return URI.create(getName().getURI());
     }
+
+    /**
+     * Returns a URL representing this file.
+     *
+     * @return the URL for the file.
+     * @throws FileSystemException if an error occurs.
+     */
+    URL getURL() throws FileSystemException;
 
     /**
      * Checks if the fileObject is attached.
