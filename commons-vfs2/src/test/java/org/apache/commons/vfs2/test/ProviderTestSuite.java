@@ -46,6 +46,7 @@ public class ProviderTestSuite extends AbstractTestSuite {
      */
     @Override
     protected void addBaseTests() throws Exception {
+        addTests(UrlTests.class);
         addTests(ProviderCacheStrategyTests.class);
         addTests(UriTests.class);
         addTests(NamingTests.class);
@@ -59,7 +60,6 @@ public class ProviderTestSuite extends AbstractTestSuite {
         addTests(ProviderRenameTests.class);
         addTests(ProviderDeleteTests.class);
         addTests(LastModifiedTests.class);
-        addTests(UrlTests.class);
         addTests(UrlStructureTests.class);
         addTests(VfsClassLoaderTests.class);
     }

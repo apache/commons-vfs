@@ -18,12 +18,15 @@ package org.apache.commons.vfs2.test;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.junit.Test;
 
 /**
  * URL test cases for providers.
@@ -35,7 +38,21 @@ public class UrlTests extends AbstractProviderTestCase {
      */
     @Override
     protected Capability[] getRequiredCaps() {
-        return new Capability[] { Capability.URI };
+        return new Capability[] {Capability.URI};
+    }
+
+    @Test
+    public void testReservedCharacter_Space() throws FileSystemException {
+        try (final FileObject fileObject = getReadFolder().resolveFile("file with spaces.txt")) {
+            final URL url = fileObject.getURL();
+            final String string = url.toString();
+            assertTrue(string, string.contains("file%20with%20spaces.txt"));
+        }
+        try (final FileObject fileObject = getReadFolder().resolveFile("file%20with%20spaces.txt")) {
+            final URL url = fileObject.getURL();
+            final String string = url.toString();
+            assertTrue(string, string.contains("file%20with%20spaces.txt"));
+        }
     }
 
     /**
@@ -76,15 +93,19 @@ public class UrlTests extends AbstractProviderTestCase {
      * Tests content.
      */
     public void testURLContent() throws Exception {
+        testURLContent(getReadFolder());
+    }
+
+    private void testURLContent(final FileObject readFolder) throws FileSystemException, IOException, Exception {
         // Test non-empty file
-        FileObject file = getReadFolder().resolveFile("file1.txt");
-        assertTrue(file.exists());
+        FileObject file = readFolder.resolveFile("file1.txt");
+        assertTrue(file.toString(), file.exists());
 
         URLConnection urlCon = file.getURL().openConnection();
         assertSameURLContent(FILE1_CONTENT, urlCon);
 
         // Test empty file
-        file = getReadFolder().resolveFile("empty.txt");
+        file = readFolder.resolveFile("empty.txt");
         assertTrue(file.exists());
 
         urlCon = file.getURL().openConnection();
@@ -107,7 +128,7 @@ public class UrlTests extends AbstractProviderTestCase {
 
         assertEquals("Two files resolved by URI must be equals on " + uri, f1, f2);
         assertSame("Resolving two times should not produce new filesystem on " + uri, f1.getFileSystem(),
-                f2.getFileSystem());
+            f2.getFileSystem());
     }
 
 }

@@ -33,13 +33,13 @@ public abstract class AbstractFileName implements FileName {
     // How reserved URI chars were selected:
     //
     // URIs can contain :, /, ?, #, @
-    // See http://download.oracle.com/javase/6/docs/api/java/net/URI.html
+    // See https://docs.oracle.com/javase/8/docs/api/java/net/URI.html
     // http://tools.ietf.org/html/rfc3986#section-2.2
     //
     // Since : and / occur before the path, only chars after path are escaped (i.e., # and ?)
     // ? is a reserved filesystem character for Windows and Unix, so can't be part of a file name.
     // Therefore only # is a reserved char in a URI as part of the path that can be in the file name.
-    private static final char[] RESERVED_URI_CHARS = { '#' };
+    private static final char[] RESERVED_URI_CHARS = { '#', ' ' };
 
     private final String scheme;
     private final String absPath;
