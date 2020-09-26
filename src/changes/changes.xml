@@ -104,6 +104,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-570" dev="ggregory" due-to="garpinc, Gary Gregory" type="add">
         Add HDFS write support #114.
       </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="fix">
+        Remove workaround for JDK BUG: 6192331 which was fixed way back in Java 6: https://bugs.java.com/bugdatabase/view_bug.do?bug_id=6192331
+      </action>
       <!-- UPDATES -->
       <action issue="VFS-755" dev="ggregory" due-to="Gary Gregory" type="update">
         Update org.apache.httpcomponents:httpclient from 4.5.10 to 4.5.11.
