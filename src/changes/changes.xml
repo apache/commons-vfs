@@ -113,6 +113,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="Gary Gregory" type="add">
         Add FileObject.getURI().
       </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        Add FileObject.getPath().
+      </action>
       <!-- UPDATES -->
       <action issue="VFS-755" dev="ggregory" due-to="Gary Gregory" type="update">
         Update org.apache.httpcomponents:httpclient from 4.5.10 to 4.5.11.

@@ -19,6 +19,8 @@ package org.apache.commons.vfs2;
 import java.io.Closeable;
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.apache.commons.vfs2.operations.FileOperations;
@@ -299,6 +301,16 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
      */
     default URI getURI() {
         return URI.create(getName().getURI());
+    }
+
+    /**
+     * Returns a Path representing this file.
+     *
+     * @return the Path for the file.
+     * @since 2.7.0
+     */
+    default Path getPath() {
+        return Paths.get(getURI());
     }
 
     /**
