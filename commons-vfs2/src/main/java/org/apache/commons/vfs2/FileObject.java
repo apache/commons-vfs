@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2;
 
 import java.io.Closeable;
+import java.net.URI;
 import java.net.URL;
 import java.util.List;
 
@@ -299,6 +300,16 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     URL getURL() throws FileSystemException;
 
     /**
+     * Returns a URI representing this file.
+     *
+     * @return the URI for the file.
+     * @since 2.7.0
+     */
+    default URI getURI() {
+        return URI.create(getName().getURI());
+    }
+
+    /**
      * Checks if the fileObject is attached.
      *
      * @return true if the FileObject is attached.
@@ -365,6 +376,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
      * @throws FileSystemException On error determining if this file exists.
      * @since 2.4
      */
+    @SuppressWarnings("unused") // FileSystemException actually thrown in implementations.
     default boolean isSymbolicLink() throws FileSystemException {
         return false;
     }

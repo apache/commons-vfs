@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.test;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
@@ -30,7 +31,7 @@ public class UrlStructureTests extends AbstractProviderTestCase {
      */
     @Override
     protected Capability[] getRequiredCaps() {
-        return new Capability[] { Capability.GET_TYPE, Capability.URI };
+        return new Capability[] {Capability.GET_TYPE, Capability.URI};
     }
 
     /**
@@ -47,8 +48,7 @@ public class UrlStructureTests extends AbstractProviderTestCase {
         assertTrue(folder.exists());
 
         // Try getting the content of a folder
-        try {
-            folder.getURL().openConnection().getInputStream();
+        try (final InputStream inputStream = folder.getURL().openConnection().getInputStream()) {
             fail();
         } catch (final IOException e) {
             assertSameMessage("vfs.provider/read-not-file.error", folder, e);

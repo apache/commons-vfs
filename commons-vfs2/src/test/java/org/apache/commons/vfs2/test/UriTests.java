@@ -16,20 +16,28 @@
  */
 package org.apache.commons.vfs2.test;
 
+import java.net.URI;
+import java.net.URL;
+
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileSystemOptions;
+import org.junit.Test;
 
 /**
- * Absolute URI test cases.
+ * URL test cases for providers.
  */
 public class UriTests extends AbstractProviderTestCase {
+
     /**
-     * Returns the capabilities required by the tests of this test case.
+     * Returns the capabilities required by the tests of this test case. The tests are not run if the provider being
+     * tested does not support all the required capabilities. Return null or an empty array to always run the tests.
      */
     @Override
     protected Capability[] getRequiredCaps() {
-        return new Capability[] { Capability.URI };
+        return new Capability[] {Capability.URI};
     }
 
     /**
@@ -50,5 +58,56 @@ public class UriTests extends AbstractProviderTestCase {
         assertEquals(rootUri, file.getName().getRootURI());
         assertEquals(rootUri, file.getName().getURI());
         assertEquals(FileName.ROOT_PATH, file.getName().getPath());
+    }
+
+    /**
+     * Tests url.
+     */
+    @Test
+    public void testGetURI() throws Exception {
+        final FileObject fileObject = getReadFolder().resolveFile("some-dir/");
+        final URI uri = fileObject.getURI();
+
+        // FileName#getURI() returns a String, not a URI.
+        assertEquals(fileObject.getName().getURI(), uri.toString());
+        assertEquals(URI.create(fileObject.getName().getURI()), uri);
+
+        assertEquals(fileObject.getURL().toString(), fileObject.getURI().toString());
+        assertEquals(fileObject.getURL().toURI(), fileObject.getURI());
+    }
+
+    @Test
+    public void testReservedCharacterSpace() throws FileSystemException {
+        try (final FileObject fileObject = getReadFolder().resolveFile("file with spaces.txt")) {
+            final URI url = fileObject.getURI();
+            final String string = url.toString();
+            assertTrue(string, string.contains("file%20with%20spaces.txt"));
+        }
+        try (final FileObject fileObject = getReadFolder().resolveFile("file%20with%20spaces.txt")) {
+            final URI url = fileObject.getURI();
+            final String string = url.toString();
+            assertTrue(string, string.contains("file%20with%20spaces.txt"));
+        }
+    }
+
+    /**
+     * Tests content.
+     */
+    @Test
+    public void testURIContentProvider() throws Exception {
+        // Test non-empty file
+        final FileObject fileObject = getReadFolder().resolveFile("file1.txt");
+        assertTrue(fileObject.exists());
+
+        final URI uri = fileObject.getURI();
+        final String uriStr = uri.toString();
+        final FileSystemOptions options = getReadFolder().getFileSystem().getFileSystemOptions();
+
+        final FileObject f1 = getManager().resolveFile(uriStr, options);
+        final FileObject f2 = getManager().resolveFile(uriStr, options);
+
+        assertEquals("Two files resolved by URI must be equals on " + uriStr, f1, f2);
+        assertSame("Resolving two times should not produce new filesystem on " + uriStr, f1.getFileSystem(),
+            f2.getFileSystem());
     }
 }
