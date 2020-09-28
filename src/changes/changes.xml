@@ -130,7 +130,7 @@ The <action> type attribute can be add,update,fix,remove.
         Update tests from Apache Commons Lang 3.9 to 3.11.
       </action>
       <action issue="VFS-768" dev="ggregory" due-to="ddg-igh" type="add">
-        Update Apache httpclient 4.5.11 to 4.5.12 and httpclient5 5.0-beta7 to 5.0.1.
+        Update Apache httpclient 4.5.11 to 4.5.12 and httpclient5 5.0-beta7 to 5.0.2.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Update tests from Log4j 2.13.0 to 2.13.3.
