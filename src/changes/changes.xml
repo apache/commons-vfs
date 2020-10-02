@@ -148,7 +148,7 @@ The <action> type attribute can be add,update,fix,remove.
         Update actions/checkout from v1 to v2.3.3 #100, #109, #130.
       </action>
       <action dev="ggregory" type="update" due-to="Dependabot">
-        Update actions/setup-java from v1.4.0 to v1.4.2 #111, #113.
+        Update actions/setup-java from v1.4.0 to v1.4.2 #111, #113, #133.
       </action>
       <action dev="ggregory" type="update" due-to="Gary Gregory">
         Update commons-parent from 50 to 52.
