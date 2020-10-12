@@ -130,7 +130,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
                     if (child == null) {
                         if (log.isDebugEnabled()) {
                             log.debug(Messages.getString("vfs.provider.ftp/invalid-directory-entry.debug",
-                                    Integer.valueOf(i), relPath));
+                                    i, relPath));
                         }
                         continue;
                     }

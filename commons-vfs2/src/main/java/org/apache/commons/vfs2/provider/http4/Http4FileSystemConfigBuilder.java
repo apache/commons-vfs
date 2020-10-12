@@ -240,7 +240,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @see #setProxyHost
      */
     public void setProxyPort(final FileSystemOptions opts, final int proxyPort) {
-        setParam(opts, "proxyPort", Integer.valueOf(proxyPort));
+        setParam(opts, "proxyPort", proxyPort);
     }
 
     /**
@@ -360,7 +360,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param maxTotalConnections The maximum number of connections.
      */
     public void setMaxTotalConnections(final FileSystemOptions opts, final int maxTotalConnections) {
-        setParam(opts, MAX_TOTAL_CONNECTIONS, Integer.valueOf(maxTotalConnections));
+        setParam(opts, MAX_TOTAL_CONNECTIONS, maxTotalConnections);
     }
 
     /**
@@ -380,7 +380,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param maxHostConnections The maximum number of connections to a host.
      */
     public void setMaxConnectionsPerHost(final FileSystemOptions opts, final int maxHostConnections) {
-        setParam(opts, MAX_HOST_CONNECTIONS, Integer.valueOf(maxHostConnections));
+        setParam(opts, MAX_HOST_CONNECTIONS, maxHostConnections);
     }
 
     /**
@@ -400,7 +400,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @return true if preemptiveAuth is requested.
      */
     public boolean isPreemptiveAuth(final FileSystemOptions opts) {
-        return getBoolean(opts, KEY_PREEMPTIVE_AUTHENTICATION, Boolean.FALSE).booleanValue();
+        return getBoolean(opts, KEY_PREEMPTIVE_AUTHENTICATION, Boolean.FALSE);
     }
 
     /**
@@ -422,7 +422,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param connectionTimeout The connection timeout.
      */
     public void setConnectionTimeout(final FileSystemOptions opts, final int connectionTimeout) {
-        setParam(opts, CONNECTION_TIMEOUT, Integer.valueOf(connectionTimeout));
+        setParam(opts, CONNECTION_TIMEOUT, connectionTimeout);
     }
 
     /**
@@ -442,7 +442,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param soTimeout socket timeout.
      */
     public void setSoTimeout(final FileSystemOptions opts, final int soTimeout) {
-        setParam(opts, SO_TIMEOUT, Integer.valueOf(soTimeout));
+        setParam(opts, SO_TIMEOUT, soTimeout);
     }
 
     /**

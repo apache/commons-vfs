@@ -60,7 +60,7 @@ class HttpRandomAccessContent<FS extends HttpFileSystem> extends AbstractRandomA
         }
 
         if (pos < 0) {
-            throw new FileSystemException("vfs.provider/random-access-invalid-position.error", Long.valueOf(pos));
+            throw new FileSystemException("vfs.provider/random-access-invalid-position.error", pos);
         }
         if (dis != null) {
             close();
@@ -81,7 +81,7 @@ class HttpRandomAccessContent<FS extends HttpFileSystem> extends AbstractRandomA
         final int status = fileSystem.getClient().executeMethod(getMethod);
         if (status != HttpURLConnection.HTTP_PARTIAL && status != HttpURLConnection.HTTP_OK) {
             throw new FileSystemException("vfs.provider.http/get-range.error", fileObject.getName(),
-                    Long.valueOf(filePointer), Integer.valueOf(status));
+                    filePointer, status);
         }
 
         mis = new HttpFileObject.HttpInputStream(getMethod);
@@ -90,7 +90,7 @@ class HttpRandomAccessContent<FS extends HttpFileSystem> extends AbstractRandomA
             final long skipped = mis.skip(filePointer);
             if (skipped != filePointer) {
                 throw new FileSystemException("vfs.provider.http/get-range.error", fileObject.getName(),
-                        Long.valueOf(filePointer), Integer.valueOf(status));
+                        filePointer, status);
             }
         }
         dis = new DataInputStream(new FilterInputStream(mis) {

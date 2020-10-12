@@ -79,7 +79,7 @@ public final class VFS {
         if (uriStyle == null) {
             uriStyle = Boolean.FALSE;
         }
-        return uriStyle.booleanValue();
+        return uriStyle;
     }
 
     /**
@@ -107,10 +107,10 @@ public final class VFS {
     }
 
     public static void setUriStyle(final boolean uriStyle) {
-        if (VFS.uriStyle != null && VFS.uriStyle.booleanValue() != uriStyle) {
+        if (VFS.uriStyle != null && VFS.uriStyle != uriStyle) {
             throw new IllegalStateException("VFS.uriStyle was already set differently.");
         }
-        VFS.uriStyle = Boolean.valueOf(uriStyle);
+        VFS.uriStyle = uriStyle;
     }
 
     private VFS() {

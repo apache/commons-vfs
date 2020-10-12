@@ -135,14 +135,14 @@ public final class FtpClientFactory {
 
                 final Boolean remoteVerification = builder.getRemoteVerification(fileSystemOptions);
                 if (remoteVerification != null) {
-                    client.setRemoteVerificationEnabled(remoteVerification.booleanValue());
+                    client.setRemoteVerificationEnabled(remoteVerification);
                 }
 
                 try {
                     // Set connect timeout
                     final Integer connectTimeout = builder.getConnectTimeout(fileSystemOptions);
                     if (connectTimeout != null) {
-                        client.setDefaultTimeout(connectTimeout.intValue());
+                        client.setDefaultTimeout(connectTimeout);
                     }
 
                     final String controlEncoding = builder.getControlEncoding(fileSystemOptions);
@@ -186,16 +186,16 @@ public final class FtpClientFactory {
                     // Set dataTimeout value
                     final Integer dataTimeout = builder.getDataTimeout(fileSystemOptions);
                     if (dataTimeout != null) {
-                        client.setDataTimeout(dataTimeout.intValue());
+                        client.setDataTimeout(dataTimeout);
                     }
 
                     final Integer socketTimeout = builder.getSoTimeout(fileSystemOptions);
                     if (socketTimeout != null) {
-                        client.setSoTimeout(socketTimeout.intValue());
+                        client.setSoTimeout(socketTimeout);
                     }
 
                     final Boolean userDirIsRoot = builder.getUserDirIsRoot(fileSystemOptions);
-                    if (workingDirectory != null && (userDirIsRoot == null || !userDirIsRoot.booleanValue())) {
+                    if (workingDirectory != null && (userDirIsRoot == null || !userDirIsRoot)) {
                         if (!client.changeWorkingDirectory(workingDirectory)) {
                             throw new FileSystemException("vfs.provider.ftp/change-work-directory.error",
                                     workingDirectory);
@@ -203,7 +203,7 @@ public final class FtpClientFactory {
                     }
 
                     final Boolean passiveMode = builder.getPassiveMode(fileSystemOptions);
-                    if (passiveMode != null && passiveMode.booleanValue()) {
+                    if (passiveMode != null && passiveMode) {
                         client.enterLocalPassiveMode();
                     }
 

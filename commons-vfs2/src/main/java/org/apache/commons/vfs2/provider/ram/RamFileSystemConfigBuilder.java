@@ -87,7 +87,7 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     @Deprecated
     public void setMaxSize(final FileSystemOptions opts, final int sizeInBytes) {
-        setParam(opts, MAX_SIZE_KEY, Long.valueOf(sizeInBytes));
+        setParam(opts, MAX_SIZE_KEY, (long) sizeInBytes);
     }
 
     /**
@@ -97,7 +97,7 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param sizeInBytes The maximum file size.
      */
     public void setMaxSize(final FileSystemOptions opts, final long sizeInBytes) {
-        setParam(opts, MAX_SIZE_KEY, Long.valueOf(sizeInBytes));
+        setParam(opts, MAX_SIZE_KEY, sizeInBytes);
     }
 
 }

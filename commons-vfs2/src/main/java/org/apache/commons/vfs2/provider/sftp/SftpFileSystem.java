@@ -141,7 +141,7 @@ public class SftpFileSystem extends AbstractFileSystem {
                 final Boolean userDirIsRoot = SftpFileSystemConfigBuilder.getInstance()
                         .getUserDirIsRoot(getFileSystemOptions());
                 final String workingDirectory = getRootName().getPath();
-                if (workingDirectory != null && (userDirIsRoot == null || !userDirIsRoot.booleanValue())) {
+                if (workingDirectory != null && (userDirIsRoot == null || !userDirIsRoot)) {
                     try {
                         channel.cd(workingDirectory);
                     } catch (final SftpException e) {

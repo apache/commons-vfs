@@ -79,7 +79,7 @@ public abstract class FileSystemConfigBuilder {
      */
     protected boolean getBoolean(final FileSystemOptions fileSystemOptions, final String name,
         final boolean defaultValue) {
-        return getBoolean(fileSystemOptions, name, Boolean.valueOf(defaultValue)).booleanValue();
+        return getBoolean(fileSystemOptions, name, Boolean.valueOf(defaultValue));
     }
 
     /**
@@ -132,7 +132,7 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.0
      */
     protected byte getByte(final FileSystemOptions fileSystemOptions, final String name, final byte defaultValue) {
-        return getByte(fileSystemOptions, name, Byte.valueOf(defaultValue)).byteValue();
+        return getByte(fileSystemOptions, name, Byte.valueOf(defaultValue));
     }
 
     /**
@@ -183,7 +183,7 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.0
      */
     protected char getCharacter(final FileSystemOptions fileSystemOptions, final String name, final char defaultValue) {
-        return getCharacter(fileSystemOptions, name, new Character(defaultValue)).charValue();
+        return getCharacter(fileSystemOptions, name, new Character(defaultValue));
     }
 
     /**
@@ -204,7 +204,7 @@ public abstract class FileSystemConfigBuilder {
             if (str == null || str.length() <= 0) {
                 return defaultValue;
             }
-            value = new Character(str.charAt(0));
+            value = str.charAt(0);
         }
         return value;
     }
@@ -245,7 +245,7 @@ public abstract class FileSystemConfigBuilder {
      */
     protected double getDouble(final FileSystemOptions fileSystemOptions, final String name,
         final double defaultValue) {
-        return getDouble(fileSystemOptions, name, new Double(defaultValue)).doubleValue();
+        return getDouble(fileSystemOptions, name, new Double(defaultValue));
     }
 
     /**
@@ -345,7 +345,7 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.0
      */
     protected float getFloat(final FileSystemOptions fileSystemOptions, final String name, final float defaultValue) {
-        return getFloat(fileSystemOptions, name, new Float(defaultValue)).floatValue();
+        return getFloat(fileSystemOptions, name, new Float(defaultValue));
     }
 
     /**
@@ -399,7 +399,7 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.0
      */
     protected int getInteger(final FileSystemOptions fileSystemOptions, final String name, final int defaultValue) {
-        return getInteger(fileSystemOptions, name, Integer.valueOf(defaultValue)).intValue();
+        return getInteger(fileSystemOptions, name, Integer.valueOf(defaultValue));
     }
 
     /**
@@ -454,7 +454,7 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.0
      */
     protected long getLong(final FileSystemOptions fileSystemOptions, final String name, final long defaultValue) {
-        return getLong(fileSystemOptions, name, Long.valueOf(defaultValue)).longValue();
+        return getLong(fileSystemOptions, name, Long.valueOf(defaultValue));
     }
 
     /**
@@ -545,7 +545,7 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.0
      */
     protected short getShort(final FileSystemOptions fileSystemOptions, final String name, final short defaultValue) {
-        return getShort(fileSystemOptions, name, Short.valueOf(defaultValue)).shortValue();
+        return getShort(fileSystemOptions, name, Short.valueOf(defaultValue));
     }
 
     /**

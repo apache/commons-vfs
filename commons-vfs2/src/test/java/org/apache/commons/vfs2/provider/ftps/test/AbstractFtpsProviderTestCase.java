@@ -185,8 +185,8 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
     }
 
     protected void setupOptions(final FtpsFileSystemConfigBuilder builder) {
-        builder.setConnectTimeout(fileSystemOptions, Integer.valueOf(1000));
-        builder.setDataTimeout(fileSystemOptions, Integer.valueOf(2000));
+        builder.setConnectTimeout(fileSystemOptions, 1000);
+        builder.setDataTimeout(fileSystemOptions, 2000);
     }
 
     /**

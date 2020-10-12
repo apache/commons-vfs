@@ -109,7 +109,7 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
         } else if (status == HttpStatus.SC_NOT_FOUND || status == HttpStatus.SC_GONE) {
             return FileType.IMAGINARY;
         } else {
-            throw new FileSystemException("vfs.provider.http/head.error", getName(), Integer.valueOf(status));
+            throw new FileSystemException("vfs.provider.http/head.error", getName(), status);
         }
     }
 
@@ -152,7 +152,7 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
         }
 
         if (status != HttpStatus.SC_OK) {
-            throw new FileSystemException("vfs.provider.http/get.error", getName(), Integer.valueOf(status));
+            throw new FileSystemException("vfs.provider.http/get.error", getName(), status);
         }
 
         return new MonitoredHttpResponseContentInputStream(httpResponse, bufferSize);

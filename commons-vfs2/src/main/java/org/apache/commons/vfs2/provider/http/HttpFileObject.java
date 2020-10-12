@@ -134,7 +134,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
             throw new FileNotFoundException(getName());
         }
         if (status != HttpURLConnection.HTTP_OK) {
-            throw new FileSystemException("vfs.provider.http/get.error", getName(), Integer.valueOf(status));
+            throw new FileSystemException("vfs.provider.http/get.error", getName(), status);
         }
 
         return new HttpInputStream(getMethod, bufferSize);
@@ -172,7 +172,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
         } else if (status == HttpURLConnection.HTTP_NOT_FOUND || status == HttpURLConnection.HTTP_GONE) {
             return FileType.IMAGINARY;
         } else {
-            throw new FileSystemException("vfs.provider.http/head.error", getName(), Integer.valueOf(status));
+            throw new FileSystemException("vfs.provider.http/head.error", getName(), status);
         }
     }
 

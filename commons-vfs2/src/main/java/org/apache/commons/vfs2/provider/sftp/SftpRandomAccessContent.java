@@ -57,7 +57,7 @@ class SftpRandomAccessContent extends AbstractRandomAccessStreamContent {
         }
 
         if (pos < 0) {
-            throw new FileSystemException("vfs.provider/random-access-invalid-position.error", Long.valueOf(pos));
+            throw new FileSystemException("vfs.provider/random-access-invalid-position.error", pos);
         }
         if (dis != null) {
             close();
