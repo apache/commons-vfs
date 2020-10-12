@@ -105,7 +105,10 @@ public class Http5sGetContentInfoTest extends TestCase {
 
    private FileSystemOptions getOptionsWithSSL() throws MalformedURLException {
         final Http5FileSystemConfigBuilder builder = Http5FileSystemConfigBuilder.getInstance();
-        final FileSystemOptions opts = new FileSystemOptions();
+        FileSystemOptions opts = getOptionsWithProxy();
+        if (opts == null) {
+            opts = new FileSystemOptions();
+        }
         final URL serverJksResource = ClassLoader.getSystemClassLoader().getResource(SERVER_JCEKS_RES);
         builder.setKeyStoreFile(opts, serverJksResource.getFile());
         builder.setKeyStorePass(opts, "Hello_1234");
