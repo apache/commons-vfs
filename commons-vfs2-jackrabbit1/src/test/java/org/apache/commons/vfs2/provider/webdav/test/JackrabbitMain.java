@@ -94,11 +94,8 @@ class JackrabbitMain {
     }
 
     private void copyToOutput(final String resource) throws IOException {
-        final InputStream stream = JackrabbitMain.class.getResourceAsStream(resource);
-        try {
+        try (InputStream stream = JackrabbitMain.class.getResourceAsStream(resource)) {
             IOUtils.copy(stream, System.out);
-        } finally {
-            stream.close();
         }
     }
 

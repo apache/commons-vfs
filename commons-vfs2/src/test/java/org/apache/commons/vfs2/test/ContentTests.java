@@ -241,12 +241,9 @@ public class ContentTests extends AbstractProviderTestCase {
         assertTrue(file.exists());
 
         // Start reading from the file
-        final InputStream instr = file.getContent().getInputStream();
-        try {
+        try (InputStream instr = file.getContent().getInputStream()) {
             // Start reading again
             file.getContent().getInputStream().close();
-        } finally {
-            instr.close();
         }
     }
 
@@ -260,12 +257,9 @@ public class ContentTests extends AbstractProviderTestCase {
         assertTrue(emptyFile.exists());
 
         // Start reading from the file
-        final InputStream instr = file.getContent().getInputStream();
-        try {
+        try (InputStream instr = file.getContent().getInputStream()) {
             // Try to read from other file
             assertSameContent("", emptyFile);
-        } finally {
-            instr.close();
         }
     }
 

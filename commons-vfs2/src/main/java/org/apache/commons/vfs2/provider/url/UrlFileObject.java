@@ -77,8 +77,7 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
         try {
             // Attempt to connect & check status
             final URLConnection conn = url.openConnection();
-            final InputStream in = conn.getInputStream();
-            try {
+            try (InputStream in = conn.getInputStream()) {
                 if (conn instanceof HttpURLConnection) {
                     final int status = ((HttpURLConnection) conn).getResponseCode();
                     // 200 is good, maybe add more later...
@@ -88,8 +87,6 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
                 }
 
                 return FileType.FILE;
-            } finally {
-                in.close();
             }
         } catch (final FileNotFoundException e) {
             return FileType.IMAGINARY;
@@ -102,11 +99,8 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
     @Override
     protected long doGetContentSize() throws Exception {
         final URLConnection conn = url.openConnection();
-        final InputStream in = conn.getInputStream();
-        try {
+        try (InputStream in = conn.getInputStream()) {
             return conn.getContentLength();
-        } finally {
-            in.close();
         }
     }
 
@@ -116,11 +110,8 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
     @Override
     protected long doGetLastModifiedTime() throws Exception {
         final URLConnection conn = url.openConnection();
-        final InputStream in = conn.getInputStream();
-        try {
+        try (InputStream in = conn.getInputStream()) {
             return conn.getLastModified();
-        } finally {
-            in.close();
         }
     }
 

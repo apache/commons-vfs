@@ -253,15 +253,12 @@ public class ProviderReadTests extends AbstractProviderTestCase {
         assertTrue(file.exists());
 
         // Start reading from the file
-        final InputStream instr = file.getContent().getInputStream();
-        try {
+        try (InputStream instr = file.getContent().getInputStream()) {
             assertEquals("read() from empty file should return EOF", -1, instr.read());
 
             for (int i = 0; i < 5; i++) {
                 assertEquals("multiple read() at EOF should return EOF", -1, instr.read());
             }
-        } finally {
-            instr.close();
         }
     }
 
@@ -274,16 +271,13 @@ public class ProviderReadTests extends AbstractProviderTestCase {
         assertEquals("Expecting 20 bytes test-data file1.txt", 20, file.getContent().getSize());
 
         // Start reading from the file
-        final InputStream instr = file.getContent().getInputStream();
-        try {
+        try (InputStream instr = file.getContent().getInputStream()) {
             final byte[] buf = new byte[25];
             assertEquals(20, instr.read(buf));
 
             for (int i = 0; i < 5; i++) {
                 assertEquals("multiple read(byte[]) at EOF should return EOF", -1, instr.read(buf));
             }
-        } finally {
-            instr.close();
         }
     }
 
@@ -297,14 +291,11 @@ public class ProviderReadTests extends AbstractProviderTestCase {
         assertTrue(folder.exists());
 
         // Start reading from the file
-        final InputStream instr = file.getContent().getInputStream();
-        try {
+        try (InputStream instr = file.getContent().getInputStream()) {
             // Do some operations
             folder.exists();
             folder.getType();
             folder.getChildren();
-        } finally {
-            instr.close();
         }
     }
 
