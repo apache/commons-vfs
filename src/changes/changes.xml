@@ -175,6 +175,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" type="update" due-to="Gary Gregory">
         Update Apache Commons Net from 3.6 to 3.7.1.
       </action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory">
+        Update JUnit from 4.13 to 4.13.1.
+      </action>
     </release>
     <release version="2.6.0" date="2020-01-06" description="New features and bug fix release.">
       <action dev="ggregory" due-to="Eitan Adler" type="fix">
