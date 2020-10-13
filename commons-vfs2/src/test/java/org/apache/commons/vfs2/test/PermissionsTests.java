@@ -23,6 +23,7 @@ import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.provider.local.LocalFileSystem;
+import org.apache.commons.vfs2.util.Os;
 import org.junit.Assert;
 
 /**
@@ -34,6 +35,8 @@ import org.junit.Assert;
  */
 public class PermissionsTests extends AbstractProviderTestCase {
     public static final String FILENAME = "permission.txt";
+    public static final boolean isRootUser =
+            (Os.isFamily(Os.OS_FAMILY_UNIX)) && (System.getProperty("user.name").trim().equals("root"));
 
     /**
      * Returns the capabilities required by the tests of this test case.
@@ -64,8 +67,10 @@ public class PermissionsTests extends AbstractProviderTestCase {
             Assert.assertTrue("File expected to be executable: " + file, file.isExecutable());
 
             // Clear the executable flag
-            Assert.assertTrue("Setting executable permission failed: " + file, file.setExecutable(false, true));
-            Assert.assertFalse("File expected to be not executable: " + file, file.isExecutable());
+            if (!isRootUser) {
+                Assert.assertTrue("Setting executable permission failed: " + file, file.setExecutable(false, true));
+                Assert.assertFalse("File expected to be not executable: " + file, file.isExecutable());
+            }
         }
     }
 
@@ -84,8 +89,10 @@ public class PermissionsTests extends AbstractProviderTestCase {
         Assert.assertTrue("File expected to be writable: " + file, file.isWriteable());
 
         // Clear the write permission
-        Assert.assertTrue("Setting write permission failed: " + file, file.setWritable(false, true));
-        Assert.assertFalse("File expected to be not writable: " + file, file.isWriteable());
+        if (!isRootUser) {
+            Assert.assertTrue("Setting write permission failed: " + file, file.setWritable(false, true));
+            Assert.assertFalse("File expected to be not writable: " + file, file.isWriteable());
+        }
     }
 
     /**
@@ -107,8 +114,10 @@ public class PermissionsTests extends AbstractProviderTestCase {
             Assert.assertTrue("File expected to be readable: " + file, file.isReadable());
 
             // Clear the readable permission
-            Assert.assertTrue("Setting read permission failed: " + file, file.setReadable(false, true));
-            Assert.assertFalse("File expected to be not readable: " + file, file.isReadable());
+            if (!isRootUser) {
+                Assert.assertTrue("Setting read permission failed: " + file, file.setReadable(false, true));
+                Assert.assertFalse("File expected to be not readable: " + file, file.isReadable());
+            }
         }
     }
 

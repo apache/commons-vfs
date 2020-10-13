@@ -24,6 +24,7 @@ import org.apache.commons.vfs2.FileFilterSelector;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.util.Os;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -57,6 +58,8 @@ public class CanWriteFileFilterTest extends BaseFilterTest {
 
     private static FileObject zipFileObj;
 
+    private static boolean isRootUser;
+
     @BeforeClass
     public static void beforeClass() throws IOException {
 
@@ -78,6 +81,8 @@ public class CanWriteFileFilterTest extends BaseFilterTest {
         zipFile = new File(getTempDir(), CanWriteFileFilterTest.class.getName() + ".zip");
         zipDir(testDir, "", zipFile);
         zipFileObj = getZipFileObject(zipFile);
+
+        isRootUser = (Os.isFamily(Os.OS_FAMILY_UNIX)) && (System.getProperty("user.name").trim().equals("root"));
 
     }
 
@@ -108,8 +113,10 @@ public class CanWriteFileFilterTest extends BaseFilterTest {
     public void testAcceptCanWrite() throws FileSystemException {
 
         Assert.assertTrue(CanWriteFileFilter.CAN_WRITE.accept(writeableFileInfo));
-        Assert.assertFalse(CanWriteFileFilter.CAN_WRITE.accept(readOnlyFileInfo));
         Assert.assertTrue(CanWriteFileFilter.CAN_WRITE.accept(notExistingFileInfo));
+        if (!isRootUser) {
+            Assert.assertFalse(CanWriteFileFilter.CAN_WRITE.accept(readOnlyFileInfo));
+        }
 
     }
 
@@ -117,8 +124,10 @@ public class CanWriteFileFilterTest extends BaseFilterTest {
     public void testAcceptCannotWrite() throws FileSystemException {
 
         Assert.assertFalse(CanWriteFileFilter.CANNOT_WRITE.accept(writeableFileInfo));
-        Assert.assertTrue(CanWriteFileFilter.CANNOT_WRITE.accept(readOnlyFileInfo));
         Assert.assertFalse(CanWriteFileFilter.CANNOT_WRITE.accept(notExistingFileInfo));
+        if (!isRootUser) {
+            Assert.assertTrue(CanWriteFileFilter.CANNOT_WRITE.accept(readOnlyFileInfo));
+        }
 
     }
 
