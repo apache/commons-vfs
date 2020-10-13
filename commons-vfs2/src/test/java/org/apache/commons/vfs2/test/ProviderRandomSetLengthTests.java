@@ -58,9 +58,7 @@ public class ProviderRandomSetLengthTests extends AbstractProviderTestCase {
      * Writes a file
      */
     public void testRandomSetLength() throws Exception {
-        FileObject file = null;
-        try {
-            file = this.createScratchFolder().resolveFile("random_write.txt");
+        try (FileObject file = this.createScratchFolder().resolveFile("random_write.txt")) {
             file.createFile();
             final String fileString = file.toString();
             final RandomAccessContent ra = file.getContent().getRandomAccessContent(RandomAccessMode.READWRITE);
@@ -90,10 +88,6 @@ public class ProviderRandomSetLengthTests extends AbstractProviderTestCase {
             ra.seek(1);
             ra.readByte();
 
-        } finally {
-            if (file != null) {
-                file.close();
-            }
         }
     }
 }

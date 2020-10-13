@@ -67,11 +67,8 @@ public class WebdavVersioningTests extends AbstractProviderTestCase {
         // Create the source file
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
 
-        final OutputStream os = file.getContent().getOutputStream();
-        try {
+        try (OutputStream os = file.getContent().getOutputStream()) {
             os.write(content.getBytes("utf-8"));
-        } finally {
-            os.close();
         }
         assertSameContent(content, file);
         map = file.getContent().getAttributes();
@@ -120,11 +117,8 @@ public class WebdavVersioningTests extends AbstractProviderTestCase {
         // Create the source file
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
 
-        final OutputStream os = file.getContent().getOutputStream();
-        try {
+        try (OutputStream os = file.getContent().getOutputStream()) {
             os.write(content.getBytes("utf-8"));
-        } finally {
-            os.close();
         }
         assertSameContent(content, file);
         map = file.getContent().getAttributes();

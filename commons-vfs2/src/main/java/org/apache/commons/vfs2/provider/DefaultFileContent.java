@@ -812,11 +812,8 @@ public final class DefaultFileContent implements FileContent {
      */
     @Override
     public long write(final FileContent fileContent) throws IOException {
-        final OutputStream output = fileContent.getOutputStream();
-        try {
+        try (OutputStream output = fileContent.getOutputStream()) {
             return this.write(output);
-        } finally {
-            output.close();
         }
     }
 

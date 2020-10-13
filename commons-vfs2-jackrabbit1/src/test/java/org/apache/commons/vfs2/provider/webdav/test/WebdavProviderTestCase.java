@@ -172,12 +172,9 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig {
         final File[] files = sourceDir.listFiles();
         for (final File file : files) {
             if (file.isFile()) {
-                final InputStream data = new FileInputStream(file);
-                try {
+                try (InputStream data = new FileInputStream(file)) {
                     message("Importing file " + file);
                     JcrUtils.putFile(parent, file.getName(), "application/octet-stream", data);
-                } finally {
-                    data.close();
                 }
             } else if (file.isDirectory()) {
                 message("Importing folder " + file);
