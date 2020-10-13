@@ -123,6 +123,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="PeterAlfredLee" type="update">
         Modify some code use try-with-resources #138.
       </action>
+      <action dev="ggregory" due-to="PeterAlfredLee" type="update">
+        Update some file from CRLF to LF #141.
+      </action>
       <!-- UPDATES -->
       <action issue="VFS-755" dev="ggregory" due-to="Gary Gregory" type="update">
         Update org.apache.httpcomponents:httpclient from 4.5.10 to 4.5.11.
