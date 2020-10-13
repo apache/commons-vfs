@@ -186,8 +186,6 @@
         org.apache.commons.httpclient.*;resolution:=optional,
         *
     </commons.osgi.import>
-    <!-- Newer versions of clirr throw an NPE building the site -->
-    <commons.clirr.version>2.6</commons.clirr.version>
     <!-- Avoid warnings about being unable to find jars during site building -->
     <dependency.locations.enabled>false</dependency.locations.enabled>
     <hadoop.version>3.3.0</hadoop.version>
@@ -195,7 +193,11 @@
     <jackrabbit2.version>2.21.3</jackrabbit2.version>
     <commons.surefire.version>2.19.1</commons.surefire.version>
     <commons.japicmp.version>0.14.3</commons.japicmp.version>
+    <commons.jacoco.version>0.8.6</commons.jacoco.version>
     <log4j2.version>2.13.3</log4j2.version>
+    <clirr.skip>true</clirr.skip>
+    <japicmp.skip>false</japicmp.skip>
+    <jacoco.skip>false</jacoco.skip>
   </properties>
 
   <build>
