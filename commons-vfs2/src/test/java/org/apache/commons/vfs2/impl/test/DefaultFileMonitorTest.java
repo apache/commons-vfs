@@ -16,12 +16,15 @@
  */
 package org.apache.commons.vfs2.impl.test;
 
+import static org.junit.Assume.assumeFalse;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.FileChangeEvent;
 import org.apache.commons.vfs2.FileListener;
 import org.apache.commons.vfs2.FileObject;
@@ -33,7 +36,6 @@ import org.junit.Ignore;
 /**
  * Test to verify DefaultFileMonitor
  */
-@Ignore
 public class DefaultFileMonitorTest extends AbstractVfsTestCase {
 
     private static final int DELAY_MILLIS = 100;
@@ -44,6 +46,8 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
 
     @Override
     public void setUp() throws Exception {
+        // Fails randomly on Windows.
+        assumeFalse(SystemUtils.IS_OS_WINDOWS);
         super.setUp();
         fsManager = VFS.getManager();
         testDir = AbstractVfsTestCase.getTestDirectoryFile();
