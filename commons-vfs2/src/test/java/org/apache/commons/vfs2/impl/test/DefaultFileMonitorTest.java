@@ -18,6 +18,7 @@ package org.apache.commons.vfs2.impl.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeFalse;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.FileChangeEvent;
 import org.apache.commons.vfs2.FileListener;
 import org.apache.commons.vfs2.FileObject;
@@ -51,7 +53,7 @@ public class DefaultFileMonitorTest {
     @BeforeClass
     public static void beforeClass() {
         // Fails randomly on Windows.
-        //assumeFalse(SystemUtils.IS_OS_WINDOWS);
+        assumeFalse(SystemUtils.IS_OS_WINDOWS);
     }
 
     @Before
