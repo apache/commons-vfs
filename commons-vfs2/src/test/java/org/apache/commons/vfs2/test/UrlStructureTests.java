@@ -21,6 +21,7 @@ import java.io.InputStream;
 
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
+import org.junit.Test;
 
 /**
  * URL Test cases for providers that supply structural info.
@@ -37,6 +38,7 @@ public class UrlStructureTests extends AbstractProviderTestCase {
     /**
      * Tests that folders have no content.
      */
+    @Test
     public void testFolderURL() throws Exception {
         final FileObject folder = getReadFolder().resolveFile("dir1");
         if (folder.getFileSystem().hasCapability(Capability.DIRECTORY_READ_CONTENT)) {

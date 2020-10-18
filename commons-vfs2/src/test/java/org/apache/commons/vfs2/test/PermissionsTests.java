@@ -24,6 +24,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.provider.local.LocalFileSystem;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Additional file permission tests.
@@ -47,6 +48,7 @@ public class PermissionsTests extends AbstractProviderTestCase {
     /**
      * Tests for the execution permission.
      */
+    @Test
     public void testExecutable() throws Exception {
         final FileObject file = createTestFile();
 
@@ -72,6 +74,7 @@ public class PermissionsTests extends AbstractProviderTestCase {
     /**
      * Tests for the writeable permission
      */
+    @Test
     public void testWriteable() throws Exception {
         final FileObject file = createTestFile();
 
@@ -91,6 +94,7 @@ public class PermissionsTests extends AbstractProviderTestCase {
     /**
      * Tests for the readable permission
      */
+    @Test
     public void testReadable() throws Exception {
         final FileObject file = createTestFile();
 

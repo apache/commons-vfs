@@ -22,6 +22,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Additional naming tests for local file system.
@@ -31,6 +32,7 @@ public class FileNameTests extends AbstractProviderTestCase {
     /**
      * Tests resolution of an absolute file name.
      */
+    @Test
     public void testAbsoluteFileName() throws Exception {
         // Locate file by absolute file name
         final String fileName = new File("testdir").getAbsolutePath();

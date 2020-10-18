@@ -24,6 +24,7 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
  * A partial {@link org.apache.commons.vfs2.test.ProviderTestConfig} implementation.
  */
 public abstract class AbstractProviderTestConfig extends AbstractProviderTestCase implements ProviderTestConfig {
+
     private FilesCache cache = null;
 
     /**
@@ -39,6 +40,7 @@ public abstract class AbstractProviderTestConfig extends AbstractProviderTestCas
      */
     @Override
     public void prepare(final DefaultFileSystemManager manager) throws Exception {
+        // default is do nothing.
     }
 
     @Override

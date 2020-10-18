@@ -24,6 +24,7 @@ import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.Selectors;
+import org.junit.Test;
 
 /**
  * File system test that check that a file system can be renamed.
@@ -83,6 +84,7 @@ public class ProviderRenameTests extends AbstractProviderTestCase {
     /**
      * Tests create-delete-create-a-file sequence on the same file system.
      */
+    @Test
     public void testRenameFile() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
@@ -101,6 +103,7 @@ public class ProviderRenameTests extends AbstractProviderTestCase {
      * <P>
      * This fails with VFS-558, but only with a CacheStrategy.ON_CALL.
      */
+    @Test
     public void testRenameFileIntoEmptyFolder() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
@@ -123,6 +126,7 @@ public class ProviderRenameTests extends AbstractProviderTestCase {
      *
      * See [VFS-298] FTP: Exception is thrown when renaming a file.
      */
+    @Test
     public void testRenameFileAndLeaveFolderEmpty() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
         final FileObject folder = scratchFolder.resolveFile("folder");

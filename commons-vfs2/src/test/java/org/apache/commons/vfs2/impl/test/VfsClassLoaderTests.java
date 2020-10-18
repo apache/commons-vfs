@@ -31,6 +31,7 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.impl.VFSClassLoader;
 import org.apache.commons.vfs2.test.AbstractProviderTestCase;
+import org.junit.Test;
 
 /**
  * VfsClassLoader test cases.
@@ -56,6 +57,7 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
     /**
      * Tests loading a class.
      */
+    @Test
     public void testLoadClass() throws Exception {
         final VFSClassLoader loader = createClassLoader();
 
@@ -71,6 +73,7 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
     /**
      * Tests loading a resource.
      */
+    @Test
     public void testLoadResource() throws Exception {
         final VFSClassLoader loader = createClassLoader();
 
@@ -84,6 +87,7 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
     /**
      * Tests package sealing.
      */
+    @Test
     public void testSealing() throws Exception {
         final VFSClassLoader loader = createClassLoader();
         final Class<?> testClass = loader.loadClass("code.sealed.AnotherClass");
@@ -99,6 +103,7 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
      * actually carry out all tests.
      * </p>
      */
+    @Test
     public void testGetResourcesJARs() throws Exception {
         final FileSystemManager manager = getManager();
         try {
@@ -148,6 +153,7 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
      * This test is repeated with various provider configurations but works on local files, only.
      * </p>
      */
+    @Test
     public void testGetResourcesNoLayerLocal() throws Exception {
         final FileSystemManager manager = getManager();
         try {

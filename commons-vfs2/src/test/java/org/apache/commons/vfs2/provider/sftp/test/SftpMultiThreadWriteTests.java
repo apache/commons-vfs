@@ -30,6 +30,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.test.AbstractProviderTestCase;
+import org.junit.Test;
 
 /**
  * MultiThread tests for writing with SFTP provider.
@@ -61,6 +62,7 @@ public class SftpMultiThreadWriteTests extends AbstractProviderTestCase {
     /**
      * Tests file copy from local file system in parallel mode. This was a problem with SFTP channels.
      */
+    @Test
     public void testParallelCopyFromLocalFileSystem() throws Exception {
         final File localFile = new File("src/test/resources/test-data/test.zip");
 

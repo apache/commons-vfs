@@ -44,6 +44,7 @@ public class PathTests extends AbstractProviderTestCase {
     /**
      * Tests resolution of absolute URI.
      */
+    @Test
     public void testAbsoluteURI() throws Exception {
         final FileObject readFolder = getReadFolder();
 

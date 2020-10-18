@@ -23,6 +23,7 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.local.WindowsFileName;
 import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Additional naming tests for local file system.
@@ -30,6 +31,8 @@ import org.junit.Assert;
  * Only executed on Windows O/S.
  */
 public class WindowsFileNameTests extends AbstractProviderTestCase {
+    
+    @Test
     public void testWindowsRoots() throws Exception {
         // valid URI forms of the filesystem root
         final String[] tests = new String[] { "file:///C:/", "file://C:/", "file:/C:/", "file:C:/" };
@@ -56,6 +59,7 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
         }
     }
 
+    @Test
     public void testWindowsWrongRoots() throws Exception {
         final String[] tests = new String[] { "file:///C:", "file://C:", "file:/C:", "file:C:" };
 
@@ -72,6 +76,7 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
         }
     }
 
+    @Test
     public void testWindowsFilenameUNCStartError() throws Exception {
         try {
             final String FILE = "file://///";
@@ -86,6 +91,7 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
         }
     }
 
+    @Test
     public void testWindowsFilenameParserError() throws Exception {
         // check VFS-338 with 2+4 slashes we want a dedicated error
         try {

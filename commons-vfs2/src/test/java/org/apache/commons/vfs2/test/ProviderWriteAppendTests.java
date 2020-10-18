@@ -21,6 +21,7 @@ import java.io.OutputStream;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.Selectors;
+import org.junit.Test;
 
 /**
  * File system test that check that a file system can be modified.
@@ -51,6 +52,7 @@ public class ProviderWriteAppendTests extends AbstractProviderTestCase {
     /**
      * Tests create-delete-create-a-file sequence on the same file system.
      */
+    @Test
     public void testAppendContent() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 

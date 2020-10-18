@@ -26,14 +26,17 @@ import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.NameScope;
+import org.junit.Test;
 
 /**
  * Test cases for reading file content.
  */
 public class ContentTests extends AbstractProviderTestCase {
+
     /**
      * Asserts that every expected file exists, and has the expected content.
      */
+    @Test
     public void testAllContent() throws Exception {
         final FileInfo expectedFileInfo = buildExpectedStructure();
         final FileObject actualFolder = getReadFolder();
@@ -60,6 +63,7 @@ public class ContentTests extends AbstractProviderTestCase {
     /**
      * Tests existence determination.
      */
+    @Test
     public void testExists() throws Exception {
         // Test a file
         FileObject file = getReadFolder().resolveFile("file1.txt");
@@ -85,6 +89,7 @@ public class ContentTests extends AbstractProviderTestCase {
     /**
      * Tests attributes
      */
+    @Test
     public void testAttributes() throws FileSystemException {
         this.getReadFolder().getContent().getAttributes();
     }
@@ -92,6 +97,7 @@ public class ContentTests extends AbstractProviderTestCase {
     /**
      * Tests root of file system exists.
      */
+    @Test
     public void testRootURI() throws FileSystemException {
         if (!this.getProviderConfig().isFileSystemRootAccessible()) {
             return;
@@ -104,6 +110,7 @@ public class ContentTests extends AbstractProviderTestCase {
     /**
      * Tests root of file system exists.
      */
+    @Test
     public void testRootAPI() throws FileSystemException {
         if (!this.getProviderConfig().isFileSystemRootAccessible()) {
             return;
@@ -119,6 +126,7 @@ public class ContentTests extends AbstractProviderTestCase {
     /**
      * Tests parent identity
      */
+    @Test
     public void testParent() throws FileSystemException {
         // Test when both exist
         FileObject folder = getReadFolder().resolveFile("dir1");
@@ -156,6 +164,7 @@ public class ContentTests extends AbstractProviderTestCase {
     /**
      * Tests that children cannot be listed for non-folders.
      */
+    @Test
     public void testChildren() throws FileSystemException {
         // Check for file
         FileObject file = getReadFolder().resolveFile("file1.txt");
@@ -190,6 +199,7 @@ public class ContentTests extends AbstractProviderTestCase {
     /**
      * Tests content.
      */
+    @Test
     public void testContent() throws Exception {
         // Test non-empty file
         FileObject file = getReadFolder().resolveFile("file1.txt");
@@ -203,6 +213,7 @@ public class ContentTests extends AbstractProviderTestCase {
     /**
      * Tests that unknown files have no content.
      */
+    @Test
     public void testUnknownContent() throws Exception {
 
         // Try getting the content of an unknown file
@@ -225,6 +236,7 @@ public class ContentTests extends AbstractProviderTestCase {
     /**
      * Tests concurrent reads on a file.
      */
+    @Test
     public void testReadSingleSequencial() throws Exception {
         final FileObject file = getReadFolder().resolveFile("file1.txt");
         assertTrue(file.exists());
@@ -236,6 +248,7 @@ public class ContentTests extends AbstractProviderTestCase {
     /**
      * Tests concurrent reads on a file.
      */
+    @Test
     public void testReadSingleConcurrent() throws Exception {
         final FileObject file = getReadFolder().resolveFile("file1.txt");
         assertTrue(file.exists());
@@ -250,6 +263,7 @@ public class ContentTests extends AbstractProviderTestCase {
     /**
      * Tests concurrent reads on different files works.
      */
+    @Test
     public void testReadMultipleConcurrent() throws Exception {
         final FileObject file = getReadFolder().resolveFile("file1.txt");
         assertTrue(file.exists());
@@ -266,6 +280,7 @@ public class ContentTests extends AbstractProviderTestCase {
     /**
      * Tests that content and file objects are usable after being closed.
      */
+    @Test
     public void testReuse() throws Exception {
         // Get the test file
         final FileObject file = getReadFolder().resolveFile("file1.txt");
@@ -289,6 +304,7 @@ public class ContentTests extends AbstractProviderTestCase {
     /**
      * Tests that input streams are cleaned up on file close.
      */
+    @Test
     public void testInputStreamMultipleCleanup() throws Exception {
         // Get the test file
         final FileObject file = getReadFolder().resolveFile("file1.txt");
@@ -312,6 +328,7 @@ public class ContentTests extends AbstractProviderTestCase {
     /**
      * Tests that input streams are cleaned up on file close.
      */
+    @Test
     public void testInputStreamSingleCleanup() throws Exception {
         // Get the test file
         final FileObject file = getReadFolder().resolveFile("file1.txt");
@@ -332,6 +349,7 @@ public class ContentTests extends AbstractProviderTestCase {
     /**
      * Tests that input streams are cleaned up on file close.
      */
+    @Test
     public void testInputStreamReadAll() throws Exception {
         // Get the test file
         try (final FileObject file = getReadFolder().resolveFile("file1.txt")) {
@@ -347,6 +365,7 @@ public class ContentTests extends AbstractProviderTestCase {
     /**
      * Tests that input streams are cleaned up on file close.
      */
+    @Test
     public void testByteArrayReadAll() throws Exception {
         // Get the test file
         try (final FileObject file = getReadFolder().resolveFile("file1.txt")) {
@@ -357,6 +376,7 @@ public class ContentTests extends AbstractProviderTestCase {
         }
     }
 
+    @Test
     public void testGetString_Charset() throws Exception {
         // Get the test file
         try (final FileObject file = getReadFolder().resolveFile("file1.txt")) {
@@ -367,6 +387,7 @@ public class ContentTests extends AbstractProviderTestCase {
         }
     }
 
+    @Test
     public void testGetString_String() throws Exception {
         // Get the test file
         try (final FileObject file = getReadFolder().resolveFile("file1.txt")) {

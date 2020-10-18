@@ -24,6 +24,7 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.impl.VirtualFileSystem;
 import org.apache.commons.vfs2.provider.ram.RamFileObject;
 import org.apache.commons.vfs2.util.FileObjectUtils;
+import org.junit.Test;
 
 /**
  * Test the cache stragey
@@ -40,6 +41,7 @@ public class ProviderCacheStrategyTests extends AbstractProviderTestCase {
     /**
      * Test the manual cache strategy
      */
+    @Test
     public void testManualCache() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
         if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class)
@@ -73,6 +75,7 @@ public class ProviderCacheStrategyTests extends AbstractProviderTestCase {
     /**
      * Test the on_resolve strategy
      */
+    @Test
     public void testOnResolveCache() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
         if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class)
@@ -106,6 +109,7 @@ public class ProviderCacheStrategyTests extends AbstractProviderTestCase {
     /**
      * Test the on_call strategy
      */
+    @Test
     public void testOnCallCache() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
         if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class)

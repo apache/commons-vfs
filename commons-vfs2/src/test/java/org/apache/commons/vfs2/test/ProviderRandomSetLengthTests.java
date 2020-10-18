@@ -24,6 +24,7 @@ import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Random set length test cases for file providers.
@@ -57,6 +58,7 @@ public class ProviderRandomSetLengthTests extends AbstractProviderTestCase {
     /**
      * Writes a file
      */
+    @Test
     public void testRandomSetLength() throws Exception {
         try (FileObject file = this.createScratchFolder().resolveFile("random_write.txt")) {
             file.createFile();

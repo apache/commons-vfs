@@ -17,8 +17,6 @@
 package org.apache.commons.vfs2.test;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -32,6 +30,7 @@ import org.junit.Test;
  * URL test cases for providers.
  */
 public class UrlTests extends AbstractProviderTestCase {
+
     /**
      * Returns the capabilities required by the tests of this test case. The tests are not run if the provider being
      * tested does not support all the required capabilities. Return null or an empty array to always run the tests.
@@ -58,6 +57,7 @@ public class UrlTests extends AbstractProviderTestCase {
     /**
      * Tests that unknown files have no content.
      */
+    @Test
     public void testUnknownURL() throws Exception {
         // Try getting the content of an unknown file
         final FileObject unknownFile = getReadFolder().resolveFile("unknown-file");
@@ -76,6 +76,7 @@ public class UrlTests extends AbstractProviderTestCase {
     /**
      * Tests url.
      */
+    @Test
     public void testURL() throws Exception {
         final FileObject file = getReadFolder().resolveFile("some-dir/");
         final URL url = file.getURL();
@@ -92,6 +93,7 @@ public class UrlTests extends AbstractProviderTestCase {
     /**
      * Tests content.
      */
+    @Test
     public void testURLContent() throws Exception {
         testURLContent(getReadFolder());
     }
@@ -115,6 +117,7 @@ public class UrlTests extends AbstractProviderTestCase {
     /**
      * Tests content.
      */
+    @Test
     public void testURLContentProvider() throws Exception {
         // Test non-empty file
         final FileObject file = getReadFolder().resolveFile("file1.txt");

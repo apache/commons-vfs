@@ -22,12 +22,15 @@ import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FilesCache;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.junit.Assert;
+import org.junit.Test;
 
 
 /**
  * Tests for {@link NullFilesCache} used by {@link NullFilesCacheTestCase}.
  */
 public class NullFilesCacheTests extends AbstractFilesCacheTestsBase {
+
+    @Test
     public void testFilesCache() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
         Assert.assertNotNull("This test should not have a null FileObject scratch folder", scratchFolder);
@@ -39,6 +42,7 @@ public class NullFilesCacheTests extends AbstractFilesCacheTestsBase {
     }
 
     @Override
+    @Test
     public void testBasicCacheOps() throws Exception {
         final DefaultFileSystemManager manager = getManager();
         Assert.assertNotNull("This test should not have a null DefaultFileSystemManager", manager);
@@ -61,6 +65,7 @@ public class NullFilesCacheTests extends AbstractFilesCacheTestsBase {
         assertNull(cache.getFile(fs, fn));
     }
 
+    @Test
     public void testClass() {
         final DefaultFileSystemManager manager = getManager();
         Assert.assertNotNull("This test should not have a null DefaultFileSystemManager", manager);

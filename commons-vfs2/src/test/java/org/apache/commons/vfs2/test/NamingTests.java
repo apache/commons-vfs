@@ -20,6 +20,7 @@ import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.NameScope;
+import org.junit.Test;
 
 /**
  * Test cases for file naming.
@@ -27,9 +28,11 @@ import org.apache.commons.vfs2.NameScope;
  * TODO - Add tests for all FileName methods.
  */
 public class NamingTests extends AbstractProviderTestCase {
+
     /**
      * Tests resolution of relative file names via the FS manager
      */
+    @Test
     public void testRelativeURI() throws Exception {
         // Build base dir
         getManager().setBaseFile(getReadFolder());
@@ -57,6 +60,7 @@ public class NamingTests extends AbstractProviderTestCase {
     /**
      * Tests encoding of relative URI.
      */
+    @Test
     public void testRelativeUriEncoding() throws Exception {
         // Build base dir
         getManager().setBaseFile(getReadFolder());
@@ -116,6 +120,7 @@ public class NamingTests extends AbstractProviderTestCase {
     /**
      * Tests the root file name.
      */
+    @Test
     public void testRootFileName() throws Exception {
         // Locate the root file
         final FileName rootName = getReadFolder().getFileSystem().getRoot().getName();
@@ -133,6 +138,7 @@ public class NamingTests extends AbstractProviderTestCase {
     /**
      * Tests child file names.
      */
+    @Test
     public void testChildName() throws Exception {
         final FileName baseName = getReadFolder().getName();
         final String basePath = baseName.getPath();
@@ -225,6 +231,7 @@ public class NamingTests extends AbstractProviderTestCase {
     /**
      * Tests relative name resolution, relative to the base folder.
      */
+    @Test
     public void testNameResolution() throws Exception {
         final FileName baseName = getReadFolder().getName();
         final String parentPath = baseName.getParent().getPath();
@@ -285,6 +292,7 @@ public class NamingTests extends AbstractProviderTestCase {
     /**
      * Tests descendent name resolution.
      */
+    @Test
     public void testDescendentName() throws Exception {
         final FileName baseName = getReadFolder().getName();
 
@@ -308,6 +316,7 @@ public class NamingTests extends AbstractProviderTestCase {
     /**
      * Tests resolution of absolute names.
      */
+    @Test
     public void testAbsoluteNames() throws Exception {
         // Test against the base folder
         FileName name = getReadFolder().getName();
@@ -358,6 +367,7 @@ public class NamingTests extends AbstractProviderTestCase {
     /**
      * Tests conversion from absolute to relative names.
      */
+    @Test
     public void testAbsoluteNameConvert() throws Exception {
         final FileName baseName = getReadFolder().getName();
 

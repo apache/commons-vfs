@@ -28,13 +28,14 @@ import org.apache.commons.vfs2.provider.webdav.WebdavFileSystemConfigBuilder;
 import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 import org.apache.jackrabbit.webdav.version.DeltaVConstants;
 import org.apache.jackrabbit.webdav.version.VersionControlledResource;
+import org.junit.Test;
 
 /**
  * Test to verify Webdav Versioning support
  */
 public class WebdavVersioningTests extends AbstractProviderTestCase {
-    /**
-     */
+
+    @Test
     public void testVersioning() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
         final FileSystemOptions opts = scratchFolder.getFileSystem().getFileSystemOptions();
@@ -80,8 +81,7 @@ public class WebdavVersioningTests extends AbstractProviderTestCase {
         builder.setVersioning(opts, false);
     }
 
-    /**
-     */
+    @Test
     public void testVersioningWithCreator() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
         final FileSystemOptions opts = scratchFolder.getFileSystem().getFileSystemOptions();

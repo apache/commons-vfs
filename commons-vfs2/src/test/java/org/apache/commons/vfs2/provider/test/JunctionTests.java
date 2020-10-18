@@ -23,11 +23,13 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.test.AbstractProviderTestCase;
+import org.junit.Test;
 
 /**
  * Additional junction test cases.
  */
 public class JunctionTests extends AbstractProviderTestCase {
+
     private FileObject getBaseDir() throws FileSystemException {
         final File file = AbstractVfsTestCase.getTestDirectoryFile();
         assertTrue(file.exists());
@@ -37,6 +39,7 @@ public class JunctionTests extends AbstractProviderTestCase {
     /**
      * Checks nested junctions are not supported.
      */
+    @Test
     public void testNestedJunction() throws Exception {
         final FileSystem fs = getManager().createVirtualFileSystem("vfs:").getFileSystem();
         final FileObject baseDir = getBaseDir();
@@ -62,6 +65,7 @@ public class JunctionTests extends AbstractProviderTestCase {
     /**
      * Checks ancestors are created when a junction is created.
      */
+    @Test
     public void testAncestors() throws Exception {
         final FileSystem fs = getManager().createVirtualFileSystem("vfs://").getFileSystem();
         final FileObject baseDir = getBaseDir();

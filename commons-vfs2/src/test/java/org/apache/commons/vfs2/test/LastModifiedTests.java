@@ -24,11 +24,13 @@ import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for getting and setting file last modified time.
  */
 public class LastModifiedTests extends AbstractProviderTestCase {
+
     private void assertDelta(final String message, final long expected, final long actual, final long delta) {
         if (expected == actual) {
             return;
@@ -54,6 +56,7 @@ public class LastModifiedTests extends AbstractProviderTestCase {
      *
      * @throws FileSystemException if error occurred
      */
+    @Test
     public void testGetAccurary() throws FileSystemException {
         final FileObject file = getReadFolder().resolveFile("file1.txt");
         final long lastModTimeAccuracy = (long) file.getFileSystem().getLastModTimeAccuracy();
@@ -68,6 +71,7 @@ public class LastModifiedTests extends AbstractProviderTestCase {
      *
      * @throws FileSystemException if error occurred
      */
+    @Test
     public void testGetLastModifiedFolder() throws FileSystemException {
         final FileObject file = getReadFolder().resolveFile("dir1");
         assertNotEquals(0L, file.getContent().getLastModifiedTime());
@@ -78,6 +82,7 @@ public class LastModifiedTests extends AbstractProviderTestCase {
      *
      * @throws FileSystemException if error occurred
      */
+    @Test
     public void testGetLastModifiedFile() throws FileSystemException {
         final FileObject file = getReadFolder().resolveFile("file1.txt");
         assertNotEquals(0L, file.getContent().getLastModifiedTime());
@@ -88,6 +93,7 @@ public class LastModifiedTests extends AbstractProviderTestCase {
      *
      * @throws FileSystemException if error occurred
      */
+    @Test
     public void testSetLastModifiedFolder() throws FileSystemException {
         final long yesterday = System.currentTimeMillis() - 24 * 60 * 60 * 1000;
 
@@ -107,6 +113,7 @@ public class LastModifiedTests extends AbstractProviderTestCase {
      *
      * @throws FileSystemException if error occurred
      */
+    @Test
     public void testSetLastModifiedFile() throws FileSystemException {
         final long yesterday = System.currentTimeMillis() - 24 * 60 * 60 * 1000;
 

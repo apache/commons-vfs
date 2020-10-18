@@ -22,11 +22,14 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FilesCache;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Tests for {@link LRUFilesCache} used by {@link LRUFilesCacheTestCase}.
  */
 public class LRUFilesCacheTests extends AbstractFilesCacheTestsBase {
+
+    @Test
     public void testFilesCache() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
         Assert.assertNotNull("scratchFolder", scratchFolder);
@@ -71,6 +74,7 @@ public class LRUFilesCacheTests extends AbstractFilesCacheTestsBase {
         assertNotSame(dir1, dir1_2);
     }
 
+    @Test
     public void testClass() {
         @SuppressWarnings("resource")
         final DefaultFileSystemManager manager = getManager();

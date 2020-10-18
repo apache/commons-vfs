@@ -23,11 +23,13 @@ import org.apache.commons.vfs2.FileSelector;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.FileTypeSelector;
 import org.apache.commons.vfs2.Selectors;
+import org.junit.Test;
 
 /**
  * File system test that do some delete operations.
  */
 public class ProviderDeleteTests extends AbstractProviderTestCase {
+
     private class FileNameSelector implements FileSelector {
         final String basename;
 
@@ -80,6 +82,7 @@ public class ProviderDeleteTests extends AbstractProviderTestCase {
     /**
      * deletes the complete structure
      */
+    @Test
     public void testDeleteFiles() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
@@ -89,6 +92,7 @@ public class ProviderDeleteTests extends AbstractProviderTestCase {
     /**
      * deletes a single file
      */
+    @Test
     public void testDeleteFile() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
@@ -100,6 +104,7 @@ public class ProviderDeleteTests extends AbstractProviderTestCase {
     /**
      * Deletes a non existent file
      */
+    @Test
     public void testDeleteNonExistantFile() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
@@ -111,6 +116,7 @@ public class ProviderDeleteTests extends AbstractProviderTestCase {
     /**
      * deletes files
      */
+    @Test
     public void testDeleteAllFiles() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
@@ -120,6 +126,7 @@ public class ProviderDeleteTests extends AbstractProviderTestCase {
     /**
      * deletes a.txt
      */
+    @Test
     public void testDeleteOneFiles() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 

@@ -22,15 +22,18 @@ import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.provider.UriParser;
 import org.apache.commons.vfs2.test.AbstractProviderTestCase;
+import org.junit.Test;
 
 /**
  * Additional URL tests for local file system.
  *
  */
 public class UrlTests extends AbstractProviderTestCase {
+
     /**
      * Tests FindFiles with a file name that has a hash sign in it.
      */
+    @Test
     public void testHashFindFiles() throws Exception {
         final FileSystemManager fsManager = VFS.getManager();
 
@@ -53,6 +56,7 @@ public class UrlTests extends AbstractProviderTestCase {
     /**
      * Tests resolution of an absolute file name.
      */
+    @Test
     public void testHashURL() throws Exception {
         final FileObject file = getReadFolder().resolveFile("test-hash-#test.txt");
 

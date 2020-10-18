@@ -21,6 +21,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.util.RandomAccessMode;
+import org.junit.Test;
 
 /**
  * Random read and write test case for file providers.
@@ -54,6 +55,7 @@ public class ProviderRandomReadWriteTests extends AbstractProviderTestCase {
     /**
      * Writes a file
      */
+    @Test
     public void testRandomWrite() throws Exception {
         try (FileObject file = createScratchFolder().resolveFile("random_write.txt")) {
             file.createFile();
