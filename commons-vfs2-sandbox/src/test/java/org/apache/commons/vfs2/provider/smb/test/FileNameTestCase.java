@@ -20,16 +20,19 @@ import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.provider.smb.SmbFileName;
 import org.apache.commons.vfs2.provider.smb.SmbFileNameParser;
+import org.junit.Test;
 
 /**
  * Some additional SMB file name test cases.
  */
 public class FileNameTestCase extends AbstractVfsTestCase {
+
     /**
      * Tests parsing a URI into its parts.
      *
      * @throws Exception in case of error
      */
+    @Test
     public void testParseUri() throws Exception {
         // Simple name
         SmbFileName name = (SmbFileName) SmbFileNameParser.getInstance().parseUri(null, null,
@@ -115,6 +118,7 @@ public class FileNameTestCase extends AbstractVfsTestCase {
      *
      * @throws Exception in case of error
      */
+    @Test
     public void testBadlyFormedUri() throws Exception {
         // Does not start with smb://
         testBadlyFormedUri("smb:", "vfs.provider/missing-double-slashes.error");

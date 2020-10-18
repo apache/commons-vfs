@@ -24,14 +24,17 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.VFS;
+import org.junit.Test;
 
 /**
  * Test cases for the VFS factory.
  */
 public class FileSystemManagerFactoryTestCase extends AbstractVfsTestCase {
+
     /**
      * Sanity test.
      */
+    @Test
     public void testDefaultInstance() throws Exception {
         // Locate the default manager
         final FileSystemManager manager = VFS.getManager();

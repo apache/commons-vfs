@@ -16,7 +16,8 @@
  */
 package org.apache.commons.vfs2.impl.test;
 
-import static org.junit.Assume.assumeFalse;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -24,19 +25,22 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.commons.AbstractVfsTestCase;
-import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.FileChangeEvent;
 import org.apache.commons.vfs2.FileListener;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileMonitor;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
+import org.junit.Test;
 
 /**
  * Test to verify DefaultFileMonitor
  */
-public class DefaultFileMonitorTest extends AbstractVfsTestCase {
+public class DefaultFileMonitorTest {
 
     private static final int DELAY_MILLIS = 100;
     private FileSystemManager fsManager;
@@ -44,11 +48,14 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
     private volatile Status changeStatus;
     private File testFile;
 
-    @Override
-    public void setUp() throws Exception {
+    @BeforeClass
+    public static void beforeClass() {
         // Fails randomly on Windows.
-        assumeFalse(SystemUtils.IS_OS_WINDOWS);
-        super.setUp();
+        //assumeFalse(SystemUtils.IS_OS_WINDOWS);
+    }
+
+    @Before
+    public void setUp() throws Exception {
         fsManager = VFS.getManager();
         testDir = AbstractVfsTestCase.getTestDirectoryFile();
         changeStatus = null;
@@ -59,16 +66,16 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
         }
     }
 
-    @Override
+    @After
     public void tearDown() throws Exception {
         if (testFile != null) {
             if (!testFile.delete()) {
                 testFile.deleteOnExit();
             }
         }
-        super.tearDown();
     }
 
+    @Test
     public void testFileCreated() throws Exception {
         try (final FileObject fileObject = fsManager.resolveFile(testFile.toURI().toURL().toString())) {
             final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
@@ -87,6 +94,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
         }
     }
 
+    @Test
     public void testFileDeleted() throws Exception {
         writeToFile(testFile);
         try (final FileObject fileObject = fsManager.resolveFile(testFile.toURI().toString())) {
@@ -106,6 +114,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
         }
     }
 
+    @Test
     public void testFileModified() throws Exception {
         writeToFile(testFile);
         try (final FileObject fileObject = fsManager.resolveFile(testFile.toURI().toURL().toString())) {
@@ -130,6 +139,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
         }
     }
 
+    @Test
     public void testFileRecreated() throws Exception {
         try (final FileObject fileObject = fsManager.resolveFile(testFile.toURI().toURL().toString())) {
             final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
@@ -160,6 +170,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
         }
     }
 
+    @Test
     public void testChildFileRecreated() throws Exception {
         writeToFile(testFile);
         try (final FileObject fileObj = fsManager.resolveFile(testDir.toURI().toURL().toString())) {
@@ -187,6 +198,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
         }
     }
 
+    @Test
     public void testChildFileDeletedWithoutRecursiveChecking() throws Exception {
         writeToFile(testFile);
         try (final FileObject fileObject = fsManager.resolveFile(testDir.toURI().toURL().toString())) {
@@ -207,6 +219,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
         }
     }
 
+    @Test
     public void testFileMonitorRestarted() throws Exception {
         try (final FileObject fileObject = fsManager.resolveFile(testFile.toURI().toString())) {
             final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
@@ -240,6 +253,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
      * As a result, the file monitor will fire two created events.
      */
     @Ignore("VFS-299")
+    @Test
     public void ignore_testAddRemove() throws Exception {
         try (final FileObject fileObject = fsManager.resolveFile(testFile.toURI().toString())) {
             final CountingListener listener = new CountingListener();
@@ -265,6 +279,7 @@ public class DefaultFileMonitorTest extends AbstractVfsTestCase {
      * As a result, listeners of stopped monitors still receive events.
      */
     @Ignore("VFS-299")
+    @Test
     public void ignore_testStartStop() throws Exception {
         try (final FileObject fileObject = fsManager.resolveFile(testFile.toURI().toString())) {
             final CountingListener stoppedListener = new CountingListener();
