@@ -33,6 +33,7 @@ import org.junit.Ignore;
 /**
  * Test to verify DefaultFileMonitor
  */
+@Ignore
 public class DefaultFileMonitorTest extends AbstractVfsTestCase {
 
     private static final int DELAY_MILLIS = 100;
