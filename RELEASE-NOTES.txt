@@ -20,12 +20,14 @@ o VFS-570:  Add HDFS write support #114. Thanks to garpinc, Gary Gregory.
 o           Add FileObject.getURI(). Thanks to Gary Gregory.
 o           Add FileObject.getPath(). Thanks to Gary Gregory.
 o VFS-768:  Update Apache httpclient 4.5.11 to 4.5.13 and httpclient5 5.0-beta7 to 5.0.3. Thanks to ddg-igh, Gary Gregory.
+o           Add org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.isDisableDetectExecChannel(FileSystemOptions) and setDisableDetectExecChannel(FileSystemOptions, boolean). Thanks to Gary Gregory.
+o           Add org.apache.commons.vfs2.FileSystemConfigBuilder.toBooleanObject(boolean). Thanks to Gary Gregory.
+o           org.apache.commons.vfs2.provider.VfsComponent now implements java.io.Closeable. Thanks to Gary Gregory.
+o           Modify some code use try-with-resources #138. Thanks to PeterAlfredLee.
 
 Fixed Bugs:
 o VFS-753:  NumberFormatException in SftpFileSystem::getUId. Thanks to John Webb, Gary Gregory.
 o VFS-779:  Possible null pointer dereference in org.apache.commons.vfs2.impl.DefaultFileReplicator.close() due to return value of called method. Thanks to Gary Gregory.
-o           Add org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.isDisableDetectExecChannel(FileSystemOptions) and setDisableDetectExecChannel(FileSystemOptions, boolean). Thanks to Gary Gregory.
-o           Add org.apache.commons.vfs2.FileSystemConfigBuilder.toBooleanObject(boolean). Thanks to Gary Gregory.
 o           Modify some loop using stream API #96. Thanks to PeterAlfredLee.
 o VFS-780:  SftpFileSystem returns null channel and produce NPE - fix get… #110. Thanks to Wuchte.
 o VFS-788:  [webdav/webdav4] Jackrabbit1 and jackrabbit2 modules getting same OSGi symbolic name. Thanks to satish bhor.
@@ -38,8 +40,6 @@ o           FileObject.getURL() returns an illegal URL when a it should escape a
 o           Fix test fail caused by lack proxy configuration for machines behind a proxy #139. Thanks to PeterAlfredLee.
 
 Changes:
-o           org.apache.commons.vfs2.provider.VfsComponent now implements java.io.Closeable. Thanks to Gary Gregory.
-o           Modify some code use try-with-resources #138. Thanks to PeterAlfredLee.
 o           Update some file from CRLF to LF #141. Thanks to PeterAlfredLee.
 o VFS-755:  Update org.apache.httpcomponents:httpclient from 4.5.10 to 4.5.11. Thanks to Gary Gregory.
 o VFS-756:  Update org.apache.jackrabbit:jackrabbit-standalone-components from 2.19.6 to 2.21.3. Thanks to Gary Gregory.
