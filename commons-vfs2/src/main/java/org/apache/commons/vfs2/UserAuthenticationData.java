@@ -127,9 +127,7 @@ public class UserAuthenticationData {
      */
     public void cleanup() {
         // step 1: nullify character buffers
-        final Iterator<char[]> iterAuthenticationData = authenticationData.values().iterator();
-        while (iterAuthenticationData.hasNext()) {
-            final char[] data = iterAuthenticationData.next();
+        for (char[] data : authenticationData.values()) {
             if (data == null) {
                 continue;
             }

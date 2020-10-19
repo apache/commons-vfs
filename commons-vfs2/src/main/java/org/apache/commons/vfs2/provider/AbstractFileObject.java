@@ -409,8 +409,8 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
         // Delete 'em
         final int count = files.size();
-        for (int i = 0; i < count; i++) {
-            final AbstractFileObject file = FileObjectUtils.getAbstractFileObject(files.get(i));
+        for (FileObject fileObject : files) {
+            final AbstractFileObject file = FileObjectUtils.getAbstractFileObject(fileObject);
             // file.attach();
 
             // VFS-210: It seems impossible to me that findFiles will return a list with hidden files/directories
