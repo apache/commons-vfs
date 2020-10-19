@@ -20,6 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -449,6 +450,12 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
         } catch (final Exception e) {
             throw new FileSystemException("vfs.provider.webdav/set-attributes", e, getName(), attrName);
         }
+    }
+
+    // Just for the unit test in the same package (package-private) to access this during validation.
+    @Override
+    protected URI getInternalURI() throws FileSystemException {
+        return super.getInternalURI();
     }
 
     private HttpResponse executeRequest(final HttpUriRequest request) throws FileSystemException {
