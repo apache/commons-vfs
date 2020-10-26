@@ -39,7 +39,7 @@ public class EmptyFileFilterExample {
             final FileSystemManager fsManager = VFS.getManager();
             final FileObject dir = fsManager.toFileObject(new File("."));
             final FileObject[] files = dir.findFiles(new FileFilterSelector(EmptyFileFilter.EMPTY));
-            for (FileObject file : files) {
+            for (final FileObject file : files) {
                 System.out.println(file);
             }
         }
@@ -51,7 +51,7 @@ public class EmptyFileFilterExample {
             final FileSystemManager fsManager = VFS.getManager();
             final FileObject dir = fsManager.toFileObject(new File("."));
             final FileObject[] files = dir.findFiles(new FileFilterSelector(EmptyFileFilter.NOT_EMPTY));
-            for (FileObject file : files) {
+            for (final FileObject file : files) {
                 System.out.println(file);
             }
         }

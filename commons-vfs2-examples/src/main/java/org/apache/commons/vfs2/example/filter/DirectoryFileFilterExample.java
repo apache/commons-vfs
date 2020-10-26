@@ -37,7 +37,7 @@ public class DirectoryFileFilterExample {
         final FileSystemManager fsManager = VFS.getManager();
         final FileObject dir = fsManager.toFileObject(new File("."));
         final FileObject[] files = dir.findFiles(new FileFilterSelector(DirectoryFileFilter.DIRECTORY));
-        for (FileObject file : files) {
+        for (final FileObject file : files) {
             System.out.println(file);
         }
     }

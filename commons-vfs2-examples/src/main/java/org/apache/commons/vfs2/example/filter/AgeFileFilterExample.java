@@ -40,7 +40,7 @@ public class AgeFileFilterExample {
         final AgeFileFilter filter = new AgeFileFilter(cutoff);
 
         final FileObject[] files = dir.findFiles(new FileFilterSelector(filter));
-        for (FileObject file : files) {
+        for (final FileObject file : files) {
             System.out.println(file);
         }
 
