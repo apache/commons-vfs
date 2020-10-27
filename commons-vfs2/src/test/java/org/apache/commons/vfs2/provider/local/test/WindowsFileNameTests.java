@@ -31,7 +31,7 @@ import org.junit.Test;
  * Only executed on Windows O/S.
  */
 public class WindowsFileNameTests extends AbstractProviderTestCase {
-    
+
     @Test
     public void testWindowsRoots() throws Exception {
         // valid URI forms of the filesystem root

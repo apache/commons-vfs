@@ -33,7 +33,7 @@ Validate all installed jar files and build all module sites:
 mvn -V -Ptest-deploy -Prelease -P japicmp -P jacoco site
 
 Deploy the jar files:
- mvn -V -Ptest-deploy -Prelease deploy
+mvn -V -Ptest-deploy -Prelease deploy
 
 Assemble all sites into one:
 mvn -V -Ptest-deploy -Prelease site:stage
