@@ -50,6 +50,10 @@ The <action> type attribute can be add,update,fix,remove.
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
 <!-- START Might need to be moved to the next version -->
+      <!-- FIXES -->
+      <action devissue="VFS-748" dev="ggregory" due-to="PeterAlfredLee, Gary Gregory" type="update">
+        TarProvider Incorrectly marks file IMAGINARY after garbage collection with WeakRefFilesCache, #97.
+      </action>
       <!-- UPDATES -->
       <action dev="ggregory" due-to="PeterAlfredLee" type="update">
         Modify some code use for-each loop and stream API #142.
