@@ -38,24 +38,26 @@ public class Webdav4FileObjectTest {
     @Test
     public void testWebdav4FileObjectURLs() throws FileSystemException {
         final FileSystemManager fsm = VFS.getManager();
-        final FileObject file = fsm.resolveFile(WEBDAV4_URL);
+        try (final FileObject file = fsm.resolveFile(WEBDAV4_URL)) {
 
-        assertEquals(WEBDAV4_URL, file.getURL().toString());
-        assertTrue(file instanceof Webdav4FileObject);
+            assertEquals(WEBDAV4_URL, file.getURL().toString());
+            assertTrue(file instanceof Webdav4FileObject);
 
-        final Webdav4FileObject webdav4File = (Webdav4FileObject) file;
-        assertEquals(URI.create(INTERNAL_WEBDAV4_URL), webdav4File.getInternalURI());
+            final Webdav4FileObject webdav4File = (Webdav4FileObject) file;
+            assertEquals(URI.create(INTERNAL_WEBDAV4_URL), webdav4File.getInternalURI());
+        }
     }
 
     @Test
     public void testWebdav4sFileObjectURLs() throws FileSystemException {
         final FileSystemManager fsm = VFS.getManager();
-        final FileObject file = fsm.resolveFile(WEBDAV4S_URL);
+        try (final FileObject file = fsm.resolveFile(WEBDAV4S_URL)) {
 
-        assertEquals(WEBDAV4S_URL, file.getURL().toString());
-        assertTrue(file instanceof Webdav4FileObject);
+            assertEquals(WEBDAV4S_URL, file.getURL().toString());
+            assertTrue(file instanceof Webdav4FileObject);
 
-        final Webdav4FileObject webdav4File = (Webdav4FileObject) file;
-        assertEquals(URI.create(INTERNAL_WEBDAV4S_URL), webdav4File.getInternalURI());
+            final Webdav4FileObject webdav4File = (Webdav4FileObject) file;
+            assertEquals(URI.create(INTERNAL_WEBDAV4S_URL), webdav4File.getInternalURI());
+        }
     }
 }

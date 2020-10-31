@@ -38,7 +38,7 @@ public class SizeFileFilterExample {
         final FileObject dir = fsManager.toFileObject(new File("."));
         final SizeFileFilter filter = new SizeFileFilter(1024 * 1024);
         final FileObject[] files = dir.findFiles(new FileFilterSelector(filter));
-        for (FileObject file : files) {
+        for (final FileObject file : files) {
             System.out.println(file);
         }
 

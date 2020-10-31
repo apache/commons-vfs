@@ -16,7 +16,6 @@
  */
 package org.apache.commons.vfs2.test;
 
-import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 

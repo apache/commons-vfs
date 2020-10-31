@@ -31,6 +31,7 @@ import java.util.TreeMap;
 
 import javax.mail.Address;
 import javax.mail.Header;
+import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.Part;
 import javax.mail.internet.MimeMessage;
@@ -136,19 +137,19 @@ public class MimeAttributesMap implements Map<String, Object> {
         if (part instanceof MimeMessage) {
             final MimeMessage message = (MimeMessage) part;
             try {
-                final Address[] address = message.getRecipients(MimeMessage.RecipientType.BCC);
+                final Address[] address = message.getRecipients(RecipientType.BCC);
                 ret.put(OBJECT_PREFIX + "Recipients.BCC", address);
             } catch (final MessagingException e) {
                 log.debug(e.getLocalizedMessage(), e);
             }
             try {
-                final Address[] address = message.getRecipients(MimeMessage.RecipientType.CC);
+                final Address[] address = message.getRecipients(RecipientType.CC);
                 ret.put(OBJECT_PREFIX + "Recipients.CC", address);
             } catch (final MessagingException e) {
                 log.debug(e.getLocalizedMessage(), e);
             }
             try {
-                final Address[] address = message.getRecipients(MimeMessage.RecipientType.TO);
+                final Address[] address = message.getRecipients(RecipientType.TO);
                 ret.put(OBJECT_PREFIX + "Recipients.TO", address);
             } catch (final MessagingException e) {
                 log.debug(e.getLocalizedMessage(), e);

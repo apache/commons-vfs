@@ -81,10 +81,7 @@ public final class SftpCheck {
         final ChannelSftp chan = (ChannelSftp) session.openChannel("sftp");
         chan.connect();
         final Vector<?> list = chan.ls(dir);
-        final Iterator<?> iterList = list.iterator();
-        while (iterList.hasNext()) {
-            System.err.println(iterList.next());
-        }
+        list.forEach(System.err::println);
         System.err.println("done");
         chan.disconnect();
         session.disconnect();

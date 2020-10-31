@@ -26,7 +26,7 @@ class FileSystemKey implements Comparable<FileSystemKey> {
     private static final FileSystemOptions EMPTY_OPTIONS = new FileSystemOptions();
 
     private final Comparable<?> key;
-    
+
     /** Never null as the ctor sets it to EMPTY_OPTIONS if input is null. */
     private final FileSystemOptions fileSystemOptions;
 

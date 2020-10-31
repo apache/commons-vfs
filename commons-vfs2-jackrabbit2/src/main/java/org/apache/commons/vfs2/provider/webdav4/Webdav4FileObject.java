@@ -79,6 +79,7 @@ import org.w3c.dom.Node;
  * @since 2.5.0
  */
 public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
+
     /**
      * An OutputStream that writes to a Webdav resource.
      * <p>
@@ -489,6 +490,12 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
     @Override
     protected FileContentInfoFactory getFileContentInfoFactory() {
         return new Webdav4FileContentInfoFactory();
+    }
+
+    // Just for the unit test in the same package (package-private) to access this during validation.
+    @Override
+    protected URI getInternalURI() throws FileSystemException {
+        return super.getInternalURI();
     }
 
     DavPropertySet getProperties(final GenericURLFileName name) throws FileSystemException {

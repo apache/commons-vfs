@@ -1,35 +1,39 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 Building Apache Commons VFS
   
-To build Apache Commons VFS, you need a JDK implementation version 1.7 or greater, and Apache Maven 3.
+To build Apache Commons VFS, you need a JDK at version 8 or greater, and Apache Maven 3.2.5 or greater.
 
-To perform the license release audit, a.k.a. "RAT check", run:
+To perform the Release Audit which validate license headers (the "RAT" check), run:
 
 mvn apache-rat:check
 
-To perform a Clirr check, run:
+The Maven profile test-deploy is used for testing, a release manager will omit it when it is time to create a 
+release candidate.
 
-mvn clirr:check -pl commons-vfs2
+Build and install all jar files: 
+mvn -V -Ptest-deploy -Prelease clean install -DskipTests
 
-To build the site with Java 7, make sure you give Maven enough memory using 
-MAVEN_OPTS with options appropriate for your JVM. Alternatively, you can 
-build with Java 8 and not deal with MAVEN_OPTS.
+Validate all installed jar files and build all module sites:
+mvn -V -Ptest-deploy -Prelease -P japicmp -P jacoco site
 
-To build the site, from a command line, run:
+Deploy the jar files:
+mvn -V -Ptest-deploy -Prelease deploy
 
-mvn clean install
-mvn site
-mvn site:stage
-
-To test, run:
-
-mvn test
-
-Then, to test OSGi, you must first create the jars:
-
-mvn install -DskipTests
-mvn package -DskipTests
-
-Next, you can run the tests as usual, which will pick up the jar files to use as OSGi bundles from the various target 
-directories:
-
-mvn test
+Assemble all sites into one:
+mvn -V -Ptest-deploy -Prelease site:stage

@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider.ftp.test;
 import java.io.IOException;
 import java.net.SocketException;
 
+import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -32,7 +33,7 @@ public class MultipleConnectionTestCase {
 
     @BeforeClass
     public static void setUpClass() throws FtpException, IOException {
-        FtpProviderTestCase.setUpClass(FtpProviderTestCase.getTestDirectory(), null);
+        FtpProviderTestCase.setUpClass(AbstractVfsTestCase.getTestDirectory(), null);
     }
 
     @AfterClass
