@@ -190,7 +190,7 @@
     <dependency.locations.enabled>false</dependency.locations.enabled>
     <hadoop.version>3.3.0</hadoop.version>
     <jackrabbit.version>1.6.5</jackrabbit.version>
-    <jackrabbit2.version>2.21.3</jackrabbit2.version>
+    <jackrabbit2.version>2.21.4</jackrabbit2.version>
     <commons.surefire.version>2.19.1</commons.surefire.version>
     <commons.japicmp.version>0.14.3</commons.japicmp.version>
     <commons.jacoco.version>0.8.6</commons.jacoco.version>

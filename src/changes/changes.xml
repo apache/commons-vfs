@@ -61,6 +61,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Update org.mockito:mockito-core 3.5.13 -> 3.6.0.
       </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Update org.apache.jackrabbit:jackrabbit-* 2.21.3 -> 2.21.4.
+      </action>
     </release>
     <release version="2.7.0" date="2020-10-26" description="Maintenance release. Requires Java 8.">
       <action issue="VFS-753" dev="ggregory" due-to="John Webb, Gary Gregory" type="fix">
