@@ -268,9 +268,7 @@ public class VFSClassLoader extends SecureClassLoader {
      * Does a reverse lookup to find the FileObject when we only have the URL.
      */
     private FileObject lookupFileObject(final String name) {
-        final Iterator<FileObject> it = resources.iterator();
-        while (it.hasNext()) {
-            final FileObject object = it.next();
+        for (FileObject object : resources) {
             if (name.equals(object.getName().getURI())) {
                 return object;
             }

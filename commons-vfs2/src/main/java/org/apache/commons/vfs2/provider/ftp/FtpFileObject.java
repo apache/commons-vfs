@@ -352,14 +352,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         }
 
         // TODO - get rid of this children stuff
-        final String[] childNames = new String[children.size()];
-        int childNum = -1;
-        final Iterator<FTPFile> iterChildren = children.values().iterator();
-        while (iterChildren.hasNext()) {
-            childNum++;
-            final FTPFile child = iterChildren.next();
-            childNames[childNum] = child.getName();
-        }
+        final String[] childNames = children.values().stream().map(FTPFile::getName).toArray(String[]::new);
 
         return UriParser.encode(childNames);
     }
