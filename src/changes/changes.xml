@@ -51,6 +51,9 @@ The <action> type attribute can be add,update,fix,remove.
 <!--       </action> -->
 <!-- START Might need to be moved to the next version -->
       <!-- UPDATES -->
+      <action dev="ggregory" due-to="PeterAlfredLee" type="update">
+        Modify some code use for-each loop and stream API #142.
+      </action>
     </release>
     <release version="2.7.0" date="2020-10-26" description="Maintenance release. Requires Java 8.">
       <action issue="VFS-753" dev="ggregory" due-to="John Webb, Gary Gregory" type="fix">
