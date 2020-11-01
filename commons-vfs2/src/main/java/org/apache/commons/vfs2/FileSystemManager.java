@@ -33,7 +33,7 @@ import org.apache.commons.vfs2.operations.FileOperationProvider;
  * To locate a {@link FileObject}, use one of the {@code resolveFile()} methods.
  * </p>
  *
- * <h2><a name="naming">File Naming</a></h2>
+ * <h2><a id="naming">File Naming</a></h2>
  * <p>
  * A file system manager can recognise several types of file names:
  * </p>
