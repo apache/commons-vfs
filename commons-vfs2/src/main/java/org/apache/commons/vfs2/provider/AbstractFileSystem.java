@@ -539,7 +539,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
         synchronized (listenerMap) {
             final ArrayList<?> listeners = listenerMap.get(fileObject.getName());
             if (listeners != null) {
-                fileListeners = listeners.toArray(new FileListener[listeners.size()]);
+                fileListeners = listeners.toArray(new FileListener[0]);
             }
         }
 

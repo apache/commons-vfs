@@ -395,7 +395,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                         }
                     }
                 }
-                return vfs.toArray(new Webdav4FileObject[vfs.size()]);
+                return vfs.toArray(new Webdav4FileObject[0]);
             }
             throw new FileNotFolderException(getName());
         } catch (final FileNotFolderException fnfe) {

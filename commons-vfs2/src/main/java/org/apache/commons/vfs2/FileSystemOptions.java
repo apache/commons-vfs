@@ -173,9 +173,8 @@ public final class FileSystemOptions implements Cloneable {
             }
         }
 
-        final Object[] array = new Object[propsSz];
-        final int hash = Arrays.deepHashCode(myOptions.values().toArray(array));
-        final int hashFk = Arrays.deepHashCode(theirOptions.values().toArray(array));
+        final int hash = Arrays.deepHashCode(myOptions.values().toArray());
+        final int hashFk = Arrays.deepHashCode(theirOptions.values().toArray());
         if (hash < hashFk) {
             return -1;
         }
@@ -198,7 +197,7 @@ public final class FileSystemOptions implements Cloneable {
                     ? (SortedMap<FileSystemOptionKey, Object>) options
                     : new TreeMap<>(options);
             result = prime * result + myOptions.keySet().hashCode();
-            result = prime * result + Arrays.deepHashCode(myOptions.values().toArray(new Object[options.size()]));
+            result = prime * result + Arrays.deepHashCode(myOptions.values().toArray());
         }
         return result;
     }

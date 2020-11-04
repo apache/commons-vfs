@@ -369,7 +369,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
                 classes.add(className);
             }
         }
-        return classes.toArray(new String[classes.size()]);
+        return classes.toArray(new String[0]);
     }
 
     /**
@@ -386,7 +386,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
                 schemes.add(scheme);
             }
         }
-        return schemes.toArray(new String[schemes.size()]);
+        return schemes.toArray(new String[0]);
     }
 
     /**
@@ -400,7 +400,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
             final Element scheme = (Element) schemaElements.item(i);
             schemas.add(scheme.getAttribute("name"));
         }
-        return schemas.toArray(new String[schemas.size()]);
+        return schemas.toArray(new String[0]);
     }
 
     private ClassLoader getValidClassLoader(final Class<?> clazz) {

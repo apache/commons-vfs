@@ -357,7 +357,7 @@ public final class Shell {
         while (tokens.hasMoreTokens()) {
             cmd.add(tokens.nextToken());
         }
-        return cmd.toArray(new String[cmd.size()]);
+        return cmd.toArray(new String[0]);
     }
 
     private static String getVersion(final Class<?> cls) {

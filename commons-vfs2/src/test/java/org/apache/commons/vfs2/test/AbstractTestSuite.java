@@ -303,9 +303,7 @@ public abstract class AbstractTestSuite extends TestSetup {
             diff.add(element);
         }
 
-        final Thread ret[] = new Thread[diff.size()];
-        diff.toArray(ret);
-        return ret;
+        return diff.toArray(new Thread[0]);
     }
 
     private Thread[] createThreadSnapshot() {
