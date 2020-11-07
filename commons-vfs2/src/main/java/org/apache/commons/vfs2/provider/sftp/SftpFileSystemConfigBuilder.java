@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider.sftp;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Objects;
 
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
@@ -61,14 +62,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
             if (obj == null || this.getClass() != obj.getClass()) {
                 return false;
             }
-
-            final ProxyType pType = (ProxyType) obj;
-
-            if (this.proxyType != null ? !this.proxyType.equals(pType.proxyType) : pType.proxyType != null) {
-                return false;
-            }
-
-            return true;
+            return Objects.equals(this.proxyType, ((ProxyType) obj).proxyType);
         }
 
         /**
