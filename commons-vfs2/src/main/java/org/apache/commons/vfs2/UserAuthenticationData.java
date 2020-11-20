@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
@@ -125,9 +126,7 @@ public class UserAuthenticationData {
                 continue;
             }
 
-            for (int i = 0; i < data.length; i++) {
-                data[i] = 0;
-            }
+            Arrays.fill(data, (char) 0);
         }
         // step 2: allow data itself to gc
         authenticationData.clear();

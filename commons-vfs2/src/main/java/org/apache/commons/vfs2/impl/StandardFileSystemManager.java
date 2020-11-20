@@ -104,7 +104,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
         configure(configUri);
         configurePlugins();
 
-        // Initialise super-class
+        // Initialize super-class
         super.init();
     }
 

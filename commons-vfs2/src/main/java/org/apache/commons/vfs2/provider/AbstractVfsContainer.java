@@ -44,7 +44,7 @@ public abstract class AbstractVfsContainer extends AbstractVfsComponent {
     protected void addComponent(final Object component) throws FileSystemException {
         synchronized (components) {
             if (!components.contains(component)) {
-                // Initialise
+                // Initialize
                 if (component instanceof VfsComponent) {
                     final VfsComponent vfsComponent = (VfsComponent) component;
                     vfsComponent.setLogger(getLogger());

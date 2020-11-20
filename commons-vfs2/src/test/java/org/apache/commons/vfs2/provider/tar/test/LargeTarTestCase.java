@@ -153,9 +153,7 @@ public class LargeTarTestCase {
                 @Override
                 public void run() {
                     final byte ba_1k[] = new byte[(int) _1K];
-                    for (int i = 0; i < ba_1k.length; i++) {
-                        ba_1k[i] = 'a';
-                    }
+                    Arrays.fill(ba_1k, (byte) 'a');
                     try {
                         final TarArchiveOutputStream outTarStream = (TarArchiveOutputStream) new ArchiveStreamFactory()
                                 .createArchiveOutputStream(ArchiveStreamFactory.TAR, outTarFileStream);
