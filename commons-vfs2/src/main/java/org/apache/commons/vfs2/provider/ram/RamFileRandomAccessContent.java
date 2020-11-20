@@ -75,7 +75,6 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
      * @param mode The access mode.
      */
     public RamFileRandomAccessContent(final RamFileObject file, final RandomAccessMode mode) {
-        super();
         this.buf = file.getData().getContent();
         this.file = file;
 

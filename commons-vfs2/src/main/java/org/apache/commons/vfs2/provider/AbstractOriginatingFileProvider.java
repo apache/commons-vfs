@@ -29,7 +29,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
 public abstract class AbstractOriginatingFileProvider extends AbstractFileProvider {
 
     public AbstractOriginatingFileProvider() {
-        super();
     }
 
     /**

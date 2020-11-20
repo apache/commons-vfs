@@ -51,7 +51,6 @@ public class HdfsFileProvider extends AbstractOriginatingFileProvider {
      * Constructs a new HdfsFileProvider.
      */
     public HdfsFileProvider() {
-        super();
         this.setFileNameParser(HttpFileNameParser.getInstance());
     }
 

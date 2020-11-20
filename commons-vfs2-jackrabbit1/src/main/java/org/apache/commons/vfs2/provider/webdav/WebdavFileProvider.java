@@ -57,8 +57,6 @@ public class WebdavFileProvider extends HttpFileProvider {
                     Capability.DIRECTORY_READ_CONTENT));
 
     public WebdavFileProvider() {
-        super();
-
         setFileNameParser(WebdavFileNameParser.getInstance());
     }
 

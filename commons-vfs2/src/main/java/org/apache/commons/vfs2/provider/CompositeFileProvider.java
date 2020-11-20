@@ -30,7 +30,6 @@ public abstract class CompositeFileProvider extends AbstractFileProvider {
     private static final int INITIAL_BUFSZ = 80;
 
     public CompositeFileProvider() {
-        super();
     }
 
     /**

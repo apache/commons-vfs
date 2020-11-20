@@ -45,7 +45,6 @@ public class RamFileOutputStream extends OutputStream {
      * @param file The base file.
      */
     public RamFileOutputStream(final RamFileObject file) {
-        super();
         this.file = file;
     }
 

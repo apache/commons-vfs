@@ -42,7 +42,6 @@ public class TarFileProvider extends AbstractLayeredFileProvider {
                     Capability.READ_CONTENT, Capability.URI, Capability.VIRTUAL));
 
     public TarFileProvider() {
-        super();
     }
 
     /**

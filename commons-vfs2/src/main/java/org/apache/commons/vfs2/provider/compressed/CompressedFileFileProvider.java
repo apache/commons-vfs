@@ -34,7 +34,6 @@ import org.apache.commons.vfs2.provider.LayeredFileName;
 public abstract class CompressedFileFileProvider extends AbstractLayeredFileProvider {
 
     public CompressedFileFileProvider() {
-        super();
     }
 
     /**

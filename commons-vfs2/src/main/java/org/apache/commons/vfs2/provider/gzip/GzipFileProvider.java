@@ -40,7 +40,6 @@ public class GzipFileProvider extends CompressedFileFileProvider {
             Capability.READ_CONTENT, Capability.URI, Capability.COMPRESS));
 
     public GzipFileProvider() {
-        super();
     }
 
     @Override

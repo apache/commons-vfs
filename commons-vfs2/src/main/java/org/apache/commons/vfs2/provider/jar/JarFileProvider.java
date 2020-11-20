@@ -48,7 +48,6 @@ public class JarFileProvider extends ZipFileProvider {
     }
 
     public JarFileProvider() {
-        super();
     }
 
     /**

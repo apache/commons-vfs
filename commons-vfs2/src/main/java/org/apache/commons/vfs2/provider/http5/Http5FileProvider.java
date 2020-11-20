@@ -110,7 +110,6 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
      * Constructs a new provider.
      */
     public Http5FileProvider() {
-        super();
         setFileNameParser(Http5FileNameParser.getInstance());
     }
 

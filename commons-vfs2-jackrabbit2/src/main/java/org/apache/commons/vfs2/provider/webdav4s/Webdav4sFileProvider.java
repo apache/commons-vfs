@@ -46,8 +46,6 @@ public class Webdav4sFileProvider extends Http4sFileProvider {
     protected static final Collection<Capability> capabilities = Webdav4FileProvider.DEFAULT_CAPABILITIES;
 
     public Webdav4sFileProvider() {
-        super();
-
         setFileNameParser(Webdav4sFileNameParser.getInstance());
     }
 

@@ -51,7 +51,6 @@ public class TemporaryFileProvider extends AbstractFileProvider implements Compa
     }
 
     public TemporaryFileProvider() {
-        super();
     }
 
     @Override

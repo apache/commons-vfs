@@ -54,7 +54,6 @@ public class FtpFileProvider extends AbstractOriginatingFileProvider {
      * Constructs a new provider.
      */
     public FtpFileProvider() {
-        super();
         setFileNameParser(FtpFileNameParser.getInstance());
     }
 

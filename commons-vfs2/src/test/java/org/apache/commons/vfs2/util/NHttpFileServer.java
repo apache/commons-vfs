@@ -77,7 +77,6 @@ public class NHttpFileServer {
         private final File docRoot;
 
         public HttpFileHandler(final File docRoot) {
-            super();
             this.docRoot = docRoot;
         }
 

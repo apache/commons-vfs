@@ -49,7 +49,6 @@ public class HttpFileProvider extends AbstractOriginatingFileProvider {
      * Constructs a new provider.
      */
     public HttpFileProvider() {
-        super();
         setFileNameParser(HttpFileNameParser.getInstance());
     }
 

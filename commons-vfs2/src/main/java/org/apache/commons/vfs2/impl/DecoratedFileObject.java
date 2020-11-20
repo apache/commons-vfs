@@ -37,7 +37,6 @@ public class DecoratedFileObject implements FileObject {
     private final FileObject decoratedFileObject;
 
     public DecoratedFileObject(final FileObject decoratedFileObject) {
-        super();
         this.decoratedFileObject = decoratedFileObject;
     }
 

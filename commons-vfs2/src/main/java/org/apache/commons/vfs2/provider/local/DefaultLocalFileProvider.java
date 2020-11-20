@@ -49,8 +49,6 @@ public class DefaultLocalFileProvider extends AbstractOriginatingFileProvider im
      * Constructs a new provider.
      */
     public DefaultLocalFileProvider() {
-        super();
-
         if (Os.isFamily(Os.OS_FAMILY_WINDOWS)) {
             setFileNameParser(new WindowsFileNameParser());
         } else {

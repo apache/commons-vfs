@@ -30,7 +30,6 @@ public class TestErrorHandler implements ErrorHandler {
     private final String header;
 
     public TestErrorHandler(final String header) {
-        super();
         this.header = header;
     }
 
