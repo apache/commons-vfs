@@ -18,6 +18,7 @@ package org.apache.commons.vfs2.util;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -242,9 +243,7 @@ public final class Os {
                 final OsFamily family = queue.remove(0);
                 allFamilies.add(family);
                 final OsFamily[] families = family.getFamilies();
-                for (final OsFamily parent : families) {
-                    queue.add(parent);
-                }
+                Collections.addAll(queue, families);
             }
         }
         return allFamilies.toArray(new OsFamily[allFamilies.size()]);
