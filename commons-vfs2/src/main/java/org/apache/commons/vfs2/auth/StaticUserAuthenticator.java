@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.auth;
 
+import java.util.Objects;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.UserAuthenticationData;
@@ -101,19 +103,8 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
         }
 
         final StaticUserAuthenticator other = (StaticUserAuthenticator) obj;
-        return equalsNullsafe(domain, other.domain) && equalsNullsafe(username, other.username)
-                && equalsNullsafe(password, other.password);
-    }
-
-    private boolean equalsNullsafe(final String thisString, final String otherString) {
-        if (thisString == null) {
-            if (otherString != null) {
-                return false;
-            }
-        } else if (!thisString.equals(otherString)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(domain, other.domain) && Objects.equals(username, other.username)
+            && Objects.equals(password, other.password);
     }
 
     /**
