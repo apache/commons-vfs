@@ -68,7 +68,6 @@ public class ZipFileSystem extends AbstractFileSystem {
         if (!file.exists()) {
             // Don't need to do anything
             zipFile = null;
-            return;
         }
     }
 

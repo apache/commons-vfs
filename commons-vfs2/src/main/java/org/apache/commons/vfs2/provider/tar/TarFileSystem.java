@@ -69,7 +69,6 @@ public class TarFileSystem extends AbstractFileSystem {
         if (!file.exists()) {
             // Don't need to do anything
             tarFile = null;
-            return;
         }
 
         // tarFile = createTarFile(this.file);
