@@ -76,7 +76,7 @@ public final class SftpClientFactory {
         final ConfigRepository configRepository = builder.getConfigRepository(fileSystemOptions);
         final boolean loadOpenSSHConfig = builder.isLoadOpenSSHConfig(fileSystemOptions);
 
-        File sshDir = findSshDir();
+        final File sshDir = findSshDir();
 
         setKnownHosts(jsch, sshDir, knownHostsFile);
 

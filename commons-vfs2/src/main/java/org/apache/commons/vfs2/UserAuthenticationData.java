@@ -121,7 +121,7 @@ public class UserAuthenticationData {
      */
     public void cleanup() {
         // step 1: nullify character buffers
-        for (char[] data : authenticationData.values()) {
+        for (final char[] data : authenticationData.values()) {
             if (data == null) {
                 continue;
             }

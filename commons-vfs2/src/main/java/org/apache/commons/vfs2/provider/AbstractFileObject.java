@@ -409,7 +409,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
         // Delete 'em
         final int count = files.size();
-        for (FileObject fileObject : files) {
+        for (final FileObject fileObject : files) {
             final AbstractFileObject file = FileObjectUtils.getAbstractFileObject(fileObject);
             // file.attach();
 

@@ -106,7 +106,7 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
 
         // find appropriate class
         Class<? extends FileOperation> foundClass = null;
-        for (Class<? extends FileOperation> operation : operations) {
+        for (final Class<? extends FileOperation> operation : operations) {
             if (operationClass.isAssignableFrom(operation)) {
                 foundClass = operation;
                 break;

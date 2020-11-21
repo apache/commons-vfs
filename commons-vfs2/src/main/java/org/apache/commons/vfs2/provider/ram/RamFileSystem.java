@@ -249,7 +249,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
     long size() {
         long size = 0;
         synchronized (cache) {
-            for (RamFileData data : cache.values()) {
+            for (final RamFileData data : cache.values()) {
                 size += data.size();
             }
         }

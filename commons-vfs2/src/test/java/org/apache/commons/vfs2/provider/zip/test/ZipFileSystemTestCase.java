@@ -33,8 +33,8 @@ public class ZipFileSystemTestCase {
     @Test
     public void testZipFileUseWeakRefFilesCache() throws FileSystemException {
 
-        File file = new File("src/test/resources/test-data/test.zip");
-        String fileUri = "zip:file:" + file.getAbsolutePath();
+        final File file = new File("src/test/resources/test-data/test.zip");
+        final String fileUri = "zip:file:" + file.getAbsolutePath();
         FileObject fileObject = null;
 
         try (StandardFileSystemManager manager = new StandardFileSystemManager()) {

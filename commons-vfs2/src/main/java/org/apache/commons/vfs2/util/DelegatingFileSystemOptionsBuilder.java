@@ -194,7 +194,7 @@ public class DelegatingFileSystemOptionsBuilder {
         ctx.fileSystemConfigBuilder = getManager().getFileSystemConfigBuilder(ctx.scheme);
 
         // try to find a setter which could accept the value
-        for (Method configSetter : ctx.configSetters) {
+        for (final Method configSetter : ctx.configSetters) {
             if (convertValuesAndInvoke(configSetter, ctx)) {
                 return;
             }
