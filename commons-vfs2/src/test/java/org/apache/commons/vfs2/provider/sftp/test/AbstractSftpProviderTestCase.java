@@ -461,8 +461,7 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
         private String[] extended;
 
         private SftpAttrs(final Buffer buf) {
-            int flags = 0;
-            flags = buf.getInt();
+            int flags = buf.getInt();
 
             if ((flags & SftpATTRS.SSH_FILEXFER_ATTR_SIZE) != 0) {
                 size = buf.getLong();

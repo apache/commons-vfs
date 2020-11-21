@@ -68,8 +68,6 @@ public final class SftpClientFactory {
             final char[] password, final FileSystemOptions fileSystemOptions) throws FileSystemException {
         final JSch jsch = new JSch();
 
-        File sshDir = null;
-
         // new style - user passed
         final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
         final File knownHostsFile = builder.getKnownHosts(fileSystemOptions);
@@ -78,7 +76,7 @@ public final class SftpClientFactory {
         final ConfigRepository configRepository = builder.getConfigRepository(fileSystemOptions);
         final boolean loadOpenSSHConfig = builder.isLoadOpenSSHConfig(fileSystemOptions);
 
-        sshDir = findSshDir();
+        File sshDir = findSshDir();
 
         setKnownHosts(jsch, sshDir, knownHostsFile);
 

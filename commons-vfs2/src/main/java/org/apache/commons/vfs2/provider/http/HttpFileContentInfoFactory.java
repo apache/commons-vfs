@@ -37,7 +37,6 @@ public class HttpFileContentInfoFactory implements FileContentInfoFactory {
     public FileContentInfo create(final FileContent fileContent) throws FileSystemException {
 
         String contentType = null;
-        String contentEncoding = null;
 
         HeadMethod headMethod;
         try (final HttpFileObject<HttpFileSystem> httpFile = (HttpFileObject<HttpFileSystem>) FileObjectUtils
@@ -54,8 +53,6 @@ public class HttpFileContentInfoFactory implements FileContentInfoFactory {
             }
         }
 
-        contentEncoding = headMethod.getResponseCharSet();
-
-        return new DefaultFileContentInfo(contentType, contentEncoding);
+        return new DefaultFileContentInfo(contentType, headMethod.getResponseCharSet());
     }
 }

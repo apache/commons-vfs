@@ -54,7 +54,7 @@ public class MonitorRandomAccessContent implements RandomAccessContent {
         }
 
         // Close the output stream
-        IOException exc = null;
+        IOException exc;
         try {
             content.close();
         } catch (final IOException ioe) {
