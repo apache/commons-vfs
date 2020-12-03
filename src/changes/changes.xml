@@ -45,13 +45,16 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="2.7.1" date="20YY-MM-DD" description="Maintenance release. Requires Java 8.">
+    <release version="2.8.0" date="20YY-MM-DD" description="Maintenance release. Requires Java 8.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
 <!-- START Might need to be moved to the next version -->
-      <!-- FIXES -->
-      <action devissue="VFS-748" dev="ggregory" due-to="PeterAlfredLee, Gary Gregory" type="update">
+      <!-- ADDS -->
+      <action dev="ggregory" due-to="Boris Petrov, Gary Gregory" type="update">
+        Add ability to remove a provider from DefaultFileSystemManager #149.
+      </action>
+      <action issue="VFS-748" dev="ggregory" due-to="PeterAlfredLee, Gary Gregory" type="update">
         TarProvider Incorrectly marks file IMAGINARY after garbage collection with WeakRefFilesCache, #97.
       </action>
       <!-- UPDATES -->
