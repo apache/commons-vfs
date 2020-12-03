@@ -57,7 +57,7 @@ public class DefaultFileSystemManagerTest {
             fileSystemManager.setFilesCache(new NullFilesCache());
             fileSystemManager.setCacheStrategy(CacheStrategy.MANUAL);
 
-            RamFileProvider provider = Mockito.spy(new RamFileProvider());
+            final RamFileProvider provider = Mockito.spy(new RamFileProvider());
             fileSystemManager.addProvider("ram1", provider);
             fileSystemManager.addProvider("ram2", provider);
             Assert.assertNotNull(fileSystemManager.resolveFile("ram1:///"));
