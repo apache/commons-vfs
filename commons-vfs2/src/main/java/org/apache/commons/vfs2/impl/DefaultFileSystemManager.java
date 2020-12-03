@@ -209,6 +209,20 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
+     * Unregisters a file system provider.
+     *
+     * @param urlScheme The scheme of the provider.
+     * @since 2.8.0
+     */
+    public void removeProvider(final String urlScheme) {
+        final FileProvider provider = providers.remove(urlScheme);
+        // check whether the same instance is not used somewhere else
+        if (provider != null && providers.values().stream().noneMatch(p -> p == provider)) {
+            closeComponent(provider);
+        }
+    }
+
+    /**
      * Returns true if this manager has a provider for a particular scheme.
      *
      * @param scheme The scheme to check.
