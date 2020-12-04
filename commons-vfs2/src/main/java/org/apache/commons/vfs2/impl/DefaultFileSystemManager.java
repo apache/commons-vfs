@@ -217,7 +217,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     public void removeProvider(final String urlScheme) {
         final FileProvider provider = providers.remove(urlScheme);
         // check whether the same instance is not used somewhere else
-        if (provider != null && providers.values().stream().noneMatch(p -> p == provider)) {
+        if (provider != null && !providers.containsValue(provider)) {
             closeComponent(provider);
         }
     }
