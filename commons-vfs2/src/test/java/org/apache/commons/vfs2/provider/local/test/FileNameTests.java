@@ -56,7 +56,7 @@ public class FileNameTests extends AbstractProviderTestCase {
      * https://issues.apache.org/jira/browse/VFS-790
      */
     @Test
-    public final static void testLocalFile() throws Exception {
+    public void testLocalFile() throws Exception {
         final String prefix = new String(new char[] { '\u0074', '\u0065', '\u0074' });
         final File f = File.createTempFile(prefix + "-", "-" + prefix);
         assertTrue(f.exists());
