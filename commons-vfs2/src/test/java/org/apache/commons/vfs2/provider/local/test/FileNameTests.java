@@ -17,8 +17,12 @@
 package org.apache.commons.vfs2.provider.local.test;
 
 import java.io.File;
+import java.net.URI;
 
+import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemManager;
+import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 import org.junit.Assert;
@@ -45,6 +49,27 @@ public class FileNameTests extends AbstractProviderTestCase {
             final FileObject uriFile = manager.resolveFile(uri);
 
             assertSame("file object", absFile, uriFile);
+        }
+    }
+
+    /**
+     * https://issues.apache.org/jira/browse/VFS-790
+     */
+    @Test
+    public final static void testLocalFile() throws Exception {
+        final String prefix = new String(new char[] { '\u0074', '\u0065', '\u0074' });
+        final File f = File.createTempFile(prefix + "-", "-" + prefix);
+        assertTrue(f.exists());
+
+        final URI uri = f.toURI();
+
+        try (final FileSystemManager m = VFS.getManager()) {
+            try (final FileObject s = m.resolveFile(uri)) {
+                try (final FileContent sourceContent = s.getContent()) {
+                    final long size = sourceContent.getSize();
+                    assertEquals(size, f.length());
+                }
+            }
         }
     }
 }
