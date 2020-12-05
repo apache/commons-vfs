@@ -207,7 +207,7 @@ public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
             super.runTest();
         }
 
-        if (((AbstractFileSystem) readFolder.getFileSystem()).isOpen()) {
+        if (readFolder != null && ((AbstractFileSystem) readFolder.getFileSystem()).isOpen()) {
             String name = "unknown";
             if (method != null) {
                 name = method.getName();
