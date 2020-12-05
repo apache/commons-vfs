@@ -57,17 +57,14 @@ public class FileNameTests extends AbstractProviderTestCase {
      */
     @Test
     public void testLocalFile() throws Exception {
-        final String prefix = new String(new char[] { '\u0074', '\u0065', '\u0074' });
-        final File f = File.createTempFile(prefix + "-", "-" + prefix);
-        assertTrue(f.exists());
-
-        final URI uri = f.toURI();
-
-        try (final FileSystemManager m = VFS.getManager()) {
-            try (final FileObject s = m.resolveFile(uri)) {
-                try (final FileContent sourceContent = s.getContent()) {
-                    final long size = sourceContent.getSize();
-                    assertEquals(size, f.length());
+        final String prefix = new String("\u0074\u0065\u0074");
+        final File file = File.createTempFile(prefix + "-", "-" + prefix);
+        assertTrue(file.exists());
+        final URI uri = file.toURI();
+        try (final FileSystemManager manager = getManager()) {
+            try (final FileObject fileObject = manager.resolveFile(uri)) {
+                try (final FileContent sourceContent = fileObject.getContent()) {
+                    assertEquals(sourceContent.getSize(), file.length());
                 }
             }
         }
