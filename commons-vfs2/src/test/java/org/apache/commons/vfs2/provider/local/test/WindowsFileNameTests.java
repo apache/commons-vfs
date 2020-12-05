@@ -28,7 +28,7 @@ import org.junit.Test;
 /**
  * Additional naming tests for local file system.
  * <p>
- * Only executed on Windows O/S.
+ * Only executed on Windows.
  */
 public class WindowsFileNameTests extends AbstractProviderTestCase {
 
