@@ -17,8 +17,12 @@
 package org.apache.commons.vfs2.provider.local.test;
 
 import java.io.File;
+import java.net.URI;
 
+import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemManager;
+import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 import org.junit.Assert;
@@ -27,25 +31,23 @@ import org.junit.Test;
 /**
  * Additional naming tests for local file system.
  */
-public class FileNameTests extends AbstractProviderTestCase {
+public class TempFileTests extends AbstractProviderTestCase {
 
     /**
-     * Tests resolution of an absolute file name.
+     * https://issues.apache.org/jira/browse/VFS-790
      */
     @Test
-    public void testAbsoluteFileName() throws Exception {
-        // Locate file by absolute file name
-        final String fileName = new File("testdir").getAbsolutePath();
-        final DefaultFileSystemManager manager = getManager();
-        Assert.assertNotNull("Unexpected null manager for test " + this, manager);
-        try (final FileObject absFile = manager.resolveFile(fileName)) {
-
-            // Locate file by URI
-            final String uri = "file://" + fileName.replace(File.separatorChar, '/');
-            final FileObject uriFile = manager.resolveFile(uri);
-
-            assertSame("file object", absFile, uriFile);
+    public void testLocalFile() throws Exception {
+        final String prefix = new String("\u0074\u0065\u0074");
+        final File file = File.createTempFile(prefix + "-", "-" + prefix);
+        assertTrue(file.exists());
+        final URI uri = file.toURI();
+        try (final FileSystemManager manager = getManager()) {
+            try (final FileObject fileObject = manager.resolveFile(uri)) {
+                try (final FileContent sourceContent = fileObject.getContent()) {
+                    assertEquals(sourceContent.getSize(), file.length());
+                }
+            }
         }
     }
-
 }

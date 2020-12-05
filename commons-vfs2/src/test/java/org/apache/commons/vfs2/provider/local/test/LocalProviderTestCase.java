@@ -39,6 +39,7 @@ public class LocalProviderTestCase extends AbstractProviderTestConfig {
         final ProviderTestSuite testSuite = new ProviderTestSuite(new LocalProviderTestCase());
 
         testSuite.addTests(FileNameTests.class);
+        // testSuite.addTests(TempFileTests.class);
         // VFS-325
         testSuite.addTests(UrlTests.class);
         testSuite.addTests(PermissionsTests.class);
