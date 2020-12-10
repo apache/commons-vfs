@@ -569,7 +569,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.6.0</version>
+        <version>3.6.28</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -617,7 +617,7 @@
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpcore-nio</artifactId>
-        <version>4.4.13</version>
+        <version>4.4.14</version>
       </dependency>
       <!-- Test WebDAV with Apache Jackrabbit Standalone -->
       <dependency>

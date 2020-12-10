@@ -62,7 +62,7 @@ The <action> type attribute can be add,update,fix,remove.
         Modify some code use for-each loop and stream API #142.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
-        Update org.mockito:mockito-core 3.5.13 -> 3.6.0.
+        Update org.mockito:mockito-core 3.5.13 -> 3.6.28.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Update org.apache.jackrabbit:jackrabbit-* 2.21.3 -> 2.21.4.
@@ -75,6 +75,9 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Update com.puppycrawl.tools:checkstyle 8.36.2 -> 8.38.
+      </action>      
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Update org.apache.httpcomponents:httpcore-nio 4.4.13 -> 4.4.14.
       </action>      
     </release>
     <release version="2.7.0" date="2020-10-26" description="Maintenance release. Requires Java 8.">
