@@ -251,16 +251,16 @@ public final class Os {
 
     private static OsFamily determineOsFamily() {
         // Determine the most specific OS family
-        if (OS_NAME.indexOf("windows") > -1) {
-            if (OS_NAME.indexOf("xp") > -1 || OS_NAME.indexOf("2000") > -1 || OS_NAME.indexOf("nt") > -1) {
+        if (OS_NAME.contains("windows")) {
+            if (OS_NAME.contains("xp") || OS_NAME.contains("2000") || OS_NAME.contains("nt")) {
                 return OS_FAMILY_WINNT;
             }
             return OS_FAMILY_WIN9X;
-        } else if (OS_NAME.indexOf("os/2") > -1) {
+        } else if (OS_NAME.contains("os/2")) {
             return OS_FAMILY_OS2;
-        } else if (OS_NAME.indexOf("netware") > -1) {
+        } else if (OS_NAME.contains("netware")) {
             return OS_FAMILY_NETWARE;
-        } else if (OS_NAME.indexOf("mac") > -1) {
+        } else if (OS_NAME.contains("mac")) {
             if (OS_NAME.endsWith("x")) {
                 return OS_FAMILY_OSX;
             }
