@@ -50,6 +50,10 @@ The <action> type attribute can be add,update,fix,remove.
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
 <!-- START Might need to be moved to the next version -->
+      <!-- FIXES -->
+      <action issue="VFS-783" dev="ggregory" due-to="satish-csi, Michael Osipov, Woonsan Ko, Gary Gregory" type="fix">
+        Based on WEBDAV4 vs. WEBDAV4S set back-end http scheme #118.
+      </action>
       <!-- ADDS -->
       <action dev="ggregory" due-to="Boris Petrov, Gary Gregory" type="update">
         Add ability to remove a provider from DefaultFileSystemManager #149.
@@ -81,7 +85,7 @@ The <action> type attribute can be add,update,fix,remove.
       </action>      
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Update org.apache.httpcomponents:httpcore-nio 4.4.13 -> 4.4.14.
-      </action>      
+      </action>
     </release>
     <release version="2.7.0" date="2020-10-26" description="Maintenance release. Requires Java 8.">
       <action issue="VFS-753" dev="ggregory" due-to="John Webb, Gary Gregory" type="fix">
