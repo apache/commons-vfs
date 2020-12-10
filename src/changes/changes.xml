@@ -70,6 +70,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="Dependabot" type="update">
         Bump actions/checkout from v2.3.3 to v2.3.4 #144.
       </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Update tests from Log4j 2.13.3 to 2.14.0.
+      </action>
     </release>
     <release version="2.7.0" date="2020-10-26" description="Maintenance release. Requires Java 8.">
       <action issue="VFS-753" dev="ggregory" due-to="John Webb, Gary Gregory" type="fix">
