@@ -20,7 +20,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -486,12 +485,6 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
         return new Webdav4FileContentInfoFactory();
     }
 
-    // Just for the unit test in the same package (package-private) to access this during validation.
-    @Override
-    protected URI getInternalURI() throws FileSystemException {
-        return super.getInternalURI();
-    }
-
     DavPropertySet getProperties(final GenericURLFileName name) throws FileSystemException {
         return getProperties(name, DavConstants.PROPFIND_ALL_PROP, new DavPropertyNameSet(), false);
     }
@@ -603,12 +596,18 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
         request.addHeader("Expires", "0");
     }
 
-    private String toUrlString(final GenericURLFileName name) {
+    /**
+     * Converts the given URLFileName to an encoded URL String to internally use in real DAV operations.
+     *
+     * @param name The FileName.
+     * @return The encoded URL String.
+     */
+    String toUrlString(final GenericURLFileName name) {
         return toUrlString(name, true);
     }
 
     /**
-     * Converts the given URLFileName to an encoded URL String.
+     * Converts the given URLFileName to an encoded URL String to internally use in real DAV operations.
      *
      * @param name The FileName.
      * @param includeUserInfo true if user information should be included.
