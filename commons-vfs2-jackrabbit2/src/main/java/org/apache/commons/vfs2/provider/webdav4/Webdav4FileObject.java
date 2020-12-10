@@ -551,9 +551,9 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
      * @return The encoded URL String.
      */
     private String hrefString(final GenericURLFileName name) {
-        final GenericURLFileName newFile = new GenericURLFileName("http", name.getHostName(), name.getPort(), name.getDefaultPort(),
-                null, null, name.getPath(), name.getType(), name.getQueryString());
         try {
+            final GenericURLFileName newFile = new GenericURLFileName(getInternalURI().getScheme(), name.getHostName(), name.getPort(), name.getDefaultPort(),
+                    null, null, name.getPath(), name.getType(), name.getQueryString());
             return newFile.getURIEncoded(this.getUrlCharset());
         } catch (final Exception e) {
             return name.getURI();
@@ -621,9 +621,9 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
             user = name.getUserName();
             password = name.getPassword();
         }
-        final GenericURLFileName newFile = new GenericURLFileName("http", name.getHostName(), name.getPort(), name.getDefaultPort(),
-                user, password, name.getPath(), name.getType(), name.getQueryString());
         try {
+            final GenericURLFileName newFile = new GenericURLFileName(getInternalURI().getScheme(), name.getHostName(), name.getPort(), name.getDefaultPort(),
+                    user, password, name.getPath(), name.getType(), name.getQueryString());
             return newFile.getURIEncoded(this.getUrlCharset());
         } catch (final Exception e) {
             return name.getURI();
