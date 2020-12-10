@@ -54,6 +54,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-783" dev="ggregory" due-to="satish-csi, Michael Osipov, Woonsan Ko, Gary Gregory" type="fix">
         Based on WEBDAV4 vs. WEBDAV4S set back-end http scheme #118.
       </action>
+      <action issue="VFS-783" dev="ggregory" due-to="satish-csi, Woonsan Ko, Gary Gregory" type="fix">
+        Proper http scheme setting on webdav/webdav2 with unit tests #143.
+      </action>
       <!-- ADDS -->
       <action dev="ggregory" due-to="Boris Petrov, Gary Gregory" type="update">
         Add ability to remove a provider from DefaultFileSystemManager #149.
