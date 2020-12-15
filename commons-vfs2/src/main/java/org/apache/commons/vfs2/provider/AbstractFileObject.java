@@ -1752,13 +1752,13 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     /**
      * Called when the type or content of this file changes.
      * <p>
-     * This implementation does nothing.
+     * This implementation just calls `refresh`.
      * </p>
      *
      * @throws Exception if an error occurs.
      */
     protected void onChange() throws Exception {
-        // noop
+        this.refresh();
     }
 
     /**
