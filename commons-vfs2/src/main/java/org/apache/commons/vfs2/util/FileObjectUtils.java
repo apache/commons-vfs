@@ -175,21 +175,6 @@ public final class FileObjectUtils {
     }
 
     /**
-     * Writes the content of a file to an OutputStream.
-     *
-     * @param file The FileObject to write.
-     * @param output The OutputStream to write to.
-     * @throws IOException if an error occurs writing the file.
-     * @see FileContent#write(OutputStream)
-     * @since 2.6.0
-     */
-    public static void writeContent(final FileObject file, final OutputStream output) throws IOException {
-        try (final FileContent content = file.getContent()) {
-            content.write(output);
-        }
-    }
-
-    /**
      * Writes the content from a source file to a destination file.
      *
      * @param srcFile The source FileObject.
@@ -201,6 +186,21 @@ public final class FileObjectUtils {
     public static void writeContent(final FileObject srcFile, final FileObject destFile) throws IOException {
         try (final FileContent content = srcFile.getContent()) {
             content.write(destFile);
+        }
+    }
+
+    /**
+     * Writes the content of a file to an OutputStream.
+     *
+     * @param file The FileObject to write.
+     * @param output The OutputStream to write to.
+     * @throws IOException if an error occurs writing the file.
+     * @see FileContent#write(OutputStream)
+     * @since 2.6.0
+     */
+    public static void writeContent(final FileObject file, final OutputStream output) throws IOException {
+        try (final FileContent content = file.getContent()) {
+            content.write(output);
         }
     }
 
