@@ -18,6 +18,7 @@ package org.apache.commons.vfs2.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.BitSet;
 
 import org.apache.commons.logging.Log;
@@ -88,7 +89,7 @@ public class URIUtils {
                     LOG.warn("Unsupported encoding: " + charset + ". System encoding used.");
                 }
 
-                return data.getBytes();
+                return data.getBytes(Charset.defaultCharset());
             }
         }
 
