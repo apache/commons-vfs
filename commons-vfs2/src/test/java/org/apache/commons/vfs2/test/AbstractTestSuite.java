@@ -244,8 +244,8 @@ public abstract class AbstractTestSuite extends TestSetup {
         try {
             threadTargetField = Thread.class.getDeclaredField("target");
             threadTargetField.setAccessible(true);
-        } catch (final NoSuchFieldException e) {
-            // ignored
+        } catch (final Exception e) {
+            System.err.println("Test suite cannot show up the a thread snapshot: "+ e);
         }
 
         for (int iter = 0; iter < threadSnapshot.length; iter++) {
