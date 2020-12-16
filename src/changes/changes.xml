@@ -57,6 +57,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-783" dev="ggregory" due-to="satish-csi, Woonsan Ko, Gary Gregory" type="fix">
         Proper http scheme setting on webdav/webdav2 with unit tests #143.
       </action>
+      <action issue="VFS-783" dev="ggregory" due-to="Gary Gregory" type="fix">
+        [SFTP] SftpFileSystem.executeCommand() should use UTF-8 instead of the platform default.
+      </action>
       <!-- ADDS -->
       <action dev="ggregory" due-to="Boris Petrov, Gary Gregory" type="update">
         Add ability to remove a provider from DefaultFileSystemManager #149.
