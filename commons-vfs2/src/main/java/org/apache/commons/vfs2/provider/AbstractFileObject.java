@@ -319,8 +319,9 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 }
 
                 if (!exists()) {
-                    getOutputStream().close();
-                    endOutput();
+                    try (FileContent content = getContent()) {
+                        content.getOutputStream().close();
+                    }
                 }
             } catch (final RuntimeException re) {
                 throw re;
