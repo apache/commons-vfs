@@ -38,7 +38,7 @@ public final class FileObjectUtils {
      * 
      * @since 2.9.0
      */
-    public static FileObject[] EMPTY_ARRAY = new FileObject[0];
+    public static final FileObject[] EMPTY_ARRAY = new FileObject[0];
 
     /**
      * Null-safe call to {@link FileObject#exists()}.
