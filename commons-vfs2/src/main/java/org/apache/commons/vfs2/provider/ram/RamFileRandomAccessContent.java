@@ -22,6 +22,7 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 
 import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.util.RandomAccessMode;
@@ -461,7 +462,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
      */
     @Override
     public void writeBytes(final String s) throws IOException {
-        write(s.getBytes());
+        write(s.getBytes(Charset.defaultCharset()));
     }
 
     /*
