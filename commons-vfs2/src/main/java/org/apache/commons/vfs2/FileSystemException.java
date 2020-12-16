@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.vfs2.util.ArrayUtils;
 import org.apache.commons.vfs2.util.Messages;
 
 /**
@@ -163,7 +164,7 @@ public class FileSystemException extends IOException {
         super(code, throwable);
 
         if (info == null) {
-            this.info = new String[0];
+            this.info = ArrayUtils.EMPTY_STRING_ARRAY;
         } else {
             this.info = new String[info.length];
             for (int i = 0; i < info.length; i++) {

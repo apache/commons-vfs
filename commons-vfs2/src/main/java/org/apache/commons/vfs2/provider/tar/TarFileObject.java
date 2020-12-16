@@ -25,6 +25,7 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
+import org.apache.commons.vfs2.util.ArrayUtils;
 
 /**
  * A file in a Tar file system.
@@ -108,7 +109,7 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem> {
             throw new RuntimeException(e);
         }
 
-        return children.toArray(new String[0]);
+        return children.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
     /**

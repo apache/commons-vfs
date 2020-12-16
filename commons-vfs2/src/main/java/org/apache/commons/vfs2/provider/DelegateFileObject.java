@@ -33,6 +33,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.RandomAccessContent;
+import org.apache.commons.vfs2.util.ArrayUtils;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 import org.apache.commons.vfs2.util.WeakRefFileListener;
 
@@ -191,7 +192,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
 
             return Arrays.stream(children).map(child -> child.getName().getBaseName()).toArray(String[]::new);
         }
-        return children.toArray(new String[0]);
+        return children.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
     /**

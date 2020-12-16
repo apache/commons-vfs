@@ -27,7 +27,6 @@ import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.Attributes.Name;
@@ -110,7 +109,7 @@ public class VFSClassLoader extends SecureClassLoader {
      * @since 2.0
      */
     public FileObject[] getFileObjects() {
-        return resources.toArray(new FileObject[0]);
+        return resources.toArray(FileObjectUtils.EMPTY_ARRAY);
     }
 
     /**

@@ -89,6 +89,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Update org.apache.httpcomponents:httpcore-nio 4.4.13 -> 4.4.14.
       </action>
+      <action dev="ggregory" due-to="PeterAlfredLee, Gary Gregory" type="update">
+        Modify some calls of method Collection.toArray #145.
+      </action>
     </release>
     <release version="2.7.0" date="2020-10-26" description="Maintenance release. Requires Java 8.">
       <action issue="VFS-753" dev="ggregory" due-to="John Webb, Gary Gregory" type="fix">

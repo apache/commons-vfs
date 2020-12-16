@@ -24,6 +24,7 @@ import java.util.Stack;
 
 import org.apache.commons.vfs2.FileFilter;
 import org.apache.commons.vfs2.FileSelectInfo;
+import org.apache.commons.vfs2.util.ArrayUtils;
 
 /**
  * Filters files using the supplied wildcards.
@@ -196,7 +197,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
             list.add(buffer.toString());
         }
 
-        return list.toArray(new String[0]);
+        return list.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
     // CHECKSTYLE:ON

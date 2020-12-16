@@ -31,6 +31,7 @@ import org.apache.commons.vfs2.FileContentInfoFactory;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.RandomAccessContent;
+import org.apache.commons.vfs2.util.ArrayUtils;
 import org.apache.commons.vfs2.util.MonitorInputStream;
 import org.apache.commons.vfs2.util.MonitorOutputStream;
 import org.apache.commons.vfs2.util.MonitorRandomAccessContent;
@@ -47,6 +48,7 @@ public final class DefaultFileContent implements FileContent {
      * final int STATE_RANDOM_ACCESS = 3;
      */
 
+    private static final Certificate[] EMPTY_CERTIFICATE_ARRAY = new Certificate[0];
     static final int STATE_CLOSED = 0;
     static final int STATE_OPENED = 1;
 
@@ -244,7 +246,7 @@ public final class DefaultFileContent implements FileContent {
     public String[] getAttributeNames() throws FileSystemException {
         getAttributes();
         final Set<String> names = attrs.keySet();
-        return names.toArray(new String[0]);
+        return names.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
     /**
@@ -328,7 +330,7 @@ public final class DefaultFileContent implements FileContent {
             if (certs != null) {
                 return certs;
             }
-            return new Certificate[0];
+            return EMPTY_CERTIFICATE_ARRAY;
         } catch (final Exception e) {
             throw new FileSystemException("vfs.provider/get-certificates.error", fileObject, e);
         }

@@ -14,42 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.vfs2.util;
 
 /**
- * An enumerated type, which represents an OS family.
+ * Array utilities.
+ * 
+ * See Apache Commons Lang.
+ * @since 2.9.0
  */
-public final class OsFamily {
-
-    private final String name;
-    private final OsFamily[] families;
-    static final OsFamily[] EMPTY_OS_FAMILY_ARRAY = new OsFamily[0];
-
-    OsFamily(final String name) {
-        this.name = name;
-        families = EMPTY_OS_FAMILY_ARRAY;
-    }
-
-    OsFamily(final String name, final OsFamily[] families) {
-        this.name = name;
-        this.families = families;
-    }
+public class ArrayUtils {
 
     /**
-     * Returns the name of this family.
-     *
-     * @return The name of this family.
+     * An empty immutable {@code String} array.
      */
-    public String getName() {
-        return name;
-    }
+    public static final String[] EMPTY_STRING_ARRAY = new String[0];
 
-    /**
-     * Returns the OS families that this family belongs to.
-     *
-     * @return an array of OSFamily objects that this family belongs to.
-     */
-    public OsFamily[] getFamilies() {
-        return families;
-    }
 }

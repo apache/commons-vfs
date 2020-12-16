@@ -27,6 +27,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public final class Messages {
 
+    private static final Object[] EMPTY_OBJECT_ARRAY = new Object[0];
     /**
      * Map from message code to MessageFormat object for the message.
      */
@@ -43,7 +44,7 @@ public final class Messages {
      * @return The formatted message.
      */
     public static String getString(final String code) {
-        return getString(code, new Object[0]);
+        return getString(code, EMPTY_OBJECT_ARRAY);
     }
 
     /**

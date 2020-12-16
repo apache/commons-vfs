@@ -80,6 +80,11 @@ import org.w3c.dom.Node;
 public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
 
     /**
+     * An empty immutable {@code Webdav4FileObject} array.
+     */
+    private static Webdav4FileObject[] EMPTY_ARRAY = new Webdav4FileObject[0];
+
+    /**
      * An OutputStream that writes to a Webdav resource.
      * <p>
      * TODO - Use piped stream to avoid temporary file.
@@ -394,7 +399,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                         }
                     }
                 }
-                return vfs.toArray(new Webdav4FileObject[0]);
+                return vfs.toArray(EMPTY_ARRAY);
             }
             throw new FileNotFolderException(getName());
         } catch (final FileNotFolderException fnfe) {

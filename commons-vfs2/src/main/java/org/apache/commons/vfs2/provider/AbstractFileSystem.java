@@ -55,6 +55,8 @@ import org.apache.commons.vfs2.util.Messages;
  */
 public abstract class AbstractFileSystem extends AbstractVfsComponent implements FileSystem {
 
+    private static final FileListener[] EMPTY_FILE_LISTENER_ARRAY = new FileListener[0];
+
     private static final Log LOG = LogFactory.getLog(AbstractFileSystem.class);
 
     /**
@@ -539,7 +541,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
         synchronized (listenerMap) {
             final ArrayList<?> listeners = listenerMap.get(fileObject.getName());
             if (listeners != null) {
-                fileListeners = listeners.toArray(new FileListener[0]);
+                fileListeners = listeners.toArray(EMPTY_FILE_LISTENER_ARRAY);
             }
         }
 

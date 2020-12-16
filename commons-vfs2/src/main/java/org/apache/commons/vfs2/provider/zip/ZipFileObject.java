@@ -25,6 +25,7 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
+import org.apache.commons.vfs2.util.ArrayUtils;
 
 /**
  * A file in a ZIP file system.
@@ -110,7 +111,7 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem> {
             throw new RuntimeException(e);
         }
 
-        return children.toArray(new String[0]);
+        return children.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
     /**

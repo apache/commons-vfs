@@ -32,6 +32,7 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.VfsLog;
 import org.apache.commons.vfs2.operations.FileOperationProvider;
 import org.apache.commons.vfs2.provider.FileProvider;
+import org.apache.commons.vfs2.util.ArrayUtils;
 import org.apache.commons.vfs2.util.Messages;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -369,7 +370,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
                 classes.add(className);
             }
         }
-        return classes.toArray(new String[0]);
+        return classes.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
     /**
@@ -386,7 +387,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
                 schemes.add(scheme);
             }
         }
-        return schemes.toArray(new String[0]);
+        return schemes.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
     /**
@@ -400,7 +401,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
             final Element scheme = (Element) schemaElements.item(i);
             schemas.add(scheme.getAttribute("name"));
         }
-        return schemas.toArray(new String[0]);
+        return schemas.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
     private ClassLoader getValidClassLoader(final Class<?> clazz) {

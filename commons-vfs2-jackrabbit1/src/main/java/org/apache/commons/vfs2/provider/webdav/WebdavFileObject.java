@@ -78,6 +78,11 @@ import org.w3c.dom.Node;
  * @since 2.0
  */
 public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
+    
+    /**
+     * An empty immutable {@code WebdavFileObject} array.
+     */
+    private static WebdavFileObject[] EMPTY_ARRAY = new WebdavFileObject[0];
 
     /**
      * An OutputStream that writes to a Webdav resource.
@@ -394,7 +399,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
                         }
                     }
                 }
-                return vfs.toArray(new WebdavFileObject[0]);
+                return vfs.toArray(EMPTY_ARRAY);
             }
             throw new FileNotFolderException(getName());
         } catch (final FileNotFolderException fnfe) {
