@@ -205,8 +205,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             } else {
                 list.add(childName);
             }
-            children = new FileName[list.size()];
-            list.toArray(children);
+            children = list.toArray(new FileName[0]);
         }
 
         // removeChildrenCache();
@@ -991,7 +990,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public FileObject[] findFiles(final FileSelector selector) throws FileSystemException {
         final List<FileObject> list = this.listFiles(selector);
-        return list == null ? null : list.toArray(new FileObject[list.size()]);
+        return list == null ? null : list.toArray(new FileObject[0]);
     }
 
     /**

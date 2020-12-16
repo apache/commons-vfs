@@ -191,7 +191,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
 
             return Arrays.stream(children).map(child -> child.getName().getBaseName()).toArray(String[]::new);
         }
-        return children.toArray(new String[children.size()]);
+        return children.toArray(new String[0]);
     }
 
     /**

@@ -244,7 +244,7 @@ public final class DefaultFileContent implements FileContent {
     public String[] getAttributeNames() throws FileSystemException {
         getAttributes();
         final Set<String> names = attrs.keySet();
-        return names.toArray(new String[names.size()]);
+        return names.toArray(new String[0]);
     }
 
     /**

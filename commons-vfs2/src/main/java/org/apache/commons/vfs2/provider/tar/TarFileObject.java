@@ -108,7 +108,7 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem> {
             throw new RuntimeException(e);
         }
 
-        return children.toArray(new String[children.size()]);
+        return children.toArray(new String[0]);
     }
 
     /**

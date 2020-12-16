@@ -246,7 +246,7 @@ public final class Os {
                 Collections.addAll(queue, families);
             }
         }
-        return allFamilies.toArray(new OsFamily[allFamilies.size()]);
+        return allFamilies.toArray(new OsFamily[0]);
     }
 
     private static OsFamily determineOsFamily() {

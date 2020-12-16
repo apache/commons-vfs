@@ -196,7 +196,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
             list.add(buffer.toString());
         }
 
-        return list.toArray(new String[list.size()]);
+        return list.toArray(new String[0]);
     }
 
     // CHECKSTYLE:ON
