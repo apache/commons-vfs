@@ -315,11 +315,11 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
                 final FileObject linkDest = getLinkDestination();
                 // VFS-437: Try to avoid a recursion loop.
                 if (this.isCircular(linkDest)) {
-                    return getTimestamp();
+                    return getTimestampMillis();
                 }
                 return linkDest.getContent().getLastModifiedTime();
             }
-            return getTimestamp();
+            return getTimestampMillis();
         }
     }
 
@@ -531,7 +531,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         return relPath;
     }
 
-    private long getTimestamp() {
+    private long getTimestampMillis() {
         final Calendar timestamp = this.ftpFile != null ? this.ftpFile.getTimestamp() : null;
         return timestamp == null ? DEFAULT_TIMESTAMP : timestamp.getTime().getTime();
     }
