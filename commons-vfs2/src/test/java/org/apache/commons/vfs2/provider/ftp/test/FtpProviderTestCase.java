@@ -75,10 +75,9 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
      * @param rootDirectory the local FTP server rootDirectory
      * @param fileSystemFactory optional local FTP server FileSystemFactory
      * @throws FtpException
-     * @throws IOException
      */
     static void setUpClass(final String rootDirectory, final FileSystemFactory fileSystemFactory)
-            throws FtpException, IOException {
+            throws FtpException {
         if (Server != null) {
             return;
         }
