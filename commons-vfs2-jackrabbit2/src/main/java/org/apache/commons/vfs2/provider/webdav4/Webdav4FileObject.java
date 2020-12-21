@@ -82,7 +82,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
     /**
      * An empty immutable {@code Webdav4FileObject} array.
      */
-    private static Webdav4FileObject[] EMPTY_ARRAY = new Webdav4FileObject[0];
+    private static final Webdav4FileObject[] EMPTY_ARRAY = new Webdav4FileObject[0];
 
     /**
      * An OutputStream that writes to a Webdav resource.
@@ -458,7 +458,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
     }
 
     private HttpResponse executeRequest(final HttpUriRequest request) throws FileSystemException {
-        HttpResponse response = null;
+        final HttpResponse response;
 
         try {
             response = executeHttpUriRequest(request);
@@ -569,7 +569,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
     private boolean isDirectory(final GenericURLFileName name) throws IOException {
         try {
             final DavProperty property = getProperty(name, DavConstants.PROPERTY_RESOURCETYPE);
-            Node node;
+            final Node node;
             if (property != null && (node = (Node) property.getValue()) != null) {
                 return node.getLocalName().equals(DavConstants.XML_COLLECTION);
             }

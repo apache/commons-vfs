@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.test;
 
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
@@ -290,8 +291,8 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         assertFalse(file.exists());
     }
 
-    /**
-     * Tests concurrent read and write on the same file fails.
+    /*
+      Tests concurrent read and write on the same file fails.
      */
     /*
      * imario@apache.org leave this to some sort of LockManager public void testConcurrentReadWrite() throws Exception {
@@ -306,8 +307,8 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
      * instr.close(); } }
      */
 
-    /**
-     * Tests concurrent writes on the same file fails.
+    /*
+      Tests concurrent writes on the same file fails.
      */
     /*
      * imario@apache.org leave this to some sort of LockManager public void testConcurrentWrite() throws Exception {
@@ -341,7 +342,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         // Create the source file
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
         try (OutputStream os = file.getContent().getOutputStream()) {
-            os.write(content.getBytes("utf-8"));
+            os.write(content.getBytes(StandardCharsets.UTF_8));
         }
 
         assertSameContent(content, file);
@@ -368,7 +369,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         // Create the source file
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
         try (OutputStream os = file.getContent().getOutputStream()) {
-            os.write(content.getBytes("utf-8"));
+            os.write(content.getBytes(StandardCharsets.UTF_8));
         }
 
         assertSameContent(content, file);
@@ -401,7 +402,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         // Create the source file
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
         try (OutputStream os = file.getContent().getOutputStream()) {
-            os.write(content.getBytes("utf-8"));
+            os.write(content.getBytes(StandardCharsets.UTF_8));
         }
 
         assertSameContent(content, file);
@@ -657,7 +658,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         // Create the source file
         final String expectedString = "Here is some sample content for the file.  Blah Blah Blah.";
         try (OutputStream expectedOutputStream = fileSource.getContent().getOutputStream()) {
-            expectedOutputStream.write(expectedString.getBytes("utf-8"));
+            expectedOutputStream.write(expectedString.getBytes(StandardCharsets.UTF_8));
         }
 
         assertSameContent(expectedString, fileSource);
@@ -705,7 +706,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         // Create the source file
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
         try (OutputStream os = file.getContent().getOutputStream()) {
-            os.write(content.getBytes("utf-8"));
+            os.write(content.getBytes(StandardCharsets.UTF_8));
         }
 
         assertSameContent(content, file);

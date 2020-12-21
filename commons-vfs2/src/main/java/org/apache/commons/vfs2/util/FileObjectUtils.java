@@ -139,11 +139,7 @@ public final class FileObjectUtils {
             searchObject = ((DecoratedFileObject) searchObject).getDecoratedFileObject();
         }
 
-        if (wantedClass.isInstance(searchObject)) {
-            return true;
-        }
-
-        return false;
+        return wantedClass.isInstance(searchObject);
     }
 
     /**

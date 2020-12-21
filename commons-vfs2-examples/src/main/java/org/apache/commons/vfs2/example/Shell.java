@@ -164,7 +164,7 @@ public final class Shell {
 
     private void info(final String scheme) throws Exception {
         System.out.println("Provider Info for scheme \"" + scheme + "\":");
-        Collection<Capability> caps;
+        final Collection<Capability> caps;
         caps = mgr.getProviderCapabilities(scheme);
         if (caps != null && !caps.isEmpty()) {
             System.out.println("  capabilities: " + caps);

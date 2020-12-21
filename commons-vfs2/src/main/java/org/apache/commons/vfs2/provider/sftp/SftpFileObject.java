@@ -443,7 +443,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
                  * outstr.close(); return new ByteArrayInputStream(outstr.toByteArray());
                  */
 
-                InputStream inputStream;
+                final InputStream inputStream;
                 try {
                     // VFS-210: sftp allows to gather an input stream even from a directory and will
                     // fail on first read. So we need to check the type anyway

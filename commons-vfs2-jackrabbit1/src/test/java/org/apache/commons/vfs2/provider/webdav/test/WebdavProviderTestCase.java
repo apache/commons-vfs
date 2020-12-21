@@ -69,7 +69,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig {
 
     private static File RepoDirectory;
 
-    private static boolean DEBUG = Boolean.getBoolean("WebdavProviderTestCase.Debug");
+    private static final boolean DEBUG = Boolean.getBoolean("WebdavProviderTestCase.Debug");
 
     static File createTempDirectory() throws IOException {
         // create base folder

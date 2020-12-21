@@ -309,7 +309,7 @@ public class DelegatingFileSystemOptionsBuilder {
      */
     private void invokeSetter(final Class<?> valueParameter, final Context ctx, final Method configSetter,
             final Object values) throws FileSystemException {
-        Object[] args;
+        final Object[] args;
         if (valueParameter.isArray()) {
             args = new Object[] { ctx.fso, values };
         } else {

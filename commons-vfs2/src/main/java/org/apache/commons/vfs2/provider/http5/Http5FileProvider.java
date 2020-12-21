@@ -129,8 +129,8 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
         final GenericFileName rootName = (GenericFileName) name;
 
         UserAuthenticationData authData = null;
-        HttpClient httpClient = null;
-        HttpClientContext httpClientContext = null;
+        HttpClient httpClient;
+        HttpClientContext httpClientContext;
 
         try {
             final Http5FileSystemConfigBuilder builder = Http5FileSystemConfigBuilder.getInstance();

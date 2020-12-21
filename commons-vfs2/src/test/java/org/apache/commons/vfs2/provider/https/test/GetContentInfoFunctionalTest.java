@@ -48,7 +48,7 @@ public class GetContentInfoFunctionalTest {
         final FileSystemManager fsManager = VFS.getManager();
         final String uri = "http://www.apache.org/licenses/LICENSE-2.0.txt";
         try (final FileObject fo = fsManager.resolveFile(uri, getOptionsWithProxy());
-             final FileContent content = fo.getContent();) {
+             final FileContent content = fo.getContent()) {
             Assert.assertNotNull(content);
             // Used to NPE before fix:
             content.getContentInfo();

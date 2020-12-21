@@ -36,7 +36,7 @@ public class RamProviderTestCase extends AbstractProviderTestConfig {
     private boolean inited = false;
 
     /** logger */
-    private static Log log = LogFactory.getLog(RamProviderTestCase.class);
+    private static final Log log = LogFactory.getLog(RamProviderTestCase.class);
 
     /**
      * Creates the test suite for the ram file system.

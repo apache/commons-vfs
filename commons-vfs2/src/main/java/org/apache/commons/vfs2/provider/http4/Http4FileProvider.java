@@ -127,8 +127,8 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
         final GenericFileName rootName = (GenericFileName) name;
 
         UserAuthenticationData authData = null;
-        HttpClient httpClient = null;
-        HttpClientContext httpClientContext = null;
+        HttpClient httpClient;
+        HttpClientContext httpClientContext;
 
         try {
             final Http4FileSystemConfigBuilder builder = Http4FileSystemConfigBuilder.getInstance();

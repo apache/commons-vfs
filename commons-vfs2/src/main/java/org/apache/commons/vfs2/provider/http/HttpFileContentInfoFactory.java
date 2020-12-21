@@ -38,7 +38,7 @@ public class HttpFileContentInfoFactory implements FileContentInfoFactory {
 
         String contentType = null;
 
-        HeadMethod headMethod;
+        final HeadMethod headMethod;
         try (final HttpFileObject<HttpFileSystem> httpFile = (HttpFileObject<HttpFileSystem>) FileObjectUtils
                 .getAbstractFileObject(fileContent.getFile())) {
             headMethod = httpFile.getHeadMethod();

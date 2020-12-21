@@ -103,7 +103,7 @@ public abstract class BaseFilterTest {
      * Asserts that the array contains the given file names.
      *
      * @param files     Array to check.
-     * @param file names File names to find.
+     * @param fileNames names File names to find.
      */
     protected void assertContains(final FileObject[] files, final String... fileNames) {
         for (final String fileName : fileNames) {
@@ -249,7 +249,7 @@ public abstract class BaseFilterTest {
             throw new IllegalArgumentException("destFile cannot be null");
         }
 
-        try (final ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(destFile)));) {
+        try (final ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(destFile)))) {
             zipDir(srcDir, filter, destPath, out);
         }
 

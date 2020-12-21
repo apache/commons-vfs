@@ -23,6 +23,7 @@ import java.util.Collections;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
+import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
 import org.apache.commons.vfs2.FileSystemException;

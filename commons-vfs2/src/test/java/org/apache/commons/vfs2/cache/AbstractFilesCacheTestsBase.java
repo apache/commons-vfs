@@ -53,7 +53,7 @@ public abstract class AbstractFilesCacheTestsBase extends AbstractProviderTestCa
     }
 
     /**
-     * Basic Cache operations, work for all caches (besides {@link NullFilesCache#testBasicCacheOps() NullFilesCache}).
+     * Basic Cache operations, work for all caches (besides {@link NullFilesCacheTests#testBasicCacheOps() NullFilesCache}).
      */
     @Test
     public void testBasicCacheOps() throws Exception {

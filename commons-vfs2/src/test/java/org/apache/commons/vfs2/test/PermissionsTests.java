@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.test;
 
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.Capability;
@@ -146,7 +147,7 @@ public class PermissionsTests extends AbstractProviderTestCase {
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
 
         try (OutputStream os = file.getContent().getOutputStream()) {
-            os.write(content.getBytes("utf-8"));
+            os.write(content.getBytes(StandardCharsets.UTF_8));
         }
         return file;
     }
