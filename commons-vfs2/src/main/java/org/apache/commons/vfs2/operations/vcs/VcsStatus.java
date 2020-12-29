@@ -26,7 +26,7 @@ public enum VcsStatus {
             7), UNVERSIONED(8), MISSING(9), OBSTRUCTED(10), REVERTED(11), RESOLVED(12), COPIED(
                     13), MOVED(14), RESTORED(15), UPDATED(16), EXTERNAL(18), CORRUPTED(19), NOT_REVERTED(20);
 
-    private int status;
+    private final int status;
 
     VcsStatus(final int status) {
         this.status = status;

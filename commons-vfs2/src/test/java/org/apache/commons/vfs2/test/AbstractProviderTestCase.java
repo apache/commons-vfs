@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.Capability;
@@ -224,7 +225,7 @@ public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
      */
     protected void assertSameURLContent(final String expected, final URLConnection connection) throws Exception {
         // Get file content as a binary stream
-        final byte[] expectedBin = expected.getBytes("utf-8");
+        final byte[] expectedBin = expected.getBytes(StandardCharsets.UTF_8);
 
         // Check lengths
         assertEquals("same content length", expectedBin.length, connection.getContentLength());
@@ -260,7 +261,7 @@ public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
         assertTrue(file.isFile());
 
         // Get file content as a binary stream
-        final byte[] expectedBin = expected.getBytes("utf-8");
+        final byte[] expectedBin = expected.getBytes(StandardCharsets.UTF_8);
 
         // Check lengths
         final FileContent content = file.getContent();

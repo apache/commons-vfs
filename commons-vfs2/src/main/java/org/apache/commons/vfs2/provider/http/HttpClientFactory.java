@@ -63,7 +63,7 @@ public final class HttpClientFactory {
     public static HttpClient createConnection(final HttpFileSystemConfigBuilder builder, final String scheme,
             final String hostname, final int port, final String username, final String password,
             final FileSystemOptions fileSystemOptions) throws FileSystemException {
-        HttpClient client;
+        final HttpClient client;
         try {
             final HttpConnectionManager mgr = new MultiThreadedHttpConnectionManager();
             final HttpConnectionManagerParams connectionMgrParams = mgr.getParams();
@@ -110,10 +110,10 @@ public final class HttpClientFactory {
                     client.getState().addCookies(cookies);
                 }
             }
-            /**
-             * ConnectionManager set methods must be called after the host & port and proxy host & port are set in the
-             * HostConfiguration. They are all used as part of the key when HttpConnectionManagerParams tries to locate
-             * the host configuration.
+            /*
+              ConnectionManager set methods must be called after the host & port and proxy host & port are set in the
+              HostConfiguration. They are all used as part of the key when HttpConnectionManagerParams tries to locate
+              the host configuration.
              */
             connectionMgrParams.setMaxConnectionsPerHost(config, builder.getMaxConnectionsPerHost(fileSystemOptions));
             connectionMgrParams.setMaxTotalConnections(builder.getMaxTotalConnections(fileSystemOptions));

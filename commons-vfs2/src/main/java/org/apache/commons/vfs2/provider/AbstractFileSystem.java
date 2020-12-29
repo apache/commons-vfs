@@ -333,8 +333,8 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
             }
         }
 
-        /**
-         * resync the file information if requested
+        /*
+          resync the file information if requested
          */
         if (getFileSystemManager().getCacheStrategy().equals(CacheStrategy.ON_RESOLVE)) {
             file.refresh();

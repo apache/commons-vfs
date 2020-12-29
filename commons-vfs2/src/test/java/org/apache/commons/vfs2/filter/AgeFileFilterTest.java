@@ -36,13 +36,13 @@ import org.junit.Test;
 // CHECKSTYLE:OFF Test code
 public class AgeFileFilterTest extends BaseFilterTest {
 
-    private static long DAY_MILLIS = 24 * 60 * 60 * 1000;
+    private static final long DAY_MILLIS = 24 * 60 * 60 * 1000;
 
-    private static long NOW = System.currentTimeMillis();
+    private static final long NOW = System.currentTimeMillis();
 
-    private static long TWO_DAYS_AGO = NOW - (2 * DAY_MILLIS);
+    private static final long TWO_DAYS_AGO = NOW - (2 * DAY_MILLIS);
 
-    private static long TWO_DAYS_LATER = NOW + (2 * DAY_MILLIS);
+    private static final long TWO_DAYS_LATER = NOW + (2 * DAY_MILLIS);
 
     private static File testDir;
 

@@ -94,7 +94,7 @@ public class EmptyFileFilter implements FileFilter, Serializable {
                 final FileObject[] files = file.getChildren();
                 return files == null || files.length == 0;
             }
-            try (final FileContent content = file.getContent();) {
+            try (final FileContent content = file.getContent()) {
                 return content.isEmpty();
             }
         }

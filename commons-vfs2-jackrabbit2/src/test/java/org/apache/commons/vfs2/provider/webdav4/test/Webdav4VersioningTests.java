@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider.webdav4.test;
 
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import org.apache.commons.vfs2.FileObject;
@@ -71,7 +72,7 @@ public class Webdav4VersioningTests extends AbstractProviderTestCase {
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
 
         try (OutputStream os = file.getContent().getOutputStream()) {
-            os.write(content.getBytes("utf-8"));
+            os.write(content.getBytes(StandardCharsets.UTF_8));
         }
         assertSameContent(content, file);
         map = file.getContent().getAttributes();
@@ -120,7 +121,7 @@ public class Webdav4VersioningTests extends AbstractProviderTestCase {
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
 
         try (OutputStream os = file.getContent().getOutputStream()) {
-            os.write(content.getBytes("utf-8"));
+            os.write(content.getBytes(StandardCharsets.UTF_8));
         }
         assertSameContent(content, file);
         map = file.getContent().getAttributes();

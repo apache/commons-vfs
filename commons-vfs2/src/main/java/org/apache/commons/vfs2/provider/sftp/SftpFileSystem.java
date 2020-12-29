@@ -355,7 +355,7 @@ public class SftpFileSystem extends AbstractFileSystem {
     private boolean detectExecDisabled() {
         try {
             return getUId() == UNIDENTIFED;
-        } catch(JSchException | IOException e) {
+        } catch(final JSchException | IOException e) {
             LOG.debug("Cannot get UID, assuming no exec channel is present", e);
             return true;
         }

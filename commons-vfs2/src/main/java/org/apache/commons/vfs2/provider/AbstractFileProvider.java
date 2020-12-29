@@ -132,7 +132,7 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
      * Free unused resources.
      */
     public void freeUnusedResources() {
-        AbstractFileSystem[] abstractFileSystems;
+        final AbstractFileSystem[] abstractFileSystems;
         synchronized (fileSystems) {
             // create snapshot under lock
             abstractFileSystems = fileSystems.values().toArray(EMPTY_ABSTRACTFILESYSTEMS);

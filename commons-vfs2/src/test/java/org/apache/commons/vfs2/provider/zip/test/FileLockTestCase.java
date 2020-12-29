@@ -20,6 +20,7 @@ package org.apache.commons.vfs2.provider.zip.test;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -69,7 +70,7 @@ public class FileLockTestCase {
     }
 
     private void readAndAssert(final InputStream inputStream) throws IOException {
-        final String string = IOUtils.toString(inputStream, "UTF-8");
+        final String string = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
         Assert.assertNotNull(string);
         Assert.assertEquals("This is a test file.", string);
     }

@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.test;
 
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
@@ -65,13 +66,13 @@ public class ProviderWriteAppendTests extends AbstractProviderTestCase {
         final String contentAppend = content + content;
 
         try (OutputStream os = file.getContent().getOutputStream()) {
-            os.write(content.getBytes("utf-8"));
+            os.write(content.getBytes(StandardCharsets.UTF_8));
         }
         assertSameContent(content, file);
 
         // Append to the new file
         try (OutputStream os2 = file.getContent().getOutputStream(true)) {
-            os2.write(content.getBytes("utf-8"));
+            os2.write(content.getBytes(StandardCharsets.UTF_8));
         }
         assertSameContent(contentAppend, file);
 

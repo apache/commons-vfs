@@ -16,7 +16,6 @@
  */
 package org.apache.commons.vfs2.libcheck;
 
-import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
 

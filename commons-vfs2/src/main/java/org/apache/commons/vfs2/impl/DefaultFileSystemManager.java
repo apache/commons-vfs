@@ -805,7 +805,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
             throw new FileSystemException("vfs.provider/invalid-descendent-name.error", name);
         }
 
-        String fullPath;
+        final String fullPath;
         if (scheme != null) {
             fullPath = resolvedPath;
         } else {

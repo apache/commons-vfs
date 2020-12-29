@@ -16,11 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.ram;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
@@ -98,7 +95,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
             return null;
         }
         final Collection<RamFileData> children = data.getChildren();
-        String[] names;
+        final String[] names;
 
         synchronized (children) {
             names = children.stream().map(childData -> childData.getName().getBaseName()).toArray(String[]::new);

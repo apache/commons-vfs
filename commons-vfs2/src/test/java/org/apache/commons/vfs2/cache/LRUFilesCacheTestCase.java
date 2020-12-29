@@ -28,7 +28,7 @@ import org.apache.commons.vfs2.test.CacheTestSuite;
 import junit.framework.Test;
 
 /**
- * Tests the {@link LRUFilesCache} using {@link LRUFilesCacheTestss}.
+ * Tests the {@link LRUFilesCache} using {@link LRUFilesCacheTests}.
  */
 public class LRUFilesCacheTestCase extends AbstractProviderTestConfig {
     public static Test suite() throws Exception {
