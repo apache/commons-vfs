@@ -101,6 +101,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="Arturo Bernal" type="update">
         Minor Improvements #152.
       </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Update commons.spotbugs.impl.version 4.1.3 -> 4.2.0.
+      </action>
     </release>
     <release version="2.7.0" date="2020-10-26" description="Maintenance release. Requires Java 8.">
       <action issue="VFS-753" dev="ggregory" due-to="John Webb, Gary Gregory" type="fix">
