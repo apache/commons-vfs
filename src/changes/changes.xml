@@ -96,7 +96,7 @@ The <action> type attribute can be add,update,fix,remove.
         Modify some calls of method Collection.toArray #145.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
-        Update commons.japicmp.version 0.14.3 -> 0.14.4.
+        Update commons.japicmp.version 0.14.3 -> 0.15.1.
       </action>
       <action dev="ggregory" due-to="Arturo Bernal" type="update">
         Minor Improvements #152.
