@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.util;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.BitSet;
 
 import org.apache.commons.logging.Log;
@@ -57,11 +58,7 @@ public class URIUtils {
          * @return The string representation of the byte array
          */
         static String getAsciiString(final byte[] data, final int offset, final int length) {
-            try {
-                return new String(data, offset, length, "US-ASCII");
-            } catch (final UnsupportedEncodingException e) {
-                throw new RuntimeException("US-ASCII charset is not supported.");
-            }
+            return new String(data, offset, length, StandardCharsets.US_ASCII);
         }
 
         /**

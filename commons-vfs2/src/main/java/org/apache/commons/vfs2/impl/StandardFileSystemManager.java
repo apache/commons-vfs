@@ -118,7 +118,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
      * @throws FileSystemException if an error occurs.
      */
     protected void configurePlugins() throws FileSystemException {
-        Enumeration<URL> enumResources;
+        final Enumeration<URL> enumResources;
         try {
             enumResources = loadResources(PLUGIN_CONFIG_RESOURCE);
         } catch (final IOException e) {

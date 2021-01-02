@@ -201,8 +201,8 @@ public class ZipFileSystem extends AbstractFileSystem {
         return super.toString() + " for " + file;
     }
 
-    /**
-     * will be called after all file-objects closed their streams. protected void notifyAllStreamsClosed() {
-     * closeCommunicationLink(); }
+    /*
+      will be called after all file-objects closed their streams. protected void notifyAllStreamsClosed() {
+      closeCommunicationLink(); }
      */
 }

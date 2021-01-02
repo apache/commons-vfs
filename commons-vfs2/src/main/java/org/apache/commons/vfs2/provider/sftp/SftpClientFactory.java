@@ -87,7 +87,7 @@ public final class SftpClientFactory {
         addIdentities(jsch, sshDir, identities);
         setConfigRepository(jsch, sshDir, configRepository, loadOpenSSHConfig);
 
-        Session session;
+        final Session session;
         try {
             session = jsch.getSession(new String(username), hostname, port);
             if (password != null) {
@@ -221,7 +221,7 @@ public final class SftpClientFactory {
 
     private static Proxy createStreamProxy(final String proxyHost, final int proxyPort,
             final FileSystemOptions fileSystemOptions, final SftpFileSystemConfigBuilder builder) {
-        Proxy proxy;
+        final Proxy proxy;
         // Use a stream proxy, i.e. it will use a remote host as a proxy
         // and run a command (e.g. netcat) that forwards input/output
         // to the target host.
@@ -268,7 +268,7 @@ public final class SftpClientFactory {
      * @return The {@code .ssh} directory
      */
     private static File findSshDir() {
-        String sshDirPath;
+        final String sshDirPath;
         sshDirPath = System.getProperty("vfs.sftp.sshdir");
         if (sshDirPath != null) {
             final File sshDir = new File(sshDirPath);

@@ -20,6 +20,7 @@ package org.apache.commons.vfs2.provider.zip.test;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -55,7 +56,7 @@ public class ZipFileObjectTestCase {
 
     private void readAndAssert(final FileObject fileObject, final InputStream inputStream, final String expectedId)
             throws IOException {
-        final String streamData = IOUtils.toString(inputStream, "UTF-8");
+        final String streamData = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
         final String fileObjectString = fileObject.toString();
         Assert.assertNotNull(fileObjectString, streamData);
         Assert.assertEquals(

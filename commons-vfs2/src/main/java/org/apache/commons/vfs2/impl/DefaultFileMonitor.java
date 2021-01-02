@@ -304,13 +304,13 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
     public void run() {
         mainloop: while (!monitorThread.isInterrupted() && this.shouldRun) {
             // For each entry in the map
-            Object[] fileNames;
+            final Object[] fileNames;
             synchronized (this.monitorMap) {
                 fileNames = this.monitorMap.keySet().toArray();
             }
             for (int iterFileNames = 0; iterFileNames < fileNames.length; iterFileNames++) {
                 final FileName fileName = (FileName) fileNames[iterFileNames];
-                FileMonitorAgent agent;
+                final FileMonitorAgent agent;
                 synchronized (this.monitorMap) {
                     agent = this.monitorMap.get(fileName);
                 }

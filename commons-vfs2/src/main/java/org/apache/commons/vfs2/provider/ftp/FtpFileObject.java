@@ -330,7 +330,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
         final FtpClient client = getAbstractFileSystem().getClient();
         try {
-            OutputStream out = null;
+            final OutputStream out;
             if (bAppend) {
                 out = client.appendFileStream(relPath);
             } else {
@@ -606,7 +606,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     private void setFTPFile(final boolean flush) throws IOException {
         synchronized (getFileSystem()) {
             final FtpFileObject parent = (FtpFileObject) FileObjectUtils.getAbstractFileObject(getParent());
-            FTPFile newFileInfo;
+            final FTPFile newFileInfo;
             if (parent != null) {
                 newFileInfo = parent.getChildFile(UriParser.decode(getName().getBaseName()), flush);
             } else {

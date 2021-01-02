@@ -82,7 +82,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
     /**
      * An empty immutable {@code WebdavFileObject} array.
      */
-    private static WebdavFileObject[] EMPTY_ARRAY = new WebdavFileObject[0];
+    private static final WebdavFileObject[] EMPTY_ARRAY = new WebdavFileObject[0];
 
     /**
      * An OutputStream that writes to a Webdav resource.
@@ -565,7 +565,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
     private boolean isDirectory(final URLFileName name) throws IOException {
         try {
             final DavProperty property = getProperty(name, DavConstants.PROPERTY_RESOURCETYPE);
-            Node node;
+            final Node node;
             if (property != null && (node = (Node) property.getValue()) != null) {
                 return node.getLocalName().equals(DavConstants.XML_COLLECTION);
             }

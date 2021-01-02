@@ -787,7 +787,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
         String scheme = UriParser.extractScheme(getSchemes(), buffer.toString());
 
         // Determine whether to prepend the base path
-        if (name.length() == 0 || (scheme == null && buffer.charAt(0) != FileName.SEPARATOR_CHAR)) {
+        if (name.isEmpty() || (scheme == null && buffer.charAt(0) != FileName.SEPARATOR_CHAR)) {
             // Supplied path is not absolute
             if (!VFS.isUriStyle()) {
                 // when using URIs the parent already do have the trailing "/"
@@ -805,7 +805,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
             throw new FileSystemException("vfs.provider/invalid-descendent-name.error", name);
         }
 
-        String fullPath;
+        final String fullPath;
         if (scheme != null) {
             fullPath = resolvedPath;
         } else {

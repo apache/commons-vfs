@@ -510,7 +510,7 @@ public final class DefaultFileContent implements FileContent {
 //                    ? new FileContentInputStream(fileObject, inputStream)
 //                    : new FileContentInputStream(fileObject, inputStream, bufferSize);
 
-        InputStream wrappedInputStream;
+        final InputStream wrappedInputStream;
         if (inputStream instanceof BufferedInputStream) {
             // Don't double buffer.
             wrappedInputStream = new RawFileContentInputStream(fileObject, inputStream);
@@ -861,7 +861,7 @@ public final class DefaultFileContent implements FileContent {
         try {
             // This read/write code from Apache Commons IO
             final byte[] buffer = new byte[bufferSize];
-            int n = 0;
+            int n;
             while (-1 != (n = input.read(buffer))) {
                 output.write(buffer, 0, n);
                 count += n;

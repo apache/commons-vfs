@@ -510,18 +510,12 @@ public abstract class AbstractFileName implements FileName {
         }
 
         if (scope == NameScope.CHILD) {
-            if (path.length() == baseLen || baseLen > 1 && path.charAt(baseLen) != SEPARATOR_CHAR
-                    || path.indexOf(SEPARATOR_CHAR, baseLen + 1) != -1) {
-                return false;
-            }
+            return path.length() != baseLen && (baseLen <= 1 || path.charAt(baseLen) == SEPARATOR_CHAR)
+                    && path.indexOf(SEPARATOR_CHAR, baseLen + 1) == -1;
         } else if (scope == NameScope.DESCENDENT) {
-            if (path.length() == baseLen || baseLen > 1 && path.charAt(baseLen) != SEPARATOR_CHAR) {
-                return false;
-            }
+            return path.length() != baseLen && (baseLen <= 1 || path.charAt(baseLen) == SEPARATOR_CHAR);
         } else if (scope == NameScope.DESCENDENT_OR_SELF) {
-            if (baseLen > 1 && path.length() > baseLen && path.charAt(baseLen) != SEPARATOR_CHAR) {
-                return false;
-            }
+            return baseLen <= 1 || path.length() <= baseLen || path.charAt(baseLen) == SEPARATOR_CHAR;
         } else if (scope != NameScope.FILE_SYSTEM) {
             throw new IllegalArgumentException();
         }

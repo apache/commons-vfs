@@ -183,7 +183,7 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.0
      */
     protected char getCharacter(final FileSystemOptions fileSystemOptions, final String name, final char defaultValue) {
-        return getCharacter(fileSystemOptions, name, new Character(defaultValue)).charValue();
+        return getCharacter(fileSystemOptions, name, Character.valueOf(defaultValue)).charValue();
     }
 
     /**
@@ -204,7 +204,7 @@ public abstract class FileSystemConfigBuilder {
             if (str == null || str.length() <= 0) {
                 return defaultValue;
             }
-            value = new Character(str.charAt(0));
+            value = Character.valueOf(str.charAt(0));
         }
         return value;
     }

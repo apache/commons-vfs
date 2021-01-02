@@ -158,7 +158,7 @@ public class HdfsFileSystem extends AbstractFileSystem {
             fileObject = null;
         }
         if (null == fileObject) {
-            String path = null;
+            String path;
             try {
                 path = URLDecoder.decode(name.getPath(), "UTF-8");
             } catch (final UnsupportedEncodingException e) {
@@ -171,8 +171,8 @@ public class HdfsFileSystem extends AbstractFileSystem {
                 this.putFileToCache(fileObject);
             }
         }
-        /**
-         * resync the file information if requested
+        /*
+          resync the file information if requested
          */
         if (getFileSystemManager().getCacheStrategy().equals(CacheStrategy.ON_RESOLVE)) {
             fileObject.refresh();

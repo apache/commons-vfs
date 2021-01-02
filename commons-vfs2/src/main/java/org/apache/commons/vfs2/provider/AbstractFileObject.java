@@ -1077,7 +1077,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             }
 
             // allow the filesystem to return resolved children. e.g. prefill type for webdav
-            FileObject[] childrenObjects;
+            final FileObject[] childrenObjects;
             try {
                 childrenObjects = doListChildrenResolved();
                 children = extractNames(childrenObjects);
