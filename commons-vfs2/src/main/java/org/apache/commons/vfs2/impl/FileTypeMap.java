@@ -30,6 +30,7 @@ class FileTypeMap {
 
     private final Map<String, String> mimeTypeMap = new HashMap<>();
     private final Map<String, String> extensionMap = new HashMap<>();
+    private final String MIME_TYPE_OCTET_STREAM = "application/octet-stream";
 
     /**
      * Adds a MIME type mapping.
@@ -57,7 +58,7 @@ class FileTypeMap {
         // Check the file's mime type for a match
         final FileContent content = file.getContent();
         final String mimeType = content.getContentInfo().getContentType();
-        if (mimeType != null) {
+        if (mimeType != null && !mimeType.equals(MIME_TYPE_OCTET_STREAM)) {
             return mimeTypeMap.get(mimeType);
         }
 
