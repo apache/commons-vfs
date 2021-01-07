@@ -237,10 +237,10 @@ public class SoftRefFilesCache extends AbstractFilesCache {
 
     @Override
     public void close() {
-        endThread();
-
         lock.lock();
         try {
+            endThread();
+
             fileSystemCache.clear();
 
             refReverseMap.clear();
