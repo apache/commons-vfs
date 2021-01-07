@@ -22,8 +22,6 @@ import java.lang.ref.SoftReference;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -44,7 +42,7 @@ public class SoftRefFilesCache extends AbstractFilesCache {
 
     private static final Log log = LogFactory.getLog(SoftRefFilesCache.class);
 
-    private final ConcurrentMap<FileSystem, Map<FileName, Reference<FileObject>>> fileSystemCache = new ConcurrentHashMap<>();
+    private final Map<FileSystem, Map<FileName, Reference<FileObject>>> fileSystemCache = new HashMap<>();
     private final Map<Reference<FileObject>, FileSystemAndNameKey> refReverseMap = new HashMap<>(100);
     private final ReferenceQueue<FileObject> refQueue = new ReferenceQueue<>();
 
@@ -294,15 +292,11 @@ public class SoftRefFilesCache extends AbstractFilesCache {
             startThread();
         }
 
-        Map<FileName, Reference<FileObject>> files;
-
-        do {
-            files = fileSystemCache.get(fileSystem);
-            if (files != null) {
-                break;
-            }
+        Map<FileName, Reference<FileObject>> files = fileSystemCache.get(fileSystem);
+        if (files == null) {
             files = new HashMap<>();
-        } while (fileSystemCache.putIfAbsent(fileSystem, files) == null);
+            fileSystemCache.put(fileSystem, files);
+        }
 
         return files;
     }
