@@ -223,7 +223,7 @@ public class SoftRefFilesCache extends AbstractFilesCache {
                 }
             }
 
-            if (files.size() < 1) {
+            if (files.isEmpty()) {
                 close(fileSystem);
             }
         } finally {
@@ -242,7 +242,7 @@ public class SoftRefFilesCache extends AbstractFilesCache {
         }
 
         fileSystemCache.remove(fileSystem);
-        if (fileSystemCache.size() < 1) {
+        if (fileSystemCache.isEmpty()) {
             endThread();
         }
         /*
@@ -286,14 +286,14 @@ public class SoftRefFilesCache extends AbstractFilesCache {
                 refReverseMap.remove(ref);
             }
 
-            return files.size() < 1;
+            return files.isEmpty();
         } finally {
             lock.unlock();
         }
     }
 
     protected Map<FileName, Reference<FileObject>> getOrCreateFilesystemCache(final FileSystem fileSystem) {
-        if (fileSystemCache.size() < 1) {
+        if (fileSystemCache.isEmpty()) {
             startThread();
         }
 
