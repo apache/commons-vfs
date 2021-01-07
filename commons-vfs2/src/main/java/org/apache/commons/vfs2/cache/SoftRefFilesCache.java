@@ -263,7 +263,13 @@ public class SoftRefFilesCache extends AbstractFilesCache {
     @Override
     public void removeFile(final FileSystem fileSystem, final FileName fileName) {
         if (removeFile(new FileSystemAndNameKey(fileSystem, fileName))) {
-            close(fileSystem);
+            lock.lock();
+
+            try {
+                close(fileSystem);
+            } finally {
+                lock.unlock();
+            }
         }
     }
 
