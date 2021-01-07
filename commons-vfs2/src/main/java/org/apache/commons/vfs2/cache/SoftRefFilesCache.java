@@ -253,8 +253,6 @@ public class SoftRefFilesCache extends AbstractFilesCache {
 
     @Override
     public void close() {
-        super.close();
-
         endThread();
 
         lock.lock();
