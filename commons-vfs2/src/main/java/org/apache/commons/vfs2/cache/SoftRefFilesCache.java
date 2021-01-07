@@ -43,8 +43,6 @@ import org.apache.commons.vfs2.util.Messages;
  */
 public class SoftRefFilesCache extends AbstractFilesCache {
 
-    private static final int TIMEOUT = 1000;
-
     private static final Log log = LogFactory.getLog(SoftRefFilesCache.class);
 
     private final ConcurrentMap<FileSystem, Map<FileName, Reference<FileObject>>> fileSystemCache = new ConcurrentHashMap<>();
@@ -71,7 +69,7 @@ public class SoftRefFilesCache extends AbstractFilesCache {
         public void run() {
             try {
                 while (!requestEnd) {
-                    final Reference<?> ref = refQueue.remove(TIMEOUT);
+                    final Reference<?> ref = refQueue.remove(0);
                     if (ref == null) {
                         continue;
                     }
