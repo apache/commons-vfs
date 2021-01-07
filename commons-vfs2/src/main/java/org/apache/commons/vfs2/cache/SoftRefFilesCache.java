@@ -88,28 +88,24 @@ public class SoftRefFilesCache extends AbstractFilesCache {
     public SoftRefFilesCache() {
     }
 
+    /**
+     * Called while the lock is held
+     */
     private void startThread() {
-        lock.lock();
-        try {
-            if (softRefReleaseThread == null) {
-                softRefReleaseThread = new SoftRefReleaseThread();
-                softRefReleaseThread.start();
-            }
-        } finally {
-            lock.unlock();
+        if (softRefReleaseThread == null) {
+            softRefReleaseThread = new SoftRefReleaseThread();
+            softRefReleaseThread.start();
         }
     }
 
+    /**
+     * Called while the lock is held
+     */
     private void endThread() {
-        lock.lock();
-        try {
-            final SoftRefReleaseThread thread = softRefReleaseThread;
-            softRefReleaseThread = null;
-            if (thread != null) {
-                thread.interrupt();
-            }
-        } finally {
-            lock.unlock();
+        final SoftRefReleaseThread thread = softRefReleaseThread;
+        softRefReleaseThread = null;
+        if (thread != null) {
+            thread.interrupt();
         }
     }
 
