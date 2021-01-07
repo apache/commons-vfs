@@ -46,7 +46,7 @@ public class SoftRefFilesCache extends AbstractFilesCache {
     private final Map<Reference<FileObject>, FileSystemAndNameKey> refReverseMap = new HashMap<>(100);
     private final ReferenceQueue<FileObject> refQueue = new ReferenceQueue<>();
 
-    private volatile SoftRefReleaseThread softRefReleaseThread; // @GuardedBy("lock")
+    private SoftRefReleaseThread softRefReleaseThread; // @GuardedBy("lock")
 
     private final Lock lock = new ReentrantLock();
 
@@ -89,11 +89,6 @@ public class SoftRefFilesCache extends AbstractFilesCache {
     }
 
     private void startThread() {
-        // Double Checked Locking is allowed when volatile
-        if (softRefReleaseThread != null) {
-            return;
-        }
-
         lock.lock();
         try {
             if (softRefReleaseThread == null) {
