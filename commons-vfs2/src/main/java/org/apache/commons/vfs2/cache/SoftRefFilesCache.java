@@ -69,7 +69,7 @@ public class SoftRefFilesCache extends AbstractFilesCache {
 
         @Override
         public void run() {
-            loop: while (!requestEnd && !Thread.currentThread().isInterrupted()) {
+            loop: while (!requestEnd) {
                 try {
                     final Reference<?> ref = refQueue.remove(TIMEOUT);
                     if (ref == null) {
