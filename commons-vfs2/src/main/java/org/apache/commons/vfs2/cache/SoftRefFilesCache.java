@@ -71,11 +71,7 @@ public class SoftRefFilesCache extends AbstractFilesCache {
 
                     lock.lock();
                     try {
-                        final FileSystemAndNameKey key = refReverseMap.get(ref);
-
-                        if (key != null && removeFile(key)) {
-                            close(key.getFileSystem());
-                        }
+                        removeFile(ref);
                     } finally {
                         lock.unlock();
                     }
@@ -273,6 +269,17 @@ public class SoftRefFilesCache extends AbstractFilesCache {
         }
 
         return files.isEmpty();
+    }
+
+    /**
+     * Called while the lock is held
+     */
+    private void removeFile(final Reference<?> ref) {
+        final FileSystemAndNameKey key = refReverseMap.get(ref);
+
+        if (key != null && removeFile(key)) {
+            close(key.getFileSystem());
+        }
     }
 
     /**
