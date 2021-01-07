@@ -32,7 +32,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
-import org.apache.commons.vfs2.VfsLog;
 import org.apache.commons.vfs2.util.Messages;
 
 /**
@@ -58,8 +57,6 @@ public class SoftRefFilesCache extends AbstractFilesCache {
      * the reference
      */
     private final class SoftRefReleaseThread extends Thread {
-        private volatile boolean requestEnd; // used for inter-thread communication
-
         private SoftRefReleaseThread() {
             setName(SoftRefReleaseThread.class.getName());
             setDaemon(true);
@@ -68,7 +65,7 @@ public class SoftRefFilesCache extends AbstractFilesCache {
         @Override
         public void run() {
             try {
-                while (!requestEnd) {
+                while (true) {
                     final Reference<?> ref = refQueue.remove(0);
                     if (ref == null) {
                         continue;
@@ -86,10 +83,6 @@ public class SoftRefFilesCache extends AbstractFilesCache {
                     }
                 }
             } catch (final InterruptedException e) {
-                if (!requestEnd) {
-                    VfsLog.warn(getLogger(), log,
-                                Messages.getString("vfs.impl/SoftRefReleaseThread-interrupt.info"));
-                }
             }
         }
     }
@@ -116,7 +109,6 @@ public class SoftRefFilesCache extends AbstractFilesCache {
             final SoftRefReleaseThread thread = softRefReleaseThread;
             softRefReleaseThread = null;
             if (thread != null) {
-                thread.requestEnd = true;
                 thread.interrupt();
             }
         }
