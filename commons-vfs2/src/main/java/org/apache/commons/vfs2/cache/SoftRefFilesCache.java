@@ -262,17 +262,19 @@ public class SoftRefFilesCache extends AbstractFilesCache {
 
     @Override
     public void removeFile(final FileSystem fileSystem, final FileName fileName) {
-        if (removeFile(new FileSystemAndNameKey(fileSystem, fileName))) {
-            lock.lock();
-
-            try {
+        lock.lock();
+        try {
+            if (removeFile(new FileSystemAndNameKey(fileSystem, fileName))) {
                 close(fileSystem);
-            } finally {
-                lock.unlock();
             }
+        } finally {
+            lock.unlock();
         }
     }
 
+    /**
+     * Called while the lock is held
+     */
     private boolean removeFile(final FileSystemAndNameKey key) {
         if (log.isDebugEnabled()) {
             log.debug("removeFile: " + this.getSafeName(key.getFileName()));
@@ -280,17 +282,12 @@ public class SoftRefFilesCache extends AbstractFilesCache {
 
         final Map<?, ?> files = getOrCreateFilesystemCache(key.getFileSystem());
 
-        lock.lock();
-        try {
-            final Object ref = files.remove(key.getFileName());
-            if (ref != null) {
-                refReverseMap.remove(ref);
-            }
-
-            return files.isEmpty();
-        } finally {
-            lock.unlock();
+        final Object ref = files.remove(key.getFileName());
+        if (ref != null) {
+            refReverseMap.remove(ref);
         }
+
+        return files.isEmpty();
     }
 
     protected Map<FileName, Reference<FileObject>> getOrCreateFilesystemCache(final FileSystem fileSystem) {
