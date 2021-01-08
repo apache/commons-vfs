@@ -1197,9 +1197,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         // Get the raw input stream
         try {
             return doGetInputStream(bufferSize);
-        } catch (final org.apache.commons.vfs2.FileNotFoundException exc) {
-            throw new org.apache.commons.vfs2.FileNotFoundException(fileName, exc);
-        } catch (final FileNotFoundException exc) {
+        } catch (final org.apache.commons.vfs2.FileNotFoundException | FileNotFoundException exc) {
             throw new org.apache.commons.vfs2.FileNotFoundException(fileName, exc);
         } catch (final FileSystemException exc) {
             throw exc;

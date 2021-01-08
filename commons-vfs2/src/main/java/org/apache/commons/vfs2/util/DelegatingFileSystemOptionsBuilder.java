@@ -259,13 +259,8 @@ public class DelegatingFileSystemOptionsBuilder {
             // can convert using constructor
             for (int iterValues = 0; iterValues < ctx.values.length; iterValues++) {
                 try {
-                    Array.set(convertedValues, iterValues,
-                            valueConstructor.newInstance(ctx.values[iterValues]));
-                } catch (final InstantiationException e) {
-                    throw new FileSystemException(e);
-                } catch (final IllegalAccessException e) {
-                    throw new FileSystemException(e);
-                } catch (final InvocationTargetException e) {
+                    Array.set(convertedValues, iterValues, valueConstructor.newInstance(ctx.values[iterValues]));
+                } catch (final InstantiationException | IllegalAccessException | InvocationTargetException e) {
                     throw new FileSystemException(e);
                 }
             }
@@ -290,9 +285,7 @@ public class DelegatingFileSystemOptionsBuilder {
                 try {
                     Array.set(convertedValues, iterValues,
                             valueFactory.invoke(null, ctx.values[iterValues]));
-                } catch (final IllegalAccessException e) {
-                    throw new FileSystemException(e);
-                } catch (final InvocationTargetException e) {
+                } catch (final IllegalAccessException | InvocationTargetException e) {
                     throw new FileSystemException(e);
                 }
             }
@@ -317,9 +310,7 @@ public class DelegatingFileSystemOptionsBuilder {
         }
         try {
             configSetter.invoke(ctx.fileSystemConfigBuilder, args);
-        } catch (final IllegalAccessException e) {
-            throw new FileSystemException(e);
-        } catch (final InvocationTargetException e) {
+        } catch (final IllegalAccessException | InvocationTargetException e) {
             throw new FileSystemException(e);
         }
     }
