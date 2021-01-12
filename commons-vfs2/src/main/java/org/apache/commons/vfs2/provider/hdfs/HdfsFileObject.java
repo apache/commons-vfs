@@ -90,7 +90,6 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
             this.stat = this.hdfs.getFileStatus(this.path);
         } catch (final FileNotFoundException e) {
             this.stat = null;
-            return;
         }
     }
 
