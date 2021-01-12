@@ -293,20 +293,4 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
         return true;
     }
 
-    /**
-     * @see org.apache.commons.vfs2.provider.AbstractFileObject#exists()
-     * @return boolean true if file exists, false if not
-     */
-    @Override
-    public boolean exists() throws FileSystemException {
-        try {
-            doAttach();
-            return this.stat != null;
-        } catch (final FileNotFoundException fne) {
-            return false;
-        } catch (final Exception e) {
-            throw new FileSystemException("Unable to check existance ", e);
-        }
-    }
-
 }
