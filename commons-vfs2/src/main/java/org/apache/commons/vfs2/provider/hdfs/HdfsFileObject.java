@@ -82,14 +82,15 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
     }
 
     /**
-     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doAttach()
+     * Obtains the #FileStatus instance or null if the file does not exist.
+     *
+     * Throws on error.
      */
-    @Override
-    protected void doAttach() throws Exception {
+    private FileStatus getStatus() throws Exception {
         try {
-            this.stat = this.hdfs.getFileStatus(this.path);
+            return this.stat = this.hdfs.getFileStatus(this.path);
         } catch (final FileNotFoundException e) {
-            this.stat = null;
+            return this.stat = null;
         }
     }
 
@@ -116,17 +117,18 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
      */
     @Override
     protected Map<String, Object> doGetAttributes() throws Exception {
-        if (null == this.stat) {
+        final FileStatus status = getStatus();
+        if (null == status) {
             return super.doGetAttributes();
         }
         final Map<String, Object> attrs = new HashMap<>();
-        attrs.put(HdfsFileAttributes.LAST_ACCESS_TIME.toString(), this.stat.getAccessTime());
-        attrs.put(HdfsFileAttributes.BLOCK_SIZE.toString(), this.stat.getBlockSize());
-        attrs.put(HdfsFileAttributes.GROUP.toString(), this.stat.getGroup());
-        attrs.put(HdfsFileAttributes.OWNER.toString(), this.stat.getOwner());
-        attrs.put(HdfsFileAttributes.PERMISSIONS.toString(), this.stat.getPermission().toString());
-        attrs.put(HdfsFileAttributes.LENGTH.toString(), this.stat.getLen());
-        attrs.put(HdfsFileAttributes.MODIFICATION_TIME.toString(), this.stat.getModificationTime());
+        attrs.put(HdfsFileAttributes.LAST_ACCESS_TIME.toString(), status.getAccessTime());
+        attrs.put(HdfsFileAttributes.BLOCK_SIZE.toString(), status.getBlockSize());
+        attrs.put(HdfsFileAttributes.GROUP.toString(), status.getGroup());
+        attrs.put(HdfsFileAttributes.OWNER.toString(), status.getOwner());
+        attrs.put(HdfsFileAttributes.PERMISSIONS.toString(), status.getPermission().toString());
+        attrs.put(HdfsFileAttributes.LENGTH.toString(), status.getLen());
+        attrs.put(HdfsFileAttributes.MODIFICATION_TIME.toString(), status.getModificationTime());
         return attrs;
     }
 
@@ -135,6 +137,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
      */
     @Override
     protected long doGetContentSize() throws Exception {
+        final FileStatus stat = getStatus();
         return stat.getLen();
     }
 
@@ -151,9 +154,9 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
      */
     @Override
     protected long doGetLastModifiedTime() throws Exception {
-        doAttach();
-        if (null != this.stat) {
-            return this.stat.getModificationTime();
+        final FileStatus status = getStatus();
+        if (null != status) {
+            return status.getModificationTime();
         }
         return -1;
     }
@@ -187,7 +190,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
      */
     @Override
     protected FileType doGetType() throws Exception {
-        doAttach();
+        final FileStatus stat = getStatus();
         if (null == stat) {
             return FileType.IMAGINARY;
         }
