@@ -58,8 +58,8 @@ class FileContentThreadData {
         this.randomAccessContentList.add(randomAccessContent);
     }
 
-    int getInstrsSize() {
-        return this.inputStreamList.size();
+    boolean hasInputStream() {
+        return !this.inputStreamList.isEmpty();
     }
 
     public Object removeInstr(final int pos) {
@@ -91,7 +91,7 @@ class FileContentThreadData {
         outputStream = null;
     }
 
-    int getRastrsSize() {
-        return randomAccessContentList.size();
+    boolean hasRandomAccessContent() {
+        return !randomAccessContentList.isEmpty();
     }
 }

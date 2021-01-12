@@ -442,7 +442,7 @@ public final class DefaultFileContent implements FileContent {
             final FileContentThreadData threadData = getFileContentThreadData();
 
             // Close the input stream
-            while (threadData.getInstrsSize() > 0) {
+            while (threadData.hasInputStream()) {
                 final InputStream inputStream = threadData.removeInputStream(0);
                 try {
                     if (inputStream instanceof FileContentInputStream) {
@@ -459,7 +459,7 @@ public final class DefaultFileContent implements FileContent {
             }
 
             // Close the randomAccess stream
-            while (threadData.getRastrsSize() > 0) {
+            while (threadData.hasRandomAccessContent()) {
                 final FileRandomAccessContent randomAccessContent = (FileRandomAccessContent) threadData
                         .removeRastr(0);
                 try {
