@@ -187,18 +187,14 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
      */
     @Override
     protected FileType doGetType() throws Exception {
-        try {
-            doAttach();
-            if (null == stat) {
-                return FileType.IMAGINARY;
-            }
-            if (stat.isDirectory()) {
-                return FileType.FOLDER;
-            }
-            return FileType.FILE;
-        } catch (final FileNotFoundException fnfe) {
+        doAttach();
+        if (null == stat) {
             return FileType.IMAGINARY;
         }
+        if (stat.isDirectory()) {
+            return FileType.FOLDER;
+        }
+        return FileType.FILE;
     }
 
     /**
