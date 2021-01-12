@@ -71,7 +71,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
      * Determines the type of this file, returns null if the file does not exist.
      */
     @Override
-    protected FileType doGetType() throws Exception {
+    protected synchronized FileType doGetType() throws Exception {
         if (attrs == null) {
             statSelf();
         }
@@ -102,7 +102,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
      *
      * @throws IOException
      */
-    private void statSelf() throws IOException {
+    private synchronized void statSelf() throws IOException {
         ChannelSftp channel = getAbstractFileSystem().getChannel();
         try {
             setStat(channel.stat(relPath));
@@ -136,7 +136,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     /**
      * Sets attrs from listChildrenResolved
      */
-    private void setStat(final SftpATTRS attrs) {
+    private synchronized void setStat(final SftpATTRS attrs) {
         this.attrs = attrs;
     }
 
