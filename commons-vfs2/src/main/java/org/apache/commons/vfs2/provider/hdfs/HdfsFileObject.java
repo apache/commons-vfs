@@ -82,16 +82,43 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
     }
 
     /**
-     * Obtains the #FileStatus instance or null if the file does not exist.
+     * Obtains the (cached) #FileStatus instance or null if the file
+     * does not exist.
      *
      * Throws on error.
      */
-    private FileStatus getStatus() throws Exception {
+    private synchronized FileStatus getStatus() throws Exception {
+        if (this.stat != null)
+            return this.stat;
+
         try {
             return this.stat = this.hdfs.getFileStatus(this.path);
         } catch (final FileNotFoundException e) {
-            return this.stat = null;
+            return null;
         }
+    }
+
+    /**
+     * Discard the cached value set by getStatus().
+     */
+    private void flushStatus() {
+        this.stat = null;
+    }
+
+    /**
+     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doDetach()
+     */
+    @Override
+    protected void doDetach() throws Exception {
+        flushStatus();
+    }
+
+    /**
+     * @see org.apache.commons.vfs2.provider.AbstractFileObject#onChange()
+     */
+    @Override
+    protected void onChange() throws Exception {
+        flushStatus();
     }
 
     /**
@@ -286,6 +313,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
     protected boolean doSetLastModifiedTime(final long modtime) throws Exception {
         try {
             hdfs.setTimes(this.path, modtime, System.currentTimeMillis());
+            flushStatus();
         } catch (final IOException ioe) {
             throw new FileSystemException(ioe);
         }
