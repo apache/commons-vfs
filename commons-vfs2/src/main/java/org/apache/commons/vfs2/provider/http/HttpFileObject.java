@@ -206,7 +206,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
         return userAgent;
     }
 
-    HeadMethod getHeadMethod() throws IOException {
+    synchronized HeadMethod getHeadMethod() throws IOException {
         if (method != null) {
             return method;
         }
