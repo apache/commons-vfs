@@ -63,7 +63,7 @@ public final class DefaultFileContent implements FileContent {
     private FileContentInfo fileContentInfo;
     private final FileContentInfoFactory fileContentInfoFactory;
 
-    private final ThreadLocal<FileContentThreadData> threadLocal = new ThreadLocal<>();
+    private final ThreadLocal<FileContentThreadData> threadLocal = ThreadLocal.withInitial(FileContentThreadData::new);
     private boolean resetAttributes;
 
     /**
@@ -76,13 +76,8 @@ public final class DefaultFileContent implements FileContent {
         this.fileContentInfoFactory = fileContentInfoFactory;
     }
 
-    private FileContentThreadData getOrCreateThreadData() {
-        FileContentThreadData data = this.threadLocal.get();
-        if (data == null) {
-            data = new FileContentThreadData();
-            this.threadLocal.set(data);
-        }
-        return data;
+    private FileContentThreadData getFileContentThreadData() {
+        return this.threadLocal.get();
     }
 
     void streamOpened() {
@@ -379,7 +374,7 @@ public final class DefaultFileContent implements FileContent {
 
         final FileRandomAccessContent rac = new FileRandomAccessContent(fileObject, rastr);
 
-        getOrCreateThreadData().addRastr(rac);
+        getFileContentThreadData().addRastr(rac);
         streamOpened();
 
         return rac;
@@ -444,11 +439,11 @@ public final class DefaultFileContent implements FileContent {
     public void close() throws FileSystemException {
         FileSystemException caught = null;
         try {
-            final FileContentThreadData fileContentThreadData = getOrCreateThreadData();
+            final FileContentThreadData threadData = getFileContentThreadData();
 
             // Close the input stream
-            while (fileContentThreadData.getInstrsSize() > 0) {
-                final InputStream inputStream = fileContentThreadData.removeInputStream(0);
+            while (threadData.getInstrsSize() > 0) {
+                final InputStream inputStream = threadData.removeInputStream(0);
                 try {
                     if (inputStream instanceof FileContentInputStream) {
                         ((FileContentInputStream) inputStream).close();
@@ -464,8 +459,8 @@ public final class DefaultFileContent implements FileContent {
             }
 
             // Close the randomAccess stream
-            while (fileContentThreadData.getRastrsSize() > 0) {
-                final FileRandomAccessContent randomAccessContent = (FileRandomAccessContent) fileContentThreadData
+            while (threadData.getRastrsSize() > 0) {
+                final FileRandomAccessContent randomAccessContent = (FileRandomAccessContent) threadData
                         .removeRastr(0);
                 try {
                     randomAccessContent.close();
@@ -475,9 +470,9 @@ public final class DefaultFileContent implements FileContent {
             }
 
             // Close the output stream
-            final FileContentOutputStream outputStream = fileContentThreadData.getOutstr();
+            final FileContentOutputStream outputStream = threadData.getOutstr();
             if (outputStream != null) {
-                fileContentThreadData.setOutstr(null);
+                threadData.setOutstr(null);
                 try {
                     outputStream.close();
                 } catch (final FileSystemException ex) {
@@ -522,7 +517,7 @@ public final class DefaultFileContent implements FileContent {
                     : new FileContentInputStream(fileObject, inputStream, bufferSize);
             // @formatter:on
         }
-        getOrCreateThreadData().addInstr(wrappedInputStream);
+        getFileContentThreadData().addInstr(wrappedInputStream);
         streamOpened();
 
         return wrappedInputStream;
@@ -532,9 +527,9 @@ public final class DefaultFileContent implements FileContent {
         /*
          * if (getThreadData().getState() != STATE_NONE)
          */
-        final FileContentThreadData streams = getOrCreateThreadData();
+        final FileContentThreadData threadData = getFileContentThreadData();
 
-        if (streams.getOutstr() != null) {
+        if (threadData.getOutstr() != null) {
             throw new FileSystemException("vfs.provider/write-in-use.error", fileObject);
         }
 
@@ -545,7 +540,7 @@ public final class DefaultFileContent implements FileContent {
         final FileContentOutputStream wrapped = bufferSize == 0 ?
             new FileContentOutputStream(fileObject, outstr) :
             new FileContentOutputStream(fileObject, outstr, bufferSize);
-        streams.setOutstr(wrapped);
+        threadData.setOutstr(wrapped);
         streamOpened();
 
         return wrapped;
