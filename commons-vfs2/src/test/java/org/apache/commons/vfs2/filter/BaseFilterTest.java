@@ -289,13 +289,13 @@ public abstract class BaseFilterTest {
         if (fileName == null) {
             throw new IllegalArgumentException("file name cannot be null");
         }
-        if (fileName.trim().length() == 0) {
+        if (fileName.trim().isEmpty()) {
             throw new IllegalArgumentException("file name cannot be empty");
         }
         if (separator == null) {
             throw new IllegalArgumentException("separator cannot be null");
         }
-        if (separator.trim().length() == 0) {
+        if (separator.trim().isEmpty()) {
             throw new IllegalArgumentException("separator cannot be empty");
         }
 
@@ -303,7 +303,7 @@ public abstract class BaseFilterTest {
             return fileName;
         }
         final String trimmedPath = path.trim();
-        if (trimmedPath.length() == 0) {
+        if (trimmedPath.isEmpty()) {
             return fileName;
         }
         final String trimmedFilename = fileName.trim();
