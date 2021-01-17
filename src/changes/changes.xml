@@ -99,7 +99,7 @@ The <action> type attribute can be add,update,fix,remove.
         Update commons.japicmp.version 0.14.3 -> 0.15.1.
       </action>
       <action dev="ggregory" due-to="Arturo Bernal" type="update">
-        Minor Improvements #152.
+        Minor Improvements, #152, #156.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Update commons.spotbugs.impl.version 4.1.3 -> 4.2.0.
