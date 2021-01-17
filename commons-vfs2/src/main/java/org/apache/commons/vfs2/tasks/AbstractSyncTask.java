@@ -187,7 +187,7 @@ public abstract class AbstractSyncTask extends VfsTask {
             }
         }
 
-        if (srcFiles.size() == 0) {
+        if (srcFiles.isEmpty()) {
             final String message = Messages.getString("vfs.tasks/sync.no-source-files.warn");
             logOrDie(message, Project.MSG_WARN);
             return;

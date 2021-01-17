@@ -1137,7 +1137,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     public FileOperationProvider[] getOperationProviders(final String scheme) throws FileSystemException {
 
         final List<?> providers = operationProviders.get(scheme);
-        if (providers == null || providers.size() == 0) {
+        if (providers == null || providers.isEmpty()) {
             return null;
         }
         return providers.toArray(new FileOperationProvider[] {});
