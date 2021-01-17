@@ -64,7 +64,7 @@ public class SmbFileName extends GenericFileName {
      */
     @Override
     protected void appendCredentials(final StringBuilder buffer, final boolean addPassword) {
-        if (getDomain() != null && getDomain().length() != 0 && getUserName() != null && getUserName().length() != 0) {
+        if (getDomain() != null && !getDomain().isEmpty() && getUserName() != null && !getUserName().isEmpty()) {
             buffer.append(getDomain());
             buffer.append("\\");
         }
