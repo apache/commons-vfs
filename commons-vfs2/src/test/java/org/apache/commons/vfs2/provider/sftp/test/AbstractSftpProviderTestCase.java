@@ -339,10 +339,10 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
         @Override
         public Command createCommand(final String command) {
             return new Command() {
-                public ExitCallback callback = null;
-                public OutputStream out = null;
-                public OutputStream err = null;
-                public InputStream in = null;
+                public ExitCallback callback;
+                public OutputStream out;
+                public OutputStream err;
+                public InputStream in;
 
                 @Override
                 public void setInputStream(final InputStream in) {
@@ -451,9 +451,9 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
     }
 
     private static class SftpAttrs {
-        int flags = 0;
+        int flags;
         private int uid;
-        long size = 0;
+        long size;
         private int gid;
         private int atime;
         private int permissions;

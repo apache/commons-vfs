@@ -35,7 +35,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
     /**
      * File Pointer
      */
-    protected int filePointer = 0;
+    protected int filePointer;
 
     /**
      * Buffer

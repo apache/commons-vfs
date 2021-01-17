@@ -52,7 +52,7 @@ public abstract class AbstractFileName implements FileName {
     private String extension;
     private String decodedAbsPath;
 
-    private String key = null;
+    private String key;
 
     public AbstractFileName(final String scheme, final String absPath, final FileType type) {
         this.rootUri = null;

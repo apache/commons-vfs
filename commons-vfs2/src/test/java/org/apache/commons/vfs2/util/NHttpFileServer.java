@@ -141,7 +141,7 @@ public class NHttpFileServer {
 
     }
 
-    public static boolean DEBUG = false;
+    public static boolean DEBUG;
 
     private static void debug(final String message) {
         if (DEBUG) {

@@ -39,7 +39,7 @@ import org.junit.Test;
  * Some tests for the DelegatingFileSystemOptionsBuilder
  */
 public class DelegatingFileSystemOptionsBuilderTest {
-    private StandardFileSystemManager fsm = null;
+    private StandardFileSystemManager fsm;
 
     @Before
     public void setUp() throws Exception {

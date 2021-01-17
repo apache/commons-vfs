@@ -31,11 +31,11 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 class SftpRandomAccessContent extends AbstractRandomAccessStreamContent {
 
     /** file pointer */
-    protected long filePointer = 0;
+    protected long filePointer;
 
     private final SftpFileObject fileObject;
-    private DataInputStream dis = null;
-    private InputStream mis = null;
+    private DataInputStream dis;
+    private InputStream mis;
 
     SftpRandomAccessContent(final SftpFileObject fileObject, final RandomAccessMode mode) {
         super(mode);
