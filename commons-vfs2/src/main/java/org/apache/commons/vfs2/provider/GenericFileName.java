@@ -128,9 +128,9 @@ public class GenericFileName extends AbstractFileName {
      * @param addPassword flag if password should be added or replaced with placeholder (false).
      */
     protected void appendCredentials(final StringBuilder buffer, final boolean addPassword) {
-        if (userName != null && userName.length() != 0) {
+        if (userName != null && !userName.isEmpty()) {
             UriParser.appendEncoded(buffer, userName, USERNAME_RESERVED);
-            if (password != null && password.length() != 0) {
+            if (password != null && !password.isEmpty()) {
                 buffer.append(':');
                 if (addPassword) {
                     UriParser.appendEncoded(buffer, password, PASSWORD_RESERVED);

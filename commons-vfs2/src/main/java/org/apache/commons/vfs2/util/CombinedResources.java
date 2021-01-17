@@ -62,7 +62,7 @@ public class CombinedResources extends ResourceBundle {
             for (int j = 0; j < i; j++) {
                 sb.append('_').append(parts[j]);
             }
-            if (parts[i].length() != 0) {
+            if (!parts[i].isEmpty()) {
                 sb.append('_').append(parts[i]);
                 loadResources(sb.toString());
             }
