@@ -389,7 +389,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                             continue;
                         }
                         final String resourceName = resourceName(response.getHref());
-                        if (resourceName != null && resourceName.length() > 0) {
+                        if (resourceName != null && !resourceName.isEmpty()) {
                             final Webdav4FileObject fo = (Webdav4FileObject) FileObjectUtils.getAbstractFileObject(
                                     getFileSystem().resolveFile(getFileSystem().getFileSystemManager()
                                             .resolveName(getName(), resourceName, NameScope.CHILD)));
