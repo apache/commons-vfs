@@ -66,24 +66,24 @@ public class URIUtils {
          * default system charset is used.
          *
          * @param data the string to be encoded
-         * @param charset the desired character encoding
+         * @param charsetName the desired character encoding
          * @return The resulting byte array.
          */
-        static byte[] getBytes(final String data, final String charset) {
+        static byte[] getBytes(final String data, final String charsetName) {
             if (data == null) {
                 throw new IllegalArgumentException("data may not be null");
             }
 
-            if (charset == null || charset.length() == 0) {
+            if (charsetName == null || charsetName.isEmpty()) {
                 throw new IllegalArgumentException("charset may not be null or empty");
             }
 
             try {
-                return data.getBytes(charset);
+                return data.getBytes(charsetName);
             } catch (final UnsupportedEncodingException e) {
 
                 if (LOG.isWarnEnabled()) {
-                    LOG.warn("Unsupported encoding: " + charset + ". System encoding used.");
+                    LOG.warn("Unsupported encoding: " + charsetName + ". System encoding used.");
                 }
 
                 return data.getBytes(Charset.defaultCharset());
