@@ -336,9 +336,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
     protected FileType doGetType() throws Exception {
         try {
             return isDirectory((GenericURLFileName) getName()) ? FileType.FOLDER : FileType.FILE;
-        } catch (final FileNotFolderException fnfe) {
-            return FileType.IMAGINARY;
-        } catch (final FileNotFoundException fnfe) {
+        } catch (final FileNotFolderException | FileNotFoundException fnfe) {
             return FileType.IMAGINARY;
         }
 
@@ -404,9 +402,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
             throw new FileNotFolderException(getName());
         } catch (final FileNotFolderException fnfe) {
             throw fnfe;
-        } catch (final DavException e) {
-            throw new FileSystemException(e.getMessage(), e);
-        } catch (final IOException e) {
+        } catch (final DavException | IOException e) {
             throw new FileSystemException(e.getMessage(), e);
         } finally {
             if (request != null) {

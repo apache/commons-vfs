@@ -454,11 +454,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     @Override
     public void addListener(final FileObject file, final FileListener listener) {
         synchronized (listenerMap) {
-            ArrayList<FileListener> listeners = listenerMap.get(file.getName());
-            if (listeners == null) {
-                listeners = new ArrayList<>();
-                listenerMap.put(file.getName(), listeners);
-            }
+            final ArrayList<FileListener> listeners = listenerMap.computeIfAbsent(file.getName(), k -> new ArrayList<>());
             listeners.add(listener);
         }
     }

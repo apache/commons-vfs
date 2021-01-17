@@ -33,12 +33,12 @@ import org.apache.http.client.methods.HttpGet;
  */
 class Http4RandomAccessContent<FS extends Http4FileSystem> extends AbstractRandomAccessStreamContent {
 
-    protected long filePointer = 0;
+    protected long filePointer;
 
     private final Http4FileObject<FS> fileObject;
 
-    private DataInputStream dis = null;
-    private MonitorInputStream mis = null;
+    private DataInputStream dis;
+    private MonitorInputStream mis;
 
     Http4RandomAccessContent(final Http4FileObject<FS> fileObject, final RandomAccessMode mode) {
         super(mode);

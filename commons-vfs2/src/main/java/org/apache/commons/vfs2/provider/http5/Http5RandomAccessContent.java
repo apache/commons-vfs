@@ -33,12 +33,12 @@ import org.apache.hc.core5.http.ClassicHttpResponse;
  */
 class Http5RandomAccessContent<FS extends Http5FileSystem> extends AbstractRandomAccessStreamContent {
 
-    protected long filePointer = 0;
+    protected long filePointer;
 
     private final Http5FileObject<FS> fileObject;
 
-    private DataInputStream dis = null;
-    private MonitorInputStream mis = null;
+    private DataInputStream dis;
+    private MonitorInputStream mis;
 
     Http5RandomAccessContent(final Http5FileObject<FS> fileObject, final RandomAccessMode mode) {
         super(mode);

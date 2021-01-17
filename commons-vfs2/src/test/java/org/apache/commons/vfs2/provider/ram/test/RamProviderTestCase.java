@@ -33,7 +33,7 @@ import junit.framework.Test;
  * Tests for the RAM file system.
  */
 public class RamProviderTestCase extends AbstractProviderTestConfig {
-    private boolean inited = false;
+    private boolean inited;
 
     /** logger */
     private static final Log log = LogFactory.getLog(RamProviderTestCase.class);

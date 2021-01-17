@@ -365,11 +365,7 @@ public class DelegatingFileSystemOptionsBuilder {
 
             final String key = methodName.substring(3).toLowerCase();
 
-            List<Method> configSetter = schemeMethods.get(key);
-            if (configSetter == null) {
-                configSetter = new ArrayList<>(2);
-                schemeMethods.put(key, configSetter);
-            }
+            final List<Method> configSetter = schemeMethods.computeIfAbsent(key, k -> new ArrayList<>(2));
             configSetter.add(method);
         }
 

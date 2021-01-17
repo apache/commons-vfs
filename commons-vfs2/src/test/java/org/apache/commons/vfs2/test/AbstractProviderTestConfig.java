@@ -25,7 +25,7 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
  */
 public abstract class AbstractProviderTestConfig extends AbstractProviderTestCase implements ProviderTestConfig {
 
-    private FilesCache cache = null;
+    private FilesCache cache;
 
     /**
      * Returns a DefaultFileSystemManager instance (or subclass instance).
