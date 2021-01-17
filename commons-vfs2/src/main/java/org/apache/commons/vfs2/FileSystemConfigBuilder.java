@@ -201,7 +201,7 @@ public abstract class FileSystemConfigBuilder {
         Character value = (Character) getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
-            if (str == null || str.length() <= 0) {
+            if (str == null || str.isEmpty()) {
                 return defaultValue;
             }
             value = Character.valueOf(str.charAt(0));
@@ -263,7 +263,7 @@ public abstract class FileSystemConfigBuilder {
         Double value = (Double) getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
-            if (str == null || str.length() <= 0) {
+            if (str == null || str.isEmpty()) {
                 return defaultValue;
             }
             value = Double.valueOf(str);
@@ -363,7 +363,7 @@ public abstract class FileSystemConfigBuilder {
         Float value = (Float) getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
-            if (str == null || str.length() <= 0) {
+            if (str == null || str.isEmpty()) {
                 return defaultValue;
             }
             value = Float.valueOf(str);
