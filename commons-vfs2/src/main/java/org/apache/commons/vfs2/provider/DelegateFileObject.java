@@ -123,10 +123,10 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
     protected FileType doGetType() throws FileSystemException {
         if (file != null) {
             return file.getType();
-        } else if (children.size() > 0) {
-            return FileType.FOLDER;
-        } else {
+        } else if (children.isEmpty()) {
             return FileType.IMAGINARY;
+        } else {
+            return FileType.FOLDER;
         }
     }
 

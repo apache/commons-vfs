@@ -594,7 +594,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
          */
         @Override
         public void fileCreated(final FileChangeEvent event) {
-            assertTrue("Unexpected create event", events.size() > 0);
+            assertFalse("Unexpected create event", events.isEmpty());
             assertSame("Expecting a create event", CREATE, events.remove(0));
             assertEquals(Objects.toString(file), file, event.getFileObject());
             try {
@@ -609,7 +609,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
          */
         @Override
         public void fileDeleted(final FileChangeEvent event) {
-            assertTrue("Unexpected delete event", events.size() > 0);
+            assertFalse("Unexpected delete event", events.isEmpty());
             assertSame("Expecting a delete event", DELETE, events.remove(0));
             assertEquals(Objects.toString(file), file, event.getFileObject());
             try {
@@ -621,7 +621,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
 
         @Override
         public void fileChanged(final FileChangeEvent event) throws Exception {
-            assertTrue("Unexpected changed event", events.size() > 0);
+            assertFalse("Unexpected changed event", events.isEmpty());
             assertSame("Expecting a changed event", CHANGED, events.remove(0));
             assertEquals(Objects.toString(file), file, event.getFileObject());
             try {

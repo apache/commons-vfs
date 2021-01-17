@@ -77,7 +77,7 @@ public class ProviderReadTests extends AbstractProviderTestCase {
         final List<FileObject> queueActual = new ArrayList<>();
         queueActual.add(folder);
 
-        while (queueActual.size() > 0) {
+        while (!queueActual.isEmpty()) {
             final FileObject file = queueActual.remove(0);
             final FileInfo info = queueExpected.remove(0);
 

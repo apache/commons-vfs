@@ -239,7 +239,7 @@ public final class Os {
         if (OS_FAMILY != null) {
             final List<OsFamily> queue = new ArrayList<>();
             queue.add(OS_FAMILY);
-            while (queue.size() > 0) {
+            while (!queue.isEmpty()) {
                 final OsFamily family = queue.remove(0);
                 allFamilies.add(family);
                 final OsFamily[] families = family.getFamilies();

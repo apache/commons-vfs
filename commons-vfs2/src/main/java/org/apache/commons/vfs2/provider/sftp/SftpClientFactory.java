@@ -152,7 +152,7 @@ public final class SftpClientFactory {
             }
 
             // set properties for the session
-            if (config.size() > 0) {
+            if (!config.isEmpty()) {
                 session.setConfig(config);
             }
             session.setDaemonThread(true);

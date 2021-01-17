@@ -83,7 +83,7 @@ class FileContentThreadData {
     }
 
     public boolean hasStreams() {
-        return inputStreamList.size() > 0 || outputStream != null || randomAccessContentList.size() > 0;
+        return !inputStreamList.isEmpty() || outputStream != null || !randomAccessContentList.isEmpty();
     }
 
     public void closeOutstr() throws FileSystemException {

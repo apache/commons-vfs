@@ -237,7 +237,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
 
         // loop around a backtrack stack, to handle complex * matching
         do {
-            if (backtrack.size() > 0) {
+            if (!backtrack.isEmpty()) {
                 final int[] array = backtrack.pop();
                 wcsIdx = array[0];
                 textIdx = array[1];
@@ -297,7 +297,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
                 return true;
             }
 
-        } while (backtrack.size() > 0);
+        } while (!backtrack.isEmpty());
 
         return false;
     }
