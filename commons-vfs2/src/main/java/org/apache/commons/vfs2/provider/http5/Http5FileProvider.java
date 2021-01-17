@@ -348,7 +348,7 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
         final String proxyHost = builder.getProxyHost(fileSystemOptions);
         final int proxyPort = builder.getProxyPort(fileSystemOptions);
 
-        if (proxyHost != null && proxyHost.length() > 0 && proxyPort > 0) {
+        if (proxyHost != null && !proxyHost.isEmpty() && proxyPort > 0) {
             return new HttpHost(proxyScheme, proxyHost, proxyPort);
         }
 

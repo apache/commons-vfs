@@ -58,7 +58,7 @@ public abstract class AbstractFileName implements FileName {
         this.rootUri = null;
         this.scheme = scheme;
         this.type = type;
-        if (absPath != null && absPath.length() > 0) {
+        if (absPath != null && !absPath.isEmpty()) {
             if (absPath.length() > 1 && absPath.endsWith("/")) {
                 this.absPath = absPath.substring(0, absPath.length() - 1);
             } else {
@@ -271,7 +271,7 @@ public abstract class AbstractFileName implements FileName {
     }
 
     private String handleURISpecialCharacters(String uri) {
-        if (uri != null && uri.length() > 0) {
+        if (uri != null && !uri.isEmpty()) {
             try {
                 // VFS-325: Handle URI special characters in file name
                 // Decode the base URI and re-encode with URI special characters

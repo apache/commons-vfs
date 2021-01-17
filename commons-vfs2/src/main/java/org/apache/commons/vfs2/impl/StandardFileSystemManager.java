@@ -268,7 +268,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
     private void addExtensionMap(final Element map) {
         final String extension = map.getAttribute("extension");
         final String scheme = map.getAttribute("scheme");
-        if (scheme != null && scheme.length() > 0) {
+        if (scheme != null && !scheme.isEmpty()) {
             addExtensionMap(extension, scheme);
         }
     }
@@ -366,7 +366,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
         for (int i = 0; i < count; i++) {
             final Element dep = (Element) deps.item(i);
             final String className = dep.getAttribute("class-name");
-            if (className != null && className.length() > 0) {
+            if (className != null && !className.isEmpty()) {
                 classes.add(className);
             }
         }
@@ -383,7 +383,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
         for (int i = 0; i < count; i++) {
             final Element dep = (Element) deps.item(i);
             final String scheme = dep.getAttribute("scheme");
-            if (scheme != null && scheme.length() > 0) {
+            if (scheme != null && !scheme.isEmpty()) {
                 schemes.add(scheme);
             }
         }
