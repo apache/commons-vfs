@@ -27,20 +27,12 @@ import org.apache.commons.vfs2.RandomAccessContent;
  */
 class FileContentThreadData {
 
-    // private int state = DefaultFileContent.STATE_CLOSED;
-
     private ArrayList<InputStream> inputStreamList;
     private ArrayList<RandomAccessContent> randomAccessContentList;
     private DefaultFileContent.FileContentOutputStream outputStream;
 
     FileContentThreadData() {
     }
-
-    /*
-     * int getState() { return state; }
-     *
-     * void setState(int state) { this.state = state; }
-     */
 
     void add(final InputStream inputStream) {
         if (this.inputStreamList == null) {
@@ -56,12 +48,18 @@ class FileContentThreadData {
         this.randomAccessContentList.add(randomAccessContent);
     }
 
-    public void closeOutstr() throws FileSystemException {
+    /**
+     * Closes the output stream.
+     *
+     * @throws FileSystemException if an IO error occurs.
+     * @@since 2.8.0
+     */
+    void closeOutputStream() throws FileSystemException {
         outputStream.close();
         outputStream = null;
     }
 
-    DefaultFileContent.FileContentOutputStream getFileContentOutputStream() {
+    DefaultFileContent.FileContentOutputStream getOutputStream() {
         return this.outputStream;
     }
 
@@ -73,7 +71,7 @@ class FileContentThreadData {
         return randomAccessContentList != null && !randomAccessContentList.isEmpty();
     }
 
-    public boolean hasStreams() {
+    boolean hasStreams() {
         return hasInputStream() || outputStream != null || hasRandomAccessContent();
     }
 
@@ -81,23 +79,19 @@ class FileContentThreadData {
         return this.inputStreamList.remove(pos);
     }
 
-    public void removeInstr(final InputStream inputStream) {
+    void remove(final InputStream inputStream) {
         this.inputStreamList.remove(inputStream);
     }
 
-    public Object removeInstr(final int pos) {
-        return this.inputStreamList.remove(pos);
-    }
-
-    public Object removeRastr(final int pos) {
+    Object removeRandomAccessContent(final int pos) {
         return this.randomAccessContentList.remove(pos);
     }
 
-    public void removeRastr(final RandomAccessContent randomAccessContent) {
+    void remove(final RandomAccessContent randomAccessContent) {
         this.randomAccessContentList.remove(randomAccessContent);
     }
 
-    void setFileContentOutputStream(final DefaultFileContent.FileContentOutputStream outputStream) {
+    void setOutputStream(final DefaultFileContent.FileContentOutputStream outputStream) {
         this.outputStream = outputStream;
     }
 }

@@ -461,7 +461,7 @@ public final class DefaultFileContent implements FileContent {
             // Close the randomAccess stream
             while (threadData.hasRandomAccessContent()) {
                 final FileRandomAccessContent randomAccessContent = (FileRandomAccessContent) threadData
-                        .removeRastr(0);
+                        .removeRandomAccessContent(0);
                 try {
                     randomAccessContent.close();
                 } catch (final FileSystemException ex) {
@@ -470,9 +470,9 @@ public final class DefaultFileContent implements FileContent {
             }
 
             // Close the output stream
-            final FileContentOutputStream outputStream = threadData.getFileContentOutputStream();
+            final FileContentOutputStream outputStream = threadData.getOutputStream();
             if (outputStream != null) {
-                threadData.setFileContentOutputStream(null);
+                threadData.setOutputStream(null);
                 try {
                     outputStream.close();
                 } catch (final FileSystemException ex) {
@@ -529,7 +529,7 @@ public final class DefaultFileContent implements FileContent {
          */
         final FileContentThreadData threadData = getFileContentThreadData();
 
-        if (threadData.getFileContentOutputStream() != null) {
+        if (threadData.getOutputStream() != null) {
             throw new FileSystemException("vfs.provider/write-in-use.error", fileObject);
         }
 
@@ -540,7 +540,7 @@ public final class DefaultFileContent implements FileContent {
         final FileContentOutputStream wrapped = bufferSize == 0 ?
             new FileContentOutputStream(fileObject, outstr) :
             new FileContentOutputStream(fileObject, outstr, bufferSize);
-        threadData.setFileContentOutputStream(wrapped);
+        threadData.setOutputStream(wrapped);
         streamOpened();
 
         return wrapped;
@@ -552,7 +552,7 @@ public final class DefaultFileContent implements FileContent {
     private void endInput(final InputStream instr) {
         final FileContentThreadData fileContentThreadData = threadLocal.get();
         if (fileContentThreadData != null) {
-            fileContentThreadData.removeInstr(instr);
+            fileContentThreadData.remove(instr);
         }
         if (fileContentThreadData == null || !fileContentThreadData.hasStreams()) {
             // remove even when no value is set to remove key
@@ -567,7 +567,7 @@ public final class DefaultFileContent implements FileContent {
     private void endRandomAccess(final RandomAccessContent rac) {
         final FileContentThreadData fileContentThreadData = threadLocal.get();
         if (fileContentThreadData != null) {
-            fileContentThreadData.removeRastr(rac);
+            fileContentThreadData.remove(rac);
         }
         if (fileContentThreadData == null || !fileContentThreadData.hasStreams()) {
             // remove even when no value is set to remove key
@@ -582,7 +582,7 @@ public final class DefaultFileContent implements FileContent {
     private void endOutput() throws Exception {
         final FileContentThreadData fileContentThreadData = threadLocal.get();
         if (fileContentThreadData != null) {
-            fileContentThreadData.setFileContentOutputStream(null);
+            fileContentThreadData.setOutputStream(null);
         }
         if (fileContentThreadData == null || !fileContentThreadData.hasStreams()) {
             // remove even when no value is set to remove key
