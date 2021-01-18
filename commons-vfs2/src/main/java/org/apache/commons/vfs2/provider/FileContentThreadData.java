@@ -49,14 +49,6 @@ class FileContentThreadData {
         this.inputStreamList.add(inputStream);
     }
 
-    void setOutstr(final DefaultFileContent.FileContentOutputStream outputStream) {
-        this.outputStream = outputStream;
-    }
-
-    DefaultFileContent.FileContentOutputStream getOutstr() {
-        return this.outputStream;
-    }
-
     void addRastr(final RandomAccessContent randomAccessContent) {
         if (this.randomAccessContentList == null) {
             this.randomAccessContentList = new ArrayList<>();
@@ -64,12 +56,25 @@ class FileContentThreadData {
         this.randomAccessContentList.add(randomAccessContent);
     }
 
+    public void closeOutstr() throws FileSystemException {
+        outputStream.close();
+        outputStream = null;
+    }
+
+    DefaultFileContent.FileContentOutputStream getOutstr() {
+        return this.outputStream;
+    }
+
     boolean hasInputStream() {
         return this.inputStreamList != null && !this.inputStreamList.isEmpty();
     }
 
-    public Object removeInstr(final int pos) {
-        return this.inputStreamList.remove(pos);
+    boolean hasRandomAccessContent() {
+        return randomAccessContentList != null && !randomAccessContentList.isEmpty();
+    }
+
+    public boolean hasStreams() {
+        return hasInputStream() || outputStream != null || hasRandomAccessContent();
     }
 
     InputStream removeInputStream(final int pos) {
@@ -80,6 +85,10 @@ class FileContentThreadData {
         this.inputStreamList.remove(inputStream);
     }
 
+    public Object removeInstr(final int pos) {
+        return this.inputStreamList.remove(pos);
+    }
+
     public Object removeRastr(final int pos) {
         return this.randomAccessContentList.remove(pos);
     }
@@ -88,16 +97,7 @@ class FileContentThreadData {
         this.randomAccessContentList.remove(randomAccessContent);
     }
 
-    public boolean hasStreams() {
-        return hasInputStream() || outputStream != null || hasRandomAccessContent();
-    }
-
-    public void closeOutstr() throws FileSystemException {
-        outputStream.close();
-        outputStream = null;
-    }
-
-    boolean hasRandomAccessContent() {
-        return randomAccessContentList != null && !randomAccessContentList.isEmpty();
+    void setOutstr(final DefaultFileContent.FileContentOutputStream outputStream) {
+        this.outputStream = outputStream;
     }
 }
