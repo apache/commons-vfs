@@ -42,14 +42,14 @@ class FileContentThreadData {
      * void setState(int state) { this.state = state; }
      */
 
-    void addInstr(final InputStream inputStream) {
+    void add(final InputStream inputStream) {
         if (this.inputStreamList == null) {
             this.inputStreamList = new ArrayList<>();
         }
         this.inputStreamList.add(inputStream);
     }
 
-    void addRastr(final RandomAccessContent randomAccessContent) {
+    void add(final RandomAccessContent randomAccessContent) {
         if (this.randomAccessContentList == null) {
             this.randomAccessContentList = new ArrayList<>();
         }
@@ -61,7 +61,7 @@ class FileContentThreadData {
         outputStream = null;
     }
 
-    DefaultFileContent.FileContentOutputStream getOutstr() {
+    DefaultFileContent.FileContentOutputStream getFileContentOutputStream() {
         return this.outputStream;
     }
 
@@ -97,7 +97,7 @@ class FileContentThreadData {
         this.randomAccessContentList.remove(randomAccessContent);
     }
 
-    void setOutstr(final DefaultFileContent.FileContentOutputStream outputStream) {
+    void setFileContentOutputStream(final DefaultFileContent.FileContentOutputStream outputStream) {
         this.outputStream = outputStream;
     }
 }
