@@ -35,7 +35,7 @@ public final class FileObjectUtils {
 
     /**
      * An empty immutable {@code FileObject} array.
-     * 
+     *
      * @since 2.9.0
      */
     public static final FileObject[] EMPTY_ARRAY = new FileObject[0];

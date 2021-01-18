@@ -19,7 +19,7 @@ package org.apache.commons.vfs2.util;
 
 /**
  * Array utilities.
- * 
+ *
  * See Apache Commons Lang.
  * @since 2.9.0
  */

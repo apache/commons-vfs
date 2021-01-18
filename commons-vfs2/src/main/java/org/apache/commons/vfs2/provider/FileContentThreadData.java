@@ -43,8 +43,9 @@ class FileContentThreadData {
      */
 
     void addInstr(final InputStream inputStream) {
-        if (this.inputStreamList == null)
+        if (this.inputStreamList == null) {
             this.inputStreamList = new ArrayList<>();
+        }
         this.inputStreamList.add(inputStream);
     }
 
@@ -57,8 +58,9 @@ class FileContentThreadData {
     }
 
     void addRastr(final RandomAccessContent randomAccessContent) {
-        if (this.randomAccessContentList == null)
+        if (this.randomAccessContentList == null) {
             this.randomAccessContentList = new ArrayList<>();
+        }
         this.randomAccessContentList.add(randomAccessContent);
     }
 
