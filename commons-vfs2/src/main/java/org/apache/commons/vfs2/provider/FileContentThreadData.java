@@ -29,8 +29,8 @@ class FileContentThreadData {
 
     // private int state = DefaultFileContent.STATE_CLOSED;
 
-    private final ArrayList<InputStream> inputStreamList = new ArrayList<>();
-    private final ArrayList<RandomAccessContent> randomAccessContentList = new ArrayList<>();
+    private ArrayList<InputStream> inputStreamList;
+    private ArrayList<RandomAccessContent> randomAccessContentList;
     private DefaultFileContent.FileContentOutputStream outputStream;
 
     FileContentThreadData() {
@@ -43,6 +43,8 @@ class FileContentThreadData {
      */
 
     void addInstr(final InputStream inputStream) {
+        if (this.inputStreamList == null)
+            this.inputStreamList = new ArrayList<>();
         this.inputStreamList.add(inputStream);
     }
 
@@ -55,11 +57,13 @@ class FileContentThreadData {
     }
 
     void addRastr(final RandomAccessContent randomAccessContent) {
+        if (this.randomAccessContentList == null)
+            this.randomAccessContentList = new ArrayList<>();
         this.randomAccessContentList.add(randomAccessContent);
     }
 
-    int getInstrsSize() {
-        return this.inputStreamList.size();
+    boolean hasInputStream() {
+        return this.inputStreamList != null && !this.inputStreamList.isEmpty();
     }
 
     public Object removeInstr(final int pos) {
@@ -83,7 +87,7 @@ class FileContentThreadData {
     }
 
     public boolean hasStreams() {
-        return !inputStreamList.isEmpty() || outputStream != null || !randomAccessContentList.isEmpty();
+        return hasInputStream() || outputStream != null || hasRandomAccessContent();
     }
 
     public void closeOutstr() throws FileSystemException {
@@ -91,7 +95,7 @@ class FileContentThreadData {
         outputStream = null;
     }
 
-    int getRastrsSize() {
-        return randomAccessContentList.size();
+    boolean hasRandomAccessContent() {
+        return randomAccessContentList != null && !randomAccessContentList.isEmpty();
     }
 }
