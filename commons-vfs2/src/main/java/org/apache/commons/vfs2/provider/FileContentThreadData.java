@@ -52,7 +52,6 @@ class FileContentThreadData {
      * Closes the output stream.
      *
      * @throws FileSystemException if an IO error occurs.
-     * @@since 2.8.0
      */
     void closeOutputStream() throws FileSystemException {
         outputStream.close();
