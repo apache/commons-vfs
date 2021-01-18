@@ -90,7 +90,7 @@ The <action> type attribute can be add,update,fix,remove.
         Update tests from Log4j 2.13.3 to 2.14.0.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
-        Update com.puppycrawl.tools:checkstyle 8.36.2 -> 8.38.
+        Update com.puppycrawl.tools:checkstyle 8.36.2 -> 8.39.
       </action>      
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Update org.apache.httpcomponents:httpcore-nio 4.4.13 -> 4.4.14.
