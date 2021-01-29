@@ -193,7 +193,17 @@ public final class FtpClientFactory {
                     if (socketTimeout != null) {
                         client.setSoTimeout(socketTimeout.intValue());
                     }
-
+                    
+                    final Integer controlKeepAliveTimeout = builder.getControlKeepAliveTimeout(fileSystemOptions);
+                    if(controlKeepAliveTimeout != null) {
+                        client.setControlKeepAliveTimeout(controlKeepAliveTimeout.intValue());    
+                    }
+                    
+                    final Integer controlKeepAliveReplyTimeout = builder.getControlKeepAliveReplyTimeout(fileSystemOptions);
+                    if(controlKeepAliveReplyTimeout != null) {
+                        client.setControlKeepAliveReplyTimeout(controlKeepAliveReplyTimeout.intValue());
+                    }
+                    
                     final Boolean userDirIsRoot = builder.getUserDirIsRoot(fileSystemOptions);
                     if (workingDirectory != null && (userDirIsRoot == null || !userDirIsRoot.booleanValue())) {
                         if (!client.changeWorkingDirectory(workingDirectory)) {

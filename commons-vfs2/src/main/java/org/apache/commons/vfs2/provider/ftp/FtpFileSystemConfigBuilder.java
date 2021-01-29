@@ -51,6 +51,8 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String SERVER_TIME_ZONE_ID = _PREFIX + ".SERVER_TIME_ZONE_ID";
     private static final String SHORT_MONTH_NAMES = _PREFIX + ".SHORT_MONTH_NAMES";
     private static final String SO_TIMEOUT = _PREFIX + ".SO_TIMEOUT";
+    private static final String CONTROL_KEEP_ALIVE_TIMEOUT = _PREFIX + ".CONTROL_KEEP_ALIVE_TIMEOUT";
+    private static final String CONTROL_KEEP_ALIVE_REPLY_TIMEOUT = _PREFIX + ".CONTROL_KEEP_ALIVE_REPLY_TIMEOUT";
     private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT";
     private static final String TRANSFER_ABORTED_OK_REPLY_CODES = _PREFIX + ".TRANSFER_ABORTED_OK_REPLY_CODES";
 
@@ -248,6 +250,22 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
         return getInteger(opts, SO_TIMEOUT);
     }
 
+    /**
+     * @param opts The FileSystem options
+     * @return The cntrolKeepAliveTimeout value in seconds.
+     */
+    public Integer getControlKeepAliveTimeout(FileSystemOptions opts) {
+        return getInteger(opts, CONTROL_KEEP_ALIVE_TIMEOUT);
+    }
+
+    /**
+     * @param opts The FileSystem options
+     * @return The controlKeepAliveReplyTimeout value in milliseconds.
+     */
+    public Integer getControlKeepAliveReplyTimeout(FileSystemOptions opts) {
+        return getInteger(opts, CONTROL_KEEP_ALIVE_REPLY_TIMEOUT);
+    }
+    
     /**
      * Returns {@link Boolean#TRUE} if VFS should treat the user directory as the root directory. Defaults to
      * {@code Boolean.TRUE} if the method {@link #setUserDirIsRoot(FileSystemOptions, boolean)} has not been
@@ -460,6 +478,31 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public void setSoTimeout(final FileSystemOptions opts, final Integer soTimeout) {
         setParam(opts, SO_TIMEOUT, soTimeout);
+    }
+    
+    /**
+     * Sets the control keep alive timeout for the FTP client.
+     * <p>
+     * Set the {@code controlKeepAliveTimeout} to ensure the socket be alive after download huge file.
+     * </p>
+     *
+     * @param opts The FileSystem options.
+     * @param controlKeepAliveTimeout The timeout value in seconds.
+     * @since 2.0
+     */
+    public void setControlKeepAliveTimeout(FileSystemOptions opts, final Integer controlKeepAliveTimeout) {
+        setParam(opts, CONTROL_KEEP_ALIVE_TIMEOUT, controlKeepAliveTimeout);
+    }
+
+    /**
+     * Sets the control keep alive reply timeout for the FTP client.
+     *
+     * @param opts The FileSystem options.
+     * @param controlKeepAliveReplyTimeout timeout value in milliseconds.
+     * @since 2.0
+     */
+    public void setControlKeepAliveReplyTimeout(FileSystemOptions opts, final Integer controlKeepAliveReplyTimeout) {
+        setParam(opts, CONTROL_KEEP_ALIVE_REPLY_TIMEOUT, controlKeepAliveReplyTimeout);
     }
 
     /**
