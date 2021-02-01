@@ -78,7 +78,7 @@ The <action> type attribute can be add,update,fix,remove.
         Simplify some String tests in method Os#determineOsFamily #147.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
-        Update org.mockito:mockito-core 3.5.13 -> 3.7.0.
+        Update org.mockito:mockito-core 3.5.13 -> 3.7.7.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Update org.apache.jackrabbit:jackrabbit-* 2.21.3 -> 2.21.5.
