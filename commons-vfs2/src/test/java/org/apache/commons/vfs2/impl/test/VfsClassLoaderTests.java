@@ -50,8 +50,7 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
      * Creates the classloader to use when testing.
      */
     private VFSClassLoader createClassLoader() throws FileSystemException {
-        final FileObject file = getBaseFolder();
-        return new VFSClassLoader(file, getManager());
+        return new VFSClassLoader(getBaseFolder(), getManager());
     }
 
     /**
