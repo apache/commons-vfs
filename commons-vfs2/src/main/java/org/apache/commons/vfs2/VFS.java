@@ -31,6 +31,20 @@ public final class VFS {
     private static Boolean uriStyle;
 
     /**
+     * Closes the default {@link FileSystemManager} instance.
+     * <p>
+     * Warning, if you close the default instance, a new one will be created by {@link #getManager()}.
+     * </p>
+     *
+     * @since 2.8.0
+     */
+    public static synchronized void close() {
+        if (instance != null) {
+            instance.close();
+        }
+    }
+
+    /**
      * Creates a file system manager instance.
      *
      * @param managerClassName The specific manager impelmentation class name.
@@ -90,9 +104,7 @@ public final class VFS {
      * @since 2.5.0
      */
     public static FileSystemManager reset() throws FileSystemException {
-        if (instance != null) {
-            instance.close();
-        }
+        close();
         return instance = createFileSystemManager("org.apache.commons.vfs2.impl.StandardFileSystemManager");
     }
 
