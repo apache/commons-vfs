@@ -62,6 +62,7 @@ import org.apache.commons.vfs2.provider.VfsComponent;
  * The default file system manager implementation.
  */
 public class DefaultFileSystemManager implements FileSystemManager {
+
     /**
      * Mapping from URI scheme to FileProvider.
      */
@@ -597,8 +598,9 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
         // Close the providers.
         for (final FileProvider fileProvider : providers.values()) {
-            final AbstractFileProvider provider = (AbstractFileProvider) fileProvider;
-            provider.freeUnusedResources();
+            if (fileProvider instanceof AbstractFileProvider) {
+                ((AbstractFileProvider) fileProvider).freeUnusedResources();
+            }
         }
         // vfsProvider does not need to free resources
     }

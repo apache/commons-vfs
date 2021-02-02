@@ -63,6 +63,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="Max Kellermann" type="fix">
         FileContentThreadData: lazy ArrayList initialization to save memory #155.
       </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="fix">
+        Fix possible ClassCastException in DefaultFileSystemManager.freeUnusedResources().
+      </action>
       <!-- ADDS -->
       <action dev="ggregory" due-to="Boris Petrov, Gary Gregory" type="update">
         Add ability to remove a provider from DefaultFileSystemManager #149.
