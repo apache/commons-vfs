@@ -32,7 +32,8 @@ import org.apache.commons.vfs2.provider.local.GenericFileNameParser;
  * A partial {@link FileProvider} implementation. Takes care of managing the file systems created by the provider.
  */
 public abstract class AbstractFileProvider extends AbstractVfsContainer implements FileProvider {
-    private static final AbstractFileSystem[] EMPTY_ABSTRACTFILESYSTEMS = new AbstractFileSystem[0];
+
+    private static final AbstractFileSystem[] EMPTY_ABSTRACT_FILE_SYSTEMS = new AbstractFileSystem[0];
 
     /**
      * The cached file systems.
@@ -135,7 +136,7 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
         final AbstractFileSystem[] abstractFileSystems;
         synchronized (fileSystems) {
             // create snapshot under lock
-            abstractFileSystems = fileSystems.values().toArray(EMPTY_ABSTRACTFILESYSTEMS);
+            abstractFileSystems = fileSystems.values().toArray(EMPTY_ABSTRACT_FILE_SYSTEMS);
         }
 
         // process snapshot outside lock
