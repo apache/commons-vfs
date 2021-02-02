@@ -55,7 +55,7 @@ class RamFileData implements Serializable {
     /**
      * Last modified time
      */
-    private long lastModified;
+    private long lastModifiedMillis;
 
     /**
      * Children
@@ -95,14 +95,14 @@ class RamFileData implements Serializable {
      * @return Returns the lastModified.
      */
     long getLastModified() {
-        return lastModified;
+        return lastModifiedMillis;
     }
 
     /**
      * @param lastModified The lastModified to set.
      */
     void setLastModified(final long lastModified) {
-        this.lastModified = lastModified;
+        this.lastModifiedMillis = lastModified;
     }
 
     /**
@@ -130,7 +130,7 @@ class RamFileData implements Serializable {
     }
 
     void updateLastModified() {
-        this.lastModified = System.currentTimeMillis();
+        this.lastModifiedMillis = System.currentTimeMillis();
     }
 
     /**

@@ -95,16 +95,16 @@ public class LastModifiedTests extends AbstractProviderTestCase {
      */
     @Test
     public void testSetLastModifiedFolder() throws FileSystemException {
-        final long yesterday = System.currentTimeMillis() - 24 * 60 * 60 * 1000;
+        final long yesterdayMillis = System.currentTimeMillis() - 24 * 60 * 60 * 1000;
 
         if (getReadFolder().getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FOLDER)) {
             // Try a folder
             final FileObject folder = getReadFolder().resolveFile("dir1");
-            folder.getContent().setLastModifiedTime(yesterday);
+            folder.getContent().setLastModifiedTime(yesterdayMillis);
             final long lastModTimeAccuracy = (long) folder.getFileSystem().getLastModTimeAccuracy();
             // folder.refresh(); TODO: does not work with SSH VFS-563
             final long lastModifiedTime = folder.getContent().getLastModifiedTime();
-            assertDelta("set/getLastModified on Folder", yesterday, lastModifiedTime, lastModTimeAccuracy);
+            assertDelta("set/getLastModified on Folder", yesterdayMillis, lastModifiedTime, lastModTimeAccuracy);
         }
     }
 
@@ -115,16 +115,16 @@ public class LastModifiedTests extends AbstractProviderTestCase {
      */
     @Test
     public void testSetLastModifiedFile() throws FileSystemException {
-        final long yesterday = System.currentTimeMillis() - 24 * 60 * 60 * 1000;
+        final long yesterdayMillis = System.currentTimeMillis() - 24 * 60 * 60 * 1000;
 
         if (getReadFolder().getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE)) {
             // Try a file
             final FileObject file = getReadFolder().resolveFile("file1.txt");
-            file.getContent().setLastModifiedTime(yesterday);
+            file.getContent().setLastModifiedTime(yesterdayMillis);
             final long lastModTimeAccuracy = (long) file.getFileSystem().getLastModTimeAccuracy();
             // folder.refresh(); TODO: does not work with SSH VFS-563
             final long lastModifiedTime = file.getContent().getLastModifiedTime();
-            assertDelta("set/getLastModified on File", yesterday, lastModifiedTime, lastModTimeAccuracy);
+            assertDelta("set/getLastModified on File", yesterdayMillis, lastModifiedTime, lastModTimeAccuracy);
         }
     }
 }

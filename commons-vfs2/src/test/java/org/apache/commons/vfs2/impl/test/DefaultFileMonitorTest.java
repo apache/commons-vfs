@@ -129,9 +129,9 @@ public class DefaultFileMonitorTest {
                 // Need a long delay to insure the new timestamp doesn't truncate to be the same as
                 // the current timestammp. Java only guarantees the timestamp will be to 1 second.
                 Thread.sleep(DELAY_MILLIS * 10);
-                final long value = System.currentTimeMillis();
-                final boolean rc = testFile.setLastModified(value);
-                assertTrue("setLastModified succeeded", rc);
+                final long valueMillis = System.currentTimeMillis();
+                final boolean rcMillis = testFile.setLastModified(valueMillis);
+                assertTrue("setLastModified succeeded", rcMillis);
                 Thread.sleep(DELAY_MILLIS * 5);
                 assertTrue("No event occurred", changeStatus != null);
                 assertEquals("Incorrect event", Status.CHANGED, changeStatus);
