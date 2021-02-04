@@ -124,9 +124,9 @@ public final class FileSystemOptions implements Cloneable {
         options.put(new FileSystemOptionKey(fileSystemClass, name), value);
     }
 
-    Object getOption(final Class<? extends FileSystem> fileSystemClass, final String name) {
+    <T> T getOption(final Class<? extends FileSystem> fileSystemClass, final String name) {
         final FileSystemOptionKey key = new FileSystemOptionKey(fileSystemClass, name);
-        return options.get(key);
+        return (T) options.get(key);
     }
 
     boolean hasOption(final Class<? extends FileSystem> fileSystemClass, final String name) {

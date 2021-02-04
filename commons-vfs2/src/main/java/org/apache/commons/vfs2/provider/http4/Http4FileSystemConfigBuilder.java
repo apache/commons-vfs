@@ -308,7 +308,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @return The UserAuthenticator.
      */
     public UserAuthenticator getProxyAuthenticator(final FileSystemOptions opts) {
-        return (UserAuthenticator) getParam(opts, "proxyAuthenticator");
+        return getParam(opts, "proxyAuthenticator");
     }
 
     /**
@@ -339,7 +339,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @return the Cookie array.
      */
     public Cookie[] getCookies(final FileSystemOptions opts) {
-        return (Cookie[]) getParam(opts, "cookies");
+        return getParam(opts, "cookies");
     }
 
     /**
@@ -492,7 +492,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @return User provided User-Agent string, otherwise default of: Commons-VFS
      */
     public String getUserAgent(final FileSystemOptions opts) {
-        final String userAgent = (String) getParam(opts, KEY_USER_AGENT);
+        final String userAgent = getParam(opts, KEY_USER_AGENT);
         return userAgent != null ? userAgent : DEFAULT_USER_AGENT;
     }
 
@@ -511,7 +511,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @return keystore file path to be used in SSL connections
      */
     public String getKeyStoreFile(final FileSystemOptions opts) {
-        return (String) getParam(opts, KEYSTORE_FILE);
+        return getParam(opts, KEYSTORE_FILE);
     }
 
     /**
@@ -529,7 +529,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @return keystore pass phrase for SSL connections
      */
     String getKeyStorePass(final FileSystemOptions opts) {
-        return (String) getParam(opts, KEYSTORE_PASS);
+        return getParam(opts, KEYSTORE_PASS);
     }
 
     /**

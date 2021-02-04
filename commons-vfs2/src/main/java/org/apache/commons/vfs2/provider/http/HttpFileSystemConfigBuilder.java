@@ -159,7 +159,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @return The UserAuthenticator.
      */
     public UserAuthenticator getProxyAuthenticator(final FileSystemOptions opts) {
-        return (UserAuthenticator) getParam(opts, "proxyAuthenticator");
+        return getParam(opts, "proxyAuthenticator");
     }
 
     /**
@@ -191,7 +191,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @return the Cookie array.
      */
     public Cookie[] getCookies(final FileSystemOptions opts) {
-        return (Cookie[]) getParam(opts, "cookies");
+        return getParam(opts, "cookies");
     }
 
     /**
@@ -334,7 +334,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @return User provided User-Agent string, otherwise default of: Commons-VFS
      */
     public String getUserAgent(final FileSystemOptions opts) {
-        final String userAgent = (String) getParam(opts, KEY_USER_AGENT);
+        final String userAgent = getParam(opts, KEY_USER_AGENT);
         return userAgent != null ? userAgent : DEFAULT_USER_AGENT;
     }
 

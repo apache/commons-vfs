@@ -153,7 +153,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
      * @since 2.1
      */
     public KeyManager getKeyManager(final FileSystemOptions opts) {
-        return (KeyManager) getParam(opts, KEY_MANAGER);
+        return getParam(opts, KEY_MANAGER);
     }
 
     /**
@@ -183,7 +183,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
     public TrustManager getTrustManager(final FileSystemOptions opts) {
         final TrustManager trustManager;
         if (hasParam(opts, TRUST_MANAGER)) {
-            trustManager = (TrustManager) getParam(opts, TRUST_MANAGER);
+            trustManager = getParam(opts, TRUST_MANAGER);
         } else {
             trustManager = TrustManagerUtils.getValidateServerCertificateTrustManager();
         }

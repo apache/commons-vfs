@@ -161,7 +161,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @return the ConfigRepository
      */
     public ConfigRepository getConfigRepository(final FileSystemOptions opts) {
-        return (ConfigRepository) this.getParam(opts, CONFIG_REPOSITORY);
+        return getParam(opts, CONFIG_REPOSITORY);
     }
 
     /**
@@ -229,7 +229,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @since 2.4
      */
     public IdentityProvider[] getIdentityProvider(final FileSystemOptions opts) {
-        return (IdentityProvider[]) this.getParam(opts, IDENTITIES);
+        return getParam(opts, IDENTITIES);
     }
 
     /**
@@ -239,7 +239,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @return the IdentityRepositoryFactory
      */
     public IdentityRepositoryFactory getIdentityRepositoryFactory(final FileSystemOptions opts) {
-        return (IdentityRepositoryFactory) this.getParam(opts, IDENTITY_REPOSITORY_FACTORY);
+        return getParam(opts, IDENTITY_REPOSITORY_FACTORY);
     }
 
     /**
@@ -259,7 +259,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @see #setKnownHosts
      */
     public File getKnownHosts(final FileSystemOptions opts) {
-        return (File) this.getParam(opts, KNOWN_HOSTS);
+        return getParam(opts, KNOWN_HOSTS);
     }
 
     /**
@@ -309,7 +309,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @since 2.1
      */
     public FileSystemOptions getProxyOptions(final FileSystemOptions opts) {
-        return (FileSystemOptions) this.getParam(opts, PROXY_OPTIONS);
+        return getParam(opts, PROXY_OPTIONS);
     }
 
     /**
@@ -344,7 +344,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @return The ProxyType.
      */
     public ProxyType getProxyType(final FileSystemOptions opts) {
-        return (ProxyType) this.getParam(opts, PROXY_TYPE);
+        return getParam(opts, PROXY_TYPE);
     }
 
     /**
@@ -408,7 +408,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @see #setUserInfo
      */
     public UserInfo getUserInfo(final FileSystemOptions opts) {
-        return (UserInfo) this.getParam(opts, UserInfo.class.getName());
+        return getParam(opts, UserInfo.class.getName());
     }
 
     /**

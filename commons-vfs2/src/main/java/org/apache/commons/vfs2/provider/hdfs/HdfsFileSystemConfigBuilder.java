@@ -68,7 +68,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @see #setConfigConfiguration(FileSystemOptions, Configuration)
      */
     public Configuration getConfigConfiguration(final FileSystemOptions opts) {
-        return (Configuration) this.getParam(opts, KEY_CONFIG_CONF);
+        return getParam(opts, KEY_CONFIG_CONF);
     }
 
     /**
@@ -79,7 +79,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @see #setConfigInputStream(FileSystemOptions, InputStream)
      */
     public InputStream getConfigInputStream(final FileSystemOptions opts) {
-        return (InputStream) this.getParam(opts, KEY_CONFIG_STREAM);
+        return getParam(opts, KEY_CONFIG_STREAM);
     }
 
     /**

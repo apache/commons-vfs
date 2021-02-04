@@ -95,7 +95,7 @@ public abstract class FileSystemConfigBuilder {
      */
     protected Boolean getBoolean(final FileSystemOptions fileSystemOptions, final String name,
         final Boolean defaultValue) {
-        Boolean value = (Boolean) getParam(fileSystemOptions, name);
+        Boolean value = getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
             if (str == null) {
@@ -146,7 +146,7 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.0
      */
     protected Byte getByte(final FileSystemOptions fileSystemOptions, final String name, final Byte defaultValue) {
-        Byte value = (Byte) getParam(fileSystemOptions, name);
+        Byte value = getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
             if (str == null) {
@@ -198,7 +198,7 @@ public abstract class FileSystemConfigBuilder {
      */
     protected Character getCharacter(final FileSystemOptions fileSystemOptions, final String name,
         final Character defaultValue) {
-        Character value = (Character) getParam(fileSystemOptions, name);
+        Character value = getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
             if (str == null || str.isEmpty()) {
@@ -260,7 +260,7 @@ public abstract class FileSystemConfigBuilder {
      */
     protected Double getDouble(final FileSystemOptions fileSystemOptions, final String name,
         final Double defaultValue) {
-        Double value = (Double) getParam(fileSystemOptions, name);
+        Double value = getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
             if (str == null || str.isEmpty()) {
@@ -306,7 +306,7 @@ public abstract class FileSystemConfigBuilder {
     protected <E extends Enum<E>> E getEnum(final Class<E> enumClass, final FileSystemOptions fileSystemOptions,
         final String name, final E defaultValue) {
         @SuppressWarnings("unchecked")
-        E value = (E) getParam(fileSystemOptions, name);
+        E value = getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
             if (str == null) {
@@ -360,7 +360,7 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.0
      */
     protected Float getFloat(final FileSystemOptions fileSystemOptions, final String name, final Float defaultValue) {
-        Float value = (Float) getParam(fileSystemOptions, name);
+        Float value = getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
             if (str == null || str.isEmpty()) {
@@ -415,7 +415,7 @@ public abstract class FileSystemConfigBuilder {
      */
     protected Integer getInteger(final FileSystemOptions fileSystemOptions, final String name,
         final Integer defaultValue) {
-        Integer value = (Integer) getParam(fileSystemOptions, name);
+        Integer value = getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
             if (str == null) {
@@ -469,7 +469,7 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.0
      */
     protected Long getLong(final FileSystemOptions fileSystemOptions, final String name, final Long defaultValue) {
-        Long value = (Long) getParam(fileSystemOptions, name);
+        Long value = getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
             if (str == null) {
@@ -483,13 +483,14 @@ public abstract class FileSystemConfigBuilder {
     /**
      * Gets named parameter.
      *
+     * @param <T> The expected return type.
      * @param fileSystemOptions file system options to query, may be null.
      * @param name get option with this name
      * @return the named option or null
      *
      * @since 1.0
      */
-    protected Object getParam(final FileSystemOptions fileSystemOptions, final String name) {
+    protected <T> T getParam(final FileSystemOptions fileSystemOptions, final String name) {
         return fileSystemOptions == null ? null : fileSystemOptions.getOption(getConfigClass(), name);
     }
 
@@ -560,7 +561,7 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.0
      */
     protected Short getShort(final FileSystemOptions fileSystemOptions, final String name, final Short defaultValue) {
-        Short value = (Short) getParam(fileSystemOptions, name);
+        Short value = getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
             if (str == null) {
@@ -597,7 +598,7 @@ public abstract class FileSystemConfigBuilder {
      */
     protected String getString(final FileSystemOptions fileSystemOptions, final String name,
         final String defaultValue) {
-        String value = (String) getParam(fileSystemOptions, name);
+        String value = getParam(fileSystemOptions, name);
         if (value == null) {
             value = getProperty(name);
             if (value == null) {
