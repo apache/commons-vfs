@@ -275,12 +275,10 @@ public class WildcardFileFilter implements FileFilter, Serializable {
                         if (repeat >= 0) {
                             backtrack.push(new int[] { wcsIdx, repeat });
                         }
-                    } else {
+                    } else if (!caseSensitivity.checkRegionMatches(fileName, textIdx, wcs[wcsIdx])) {
                         // matching from current position
-                        if (!caseSensitivity.checkRegionMatches(fileName, textIdx, wcs[wcsIdx])) {
-                            // couldnt match token
-                            break;
-                        }
+                        // couldnt match token
+                        break;
                     }
 
                     // matched text token, move text index to end of matched

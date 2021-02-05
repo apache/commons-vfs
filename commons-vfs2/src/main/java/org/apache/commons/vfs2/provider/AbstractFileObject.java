@@ -1680,10 +1680,8 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 throw new FileSystemException("vfs.provider/rename-parent-read-only.error", getName(),
                         getParent().getName());
             }
-        } else {
-            if (!isWriteable()) {
-                throw new FileSystemException("vfs.provider/rename-read-only.error", getName());
-            }
+        } else if (!isWriteable()) {
+            throw new FileSystemException("vfs.provider/rename-read-only.error", getName());
         }
 
         if (destFile.exists() && !isSameFile(destFile)) {

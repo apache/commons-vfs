@@ -203,11 +203,9 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
             final String userName = fileName.getUserName();
             if (name == null) {
                 name = userName;
-            } else {
-                if (userName != null) {
-                    final String comment = "Modified by user " + userName;
-                    list.add(new DefaultDavProperty(DeltaVConstants.COMMENT, comment));
-                }
+            } else if (userName != null) {
+                final String comment = "Modified by user " + userName;
+                list.add(new DefaultDavProperty(DeltaVConstants.COMMENT, comment));
             }
             list.add(new DefaultDavProperty(DeltaVConstants.CREATOR_DISPLAYNAME, name));
             final PropPatchMethod method = new PropPatchMethod(urlStr, list);

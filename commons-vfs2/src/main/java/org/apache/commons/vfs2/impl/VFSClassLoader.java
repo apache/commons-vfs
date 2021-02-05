@@ -168,10 +168,8 @@ public class VFSClassLoader extends SecureClassLoader {
                     if (!pkg.isSealed(url)) {
                         throw new FileSystemException("vfs.impl/pkg-sealed-other-url", pkgName);
                     }
-                } else {
-                    if (isSealed(res)) {
-                        throw new FileSystemException("vfs.impl/pkg-sealing-unsealed", pkgName);
-                    }
+                } else if (isSealed(res)) {
+                    throw new FileSystemException("vfs.impl/pkg-sealing-unsealed", pkgName);
                 }
             } else {
                 definePackage(pkgName, res);

@@ -203,11 +203,9 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
             final String userName = fileName.getUserName();
             if (name == null) {
                 name = userName;
-            } else {
-                if (userName != null) {
-                    final String comment = "Modified by user " + userName;
-                    setProperties.add(new DefaultDavProperty(DeltaVConstants.COMMENT, comment));
-                }
+            } else if (userName != null) {
+                final String comment = "Modified by user " + userName;
+                setProperties.add(new DefaultDavProperty(DeltaVConstants.COMMENT, comment));
             }
             setProperties.add(new DefaultDavProperty(DeltaVConstants.CREATOR_DISPLAYNAME, name));
             final HttpProppatch request = new HttpProppatch(urlStr, setProperties, removeProperties);

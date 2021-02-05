@@ -56,12 +56,10 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
                 data.setData(UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(username));
             } else if (type == UserAuthenticationData.PASSWORD) {
                 data.setData(UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(password));
-            } else {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug(StaticUserAuthenticator.class.getSimpleName()
-                            + " does not support authentication data type '" + type
-                            + "'; authentication request for this type ignored.");
-                }
+            } else if (LOG.isDebugEnabled()) {
+                LOG.debug(StaticUserAuthenticator.class.getSimpleName()
+                        + " does not support authentication data type '" + type
+                        + "'; authentication request for this type ignored.");
             }
         }
         return data;
