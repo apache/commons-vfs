@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.jar.test;
+package org.apache.commons.vfs2.provider.jar;
 
 import java.io.File;
 
@@ -29,14 +29,28 @@ import org.apache.commons.vfs2.test.ProviderTestSuite;
 import junit.framework.Test;
 
 /**
- * Tests for the Zip file system.
+ * Tests for the Jar file system.
  */
-public class NestedJarTestCase extends AbstractProviderTestConfig {
+public class JarProviderTestCase extends AbstractProviderTestConfig {
+    static FileObject getTestJar(final FileSystemManager manager, final String name) throws Exception {
+        final File jarFile = AbstractVfsTestCase.getTestResource(name);
+        final String uri = "jar:file:" + jarFile.getAbsolutePath() + "!/";
+        return manager.resolveFile(uri);
+    }
+
     /**
-     * Creates the test suite for nested jar files.
+     * Creates the test suite for the jar file system.
      */
     public static Test suite() throws Exception {
-        return new ProviderTestSuite(new NestedJarTestCase(), true);
+        return new ProviderTestSuite(new JarProviderTestCase(), true);
+    }
+
+    /**
+     * Returns the base folder for tests.
+     */
+    @Override
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
+        return JarProviderTestCase.getTestJar(manager, "test.jar");
     }
 
     /**
@@ -45,21 +59,5 @@ public class NestedJarTestCase extends AbstractProviderTestConfig {
     @Override
     public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("jar", new JarFileProvider());
-        manager.addExtensionMap("jar", "jar");
-    }
-
-    /**
-     * Returns the base folder for tests.
-     */
-    @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-        // Locate the Jar file
-        final File outerFile = AbstractVfsTestCase.getTestResource("nested.jar");
-        final String uri = "jar:file:" + outerFile.getAbsolutePath() + "!/test.jar";
-        final FileObject jarFile = manager.resolveFile(uri);
-
-        // Now build the nested file system
-        final FileObject nestedFS = manager.createFileSystem(jarFile);
-        return nestedFS.resolveFile("/");
     }
 }

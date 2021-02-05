@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.jar.test;
+package org.apache.commons.vfs2.provider.jar;
 
 import java.util.Map;
 
