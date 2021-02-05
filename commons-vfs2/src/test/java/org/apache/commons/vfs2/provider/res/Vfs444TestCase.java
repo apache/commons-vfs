@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.vfs2.provider.res.test;
+package org.apache.commons.vfs2.provider.res;
 
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileName;

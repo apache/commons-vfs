@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.vfs2.provider.res.test;
+package org.apache.commons.vfs2.provider.res;
 
 import java.net.URI;
 import java.net.URISyntaxException;
