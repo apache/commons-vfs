@@ -16,7 +16,7 @@
  */
 package org.apache.commons.vfs2.test;
 
-import org.apache.commons.vfs2.impl.test.VfsClassLoaderTests;
+import org.apache.commons.vfs2.impl.VfsClassLoaderTests;
 
 /**
  * The suite of tests for a file system.
