@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.vfs2.provider.zip.test;
+package org.apache.commons.vfs2.provider.zip;
 
 import java.io.File;
 import java.io.FileNotFoundException;

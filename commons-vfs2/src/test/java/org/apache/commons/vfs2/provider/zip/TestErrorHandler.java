@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.vfs2.provider.zip.test;
+package org.apache.commons.vfs2.provider.zip;
 
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;

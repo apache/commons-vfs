@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.zip.test;
+package org.apache.commons.vfs2.provider.zip;
+
+import java.io.File;
 
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
@@ -27,14 +29,14 @@ import org.apache.commons.vfs2.test.ProviderTestSuite;
 import junit.framework.Test;
 
 /**
- * Tests for the Zip file system, using a zip file nested inside another zip file.
+ * Tests for the Zip file system.
  */
-public class NestedZipTestCase extends AbstractProviderTestConfig {
+public class ZipProviderTestCase extends AbstractProviderTestConfig {
     /**
-     * Creates the test suite for nested zip files.
+     * Creates the test suite for the zip file system.
      */
     public static Test suite() throws Exception {
-        return new ProviderTestSuite(new NestedZipTestCase(), true);
+        return new ProviderTestSuite(new ZipProviderTestCase(), true);
     }
 
     /**
@@ -48,17 +50,12 @@ public class NestedZipTestCase extends AbstractProviderTestConfig {
     }
 
     /**
-     * Returns the base folder for tests.
+     * Returns the base folder for read tests.
      */
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-        // Locate the base Zip file
-        final String zipFilePath = AbstractVfsTestCase.getTestResource("nested.zip").getAbsolutePath();
-        final String uri = "zip:file:" + zipFilePath + "!/test.zip";
-        final FileObject zipFile = manager.resolveFile(uri);
-
-        // Now build the nested file system
-        final FileObject nestedFS = manager.createFileSystem(zipFile);
-        return nestedFS.resolveFile("/");
+        final File zipFile = AbstractVfsTestCase.getTestResource("test.zip");
+        final String uri = "zip:file:" + zipFile.getAbsolutePath() + "!/";
+        return manager.resolveFile(uri);
     }
 }
