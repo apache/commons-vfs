@@ -14,9 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.tar.test;
-
-import java.io.File;
+package org.apache.commons.vfs2.provider.tar;
 
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
@@ -29,14 +27,14 @@ import org.apache.commons.vfs2.test.ProviderTestSuite;
 import junit.framework.Test;
 
 /**
- * Tests for the Tar file system.
+ * Tests for the Tar file system, using a tar file nested inside another tar file.
  */
-public class TgzProviderTestCase extends AbstractProviderTestConfig {
+public class NestedTgzTestCase extends AbstractProviderTestConfig {
     /**
-     * Creates the test suite for the tar file system.
+     * Creates the test suite for nested tar files.
      */
     public static Test suite() throws Exception {
-        return new ProviderTestSuite(new TgzProviderTestCase(), true);
+        return new ProviderTestSuite(new NestedTgzTestCase(), true);
     }
 
     /**
@@ -44,18 +42,23 @@ public class TgzProviderTestCase extends AbstractProviderTestConfig {
      */
     @Override
     public void prepare(final DefaultFileSystemManager manager) throws Exception {
-        // manager.addProvider("tgz", new TgzFileProvider());
         manager.addProvider("tgz", new TarFileProvider());
+        manager.addExtensionMap("tgz", "tgz");
         manager.addProvider("tar", new TarFileProvider());
     }
 
     /**
-     * Returns the base folder for read tests.
+     * Returns the base folder for tests.
      */
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-        final File tarFile = AbstractVfsTestCase.getTestResource("test.tgz");
-        final String uri = "tgz:file:" + tarFile.getAbsolutePath() + "!/";
-        return manager.resolveFile(uri);
+        // Locate the base Tar file
+        final String tarFilePath = AbstractVfsTestCase.getTestResource("nested.tgz").getAbsolutePath();
+        final String uri = "tgz:file:" + tarFilePath + "!/test.tgz";
+        final FileObject tarFile = manager.resolveFile(uri);
+
+        // Now build the nested file system
+        final FileObject nestedFS = manager.createFileSystem(tarFile);
+        return nestedFS.resolveFile("/");
     }
 }

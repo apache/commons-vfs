@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.tar.test;
+package org.apache.commons.vfs2.provider.tar;
 
 import java.io.File;
 
@@ -31,12 +31,12 @@ import junit.framework.Test;
 /**
  * Tests for the Tar file system.
  */
-public class Tbz2ProviderTestCase extends AbstractProviderTestConfig {
+public class TgzProviderTestCase extends AbstractProviderTestConfig {
     /**
      * Creates the test suite for the tar file system.
      */
     public static Test suite() throws Exception {
-        return new ProviderTestSuite(new Tbz2ProviderTestCase(), true);
+        return new ProviderTestSuite(new TgzProviderTestCase(), true);
     }
 
     /**
@@ -44,7 +44,8 @@ public class Tbz2ProviderTestCase extends AbstractProviderTestConfig {
      */
     @Override
     public void prepare(final DefaultFileSystemManager manager) throws Exception {
-        manager.addProvider("tbz2", new TarFileProvider());
+        // manager.addProvider("tgz", new TgzFileProvider());
+        manager.addProvider("tgz", new TarFileProvider());
         manager.addProvider("tar", new TarFileProvider());
     }
 
@@ -53,8 +54,8 @@ public class Tbz2ProviderTestCase extends AbstractProviderTestConfig {
      */
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-        final File tarFile = AbstractVfsTestCase.getTestResource("test.tbz2");
-        final String uri = "tbz2:file:" + tarFile.getAbsolutePath() + "!/";
+        final File tarFile = AbstractVfsTestCase.getTestResource("test.tgz");
+        final String uri = "tgz:file:" + tarFile.getAbsolutePath() + "!/";
         return manager.resolveFile(uri);
     }
 }
