@@ -119,11 +119,13 @@ public class Http4GetContentInfoTest extends TestCase {
      */
     @Test
     public void testGetContentWithProxyAuthInfo() throws FileSystemException, MalformedURLException {
+        @SuppressWarnings("resource") // getManager() returns a global.
         final FileSystemManager fsManager = VFS.getManager();
         final String uri = "http4://www.apache.org/licenses/LICENSE-2.0.txt";
-        final FileObject fo = fsManager.resolveFile(uri, getOptionsWithProxyAuthentication());
-        final FileContent content = fo.getContent();
-        Assert.assertNotNull(content);
-        content.getContentInfo();
+        try (final FileObject fo = fsManager.resolveFile(uri, getOptionsWithProxyAuthentication());
+            final FileContent content = fo.getContent()) {
+            Assert.assertNotNull(content);
+            content.getContentInfo();
+        }
     }
 }

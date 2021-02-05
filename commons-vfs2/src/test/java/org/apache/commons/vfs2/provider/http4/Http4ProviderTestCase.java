@@ -138,6 +138,7 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
         VFS.getManager().getFilesCache().close();
         final FileSystemOptions opts = new FileSystemOptions();
         Http4FileSystemConfigBuilder.getInstance().setFollowRedirect(opts, followRedirect);
+        @SuppressWarnings("resource") // getManager() returns a global.
         final FileObject file = VFS.getManager().resolveFile(uri, opts);
         try {
             checkReadTestsFolder(file);
@@ -164,6 +165,7 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
 
     // Test no longer passing 2016/04/28
     public void ignoreTestHttp405() throws FileSystemException {
+        @SuppressWarnings("resource") // getManager() returns a global.
         final FileObject fileObject = VFS.getManager()
                 .resolveFile("http4://www.w3schools.com/webservices/tempconvert.asmx?action=WSDL");
         assert !fileObject.getContent().isEmpty();
