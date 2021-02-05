@@ -129,7 +129,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                     if (set.contains(VersionControlledResource.CHECKED_OUT)) {
                         isCheckedIn = false;
                     } else if (!set.contains(VersionControlledResource.CHECKED_IN)) {
-                        DavProperty prop = set.get(VersionControlledResource.AUTO_VERSION);
+                        DavProperty<?> prop = set.get(VersionControlledResource.AUTO_VERSION);
                         if (prop != null) {
                             prop = getProperty(fileName, VersionControlledResource.AUTO_VERSION);
                             if (DeltaVConstants.XML_CHECKOUT_CHECKIN.equals(prop.getValue())) {
@@ -205,9 +205,9 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                 name = userName;
             } else if (userName != null) {
                 final String comment = "Modified by user " + userName;
-                setProperties.add(new DefaultDavProperty(DeltaVConstants.COMMENT, comment));
+                setProperties.add(new DefaultDavProperty<>(DeltaVConstants.COMMENT, comment));
             }
-            setProperties.add(new DefaultDavProperty(DeltaVConstants.CREATOR_DISPLAYNAME, name));
+            setProperties.add(new DefaultDavProperty<>(DeltaVConstants.CREATOR_DISPLAYNAME, name));
             final HttpProppatch request = new HttpProppatch(urlStr, setProperties, removeProperties);
             setupRequest(request);
             executeRequest(request);
@@ -270,13 +270,13 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                     new DavPropertyNameSet(), false);
             final DavPropertyIterator iter = properties.iterator();
             while (iter.hasNext()) {
-                final DavProperty property = iter.nextProperty();
+                final DavProperty<?> property = iter.nextProperty();
                 attributes.put(property.getName().toString(), property.getValue());
             }
             properties = getPropertyNames(fileName);
             final DavPropertyIterator iter2 = properties.iterator();
             while (iter2.hasNext()) {
-                DavProperty property = iter2.nextProperty();
+                DavProperty<?> property = iter2.nextProperty();
                 if (!attributes.containsKey(property.getName().getName())) {
                     property = getProperty(fileName, property.getName());
                     if (property != null) {
@@ -299,7 +299,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
      */
     @Override
     protected long doGetContentSize() throws Exception {
-        final DavProperty property = getProperty((GenericURLFileName) getName(), DavConstants.PROPERTY_GETCONTENTLENGTH);
+        final DavProperty<?> property = getProperty((GenericURLFileName) getName(), DavConstants.PROPERTY_GETCONTENTLENGTH);
         if (property != null) {
             final String value = (String) property.getValue();
             return Long.parseLong(value);
@@ -313,7 +313,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
      */
     @Override
     protected long doGetLastModifiedTime() throws Exception {
-        final DavProperty property = getProperty((GenericURLFileName) getName(), DavConstants.PROPERTY_GETLASTMODIFIED);
+        final DavProperty<?> property = getProperty((GenericURLFileName) getName(), DavConstants.PROPERTY_GETLASTMODIFIED);
         if (property != null) {
             final String value = (String) property.getValue();
             return DateUtils.parseDate(value).getTime();
@@ -431,7 +431,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
             final String urlStr = toUrlString(fileName);
             final DavPropertySet properties = new DavPropertySet();
             final DavPropertyNameSet propertyNameSet = new DavPropertyNameSet();
-            final DavProperty property = new DefaultDavProperty(attrName, value, Namespace.EMPTY_NAMESPACE);
+            final DavProperty<Object> property = new DefaultDavProperty<>(attrName, value, Namespace.EMPTY_NAMESPACE);
             if (value != null) {
                 properties.add(property);
             } else {
@@ -506,7 +506,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                 final DavPropertySet props = response.getProperties(HttpStatus.SC_OK);
                 if (addEncoding) {
                     final ContentType resContentType = ContentType.getOrDefault(res.getEntity());
-                    final DavProperty prop = new DefaultDavProperty(RESPONSE_CHARSET,
+                    final DavProperty<String> prop = new DefaultDavProperty<>(RESPONSE_CHARSET,
                             resContentType.getCharset().name());
                     props.add(prop);
                 }
@@ -521,14 +521,14 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
         }
     }
 
-    DavProperty getProperty(final GenericURLFileName fileName, final DavPropertyName name) throws FileSystemException {
+    DavProperty<?> getProperty(final GenericURLFileName fileName, final DavPropertyName name) throws FileSystemException {
         final DavPropertyNameSet nameSet = new DavPropertyNameSet();
         nameSet.add(name);
         final DavPropertySet propertySet = getProperties(fileName, nameSet, false);
         return propertySet.get(name);
     }
 
-    DavProperty getProperty(final GenericURLFileName fileName, final String property) throws FileSystemException {
+    DavProperty<?> getProperty(final GenericURLFileName fileName, final String property) throws FileSystemException {
         return getProperty(fileName, DavPropertyName.create(property));
     }
 
@@ -562,7 +562,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
 
     private boolean isDirectory(final GenericURLFileName name) throws IOException {
         try {
-            final DavProperty property = getProperty(name, DavConstants.PROPERTY_RESOURCETYPE);
+            final DavProperty<?> property = getProperty(name, DavConstants.PROPERTY_RESOURCETYPE);
             final Node node;
             if (property != null && (node = (Node) property.getValue()) != null) {
                 return node.getLocalName().equals(DavConstants.XML_COLLECTION);
