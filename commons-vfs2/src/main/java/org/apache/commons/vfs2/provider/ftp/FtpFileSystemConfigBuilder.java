@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider.ftp;
 
 import java.net.Proxy;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,8 +38,8 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final FtpFileSystemConfigBuilder BUILDER = new FtpFileSystemConfigBuilder();
 
     private static final String AUTODETECT_UTF8 = _PREFIX + ".AUTODETECT_UTF8";
-    private static final String CONNECT_TIMEOUT = _PREFIX + ".CONNECT_TIMEOUT";
-    private static final String DATA_TIMEOUT = _PREFIX + ".DATA_TIMEOUT";
+    private static final String CONNECT_TIMEOUT_MILLIS = _PREFIX + ".CONNECT_TIMEOUT";
+    private static final String DATA_TIMEOUT_MILLIS = _PREFIX + ".DATA_TIMEOUT";
     private static final String DEFAULT_DATE_FORMAT = _PREFIX + ".DEFAULT_DATE_FORMAT";
     private static final String ENCODING = _PREFIX + ".ENCODING";
     private static final String FACTORY_KEY = FTPFileEntryParserFactory.class.getName() + ".KEY";
@@ -51,6 +52,8 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String SERVER_TIME_ZONE_ID = _PREFIX + ".SERVER_TIME_ZONE_ID";
     private static final String SHORT_MONTH_NAMES = _PREFIX + ".SHORT_MONTH_NAMES";
     private static final String SO_TIMEOUT = _PREFIX + ".SO_TIMEOUT";
+    private static final String CONTROL_KEEP_ALIVE_TIMEOUT = _PREFIX + ".CONTROL_KEEP_ALIVE_TIMEOUT";
+    private static final String CONTROL_KEEP_ALIVE_REPLY_TIMEOUT = _PREFIX + ".CONTROL_KEEP_ALIVE_REPLY_TIMEOUT";
     private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT";
     private static final String TRANSFER_ABORTED_OK_REPLY_CODES = _PREFIX + ".TRANSFER_ABORTED_OK_REPLY_CODES";
 
@@ -106,7 +109,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @since 2.1
      */
     public Integer getConnectTimeout(final FileSystemOptions opts) {
-        return getInteger(opts, CONNECT_TIMEOUT);
+        return getInteger(opts, CONNECT_TIMEOUT_MILLIS);
     }
 
     /**
@@ -124,7 +127,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @see #setDataTimeout
      */
     public Integer getDataTimeout(final FileSystemOptions opts) {
-        return getInteger(opts, DATA_TIMEOUT);
+        return getInteger(opts, DATA_TIMEOUT_MILLIS);
     }
 
     /**
@@ -153,7 +156,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @return An FTPFileEntryParserFactory.
      */
     public FTPFileEntryParserFactory getEntryParserFactory(final FileSystemOptions opts) {
-        return (FTPFileEntryParserFactory) getParam(opts, FTPFileEntryParserFactory.class.getName());
+        return getParam(opts, FTPFileEntryParserFactory.class.getName());
     }
 
     /**
@@ -184,7 +187,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @since 2.1
      */
     public Proxy getProxy(final FileSystemOptions opts) {
-        return (Proxy) this.getParam(opts, PROXY);
+        return getParam(opts, PROXY);
     }
 
     /**
@@ -235,7 +238,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @return An array of short month names.
      */
     public String[] getShortMonthNames(final FileSystemOptions opts) {
-        return (String[]) getParam(opts, SHORT_MONTH_NAMES);
+        return getParam(opts, SHORT_MONTH_NAMES);
     }
 
     /**
@@ -248,6 +251,24 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
         return getInteger(opts, SO_TIMEOUT);
     }
 
+    /**
+     * @param opts The FileSystem options
+     * @return The controlKeepAliveTimeout value.
+     * @since 2.8.0
+     */
+    public Duration getControlKeepAliveTimeout(FileSystemOptions opts) {
+        return getDuration(opts, CONTROL_KEEP_ALIVE_TIMEOUT);
+    }
+
+    /**
+     * @param opts The FileSystem options
+     * @return The controlKeepAliveReplyTimeout value.
+     * @since 2.8.0
+     */
+    public Duration getControlKeepAliveReplyTimeout(FileSystemOptions opts) {
+        return getDuration(opts, CONTROL_KEEP_ALIVE_REPLY_TIMEOUT);
+    }
+    
     /**
      * Returns {@link Boolean#TRUE} if VFS should treat the user directory as the root directory. Defaults to
      * {@code Boolean.TRUE} if the method {@link #setUserDirIsRoot(FileSystemOptions, boolean)} has not been
@@ -267,9 +288,8 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * closing a stream.
      * @since 2.4
      */
-    @SuppressWarnings("unchecked")
     public List<Integer> getTransferAbortedOkReplyCodes(final FileSystemOptions opts) {
-        return (List<Integer>) getParam(opts, TRANSFER_ABORTED_OK_REPLY_CODES);
+        return getParam(opts, TRANSFER_ABORTED_OK_REPLY_CODES);
     }
 
     /**
@@ -294,7 +314,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @since 2.1
      */
     public void setConnectTimeout(final FileSystemOptions opts, final Integer connectTimeout) {
-        setParam(opts, CONNECT_TIMEOUT, connectTimeout);
+        setParam(opts, CONNECT_TIMEOUT_MILLIS, connectTimeout);
     }
 
     /**
@@ -318,7 +338,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param dataTimeout The timeout value.
      */
     public void setDataTimeout(final FileSystemOptions opts, final Integer dataTimeout) {
-        setParam(opts, DATA_TIMEOUT, dataTimeout);
+        setParam(opts, DATA_TIMEOUT_MILLIS, dataTimeout);
     }
 
     /**
@@ -460,6 +480,31 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public void setSoTimeout(final FileSystemOptions opts, final Integer soTimeout) {
         setParam(opts, SO_TIMEOUT, soTimeout);
+    }
+    
+    /**
+     * Sets the control keep alive timeout for the FTP client.
+     * <p>
+     * Set the {@code controlKeepAliveTimeout} to ensure the socket be alive after download huge file.
+     * </p>
+     *
+     * @param opts The FileSystem options.
+     * @param controlKeepAliveTimeout The timeout duration.
+     * @since 2.8.0
+     */
+    public void setControlKeepAliveTimeout(FileSystemOptions opts, final Duration controlKeepAliveTimeout) {
+        setParam(opts, CONTROL_KEEP_ALIVE_TIMEOUT, controlKeepAliveTimeout);
+    }
+
+    /**
+     * Sets the control keep alive reply timeout for the FTP client.
+     *
+     * @param opts The FileSystem options.
+     * @param controlKeepAliveReplyTimeout timeout duration.
+     * @since 2.8.0
+     */
+    public void setControlKeepAliveReplyTimeout(FileSystemOptions opts, final Duration controlKeepAliveReplyTimeout) {
+        setParam(opts, CONTROL_KEEP_ALIVE_REPLY_TIMEOUT, controlKeepAliveReplyTimeout);
     }
 
     /**

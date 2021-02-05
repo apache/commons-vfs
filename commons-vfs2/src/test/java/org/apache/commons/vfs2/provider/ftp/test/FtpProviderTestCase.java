@@ -18,6 +18,7 @@ package org.apache.commons.vfs2.provider.ftp.test;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.Duration;
 
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -173,6 +174,8 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         builder.setFileType(opts, FtpFileType.BINARY);
         builder.setConnectTimeout(opts, 10000);
         builder.setControlEncoding(opts, "UTF-8");
+        builder.setControlKeepAliveReplyTimeout(opts, Duration.ofSeconds(35));
+        builder.setControlKeepAliveTimeout(opts, Duration.ofSeconds(30));
         return manager.resolveFile(uri, opts);
     }
 

@@ -76,6 +76,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Add and use VFS.close().
       </action>
+      <action dev="ggregory" due-to="Gary Gregory, xiaqingyun" type="update">
+        Add support for FTP ControlKeepAliveReplyTimeout and ControlKeepAliveTimeout.
+      </action>
       <!-- UPDATES -->
       <action dev="ggregory" due-to="PeterAlfredLee" type="update">
         Modify some code use for-each loop and stream API #142.

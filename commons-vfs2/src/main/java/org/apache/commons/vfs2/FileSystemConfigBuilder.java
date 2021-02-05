@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2;
 
+import java.time.Duration;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -249,6 +250,37 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
+     * Gets a named option as a Duration.
+     *
+     * @param fileSystemOptions file system options to query, may be null.
+     * @param name the option name
+     * @return the option in {@code opts} or system properties, otherwise null
+     * @see #getLong(FileSystemOptions, String, Long)
+     * @throws NumberFormatException if option value is not a valid long.
+     *
+     * @since 2.8.0
+     */
+    protected Duration getDuration(final FileSystemOptions fileSystemOptions, final String name) {
+        return getDuration(fileSystemOptions, name, null);
+    }
+
+    /**
+     * Gets a named option as a Long.
+     *
+     * @param fileSystemOptions file system options to query, may be null.
+     * @param name the option name
+     * @param defaultValue value to return if option is not present
+     * @return the option in {@code opts} or system properties, otherwise {@code defaultValue}
+     * @throws NumberFormatException if option value is not a valid long.
+     *
+     * @since 2.8.0
+     */
+    protected Duration getDuration(final FileSystemOptions fileSystemOptions, final String name,
+        final Duration defaultValue) {
+        return getParam(fileSystemOptions, name, defaultValue, Duration::parse);
+    }
+
+    /**
      *Gets a named option as a Double.
      *
      * @param <E> enumeration type
@@ -282,7 +314,6 @@ public abstract class FileSystemConfigBuilder {
      */
     protected <E extends Enum<E>> E getEnum(final Class<E> enumClass, final FileSystemOptions fileSystemOptions,
         final String name, final E defaultValue) {
-        @SuppressWarnings("unchecked")
         E value = getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);

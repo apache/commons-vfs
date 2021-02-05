@@ -21,6 +21,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.Proxy;
+import java.time.Duration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -140,9 +141,9 @@ public final class FtpClientFactory {
 
                 try {
                     // Set connect timeout
-                    final Integer connectTimeout = builder.getConnectTimeout(fileSystemOptions);
-                    if (connectTimeout != null) {
-                        client.setDefaultTimeout(connectTimeout.intValue());
+                    final Integer connectTimeoutMillis = builder.getConnectTimeout(fileSystemOptions);
+                    if (connectTimeoutMillis != null) {
+                        client.setDefaultTimeout(connectTimeoutMillis.intValue());
                     }
 
                     final String controlEncoding = builder.getControlEncoding(fileSystemOptions);
@@ -169,9 +170,9 @@ public final class FtpClientFactory {
 
                     // Login
                     if (!client.login(UserAuthenticatorUtils.toString(username),
-                            UserAuthenticatorUtils.toString(password))) {
+                        UserAuthenticatorUtils.toString(password))) {
                         throw new FileSystemException("vfs.provider.ftp/login.error", hostname,
-                                UserAuthenticatorUtils.toString(username));
+                            UserAuthenticatorUtils.toString(username));
                     }
 
                     FtpFileType fileType = builder.getFileType(fileSystemOptions);
@@ -184,9 +185,9 @@ public final class FtpClientFactory {
                     }
 
                     // Set dataTimeout value
-                    final Integer dataTimeout = builder.getDataTimeout(fileSystemOptions);
-                    if (dataTimeout != null) {
-                        client.setDataTimeout(dataTimeout.intValue());
+                    final Integer dataTimeoutMillis = builder.getDataTimeout(fileSystemOptions);
+                    if (dataTimeoutMillis != null) {
+                        client.setDataTimeout(dataTimeoutMillis.intValue());
                     }
 
                     final Integer socketTimeout = builder.getSoTimeout(fileSystemOptions);
@@ -194,11 +195,23 @@ public final class FtpClientFactory {
                         client.setSoTimeout(socketTimeout.intValue());
                     }
 
+                    final Duration controlKeepAliveTimeout = builder.getControlKeepAliveTimeout(fileSystemOptions);
+                    if (controlKeepAliveTimeout != null) {
+                        // yes, in seconds.
+                        client.setControlKeepAliveTimeout(controlKeepAliveTimeout.toMillis() / 1000);
+                    }
+
+                    final Duration controlKeepAliveReplyTimeout = builder
+                        .getControlKeepAliveReplyTimeout(fileSystemOptions);
+                    if (controlKeepAliveReplyTimeout != null) {
+                        client.setControlKeepAliveReplyTimeout((int) controlKeepAliveReplyTimeout.toMillis());
+                    }
+
                     final Boolean userDirIsRoot = builder.getUserDirIsRoot(fileSystemOptions);
                     if (workingDirectory != null && (userDirIsRoot == null || !userDirIsRoot.booleanValue())) {
                         if (!client.changeWorkingDirectory(workingDirectory)) {
                             throw new FileSystemException("vfs.provider.ftp/change-work-directory.error",
-                                    workingDirectory);
+                                workingDirectory);
                         }
                     }
 
