@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * Abstract class which has the right to fill FileSystemOptions.
@@ -53,7 +54,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets named option as boolean.
+     * Gets a named option as a Boolean.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -67,7 +68,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets named option as boolean.
+     * Gets a named option as a Boolean.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -83,7 +84,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets named option as boolean.
+     * Gets a named option as a Boolean.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -95,19 +96,11 @@ public abstract class FileSystemConfigBuilder {
      */
     protected Boolean getBoolean(final FileSystemOptions fileSystemOptions, final String name,
         final Boolean defaultValue) {
-        Boolean value = getParam(fileSystemOptions, name);
-        if (value == null) {
-            final String str = getProperty(name);
-            if (str == null) {
-                return defaultValue;
-            }
-            value = Boolean.valueOf(str);
-        }
-        return value;
+        return getParam(fileSystemOptions, name, defaultValue, Boolean::valueOf);
     }
 
     /**
-     * Gets named option as byte.
+     * Gets a named option as a Byte.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -121,7 +114,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets named option as byte.
+     * Gets a named option as a Byte.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -136,7 +129,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets named option as byte.
+     * Gets a named option as a Byte.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -146,19 +139,11 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.0
      */
     protected Byte getByte(final FileSystemOptions fileSystemOptions, final String name, final Byte defaultValue) {
-        Byte value = getParam(fileSystemOptions, name);
-        if (value == null) {
-            final String str = getProperty(name);
-            if (str == null) {
-                return defaultValue;
-            }
-            value = Byte.valueOf(str);
-        }
-        return value;
+        return getParam(fileSystemOptions, name, defaultValue, Byte::valueOf);
     }
 
     /**
-     * Gets named option as character.
+     * Gets a named option as a Character.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -172,7 +157,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets named option as character.
+     * Gets a named option as a Character.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -187,7 +172,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets named option as character.
+     * Gets a named option as a Character.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -219,7 +204,7 @@ public abstract class FileSystemConfigBuilder {
     protected abstract Class<? extends FileSystem> getConfigClass();
 
     /**
-     * Gets named option as double.
+     * Gets a named option as a Double.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -233,7 +218,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets named option as double.
+     * Gets a named option as a Double.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -249,7 +234,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets named option as double.
+     * Gets a named option as a Double.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -260,19 +245,11 @@ public abstract class FileSystemConfigBuilder {
      */
     protected Double getDouble(final FileSystemOptions fileSystemOptions, final String name,
         final Double defaultValue) {
-        Double value = getParam(fileSystemOptions, name);
-        if (value == null) {
-            final String str = getProperty(name);
-            if (str == null || str.isEmpty()) {
-                return defaultValue;
-            }
-            value = Double.valueOf(str);
-        }
-        return value;
+        return getParam(fileSystemOptions, name, defaultValue, Double::valueOf);
     }
 
     /**
-     * Gets named option as enumeration.
+     *Gets a named option as a Double.
      *
      * @param <E> enumeration type
      * @param enumClass class of enumeration type
@@ -290,7 +267,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets named option as enumeration.
+     * Gets a named option as an Enum.
      *
      * @param <E> enumeration type
      * @param enumClass class of enumeration type
@@ -318,7 +295,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets named option as float.
+     * Gets a named option as a Float.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -333,7 +310,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets named option as float.
+     * Gets a named option as a Float.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -349,7 +326,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets named option as float.
+     * Gets a named option as a Float.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -360,19 +337,11 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.0
      */
     protected Float getFloat(final FileSystemOptions fileSystemOptions, final String name, final Float defaultValue) {
-        Float value = getParam(fileSystemOptions, name);
-        if (value == null) {
-            final String str = getProperty(name);
-            if (str == null || str.isEmpty()) {
-                return defaultValue;
-            }
-            value = Float.valueOf(str);
-        }
-        return value;
+        return getParam(fileSystemOptions, name, defaultValue, Float::valueOf);
     }
 
     /**
-     * Gets named option as integer.
+     * Gets a named option as an Integer.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -387,7 +356,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets named option as integer.
+     * Gets a named option as an Integer.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -403,7 +372,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets named option as integer.
+     * Gets a named option as an Integer.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -415,19 +384,11 @@ public abstract class FileSystemConfigBuilder {
      */
     protected Integer getInteger(final FileSystemOptions fileSystemOptions, final String name,
         final Integer defaultValue) {
-        Integer value = getParam(fileSystemOptions, name);
-        if (value == null) {
-            final String str = getProperty(name);
-            if (str == null) {
-                return defaultValue;
-            }
-            value = Integer.valueOf(str);
-        }
-        return value;
+        return getParam(fileSystemOptions, name, defaultValue, Integer::valueOf);
     }
 
     /**
-     * Gets named option as long.
+     * Gets a named option as a Long.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -442,7 +403,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets named option as long.
+     * Gets a named option as a Long.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -458,7 +419,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets named option as long.
+     * Gets a named option as a Long.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -469,19 +430,11 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.0
      */
     protected Long getLong(final FileSystemOptions fileSystemOptions, final String name, final Long defaultValue) {
-        Long value = getParam(fileSystemOptions, name);
-        if (value == null) {
-            final String str = getProperty(name);
-            if (str == null) {
-                return defaultValue;
-            }
-            value = Long.valueOf(str);
-        }
-        return value;
+        return getParam(fileSystemOptions, name, defaultValue, Long::valueOf);
     }
 
     /**
-     * Gets named parameter.
+     * Gets a named parameter.
      *
      * @param <T> The expected return type.
      * @param fileSystemOptions file system options to query, may be null.
@@ -492,6 +445,33 @@ public abstract class FileSystemConfigBuilder {
      */
     protected <T> T getParam(final FileSystemOptions fileSystemOptions, final String name) {
         return fileSystemOptions == null ? null : fileSystemOptions.getOption(getConfigClass(), name);
+    }
+
+    /**
+     * Gets a named parameter.
+     *
+     * @param <T> The expected return type.
+     * @param fileSystemOptions file system options to query, may be null.
+     * @param name get option with this name
+     * @param defaultValue value to use if the system property value is null.
+     * @param function Builds an instance of T from a system property String value.
+     * @return the named option or null
+     *
+     * @since 2.8.0
+     */
+    private <T> T getParam(final FileSystemOptions fileSystemOptions, final String name, final T defaultValue,
+        Function<String, T> function) {
+        T value = getParam(fileSystemOptions, name);
+        if (value == null) {
+            final String str = getProperty(name);
+            if (str == null) {
+                return defaultValue;
+            }
+            if (function != null) {
+                value = function.apply(str);
+            }
+        }
+        return value;
     }
 
     /**
@@ -519,7 +499,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets named option as short.
+     * Gets a named option as a Short.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -534,7 +514,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets named option as short.
+     * Gets a named option as a Short.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -550,7 +530,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets named option as short.
+     * Gets a named option as a Short.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -561,19 +541,11 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.0
      */
     protected Short getShort(final FileSystemOptions fileSystemOptions, final String name, final Short defaultValue) {
-        Short value = getParam(fileSystemOptions, name);
-        if (value == null) {
-            final String str = getProperty(name);
-            if (str == null) {
-                return defaultValue;
-            }
-            value = Short.valueOf(str);
-        }
-        return value;
+        return getParam(fileSystemOptions, name, defaultValue, Short::valueOf);
     }
 
     /**
-     * Gets named option as String.
+     * Gets a named option as a String.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -587,7 +559,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets named option as String.
+     * Gets a named option as a String.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
@@ -598,14 +570,7 @@ public abstract class FileSystemConfigBuilder {
      */
     protected String getString(final FileSystemOptions fileSystemOptions, final String name,
         final String defaultValue) {
-        String value = getParam(fileSystemOptions, name);
-        if (value == null) {
-            value = getProperty(name);
-            if (value == null) {
-                return defaultValue;
-            }
-        }
-        return value;
+        return getParam(fileSystemOptions, name, defaultValue, String::valueOf);
     }
 
     /**
