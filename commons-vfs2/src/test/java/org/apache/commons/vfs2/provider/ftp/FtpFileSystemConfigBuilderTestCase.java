@@ -15,14 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.commons.vfs2.provider.ftp.test;
+package org.apache.commons.vfs2.provider.ftp;
 
 import static org.junit.Assert.assertEquals;
 
 import java.time.Duration;
 
 import org.apache.commons.vfs2.FileSystemOptions;
-import org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder;
 import org.junit.Test;
 
 /**

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.ftp.test;
+package org.apache.commons.vfs2.provider.ftp;
 
 import java.io.IOException;
 import java.net.URL;
