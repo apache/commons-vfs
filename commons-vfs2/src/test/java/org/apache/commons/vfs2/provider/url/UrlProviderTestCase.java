@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.url.test;
+package org.apache.commons.vfs2.provider.url;
 
 import java.io.File;
 
@@ -31,9 +31,9 @@ import junit.framework.Test;
 /**
  * Test cases for the generic provider.
  */
-public class UrlHttpProviderTestCase extends AbstractProviderTestConfig {
+public class UrlProviderTestCase extends AbstractProviderTestConfig {
     public static Test suite() throws Exception {
-        return new ProviderTestSuite(new UrlHttpProviderTestCase());
+        return new ProviderTestSuite(new UrlProviderTestCase());
     }
 
     /**
@@ -41,7 +41,7 @@ public class UrlHttpProviderTestCase extends AbstractProviderTestConfig {
      */
     @Override
     public void prepare(final DefaultFileSystemManager manager) throws Exception {
-        manager.addProvider("http", new UrlFileProvider());
+        manager.addProvider("file", new UrlFileProvider());
     }
 
     /**
