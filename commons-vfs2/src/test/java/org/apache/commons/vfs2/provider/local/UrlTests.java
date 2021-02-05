@@ -16,12 +16,12 @@
  */
 package org.apache.commons.vfs2.provider.local;
 
+import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.provider.UriParser;
-import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 import org.junit.Test;
 
 /**

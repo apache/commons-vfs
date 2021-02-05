@@ -31,16 +31,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.sftp.SftpFileProvider;
 import org.apache.commons.vfs2.provider.sftp.SftpFileSystem;
 import org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder;
 import org.apache.commons.vfs2.provider.sftp.TrustEveryoneUserInfo;
-import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.test.ProviderTestSuite;
 import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.sshd.SshServer;
 import org.apache.sshd.common.NamedFactory;

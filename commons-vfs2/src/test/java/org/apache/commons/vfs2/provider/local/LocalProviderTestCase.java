@@ -19,11 +19,11 @@ package org.apache.commons.vfs2.provider.local;
 import java.io.File;
 
 import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
-import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.test.PermissionsTests;
-import org.apache.commons.vfs2.test.ProviderTestSuite;
+import org.apache.commons.vfs2.PermissionsTests;
+import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.util.Os;
 
 import junit.framework.Test;

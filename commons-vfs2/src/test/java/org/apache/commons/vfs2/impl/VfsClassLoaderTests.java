@@ -24,13 +24,13 @@ import java.util.Collections;
 import java.util.Enumeration;
 
 import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.impl.VFSClassLoader;
-import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 import org.junit.Test;
 
 /**

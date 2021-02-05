@@ -16,13 +16,13 @@
  */
 package org.apache.commons.vfs2.cache;
 
+import org.apache.commons.vfs2.AbstractProviderTestCase;
+import org.apache.commons.vfs2.CacheTestSuite;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FilesCache;
-import org.apache.commons.vfs2.test.AbstractProviderTestCase;
-import org.apache.commons.vfs2.test.CacheTestSuite;
 import org.junit.Test;
 
 /**

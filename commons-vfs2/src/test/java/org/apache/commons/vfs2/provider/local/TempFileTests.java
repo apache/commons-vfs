@@ -19,10 +19,10 @@ package org.apache.commons.vfs2.provider.local;
 import java.io.File;
 import java.net.URI;
 
+import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
-import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 import org.junit.Test;
 
 /**

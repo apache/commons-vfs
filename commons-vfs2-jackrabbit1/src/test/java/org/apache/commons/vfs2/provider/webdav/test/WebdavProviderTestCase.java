@@ -31,15 +31,15 @@ import javax.jcr.SimpleCredentials;
 import javax.jcr.Value;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.temp.TemporaryFileProvider;
 import org.apache.commons.vfs2.provider.webdav.WebdavFileProvider;
 import org.apache.commons.vfs2.provider.webdav.WebdavFileSystemConfigBuilder;
-import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.test.ProviderTestSuite;
 import org.apache.commons.vfs2.util.FreeSocketPortUtil;
 import org.apache.jackrabbit.core.TransientRepository;
 import org.apache.log4j.Level;

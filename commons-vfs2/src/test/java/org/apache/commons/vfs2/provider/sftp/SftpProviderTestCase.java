@@ -16,7 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.sftp;
 
-import org.apache.commons.vfs2.test.PermissionsTests;
+import org.apache.commons.vfs2.PermissionsTests;
 
 import junit.framework.Test;
 

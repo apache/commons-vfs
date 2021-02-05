@@ -16,13 +16,13 @@
  */
 package org.apache.commons.vfs2.provider.smb.test;
 
+import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
+import org.apache.commons.vfs2.ProviderTestConfig;
+import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.smb.SmbFileProvider;
-import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.test.ProviderTestConfig;
-import org.apache.commons.vfs2.test.ProviderTestSuite;
 
 import junit.framework.Test;
 

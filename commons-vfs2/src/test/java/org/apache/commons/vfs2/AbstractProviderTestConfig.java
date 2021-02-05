@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.test;
+package org.apache.commons.vfs2;
 
 import org.apache.commons.vfs2.FilesCache;
 import org.apache.commons.vfs2.cache.SoftRefFilesCache;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 
 /**
- * A partial {@link org.apache.commons.vfs2.test.ProviderTestConfig} implementation.
+ * A partial {@link org.apache.commons.vfs2.ProviderTestConfig} implementation.
  */
 public abstract class AbstractProviderTestConfig extends AbstractProviderTestCase implements ProviderTestConfig {
 

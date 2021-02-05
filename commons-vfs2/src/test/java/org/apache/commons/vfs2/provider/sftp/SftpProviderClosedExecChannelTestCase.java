@@ -16,12 +16,12 @@
  */
 package org.apache.commons.vfs2.provider.sftp;
 
-import org.apache.commons.vfs2.test.NamingTests;
-import org.apache.commons.vfs2.test.PermissionsTests;
-import org.apache.commons.vfs2.test.ProviderDeleteTests;
-import org.apache.commons.vfs2.test.ProviderReadTests;
-import org.apache.commons.vfs2.test.ProviderRenameTests;
-import org.apache.commons.vfs2.test.ProviderWriteTests;
+import org.apache.commons.vfs2.NamingTests;
+import org.apache.commons.vfs2.PermissionsTests;
+import org.apache.commons.vfs2.ProviderDeleteTests;
+import org.apache.commons.vfs2.ProviderReadTests;
+import org.apache.commons.vfs2.ProviderRenameTests;
+import org.apache.commons.vfs2.ProviderWriteTests;
 
 import junit.framework.Test;
 

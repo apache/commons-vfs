@@ -21,12 +21,12 @@ import java.net.URI;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.PermissionsTests;
+import org.apache.commons.vfs2.ProviderReadTests;
 import org.apache.commons.vfs2.provider.sftp.SftpFileSystem;
 import org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder;
 import org.apache.commons.vfs2.provider.sftp.SftpStreamProxy;
 import org.apache.commons.vfs2.provider.sftp.TrustEveryoneUserInfo;
-import org.apache.commons.vfs2.test.PermissionsTests;
-import org.apache.commons.vfs2.test.ProviderReadTests;
 
 import com.jcraft.jsch.TestIdentityRepositoryFactory;
 
