@@ -25,7 +25,6 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.VFS;
-import org.apache.commons.vfs2.provider.http4.Http4FileSystemConfigBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -43,13 +42,15 @@ public class Http4GetContentInfoTest extends TestCase {
      */
     @Test
     public void testGetContentInfo() throws FileSystemException, MalformedURLException {
+        @SuppressWarnings("resource") // getManager() returns a global.
         final FileSystemManager fsManager = VFS.getManager();
         final String uri = "http4://www.apache.org/licenses/LICENSE-2.0.txt";
-        final FileObject fo = fsManager.resolveFile(uri, getOptionsWithProxy());
-        final FileContent content = fo.getContent();
-        Assert.assertNotNull(content);
-        // Used to NPE before fix:
-        content.getContentInfo();
+        try (final FileObject fo = fsManager.resolveFile(uri, getOptionsWithProxy());
+            final FileContent content = fo.getContent()) {
+            Assert.assertNotNull(content);
+            // Used to NPE before fix:
+            content.getContentInfo();
+        }
     }
 
     FileSystemOptions getOptionsWithProxy() throws MalformedURLException {

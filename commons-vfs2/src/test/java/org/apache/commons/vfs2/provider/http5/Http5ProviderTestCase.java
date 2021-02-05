@@ -17,7 +17,6 @@
 package org.apache.commons.vfs2.provider.http5;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
@@ -29,8 +28,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs2.provider.http5.Http5FileProvider;
-import org.apache.commons.vfs2.provider.http5.Http5FileSystemConfigBuilder;
 import org.apache.commons.vfs2.util.NHttpFileServer;
 import org.junit.Assert;
 
@@ -103,10 +100,8 @@ public class Http5ProviderTestCase extends AbstractProviderTestConfig {
 
     /**
      * Stops the embedded Apache HTTP Server.
-     *
-     * @throws IOException
      */
-    private static void tearDownClass() throws IOException {
+    private static void tearDownClass() {
         if (Server != null) {
             Server.shutdown(5000, TimeUnit.SECONDS);
         }
@@ -175,7 +170,7 @@ public class Http5ProviderTestCase extends AbstractProviderTestConfig {
     }
 
     /** Ensure VFS-453 options are present. */
-    public void testHttpTimeoutConfig() throws FileSystemException {
+    public void testHttpTimeoutConfig() {
         final FileSystemOptions opts = new FileSystemOptions();
         final Http5FileSystemConfigBuilder builder = Http5FileSystemConfigBuilder.getInstance();
 
