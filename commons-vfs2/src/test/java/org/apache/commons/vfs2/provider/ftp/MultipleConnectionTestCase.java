@@ -33,7 +33,7 @@ public class MultipleConnectionTestCase {
 
     @BeforeClass
     public static void setUpClass() throws FtpException {
-        FtpProviderTestCase.setUpClass(AbstractVfsTestCase.getTestDirectory(), null);
+        FtpProviderTestCase.setUpClass(AbstractVfsTestCase.getTestDirectory(), null, null);
     }
 
     @AfterClass

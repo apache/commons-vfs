@@ -20,17 +20,16 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 
+import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs2.provider.ftp.FtpFileProvider;
-import org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder;
-import org.apache.commons.vfs2.provider.ftp.FtpFileType;
 import org.apache.ftpserver.FtpServer;
 import org.apache.ftpserver.FtpServerFactory;
+import org.apache.ftpserver.command.CommandFactory;
 import org.apache.ftpserver.ftplet.FileSystemFactory;
 import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.ftpserver.ftplet.UserManager;
@@ -73,12 +72,13 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
     /**
      * Creates and starts an embedded Apache FTP Server (MINA).
      *
-     * @param rootDirectory the local FTP server rootDirectory
-     * @param fileSystemFactory optional local FTP server FileSystemFactory
+     * @param rootDirectory the local FTP server rootDirectory.
+     * @param fileSystemFactory optional local FTP server FileSystemFactory.
+     * @param commandFactory FTP server command factory.
      * @throws FtpException
      */
-    static void setUpClass(final String rootDirectory, final FileSystemFactory fileSystemFactory)
-            throws FtpException {
+    static void setUpClass(final String rootDirectory, final FileSystemFactory fileSystemFactory,
+        final CommandFactory commandFactory) throws FtpException {
         if (Server != null) {
             return;
         }
@@ -97,6 +97,9 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         if (fileSystemFactory != null) {
             serverFactory.setFileSystem(fileSystemFactory);
         }
+        if (commandFactory != null) {
+            serverFactory.setCommandFactory(commandFactory);
+        }
         final ListenerFactory factory = new ListenerFactory();
         // set the port of the listener
         factory.setPort(0);
@@ -112,21 +115,34 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
     }
 
     /**
-     * Creates the test suite for the ftp file system.
+     * Creates the test suite for the FTP file system.
      */
     public static Test suite() throws Exception {
         return suite(new FtpProviderTestCase());
     }
 
     /**
-     * Creates the test suite for subclasses of the ftp file system.
+     * Creates the test suite for subclasses of the FTP file system.
      */
-    protected static Test suite(final FtpProviderTestCase testCase) throws Exception {
+    protected static Test suite(final FtpProviderTestCase testCase,
+        Class<? extends AbstractProviderTestCase>... testClasses) throws Exception {
         return new ProviderTestSuite(testCase) {
+
+            @Override
+            protected void addBaseTests() throws Exception {
+                if (testClasses.length == 0) {
+                    super.addBaseTests();
+                } else {
+                    for (final Class<?> test : testClasses) {
+                        addTests(test);
+                    }
+                }
+            }
+
             @Override
             protected void setUp() throws Exception {
                 if (getSystemTestUriOverride() == null) {
-                    setUpClass(testCase.getFtpRootDir(), testCase.getFtpFileSystem());
+                    setUpClass(testCase.getFtpRootDir(), testCase.getFtpFileSystem(), testCase.getCommandFactory());
                 }
                 super.setUp();
             }
@@ -180,7 +196,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
     }
 
     /**
-     * Gets the setting for UserDirIsRoot.
+     * Gets the setting for UserDirIsRoot. Defaults to false.
      */
     protected boolean getUserDirIsRoot() {
         return false;
@@ -191,6 +207,15 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
      */
     protected FileSystemFactory getFtpFileSystem() throws IOException {
         // use default
+        return null;
+    }
+
+    /**
+     * Gets the FTP server command factory. Defaults to null for no override.
+     *
+     * @return the FTP server command factory or null.
+     */
+    protected CommandFactory getCommandFactory() {
         return null;
     }
 
