@@ -23,15 +23,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import org.apache.commons.vfs2.Capability;
-import org.apache.commons.vfs2.FileChangeEvent;
-import org.apache.commons.vfs2.FileContent;
-import org.apache.commons.vfs2.FileListener;
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileSystem;
-import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.FileType;
-import org.apache.commons.vfs2.Selectors;
 import org.junit.Assert;
 import org.junit.Test;
 

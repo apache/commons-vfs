@@ -16,13 +16,6 @@
  */
 package org.apache.commons.vfs2;
 
-import org.apache.commons.vfs2.Capability;
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileSelectInfo;
-import org.apache.commons.vfs2.FileSelector;
-import org.apache.commons.vfs2.FileType;
-import org.apache.commons.vfs2.FileTypeSelector;
-import org.apache.commons.vfs2.Selectors;
 import org.junit.Test;
 
 /**

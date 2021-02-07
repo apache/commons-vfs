@@ -27,7 +27,6 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.ProviderTestConfig;
 import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs2.provider.hdfs.HdfsFileProvider;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;

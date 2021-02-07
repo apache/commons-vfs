@@ -16,7 +16,6 @@
  */
 package org.apache.commons.vfs2;
 
-import org.apache.commons.vfs2.FilesCache;
 import org.apache.commons.vfs2.cache.SoftRefFilesCache;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 

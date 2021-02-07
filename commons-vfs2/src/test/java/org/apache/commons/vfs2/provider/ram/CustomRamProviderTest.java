@@ -40,8 +40,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.UriParser;
-import org.apache.commons.vfs2.provider.ram.RamFileProvider;
-import org.apache.commons.vfs2.provider.ram.RamFileSystemConfigBuilder;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

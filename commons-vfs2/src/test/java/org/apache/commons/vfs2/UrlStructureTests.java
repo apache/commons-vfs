@@ -19,8 +19,6 @@ package org.apache.commons.vfs2;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.vfs2.Capability;
-import org.apache.commons.vfs2.FileObject;
 import org.junit.Test;
 
 /**

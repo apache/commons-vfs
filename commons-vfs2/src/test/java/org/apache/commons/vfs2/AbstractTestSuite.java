@@ -26,8 +26,6 @@ import java.util.List;
 
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.vfs2.FileName;
-import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.impl.DefaultFileReplicator;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.impl.PrivilegedFileReplicator;

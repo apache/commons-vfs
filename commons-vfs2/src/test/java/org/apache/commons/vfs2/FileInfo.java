@@ -19,8 +19,6 @@ package org.apache.commons.vfs2;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.vfs2.FileType;
-
 /**
  * Info about a file.
  */

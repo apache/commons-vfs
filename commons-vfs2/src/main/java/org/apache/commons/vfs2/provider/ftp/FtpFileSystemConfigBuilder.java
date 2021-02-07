@@ -268,7 +268,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public Duration getControlKeepAliveReplyTimeout(FileSystemOptions opts) {
         return getDuration(opts, CONTROL_KEEP_ALIVE_REPLY_TIMEOUT);
     }
-    
+
     /**
      * Returns {@link Boolean#TRUE} if VFS should treat the user directory as the root directory. Defaults to
      * {@code Boolean.TRUE} if the method {@link #setUserDirIsRoot(FileSystemOptions, boolean)} has not been
@@ -481,7 +481,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public void setSoTimeout(final FileSystemOptions opts, final Integer soTimeout) {
         setParam(opts, SO_TIMEOUT, soTimeout);
     }
-    
+
     /**
      * Sets the control keep alive timeout for the FTP client.
      * <p>

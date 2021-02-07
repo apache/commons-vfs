@@ -18,10 +18,6 @@ package org.apache.commons.vfs2;
 
 import java.io.IOException;
 
-import org.apache.commons.vfs2.Capability;
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.RandomAccessContent;
-import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 import org.junit.Assert;
 import org.junit.Test;

@@ -23,11 +23,6 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.PermissionsTests;
 import org.apache.commons.vfs2.ProviderReadTests;
-import org.apache.commons.vfs2.provider.sftp.SftpFileSystem;
-import org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder;
-import org.apache.commons.vfs2.provider.sftp.SftpStreamProxy;
-import org.apache.commons.vfs2.provider.sftp.TrustEveryoneUserInfo;
-
 import com.jcraft.jsch.TestIdentityRepositoryFactory;
 
 import junit.framework.Test;

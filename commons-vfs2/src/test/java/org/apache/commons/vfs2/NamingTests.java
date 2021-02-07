@@ -16,10 +16,6 @@
  */
 package org.apache.commons.vfs2;
 
-import org.apache.commons.vfs2.FileName;
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.NameScope;
 import org.junit.Test;
 
 /**

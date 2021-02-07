@@ -20,9 +20,6 @@ import static org.junit.Assert.assertNotEquals;
 
 import java.util.Date;
 
-import org.apache.commons.vfs2.Capability;
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileSystemException;
 import org.junit.Assert;
 import org.junit.Test;
 

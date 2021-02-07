@@ -18,11 +18,6 @@ package org.apache.commons.vfs2;
 
 import java.net.URI;
 
-import org.apache.commons.vfs2.Capability;
-import org.apache.commons.vfs2.FileName;
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.FileSystemOptions;
 import org.junit.Test;
 
 /**

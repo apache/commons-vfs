@@ -22,7 +22,6 @@ import java.io.IOException;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
-import org.apache.commons.vfs2.provider.tar.TarFileObject;
 import org.junit.Assert;
 import org.junit.Test;
 

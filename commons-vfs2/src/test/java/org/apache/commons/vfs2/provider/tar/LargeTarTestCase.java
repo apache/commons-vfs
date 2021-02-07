@@ -39,7 +39,6 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.cache.SoftRefFilesCache;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
-import org.apache.commons.vfs2.provider.tar.TarFileProvider;
 import org.junit.Before;
 import org.junit.Test;
 

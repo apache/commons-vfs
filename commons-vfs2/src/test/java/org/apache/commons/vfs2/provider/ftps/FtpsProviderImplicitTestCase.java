@@ -16,9 +16,6 @@
  */
 package org.apache.commons.vfs2.provider.ftps;
 
-import org.apache.commons.vfs2.provider.ftps.FtpsFileSystemConfigBuilder;
-import org.apache.commons.vfs2.provider.ftps.FtpsMode;
-
 import junit.framework.Test;
 
 /**
