@@ -179,7 +179,7 @@ public interface FileSystem {
     FileSystemManager getFileSystemManager();
 
     /**
-     * Returns the accuracy of the last modification time.
+     * Returns the accuracy of the last modification time in milliseconds.
      * <p>
      * The local file provider is not very smart in figuring this out, for remote access to file systems the providers
      * typically don't know the value of the underlying real file system.
