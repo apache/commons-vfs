@@ -18,6 +18,8 @@ package org.apache.commons.vfs2;
 
 import static org.junit.Assert.assertNotEquals;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Date;
 
 import org.junit.Assert;
@@ -27,6 +29,8 @@ import org.junit.Test;
  * Test cases for getting and setting file last modified time.
  */
 public class LastModifiedTests extends AbstractProviderTestCase {
+
+    private static final Duration ONE_DAY = Duration.ofDays(1);
 
     private void assertDelta(final String message, final long expected, final long actual, final long delta) {
         if (expected == actual) {
@@ -56,11 +60,12 @@ public class LastModifiedTests extends AbstractProviderTestCase {
     @Test
     public void testGetAccurary() throws FileSystemException {
         final FileObject file = getReadFolder().resolveFile("file1.txt");
-        final long lastModTimeAccuracy = (long) file.getFileSystem().getLastModTimeAccuracy();
+        final long lastModTimeAccuracyMillis = (long) file.getFileSystem().getLastModTimeAccuracy();
         // System.out.println("Accuracy on " + file.getFileSystem().getRootURI() + " is " + lastModTimeAccuracy + " as
         // told by " + file.getFileSystem().getClass().getCanonicalName());
-        assertTrue("Accuracy must be positive", lastModTimeAccuracy >= 0);
-        assertTrue("Accuracy must be < 2m", lastModTimeAccuracy < 2 * 60 * 1000); // just any sane limit
+        assertTrue("Accuracy must be positive", lastModTimeAccuracyMillis >= 0);
+        // just any sane limit
+        assertTrue("Accuracy must be < 2m", lastModTimeAccuracyMillis < Duration.ofMinutes(2).toMillis());
     }
 
     /**
@@ -92,16 +97,16 @@ public class LastModifiedTests extends AbstractProviderTestCase {
      */
     @Test
     public void testSetLastModifiedFolder() throws FileSystemException {
-        final long yesterdayMillis = System.currentTimeMillis() - 24 * 60 * 60 * 1000;
+        final long yesterdayMillis = Instant.now().minus(ONE_DAY).toEpochMilli();
 
         if (getReadFolder().getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FOLDER)) {
             // Try a folder
             final FileObject folder = getReadFolder().resolveFile("dir1");
             folder.getContent().setLastModifiedTime(yesterdayMillis);
-            final long lastModTimeAccuracy = (long) folder.getFileSystem().getLastModTimeAccuracy();
+            final long lastModTimeAccuracyMillis = (long) folder.getFileSystem().getLastModTimeAccuracy();
             // folder.refresh(); TODO: does not work with SSH VFS-563
             final long lastModifiedTime = folder.getContent().getLastModifiedTime();
-            assertDelta("set/getLastModified on Folder", yesterdayMillis, lastModifiedTime, lastModTimeAccuracy);
+            assertDelta("set/getLastModified on Folder", yesterdayMillis, lastModifiedTime, lastModTimeAccuracyMillis);
         }
     }
 
@@ -112,16 +117,16 @@ public class LastModifiedTests extends AbstractProviderTestCase {
      */
     @Test
     public void testSetLastModifiedFile() throws FileSystemException {
-        final long yesterdayMillis = System.currentTimeMillis() - 24 * 60 * 60 * 1000;
+        final long yesterdayMillis = Instant.now().minus(ONE_DAY).toEpochMilli();
 
         if (getReadFolder().getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE)) {
             // Try a file
             final FileObject file = getReadFolder().resolveFile("file1.txt");
             file.getContent().setLastModifiedTime(yesterdayMillis);
-            final long lastModTimeAccuracy = (long) file.getFileSystem().getLastModTimeAccuracy();
+            final long lastModTimeAccuracyMillis = (long) file.getFileSystem().getLastModTimeAccuracy();
             // folder.refresh(); TODO: does not work with SSH VFS-563
             final long lastModifiedTime = file.getContent().getLastModifiedTime();
-            assertDelta("set/getLastModified on File", yesterdayMillis, lastModifiedTime, lastModTimeAccuracy);
+            assertDelta("set/getLastModified on File", yesterdayMillis, lastModifiedTime, lastModTimeAccuracyMillis);
         }
     }
 }
