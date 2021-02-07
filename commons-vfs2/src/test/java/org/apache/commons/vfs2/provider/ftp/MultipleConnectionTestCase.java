@@ -32,7 +32,7 @@ import org.junit.Test;
 public class MultipleConnectionTestCase {
 
     @BeforeClass
-    public static void setUpClass() throws FtpException, IOException {
+    public static void setUpClass() throws FtpException {
         FtpProviderTestCase.setUpClass(AbstractVfsTestCase.getTestDirectory(), null);
     }
 
