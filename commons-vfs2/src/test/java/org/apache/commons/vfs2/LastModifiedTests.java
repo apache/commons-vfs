@@ -44,7 +44,7 @@ public class LastModifiedTests extends AbstractProviderTestCase {
      * Returns the capabilities required by the tests of this test case.
      */
     @Override
-    protected Capability[] getRequiredCaps() {
+    protected Capability[] getRequiredCapabilities() {
         return new Capability[] { Capability.GET_LAST_MODIFIED };
     }
 

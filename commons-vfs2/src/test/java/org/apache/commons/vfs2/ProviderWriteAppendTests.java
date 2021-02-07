@@ -29,7 +29,7 @@ public class ProviderWriteAppendTests extends AbstractProviderTestCase {
      * Returns the capabilities required by the tests of this test case.
      */
     @Override
-    protected Capability[] getRequiredCaps() {
+    protected Capability[] getRequiredCapabilities() {
         return new Capability[] { Capability.CREATE, Capability.DELETE, Capability.GET_TYPE, Capability.LIST_CHILDREN,
                 Capability.READ_CONTENT, Capability.WRITE_CONTENT, Capability.APPEND_CONTENT };
     }

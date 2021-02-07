@@ -41,7 +41,7 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
      * Returns the capabilities required by the tests of this test case.
      */
     @Override
-    protected Capability[] getRequiredCaps() {
+    protected Capability[] getRequiredCapabilities() {
         return new Capability[] { Capability.READ_CONTENT, Capability.URI };
     }
 

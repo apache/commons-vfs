@@ -31,7 +31,7 @@ public class PathTests extends AbstractProviderTestCase {
      * tested does not support all the required capabilities. Return null or an empty array to always run the tests.
      */
     @Override
-    protected Capability[] getRequiredCaps() {
+    protected Capability[] getRequiredCapabilities() {
         return new Capability[] {Capability.URI};
     }
 

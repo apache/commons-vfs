@@ -30,7 +30,7 @@ public class ProviderCacheStrategyTests extends AbstractProviderTestCase {
      * Returns the capabilities required by the tests of this test case.
      */
     @Override
-    protected Capability[] getRequiredCaps() {
+    protected Capability[] getRequiredCapabilities() {
         return new Capability[] { Capability.CREATE, Capability.GET_TYPE, Capability.LIST_CHILDREN, };
     }
 

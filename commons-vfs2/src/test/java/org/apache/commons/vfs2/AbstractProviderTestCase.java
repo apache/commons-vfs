@@ -157,7 +157,7 @@ public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
      * <p>
      * This implementation returns null.
      */
-    protected Capability[] getRequiredCaps() {
+    protected Capability[] getRequiredCapabilities() {
         return null;
     }
 
@@ -174,7 +174,7 @@ public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
     @Override
     protected void runTest() throws Throwable {
         // Check the capabilities
-        final Capability[] caps = getRequiredCaps();
+        final Capability[] caps = getRequiredCapabilities();
         if (caps != null) {
             for (final Capability cap2 : caps) {
                 final Capability cap = cap2;

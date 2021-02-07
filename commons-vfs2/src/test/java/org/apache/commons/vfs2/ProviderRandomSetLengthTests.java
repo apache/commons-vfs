@@ -46,7 +46,7 @@ public class ProviderRandomSetLengthTests extends AbstractProviderTestCase {
      * Returns the capabilities required by the tests of this test case.
      */
     @Override
-    protected Capability[] getRequiredCaps() {
+    protected Capability[] getRequiredCapabilities() {
         return new Capability[] { Capability.GET_TYPE, Capability.RANDOM_ACCESS_READ, Capability.RANDOM_ACCESS_WRITE,
                 Capability.RANDOM_ACCESS_SET_LENGTH };
     }
