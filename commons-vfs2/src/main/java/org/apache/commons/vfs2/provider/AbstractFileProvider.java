@@ -41,7 +41,7 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
      * This is a mapping from {@link FileSystemKey} (root URI and options) to {@link FileSystem}.
      * </p>
      */
-    private final Map<FileSystemKey, FileSystem> fileSystems = new TreeMap<>(); // @GuardedBy("self")
+    private final Map<FileSystemKey, FileSystem> fileSystemMap = new TreeMap<>(); // @GuardedBy("self")
 
     private FileNameParser parser;
 
@@ -62,8 +62,8 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
      */
     @Override
     public void close() {
-        synchronized (fileSystems) {
-            fileSystems.clear();
+        synchronized (fileSystemMap) {
+            fileSystemMap.clear();
         }
         super.close();
     }
@@ -101,8 +101,8 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
         final FileSystemKey treeKey = new FileSystemKey(key, fs.getFileSystemOptions());
         ((AbstractFileSystem) fs).setCacheKey(treeKey);
 
-        synchronized (fileSystems) {
-            fileSystems.put(treeKey, fs);
+        synchronized (fileSystemMap) {
+            fileSystemMap.put(treeKey, fs);
         }
     }
 
@@ -114,8 +114,8 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
      * @return The file system instance, or null if it is not cached.
      */
     protected FileSystem findFileSystem(final Comparable<?> key, final FileSystemOptions fileSystemOptions) {
-        synchronized (fileSystems) {
-            return fileSystems.get(new FileSystemKey(key, fileSystemOptions));
+        synchronized (fileSystemMap) {
+            return fileSystemMap.get(new FileSystemKey(key, fileSystemOptions));
         }
     }
 
@@ -134,9 +134,9 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
      */
     public void freeUnusedResources() {
         final AbstractFileSystem[] abstractFileSystems;
-        synchronized (fileSystems) {
+        synchronized (fileSystemMap) {
             // create snapshot under lock
-            abstractFileSystems = fileSystems.values().toArray(EMPTY_ABSTRACT_FILE_SYSTEMS);
+            abstractFileSystems = fileSystemMap.values().toArray(EMPTY_ABSTRACT_FILE_SYSTEMS);
         }
 
         // process snapshot outside lock
@@ -154,8 +154,8 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
 
         final FileSystemKey key = fs.getCacheKey();
         if (key != null) {
-            synchronized (fileSystems) {
-                fileSystems.remove(key);
+            synchronized (fileSystemMap) {
+                fileSystemMap.remove(key);
             }
         }
 
