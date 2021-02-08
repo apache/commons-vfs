@@ -57,6 +57,20 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT";
     private static final String TRANSFER_ABORTED_OK_REPLY_CODES = _PREFIX + ".TRANSFER_ABORTED_OK_REPLY_CODES";
 
+    /**
+     * Gets the singleton instance.
+     *
+     * @return the singleton instance.
+     */
+    public static FtpFileSystemConfigBuilder getInstance() {
+        return BUILDER;
+    }
+
+    public static List<Integer> getSaneTransferAbortedOkReplyCodes() {
+        // See VFS-674, its accompanying PR and https://github.com/apache/commons-vfs/pull/51 as to why 426 and 550 are here
+        return new ArrayList<>(Arrays.asList(FTPReply.TRANSFER_ABORTED, FTPReply.FILE_UNAVAILABLE));
+    }
+
     private FtpFileSystemConfigBuilder() {
         super("ftp.");
     }
@@ -72,25 +86,6 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Gets the singleton instance.
-     *
-     * @return the singleton instance.
-     */
-    public static FtpFileSystemConfigBuilder getInstance() {
-        return BUILDER;
-    }
-
-    @Override
-    protected Class<? extends FileSystem> getConfigClass() {
-        return FtpFileSystem.class;
-    }
-
-    public static List<Integer> getSaneTransferAbortedOkReplyCodes() {
-        // See VFS-674, its accompanying PR and https://github.com/apache/commons-vfs/pull/51 as to why 426 and 550 are here
-        return new ArrayList<>(Arrays.asList(FTPReply.TRANSFER_ABORTED, FTPReply.FILE_UNAVAILABLE));
-    }
-
-    /**
      * Gets whether to try to autodetect the server encoding (only UTF8 is supported).
      *
      * @param opts The FileSystemOptions.
@@ -99,6 +94,11 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public Boolean getAutodetectUtf8(final FileSystemOptions opts) {
         return getBoolean(opts, AUTODETECT_UTF8);
+    }
+
+    @Override
+    protected Class<? extends FileSystem> getConfigClass() {
+        return FtpFileSystem.class;
     }
 
     /**
@@ -119,6 +119,24 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public String getControlEncoding(final FileSystemOptions opts) {
         return getString(opts, ENCODING);
+    }
+
+    /**
+     * @param opts The FileSystem options
+     * @return The controlKeepAliveReplyTimeout value.
+     * @since 2.8.0
+     */
+    public Duration getControlKeepAliveReplyTimeout(FileSystemOptions opts) {
+        return getDuration(opts, CONTROL_KEEP_ALIVE_REPLY_TIMEOUT);
+    }
+
+    /**
+     * @param opts The FileSystem options
+     * @return The controlKeepAliveTimeout value.
+     * @since 2.8.0
+     */
+    public Duration getControlKeepAliveTimeout(FileSystemOptions opts) {
+        return getDuration(opts, CONTROL_KEEP_ALIVE_TIMEOUT);
     }
 
     /**
@@ -252,21 +270,13 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * @param opts The FileSystem options
-     * @return The controlKeepAliveTimeout value.
-     * @since 2.8.0
+     * @param opts The FileSystem options.
+     * @return The list of reply codes (apart from 200) that are considered as OK when prematurely
+     * closing a stream.
+     * @since 2.4
      */
-    public Duration getControlKeepAliveTimeout(FileSystemOptions opts) {
-        return getDuration(opts, CONTROL_KEEP_ALIVE_TIMEOUT);
-    }
-
-    /**
-     * @param opts The FileSystem options
-     * @return The controlKeepAliveReplyTimeout value.
-     * @since 2.8.0
-     */
-    public Duration getControlKeepAliveReplyTimeout(FileSystemOptions opts) {
-        return getDuration(opts, CONTROL_KEEP_ALIVE_REPLY_TIMEOUT);
+    public List<Integer> getTransferAbortedOkReplyCodes(final FileSystemOptions opts) {
+        return getParam(opts, TRANSFER_ABORTED_OK_REPLY_CODES);
     }
 
     /**
@@ -280,16 +290,6 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public Boolean getUserDirIsRoot(final FileSystemOptions opts) {
         return getBoolean(opts, USER_DIR_IS_ROOT, Boolean.TRUE);
-    }
-
-    /**
-     * @param opts The FileSystem options.
-     * @return The list of reply codes (apart from 200) that are considered as OK when prematurely
-     * closing a stream.
-     * @since 2.4
-     */
-    public List<Integer> getTransferAbortedOkReplyCodes(final FileSystemOptions opts) {
-        return getParam(opts, TRANSFER_ABORTED_OK_REPLY_CODES);
     }
 
     /**
@@ -326,6 +326,31 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public void setControlEncoding(final FileSystemOptions opts, final String encoding) {
         setParam(opts, ENCODING, encoding);
+    }
+
+    /**
+     * Sets the control keep alive reply timeout for the FTP client.
+     *
+     * @param opts The FileSystem options.
+     * @param controlKeepAliveReplyTimeout timeout duration.
+     * @since 2.8.0
+     */
+    public void setControlKeepAliveReplyTimeout(FileSystemOptions opts, final Duration controlKeepAliveReplyTimeout) {
+        setParam(opts, CONTROL_KEEP_ALIVE_REPLY_TIMEOUT, controlKeepAliveReplyTimeout);
+    }
+
+    /**
+     * Sets the control keep alive timeout for the FTP client.
+     * <p>
+     * Set the {@code controlKeepAliveTimeout} to ensure the socket be alive after download huge file.
+     * </p>
+     *
+     * @param opts The FileSystem options.
+     * @param controlKeepAliveTimeout The timeout duration.
+     * @since 2.8.0
+     */
+    public void setControlKeepAliveTimeout(FileSystemOptions opts, final Duration controlKeepAliveTimeout) {
+        setParam(opts, CONTROL_KEEP_ALIVE_TIMEOUT, controlKeepAliveTimeout);
     }
 
     /**
@@ -483,41 +508,6 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Sets the control keep alive timeout for the FTP client.
-     * <p>
-     * Set the {@code controlKeepAliveTimeout} to ensure the socket be alive after download huge file.
-     * </p>
-     *
-     * @param opts The FileSystem options.
-     * @param controlKeepAliveTimeout The timeout duration.
-     * @since 2.8.0
-     */
-    public void setControlKeepAliveTimeout(FileSystemOptions opts, final Duration controlKeepAliveTimeout) {
-        setParam(opts, CONTROL_KEEP_ALIVE_TIMEOUT, controlKeepAliveTimeout);
-    }
-
-    /**
-     * Sets the control keep alive reply timeout for the FTP client.
-     *
-     * @param opts The FileSystem options.
-     * @param controlKeepAliveReplyTimeout timeout duration.
-     * @since 2.8.0
-     */
-    public void setControlKeepAliveReplyTimeout(FileSystemOptions opts, final Duration controlKeepAliveReplyTimeout) {
-        setParam(opts, CONTROL_KEEP_ALIVE_REPLY_TIMEOUT, controlKeepAliveReplyTimeout);
-    }
-
-    /**
-     * Use user directory as root (do not change to fs root).
-     *
-     * @param opts The FileSystemOptions.
-     * @param userDirIsRoot true if the user directory should be treated as the root.
-     */
-    public void setUserDirIsRoot(final FileSystemOptions opts, final boolean userDirIsRoot) {
-        setParam(opts, USER_DIR_IS_ROOT, toBooleanObject(userDirIsRoot));
-    }
-
-    /**
      * Sets the list of reply codes that are considered as OK when prematurely closing a stream.
      * <p>
      * If you set the {@code replyCodes} to an empty list, all reply codes besides 200 will be
@@ -530,5 +520,15 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public void setTransferAbortedOkReplyCodes(final FileSystemOptions opts, final List<Integer> replyCodes) {
         setParam(opts, TRANSFER_ABORTED_OK_REPLY_CODES, replyCodes);
+    }
+
+    /**
+     * Use user directory as root (do not change to fs root).
+     *
+     * @param opts The FileSystemOptions.
+     * @param userDirIsRoot true if the user directory should be treated as the root.
+     */
+    public void setUserDirIsRoot(final FileSystemOptions opts, final boolean userDirIsRoot) {
+        setParam(opts, USER_DIR_IS_ROOT, toBooleanObject(userDirIsRoot));
     }
 }

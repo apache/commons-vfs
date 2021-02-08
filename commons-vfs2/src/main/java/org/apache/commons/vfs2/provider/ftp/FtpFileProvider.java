@@ -76,12 +76,12 @@ public class FtpFileProvider extends AbstractOriginatingFileProvider {
     }
 
     @Override
-    public FileSystemConfigBuilder getConfigBuilder() {
-        return FtpFileSystemConfigBuilder.getInstance();
+    public Collection<Capability> getCapabilities() {
+        return capabilities;
     }
 
     @Override
-    public Collection<Capability> getCapabilities() {
-        return capabilities;
+    public FileSystemConfigBuilder getConfigBuilder() {
+        return FtpFileSystemConfigBuilder.getInstance();
     }
 }

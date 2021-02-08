@@ -28,11 +28,11 @@ public class FtpFileNameParser extends HostFileNameParser {
 
     private static final int PORT = 21;
 
-    public FtpFileNameParser() {
-        super(PORT);
-    }
-
     public static FileNameParser getInstance() {
         return INSTANCE;
+    }
+
+    public FtpFileNameParser() {
+        super(PORT);
     }
 }
