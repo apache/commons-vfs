@@ -196,10 +196,12 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
     }
 
     /**
-     * Gets the setting for UserDirIsRoot. Defaults to false.
+     * Gets the FTP server command factory. Defaults to null for no override.
+     *
+     * @return the FTP server command factory or null.
      */
-    protected boolean getUserDirIsRoot() {
-        return false;
+    protected CommandFactory getCommandFactory() {
+        return null;
     }
 
     /**
@@ -211,19 +213,17 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
     }
 
     /**
-     * Gets the FTP server command factory. Defaults to null for no override.
-     *
-     * @return the FTP server command factory or null.
-     */
-    protected CommandFactory getCommandFactory() {
-        return null;
-    }
-
-    /**
      * Gets the root of the local FTP Server file system.
      */
     protected String getFtpRootDir() {
         return getTestDirectory();
+    }
+
+    /**
+     * Gets the setting for UserDirIsRoot. Defaults to false.
+     */
+    protected boolean getUserDirIsRoot() {
+        return false;
     }
 
     /**

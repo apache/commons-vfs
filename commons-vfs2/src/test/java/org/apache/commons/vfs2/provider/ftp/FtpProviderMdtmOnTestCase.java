@@ -16,16 +16,17 @@
  */
 package org.apache.commons.vfs2.provider.ftp;
 
-import org.apache.commons.vfs2.LastModifiedTests;
+import org.junit.Ignore;
 
 import junit.framework.Test;
 
-public class FtpProviderMdtmTestCase extends FtpProviderTestCase {
+@Ignore
+public class FtpProviderMdtmOnTestCase extends FtpProviderTestCase {
 
     /**
      * MDTM is supported by default for underlying Apache MINA FTP server.
      */
     public static Test suite() throws Exception {
-        return suite(new FtpProviderTestCase(), LastModifiedTests.class);
+        return suite(new FtpProviderTestCase(), FtpMdtmOnLastModifiedTests.class);
     }
 }

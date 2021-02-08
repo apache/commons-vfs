@@ -18,6 +18,10 @@ package org.apache.commons.vfs2;
 
 import static org.junit.Assert.assertNotEquals;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.attribute.FileTime;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
@@ -30,17 +34,27 @@ import org.junit.Test;
  */
 public class LastModifiedTests extends AbstractProviderTestCase {
 
-    private static final Duration ONE_DAY = Duration.ofDays(1);
+    protected static final Duration ONE_DAY = Duration.ofDays(1);
 
-    private void assertDelta(final String message, final long expected, final long actual, final long delta) {
+    protected void assertDeltaMillis(final String message, final long expected, final long actual, final long delta) {
         if (expected == actual) {
             return;
         }
-        if (Math.abs(expected - actual) > Math.max(delta, 1000)) // getLastModTimeAccuracy() is not accurate
-        {
-            Assert.fail(String.format("%s expected=%d (%s), actual=%d (%s), delta=%d", message, Long.valueOf(expected),
-                    new Date(expected).toString(), Long.valueOf(actual), new Date(actual).toString(),
-                    Long.valueOf(delta)));
+        // getLastModTimeAccuracy() is not accurate
+        final long actualDelta = Math.abs(expected - actual);
+        if (actualDelta > Math.max(delta, 1000)) {
+            Assert.fail(String.format("%s expected=%,d (%s), actual=%,d (%s), expected delta=%,d, actual delta=%,d",
+                message, Long.valueOf(expected), new Date(expected).toString(), Long.valueOf(actual),
+                new Date(actual).toString(), Long.valueOf(delta), Long.valueOf(actualDelta)));
+        }
+    }
+
+    protected void assertEqualMillis(final String message, final long expected, final long actual) {
+        if (expected != actual) {
+            final long delta = Math.abs(expected - actual);
+            Assert
+                .fail(String.format("%s expected=%,d (%s), actual=%,d (%s), delta=%,d", message, Long.valueOf(expected),
+                    new Date(expected).toString(), Long.valueOf(actual), new Date(actual).toString(), delta));
         }
     }
 
@@ -49,7 +63,7 @@ public class LastModifiedTests extends AbstractProviderTestCase {
      */
     @Override
     protected Capability[] getRequiredCapabilities() {
-        return new Capability[] { Capability.GET_LAST_MODIFIED };
+        return new Capability[] {Capability.GET_LAST_MODIFIED};
     }
 
     /**
@@ -106,7 +120,8 @@ public class LastModifiedTests extends AbstractProviderTestCase {
             final long lastModTimeAccuracyMillis = (long) folder.getFileSystem().getLastModTimeAccuracy();
             // folder.refresh(); TODO: does not work with SSH VFS-563
             final long lastModifiedTime = folder.getContent().getLastModifiedTime();
-            assertDelta("set/getLastModified on Folder", yesterdayMillis, lastModifiedTime, lastModTimeAccuracyMillis);
+            assertDeltaMillis("set/getLastModified on Folder", yesterdayMillis, lastModifiedTime,
+                lastModTimeAccuracyMillis);
         }
     }
 
@@ -126,7 +141,8 @@ public class LastModifiedTests extends AbstractProviderTestCase {
             final long lastModTimeAccuracyMillis = (long) file.getFileSystem().getLastModTimeAccuracy();
             // folder.refresh(); TODO: does not work with SSH VFS-563
             final long lastModifiedTime = file.getContent().getLastModifiedTime();
-            assertDelta("set/getLastModified on File", yesterdayMillis, lastModifiedTime, lastModTimeAccuracyMillis);
+            assertDeltaMillis("set/getLastModified on File", yesterdayMillis, lastModifiedTime,
+                lastModTimeAccuracyMillis);
         }
     }
 }

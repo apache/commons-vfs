@@ -42,6 +42,10 @@ import junit.framework.TestSuite;
  * The suite of tests for a file system.
  */
 public abstract class AbstractTestSuite extends TestSetup {
+    
+    public static final String WRITE_TESTS_FOLDER = "write-tests";
+    public static final String READ_TESTS_FOLDER = "read-tests";
+
     private final ProviderTestConfig providerConfig;
     private final String prefix;
     private TestSuite testSuite;
@@ -159,8 +163,8 @@ public abstract class AbstractTestSuite extends TestSetup {
 
         // Locate the base folders
         baseFolder = providerConfig.getBaseTestFolder(manager);
-        readFolder = baseFolder.resolveFile("read-tests");
-        writeFolder = baseFolder.resolveFile("write-tests");
+        readFolder = baseFolder.resolveFile(READ_TESTS_FOLDER);
+        writeFolder = baseFolder.resolveFile(WRITE_TESTS_FOLDER);
 
         // Make some assumptions about the read folder
         Assert.assertTrue("Folder does not exist: " + readFolder, readFolder.exists());

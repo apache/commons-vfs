@@ -18,7 +18,6 @@ package org.apache.commons.vfs2.provider.ftp;
 
 import java.io.IOException;
 
-import org.apache.commons.vfs2.LastModifiedTests;
 import org.apache.ftpserver.command.Command;
 import org.apache.ftpserver.command.CommandFactory;
 import org.apache.ftpserver.command.CommandFactoryFactory;
@@ -32,10 +31,10 @@ import org.apache.ftpserver.impl.LocalizedFtpReply;
 
 import junit.framework.Test;
 
-public class FtpProviderNoMdtmTestCase extends FtpProviderTestCase {
+public class FtpProviderMdtmOffTestCase extends FtpProviderTestCase {
 
     public static Test suite() throws Exception {
-        return suite(new FtpProviderNoMdtmTestCase(), LastModifiedTests.class);
+        return suite(new FtpProviderMdtmOffTestCase(), FtpMdtmOffLastModifiedTests.class);
     }
 
     /**

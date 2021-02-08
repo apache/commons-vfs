@@ -40,14 +40,6 @@ public class FtpProviderUserDirTestCase extends FtpProviderTestCase {
     }
 
     /**
-     * Prepares the file system manager.
-     */
-    @Override
-    protected boolean getUserDirIsRoot() {
-        return true;
-    }
-
-    /**
      * Gets option file system factory for local FTP server.
      */
     @Override
@@ -78,6 +70,14 @@ public class FtpProviderUserDirTestCase extends FtpProviderTestCase {
     @Override
     protected String getFtpRootDir() {
         return new File(getTestDirectory(), "homeDirIsRoot").getPath();
+    }
+
+    /**
+     * Prepares the file system manager.
+     */
+    @Override
+    protected boolean getUserDirIsRoot() {
+        return true;
     }
 
 }
