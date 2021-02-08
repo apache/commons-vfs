@@ -116,7 +116,7 @@ public class PrivilegedFileReplicator implements FileReplicator, VfsComponent {
     }
 
     /**
-     * An action that initialises the wrapped replicator.
+     * An action that initializes the wrapped replicator.
      */
     private class InitAction implements PrivilegedExceptionAction<Object> {
         /**
