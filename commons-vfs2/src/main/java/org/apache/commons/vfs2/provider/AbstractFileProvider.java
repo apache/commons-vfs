@@ -87,7 +87,7 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
     /**
      * Adds a file system to those cached by this provider.
      * <p>
-     * The file system may implement {@link VfsComponent}, in which case it is initialised.
+     * The file system may implement {@link VfsComponent}, in which case it is initialized.
      * </p>
      *
      * @param key The root file of the file system, part of the cache key.

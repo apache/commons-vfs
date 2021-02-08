@@ -434,7 +434,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Initializes a component, if it has not already been initialised.
+     * Initializes a component, if it has not already been initialized.
      *
      * @param component The component to setup.
      * @throws FileSystemException if an error occurs.

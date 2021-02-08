@@ -34,7 +34,7 @@ public abstract class AbstractVfsContainer extends AbstractVfsComponent {
     /**
      * Adds a sub-component to this component.
      * <p>
-     * If the sub-component implements {@link VfsComponent}, it is initialised. All sub-components are closed when this
+     * If the sub-component implements {@link VfsComponent}, it is initialized. All sub-components are closed when this
      * component is closed.
      * </p>
      *
