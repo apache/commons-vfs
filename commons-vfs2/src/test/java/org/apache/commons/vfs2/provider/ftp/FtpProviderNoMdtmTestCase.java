@@ -45,7 +45,8 @@ public class FtpProviderNoMdtmTestCase extends FtpProviderTestCase {
     @Override
     protected CommandFactory getCommandFactory() {
         final CommandFactoryFactory factory = new CommandFactoryFactory();
-        factory.addCommand("FEAT", new Command() {
+        final String commandName = "FEAT";
+        factory.addCommand(commandName, new Command() {
 
             @Override
             public void execute(FtpIoSession session, FtpServerContext context, FtpRequest request)
@@ -53,7 +54,7 @@ public class FtpProviderNoMdtmTestCase extends FtpProviderTestCase {
                 session.resetState();
 
                 final String replyMsg = FtpReplyTranslator.translateMessage(session, request, context,
-                    FtpReply.REPLY_211_SYSTEM_STATUS_REPLY, "FEAT", null);
+                    FtpReply.REPLY_211_SYSTEM_STATUS_REPLY, commandName, null);
                 final LocalizedFtpReply reply = new LocalizedFtpReply(FtpReply.REPLY_211_SYSTEM_STATUS_REPLY,
                     replyMsg.replaceFirst(" MDTM\\n", ""));
 
