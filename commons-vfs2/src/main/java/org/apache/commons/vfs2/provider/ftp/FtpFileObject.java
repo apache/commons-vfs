@@ -133,7 +133,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     private final String relPath;
     // Cached info
     private volatile FTPFile ftpFile;
-    private volatile Map<String, FTPFile> children;
+    private volatile Map<String, FTPFile> childMap;
 
     private volatile FileObject linkDestination;
 
@@ -205,7 +205,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
                 }
                 this.ftpFile = null;
             }
-            this.children = EMPTY_FTP_FILE_MAP;
+            this.childMap = EMPTY_FTP_FILE_MAP;
         }
     }
 
@@ -216,7 +216,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     protected void doDetach() {
         synchronized (getFileSystem()) {
             this.ftpFile = null;
-            this.children = null;
+            this.childMap = null;
         }
     }
 
@@ -224,7 +224,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
      * Fetches the children of this file, if not already cached.
      */
     private void doGetChildren() throws IOException {
-        if (children != null) {
+        if (childMap != null) {
             return;
         }
 
@@ -236,9 +236,9 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
                     : relPath;
             final FTPFile[] tmpChildren = client.listFiles(path);
             if (tmpChildren == null || tmpChildren.length == 0) {
-                children = EMPTY_FTP_FILE_MAP;
+                childMap = EMPTY_FTP_FILE_MAP;
             } else {
-                children = new TreeMap<>();
+                childMap = new TreeMap<>();
 
                 // Remove '.' and '..' elements
                 for (int i = 0; i < tmpChildren.length; i++) {
@@ -251,7 +251,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
                         continue;
                     }
                     if (!".".equals(child.getName()) && !"..".equals(child.getName())) {
-                        children.put(child.getName(), child);
+                        childMap.put(child.getName(), child);
                     }
                 }
             }
@@ -395,12 +395,12 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         doGetChildren();
 
         // VFS-210
-        if (children == null) {
+        if (childMap == null) {
             return null;
         }
 
         // TODO - get rid of this children stuff
-        final String[] childNames = children.values().stream().map(FTPFile::getName).toArray(String[]::new);
+        final String[] childNames = childMap.values().stream().map(FTPFile::getName).toArray(String[]::new);
 
         return UriParser.encode(childNames);
     }
@@ -440,7 +440,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
                 throw new FileSystemException("vfs.provider.ftp/rename-file.error", getName().toString(), newFile);
             }
             this.ftpFile = null;
-            this.children = EMPTY_FTP_FILE_MAP;
+            this.childMap = EMPTY_FTP_FILE_MAP;
         }
     }
 
@@ -457,7 +457,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
          * calling getChildFile() for themselves from within getInfo(). See getChildren().
          */
         if (flush && !inRefresh.get()) {
-            children = null;
+            childMap = null;
         }
 
         // List the children of this file
@@ -465,7 +465,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
 
         // Look for the requested child
         // VFS-210 adds the null check.
-        return children != null ? children.get(name) : null;
+        return childMap != null ? childMap.get(name) : null;
     }
 
     /**
@@ -548,7 +548,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
      */
     @Override
     protected void onChange() throws IOException {
-        children = null;
+        childMap = null;
 
         if (getType().equals(FileType.IMAGINARY)) {
             // file is deleted, avoid server lookup
@@ -566,16 +566,16 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
      */
     @Override
     protected void onChildrenChanged(final FileName child, final FileType newType) {
-        if (children != null && newType.equals(FileType.IMAGINARY)) {
+        if (childMap != null && newType.equals(FileType.IMAGINARY)) {
             try {
-                children.remove(UriParser.decode(child.getBaseName()));
+                childMap.remove(UriParser.decode(child.getBaseName()));
             } catch (final FileSystemException e) {
                 throw new RuntimeException(e.getMessage());
             }
         } else {
             // if child was added we have to rescan the children
             // TODO - get rid of this
-            children = null;
+            childMap = null;
         }
     }
 
