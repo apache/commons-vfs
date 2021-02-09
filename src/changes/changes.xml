@@ -82,6 +82,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="Gary Gregory, Michael Graham" type="add">
         FTP tests can be configured with a custom FTP server command factory.
       </action>
+      <action issue="VFS-257" dev="ggregory" due-to="Andrew Franklin, Michael Graham, Gary Gregory" type="add">
+        [FTP] Add support for MDTM to get more accurate last modified times.
+      </action>
       <!-- UPDATES -->
       <action dev="ggregory" due-to="PeterAlfredLee" type="update">
         Modify some code use for-each loop and stream API #142.

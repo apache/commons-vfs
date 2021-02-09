@@ -42,7 +42,7 @@ import junit.framework.TestSuite;
  * The suite of tests for a file system.
  */
 public abstract class AbstractTestSuite extends TestSetup {
-    
+
     public static final String WRITE_TESTS_FOLDER = "write-tests";
     public static final String READ_TESTS_FOLDER = "read-tests";
 

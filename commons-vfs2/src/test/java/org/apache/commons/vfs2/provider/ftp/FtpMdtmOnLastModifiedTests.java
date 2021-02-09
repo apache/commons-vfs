@@ -17,8 +17,6 @@
 
 package org.apache.commons.vfs2.provider.ftp;
 
-import static org.junit.Assert.assertNotEquals;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -41,7 +39,6 @@ public class FtpMdtmOnLastModifiedTests extends LastModifiedTests {
         final FileObject fileObject = readFolder.resolveFile(fileName);
         final long lastModifiedTimeMillis = fileObject.getContent().getLastModifiedTime();
         // now try to match
-        final long lastModTimeAccuracyMillis = (long) readFolder.getFileSystem().getLastModTimeAccuracy();
         final FileTime lastModifiedTime = Files
             .getLastModifiedTime(Paths.get(getTestDirectory(), AbstractTestSuite.READ_TESTS_FOLDER, fileName));
         assertEqualMillis("getLastModified on File", lastModifiedTime.toMillis(), lastModifiedTimeMillis);

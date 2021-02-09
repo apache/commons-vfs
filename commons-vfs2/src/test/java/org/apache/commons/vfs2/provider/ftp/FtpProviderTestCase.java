@@ -44,6 +44,7 @@ import junit.framework.Test;
  * Tests for FTP file systems.
  */
 public class FtpProviderTestCase extends AbstractProviderTestConfig {
+
     private static int SocketPort;
 
     /**
@@ -172,6 +173,16 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         }
     }
 
+    private final boolean mdtmLastModifiedTime;
+
+    public FtpProviderTestCase() {
+        this(false);
+    }
+
+    public FtpProviderTestCase(boolean mdtmLastModifiedTime) {
+        this.mdtmLastModifiedTime = mdtmLastModifiedTime;
+    }
+
     /**
      * Returns the base folder for tests. You can override the DEFAULT_URI by using the system property name defined by
      * TEST_URI.
@@ -182,17 +193,10 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         if (uri == null) {
             uri = ConnectionUri;
         }
-        final FileSystemOptions opts = new FileSystemOptions();
+        final FileSystemOptions options = new FileSystemOptions();
         final FtpFileSystemConfigBuilder builder = FtpFileSystemConfigBuilder.getInstance();
-        builder.setUserDirIsRoot(opts, getUserDirIsRoot());
-        builder.setPassiveMode(opts, true);
-        // FtpFileType.BINARY is the default
-        builder.setFileType(opts, FtpFileType.BINARY);
-        builder.setConnectTimeout(opts, 10000);
-        builder.setControlEncoding(opts, "UTF-8");
-        builder.setControlKeepAliveReplyTimeout(opts, Duration.ofSeconds(35));
-        builder.setControlKeepAliveTimeout(opts, Duration.ofSeconds(30));
-        return manager.resolveFile(uri, opts);
+        init(builder, options);
+        return manager.resolveFile(uri, options);
     }
 
     /**
@@ -224,6 +228,18 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
      */
     protected boolean getUserDirIsRoot() {
         return false;
+    }
+
+    protected void init(final FtpFileSystemConfigBuilder builder, final FileSystemOptions options) {
+        builder.setUserDirIsRoot(options, getUserDirIsRoot());
+        builder.setPassiveMode(options, true);
+        // FtpFileType.BINARY is the default
+        builder.setFileType(options, FtpFileType.BINARY);
+        builder.setConnectTimeout(options, 10000);
+        builder.setControlEncoding(options, "UTF-8");
+        builder.setControlKeepAliveReplyTimeout(options, Duration.ofSeconds(35));
+        builder.setControlKeepAliveTimeout(options, Duration.ofSeconds(30));
+        builder.setMdtmLastModifiedTime(options, mdtmLastModifiedTime);
     }
 
     /**

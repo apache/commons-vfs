@@ -34,7 +34,7 @@ import junit.framework.Test;
 public class FtpProviderMdtmOffTestCase extends FtpProviderTestCase {
 
     public static Test suite() throws Exception {
-        return suite(new FtpProviderMdtmOffTestCase(), FtpMdtmOffLastModifiedTests.class);
+        return suite(new FtpProviderTestCase(false), FtpMdtmOffLastModifiedTests.class);
     }
 
     /**

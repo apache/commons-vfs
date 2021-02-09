@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.ftp.parser.FTPFileEntryParserFactory;
+import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
 import org.apache.commons.vfs2.FileSystemOptions;
@@ -56,6 +57,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String CONTROL_KEEP_ALIVE_REPLY_TIMEOUT = _PREFIX + ".CONTROL_KEEP_ALIVE_REPLY_TIMEOUT";
     private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT";
     private static final String TRANSFER_ABORTED_OK_REPLY_CODES = _PREFIX + ".TRANSFER_ABORTED_OK_REPLY_CODES";
+    private static final String MDTM_LAST_MODIFED_TIME = _PREFIX + ".MDTM_LAST_MODIFED_TIME";
 
     /**
      * Gets the singleton instance.
@@ -186,6 +188,17 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public FtpFileType getFileType(final FileSystemOptions opts) {
         return getEnum(FtpFileType.class, opts, FILE_TYPE);
+    }
+
+    /**
+     * Gets the option to use FTP MDTM for {@link FileContent#getLastModifiedTime()}.
+     *
+     * @param opts The FileSystemOptions.
+     * @return true if MDTM should be used.
+     * @since 2.8.0
+     */
+    public Boolean getMdtmLastModifiedTime(final FileSystemOptions opts) {
+        return getBoolean(opts, MDTM_LAST_MODIFED_TIME);
     }
 
     /**
@@ -410,6 +423,17 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public void setFileType(final FileSystemOptions opts, final FtpFileType ftpFileType) {
         setParam(opts, FILE_TYPE, ftpFileType);
+    }
+
+    /**
+     * Sets the option to use FTP MDTM for {@link FileContent#getLastModifiedTime()}.
+     *
+     * @param opts The FileSystemOptions.
+     * @param mdtm true if MDTM should be used.
+     * @since 2.8.0
+     */
+    public void setMdtmLastModifiedTime(final FileSystemOptions opts, final boolean mdtm) {
+        setParam(opts, MDTM_LAST_MODIFED_TIME, toBooleanObject(mdtm));
     }
 
     /**

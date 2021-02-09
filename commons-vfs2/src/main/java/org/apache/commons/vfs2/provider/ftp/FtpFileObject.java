@@ -20,10 +20,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -130,6 +132,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     private static final FTPFile UNKNOWN = new FTPFile();
 
     private static final Log log = LogFactory.getLog(FtpFileObject.class);
+    private volatile boolean mdtmSet;
     private final String relPath;
     // Cached info
     private volatile FTPFile ftpFile;
@@ -301,7 +304,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     }
 
     /**
-     * get the last modified time on an ftp file
+     * Get the last modified time on an ftp file
      *
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetLastModifiedTime()
      */
@@ -531,9 +534,26 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         return relPath;
     }
 
-    private long getTimestampMillis() {
-        final Calendar timestamp = this.ftpFile != null ? this.ftpFile.getTimestamp() : null;
-        return timestamp == null ? DEFAULT_TIMESTAMP : timestamp.getTime().getTime();
+    /**
+     * ftpFile is not null.
+     */
+    @SuppressWarnings("resource") // abstractFileSystem is managed in the superclass.
+    private long getTimestampMillis() throws IOException {
+        final FtpFileSystem abstractFileSystem = getAbstractFileSystem();
+        final Boolean mdtmLastModifiedTime = FtpFileSystemConfigBuilder.getInstance()
+            .getMdtmLastModifiedTime(abstractFileSystem.getFileSystemOptions());
+        if (mdtmLastModifiedTime != null && mdtmLastModifiedTime.booleanValue()) {
+            final FtpClient client = abstractFileSystem.getClient();
+            if (!mdtmSet && client.hasFeature("MDTM")) {
+                final Instant mdtmInstant = client.mdtmInstant(relPath);
+                final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+                final long epochMilli = mdtmInstant.toEpochMilli();
+                calendar.setTimeInMillis(epochMilli);
+                ftpFile.setTimestamp(calendar);
+                mdtmSet = true;
+            }
+        }
+        return ftpFile.getTimestamp().getTime().getTime();
     }
 
     /**

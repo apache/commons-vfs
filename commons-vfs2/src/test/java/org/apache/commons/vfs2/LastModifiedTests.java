@@ -18,10 +18,6 @@ package org.apache.commons.vfs2;
 
 import static org.junit.Assert.assertNotEquals;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.attribute.FileTime;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
