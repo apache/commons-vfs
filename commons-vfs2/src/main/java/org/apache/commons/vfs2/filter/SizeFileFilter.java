@@ -107,7 +107,7 @@ public class SizeFileFilter implements FileFilter, Serializable {
             try (final FileContent content = file.getContent()) {
                 final long length = content.getSize();
                 final boolean smaller = length < size;
-                return acceptLarger ? !smaller : smaller;
+                return acceptLarger != smaller;
             }
         }
     }
