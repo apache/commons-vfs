@@ -171,15 +171,9 @@ public final class FileSystemOptions implements Cloneable {
 
         final int hash = Arrays.deepHashCode(myOptions.values().toArray());
         final int hashFk = Arrays.deepHashCode(theirOptions.values().toArray());
-        if (hash < hashFk) {
-            return -1;
-        }
-        if (hash > hashFk) {
-            return 1;
-        }
+        return Integer.compare(hash, hashFk);
 
         // TODO: compare Entry by Entry ??
-        return 0;
     }
 
     @Override

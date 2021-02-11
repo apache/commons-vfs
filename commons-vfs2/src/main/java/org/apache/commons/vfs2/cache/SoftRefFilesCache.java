@@ -223,7 +223,7 @@ public class SoftRefFilesCache extends AbstractFilesCache {
                 }
             }
 
-            if (files.size() < 1) {
+            if (files.isEmpty()) {
                 close(fileSystem);
             }
         } finally {
@@ -288,7 +288,7 @@ public class SoftRefFilesCache extends AbstractFilesCache {
                 refReverseMap.remove(ref);
             }
 
-            return files.size() < 1;
+            return files.isEmpty();
         } finally {
             lock.unlock();
         }

@@ -100,7 +100,7 @@ public class LRUFilesCache extends AbstractFilesCache {
                     }
 
                     final Map<?, ?> files = filesystemCache.get(filesystem);
-                    if (files.size() < 1) {
+                    if (files.isEmpty()) {
                         filesystemCache.remove(filesystem);
                     }
 
@@ -208,7 +208,7 @@ public class LRUFilesCache extends AbstractFilesCache {
         try {
             files.remove(name);
 
-            if (files.size() < 1) {
+            if (files.isEmpty()) {
                 filesystemCache.remove(filesystem);
             }
         } finally {
