@@ -235,7 +235,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         builder.setPassiveMode(options, true);
         // FtpFileType.BINARY is the default
         builder.setFileType(options, FtpFileType.BINARY);
-        builder.setConnectTimeout(options, 10000);
+        builder.setConnectTimeout(options, Duration.ofSeconds(10));
         builder.setControlEncoding(options, "UTF-8");
         builder.setControlKeepAliveReplyTimeout(options, Duration.ofSeconds(35));
         builder.setControlKeepAliveTimeout(options, Duration.ofSeconds(30));

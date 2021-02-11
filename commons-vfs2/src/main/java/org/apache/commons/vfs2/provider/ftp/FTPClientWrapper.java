@@ -202,7 +202,7 @@ public class FTPClientWrapper implements FtpClient {
 
         // VFS-307: now try the hard way by cd'ing into the directory, list and cd back
         // if VFS is required to fallback here the user might experience a real bad FTP performance
-        // as then every list requires 4 ftp commands.
+        // as then every list requires 4 FTP commands.
         String workingDirectory = null;
         if (relPath != null) {
             workingDirectory = getFtpClient().printWorkingDirectory();

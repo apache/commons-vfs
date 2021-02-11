@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider.ftps;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.Duration;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
@@ -183,8 +184,8 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
     }
 
     protected void setupOptions(final FtpsFileSystemConfigBuilder builder) {
-        builder.setConnectTimeout(fileSystemOptions, Integer.valueOf(1000));
-        builder.setDataTimeout(fileSystemOptions, Integer.valueOf(2000));
+        builder.setConnectTimeout(fileSystemOptions, Duration.ofSeconds(1));
+        builder.setDataTimeout(fileSystemOptions, Duration.ofSeconds(2));
     }
 
     /**

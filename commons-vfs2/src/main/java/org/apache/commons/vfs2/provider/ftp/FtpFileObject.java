@@ -304,7 +304,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     }
 
     /**
-     * Get the last modified time on an ftp file
+     * Get the last modified time on an FTP file
      *
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetLastModifiedTime()
      */
@@ -448,7 +448,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     }
 
     /**
-     * Called by child file objects, to locate their ftp file info.
+     * Called by child file objects, to locate their FTP file info.
      *
      * @param name the file name in its native form ie. without URI stuff (%nn)
      * @param flush recreate children cache

@@ -85,6 +85,24 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-257" dev="ggregory" due-to="Andrew Franklin, Michael Graham, Gary Gregory" type="add">
         [FTP] Add support for MDTM to get more accurate last modified times.
       </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        Add FtpFileSystemConfigBuilder.setConnectTimeout(FileSystemOptions, Duration) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        Add FtpFileSystemConfigBuilder.setDataTimeout(FileSystemOptions, Duration) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        Add FtpFileSystemConfigBuilder.setSoTimeout(FileSystemOptions, Duration) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        Add FtpFileSystemConfigBuilder.getConnectTimeoutDuration(FileSystemOptions) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        Add FtpFileSystemConfigBuilder.getDataTimeoutDuration(FileSystemOptions) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        Add FtpFileSystemConfigBuilder.getSoTimeoutDuration(FileSystemOptions) and deprecate Integer version.
+      </action>
       <!-- UPDATES -->
       <action dev="ggregory" due-to="PeterAlfredLee" type="update">
         Modify some code use for-each loop and stream API #142.

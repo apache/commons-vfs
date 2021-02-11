@@ -140,10 +140,9 @@ public final class FtpClientFactory {
                 }
 
                 try {
-                    // Set connect timeout
-                    final Integer connectTimeoutMillis = builder.getConnectTimeout(fileSystemOptions);
-                    if (connectTimeoutMillis != null) {
-                        client.setDefaultTimeout(connectTimeoutMillis.intValue());
+                    final Duration connectTimeout = builder.getConnectTimeoutDuration(fileSystemOptions);
+                    if (connectTimeout != null) {
+                        client.setDefaultTimeout(toIntMillisTimeout(connectTimeout));
                     }
 
                     final String controlEncoding = builder.getControlEncoding(fileSystemOptions);
@@ -185,14 +184,14 @@ public final class FtpClientFactory {
                     }
 
                     // Set dataTimeout value
-                    final Integer dataTimeoutMillis = builder.getDataTimeout(fileSystemOptions);
-                    if (dataTimeoutMillis != null) {
-                        client.setDataTimeout(dataTimeoutMillis.intValue());
+                    final Duration dataTimeout = builder.getDataTimeoutDuration(fileSystemOptions);
+                    if (dataTimeout != null) {
+                        client.setDataTimeout(toIntMillisTimeout(dataTimeout));
                     }
 
-                    final Integer socketTimeout = builder.getSoTimeout(fileSystemOptions);
+                    final Duration socketTimeout = builder.getSoTimeoutDuration(fileSystemOptions);
                     if (socketTimeout != null) {
-                        client.setSoTimeout(socketTimeout.intValue());
+                        client.setSoTimeout(toIntMillisTimeout(socketTimeout));
                     }
 
                     final Duration controlKeepAliveTimeout = builder.getControlKeepAliveTimeout(fileSystemOptions);
@@ -235,6 +234,10 @@ public final class FtpClientFactory {
         }
 
         protected abstract void setupOpenConnection(C client, FileSystemOptions fileSystemOptions) throws IOException;
+
+        private int toIntMillisTimeout(final Duration duration) {
+            return (int) Math.min(duration.toMillis(), Integer.MAX_VALUE);
+        }
     }
 
     /** Connection Factory, used to configure the FTPClient. */
