@@ -25,7 +25,7 @@ import java.net.URLStreamHandler;
 /**
  * A proxy for URLs that are supported by the standard stream handler factory.
  */
-class URLStreamHandlerProxy extends URLStreamHandler {
+final class URLStreamHandlerProxy extends URLStreamHandler {
 
     @Override
     protected URLConnection openConnection(final URL url) throws IOException {

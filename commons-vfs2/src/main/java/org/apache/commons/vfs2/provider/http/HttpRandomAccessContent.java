@@ -30,7 +30,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 /**
  * RandomAccess content using HTTP.
  */
-class HttpRandomAccessContent<FS extends HttpFileSystem> extends AbstractRandomAccessStreamContent {
+final class HttpRandomAccessContent<FS extends HttpFileSystem> extends AbstractRandomAccessStreamContent {
 
     protected long filePointer;
 

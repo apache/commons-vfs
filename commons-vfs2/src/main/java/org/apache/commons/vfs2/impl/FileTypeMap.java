@@ -26,7 +26,7 @@ import org.apache.commons.vfs2.FileSystemException;
 /**
  * A helper class that determines the provider to use for a file.
  */
-class FileTypeMap {
+final class FileTypeMap {
 
     private final Map<String, String> mimeTypeMap = new HashMap<>();
     private final Map<String, String> extensionMap = new HashMap<>();

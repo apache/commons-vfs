@@ -25,7 +25,7 @@ import org.apache.commons.vfs2.FileSystem;
  * It compares the fileSystem (by hashCode) and the file name.
  * </p>
  */
-class FileSystemAndNameKey implements Comparable<FileSystemAndNameKey> {
+final class FileSystemAndNameKey implements Comparable<FileSystemAndNameKey> {
     /** The FileSystem */
     private final FileSystem fileSystem;
 
