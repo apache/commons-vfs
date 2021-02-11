@@ -42,8 +42,7 @@ public class FtpMdtmOnLastModifiedTests extends LastModifiedTests {
         // now try to match
         final FileTime lastModifiedTime = Files
             .getLastModifiedTime(Paths.get(getTestDirectory(), AbstractTestSuite.READ_TESTS_FOLDER, fileName));
-        if (SystemUtils.IS_JAVA_1_8 && SystemUtils.IS_OS_LINUX) {
-            // The Java 8/Linux combination on GitHub returns the time with 000 milliseconds, IOW with second precision.
+        if (SystemUtils.IS_JAVA_1_8) {
             // Workaround OpenJDK 8 and 9 bug JDK-8177809
             // https://bugs.openjdk.java.net/browse/JDK-8177809
             assertDeltaMillis(fileName, lastModifiedTimeMillis, lastModifiedTimeMillis, lastModifiedTimeMillis);
