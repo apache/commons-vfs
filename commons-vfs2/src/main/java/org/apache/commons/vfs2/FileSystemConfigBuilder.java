@@ -256,7 +256,6 @@ public abstract class FileSystemConfigBuilder {
      * @param name the option name
      * @return the option in {@code opts} or system properties, otherwise null
      * @see #getLong(FileSystemOptions, String, Long)
-     * @throws NumberFormatException if option value is not a valid long.
      *
      * @since 2.8.0
      */
@@ -265,13 +264,12 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Gets a named option as a Long.
+     * Gets a named option as a Duration.
      *
      * @param fileSystemOptions file system options to query, may be null.
      * @param name the option name
      * @param defaultValue value to return if option is not present
      * @return the option in {@code opts} or system properties, otherwise {@code defaultValue}
-     * @throws NumberFormatException if option value is not a valid long.
      *
      * @since 2.8.0
      */
