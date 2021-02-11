@@ -111,6 +111,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @since 2.1
      * @deprecated Use {@link #getConnectTimeoutDuration(FileSystemOptions)}.
      */
+    @Deprecated
     public Integer getConnectTimeout(final FileSystemOptions options) {
         return (int) getConnectTimeoutDuration(options).toMillis();
     }
