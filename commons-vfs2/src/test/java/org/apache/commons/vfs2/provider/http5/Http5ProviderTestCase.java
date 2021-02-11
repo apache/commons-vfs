@@ -124,6 +124,13 @@ public class Http5ProviderTestCase extends AbstractProviderTestConfig {
         return manager.resolveFile(uri);
     }
 
+    // Test no longer passing 2016/04/28
+    public void ignoreTestHttp405() throws FileSystemException {
+        final FileObject fileObject = VFS.getManager()
+                .resolveFile("http5://www.w3schools.com/webservices/tempconvert.asmx?action=WSDL");
+        assert !fileObject.getContent().isEmpty();
+    }
+
     /**
      * Prepares the file system manager.
      */
@@ -132,6 +139,27 @@ public class Http5ProviderTestCase extends AbstractProviderTestConfig {
         if (!manager.hasProvider("http5")) {
             manager.addProvider("http5", new Http5FileProvider());
         }
+    }
+
+    /** Ensure VFS-453 options are present. */
+    public void testHttpTimeoutConfig() {
+        final FileSystemOptions opts = new FileSystemOptions();
+        final Http5FileSystemConfigBuilder builder = Http5FileSystemConfigBuilder.getInstance();
+
+        // ensure defaults are 0
+        assertEquals(0, builder.getConnectionTimeout(opts));
+        assertEquals(0, builder.getSoTimeout(opts));
+        assertEquals("Jakarta-Commons-VFS", builder.getUserAgent(opts));
+
+        builder.setConnectionTimeout(opts, 60000);
+        builder.setSoTimeout(opts, 60000);
+        builder.setUserAgent(opts, "foo/bar");
+
+        // ensure changes are visible
+        assertEquals(60000, builder.getConnectionTimeout(opts));
+        assertEquals(60000, builder.getSoTimeout(opts));
+        assertEquals("foo/bar", builder.getUserAgent(opts));
+
     }
 
     private void testResloveFolderSlash(final String uri, final boolean followRedirect) throws FileSystemException {
@@ -160,33 +188,5 @@ public class Http5ProviderTestCase extends AbstractProviderTestConfig {
 
     public void testResloveFolderSlashYesRedirectOn() throws FileSystemException {
         testResloveFolderSlash(ConnectionUri + "/read-tests/", true);
-    }
-
-    // Test no longer passing 2016/04/28
-    public void ignoreTestHttp405() throws FileSystemException {
-        final FileObject fileObject = VFS.getManager()
-                .resolveFile("http5://www.w3schools.com/webservices/tempconvert.asmx?action=WSDL");
-        assert !fileObject.getContent().isEmpty();
-    }
-
-    /** Ensure VFS-453 options are present. */
-    public void testHttpTimeoutConfig() {
-        final FileSystemOptions opts = new FileSystemOptions();
-        final Http5FileSystemConfigBuilder builder = Http5FileSystemConfigBuilder.getInstance();
-
-        // ensure defaults are 0
-        assertEquals(0, builder.getConnectionTimeout(opts));
-        assertEquals(0, builder.getSoTimeout(opts));
-        assertEquals("Jakarta-Commons-VFS", builder.getUserAgent(opts));
-
-        builder.setConnectionTimeout(opts, 60000);
-        builder.setSoTimeout(opts, 60000);
-        builder.setUserAgent(opts, "foo/bar");
-
-        // ensure changes are visible
-        assertEquals(60000, builder.getConnectionTimeout(opts));
-        assertEquals(60000, builder.getSoTimeout(opts));
-        assertEquals("foo/bar", builder.getUserAgent(opts));
-
     }
 }
