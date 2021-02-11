@@ -113,7 +113,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     @Deprecated
     public Integer getConnectTimeout(final FileSystemOptions options) {
-        return (int) getConnectTimeoutDuration(options).toMillis();
+        return getDurationInteger(options, CONNECT_TIMEOUT);
     }
 
     /**
@@ -141,7 +141,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @return The controlKeepAliveReplyTimeout value.
      * @since 2.8.0
      */
-    public Duration getControlKeepAliveReplyTimeout(FileSystemOptions options) {
+    public Duration getControlKeepAliveReplyTimeout(final FileSystemOptions options) {
         return getDuration(options, CONTROL_KEEP_ALIVE_REPLY_TIMEOUT);
     }
 
@@ -150,7 +150,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @return The controlKeepAliveTimeout value.
      * @since 2.8.0
      */
-    public Duration getControlKeepAliveTimeout(FileSystemOptions options) {
+    public Duration getControlKeepAliveTimeout(final FileSystemOptions options) {
         return getDuration(options, CONTROL_KEEP_ALIVE_TIMEOUT);
     }
 
@@ -162,7 +162,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     @Deprecated
     public Integer getDataTimeout(final FileSystemOptions options) {
-        return (int) getDataTimeoutDuration(options).toMillis();
+        return getDurationInteger(options, DATA_TIMEOUT);
     }
 
     /**
@@ -310,7 +310,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     @Deprecated
     public Integer getSoTimeout(final FileSystemOptions options) {
-        return (int) getSoTimeoutDuration(options).toMillis();
+        return getDurationInteger(options, SO_TIMEOUT);
     }
 
     /**
@@ -407,7 +407,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param duration timeout duration.
      * @since 2.8.0
      */
-    public void setControlKeepAliveReplyTimeout(FileSystemOptions options, final Duration duration) {
+    public void setControlKeepAliveReplyTimeout(final FileSystemOptions options, final Duration duration) {
         setParam(options, CONTROL_KEEP_ALIVE_REPLY_TIMEOUT, duration);
     }
 
@@ -421,7 +421,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param duration The timeout duration.
      * @since 2.8.0
      */
-    public void setControlKeepAliveTimeout(FileSystemOptions options, final Duration duration) {
+    public void setControlKeepAliveTimeout(final FileSystemOptions options, final Duration duration) {
         setParam(options, CONTROL_KEEP_ALIVE_TIMEOUT, duration);
     }
 

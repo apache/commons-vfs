@@ -20,6 +20,8 @@ import java.time.Duration;
 import java.util.Objects;
 import java.util.function.Function;
 
+import org.apache.commons.vfs2.util.DurationUtils;
+
 /**
  * Abstract class which has the right to fill FileSystemOptions.
  */
@@ -279,6 +281,35 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
+     * Gets a named option as a Duration bound to the integer range.
+     *
+     * @param fileSystemOptions file system options to query, may be null.
+     * @param name the option name
+     * @return the option in {@code opts} or system properties, otherwise null
+     * @see #getLong(FileSystemOptions, String, Long)
+     *
+     * @since 2.8.0
+     */
+    protected Integer getDurationInteger(final FileSystemOptions fileSystemOptions, final String name) {
+        return getDurationInteger(fileSystemOptions, name, null);
+    }
+
+    /**
+     * Gets a named option as a Duration bound to the integer range.
+     *
+     * @param fileSystemOptions file system options to query, may be null.
+     * @param name the option name
+     * @param defaultValue value to return if option is not present
+     * @return the option in {@code opts} or system properties, otherwise {@code defaultValue}
+     *
+     * @since 2.8.0
+     */
+    protected Integer getDurationInteger(final FileSystemOptions fileSystemOptions, final String name,
+        final Duration defaultValue) {
+        return DurationUtils.toMillisInt(getParam(fileSystemOptions, name, defaultValue, Duration::parse));
+    }
+
+    /**
      *Gets a named option as a Double.
      *
      * @param <E> enumeration type
@@ -489,7 +520,7 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.8.0
      */
     private <T> T getParam(final FileSystemOptions fileSystemOptions, final String name, final T defaultValue,
-        Function<String, T> function) {
+        final Function<String, T> function) {
         T value = getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);

@@ -32,6 +32,7 @@ import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.ftp.parser.FTPFileEntryParserFactory;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.util.DurationUtils;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 
 /**
@@ -142,7 +143,7 @@ public final class FtpClientFactory {
                 try {
                     final Duration connectTimeout = builder.getConnectTimeoutDuration(fileSystemOptions);
                     if (connectTimeout != null) {
-                        client.setDefaultTimeout(toIntMillisTimeout(connectTimeout));
+                        client.setDefaultTimeout(DurationUtils.toMillisInt(connectTimeout));
                     }
 
                     final String controlEncoding = builder.getControlEncoding(fileSystemOptions);
@@ -186,12 +187,12 @@ public final class FtpClientFactory {
                     // Set dataTimeout value
                     final Duration dataTimeout = builder.getDataTimeoutDuration(fileSystemOptions);
                     if (dataTimeout != null) {
-                        client.setDataTimeout(toIntMillisTimeout(dataTimeout));
+                        client.setDataTimeout(DurationUtils.toMillisInt(dataTimeout));
                     }
 
                     final Duration socketTimeout = builder.getSoTimeoutDuration(fileSystemOptions);
                     if (socketTimeout != null) {
-                        client.setSoTimeout(toIntMillisTimeout(socketTimeout));
+                        client.setSoTimeout(DurationUtils.toMillisInt(socketTimeout));
                     }
 
                     final Duration controlKeepAliveTimeout = builder.getControlKeepAliveTimeout(fileSystemOptions);
@@ -234,10 +235,6 @@ public final class FtpClientFactory {
         }
 
         protected abstract void setupOpenConnection(C client, FileSystemOptions fileSystemOptions) throws IOException;
-
-        private int toIntMillisTimeout(final Duration duration) {
-            return (int) Math.min(duration.toMillis(), Integer.MAX_VALUE);
-        }
     }
 
     /** Connection Factory, used to configure the FTPClient. */
