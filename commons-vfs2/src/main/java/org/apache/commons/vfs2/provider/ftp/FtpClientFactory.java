@@ -197,7 +197,7 @@ public final class FtpClientFactory {
                     final Duration controlKeepAliveTimeout = builder.getControlKeepAliveTimeout(fileSystemOptions);
                     if (controlKeepAliveTimeout != null) {
                         // yes, in seconds.
-                        client.setControlKeepAliveTimeout(controlKeepAliveTimeout.toMillis() / 1000);
+                        client.setControlKeepAliveTimeout(controlKeepAliveTimeout.getSeconds());
                     }
 
                     final Duration controlKeepAliveReplyTimeout = builder
