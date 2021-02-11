@@ -242,7 +242,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
                 }
             }
         }
-        final boolean isOwner = checkIds ? attrs.getUId() == getAbstractFileSystem().getUId() : false;
+        final boolean isOwner = checkIds && attrs.getUId() == getAbstractFileSystem().getUId();
         return new PosixPermissions(attrs.getPermissions(), isOwner, isInGroup);
     }
 

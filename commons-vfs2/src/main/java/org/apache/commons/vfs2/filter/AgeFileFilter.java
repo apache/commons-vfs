@@ -176,7 +176,7 @@ public class AgeFileFilter implements FileFilter, Serializable {
     @Override
     public boolean accept(final FileSelectInfo fileInfo) throws FileSystemException {
         final boolean newer = isFileNewer(fileInfo.getFile(), cutoff);
-        return acceptOlder ? !newer : newer;
+        return acceptOlder != newer;
     }
 
     /**

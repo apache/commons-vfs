@@ -57,14 +57,8 @@ public class TemporaryFileProvider extends AbstractFileProvider implements Compa
     public int compareTo(final Object o) {
         final int h1 = hashCode();
         final int h2 = o.hashCode();
-        if (h1 < h2) {
-            return -1;
-        }
-        if (h1 > h2) {
-            return 1;
-        }
+        return Integer.compare(h1, h2);
 
-        return 0;
     }
 
     /**

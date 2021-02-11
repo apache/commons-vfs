@@ -230,6 +230,7 @@ public final class UriParser {
                 for (int i = 0; !match && i < reserved.length; i++) {
                     if (ch == reserved[i]) {
                         match = true;
+                        break;
                     }
                 }
             }

@@ -1521,7 +1521,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public boolean isExecutable() throws FileSystemException {
         try {
-            return exists() ? doIsExecutable() : false;
+            return exists() && doIsExecutable();
         } catch (final Exception exc) {
             throw new FileSystemException("vfs.provider/check-is-executable.error", fileName, exc);
         }
@@ -1564,7 +1564,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public boolean isHidden() throws FileSystemException {
         try {
-            return exists() ? doIsHidden() : false;
+            return exists() && doIsHidden();
         } catch (final Exception exc) {
             throw new FileSystemException("vfs.provider/check-is-hidden.error", fileName, exc);
         }
@@ -1579,7 +1579,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public boolean isReadable() throws FileSystemException {
         try {
-            return exists() ? doIsReadable() : false;
+            return exists() && doIsReadable();
         } catch (final Exception exc) {
             throw new FileSystemException("vfs.provider/check-is-readable.error", fileName, exc);
         }
@@ -1608,7 +1608,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public boolean isSymbolicLink() throws FileSystemException {
         try {
-            return exists() ? doIsSymbolicLink() : false;
+            return exists() && doIsSymbolicLink();
         } catch (final Exception exc) {
             throw new FileSystemException("vfs.provider/check-is-symbolic-link.error", fileName, exc);
         }
@@ -1847,7 +1847,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public boolean setExecutable(final boolean readable, final boolean ownerOnly) throws FileSystemException {
         try {
-            return exists() ? doSetExecutable(readable, ownerOnly) : false;
+            return exists() && doSetExecutable(readable, ownerOnly);
         } catch (final Exception exc) {
             throw new FileSystemException("vfs.provider/set-executable.error", fileName, exc);
         }
@@ -1867,7 +1867,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public boolean setReadable(final boolean readable, final boolean ownerOnly) throws FileSystemException {
         try {
-            return exists() ? doSetReadable(readable, ownerOnly) : false;
+            return exists() && doSetReadable(readable, ownerOnly);
         } catch (final Exception exc) {
             throw new FileSystemException("vfs.provider/set-readable.error", fileName, exc);
         }
@@ -1878,7 +1878,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public boolean setWritable(final boolean readable, final boolean ownerOnly) throws FileSystemException {
         try {
-            return exists() ? doSetWritable(readable, ownerOnly) : false;
+            return exists() && doSetWritable(readable, ownerOnly);
         } catch (final Exception exc) {
             throw new FileSystemException("vfs.provider/set-writeable.error", fileName, exc);
         }
