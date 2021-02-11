@@ -34,7 +34,7 @@ import junit.framework.TestCase;
 /**
  * Tests VFS-427 NPE on Http5FileObject.getContent().getContentInfo().
  */
-public class Http5GetContentInfoTest extends TestCase {
+public class Http5GetContentInfoTestCase extends TestCase {
 
     FileSystemOptions getOptionsWithProxy() throws MalformedURLException {
         // get proxy host and port from env var "https_proxy"
