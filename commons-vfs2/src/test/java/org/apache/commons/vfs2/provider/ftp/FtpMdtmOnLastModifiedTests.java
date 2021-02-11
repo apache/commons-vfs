@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.AbstractTestSuite;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.LastModifiedTests;
@@ -41,7 +42,14 @@ public class FtpMdtmOnLastModifiedTests extends LastModifiedTests {
         // now try to match
         final FileTime lastModifiedTime = Files
             .getLastModifiedTime(Paths.get(getTestDirectory(), AbstractTestSuite.READ_TESTS_FOLDER, fileName));
-        assertEqualMillis("getLastModified on File", lastModifiedTime.toMillis(), lastModifiedTimeMillis);
+        if (SystemUtils.IS_JAVA_1_8 && SystemUtils.IS_OS_LINUX) {
+            // The Java 8/Linux combination on GitHub returns the time with 000 milliseconds, IOW with second precision.
+            // Workaround OpenJDK 8 and 9 bug JDK-8177809
+            // https://bugs.openjdk.java.net/browse/JDK-8177809
+            assertDeltaMillis(fileName, lastModifiedTimeMillis, lastModifiedTimeMillis, lastModifiedTimeMillis);
+        } else {
+            assertEqualMillis("getLastModified on " + fileObject, lastModifiedTime.toMillis(), lastModifiedTimeMillis);
+        }
     }
 
 }
