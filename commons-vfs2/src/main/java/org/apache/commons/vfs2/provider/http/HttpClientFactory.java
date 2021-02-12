@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.http;
 
+import java.time.Duration;
+
 import org.apache.commons.httpclient.Cookie;
 import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpClient;
@@ -29,6 +31,7 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.UserAuthenticator;
+import org.apache.commons.vfs2.util.DurationUtils;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 
 /**
@@ -62,7 +65,7 @@ public final class HttpClientFactory {
      */
     public static HttpClient createConnection(final HttpFileSystemConfigBuilder builder, final String scheme,
             final String hostname, final int port, final String username, final String password,
-            final FileSystemOptions fileSystemOptions) throws FileSystemException {
+        final FileSystemOptions fileSystemOptions) throws FileSystemException {
         final HttpClient client;
         try {
             final HttpConnectionManager mgr = new MultiThreadedHttpConnectionManager();
@@ -84,15 +87,15 @@ public final class HttpClientFactory {
                 final UserAuthenticator proxyAuth = builder.getProxyAuthenticator(fileSystemOptions);
                 if (proxyAuth != null) {
                     final UserAuthenticationData authData = UserAuthenticatorUtils.authenticate(proxyAuth,
-                            new UserAuthenticationData.Type[] { UserAuthenticationData.USERNAME,
-                                    UserAuthenticationData.PASSWORD });
+                        new UserAuthenticationData.Type[] {UserAuthenticationData.USERNAME,
+                            UserAuthenticationData.PASSWORD});
 
                     if (authData != null) {
                         final UsernamePasswordCredentials proxyCreds = new UsernamePasswordCredentials(
-                                UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
-                                        UserAuthenticationData.USERNAME, null)),
-                                UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
-                                        UserAuthenticationData.PASSWORD, null)));
+                            UserAuthenticatorUtils.toString(
+                                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, null)),
+                            UserAuthenticatorUtils.toString(
+                                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, null)));
 
                         final AuthScope scope = new AuthScope(proxyHost, AuthScope.ANY_PORT);
                         client.getState().setProxyCredentials(scope, proxyCreds);
@@ -111,15 +114,17 @@ public final class HttpClientFactory {
                 }
             }
             /*
-              ConnectionManager set methods must be called after the host & port and proxy host & port are set in the
-              HostConfiguration. They are all used as part of the key when HttpConnectionManagerParams tries to locate
-              the host configuration.
+             * ConnectionManager set methods must be called after the host & port and proxy host & port are set in the
+             * HostConfiguration. They are all used as part of the key when HttpConnectionManagerParams tries to locate
+             * the host configuration.
              */
             connectionMgrParams.setMaxConnectionsPerHost(config, builder.getMaxConnectionsPerHost(fileSystemOptions));
             connectionMgrParams.setMaxTotalConnections(builder.getMaxTotalConnections(fileSystemOptions));
 
-            connectionMgrParams.setConnectionTimeout(builder.getConnectionTimeout(fileSystemOptions));
-            connectionMgrParams.setSoTimeout(builder.getSoTimeout(fileSystemOptions));
+            connectionMgrParams.setConnectionTimeout(
+                DurationUtils.toMillisInt(builder.getConnectionTimeoutDuration(fileSystemOptions)));
+            connectionMgrParams
+                .setSoTimeout(DurationUtils.toMillisInt(builder.getSoTimeoutDuration(fileSystemOptions)));
 
             client.setHostConfiguration(config);
 
@@ -134,4 +139,5 @@ public final class HttpClientFactory {
 
         return client;
     }
+    
 }

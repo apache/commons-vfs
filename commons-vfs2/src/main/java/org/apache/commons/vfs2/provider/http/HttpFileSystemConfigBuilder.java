@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.http;
 
+import java.time.Duration;
+
 import org.apache.commons.httpclient.Cookie;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.apache.commons.httpclient.params.HttpConnectionParams;
@@ -39,9 +41,9 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     private static final int DEFAULT_MAX_CONNECTIONS = 50;
 
-    private static final int DEFAULT_CONNECTION_TIMEOUT = 0;
+    private static final Duration DEFAULT_CONNECTION_TIMEOUT = Duration.ZERO;
 
-    private static final int DEFAULT_SO_TIMEOUT = 0;
+    private static final Duration DEFAULT_SO_TIMEOUT = Duration.ZERO;
 
     private static final boolean DEFAULT_FOLLOW_REDIRECT = true;
 
@@ -277,11 +279,24 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * The connection timeout.
      *
      * @param opts The FileSystem options.
-     * @param connectionTimeout The connection timeout.
-     * @since 2.1
+     * @param duration The connection timeout.
+     * @since 2.8.0
      */
-    public void setConnectionTimeout(final FileSystemOptions opts, final int connectionTimeout) {
-        setParam(opts, HttpConnectionParams.CONNECTION_TIMEOUT, Integer.valueOf(connectionTimeout));
+    public void setConnectionTimeout(final FileSystemOptions opts, final Duration duration) {
+        setParam(opts, HttpConnectionParams.CONNECTION_TIMEOUT, duration);
+    }
+
+    /**
+     * The connection timeout.
+     *
+     * @param opts The FileSystem options.
+     * @param duration The connection timeout.
+     * @since 2.1
+     * @deprecated Use {@link #setConnectionTimeout(FileSystemOptions, Duration)}.
+     */
+    @Deprecated
+    public void setConnectionTimeout(final FileSystemOptions opts, final int duration) {
+        setConnectionTimeout(opts, Duration.ofMillis(duration));
     }
 
     /**
@@ -290,20 +305,46 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param opts The FileSystem options.
      * @return The connection timeout.
      * @since 2.1
+     * @deprecated Use {@link #getConnectionTimeoutDuration(FileSystemOptions)}.
      */
+    @Deprecated
     public int getConnectionTimeout(final FileSystemOptions opts) {
-        return getInteger(opts, HttpConnectionParams.CONNECTION_TIMEOUT, DEFAULT_CONNECTION_TIMEOUT);
+        return getDurationInteger(opts, HttpConnectionParams.CONNECTION_TIMEOUT, DEFAULT_CONNECTION_TIMEOUT);
+    }
+
+    /**
+     * Gets the connection timeout.
+     *
+     * @param opts The FileSystem options.
+     * @return The connection timeout.
+     * @since 2.8.0
+     */
+    public Duration getConnectionTimeoutDuration(final FileSystemOptions opts) {
+        return getDuration(opts, HttpConnectionParams.CONNECTION_TIMEOUT, DEFAULT_CONNECTION_TIMEOUT);
     }
 
     /**
      * The socket timeout.
      *
      * @param opts The FileSystem options.
-     * @param soTimeout socket timeout.
-     * @since 2.1
+     * @param duration socket timeout.
+     * @since 2.8.0
      */
-    public void setSoTimeout(final FileSystemOptions opts, final int soTimeout) {
-        setParam(opts, HttpConnectionParams.SO_TIMEOUT, Integer.valueOf(soTimeout));
+    public void setSoTimeout(final FileSystemOptions opts, final Duration duration) {
+        setParam(opts, HttpConnectionParams.SO_TIMEOUT, duration);
+    }
+
+    /**
+     * The socket timeout.
+     *
+     * @param opts The FileSystem options.
+     * @param duration socket timeout.
+     * @since 2.1
+     * @deprecated Use {@link #setSoTimeout(FileSystemOptions, Duration)}.
+     */
+    @Deprecated
+    public void setSoTimeout(final FileSystemOptions opts, final int duration) {
+        setSoTimeout(opts, Duration.ofMillis(duration));
     }
 
     /**
@@ -312,9 +353,22 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param opts The FileSystemOptions.
      * @return The socket timeout.
      * @since 2.1
+     * @deprecated Use {@link #getSoTimeoutDuration(FileSystemOptions)}.
      */
+    @Deprecated
     public int getSoTimeout(final FileSystemOptions opts) {
-        return getInteger(opts, HttpConnectionParams.SO_TIMEOUT, DEFAULT_SO_TIMEOUT);
+        return getDurationInteger(opts, HttpConnectionParams.SO_TIMEOUT, DEFAULT_SO_TIMEOUT);
+    }
+
+    /**
+     * Gets the socket timeout.
+     *
+     * @param opts The FileSystemOptions.
+     * @return The socket timeout.
+     * @since 2.8.0
+     */
+    public Duration getSoTimeoutDuration(final FileSystemOptions opts) {
+        return getDuration(opts, HttpConnectionParams.SO_TIMEOUT, DEFAULT_SO_TIMEOUT);
     }
 
     /**

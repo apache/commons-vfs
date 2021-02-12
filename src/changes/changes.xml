@@ -77,31 +77,46 @@ The <action> type attribute can be add,update,fix,remove.
         Add and use VFS.close().
       </action>
       <action dev="ggregory" due-to="Gary Gregory, xiaqingyun" type="add">
-        Add support for FTP ControlKeepAliveReplyTimeout and ControlKeepAliveTimeout.
+        [FTP] Add support for ControlKeepAliveReplyTimeout and ControlKeepAliveTimeout.
       </action>
       <action dev="ggregory" due-to="Gary Gregory, Michael Graham" type="add">
-        FTP tests can be configured with a custom FTP server command factory.
+        [FTP] Tests can be configured with a custom FTP server command factory.
       </action>
       <action issue="VFS-257" dev="ggregory" due-to="Andrew Franklin, Michael Graham, Gary Gregory" type="add">
         [FTP] Add support for MDTM to get more accurate last modified times.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="add">
-        Add FtpFileSystemConfigBuilder.setConnectTimeout(FileSystemOptions, Duration) and deprecate Integer version.
+        [FTP] Add FtpFileSystemConfigBuilder.setConnectTimeout(FileSystemOptions, Duration) and deprecate Integer version.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="add">
-        Add FtpFileSystemConfigBuilder.setDataTimeout(FileSystemOptions, Duration) and deprecate Integer version.
+        [FTP] Add FtpFileSystemConfigBuilder.setDataTimeout(FileSystemOptions, Duration) and deprecate Integer version.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="add">
-        Add FtpFileSystemConfigBuilder.setSoTimeout(FileSystemOptions, Duration) and deprecate Integer version.
+        [FTP] Add FtpFileSystemConfigBuilder.setSoTimeout(FileSystemOptions, Duration) and deprecate Integer version.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="add">
-        Add FtpFileSystemConfigBuilder.getConnectTimeoutDuration(FileSystemOptions) and deprecate Integer version.
+        [FTP] Add FtpFileSystemConfigBuilder.getConnectTimeoutDuration(FileSystemOptions) and deprecate Integer version.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="add">
-        Add FtpFileSystemConfigBuilder.getDataTimeoutDuration(FileSystemOptions) and deprecate Integer version.
+        [FTP] Add FtpFileSystemConfigBuilder.getDataTimeoutDuration(FileSystemOptions) and deprecate Integer version.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="add">
-        Add FtpFileSystemConfigBuilder.getSoTimeoutDuration(FileSystemOptions) and deprecate Integer version.
+        [FTP] Add FtpFileSystemConfigBuilder.getSoTimeoutDuration(FileSystemOptions) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [FTP] Add FtpFileSystemConfigBuilder.getSoTimeoutDuration(FileSystemOptions) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [HTTP] Add HttpFileSystemConfigBuilder.setConnectionTimeout(FileSystemOptions, Duration) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [HTTP] Add HttpFileSystemConfigBuilder.setSoTimeout(FileSystemOptions, Duration) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [HTTP] Add HttpFileSystemConfigBuilder.getConnectionTimeout(FileSystemOptions) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [HTTP] Add HttpFileSystemConfigBuilder.getSoTimeoutDuration(FileSystemOptions) and deprecate Integer version.
       </action>
       <!-- UPDATES -->
       <action dev="ggregory" due-to="PeterAlfredLee" type="update">

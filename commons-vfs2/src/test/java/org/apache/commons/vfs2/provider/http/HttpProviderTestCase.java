@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider.http;
 
 import java.io.File;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
@@ -38,6 +39,8 @@ import junit.framework.Test;
  *
  */
 public class HttpProviderTestCase extends AbstractProviderTestConfig {
+    private static final Duration ONE_MINUTE = Duration.ofMinutes(1);
+
     private static NHttpFileServer Server;
 
     private static int SocketPort;
@@ -170,22 +173,36 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
 
     /** Ensure VFS-453 options are present. */
     public void testHttpTimeoutConfig() {
-        final FileSystemOptions opts = new FileSystemOptions();
+        final FileSystemOptions options = new FileSystemOptions();
         final HttpFileSystemConfigBuilder builder = HttpFileSystemConfigBuilder.getInstance();
 
         // ensure defaults are 0
-        assertEquals(0, builder.getConnectionTimeout(opts));
-        assertEquals(0, builder.getSoTimeout(opts));
-        assertEquals("Jakarta-Commons-VFS", builder.getUserAgent(opts));
+        assertEquals(0, builder.getConnectionTimeout(options));
+        assertEquals(0, builder.getConnectionTimeoutDuration(options).toMillis());
+        assertEquals(0, builder.getSoTimeout(options));
+        assertEquals("Jakarta-Commons-VFS", builder.getUserAgent(options));
 
-        builder.setConnectionTimeout(opts, 60000);
-        builder.setSoTimeout(opts, 60000);
-        builder.setUserAgent(opts, "foo/bar");
+        // Set with deprecated milliseconds APIs.
+        builder.setConnectionTimeout(options, 60000);
+        builder.setSoTimeout(options, 60000);
+        builder.setUserAgent(options, "foo/bar");
 
         // ensure changes are visible
-        assertEquals(60000, builder.getConnectionTimeout(opts));
-        assertEquals(60000, builder.getSoTimeout(opts));
-        assertEquals("foo/bar", builder.getUserAgent(opts));
+        assertEquals(60000, builder.getConnectionTimeout(options));
+        assertEquals(ONE_MINUTE, builder.getConnectionTimeoutDuration(options));
+        assertEquals(60000, builder.getSoTimeout(options));
+        assertEquals("foo/bar", builder.getUserAgent(options));
+
+        // Set with Duration APIs.
+        builder.setConnectionTimeout(options, ONE_MINUTE);
+        builder.setSoTimeout(options, ONE_MINUTE);
+
+        // ensure changes are visible
+        assertEquals(60000, builder.getConnectionTimeout(options));
+        assertEquals(ONE_MINUTE, builder.getConnectionTimeoutDuration(options));
+        assertEquals(60000, builder.getSoTimeout(options));
+        assertEquals(ONE_MINUTE, builder.getSoTimeoutDuration(options));
+        assertEquals("foo/bar", builder.getUserAgent(options));
 
         // TODO: should also check the created HTTPClient
     }
