@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider.sftp;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -31,6 +32,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.GenericFileName;
+import org.apache.commons.vfs2.util.DurationUtils;
 
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.ChannelSftp;
@@ -63,7 +65,7 @@ public class SftpFileSystem extends AbstractFileSystem {
 
     private volatile ChannelSftp idleChannel;
 
-    private final int connectTimeoutMillis;
+    private final Duration connectTimeout;
 
     /**
      * Cache for the user ID (-1 when not set)
@@ -90,8 +92,8 @@ public class SftpFileSystem extends AbstractFileSystem {
             final FileSystemOptions fileSystemOptions) {
         super(rootName, null, fileSystemOptions);
         this.session = Objects.requireNonNull(session, "session");
-        this.connectTimeoutMillis = SftpFileSystemConfigBuilder.getInstance()
-                .getConnectTimeoutMillis(fileSystemOptions);
+        this.connectTimeout = SftpFileSystemConfigBuilder.getInstance()
+            .getConnectTimeout(fileSystemOptions);
 
         if (SftpFileSystemConfigBuilder.getInstance().isDisableDetectExecChannel(fileSystemOptions)) {
             this.execDisabled = true;
@@ -138,7 +140,7 @@ public class SftpFileSystem extends AbstractFileSystem {
 
             if (channel == null) {
                 channel = (ChannelSftp) getSession().openChannel("sftp");
-                channel.connect(connectTimeoutMillis);
+                channel.connect(DurationUtils.toMillisInt(connectTimeout));
                 final Boolean userDirIsRoot = SftpFileSystemConfigBuilder.getInstance()
                         .getUserDirIsRoot(getFileSystemOptions());
                 final String workingDirectory = getRootName().getPath();
@@ -315,7 +317,7 @@ public class SftpFileSystem extends AbstractFileSystem {
             channel.setInputStream(null);
             try (final InputStreamReader stream = new InputStreamReader(channel.getInputStream(), StandardCharsets.UTF_8)) {
                 channel.setErrStream(System.err, true);
-                channel.connect(connectTimeoutMillis);
+                channel.connect(DurationUtils.toMillisInt(connectTimeout));
 
                 // Read the stream
                 final char[] buffer = new char[EXEC_BUFFER_SIZE];

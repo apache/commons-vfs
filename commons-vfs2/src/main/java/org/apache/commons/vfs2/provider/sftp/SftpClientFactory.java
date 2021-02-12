@@ -18,12 +18,14 @@ package org.apache.commons.vfs2.provider.sftp;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.util.DurationUtils;
 import org.apache.commons.vfs2.util.Os;
 
 import com.jcraft.jsch.ConfigRepository;
@@ -94,9 +96,9 @@ public final class SftpClientFactory {
                 session.setPassword(new String(password));
             }
 
-            final Integer sessionTimeout = builder.getSessionTimeoutMillis(fileSystemOptions);
+            final Duration sessionTimeout = builder.getSessionTimeout(fileSystemOptions);
             if (sessionTimeout != null) {
-                session.setTimeout(sessionTimeout.intValue());
+                session.setTimeout(DurationUtils.toMillisInt(sessionTimeout));
             }
 
             final UserInfo userInfo = builder.getUserInfo(fileSystemOptions);
