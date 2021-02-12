@@ -36,4 +36,6 @@
     
     <suppress checks="MissingSwitchDefault" files="PropertiesConfiguration.java"/>
 
+    <suppress checks="LineLength" files=".*\.properties"/>
+
 </suppressions>
