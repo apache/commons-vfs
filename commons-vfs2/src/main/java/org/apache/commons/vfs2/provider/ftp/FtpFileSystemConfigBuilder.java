@@ -599,11 +599,11 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * </p>
      *
      * @param options The FileSystem options.
-     * @param duration The timeout value in milliseconds.
+     * @param timeout The timeout value in milliseconds.
      * @since 2.8.0
      */
-    public void setSoTimeout(final FileSystemOptions options, final Duration duration) {
-        setParam(options, SO_TIMEOUT, duration);
+    public void setSoTimeout(final FileSystemOptions options, final Duration timeout) {
+        setParam(options, SO_TIMEOUT, timeout);
     }
 
     /**
@@ -613,13 +613,13 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * </p>
      *
      * @param options The FileSystem options.
-     * @param duration The timeout value in milliseconds.
+     * @param timeout The timeout value in milliseconds.
      * @since 2.0
      * @deprecated Use {@link #setSoTimeout(FileSystemOptions, Duration)}.
      */
     @Deprecated
-    public void setSoTimeout(final FileSystemOptions options, final Integer duration) {
-        setSoTimeout(options, Duration.ofMillis(duration));
+    public void setSoTimeout(final FileSystemOptions options, final Integer timeout) {
+        setSoTimeout(options, Duration.ofMillis(timeout));
     }
 
     /**

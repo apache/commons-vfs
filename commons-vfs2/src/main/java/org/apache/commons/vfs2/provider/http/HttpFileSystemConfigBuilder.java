@@ -279,24 +279,24 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * The connection timeout.
      *
      * @param opts The FileSystem options.
-     * @param duration The connection timeout.
+     * @param timeout The connection timeout.
      * @since 2.8.0
      */
-    public void setConnectionTimeout(final FileSystemOptions opts, final Duration duration) {
-        setParam(opts, HttpConnectionParams.CONNECTION_TIMEOUT, duration);
+    public void setConnectionTimeout(final FileSystemOptions opts, final Duration timeout) {
+        setParam(opts, HttpConnectionParams.CONNECTION_TIMEOUT, timeout);
     }
 
     /**
      * The connection timeout.
      *
      * @param opts The FileSystem options.
-     * @param duration The connection timeout.
+     * @param timeout The connection timeout.
      * @since 2.1
      * @deprecated Use {@link #setConnectionTimeout(FileSystemOptions, Duration)}.
      */
     @Deprecated
-    public void setConnectionTimeout(final FileSystemOptions opts, final int duration) {
-        setConnectionTimeout(opts, Duration.ofMillis(duration));
+    public void setConnectionTimeout(final FileSystemOptions opts, final int timeout) {
+        setConnectionTimeout(opts, Duration.ofMillis(timeout));
     }
 
     /**
@@ -327,24 +327,24 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * The socket timeout.
      *
      * @param opts The FileSystem options.
-     * @param duration socket timeout.
+     * @param timeout socket timeout.
      * @since 2.8.0
      */
-    public void setSoTimeout(final FileSystemOptions opts, final Duration duration) {
-        setParam(opts, HttpConnectionParams.SO_TIMEOUT, duration);
+    public void setSoTimeout(final FileSystemOptions opts, final Duration timeout) {
+        setParam(opts, HttpConnectionParams.SO_TIMEOUT, timeout);
     }
 
     /**
      * The socket timeout.
      *
      * @param opts The FileSystem options.
-     * @param duration socket timeout.
+     * @param timeout socket timeout.
      * @since 2.1
      * @deprecated Use {@link #setSoTimeout(FileSystemOptions, Duration)}.
      */
     @Deprecated
-    public void setSoTimeout(final FileSystemOptions opts, final int duration) {
-        setSoTimeout(opts, Duration.ofMillis(duration));
+    public void setSoTimeout(final FileSystemOptions opts, final int timeout) {
+        setSoTimeout(opts, Duration.ofMillis(timeout));
     }
 
     /**
