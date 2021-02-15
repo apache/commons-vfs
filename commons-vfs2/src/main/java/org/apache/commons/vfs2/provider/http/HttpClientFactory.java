@@ -139,5 +139,5 @@ public final class HttpClientFactory {
 
         return client;
     }
-    
+
 }

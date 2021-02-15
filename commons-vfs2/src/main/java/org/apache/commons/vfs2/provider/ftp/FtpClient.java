@@ -60,7 +60,7 @@ public interface FtpClient {
 
     boolean isConnected() throws FileSystemException;
 
-    // This interface should not leak Apache Commons NET types like FTPFile 
+    // This interface should not leak Apache Commons NET types like FTPFile
     FTPFile[] listFiles(String relPath) throws IOException;
 
     boolean makeDirectory(String relPath) throws IOException;
@@ -73,7 +73,7 @@ public interface FtpClient {
      * <p>
      * NOTE: not all remote FTP servers support {@code MDTM}.
      * </p>
-     * 
+     *
      * @param relPath The relative path of the file object to execute {@code MDTM} command against
      * @return new {@code Instant} object containing the {@code MDTM} timestamp.
      * @throws IOException If the underlying FTP client encountered an error.

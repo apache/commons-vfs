@@ -78,7 +78,7 @@ import org.w3c.dom.Node;
  * @since 2.0
  */
 public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
-    
+
     /**
      * An empty immutable {@code WebdavFileObject} array.
      */
