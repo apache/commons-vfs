@@ -33,7 +33,7 @@ public class SftpFileSystemConfigBuilderTestCase {
 
     @Test
     public void testConnectTimeout() {
-        FileSystemOptions options = new FileSystemOptions();
+        final FileSystemOptions options = new FileSystemOptions();
         final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
         builder.setConnectTimeout(options, ONE_MINUTE);
         assertEquals(ONE_MINUTE, builder.getConnectTimeout(options));
@@ -46,7 +46,7 @@ public class SftpFileSystemConfigBuilderTestCase {
 
     @Test
     public void testSessionTimeout() {
-        FileSystemOptions options = new FileSystemOptions();
+        final FileSystemOptions options = new FileSystemOptions();
         final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
         builder.setSessionTimeout(options, ONE_MINUTE);
         assertEquals(ONE_MINUTE, builder.getSessionTimeout(options));

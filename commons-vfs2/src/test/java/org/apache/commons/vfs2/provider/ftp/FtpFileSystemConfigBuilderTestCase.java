@@ -32,7 +32,7 @@ public class FtpFileSystemConfigBuilderTestCase {
     @Test
     public void testControlKeepAliveReplyTimeout() {
         final FtpFileSystemConfigBuilder instance = FtpFileSystemConfigBuilder.getInstance();
-        FileSystemOptions options = new FileSystemOptions();
+        final FileSystemOptions options = new FileSystemOptions();
         instance.setControlKeepAliveReplyTimeout(options, Duration.ofSeconds(10));
         assertEquals(Duration.ofSeconds(10), instance.getControlKeepAliveReplyTimeout(options));
     }
@@ -40,7 +40,7 @@ public class FtpFileSystemConfigBuilderTestCase {
     @Test
     public void testControlKeepAliveTimeout() {
         final FtpFileSystemConfigBuilder instance = FtpFileSystemConfigBuilder.getInstance();
-        FileSystemOptions options = new FileSystemOptions();
+        final FileSystemOptions options = new FileSystemOptions();
         instance.setControlKeepAliveTimeout(options, Duration.ofSeconds(10));
         assertEquals(Duration.ofSeconds(10), instance.getControlKeepAliveTimeout(options));
     }

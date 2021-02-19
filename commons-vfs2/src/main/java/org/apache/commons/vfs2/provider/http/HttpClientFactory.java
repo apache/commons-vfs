@@ -16,8 +16,6 @@
  */
 package org.apache.commons.vfs2.provider.http;
 
-import java.time.Duration;
-
 import org.apache.commons.httpclient.Cookie;
 import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpClient;

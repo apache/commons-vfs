@@ -126,7 +126,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
      * Creates the test suite for subclasses of the FTP file system.
      */
     protected static Test suite(final FtpProviderTestCase testCase,
-        Class<? extends AbstractProviderTestCase>... testClasses) throws Exception {
+        final Class<? extends AbstractProviderTestCase>... testClasses) throws Exception {
         return new ProviderTestSuite(testCase) {
 
             @Override
@@ -179,7 +179,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         this(false);
     }
 
-    public FtpProviderTestCase(boolean mdtmLastModifiedTime) {
+    public FtpProviderTestCase(final boolean mdtmLastModifiedTime) {
         this.mdtmLastModifiedTime = mdtmLastModifiedTime;
     }
 

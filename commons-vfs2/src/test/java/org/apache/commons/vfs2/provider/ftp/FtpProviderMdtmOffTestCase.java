@@ -48,7 +48,7 @@ public class FtpProviderMdtmOffTestCase extends FtpProviderTestCase {
         factory.addCommand(commandName, new Command() {
 
             @Override
-            public void execute(FtpIoSession session, FtpServerContext context, FtpRequest request)
+            public void execute(final FtpIoSession session, final FtpServerContext context, final FtpRequest request)
                 throws IOException, FtpException {
                 session.resetState();
 
