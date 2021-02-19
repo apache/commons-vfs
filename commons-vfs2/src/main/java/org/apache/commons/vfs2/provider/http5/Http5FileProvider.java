@@ -28,8 +28,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 
@@ -77,6 +75,7 @@ import org.apache.hc.core5.http.io.SocketConfig;
 import org.apache.hc.core5.http.message.BasicHeader;
 import org.apache.hc.core5.http.ssl.TLS;
 import org.apache.hc.core5.ssl.SSLContextBuilder;
+import org.apache.hc.core5.util.Timeout;
 
 /**
  * {@code FileProvider} implementation using HttpComponents HttpClient v5 library.
@@ -119,7 +118,7 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
         final SocketConfig socketConfig =
                 SocketConfig
                 .custom()
-                .setSoTimeout(builder.getSoTimeout(fileSystemOptions), TimeUnit.MILLISECONDS)
+                .setSoTimeout(Timeout.ofMilliseconds(builder.getSoTimeoutDuration(fileSystemOptions).toMillis()))
                 .build();
 
         final String[] tlsVersions = builder.getTlsVersions(fileSystemOptions).split("\\s*,\\s*");
@@ -155,7 +154,7 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
     private RequestConfig createDefaultRequestConfig(final Http5FileSystemConfigBuilder builder,
             final FileSystemOptions fileSystemOptions) {
         return RequestConfig.custom()
-                .setConnectTimeout(builder.getConnectionTimeout(fileSystemOptions), TimeUnit.MILLISECONDS)
+                .setConnectTimeout(Timeout.ofMilliseconds(builder.getSoTimeoutDuration(fileSystemOptions).toMillis()))
                 .build();
     }
 

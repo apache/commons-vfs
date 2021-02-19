@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider.http5;
 
 import java.io.File;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
@@ -142,15 +143,19 @@ public class Http5ProviderTestCase extends AbstractProviderTestConfig {
     }
 
     /** Ensure VFS-453 options are present. */
+    @SuppressWarnings("deprecation")
     public void testHttpTimeoutConfig() {
         final FileSystemOptions opts = new FileSystemOptions();
         final Http5FileSystemConfigBuilder builder = Http5FileSystemConfigBuilder.getInstance();
 
         // ensure defaults are 0
         assertEquals(0, builder.getConnectionTimeout(opts));
+        assertEquals(Duration.ZERO, builder.getConnectionTimeoutDuration(opts));
         assertEquals(0, builder.getSoTimeout(opts));
+        assertEquals(Duration.ZERO, builder.getSoTimeoutDuration(opts));
         assertEquals("Jakarta-Commons-VFS", builder.getUserAgent(opts));
 
+        // timeout as int
         builder.setConnectionTimeout(opts, 60000);
         builder.setSoTimeout(opts, 60000);
         builder.setUserAgent(opts, "foo/bar");
@@ -160,6 +165,15 @@ public class Http5ProviderTestCase extends AbstractProviderTestConfig {
         assertEquals(60000, builder.getSoTimeout(opts));
         assertEquals("foo/bar", builder.getUserAgent(opts));
 
+        // timeout as Duration
+        builder.setConnectionTimeout(opts, Duration.ofMinutes(1));
+        builder.setSoTimeout(opts, Duration.ofMinutes(1));
+        builder.setUserAgent(opts, "foo/bar");
+
+        // ensure changes are visible
+        assertEquals(60000, builder.getConnectionTimeoutDuration(opts).toMillis());
+        assertEquals(60000, builder.getSoTimeoutDuration(opts).toMillis());
+        assertEquals("foo/bar", builder.getUserAgent(opts));
     }
 
     private void testResloveFolderSlash(final String uri, final boolean followRedirect) throws FileSystemException {
