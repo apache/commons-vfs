@@ -236,10 +236,10 @@ public class FTPClientWrapper implements FtpClient {
     @Override
     public Instant mdtmInstant(final String relPath) throws IOException {
         try {
-            return getFtpClient().mdtmFile(relPath).getTimestamp().toInstant();
+            return getFtpClient().mdtmCalendar(relPath).toInstant();
         } catch (final IOException ex) {
             disconnect();
-            return getFtpClient().mdtmFile(relPath).getTimestamp().toInstant();
+            return getFtpClient().mdtmCalendar(relPath).toInstant();
         }
     }
 
