@@ -113,35 +113,59 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
         setFileNameParser(Http5FileNameParser.getInstance());
     }
 
-    @Override
-    public FileSystemConfigBuilder getConfigBuilder() {
-        return Http5FileSystemConfigBuilder.getInstance();
+    private HttpClientConnectionManager createConnectionManager(final Http5FileSystemConfigBuilder builder,
+            final FileSystemOptions fileSystemOptions) throws FileSystemException {
+
+        final SocketConfig socketConfig =
+                SocketConfig
+                .custom()
+                .setSoTimeout(builder.getSoTimeout(fileSystemOptions), TimeUnit.MILLISECONDS)
+                .build();
+
+        final String[] tlsVersions = builder.getTlsVersions(fileSystemOptions).split("\\s*,\\s*");
+
+        final TLS[] tlsArray = Arrays.stream(tlsVersions).map(TLS::valueOf).toArray(TLS[]::new);
+
+        final SSLConnectionSocketFactory sslSocketFactory = SSLConnectionSocketFactoryBuilder.create()
+                .setSslContext(createSSLContext(builder, fileSystemOptions))
+                .setHostnameVerifier(createHostnameVerifier(builder, fileSystemOptions))
+                .setTlsVersions(tlsArray)
+                .build();
+
+        return PoolingHttpClientConnectionManagerBuilder.create()
+                .setSSLSocketFactory(sslSocketFactory)
+                .setMaxConnTotal(builder.getMaxTotalConnections(fileSystemOptions))
+                .setMaxConnPerRoute(builder.getMaxConnectionsPerHost(fileSystemOptions))
+                .setDefaultSocketConfig(socketConfig)
+                .build();
     }
 
-    @Override
-    public Collection<Capability> getCapabilities() {
-        return capabilities;
-    }
+    private CookieStore createDefaultCookieStore(final Http5FileSystemConfigBuilder builder,
+            final FileSystemOptions fileSystemOptions) {
+        final CookieStore cookieStore = new BasicCookieStore();
+        final Cookie[] cookies = builder.getCookies(fileSystemOptions);
 
-    @Override
-    protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
-            throws FileSystemException {
-        final GenericFileName rootName = (GenericFileName) name;
-
-        UserAuthenticationData authData = null;
-        HttpClient httpClient;
-        HttpClientContext httpClientContext;
-
-        try {
-            final Http5FileSystemConfigBuilder builder = Http5FileSystemConfigBuilder.getInstance();
-            authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, AUTHENTICATOR_TYPES);
-            httpClientContext = createHttpClientContext(builder, rootName, fileSystemOptions, authData);
-            httpClient = createHttpClient(builder, rootName, fileSystemOptions);
-        } finally {
-            UserAuthenticatorUtils.cleanup(authData);
+        if (cookies != null) {
+            Arrays.stream(cookies).forEach(cookieStore::addCookie);
         }
 
-        return new Http5FileSystem(rootName, fileSystemOptions, httpClient, httpClientContext);
+        return cookieStore;
+    }
+
+    private RequestConfig createDefaultRequestConfig(final Http5FileSystemConfigBuilder builder,
+            final FileSystemOptions fileSystemOptions) {
+        return RequestConfig.custom()
+                .setConnectTimeout(builder.getConnectionTimeout(fileSystemOptions), TimeUnit.MILLISECONDS)
+                .build();
+    }
+
+    private HostnameVerifier createHostnameVerifier(final Http5FileSystemConfigBuilder builder,
+            final FileSystemOptions fileSystemOptions) throws FileSystemException {
+        if (!builder.isHostnameVerificationEnabled(fileSystemOptions)) {
+            return NoopHostnameVerifier.INSTANCE;
+        }
+
+        return new DefaultHostnameVerifier();
     }
 
     /**
@@ -190,49 +214,6 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
         }
 
         return httpClientBuilder;
-    }
-
-    /**
-     * Create {@link SSLContext} for HttpClient. Invoked by {@link #createHttpClientBuilder(Http5FileSystemConfigBuilder, GenericFileName, FileSystemOptions)}.
-     *
-     * @param builder Configuration options builder for HTTP4 provider
-     * @param fileSystemOptions The FileSystem options
-     * @return a {@link SSLContext} for HttpClient
-     * @throws FileSystemException if an error occurs
-     */
-    protected SSLContext createSSLContext(final Http5FileSystemConfigBuilder builder,
-            final FileSystemOptions fileSystemOptions) throws FileSystemException {
-        try {
-            final SSLContextBuilder sslContextBuilder = new SSLContextBuilder();
-            sslContextBuilder.setKeyStoreType(builder.getKeyStoreType(fileSystemOptions));
-
-            File keystoreFileObject = null;
-            final String keystoreFile = builder.getKeyStoreFile(fileSystemOptions);
-
-            if (keystoreFile != null && !keystoreFile.isEmpty()) {
-                keystoreFileObject = new File(keystoreFile);
-            }
-
-            if (keystoreFileObject != null && keystoreFileObject.exists()) {
-                final String keystorePass = builder.getKeyStorePass(fileSystemOptions);
-                final char[] keystorePassChars = (keystorePass != null) ? keystorePass.toCharArray() : null;
-                sslContextBuilder.loadTrustMaterial(keystoreFileObject, keystorePassChars, TrustAllStrategy.INSTANCE);
-            } else {
-                sslContextBuilder.loadTrustMaterial(TrustAllStrategy.INSTANCE);
-            }
-
-            return sslContextBuilder.build();
-        } catch (final KeyStoreException e) {
-            throw new FileSystemException("Keystore error. " + e.getMessage(), e);
-        } catch (final KeyManagementException e) {
-            throw new FileSystemException("Cannot retrieve keys. " + e.getMessage(), e);
-        } catch (final NoSuchAlgorithmException e) {
-            throw new FileSystemException("Algorithm error. " + e.getMessage(), e);
-        } catch (final CertificateException e) {
-            throw new FileSystemException("Certificate error. " + e.getMessage(), e);
-        } catch (final IOException e) {
-            throw new FileSystemException("Cannot open key file. " + e.getMessage(), e);
-        }
     }
 
     /**
@@ -297,40 +278,6 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
         return clientContext;
     }
 
-    private HttpClientConnectionManager createConnectionManager(final Http5FileSystemConfigBuilder builder,
-            final FileSystemOptions fileSystemOptions) throws FileSystemException {
-
-        final SocketConfig socketConfig =
-                SocketConfig
-                .custom()
-                .setSoTimeout(builder.getSoTimeout(fileSystemOptions), TimeUnit.MILLISECONDS)
-                .build();
-
-        final String[] tlsVersions = builder.getTlsVersions(fileSystemOptions).split("\\s*,\\s*");
-
-        final TLS[] tlsArray = Arrays.stream(tlsVersions).map(TLS::valueOf).toArray(TLS[]::new);
-
-        final SSLConnectionSocketFactory sslSocketFactory = SSLConnectionSocketFactoryBuilder.create()
-                .setSslContext(createSSLContext(builder, fileSystemOptions))
-                .setHostnameVerifier(createHostnameVerifier(builder, fileSystemOptions))
-                .setTlsVersions(tlsArray)
-                .build();
-
-        return PoolingHttpClientConnectionManagerBuilder.create()
-                .setSSLSocketFactory(sslSocketFactory)
-                .setMaxConnTotal(builder.getMaxTotalConnections(fileSystemOptions))
-                .setMaxConnPerRoute(builder.getMaxConnectionsPerHost(fileSystemOptions))
-                .setDefaultSocketConfig(socketConfig)
-                .build();
-    }
-
-    private RequestConfig createDefaultRequestConfig(final Http5FileSystemConfigBuilder builder,
-            final FileSystemOptions fileSystemOptions) {
-        return RequestConfig.custom()
-                .setConnectTimeout(builder.getConnectionTimeout(fileSystemOptions), TimeUnit.MILLISECONDS)
-                .build();
-    }
-
     private HttpRoutePlanner createHttpRoutePlanner(final Http5FileSystemConfigBuilder builder,
             final FileSystemOptions fileSystemOptions) {
         final HttpHost proxyHost = getProxyHttpHost(builder, fileSystemOptions);
@@ -340,6 +287,80 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
         }
 
         return new SystemDefaultRoutePlanner(ProxySelector.getDefault());
+    }
+
+    /**
+     * Create {@link SSLContext} for HttpClient. Invoked by {@link #createHttpClientBuilder(Http5FileSystemConfigBuilder, GenericFileName, FileSystemOptions)}.
+     *
+     * @param builder Configuration options builder for HTTP4 provider
+     * @param fileSystemOptions The FileSystem options
+     * @return a {@link SSLContext} for HttpClient
+     * @throws FileSystemException if an error occurs
+     */
+    protected SSLContext createSSLContext(final Http5FileSystemConfigBuilder builder,
+            final FileSystemOptions fileSystemOptions) throws FileSystemException {
+        try {
+            final SSLContextBuilder sslContextBuilder = new SSLContextBuilder();
+            sslContextBuilder.setKeyStoreType(builder.getKeyStoreType(fileSystemOptions));
+
+            File keystoreFileObject = null;
+            final String keystoreFile = builder.getKeyStoreFile(fileSystemOptions);
+
+            if (keystoreFile != null && !keystoreFile.isEmpty()) {
+                keystoreFileObject = new File(keystoreFile);
+            }
+
+            if (keystoreFileObject != null && keystoreFileObject.exists()) {
+                final String keystorePass = builder.getKeyStorePass(fileSystemOptions);
+                final char[] keystorePassChars = (keystorePass != null) ? keystorePass.toCharArray() : null;
+                sslContextBuilder.loadTrustMaterial(keystoreFileObject, keystorePassChars, TrustAllStrategy.INSTANCE);
+            } else {
+                sslContextBuilder.loadTrustMaterial(TrustAllStrategy.INSTANCE);
+            }
+
+            return sslContextBuilder.build();
+        } catch (final KeyStoreException e) {
+            throw new FileSystemException("Keystore error. " + e.getMessage(), e);
+        } catch (final KeyManagementException e) {
+            throw new FileSystemException("Cannot retrieve keys. " + e.getMessage(), e);
+        } catch (final NoSuchAlgorithmException e) {
+            throw new FileSystemException("Algorithm error. " + e.getMessage(), e);
+        } catch (final CertificateException e) {
+            throw new FileSystemException("Certificate error. " + e.getMessage(), e);
+        } catch (final IOException e) {
+            throw new FileSystemException("Cannot open key file. " + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
+            throws FileSystemException {
+        final GenericFileName rootName = (GenericFileName) name;
+
+        UserAuthenticationData authData = null;
+        HttpClient httpClient;
+        HttpClientContext httpClientContext;
+
+        try {
+            final Http5FileSystemConfigBuilder builder = Http5FileSystemConfigBuilder.getInstance();
+            authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, AUTHENTICATOR_TYPES);
+            httpClientContext = createHttpClientContext(builder, rootName, fileSystemOptions, authData);
+            httpClient = createHttpClient(builder, rootName, fileSystemOptions);
+        } finally {
+            UserAuthenticatorUtils.cleanup(authData);
+        }
+
+        return new Http5FileSystem(rootName, fileSystemOptions, httpClient, httpClientContext);
+    }
+
+    @Override
+    public Collection<Capability> getCapabilities() {
+        return capabilities;
+    }
+
+    @Override
+    public FileSystemConfigBuilder getConfigBuilder() {
+        return Http5FileSystemConfigBuilder.getInstance();
     }
 
     private HttpHost getProxyHttpHost(final Http5FileSystemConfigBuilder builder,
@@ -353,27 +374,6 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
         }
 
         return null;
-    }
-
-    private CookieStore createDefaultCookieStore(final Http5FileSystemConfigBuilder builder,
-            final FileSystemOptions fileSystemOptions) {
-        final CookieStore cookieStore = new BasicCookieStore();
-        final Cookie[] cookies = builder.getCookies(fileSystemOptions);
-
-        if (cookies != null) {
-            Arrays.stream(cookies).forEach(cookieStore::addCookie);
-        }
-
-        return cookieStore;
-    }
-
-    private HostnameVerifier createHostnameVerifier(final Http5FileSystemConfigBuilder builder,
-            final FileSystemOptions fileSystemOptions) throws FileSystemException {
-        if (!builder.isHostnameVerificationEnabled(fileSystemOptions)) {
-            return NoopHostnameVerifier.INSTANCE;
-        }
-
-        return new DefaultHostnameVerifier();
     }
 
 }

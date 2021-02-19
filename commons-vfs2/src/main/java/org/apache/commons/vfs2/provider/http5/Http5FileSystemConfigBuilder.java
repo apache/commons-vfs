@@ -191,19 +191,6 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String DEFAULT_TLS_VERSIONS = "V_1_2";
 
     /**
-     * Construct an {@code Http4FileSystemConfigBuilder}.
-     *
-     * @param prefix String for properties of this file system.
-     */
-    protected Http5FileSystemConfigBuilder(final String prefix) {
-        super(prefix);
-    }
-
-    private Http5FileSystemConfigBuilder() {
-        super("http.");
-    }
-
-    /**
      * Gets the singleton builder.
      *
      * @return the singleton builder.
@@ -212,63 +199,111 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
         return BUILDER;
     }
 
-    /**
-     * Sets the charset used for url encoding.
-     *
-     * @param opts The FileSystem options.
-     * @param chaset the chaset
-     */
-    public void setUrlCharset(final FileSystemOptions opts, final String chaset) {
-        setParam(opts, "urlCharset", chaset);
+    private Http5FileSystemConfigBuilder() {
+        super("http.");
     }
 
     /**
-     * Sets the charset used for url encoding.
+     * Construct an {@code Http4FileSystemConfigBuilder}.
      *
-     * @param opts The FileSystem options.
-     * @return the chaset
+     * @param prefix String for properties of this file system.
      */
-    public String getUrlCharset(final FileSystemOptions opts) {
-        return getString(opts, "urlCharset");
+    protected Http5FileSystemConfigBuilder(final String prefix) {
+        super(prefix);
+    }
+
+    @Override
+    protected Class<? extends FileSystem> getConfigClass() {
+        return Http5FileSystem.class;
     }
 
     /**
-     * Sets the proxy to use for http connection.
-     * <p>
-     * You have to set the ProxyPort too if you would like to have the proxy really used.
-     * </p>
+     * Gets the connection timeout.
      *
      * @param opts The FileSystem options.
-     * @param proxyHost the host
-     * @see #setProxyPort
+     * @return The connection timeout.
      */
-    public void setProxyHost(final FileSystemOptions opts, final String proxyHost) {
-        setParam(opts, "proxyHost", proxyHost);
+    public int getConnectionTimeout(final FileSystemOptions opts) {
+        return getInteger(opts, CONNECTION_TIMEOUT, DEFAULT_CONNECTION_TIMEOUT);
     }
 
     /**
-     * Sets the proxy-port to use for http connection. You have to set the ProxyHost too if you would like to have the
-     * proxy really used.
+     * Gets the cookies to add to the request.
      *
      * @param opts The FileSystem options.
-     * @param proxyPort the port
-     * @see #setProxyHost
+     * @return the Cookie array.
      */
-    public void setProxyPort(final FileSystemOptions opts, final int proxyPort) {
-        setParam(opts, "proxyPort", Integer.valueOf(proxyPort));
+    public Cookie[] getCookies(final FileSystemOptions opts) {
+        return getParam(opts, "cookies");
     }
 
     /**
-     * Sets the proxy-scheme to use for http connection. You have to set the ProxyHost too if you would like to have the
-     * proxy really used.
+     * Gets whether to follow redirects for the connection.
      *
      * @param opts The FileSystem options.
-     * @param proxyScheme the protocol scheme
-     * @see #setProxyHost
+     * @return {@code true} to follow redirects, {@code false} not to.
+     * @see #setFollowRedirect
+     */
+    public boolean getFollowRedirect(final FileSystemOptions opts) {
+        return getBoolean(opts, KEY_FOLLOW_REDIRECT, DEFAULT_FOLLOW_REDIRECT);
+    }
+
+    /**
+     * Return keystore file path to be used in SSL connections.
+     * @param opts the file system options to modify
+     * @return keystore file path to be used in SSL connections
+     */
+    public String getKeyStoreFile(final FileSystemOptions opts) {
+        return getParam(opts, KEYSTORE_FILE);
+    }
+
+    /**
+     * Return keystore pass phrase for SSL connections.
+     * @param opts the file system options to modify
+     * @return keystore pass phrase for SSL connections
+     */
+    String getKeyStorePass(final FileSystemOptions opts) {
+        return getParam(opts, KEYSTORE_PASS);
+    }
+
+    /**
+     * Get keystore type for SSL connections.
+     * @param opts the file system options to modify
+     * @return keystore type for SSL connections
      * @since 2.7.0
      */
-    public void setProxyScheme(final FileSystemOptions opts, final String proxyScheme) {
-        setParam(opts, PROXY_SCHEME, proxyScheme);
+    public String getKeyStoreType(final FileSystemOptions opts) {
+        return getString(opts, KEYSTORE_TYPE, KeyStore.getDefaultType());
+    }
+
+    /**
+     * Gets the maximum number of connections allowed per host.
+     *
+     * @param opts The FileSystemOptions.
+     * @return The maximum number of connections allowed per host.
+     */
+    public int getMaxConnectionsPerHost(final FileSystemOptions opts) {
+        return getInteger(opts, MAX_HOST_CONNECTIONS, DEFAULT_MAX_HOST_CONNECTIONS);
+    }
+
+    /**
+     * Gets the maximum number of connections allowed.
+     *
+     * @param opts The FileSystemOptions.
+     * @return The maximum number of connections allowed.
+     */
+    public int getMaxTotalConnections(final FileSystemOptions opts) {
+        return getInteger(opts, MAX_TOTAL_CONNECTIONS, DEFAULT_MAX_CONNECTIONS);
+    }
+
+    /**
+     * Gets the proxy authenticator where the system should get the credentials from.
+     *
+     * @param opts The FileSystem options.
+     * @return The UserAuthenticator.
+     */
+    public UserAuthenticator getProxyAuthenticator(final FileSystemOptions opts) {
+        return getParam(opts, "proxyAuthenticator");
     }
 
     /**
@@ -309,23 +344,86 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Sets the proxy authenticator where the system should get the credentials from.
+     * Gets the socket timeout.
      *
-     * @param opts The FileSystem options.
-     * @param authenticator The UserAuthenticator.
+     * @param opts The FileSystemOptions.
+     * @return The socket timeout.
      */
-    public void setProxyAuthenticator(final FileSystemOptions opts, final UserAuthenticator authenticator) {
-        setParam(opts, "proxyAuthenticator", authenticator);
+    public int getSoTimeout(final FileSystemOptions opts) {
+        return getInteger(opts, SO_TIMEOUT, DEFAULT_SO_TIMEOUT);
     }
 
     /**
-     * Gets the proxy authenticator where the system should get the credentials from.
+     * Gets the enabled TLS versions as a comma separated string, each token of which is the name of
+     * {@code org.apache.hc.core5.http.ssl.TLS} enum. e.g, "V_1_2, V_1_3".
+     *
+     * @param opts the file system options to modify
+     * @return enabled TLS versions
+     */
+    public String getTlsVersions(final FileSystemOptions opts) {
+        final String tlsVersions = getParam(opts, KEY_TLS_VERSIONS);
+        return tlsVersions != null ? tlsVersions : DEFAULT_TLS_VERSIONS;
+    }
+
+    /**
+     * Sets the charset used for url encoding.
      *
      * @param opts The FileSystem options.
-     * @return The UserAuthenticator.
+     * @return the chaset
      */
-    public UserAuthenticator getProxyAuthenticator(final FileSystemOptions opts) {
-        return getParam(opts, "proxyAuthenticator");
+    public String getUrlCharset(final FileSystemOptions opts) {
+        return getString(opts, "urlCharset");
+    }
+
+    /**
+     * Gets the user agent string
+     *
+     * @param opts the file system options to modify
+     * @return User provided User-Agent string, otherwise default of: Commons-VFS
+     */
+    public String getUserAgent(final FileSystemOptions opts) {
+        final String userAgent = getParam(opts, KEY_USER_AGENT);
+        return userAgent != null ? userAgent : DEFAULT_USER_AGENT;
+    }
+
+    /**
+     * Determines if the hostname should be verified in SSL context.
+     *
+     * @param opts The FileSystemOptions.
+     * @return true if if the FileSystemOptions indicate that HTTP Keep-Alive is respected.
+     */
+    public boolean isHostnameVerificationEnabled(final FileSystemOptions opts) {
+        return getBoolean(opts, HOSTNAME_VERIFICATION_ENABLED, DEFAULT_HOSTNAME_VERIFICATION_ENABLED);
+    }
+
+    /**
+     * Determines if the FileSystemOptions indicate that HTTP Keep-Alive is respected.
+     *
+     * @param opts The FileSystemOptions.
+     * @return true if if the FileSystemOptions indicate that HTTP Keep-Alive is respected.
+     */
+    public boolean isKeepAlive(final FileSystemOptions opts) {
+        return getBoolean(opts, KEEP_ALIVE, DEFAULT_KEEP_ALIVE);
+    }
+
+    /**
+     * Determines if the FileSystemOptions indicate that preemptive authentication is requested.
+     *
+     * @param opts The FileSystemOptions.
+     * @return true if preemptiveAuth is requested.
+     */
+    public boolean isPreemptiveAuth(final FileSystemOptions opts) {
+        return getBoolean(opts, KEY_PREEMPTIVE_AUTHENTICATION, Boolean.FALSE).booleanValue();
+    }
+
+    /**
+     * The connection timeout.
+     *
+     * @param opts The FileSystem options.
+     * @param connectionTimeout The connection timeout.
+     */
+    public void setConnectionTimeout(final FileSystemOptions opts, final int connectionTimeout) {
+        setParam(opts, CONNECTION_TIMEOUT, Integer.valueOf(connectionTimeout));
     }
 
     /**
@@ -350,44 +448,51 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Gets the cookies to add to the request.
-     *
-     * @param opts The FileSystem options.
-     * @return the Cookie array.
-     */
-    public Cookie[] getCookies(final FileSystemOptions opts) {
-        return getParam(opts, "cookies");
-    }
-
-    /**
-     * Gets whether to follow redirects for the connection.
-     *
-     * @param opts The FileSystem options.
-     * @return {@code true} to follow redirects, {@code false} not to.
-     * @see #setFollowRedirect
-     */
-    public boolean getFollowRedirect(final FileSystemOptions opts) {
-        return getBoolean(opts, KEY_FOLLOW_REDIRECT, DEFAULT_FOLLOW_REDIRECT);
-    }
-
-    /**
-     * Sets the maximum number of connections allowed.
-     *
-     * @param opts The FileSystem options.
-     * @param maxTotalConnections The maximum number of connections.
-     */
-    public void setMaxTotalConnections(final FileSystemOptions opts, final int maxTotalConnections) {
-        setParam(opts, MAX_TOTAL_CONNECTIONS, Integer.valueOf(maxTotalConnections));
-    }
-
-    /**
-     * Gets the maximum number of connections allowed.
+     * Sets if the hostname should be verified in SSL context.
      *
      * @param opts The FileSystemOptions.
-     * @return The maximum number of connections allowed.
+     * @param hostnameVerificationEnabled whether hostname should be verified
      */
-    public int getMaxTotalConnections(final FileSystemOptions opts) {
-        return getInteger(opts, MAX_TOTAL_CONNECTIONS, DEFAULT_MAX_CONNECTIONS);
+    public void setHostnameVerificationEnabled(final FileSystemOptions opts, final boolean hostnameVerificationEnabled) {
+        setParam(opts, HOSTNAME_VERIFICATION_ENABLED, Boolean.valueOf(hostnameVerificationEnabled));
+    }
+
+    /**
+     * Sets if the FileSystemOptions indicate that HTTP Keep-Alive is respected.
+     *
+     * @param opts The FileSystemOptions.
+     * @param keepAlive whether the FileSystemOptions indicate that HTTP Keep-Alive is respected or not.
+     */
+    public void setKeepAlive(final FileSystemOptions opts, final boolean keepAlive) {
+        setParam(opts, KEEP_ALIVE, Boolean.valueOf(keepAlive));
+    }
+
+    /**
+     * Set keystore file path for SSL connections.
+     * @param opts the file system options to modify
+     * @param keyStoreFile keystore file path
+     */
+    public void setKeyStoreFile(final FileSystemOptions opts, final String keyStoreFile) {
+        setParam(opts, KEYSTORE_FILE, keyStoreFile);
+    }
+
+    /**
+     * Set keystore pass phrase for SSL connecdtions.
+     * @param opts the file system options to modify
+     * @param keyStorePass keystore pass phrase for SSL connecdtions
+     */
+    public void setKeyStorePass(final FileSystemOptions opts, final String keyStorePass) {
+        setParam(opts, KEYSTORE_PASS, keyStorePass);
+    }
+
+    /**
+     * Set keystore type for SSL connections.
+     * @param opts the file system options to modify
+     * @param keyStoreType keystore type for SSL connections
+     * @since 2.7.0
+     */
+    public void setKeyStoreType(final FileSystemOptions opts, final String keyStoreType) {
+        setParam(opts, KEYSTORE_TYPE, keyStoreType);
     }
 
     /**
@@ -401,23 +506,13 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Gets the maximum number of connections allowed per host.
+     * Sets the maximum number of connections allowed.
      *
-     * @param opts The FileSystemOptions.
-     * @return The maximum number of connections allowed per host.
+     * @param opts The FileSystem options.
+     * @param maxTotalConnections The maximum number of connections.
      */
-    public int getMaxConnectionsPerHost(final FileSystemOptions opts) {
-        return getInteger(opts, MAX_HOST_CONNECTIONS, DEFAULT_MAX_HOST_CONNECTIONS);
-    }
-
-    /**
-     * Determines if the FileSystemOptions indicate that preemptive authentication is requested.
-     *
-     * @param opts The FileSystemOptions.
-     * @return true if preemptiveAuth is requested.
-     */
-    public boolean isPreemptiveAuth(final FileSystemOptions opts) {
-        return getBoolean(opts, KEY_PREEMPTIVE_AUTHENTICATION, Boolean.FALSE).booleanValue();
+    public void setMaxTotalConnections(final FileSystemOptions opts, final int maxTotalConnections) {
+        setParam(opts, MAX_TOTAL_CONNECTIONS, Integer.valueOf(maxTotalConnections));
     }
 
     /**
@@ -433,23 +528,51 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * The connection timeout.
+     * Sets the proxy authenticator where the system should get the credentials from.
      *
      * @param opts The FileSystem options.
-     * @param connectionTimeout The connection timeout.
+     * @param authenticator The UserAuthenticator.
      */
-    public void setConnectionTimeout(final FileSystemOptions opts, final int connectionTimeout) {
-        setParam(opts, CONNECTION_TIMEOUT, Integer.valueOf(connectionTimeout));
+    public void setProxyAuthenticator(final FileSystemOptions opts, final UserAuthenticator authenticator) {
+        setParam(opts, "proxyAuthenticator", authenticator);
     }
 
     /**
-     * Gets the connection timeout.
+     * Sets the proxy to use for http connection.
+     * <p>
+     * You have to set the ProxyPort too if you would like to have the proxy really used.
+     * </p>
      *
      * @param opts The FileSystem options.
-     * @return The connection timeout.
+     * @param proxyHost the host
+     * @see #setProxyPort
      */
-    public int getConnectionTimeout(final FileSystemOptions opts) {
-        return getInteger(opts, CONNECTION_TIMEOUT, DEFAULT_CONNECTION_TIMEOUT);
+    public void setProxyHost(final FileSystemOptions opts, final String proxyHost) {
+        setParam(opts, "proxyHost", proxyHost);
+    }
+
+    /**
+     * Sets the proxy-port to use for http connection. You have to set the ProxyHost too if you would like to have the
+     * proxy really used.
+     *
+     * @param opts The FileSystem options.
+     * @param proxyPort the port
+     * @see #setProxyHost
+     */
+    public void setProxyPort(final FileSystemOptions opts, final int proxyPort) {
+        setParam(opts, "proxyPort", Integer.valueOf(proxyPort));
+    }
+    /**
+     * Sets the proxy-scheme to use for http connection. You have to set the ProxyHost too if you would like to have the
+     * proxy really used.
+     *
+     * @param opts The FileSystem options.
+     * @param proxyScheme the protocol scheme
+     * @see #setProxyHost
+     * @since 2.7.0
+     */
+    public void setProxyScheme(final FileSystemOptions opts, final String proxyScheme) {
+        setParam(opts, PROXY_SCHEME, proxyScheme);
     }
 
     /**
@@ -460,132 +583,6 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public void setSoTimeout(final FileSystemOptions opts, final int soTimeout) {
         setParam(opts, SO_TIMEOUT, Integer.valueOf(soTimeout));
-    }
-
-    /**
-     * Gets the socket timeout.
-     *
-     * @param opts The FileSystemOptions.
-     * @return The socket timeout.
-     */
-    public int getSoTimeout(final FileSystemOptions opts) {
-        return getInteger(opts, SO_TIMEOUT, DEFAULT_SO_TIMEOUT);
-    }
-
-    /**
-     * Sets if the FileSystemOptions indicate that HTTP Keep-Alive is respected.
-     *
-     * @param opts The FileSystemOptions.
-     * @param keepAlive whether the FileSystemOptions indicate that HTTP Keep-Alive is respected or not.
-     */
-    public void setKeepAlive(final FileSystemOptions opts, final boolean keepAlive) {
-        setParam(opts, KEEP_ALIVE, Boolean.valueOf(keepAlive));
-    }
-
-    /**
-     * Determines if the FileSystemOptions indicate that HTTP Keep-Alive is respected.
-     *
-     * @param opts The FileSystemOptions.
-     * @return true if if the FileSystemOptions indicate that HTTP Keep-Alive is respected.
-     */
-    public boolean isKeepAlive(final FileSystemOptions opts) {
-        return getBoolean(opts, KEEP_ALIVE, DEFAULT_KEEP_ALIVE);
-    }
-
-    /**
-     * Sets the user agent to attach to the outgoing http methods
-     *
-     * @param opts the file system options to modify
-     * @param userAgent User Agent String
-     */
-    public void setUserAgent(final FileSystemOptions opts, final String userAgent) {
-        setParam(opts, "userAgent", userAgent);
-    }
-
-    /**
-     * Gets the user agent string
-     *
-     * @param opts the file system options to modify
-     * @return User provided User-Agent string, otherwise default of: Commons-VFS
-     */
-    public String getUserAgent(final FileSystemOptions opts) {
-        final String userAgent = getParam(opts, KEY_USER_AGENT);
-        return userAgent != null ? userAgent : DEFAULT_USER_AGENT;
-    }
-
-    /**
-     * Set keystore file path for SSL connections.
-     * @param opts the file system options to modify
-     * @param keyStoreFile keystore file path
-     */
-    public void setKeyStoreFile(final FileSystemOptions opts, final String keyStoreFile) {
-        setParam(opts, KEYSTORE_FILE, keyStoreFile);
-    }
-
-    /**
-     * Return keystore file path to be used in SSL connections.
-     * @param opts the file system options to modify
-     * @return keystore file path to be used in SSL connections
-     */
-    public String getKeyStoreFile(final FileSystemOptions opts) {
-        return getParam(opts, KEYSTORE_FILE);
-    }
-
-    /**
-     * Set keystore pass phrase for SSL connecdtions.
-     * @param opts the file system options to modify
-     * @param keyStorePass keystore pass phrase for SSL connecdtions
-     */
-    public void setKeyStorePass(final FileSystemOptions opts, final String keyStorePass) {
-        setParam(opts, KEYSTORE_PASS, keyStorePass);
-    }
-
-    /**
-     * Return keystore pass phrase for SSL connections.
-     * @param opts the file system options to modify
-     * @return keystore pass phrase for SSL connections
-     */
-    String getKeyStorePass(final FileSystemOptions opts) {
-        return getParam(opts, KEYSTORE_PASS);
-    }
-
-    /**
-     * Set keystore type for SSL connections.
-     * @param opts the file system options to modify
-     * @param keyStoreType keystore type for SSL connections
-     * @since 2.7.0
-     */
-    public void setKeyStoreType(final FileSystemOptions opts, final String keyStoreType) {
-        setParam(opts, KEYSTORE_TYPE, keyStoreType);
-    }
-
-    /**
-     * Get keystore type for SSL connections.
-     * @param opts the file system options to modify
-     * @return keystore type for SSL connections
-     * @since 2.7.0
-     */
-    public String getKeyStoreType(final FileSystemOptions opts) {
-        return getString(opts, KEYSTORE_TYPE, KeyStore.getDefaultType());
-    }
-    /**
-     * Sets if the hostname should be verified in SSL context.
-     *
-     * @param opts The FileSystemOptions.
-     * @param hostnameVerificationEnabled whether hostname should be verified
-     */
-    public void setHostnameVerificationEnabled(final FileSystemOptions opts, final boolean hostnameVerificationEnabled) {
-        setParam(opts, HOSTNAME_VERIFICATION_ENABLED, Boolean.valueOf(hostnameVerificationEnabled));
-    }
-
-    /**
-     * Determines if the hostname should be verified in SSL context.
-     *
-     * @param opts The FileSystemOptions.
-     * @return true if if the FileSystemOptions indicate that HTTP Keep-Alive is respected.
-     */
-    public boolean isHostnameVerificationEnabled(final FileSystemOptions opts) {
-        return getBoolean(opts, HOSTNAME_VERIFICATION_ENABLED, DEFAULT_HOSTNAME_VERIFICATION_ENABLED);
     }
 
     /**
@@ -600,19 +597,22 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Gets the enabled TLS versions as a comma separated string, each token of which is the name of
-     * {@code org.apache.hc.core5.http.ssl.TLS} enum. e.g, "V_1_2, V_1_3".
+     * Sets the charset used for url encoding.
      *
-     * @param opts the file system options to modify
-     * @return enabled TLS versions
+     * @param opts The FileSystem options.
+     * @param chaset the chaset
      */
-    public String getTlsVersions(final FileSystemOptions opts) {
-        final String tlsVersions = getParam(opts, KEY_TLS_VERSIONS);
-        return tlsVersions != null ? tlsVersions : DEFAULT_TLS_VERSIONS;
+    public void setUrlCharset(final FileSystemOptions opts, final String chaset) {
+        setParam(opts, "urlCharset", chaset);
     }
 
-    @Override
-    protected Class<? extends FileSystem> getConfigClass() {
-        return Http5FileSystem.class;
+    /**
+     * Sets the user agent to attach to the outgoing http methods
+     *
+     * @param opts the file system options to modify
+     * @param userAgent User Agent String
+     */
+    public void setUserAgent(final FileSystemOptions opts, final String userAgent) {
+        setParam(opts, "userAgent", userAgent);
     }
 }

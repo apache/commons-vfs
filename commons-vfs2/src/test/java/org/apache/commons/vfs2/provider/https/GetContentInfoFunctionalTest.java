@@ -36,26 +36,6 @@ import org.junit.Test;
  */
 public class GetContentInfoFunctionalTest {
 
-    /**
-     * Tests VFS-427 NPE on HttpFileObject.getContent().getContentInfo().
-     *
-     * @throws FileSystemException   thrown when the getContentInfo API fails.
-     * @throws MalformedURLException thrown when the System environment contains an
-     *                               invalid URL for an HTTPS proxy.
-     */
-    @Test
-    public void testGetContentInfo() throws FileSystemException, MalformedURLException {
-        @SuppressWarnings("resource") // getManager() returns a global.
-        final FileSystemManager fsManager = VFS.getManager();
-        final String uri = "http://www.apache.org/licenses/LICENSE-2.0.txt";
-        try (final FileObject fo = fsManager.resolveFile(uri, getOptionsWithProxy());
-             final FileContent content = fo.getContent()) {
-            Assert.assertNotNull(content);
-            // Used to NPE before fix:
-            content.getContentInfo();
-        }
-    }
-
     FileSystemOptions getOptionsWithProxy() throws MalformedURLException {
         // get proxy host and port from env var "https_proxy"
         String proxyHost = null;
@@ -78,5 +58,25 @@ public class GetContentInfoFunctionalTest {
         builder.setProxyHost(opts, proxyHost);
         builder.setProxyPort(opts, proxyPort);
         return opts;
+    }
+
+    /**
+     * Tests VFS-427 NPE on HttpFileObject.getContent().getContentInfo().
+     *
+     * @throws FileSystemException   thrown when the getContentInfo API fails.
+     * @throws MalformedURLException thrown when the System environment contains an
+     *                               invalid URL for an HTTPS proxy.
+     */
+    @Test
+    public void testGetContentInfo() throws FileSystemException, MalformedURLException {
+        @SuppressWarnings("resource") // getManager() returns a global.
+        final FileSystemManager fsManager = VFS.getManager();
+        final String uri = "http://www.apache.org/licenses/LICENSE-2.0.txt";
+        try (final FileObject fo = fsManager.resolveFile(uri, getOptionsWithProxy());
+             final FileContent content = fo.getContent()) {
+            Assert.assertNotNull(content);
+            // Used to NPE before fix:
+            content.getContentInfo();
+        }
     }
 }

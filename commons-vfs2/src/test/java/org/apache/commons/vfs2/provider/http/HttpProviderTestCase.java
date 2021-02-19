@@ -126,41 +126,6 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
         return manager.resolveFile(uri);
     }
 
-    /**
-     * Prepares the file system manager.
-     */
-    @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception {
-        manager.addProvider("http", new HttpFileProvider());
-    }
-
-    private void testResloveFolderSlash(final String uri, final boolean followRedirect) throws FileSystemException {
-        VFS.getManager().getFilesCache().close();
-        final FileSystemOptions opts = new FileSystemOptions();
-        HttpFileSystemConfigBuilder.getInstance().setFollowRedirect(opts, followRedirect);
-        try (final FileObject file = VFS.getManager().resolveFile(uri, opts)) {
-            checkReadTestsFolder(file);
-        } catch (final FileNotFolderException e) {
-            // Expected: VFS HTTP does not support listing children yet.
-        }
-    }
-
-    public void testResloveFolderSlashNoRedirectOff() throws FileSystemException {
-        testResloveFolderSlash(ConnectionUri + "/read-tests", false);
-    }
-
-    public void testResloveFolderSlashNoRedirectOn() throws FileSystemException {
-        testResloveFolderSlash(ConnectionUri + "/read-tests", true);
-    }
-
-    public void testResloveFolderSlashYesRedirectOff() throws FileSystemException {
-        testResloveFolderSlash(ConnectionUri + "/read-tests/", false);
-    }
-
-    public void testResloveFolderSlashYesRedirectOn() throws FileSystemException {
-        testResloveFolderSlash(ConnectionUri + "/read-tests/", true);
-    }
-
     // Test no longer passing 2016/04/28
     public void ignoreTestHttp405() throws FileSystemException {
         try (final FileObject fileObject = VFS.getManager()
@@ -169,6 +134,14 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
             assert !fileObject.getContent().isEmpty();
 
         }
+    }
+
+    /**
+     * Prepares the file system manager.
+     */
+    @Override
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
+        manager.addProvider("http", new HttpFileProvider());
     }
 
     /** Ensure VFS-453 options are present. */
@@ -205,5 +178,32 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
         assertEquals("foo/bar", builder.getUserAgent(options));
 
         // TODO: should also check the created HTTPClient
+    }
+
+    private void testResloveFolderSlash(final String uri, final boolean followRedirect) throws FileSystemException {
+        VFS.getManager().getFilesCache().close();
+        final FileSystemOptions opts = new FileSystemOptions();
+        HttpFileSystemConfigBuilder.getInstance().setFollowRedirect(opts, followRedirect);
+        try (final FileObject file = VFS.getManager().resolveFile(uri, opts)) {
+            checkReadTestsFolder(file);
+        } catch (final FileNotFolderException e) {
+            // Expected: VFS HTTP does not support listing children yet.
+        }
+    }
+
+    public void testResloveFolderSlashNoRedirectOff() throws FileSystemException {
+        testResloveFolderSlash(ConnectionUri + "/read-tests", false);
+    }
+
+    public void testResloveFolderSlashNoRedirectOn() throws FileSystemException {
+        testResloveFolderSlash(ConnectionUri + "/read-tests", true);
+    }
+
+    public void testResloveFolderSlashYesRedirectOff() throws FileSystemException {
+        testResloveFolderSlash(ConnectionUri + "/read-tests/", false);
+    }
+
+    public void testResloveFolderSlashYesRedirectOn() throws FileSystemException {
+        testResloveFolderSlash(ConnectionUri + "/read-tests/", true);
     }
 }

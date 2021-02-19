@@ -80,13 +80,13 @@ public class Http4FileSystem extends AbstractFileSystem {
     }
 
     @Override
-    protected FileObject createFile(final AbstractFileName name) throws Exception {
-        return new Http4FileObject<>(name, this);
+    protected void addCapabilities(final Collection<Capability> caps) {
+        caps.addAll(Http4FileProvider.capabilities);
     }
 
     @Override
-    protected void addCapabilities(final Collection<Capability> caps) {
-        caps.addAll(Http4FileProvider.capabilities);
+    protected FileObject createFile(final AbstractFileName name) throws Exception {
+        return new Http4FileObject<>(name, this);
     }
 
     @Override

@@ -48,25 +48,12 @@ final class HttpRandomAccessContent<FS extends HttpFileSystem> extends AbstractR
     }
 
     @Override
-    public long getFilePointer() throws IOException {
-        return filePointer;
-    }
-
-    @Override
-    public void seek(final long pos) throws IOException {
-        if (pos == filePointer) {
-            // no change
-            return;
-        }
-
-        if (pos < 0) {
-            throw new FileSystemException("vfs.provider/random-access-invalid-position.error", Long.valueOf(pos));
-        }
+    public void close() throws IOException {
         if (dis != null) {
-            close();
+            dis.close();
+            dis = null;
+            mis = null;
         }
-
-        filePointer = pos;
     }
 
     @Override
@@ -126,16 +113,29 @@ final class HttpRandomAccessContent<FS extends HttpFileSystem> extends AbstractR
     }
 
     @Override
-    public void close() throws IOException {
-        if (dis != null) {
-            dis.close();
-            dis = null;
-            mis = null;
-        }
+    public long getFilePointer() throws IOException {
+        return filePointer;
     }
 
     @Override
     public long length() throws IOException {
         return fileObject.getContent().getSize();
+    }
+
+    @Override
+    public void seek(final long pos) throws IOException {
+        if (pos == filePointer) {
+            // no change
+            return;
+        }
+
+        if (pos < 0) {
+            throw new FileSystemException("vfs.provider/random-access-invalid-position.error", Long.valueOf(pos));
+        }
+        if (dis != null) {
+            close();
+        }
+
+        filePointer = pos;
     }
 }

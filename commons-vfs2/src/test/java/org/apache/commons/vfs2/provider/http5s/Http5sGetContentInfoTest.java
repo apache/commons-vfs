@@ -44,40 +44,6 @@ public class Http5sGetContentInfoTest extends TestCase {
 
     private static final String SERVER_JCEKS_RES = "org.apache.httpserver/star_apache_cert.ts";
 
-    /**
-     * Tests VFS-427 NPE on Http5FileObject.getContent().getContentInfo().
-     *
-     * @throws FileSystemException thrown when the getContentInfo API fails.
-     * @throws MalformedURLException thrown when the System environment contains an invalid URL for an HTTPS proxy.
-     */
-    @Test
-    public void testGetContentInfo() throws FileSystemException, MalformedURLException {
-        final FileSystemManager fsManager = VFS.getManager();
-        final String uri = "http5://www.apache.org/licenses/LICENSE-2.0.txt";
-        final FileObject fo = fsManager.resolveFile(uri, getOptionsWithProxy());
-        final FileContent content = fo.getContent();
-        Assert.assertNotNull(content);
-        // Used to NPE before fix:
-        content.getContentInfo();
-    }
-
-    /**
-     * Tests VFS-786 set keystore type.
-     *
-     * @throws FileSystemException thrown when the getContentInfo API fails.
-     * @throws MalformedURLException thrown when the System environment contains an invalid URL for an HTTPS proxy.
-     */
-    @Test
-    public void testSSLGetContentInfo() throws IOException {
-        final FileSystemManager fsManager = VFS.getManager();
-        final String uri = "http5s://www.apache.org/licenses/LICENSE-2.0.txt";
-        final FileObject fo = fsManager.resolveFile(uri, getOptionsWithSSL());
-        final FileContent content = fo.getContent();
-        try(InputStream is = content.getInputStream()){
-            final String text = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
-            assertNotNull(text);
-        }
-    }
     FileSystemOptions getOptionsWithProxy() throws MalformedURLException {
         // get proxy host and port from env var "https_proxy"
         String proxyHost = null;
@@ -103,17 +69,51 @@ public class Http5sGetContentInfoTest extends TestCase {
         return opts;
     }
 
-   private FileSystemOptions getOptionsWithSSL() throws MalformedURLException {
-        final Http5FileSystemConfigBuilder builder = Http5FileSystemConfigBuilder.getInstance();
-        FileSystemOptions opts = getOptionsWithProxy();
-        if (opts == null) {
-            opts = new FileSystemOptions();
+    private FileSystemOptions getOptionsWithSSL() throws MalformedURLException {
+            final Http5FileSystemConfigBuilder builder = Http5FileSystemConfigBuilder.getInstance();
+            FileSystemOptions opts = getOptionsWithProxy();
+            if (opts == null) {
+                opts = new FileSystemOptions();
+            }
+            final URL serverJksResource = ClassLoader.getSystemClassLoader().getResource(SERVER_JCEKS_RES);
+            builder.setKeyStoreFile(opts, serverJksResource.getFile());
+            builder.setKeyStorePass(opts, "Hello_1234");
+            builder.setKeyStoreType(opts, "JCEKS");
+            return opts;
         }
-        final URL serverJksResource = ClassLoader.getSystemClassLoader().getResource(SERVER_JCEKS_RES);
-        builder.setKeyStoreFile(opts, serverJksResource.getFile());
-        builder.setKeyStorePass(opts, "Hello_1234");
-        builder.setKeyStoreType(opts, "JCEKS");
-        return opts;
+    /**
+     * Tests VFS-427 NPE on Http5FileObject.getContent().getContentInfo().
+     *
+     * @throws FileSystemException thrown when the getContentInfo API fails.
+     * @throws MalformedURLException thrown when the System environment contains an invalid URL for an HTTPS proxy.
+     */
+    @Test
+    public void testGetContentInfo() throws FileSystemException, MalformedURLException {
+        final FileSystemManager fsManager = VFS.getManager();
+        final String uri = "http5://www.apache.org/licenses/LICENSE-2.0.txt";
+        final FileObject fo = fsManager.resolveFile(uri, getOptionsWithProxy());
+        final FileContent content = fo.getContent();
+        Assert.assertNotNull(content);
+        // Used to NPE before fix:
+        content.getContentInfo();
     }
+
+   /**
+ * Tests VFS-786 set keystore type.
+ *
+ * @throws FileSystemException thrown when the getContentInfo API fails.
+ * @throws MalformedURLException thrown when the System environment contains an invalid URL for an HTTPS proxy.
+ */
+@Test
+public void testSSLGetContentInfo() throws IOException {
+    final FileSystemManager fsManager = VFS.getManager();
+    final String uri = "http5s://www.apache.org/licenses/LICENSE-2.0.txt";
+    final FileObject fo = fsManager.resolveFile(uri, getOptionsWithSSL());
+    final FileContent content = fo.getContent();
+    try(InputStream is = content.getInputStream()){
+        final String text = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
+        assertNotNull(text);
+    }
+}
 
 }

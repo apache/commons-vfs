@@ -97,18 +97,8 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
     }
 
     @Override
-    protected FileType doGetType() throws Exception {
-        lastHeadResponse = executeHttpUriRequest(new HttpHead(getInternalURI()));
-        final int status = lastHeadResponse.getStatusLine().getStatusCode();
-
-        if (status == HttpStatus.SC_OK
-                || status == HttpStatus.SC_METHOD_NOT_ALLOWED /* method is not allowed, but resource exist */) {
-            return FileType.FILE;
-        } else if (status == HttpStatus.SC_NOT_FOUND || status == HttpStatus.SC_GONE) {
-            return FileType.IMAGINARY;
-        } else {
-            throw new FileSystemException("vfs.provider.http/head.error", getName(), Integer.valueOf(status));
-        }
+    protected void doDetach() throws Exception {
+        lastHeadResponse = null;
     }
 
     @Override
@@ -128,18 +118,6 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
     }
 
     @Override
-    protected long doGetLastModifiedTime() throws Exception {
-        FileSystemException.requireNonNull(lastHeadResponse, "vfs.provider.http/last-modified.error", getName());
-
-        final Header header = lastHeadResponse.getFirstHeader("Last-Modified");
-
-        FileSystemException.requireNonNull(header, "vfs.provider.http/last-modified.error", getName());
-
-        return DateUtils.parseDate(header.getValue()).getTime();
-    }
-
-
-    @Override
     protected InputStream doGetInputStream(final int bufferSize) throws Exception {
         final HttpGet getRequest = new HttpGet(getInternalURI());
         final HttpResponse httpResponse = executeHttpUriRequest(getRequest);
@@ -156,14 +134,36 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
         return new MonitoredHttpResponseContentInputStream(httpResponse, bufferSize);
     }
 
+
+    @Override
+    protected long doGetLastModifiedTime() throws Exception {
+        FileSystemException.requireNonNull(lastHeadResponse, "vfs.provider.http/last-modified.error", getName());
+
+        final Header header = lastHeadResponse.getFirstHeader("Last-Modified");
+
+        FileSystemException.requireNonNull(header, "vfs.provider.http/last-modified.error", getName());
+
+        return DateUtils.parseDate(header.getValue()).getTime();
+    }
+
     @Override
     protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception {
         return new Http4RandomAccessContent<>(this, mode);
     }
 
     @Override
-    protected String[] doListChildren() throws Exception {
-        throw new UnsupportedOperationException("Not implemented.");
+    protected FileType doGetType() throws Exception {
+        lastHeadResponse = executeHttpUriRequest(new HttpHead(getInternalURI()));
+        final int status = lastHeadResponse.getStatusLine().getStatusCode();
+
+        if (status == HttpStatus.SC_OK
+                || status == HttpStatus.SC_METHOD_NOT_ALLOWED /* method is not allowed, but resource exist */) {
+            return FileType.FILE;
+        } else if (status == HttpStatus.SC_NOT_FOUND || status == HttpStatus.SC_GONE) {
+            return FileType.IMAGINARY;
+        } else {
+            throw new FileSystemException("vfs.provider.http/head.error", getName(), Integer.valueOf(status));
+        }
     }
 
     @Override
@@ -172,21 +172,28 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
     }
 
     @Override
-    protected FileContentInfoFactory getFileContentInfoFactory() {
-        return new Http4FileContentInfoFactory();
-    }
-
-    @Override
-    protected void doDetach() throws Exception {
-        lastHeadResponse = null;
+    protected String[] doListChildren() throws Exception {
+        throw new UnsupportedOperationException("Not implemented.");
     }
 
     /**
-     * Return URL charset string.
-     * @return URL charset string
+     * Execute the request using the given {@code httpRequest} and return a {@code HttpResponse} from the execution.
+     *
+     * @param httpRequest {@code HttpUriRequest} object
+     * @return {@code HttpResponse} from the execution
+     * @throws IOException if IO error occurs
+     *
+     * @since 2.5.0
      */
-    protected String getUrlCharset() {
-        return urlCharset;
+    protected HttpResponse executeHttpUriRequest(final HttpUriRequest httpRequest) throws IOException {
+        final HttpClient httpClient = getAbstractFileSystem().getHttpClient();
+        final HttpClientContext httpClientContext = getAbstractFileSystem().getHttpClientContext();
+        return httpClient.execute(httpRequest, httpClientContext);
+    }
+
+    @Override
+    protected FileContentInfoFactory getFileContentInfoFactory() {
+        return new Http4FileContentInfoFactory();
     }
 
     /**
@@ -214,18 +221,11 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
     }
 
     /**
-     * Execute the request using the given {@code httpRequest} and return a {@code HttpResponse} from the execution.
-     *
-     * @param httpRequest {@code HttpUriRequest} object
-     * @return {@code HttpResponse} from the execution
-     * @throws IOException if IO error occurs
-     *
-     * @since 2.5.0
+     * Return URL charset string.
+     * @return URL charset string
      */
-    protected HttpResponse executeHttpUriRequest(final HttpUriRequest httpRequest) throws IOException {
-        final HttpClient httpClient = getAbstractFileSystem().getHttpClient();
-        final HttpClientContext httpClientContext = getAbstractFileSystem().getHttpClientContext();
-        return httpClient.execute(httpRequest, httpClientContext);
+    protected String getUrlCharset() {
+        return urlCharset;
     }
 
 }

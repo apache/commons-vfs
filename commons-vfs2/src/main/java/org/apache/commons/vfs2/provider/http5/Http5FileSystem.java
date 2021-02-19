@@ -80,13 +80,13 @@ public class Http5FileSystem extends AbstractFileSystem {
     }
 
     @Override
-    protected FileObject createFile(final AbstractFileName name) throws Exception {
-        return new Http5FileObject<>(name, this);
+    protected void addCapabilities(final Collection<Capability> caps) {
+        caps.addAll(Http5FileProvider.capabilities);
     }
 
     @Override
-    protected void addCapabilities(final Collection<Capability> caps) {
-        caps.addAll(Http5FileProvider.capabilities);
+    protected FileObject createFile(final AbstractFileName name) throws Exception {
+        return new Http5FileObject<>(name, this);
     }
 
     @Override

@@ -202,10 +202,6 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
         return followRedirect;
     }
 
-    protected String getUserAgent() {
-        return userAgent;
-    }
-
     HeadMethod getHeadMethod() throws IOException {
         if (method != null) {
             return method;
@@ -223,6 +219,10 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
 
     protected String getUrlCharset() {
         return urlCharset;
+    }
+
+    protected String getUserAgent() {
+        return userAgent;
     }
 
     /**
