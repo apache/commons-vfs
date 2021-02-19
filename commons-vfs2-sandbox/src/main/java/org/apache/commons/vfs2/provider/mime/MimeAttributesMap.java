@@ -126,9 +126,7 @@ public class MimeAttributesMap implements Map<String, Object> {
             try {
                 final Object value = method.invoke(part);
                 ret.put(OBJECT_PREFIX + name, value);
-            } catch (final IllegalAccessException e) {
-                log.debug(e.getLocalizedMessage(), e);
-            } catch (final InvocationTargetException e) {
+            } catch (final IllegalAccessException | InvocationTargetException e) {
                 log.debug(e.getLocalizedMessage(), e);
             }
         }
