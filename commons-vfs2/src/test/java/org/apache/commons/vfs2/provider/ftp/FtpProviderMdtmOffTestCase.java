@@ -16,17 +16,10 @@
  */
 package org.apache.commons.vfs2.provider.ftp;
 
-import java.io.IOException;
-
-import org.apache.ftpserver.command.Command;
 import org.apache.ftpserver.command.CommandFactory;
 import org.apache.ftpserver.command.CommandFactoryFactory;
-import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.ftpserver.ftplet.FtpReply;
-import org.apache.ftpserver.ftplet.FtpRequest;
-import org.apache.ftpserver.impl.FtpIoSession;
 import org.apache.ftpserver.impl.FtpReplyTranslator;
-import org.apache.ftpserver.impl.FtpServerContext;
 import org.apache.ftpserver.impl.LocalizedFtpReply;
 
 import junit.framework.Test;
@@ -45,21 +38,16 @@ public class FtpProviderMdtmOffTestCase extends FtpProviderTestCase {
     protected CommandFactory getCommandFactory() {
         final CommandFactoryFactory factory = new CommandFactoryFactory();
         final String commandName = "FEAT";
-        factory.addCommand(commandName, new Command() {
+        factory.addCommand(commandName, (session, context, request) -> {
+        session.resetState();
 
-            @Override
-            public void execute(final FtpIoSession session, final FtpServerContext context, final FtpRequest request)
-                throws IOException, FtpException {
-                session.resetState();
+        final String replyMsg = FtpReplyTranslator.translateMessage(session, request, context,
+            FtpReply.REPLY_211_SYSTEM_STATUS_REPLY, commandName, null);
+        final LocalizedFtpReply reply = new LocalizedFtpReply(FtpReply.REPLY_211_SYSTEM_STATUS_REPLY,
+            replyMsg.replaceFirst(" MDTM\\n", ""));
 
-                final String replyMsg = FtpReplyTranslator.translateMessage(session, request, context,
-                    FtpReply.REPLY_211_SYSTEM_STATUS_REPLY, commandName, null);
-                final LocalizedFtpReply reply = new LocalizedFtpReply(FtpReply.REPLY_211_SYSTEM_STATUS_REPLY,
-                    replyMsg.replaceFirst(" MDTM\\n", ""));
-
-                session.write(reply);
-            }
-        });
+        session.write(reply);
+         });
         return factory.createCommandFactory();
     }
 }
