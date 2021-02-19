@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider.http4;
 
 import java.io.File;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
@@ -143,24 +144,41 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
     }
 
     /** Ensure VFS-453 options are present. */
+    @SuppressWarnings("deprecation")
     public void testHttpTimeoutConfig() {
         final FileSystemOptions opts = new FileSystemOptions();
         final Http4FileSystemConfigBuilder builder = Http4FileSystemConfigBuilder.getInstance();
 
         // ensure defaults are 0
         assertEquals(0, builder.getConnectionTimeout(opts));
+        assertEquals(Duration.ZERO, builder.getConnectionTimeoutDuration(opts));
         assertEquals(0, builder.getSoTimeout(opts));
+        assertEquals(Duration.ZERO, builder.getSoTimeoutDuration(opts));
         assertEquals("Jakarta-Commons-VFS", builder.getUserAgent(opts));
 
+        // Set int timeouts
         builder.setConnectionTimeout(opts, 60000);
         builder.setSoTimeout(opts, 60000);
         builder.setUserAgent(opts, "foo/bar");
 
         // ensure changes are visible
-        assertEquals(60000, builder.getConnectionTimeout(opts));
-        assertEquals(60000, builder.getSoTimeout(opts));
+        assertEquals(60_000, builder.getConnectionTimeout(opts));
+        assertEquals(60_000, builder.getConnectionTimeoutDuration(opts).toMillis());
+        assertEquals(60_000, builder.getSoTimeout(opts));
+        assertEquals(60_000, builder.getSoTimeoutDuration(opts).toMillis());
         assertEquals("foo/bar", builder.getUserAgent(opts));
 
+        // Set Duration timeouts
+        builder.setConnectionTimeout(opts, Duration.ofMinutes(1));
+        builder.setSoTimeout(opts, Duration.ofMinutes(1));
+        builder.setUserAgent(opts, "foo/bar");
+
+        // ensure changes are visible
+        assertEquals(60_000, builder.getConnectionTimeout(opts));
+        assertEquals(60_000, builder.getConnectionTimeoutDuration(opts).toMillis());
+        assertEquals(60_000, builder.getSoTimeout(opts));
+        assertEquals(60_000, builder.getSoTimeoutDuration(opts).toMillis());
+        assertEquals("foo/bar", builder.getUserAgent(opts));
     }
 
     private void testResloveFolderSlash(final String uri, final boolean followRedirect) throws FileSystemException {

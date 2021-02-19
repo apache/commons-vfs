@@ -42,6 +42,7 @@ import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.UserAuthenticator;
 import org.apache.commons.vfs2.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs2.provider.GenericFileName;
+import org.apache.commons.vfs2.util.DurationUtils;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 import org.apache.http.ConnectionReuseStrategy;
 import org.apache.http.Header;
@@ -112,16 +113,18 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
     }
 
     private HttpClientConnectionManager createConnectionManager(final Http4FileSystemConfigBuilder builder,
-            final FileSystemOptions fileSystemOptions) throws FileSystemException {
+        final FileSystemOptions fileSystemOptions) {
         final PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager();
         connManager.setMaxTotal(builder.getMaxTotalConnections(fileSystemOptions));
         connManager.setDefaultMaxPerRoute(builder.getMaxConnectionsPerHost(fileSystemOptions));
 
+        // @formatter:off
         final SocketConfig socketConfig =
                 SocketConfig
                 .custom()
-                .setSoTimeout(builder.getSoTimeout(fileSystemOptions))
+                .setSoTimeout(DurationUtils.toMillisInt(builder.getSoTimeoutDuration(fileSystemOptions)))
                 .build();
+        // @formatter:on
 
         connManager.setDefaultSocketConfig(socketConfig);
 
@@ -141,10 +144,10 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
     }
 
     private RequestConfig createDefaultRequestConfig(final Http4FileSystemConfigBuilder builder,
-            final FileSystemOptions fileSystemOptions) {
+        final FileSystemOptions fileSystemOptions) {
         return RequestConfig.custom()
-                .setConnectTimeout(builder.getConnectionTimeout(fileSystemOptions))
-                .build();
+            .setConnectTimeout(DurationUtils.toMillisInt(builder.getConnectionTimeoutDuration(fileSystemOptions)))
+            .build();
     }
 
     private HostnameVerifier createHostnameVerifier(final Http4FileSystemConfigBuilder builder,
