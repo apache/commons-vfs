@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.util;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Locale;
@@ -33,11 +34,38 @@ public class CombinedResources extends ResourceBundle {
     // locale.getVariant()
 
     private final String resourceName;
-    private boolean inited;
+    private volatile boolean inited;
     private final Properties properties = new Properties();
 
     public CombinedResources(final String resourceName) {
         this.resourceName = resourceName;
+        init();
+    }
+
+    @Override
+    public Enumeration<String> getKeys() {
+        return new Enumeration<String>() {
+            @Override
+            public boolean hasMoreElements() {
+                return properties.keys().hasMoreElements();
+            }
+
+            @Override
+            public String nextElement() {
+                // We know that our properties will only ever contain Strings
+                return (String) properties.keys().nextElement();
+            }
+
+        };
+    }
+
+    public String getResourceName() {
+        return resourceName;
+    }
+
+    @Override
+    protected Object handleGetObject(final String key) {
+        return properties.get(key);
     }
 
     protected void init() {
@@ -55,7 +83,7 @@ public class CombinedResources extends ResourceBundle {
         if (locale == null) {
             return;
         }
-        final String[] parts = new String[] { locale.getLanguage(), locale.getCountry(), locale.getVariant() };
+        final String[] parts = new String[] {locale.getLanguage(), locale.getCountry(), locale.getVariant()};
         final StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 3; i++) {
             sb.append(getResourceName());
@@ -81,8 +109,8 @@ public class CombinedResources extends ResourceBundle {
                 final Enumeration<URL> resources = loader.getResources(resourceName);
                 while (resources.hasMoreElements()) {
                     final URL resource = resources.nextElement();
-                    try {
-                        properties.load(resource.openConnection().getInputStream());
+                    try (final InputStream inputStream = resource.openConnection().getInputStream()) {
+                        properties.load(inputStream);
                     } catch (final IOException ignored) {
                         // Ignore
                     }
@@ -91,37 +119,5 @@ public class CombinedResources extends ResourceBundle {
                 // Ignore
             }
         }
-    }
-
-    public String getResourceName() {
-        return resourceName;
-    }
-
-    @Override
-    public Enumeration<String> getKeys() {
-        if (!inited) {
-            init();
-        }
-        return new Enumeration<String>() {
-            @Override
-            public boolean hasMoreElements() {
-                return properties.keys().hasMoreElements();
-            }
-
-            @Override
-            public String nextElement() {
-                // We know that our properties will only ever contain Strings
-                return (String) properties.keys().nextElement();
-            }
-
-        };
-    }
-
-    @Override
-    protected Object handleGetObject(final String key) {
-        if (!inited) {
-            init();
-        }
-        return properties.get(key);
     }
 }

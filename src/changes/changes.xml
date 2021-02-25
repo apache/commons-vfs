@@ -69,6 +69,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-748" dev="ggregory" due-to="PeterAlfredLee, Gary Gregory" type="fix">
         TarProvider Incorrectly marks file IMAGINARY after garbage collection with WeakRefFilesCache, #97.
       </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="fix">
+        Fix file resource leak in CombinedResources (properties file).
+      </action>
       <!-- ADDS -->
       <action dev="ggregory" due-to="Boris Petrov, Gary Gregory" type="add">
         Add ability to remove a provider from DefaultFileSystemManager #149.
@@ -230,7 +233,7 @@ The <action> type attribute can be add,update,fix,remove.
         SftpFileSystem returns null channel and produce NPE - fix get… #110.
       </action>
       <action dev="ggregory" due-to="PeterAlfredLee" type="add">
-        Fix some test error when JVM's default language is not US en #107. 
+        Fix some test error when JVM's default language is not US en #107.
       </action>
       <action issue="VFS-788" dev="ggregory" due-to="satish bhor" type="fix">
         [webdav/webdav4] Jackrabbit1 and jackrabbit2 modules getting same OSGi symbolic name.
