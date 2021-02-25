@@ -165,7 +165,7 @@ The <action> type attribute can be add,update,fix,remove.
         Simplify some String tests in method Os#determineOsFamily #147.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
-        Update org.mockito:mockito-core 3.5.13 -> 3.7.7.
+        Update org.mockito:mockito-core 3.5.13 -> 3.8.0.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Update org.apache.jackrabbit:jackrabbit-* 2.21.3 -> 2.21.5.
@@ -202,6 +202,12 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Update commons-net:commons-net 3.7.2-> 3.8.0.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Update junit 4.13.1 -> 4.13.2.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Update maven-pmd-plugin 3.13.0 -> 3.14.0.
       </action>
     </release>
     <release version="2.7.0" date="2020-10-26" description="Maintenance release. Requires Java 8.">
