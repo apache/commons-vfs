@@ -48,8 +48,7 @@ public abstract class BaseFilterTest {
      * Creates a file select info object for the given file.
      *
      * @param file File to create an info for.
-     *
-     * @return File selct info.
+     * @return File select info.
      */
     protected static FileSelectInfo createFileSelectInfo(final File file) {
         try {
