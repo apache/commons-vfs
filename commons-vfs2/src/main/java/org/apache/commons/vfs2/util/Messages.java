@@ -28,13 +28,19 @@ import java.util.concurrent.ConcurrentMap;
 public final class Messages {
 
     private static final Object[] EMPTY_OBJECT_ARRAY = new Object[0];
+
     /**
      * Map from message code to MessageFormat object for the message.
      */
     private static final ConcurrentMap<String, MessageFormat> messageMap = new ConcurrentHashMap<>();
     private static final ResourceBundle RESOURCES = new CombinedResources("org.apache.commons.vfs2.Resources");
 
-    private Messages() {
+    /**
+     * Locates a message by its code.
+     */
+    private static MessageFormat findMessage(final String code) throws MissingResourceException {
+        // Check if the message is cached
+        return messageMap.computeIfAbsent(code, k -> new MessageFormat(RESOURCES.getString(k)));
     }
 
     /**
@@ -73,27 +79,13 @@ public final class Messages {
             if (code == null) {
                 return null;
             }
-
-            final MessageFormat msg = findMessage(code);
-            return msg.format(params);
+            return findMessage(code).format(params);
         } catch (final MissingResourceException mre) {
             return "Unknown message with code \"" + code + "\".";
         }
     }
 
-    /**
-     * Locates a message by its code.
-     */
-    private static MessageFormat findMessage(final String code) throws MissingResourceException {
-        // Check if the message is cached
-        MessageFormat msg = messageMap.get(code);
-        if (msg != null) {
-            return msg;
-        }
-
-        final String msgText = RESOURCES.getString(code);
-        msg = new MessageFormat(msgText);
-        messageMap.putIfAbsent(code, msg);
-        return messageMap.get(code);
+    private Messages() {
+        // no instances.
     }
 }
