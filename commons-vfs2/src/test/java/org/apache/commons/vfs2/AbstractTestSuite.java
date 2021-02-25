@@ -26,6 +26,8 @@ import java.util.List;
 
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.impl.DefaultFileReplicator;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.impl.PrivilegedFileReplicator;
@@ -239,6 +241,9 @@ public abstract class AbstractTestSuite extends TestSetup {
     }
 
     private String dumpThreadSnapshot(final Thread[] threadSnapshot) {
+        if (ArrayUtils.isEmpty(threadSnapshot)) {
+            return StringUtils.EMPTY;
+        }
         final StringBuffer sb = new StringBuffer(256);
         sb.append("created threads still running:\n");
 
@@ -247,17 +252,18 @@ public abstract class AbstractTestSuite extends TestSetup {
             threadTargetField = Thread.class.getDeclaredField("target");
             threadTargetField.setAccessible(true);
         } catch (final Exception e) {
-            System.err.println("Test suite cannot show you a thread snapshot: "+ e);
+            System.err.println("Test suite cannot show you a thread snapshot: " + e);
         }
 
-        for (int iter = 0; iter < threadSnapshot.length; iter++) {
-            final Thread thread = threadSnapshot[iter];
+        int liveCount = 0;
+        for (int index = 0; index < threadSnapshot.length; index++) {
+            final Thread thread = threadSnapshot[index];
             if (thread == null || !thread.isAlive()) {
                 continue;
             }
-
+            liveCount++;
             sb.append("#");
-            sb.append(iter + 1);
+            sb.append(index + 1);
             sb.append(": ");
             final ThreadGroup threadGroup = thread.getThreadGroup();
             sb.append(threadGroup != null ? threadGroup.getName() : "(null)");
@@ -288,7 +294,9 @@ public abstract class AbstractTestSuite extends TestSetup {
 
             sb.append("\n");
         }
-
+        if (liveCount == 0) {
+            return StringUtils.EMPTY;
+        }
         return sb.toString();
     }
 
