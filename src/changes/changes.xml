@@ -70,7 +70,7 @@ The <action> type attribute can be add,update,fix,remove.
         TarProvider Incorrectly marks file IMAGINARY after garbage collection with WeakRefFilesCache, #97.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="fix">
-        Fix file resource leak in CombinedResources (properties file).
+        Fix file resource leak in CombinedResources (properties file) which keeps the jar file open.
       </action>
       <!-- ADDS -->
       <action dev="ggregory" due-to="Boris Petrov, Gary Gregory" type="add">
