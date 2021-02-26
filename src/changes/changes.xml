@@ -69,8 +69,8 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-748" dev="ggregory" due-to="PeterAlfredLee, Gary Gregory" type="fix">
         TarProvider Incorrectly marks file IMAGINARY after garbage collection with WeakRefFilesCache, #97.
       </action>
-      <action dev="ggregory" due-to="Gary Gregory" type="fix">
-        Fix file resource leak in CombinedResources (properties file) which keeps the jar file open.
+      <action issue="VFS-794" dev="ggregory" due-to="Gary Gregory" type="fix">
+        Fix file resource leak in CombinedResources (properties file) which keeps the Commons VFS jar file open.
       </action>
       <!-- ADDS -->
       <action dev="ggregory" due-to="Boris Petrov, Gary Gregory" type="add">
