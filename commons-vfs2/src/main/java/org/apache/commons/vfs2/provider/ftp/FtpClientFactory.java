@@ -208,11 +208,9 @@ public final class FtpClientFactory {
                     }
 
                     final Boolean userDirIsRoot = builder.getUserDirIsRoot(fileSystemOptions);
-                    if (workingDirectory != null && (userDirIsRoot == null || !userDirIsRoot.booleanValue())) {
-                        if (!client.changeWorkingDirectory(workingDirectory)) {
-                            throw new FileSystemException("vfs.provider.ftp/change-work-directory.error",
-                                workingDirectory);
-                        }
+                    if ((workingDirectory != null && (userDirIsRoot == null || !userDirIsRoot.booleanValue())) && !client.changeWorkingDirectory(workingDirectory)) {
+                        throw new FileSystemException("vfs.provider.ftp/change-work-directory.error",
+                            workingDirectory);
                     }
 
                     final Boolean passiveMode = builder.getPassiveMode(fileSystemOptions);

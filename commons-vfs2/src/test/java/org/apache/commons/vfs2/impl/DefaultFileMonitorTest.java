@@ -69,10 +69,8 @@ public class DefaultFileMonitorTest {
 
     @After
     public void tearDown() throws Exception {
-        if (testFile != null) {
-            if (!testFile.delete()) {
-                testFile.deleteOnExit();
-            }
+        if (testFile != null && !testFile.delete()) {
+            testFile.deleteOnExit();
         }
     }
 
