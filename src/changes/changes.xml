@@ -72,6 +72,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-794" dev="ggregory" due-to="Gary Gregory" type="fix">
         Fix file resource leak in CombinedResources (properties file) which keeps the Commons VFS jar file open.
       </action>
+      <action dev="ggregory" due-to="Max Kellermann, Bruno P. Kinoshita, Gary Gregory" type="fix">
+        Rework SoftRefFilesCache locking part 1 #158.
+      </action>
       <!-- ADDS -->
       <action dev="ggregory" due-to="Boris Petrov, Gary Gregory" type="add">
         Add ability to remove a provider from DefaultFileSystemManager #149.
