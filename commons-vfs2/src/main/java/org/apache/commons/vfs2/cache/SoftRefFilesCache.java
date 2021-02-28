@@ -69,8 +69,8 @@ public class SoftRefFilesCache extends AbstractFilesCache {
 
         @Override
         public void run() {
-            loop: while (!requestEnd && !Thread.currentThread().isInterrupted()) {
-                try {
+            try {
+                while (!requestEnd) {
                     final Reference<?> ref = refQueue.remove(TIMEOUT);
                     if (ref == null) {
                         continue;
@@ -86,12 +86,11 @@ public class SoftRefFilesCache extends AbstractFilesCache {
                     } finally {
                         lock.unlock();
                     }
-                } catch (final InterruptedException e) {
-                    if (!requestEnd) {
-                        VfsLog.warn(getLogger(), log,
+                }
+            } catch (final InterruptedException e) {
+                if (!requestEnd) {
+                    VfsLog.warn(getLogger(), log,
                                 Messages.getString("vfs.impl/SoftRefReleaseThread-interrupt.info"));
-                    }
-                    break loop;
                 }
             }
         }
@@ -242,7 +241,7 @@ public class SoftRefFilesCache extends AbstractFilesCache {
         }
 
         fileSystemCache.remove(fileSystem);
-        if (fileSystemCache.size() < 1) {
+        if (fileSystemCache.isEmpty()) {
             endThread();
         }
         /*
@@ -253,8 +252,6 @@ public class SoftRefFilesCache extends AbstractFilesCache {
 
     @Override
     public void close() {
-        super.close();
-
         endThread();
 
         lock.lock();
@@ -295,7 +292,7 @@ public class SoftRefFilesCache extends AbstractFilesCache {
     }
 
     protected Map<FileName, Reference<FileObject>> getOrCreateFilesystemCache(final FileSystem fileSystem) {
-        if (fileSystemCache.size() < 1) {
+        if (fileSystemCache.isEmpty()) {
             startThread();
         }
 
