@@ -76,7 +76,7 @@ The <action> type attribute can be add,update,fix,remove.
         Rework SoftRefFilesCache locking part 1 #158.
       </action>
       <action issue="VFS-785" dev="ggregory" due-to="satish bhor, Michael Osipov, Gary Gregory" type="fix">
-        Credentials conflict when root and proxy hosts are same name but different ports, #120.
+        [HTTP4][HTTP5] Credentials conflict when root and proxy hosts are same name but different ports, #120.
       </action>
       <!-- ADDS -->
       <action dev="ggregory" due-to="Boris Petrov, Gary Gregory" type="add">
