@@ -35,7 +35,7 @@ public class TempFileTests extends AbstractProviderTestCase {
      */
     @Test
     public void testLocalFile() throws Exception {
-        final String prefix = new String("\u0074\u0065\u0074");
+        final String prefix = "\u0074\u0065\u0074";
         final File file = File.createTempFile(prefix + "-", "-" + prefix);
         assertTrue(file.exists());
         final URI uri = file.toURI();
