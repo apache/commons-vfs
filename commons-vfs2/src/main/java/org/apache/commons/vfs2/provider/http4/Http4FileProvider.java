@@ -233,7 +233,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
                 UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword())));
 
         if (username != null && !username.isEmpty()) {
-            credsProvider.setCredentials(new AuthScope(rootName.getHostName(), AuthScope.ANY_PORT),
+            credsProvider.setCredentials(new AuthScope(rootName.getHostName(), rootName.getPort()),
                     new UsernamePasswordCredentials(username, password));
         }
 
@@ -254,7 +254,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
                             UserAuthenticatorUtils.toString(
                                     UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, null)));
 
-                    credsProvider.setCredentials(new AuthScope(proxyHost.getHostName(), AuthScope.ANY_PORT),
+                    credsProvider.setCredentials(new AuthScope(proxyHost.getHostName(), proxyHost.getPort()),
                             proxyCreds);
                 }
 
