@@ -84,19 +84,19 @@ public final class Shell {
     private void go() throws Exception {
         System.out.println("VFS Shell " + getVersion(Shell.class));
         while (true) {
-            final String[] cmd = nextCommand();
-            if (cmd == null) {
+            final String[] commands = nextCommand();
+            if (commands == null) {
                 return;
             }
-            if (cmd.length == 0) {
+            if (commands.length == 0) {
                 continue;
             }
-            final String cmdName = cmd[0];
+            final String cmdName = commands[0];
             if (cmdName.equalsIgnoreCase("exit") || cmdName.equalsIgnoreCase("quit")) {
                 return;
             }
             try {
-                handleCommand(cmd);
+                handleCommand(commands);
             } catch (final Exception e) {
                 System.err.println("Command failed:");
                 e.printStackTrace(System.err);
