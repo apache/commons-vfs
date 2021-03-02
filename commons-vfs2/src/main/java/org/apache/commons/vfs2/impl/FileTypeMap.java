@@ -51,7 +51,7 @@ final class FileTypeMap {
      * This will check the FileContentInfo or file extension.
      * </p>
      *
-     * @return Scheme supporting the file type or null (if unknonw).
+     * @return Scheme supporting the file type or null (if unknown).
      */
     public String getScheme(final FileObject file) throws FileSystemException {
         // Check the file's mime type for a match
