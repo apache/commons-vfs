@@ -24,6 +24,7 @@ import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -89,7 +90,7 @@ public class FileLockTestCase {
     public void testCannotDeleteWhileStreaming() throws Exception {
         try (final FileObject zipFileObject = manager.resolveFile(zipFileUri)) {
             try (InputStream inputStream = zipFileObject.getContent().getInputStream()) {
-                if (Os.isFamily(Os.OS_FAMILY_WINDOWS)) {
+                if (SystemUtils.IS_OS_WINDOWS) {
                     // We do not use newZipFile in the Assert message to avoid touching it before calling delete().
                     Assert.assertFalse("Could not delete file", newZipFile.delete());
                 }
@@ -100,7 +101,7 @@ public class FileLockTestCase {
 
     @Test
     public void testCannotDeleteWhileStreaming2() throws Exception {
-        Assume.assumeTrue(Os.isFamily(Os.OS_FAMILY_WINDOWS));
+        Assume.assumeTrue(SystemUtils.IS_OS_WINDOWS);
         try (final FileObject zipFileObject = manager.resolveFile(zipFileUri)) {
             try (InputStream inputStream = zipFileObject.getContent().getInputStream()) {
                 // We do not use newZipFile in the Assert message to avoid touching it before calling delete().

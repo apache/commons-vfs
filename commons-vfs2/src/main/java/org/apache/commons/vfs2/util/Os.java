@@ -24,9 +24,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import org.apache.commons.lang3.SystemUtils;
+
 /**
  * Class to help determining the OS.
+ *
+ * @deprecated Use Apache Commons Lang's {@link SystemUtils}. Remove in 3.0.
  */
+@Deprecated
 public final class Os {
 
     /**

@@ -22,6 +22,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.BitSet;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.provider.GenericURLFileName;
@@ -74,7 +75,7 @@ public class URIUtils {
                 throw new IllegalArgumentException("data may not be null");
             }
 
-            if (charsetName == null || charsetName.isEmpty()) {
+            if (StringUtils.isEmpty(charsetName)) {
                 throw new IllegalArgumentException("charset may not be null or empty");
             }
 

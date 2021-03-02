@@ -79,8 +79,7 @@ public class AgeFileFilter implements FileFilter, Serializable {
             return false;
         }
         try (final FileContent content = fileObject.getContent()) {
-            final long lastModified = content.getLastModifiedTime();
-            return lastModified > timeMillis;
+            return content.getLastModifiedTime() > timeMillis;
         }
     }
 

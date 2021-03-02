@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
@@ -106,7 +107,7 @@ public class HdfsFileProviderTest {
      * Will do nothing on Windows.
      */
     public static void setUmask(final Configuration conf2) {
-        if (Os.isFamily(Os.OS_FAMILY_WINDOWS)) {
+        if (SystemUtils.IS_OS_WINDOWS) {
             return;
         }
 

@@ -25,11 +25,12 @@ import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DurationUtils;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.UserAuthenticator;
-import org.apache.commons.vfs2.util.DurationUtils;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 
 /**
@@ -68,7 +69,7 @@ public final class HttpClientFactory {
                 final String proxyHost = builder.getProxyHost(fileSystemOptions);
                 final int proxyPort = builder.getProxyPort(fileSystemOptions);
 
-                if (proxyHost != null && !proxyHost.isEmpty() && proxyPort > 0) {
+                if (!StringUtils.isEmpty(proxyHost) && proxyPort > 0) {
                     config.setProxy(proxyHost, proxyPort);
                 }
 

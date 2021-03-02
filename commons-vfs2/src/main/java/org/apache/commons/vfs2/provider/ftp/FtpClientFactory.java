@@ -23,6 +23,8 @@ import java.io.Writer;
 import java.net.Proxy;
 import java.time.Duration;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DurationUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.PrintCommandListener;
@@ -32,7 +34,6 @@ import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.ftp.parser.FTPFileEntryParserFactory;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
-import org.apache.commons.vfs2.util.DurationUtils;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 
 /**
@@ -84,7 +85,7 @@ public final class FtpClientFactory {
                 if (shortMonthNames != null) {
                     final StringBuilder shortMonthNamesStr = new StringBuilder(BUFSZ);
                     for (final String shortMonthName : shortMonthNames) {
-                        if (shortMonthNamesStr.length() > 0) {
+                        if (!StringUtils.isEmpty(shortMonthNamesStr)) {
                             shortMonthNamesStr.append("|");
                         }
                         shortMonthNamesStr.append(shortMonthName);

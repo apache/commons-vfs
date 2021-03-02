@@ -29,6 +29,7 @@ import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.ftp.FTPFile;
@@ -238,7 +239,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
                             .getPath()
                     : relPath;
             final FTPFile[] tmpChildren = client.listFiles(path);
-            if (tmpChildren == null || tmpChildren.length == 0) {
+            if (ArrayUtils.isEmpty(tmpChildren)) {
                 childMap = EMPTY_FTP_FILE_MAP;
             } else {
                 childMap = new TreeMap<>();

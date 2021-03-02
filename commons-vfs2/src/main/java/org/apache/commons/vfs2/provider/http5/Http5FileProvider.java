@@ -32,6 +32,7 @@ import java.util.List;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystem;
@@ -239,7 +240,7 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
         final char[] password = UserAuthenticatorUtils.getData(authData,
                 UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword()));
 
-        if (username != null && !username.isEmpty()) {
+        if (!StringUtils.isEmpty(username)) {
             // set root port
             credsProvider.setCredentials(new AuthScope(rootName.getHostName(), rootName.getPort()),
                     new UsernamePasswordCredentials(username, password));
@@ -306,7 +307,7 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
             File keystoreFileObject = null;
             final String keystoreFile = builder.getKeyStoreFile(fileSystemOptions);
 
-            if (keystoreFile != null && !keystoreFile.isEmpty()) {
+            if (!StringUtils.isEmpty(keystoreFile)) {
                 keystoreFileObject = new File(keystoreFile);
             }
 
@@ -369,7 +370,7 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
         final String proxyHost = builder.getProxyHost(fileSystemOptions);
         final int proxyPort = builder.getProxyPort(fileSystemOptions);
 
-        if (proxyHost != null && !proxyHost.isEmpty() && proxyPort > 0) {
+        if (!StringUtils.isEmpty(proxyHost) && proxyPort > 0) {
             return new HttpHost(proxyScheme, proxyHost, proxyPort);
         }
 

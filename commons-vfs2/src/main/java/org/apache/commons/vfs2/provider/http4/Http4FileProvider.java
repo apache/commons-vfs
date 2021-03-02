@@ -32,6 +32,8 @@ import java.util.List;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DurationUtils;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystem;
@@ -42,7 +44,6 @@ import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.UserAuthenticator;
 import org.apache.commons.vfs2.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs2.provider.GenericFileName;
-import org.apache.commons.vfs2.util.DurationUtils;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 import org.apache.http.ConnectionReuseStrategy;
 import org.apache.http.Header;
@@ -229,7 +230,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
         final String password = UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
                 UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword())));
 
-        if (username != null && !username.isEmpty()) {
+        if (!StringUtils.isEmpty(username)) {
             credsProvider.setCredentials(new AuthScope(rootName.getHostName(), rootName.getPort()),
                     new UsernamePasswordCredentials(username, password));
         }
@@ -295,7 +296,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
             File keystoreFileObject = null;
             final String keystoreFile = builder.getKeyStoreFile(fileSystemOptions);
 
-            if (keystoreFile != null && !keystoreFile.isEmpty()) {
+            if (!StringUtils.isEmpty(keystoreFile)) {
                 keystoreFileObject = new File(keystoreFile);
             }
 
@@ -358,7 +359,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
         final int proxyPort = builder.getProxyPort(fileSystemOptions);
         final String proxyScheme = builder.getProxyScheme(fileSystemOptions);
 
-        if (proxyHost != null && !proxyHost.isEmpty() && proxyPort > 0) {
+        if (!StringUtils.isEmpty(proxyHost) && proxyPort > 0) {
             return new HttpHost(proxyHost, proxyPort, proxyScheme);
         }
 

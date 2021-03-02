@@ -21,6 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
 import org.apache.commons.vfs2.FileSystemOptions;
@@ -91,7 +92,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public String[] getConfigNames(final FileSystemOptions opts) {
         final String names = this.getString(opts, KEY_CONFIG_NAMES);
-        return names == null || names.isEmpty() ? null : names.split(",");
+        return StringUtils.isEmpty(names) ? null : names.split(",");
     }
 
     /**
@@ -103,7 +104,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public Path[] getConfigPaths(final FileSystemOptions opts) {
         final String pathNames = this.getString(opts, KEY_CONFIG_PATHS);
-        if (pathNames == null || pathNames.isEmpty()) {
+        if (StringUtils.isEmpty(pathNames)) {
             return null;
         }
         return Arrays.stream(pathNames.split(",")).map(Path::new).toArray(Path[]::new);
@@ -119,7 +120,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public URL[] getConfigURLs(final FileSystemOptions opts) {
         try {
             final String urlNames = this.getString(opts, KEY_CONFIG_URLS);
-            if (urlNames == null || urlNames.isEmpty()) {
+            if (StringUtils.isEmpty(urlNames)) {
                 return null;
             }
             final String[] urls = urlNames.split(",");
@@ -198,7 +199,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @see #getConfigNames
      */
     public void setConfigName(final FileSystemOptions opts, final String name) {
-        if (name == null || name.isEmpty()) {
+        if (StringUtils.isEmpty(name)) {
             this.setParam(opts, KEY_CONFIG_NAMES, null);
         } else {
             final String previousNames = this.getString(opts, KEY_CONFIG_NAMES);
@@ -233,7 +234,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
             this.setParam(opts, KEY_CONFIG_PATHS, null);
         } else {
             final String previousPathNames = this.getString(opts, KEY_CONFIG_PATHS);
-            if (previousPathNames == null || previousPathNames.isEmpty()) {
+            if (StringUtils.isEmpty(previousPathNames)) {
                 this.setParam(opts, KEY_CONFIG_PATHS, path.toString());
             } else {
                 this.setParam(opts, KEY_CONFIG_PATHS, previousPathNames + "," + path.toString());
@@ -263,7 +264,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
             this.setParam(opts, KEY_CONFIG_URLS, null);
         } else {
             final String previousURLNames = this.getString(opts, KEY_CONFIG_URLS);
-            if (previousURLNames == null || previousURLNames.isEmpty()) {
+            if (StringUtils.isEmpty(previousURLNames)) {
                 this.setParam(opts, KEY_CONFIG_URLS, url.toString());
             } else {
                 this.setParam(opts, KEY_CONFIG_URLS, previousURLNames + "," + url.toString());

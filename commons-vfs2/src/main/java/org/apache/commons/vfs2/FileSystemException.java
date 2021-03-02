@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.vfs2.util.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.vfs2.util.Messages;
 
 /**
@@ -172,8 +172,7 @@ public class FileSystemException extends IOException {
                 // mask passwords (VFS-169)
                 final Matcher urlMatcher = URL_PATTERN.matcher(value);
                 if (urlMatcher.find()) {
-                    final Matcher pwdMatcher = PASSWORD_PATTERN.matcher(value);
-                    value = pwdMatcher.replaceFirst(":***@");
+                    value = PASSWORD_PATTERN.matcher(value).replaceFirst(":***@");
                 }
                 this.info[i] = value;
             }

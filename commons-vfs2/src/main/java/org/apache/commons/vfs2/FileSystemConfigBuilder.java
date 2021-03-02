@@ -20,7 +20,8 @@ import java.time.Duration;
 import java.util.Objects;
 import java.util.function.Function;
 
-import org.apache.commons.vfs2.util.DurationUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DurationUtils;
 
 /**
  * Abstract class which has the right to fill FileSystemOptions.
@@ -189,7 +190,7 @@ public abstract class FileSystemConfigBuilder {
         Character value = getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
-            if (str == null || str.isEmpty()) {
+            if (StringUtils.isEmpty(str)) {
                 return defaultValue;
             }
             value = Character.valueOf(str.charAt(0));

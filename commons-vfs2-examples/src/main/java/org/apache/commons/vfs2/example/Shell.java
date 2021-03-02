@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
@@ -49,7 +50,6 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
  */
 public final class Shell {
 
-    private static final String[] EMPTY_STRING_ARRAY = new String[0];
     private final FileSystemManager mgr;
     private FileObject cwd;
     private final BufferedReader reader;
@@ -358,7 +358,7 @@ public final class Shell {
         while (tokens.hasMoreTokens()) {
             cmd.add(tokens.nextToken());
         }
-        return cmd.toArray(EMPTY_STRING_ARRAY);
+        return cmd.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
     private static String getVersion(final Class<?> cls) {

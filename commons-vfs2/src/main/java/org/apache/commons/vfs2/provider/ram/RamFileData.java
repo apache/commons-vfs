@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
@@ -29,8 +30,6 @@ import org.apache.commons.vfs2.FileType;
  * RAM File Object Data.
  */
 class RamFileData implements Serializable {
-
-    static final byte[] EMPTY = new byte[0];
 
     /**
      * serialVersionUID format is YYYYMMDD for the date of the last binary change.
@@ -122,7 +121,7 @@ class RamFileData implements Serializable {
     /**
      */
     void clear() {
-        this.content = EMPTY;
+        this.content = ArrayUtils.EMPTY_BYTE_ARRAY;
         updateLastModified();
         this.type = FileType.IMAGINARY;
         this.children.clear();

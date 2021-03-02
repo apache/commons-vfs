@@ -28,11 +28,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.VfsLog;
 import org.apache.commons.vfs2.operations.FileOperationProvider;
 import org.apache.commons.vfs2.provider.FileProvider;
-import org.apache.commons.vfs2.util.ArrayUtils;
 import org.apache.commons.vfs2.util.Messages;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -264,7 +265,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
     private void addExtensionMap(final Element map) {
         final String extension = map.getAttribute("extension");
         final String scheme = map.getAttribute("scheme");
-        if (scheme != null && !scheme.isEmpty()) {
+        if (!StringUtils.isEmpty(scheme)) {
             addExtensionMap(extension, scheme);
         }
     }
@@ -362,7 +363,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
         for (int i = 0; i < count; i++) {
             final Element dep = (Element) deps.item(i);
             final String className = dep.getAttribute("class-name");
-            if (className != null && !className.isEmpty()) {
+            if (!StringUtils.isEmpty(className)) {
                 classes.add(className);
             }
         }
@@ -379,7 +380,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
         for (int i = 0; i < count; i++) {
             final Element dep = (Element) deps.item(i);
             final String scheme = dep.getAttribute("scheme");
-            if (scheme != null && !scheme.isEmpty()) {
+            if (!StringUtils.isEmpty(scheme)) {
                 schemes.add(scheme);
             }
         }

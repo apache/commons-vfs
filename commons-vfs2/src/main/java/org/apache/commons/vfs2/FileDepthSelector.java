@@ -16,20 +16,14 @@
  */
 package org.apache.commons.vfs2;
 
+import org.apache.commons.lang3.Range;
+
 /**
  * A {@link FileSelector} that selects all files in a particular depth range.
  */
 public class FileDepthSelector implements FileSelector {
 
-    /**
-     * The minimum depth
-     */
-    private final int minDepth;
-
-    /**
-     * The maximum depth
-     */
-    private final int maxDepth;
+    private final Range<Integer> range;
 
     /**
      * Creates a selector with the given minimum and maximum depths.
@@ -38,8 +32,7 @@ public class FileDepthSelector implements FileSelector {
      * @param maxDepth maximum depth
      */
     public FileDepthSelector(final int minDepth, final int maxDepth) {
-        this.minDepth = minDepth;
-        this.maxDepth = maxDepth;
+        this.range = Range.between(minDepth, maxDepth);
     }
 
     /**
@@ -69,8 +62,7 @@ public class FileDepthSelector implements FileSelector {
      */
     @Override
     public boolean includeFile(final FileSelectInfo fileInfo) throws Exception {
-        final int depth = fileInfo.getDepth();
-        return minDepth <= depth && depth <= maxDepth;
+        return range.contains(fileInfo.getDepth());
     }
 
     /**
@@ -81,6 +73,6 @@ public class FileDepthSelector implements FileSelector {
      */
     @Override
     public boolean traverseDescendents(final FileSelectInfo fileInfo) throws Exception {
-        return fileInfo.getDepth() < maxDepth;
+        return fileInfo.getDepth() < range.getMaximum();
     }
 }

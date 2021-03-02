@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileType;
 
@@ -128,7 +129,7 @@ public class GenericFileName extends AbstractFileName {
      * @param addPassword flag if password should be added or replaced with placeholder (false).
      */
     protected void appendCredentials(final StringBuilder buffer, final boolean addPassword) {
-        if (userName != null && !userName.isEmpty()) {
+        if (!StringUtils.isEmpty(userName)) {
             UriParser.appendEncoded(buffer, userName, USERNAME_RESERVED);
             if (password != null && !password.isEmpty()) {
                 buffer.append(':');

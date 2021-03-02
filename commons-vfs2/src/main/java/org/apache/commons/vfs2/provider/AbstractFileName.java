@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
@@ -58,14 +59,14 @@ public abstract class AbstractFileName implements FileName {
         this.rootUri = null;
         this.scheme = scheme;
         this.type = type;
-        if (absPath != null && !absPath.isEmpty()) {
+        if (StringUtils.isEmpty(absPath)) {
+            this.absPath = ROOT_PATH;
+        } else {
             if (absPath.length() > 1 && absPath.endsWith("/")) {
                 this.absPath = absPath.substring(0, absPath.length() - 1);
             } else {
                 this.absPath = absPath;
             }
-        } else {
-            this.absPath = ROOT_PATH;
         }
     }
 
@@ -271,7 +272,7 @@ public abstract class AbstractFileName implements FileName {
     }
 
     private String handleURISpecialCharacters(String uri) {
-        if (uri != null && !uri.isEmpty()) {
+        if (!StringUtils.isEmpty(uri)) {
             try {
                 // VFS-325: Handle URI special characters in file name
                 // Decode the base URI and re-encode with URI special characters

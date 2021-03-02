@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.vfs2.FileChangeEvent;
 import org.apache.commons.vfs2.FileContentInfo;
 import org.apache.commons.vfs2.FileListener;
@@ -33,7 +34,6 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.RandomAccessContent;
-import org.apache.commons.vfs2.util.ArrayUtils;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 import org.apache.commons.vfs2.util.WeakRefFileListener;
 

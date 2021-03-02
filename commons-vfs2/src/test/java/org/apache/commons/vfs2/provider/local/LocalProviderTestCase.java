@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider.local;
 import java.io.File;
 
 import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -44,7 +45,7 @@ public class LocalProviderTestCase extends AbstractProviderTestConfig {
         testSuite.addTests(UrlTests.class);
         testSuite.addTests(PermissionsTests.class);
 
-        if (Os.isFamily(Os.OS_FAMILY_WINDOWS)) {
+        if (SystemUtils.IS_OS_WINDOWS) {
             testSuite.addTests(WindowsFileNameTests.class);
         }
 

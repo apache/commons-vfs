@@ -21,11 +21,12 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
 
+import org.apache.commons.lang3.SystemUtils;
+import org.apache.commons.lang3.time.DurationUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
-import org.apache.commons.vfs2.util.DurationUtils;
 import org.apache.commons.vfs2.util.Os;
 
 import com.jcraft.jsch.ConfigRepository;
@@ -282,7 +283,7 @@ public final class SftpClientFactory {
             return sshDir;
         }
 
-        if (Os.isFamily(Os.OS_FAMILY_WINDOWS)) {
+        if (SystemUtils.IS_OS_WINDOWS) {
             // TODO - this may not be true
             final String userName = System.getProperty("user.name");
             sshDir = new File("C:\\cygwin\\home\\" + userName + "\\" + SSH_DIR_NAME);

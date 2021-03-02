@@ -676,8 +676,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      */
     @Override
     public FileObject resolveFile(final File baseFile, final String uri) throws FileSystemException {
-        final FileObject baseFileObj = getLocalFileProvider().findLocalFile(baseFile);
-        return resolveFile(baseFileObj, uri);
+        return resolveFile(getLocalFileProvider().findLocalFile(baseFile), uri);
     }
 
     /**

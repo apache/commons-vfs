@@ -22,12 +22,12 @@ import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 /**
  * Formats messages.
  */
 public final class Messages {
-
-    private static final Object[] EMPTY_OBJECT_ARRAY = new Object[0];
 
     /**
      * Map from message code to MessageFormat object for the message.
@@ -50,7 +50,7 @@ public final class Messages {
      * @return The formatted message.
      */
     public static String getString(final String code) {
-        return getString(code, EMPTY_OBJECT_ARRAY);
+        return getString(code, ArrayUtils.EMPTY_OBJECT_ARRAY);
     }
 
     /**

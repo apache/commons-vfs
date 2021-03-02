@@ -23,6 +23,7 @@ import java.time.Duration;
 import java.util.Collection;
 import java.util.Objects;
 
+import org.apache.commons.lang3.time.DurationUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.Capability;
@@ -32,7 +33,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.GenericFileName;
-import org.apache.commons.vfs2.util.DurationUtils;
 
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.ChannelSftp;

@@ -22,9 +22,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileFilter;
 import org.apache.commons.vfs2.FileSelectInfo;
-import org.apache.commons.vfs2.util.ArrayUtils;
 
 /**
  * Filters files using the supplied wildcards.
@@ -180,7 +181,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
         final StringBuilder builder = new StringBuilder();
         for (int i = 0; i < array.length; i++) {
             if (array[i] == '?' || array[i] == '*') {
-                if (builder.length() != 0) {
+                if (StringUtils.isNotEmpty(builder)) {
                     list.add(builder.toString());
                     builder.setLength(0);
                 }
@@ -193,7 +194,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
                 builder.append(array[i]);
             }
         }
-        if (builder.length() != 0) {
+        if (StringUtils.isNotEmpty(builder)) {
             list.add(builder.toString());
         }
 

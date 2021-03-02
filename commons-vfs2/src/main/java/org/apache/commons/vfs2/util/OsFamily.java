@@ -16,9 +16,14 @@
  */
 package org.apache.commons.vfs2.util;
 
+import org.apache.commons.lang3.SystemUtils;
+
 /**
  * An enumerated type, which represents an OS family.
+ *
+ * @deprecated Use Apache Commons Lang's {@link SystemUtils}. Remove in 3.0.
  */
+@Deprecated
 public final class OsFamily {
 
     private final String name;
