@@ -151,12 +151,9 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
     }
 
     private HostnameVerifier createHostnameVerifier(final Http4FileSystemConfigBuilder builder,
-            final FileSystemOptions fileSystemOptions) throws FileSystemException {
-        if (!builder.isHostnameVerificationEnabled(fileSystemOptions)) {
-            return NoopHostnameVerifier.INSTANCE;
-        }
-
-        return new DefaultHostnameVerifier();
+        final FileSystemOptions fileSystemOptions) {
+        return builder.isHostnameVerificationEnabled(fileSystemOptions) ? new DefaultHostnameVerifier()
+            : NoopHostnameVerifier.INSTANCE;
     }
 
     /**
