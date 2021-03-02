@@ -17,7 +17,6 @@
 package org.apache.commons.vfs2;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 /**
  * The main entry point for the VFS. Used to create {@link FileSystemManager} instances.

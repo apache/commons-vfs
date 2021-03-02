@@ -23,6 +23,7 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.PermissionsTests;
 import org.apache.commons.vfs2.ProviderReadTests;
+
 import com.jcraft.jsch.TestIdentityRepositoryFactory;
 
 import junit.framework.Test;

@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.tar;
 
+import java.io.File;
+
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FilesCache;
@@ -23,8 +25,6 @@ import org.apache.commons.vfs2.cache.WeakRefFilesCache;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.io.File;
 
 public class TarFileSystemTestCase {
 
