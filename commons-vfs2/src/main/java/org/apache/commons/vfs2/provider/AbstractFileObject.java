@@ -75,8 +75,6 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      */
     public static final int DEFAULT_BUFFER_SIZE = 8192;
 
-    private static final FileName[] EMPTY_FILE_ARRAY = {};
-
     private static final int INITIAL_LIST_SIZE = 5;
 
     /**
@@ -1110,7 +1108,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 throw new FileNotFolderException(fileName);
             } else if (files.length == 0) {
                 // No children
-                children = EMPTY_FILE_ARRAY;
+                children = EMPTY_FILE_NAME_ARRAY;
             } else {
                 // Create file objects for the children
                 final FileName[] cache = new FileName[files.length];
