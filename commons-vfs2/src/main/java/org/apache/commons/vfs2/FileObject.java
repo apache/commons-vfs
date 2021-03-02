@@ -98,7 +98,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * An empty immutable {@code FileObject} array.
      *
-     * @since 2.9.0
+     * @since 2.8.0
      */
     FileObject[] EMPTY_ARRAY = new FileObject[0];
 

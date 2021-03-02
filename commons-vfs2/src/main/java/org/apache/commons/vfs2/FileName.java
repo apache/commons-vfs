@@ -41,7 +41,7 @@ public interface FileName extends Comparable<FileName> {
     /**
      * Empty array of FileName.
      *
-     * @since 2.9.0
+     * @since 2.8.0
      */
     FileName[] EMPTY_ARRAY = new FileName[0];
 
