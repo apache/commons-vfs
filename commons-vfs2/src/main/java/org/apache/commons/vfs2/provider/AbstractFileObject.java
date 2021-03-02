@@ -1871,8 +1871,6 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         }
     }
 
-    // --- OPERATIONS ---
-
     @Override
     public boolean setWritable(final boolean readable, final boolean ownerOnly) throws FileSystemException {
         try {

@@ -29,8 +29,7 @@ final class URLStreamHandlerProxy extends URLStreamHandler {
 
     @Override
     protected URLConnection openConnection(final URL url) throws IOException {
-        final URL proxyURL = new URL(url.toExternalForm());
-        return proxyURL.openConnection();
+        return new URL(url.toExternalForm()).openConnection();
     }
 
     @Override

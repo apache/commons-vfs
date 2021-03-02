@@ -120,14 +120,13 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
     protected void configurePlugins() throws FileSystemException {
         final Enumeration<URL> enumResources;
         try {
-            enumResources = loadResources(PLUGIN_CONFIG_RESOURCE);
+            enumResources = enumerateResources(PLUGIN_CONFIG_RESOURCE);
         } catch (final IOException e) {
             throw new FileSystemException(e);
         }
 
         while (enumResources.hasMoreElements()) {
-            final URL url = enumResources.nextElement();
-            configure(url);
+            configure(enumResources.nextElement());
         }
     }
 
@@ -192,10 +191,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
         try {
             // Load up the config
             // TODO - validate
-            final DocumentBuilder builder = createDocumentBuilder();
-            final Element config = builder.parse(configStream).getDocumentElement();
-
-            configure(config);
+            configure(createDocumentBuilder().parse(configStream).getDocumentElement());
 
         } catch (final Exception e) {
             throw new FileSystemException("vfs.impl/load-config.error", configUri, e);
@@ -418,8 +414,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
      */
     private Object createInstance(final String className) throws FileSystemException {
         try {
-            final Class<?> clazz = loadClass(className);
-            return clazz.newInstance();
+            return loadClass(className).newInstance();
         } catch (final Exception e) {
             throw new FileSystemException("vfs.impl/create-provider.error", className, e);
         }
@@ -440,17 +435,17 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
     }
 
     /**
-     * Resolve resources from different class loaders.
+     * Enumerates resources from different class loaders.
      *
      * @throws IOException if {@code getResource} failed.
      * @see #findClassLoader()
      */
-    private Enumeration<URL> loadResources(final String name) throws IOException {
-        Enumeration<URL> res = findClassLoader().getResources(name);
-        if (res == null || !res.hasMoreElements()) {
-            res = getValidClassLoader(getClass()).getResources(name);
+    private Enumeration<URL> enumerateResources(final String name) throws IOException {
+        Enumeration<URL> enumeration = findClassLoader().getResources(name);
+        if (enumeration == null || !enumeration.hasMoreElements()) {
+            enumeration = getValidClassLoader(getClass()).getResources(name);
         }
-        return res;
+        return enumeration;
     }
 
 }
