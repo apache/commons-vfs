@@ -79,14 +79,14 @@ public class EmptyFileFilter implements FileFilter, Serializable {
     /**
      * Checks to see if the file is empty. A non-existing file is also considered empty.
      *
-     * @param fileInfo the file or directory to check
+     * @param fileSelectInfo the file or directory to check
      *
      * @return {@code true} if the file or directory is <i>empty</i>, otherwise {@code false}.
      * @throws FileSystemException Thrown for file system errors.
      */
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) throws FileSystemException {
-        try (final FileObject file = fileInfo.getFile()) {
+    public boolean accept(final FileSelectInfo fileSelectInfo) throws FileSystemException {
+        try (final FileObject file = fileSelectInfo.getFile()) {
             if (!file.exists()) {
                 return true;
             }

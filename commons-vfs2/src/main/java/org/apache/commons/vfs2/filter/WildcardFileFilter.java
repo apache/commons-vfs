@@ -122,13 +122,13 @@ public class WildcardFileFilter implements FileFilter, Serializable {
     /**
      * Checks to see if the file name matches one of the wildcards.
      *
-     * @param fileInfo the file to check
+     * @param fileSelectInfo the file to check
      *
      * @return true if the file name matches one of the wildcards
      */
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) {
-        final String name = fileInfo.getFile().getName().getBaseName();
+    public boolean accept(final FileSelectInfo fileSelectInfo) {
+        final String name = fileSelectInfo.getFile().getName().getBaseName();
         for (final String wildcard : wildcards) {
             if (wildcardMatch(name, wildcard, caseSensitivity)) {
                 return true;

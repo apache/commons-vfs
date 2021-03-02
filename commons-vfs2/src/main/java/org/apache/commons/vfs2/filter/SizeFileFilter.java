@@ -93,14 +93,14 @@ public class SizeFileFilter implements FileFilter, Serializable {
      * Non-existing files return always false (will never be accepted).
      * </p>
      *
-     * @param fileInfo the File to check
+     * @param fileSelectInfo the File to check
      *
      * @return true if the file name matches
      * @throws FileSystemException Thrown for file system errors.
      */
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) throws FileSystemException {
-        try (final FileObject file = fileInfo.getFile()) {
+    public boolean accept(final FileSelectInfo fileSelectInfo) throws FileSystemException {
+        try (final FileObject file = fileSelectInfo.getFile()) {
             if (!file.exists()) {
                 return false;
             }

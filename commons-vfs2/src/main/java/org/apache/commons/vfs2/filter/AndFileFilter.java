@@ -82,12 +82,12 @@ public class AndFileFilter implements FileFilter, ConditionalFileFilter, Seriali
     }
 
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) throws FileSystemException {
+    public boolean accept(final FileSelectInfo fileSelectInfo) throws FileSystemException {
         if (this.fileFilters.isEmpty()) {
             return false;
         }
         for (final FileFilter fileFilter : fileFilters) {
-            if (!fileFilter.accept(fileInfo)) {
+            if (!fileFilter.accept(fileSelectInfo)) {
                 return false;
             }
         }

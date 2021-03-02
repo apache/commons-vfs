@@ -58,7 +58,7 @@ public final class Selectors {
     public static final FileSelector SELECT_ALL = new AllFileSelector();
 
     /**
-     * Prevent the class from being instantiated.
+     * Prevents the class from being instantiated.
      */
     private Selectors() {
     }

@@ -169,7 +169,7 @@ public class AndFileFilterTest extends BaseFilterTest {
     private static class DummyFilter implements FileFilter {
 
         @Override
-        public boolean accept(final FileSelectInfo fileInfo) {
+        public boolean accept(final FileSelectInfo fileSelectInfo) {
             return false;
         }
 
@@ -181,7 +181,7 @@ public class AndFileFilterTest extends BaseFilterTest {
     private static class True implements FileFilter {
 
         @Override
-        public boolean accept(final FileSelectInfo fileInfo) {
+        public boolean accept(final FileSelectInfo fileSelectInfo) {
             return true;
         }
 
@@ -193,7 +193,7 @@ public class AndFileFilterTest extends BaseFilterTest {
     private static class False implements FileFilter {
 
         @Override
-        public boolean accept(final FileSelectInfo fileInfo) {
+        public boolean accept(final FileSelectInfo fileSelectInfo) {
             return false;
         }
 

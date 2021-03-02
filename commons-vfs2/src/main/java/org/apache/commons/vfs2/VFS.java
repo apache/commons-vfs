@@ -59,8 +59,7 @@ public final class VFS {
 
             try {
                 // Initialize
-                final Method initMethod = mgrClass.getMethod("init", (Class[]) null);
-                initMethod.invoke(mgr, (Object[]) null);
+                mgrClass.getMethod("init", (Class[]) null).invoke(mgr, (Object[]) null);
             } catch (final NoSuchMethodException ignored) {
                 /* Ignore; don't initialize. */
             }

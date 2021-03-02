@@ -30,6 +30,7 @@ public class UserAuthenticationData {
      * Represents a user authentication item.
      */
     public static class Type implements Comparable<Type> {
+
         /** The type name */
         private final String type;
 
