@@ -92,7 +92,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
                     };
 
     /** FileProvider capabilities */
-    static final Collection<Capability> capabilities =
+    static final Collection<Capability> CAPABILITIES =
             Collections.unmodifiableCollection(
                     Arrays.asList(
                             Capability.GET_TYPE,
@@ -344,7 +344,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
 
     @Override
     public Collection<Capability> getCapabilities() {
-        return capabilities;
+        return CAPABILITIES;
     }
 
     @Override

@@ -368,7 +368,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Sets the charset used for url encoding.
      *
      * @param opts The FileSystem options.
-     * @return the chaset
+     * @return the charset name.
      */
     public String getUrlCharset(final FileSystemOptions opts) {
         return getString(opts, "urlCharset");
@@ -611,13 +611,13 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Sets the charset used for url encoding.
+     * Sets the charset used for URL encoding.
      *
      * @param opts The FileSystem options.
-     * @param chaset the chaset
+     * @param charset the charset name.
      */
-    public void setUrlCharset(final FileSystemOptions opts, final String chaset) {
-        setParam(opts, "urlCharset", chaset);
+    public void setUrlCharset(final FileSystemOptions opts, final String charset) {
+        setParam(opts, "urlCharset", charset);
     }
 
     /**

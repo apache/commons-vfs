@@ -55,7 +55,7 @@ public class HdfsFileProvider extends AbstractOriginatingFileProvider {
     }
 
     /**
-     * Create a new HdfsFileSystem instance.
+     * Creates a new HdfsFileSystem instance.
      *
      * @param rootName Name of the root file.
      * @param fileSystemOptions Configuration options for this instance.
@@ -68,7 +68,7 @@ public class HdfsFileProvider extends AbstractOriginatingFileProvider {
     }
 
     /**
-     * Get Capabilities of HdfsFileSystem.
+     * Gets Capabilities of HdfsFileSystem.
      *
      * @return The capabilities (unmodifiable).
      */
@@ -78,9 +78,9 @@ public class HdfsFileProvider extends AbstractOriginatingFileProvider {
     }
 
     /**
-     * Return config builder.
+     * Gets the config builder.
      *
-     * @return A config builder for HdfsFileSystems.
+     * @return The config builder for HdfsFileSystems.
      * @see org.apache.commons.vfs2.provider.AbstractFileProvider#getConfigBuilder()
      */
     @Override

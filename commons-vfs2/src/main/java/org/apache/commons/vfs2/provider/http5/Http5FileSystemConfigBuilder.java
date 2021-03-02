@@ -113,6 +113,11 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
     protected static final String KEY_FOLLOW_REDIRECT = "followRedirect";
 
     /**
+     * Defines the charset of a URL.
+     */
+    private static final String KEY_URL_CHARSET = "urlCharset";
+
+    /**
      * Defines the User-Agent request header string of the underlying HttpClient.
      * <p>
      * This parameter expects a value of type {@link String}.
@@ -393,13 +398,13 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Sets the charset used for url encoding.
+     * Gets the charset used for url encoding.
      *
      * @param opts The FileSystem options.
-     * @return the chaset
+     * @return the charset name
      */
     public String getUrlCharset(final FileSystemOptions opts) {
-        return getString(opts, "urlCharset");
+        return getString(opts, KEY_URL_CHARSET);
     }
 
     /**
@@ -652,10 +657,10 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Sets the charset used for url encoding.
      *
      * @param opts The FileSystem options.
-     * @param chaset the chaset
+     * @param charset the charset name.
      */
-    public void setUrlCharset(final FileSystemOptions opts, final String chaset) {
-        setParam(opts, "urlCharset", chaset);
+    public void setUrlCharset(final FileSystemOptions opts, final String charset) {
+        setParam(opts, KEY_URL_CHARSET, charset);
     }
 
     /**
@@ -665,6 +670,6 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param userAgent User Agent String
      */
     public void setUserAgent(final FileSystemOptions opts, final String userAgent) {
-        setParam(opts, "userAgent", userAgent);
+        setParam(opts, KEY_USER_AGENT, userAgent);
     }
 }

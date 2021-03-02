@@ -67,12 +67,7 @@ public final class FtpsClientFactory {
 
         @Override
         protected FTPSClient createClient(final FileSystemOptions fileSystemOptions) throws FileSystemException {
-            final FTPSClient client;
-            if (builder.getFtpsMode(fileSystemOptions) == FtpsMode.IMPLICIT) {
-                client = new FTPSClient(true);
-            } else {
-                client = new FTPSClient();
-            }
+            final FTPSClient client = new FTPSClient(builder.getFtpsMode(fileSystemOptions) == FtpsMode.IMPLICIT);
 
             final TrustManager trustManager = builder.getTrustManager(fileSystemOptions);
             if (trustManager != null) {

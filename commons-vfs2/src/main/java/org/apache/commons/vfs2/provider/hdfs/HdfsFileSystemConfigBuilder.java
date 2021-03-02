@@ -106,8 +106,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
         if (pathNames == null || pathNames.isEmpty()) {
             return null;
         }
-        final String[] paths = pathNames.split(",");
-        return Arrays.stream(paths).map(Path::new).toArray(Path[]::new);
+        return Arrays.stream(pathNames.split(",")).map(Path::new).toArray(Path[]::new);
     }
 
     /**

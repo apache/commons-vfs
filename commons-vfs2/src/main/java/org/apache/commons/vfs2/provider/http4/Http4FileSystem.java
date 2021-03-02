@@ -81,7 +81,7 @@ public class Http4FileSystem extends AbstractFileSystem {
 
     @Override
     protected void addCapabilities(final Collection<Capability> caps) {
-        caps.addAll(Http4FileProvider.capabilities);
+        caps.addAll(Http4FileProvider.CAPABILITIES);
     }
 
     @Override

@@ -81,7 +81,7 @@ public class Http5FileSystem extends AbstractFileSystem {
 
     @Override
     protected void addCapabilities(final Collection<Capability> caps) {
-        caps.addAll(Http5FileProvider.capabilities);
+        caps.addAll(Http5FileProvider.CAPABILITIES);
     }
 
     @Override

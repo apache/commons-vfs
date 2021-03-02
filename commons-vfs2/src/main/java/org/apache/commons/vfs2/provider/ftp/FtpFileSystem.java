@@ -66,7 +66,7 @@ public class FtpFileSystem extends AbstractFileSystem {
      */
     @Override
     protected void addCapabilities(final Collection<Capability> caps) {
-        caps.addAll(FtpFileProvider.capabilities);
+        caps.addAll(FtpFileProvider.CAPABILITIES);
     }
 
     /**

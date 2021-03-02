@@ -151,12 +151,7 @@ public class HdfsFileSystem extends AbstractFileSystem {
         }
 
         final boolean useCache = null != getFileSystemManager().getFilesCache();
-        FileObject fileObject;
-        if (useCache) {
-            fileObject = this.getFileFromCache(name);
-        } else {
-            fileObject = null;
-        }
+        FileObject fileObject = useCache ? getFileFromCache(name) : null;
         if (null == fileObject) {
             String path;
             try {

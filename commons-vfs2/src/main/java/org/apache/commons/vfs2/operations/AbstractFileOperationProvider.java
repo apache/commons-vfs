@@ -71,9 +71,7 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
     @Override
     public final FileOperation getOperation(final FileObject file, final Class<? extends FileOperation> operationClass)
             throws FileSystemException {
-        final Class<? extends FileOperation> implementation = lookupOperation(operationClass);
-
-        return instantiateOperation(file, implementation);
+        return instantiateOperation(file, lookupOperation(operationClass));
     }
 
     /**
