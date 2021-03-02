@@ -177,12 +177,12 @@ public class WildcardFileFilter implements FileFilter, Serializable {
 
         final char[] array = text.toCharArray();
         final ArrayList<String> list = new ArrayList<>();
-        final StringBuilder buffer = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         for (int i = 0; i < array.length; i++) {
             if (array[i] == '?' || array[i] == '*') {
-                if (buffer.length() != 0) {
-                    list.add(buffer.toString());
-                    buffer.setLength(0);
+                if (builder.length() != 0) {
+                    list.add(builder.toString());
+                    builder.setLength(0);
                 }
                 if (array[i] == '?') {
                     list.add("?");
@@ -190,11 +190,11 @@ public class WildcardFileFilter implements FileFilter, Serializable {
                     list.add("*");
                 }
             } else {
-                buffer.append(array[i]);
+                builder.append(array[i]);
             }
         }
-        if (buffer.length() != 0) {
-            list.add(buffer.toString());
+        if (builder.length() != 0) {
+            list.add(builder.toString());
         }
 
         return list.toArray(ArrayUtils.EMPTY_STRING_ARRAY);

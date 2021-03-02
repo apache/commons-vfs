@@ -95,13 +95,10 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
             return null;
         }
         final Collection<RamFileData> children = data.getChildren();
-        final String[] names;
 
         synchronized (children) {
-            names = children.stream().map(childData -> childData.getName().getBaseName()).toArray(String[]::new);
+            return children.stream().map(childData -> childData.getName().getBaseName()).toArray(String[]::new);
         }
-
-        return names;
     }
 
     /**

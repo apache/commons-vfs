@@ -223,7 +223,6 @@ public final class SftpClientFactory {
 
     private static Proxy createStreamProxy(final String proxyHost, final int proxyPort,
             final FileSystemOptions fileSystemOptions, final SftpFileSystemConfigBuilder builder) {
-        final Proxy proxy;
         // Use a stream proxy, i.e. it will use a remote host as a proxy
         // and run a command (e.g. netcat) that forwards input/output
         // to the target host.
@@ -237,8 +236,7 @@ public final class SftpClientFactory {
         final String proxyCommand = builder.getProxyCommand(fileSystemOptions);
 
         // Create the stream proxy
-        proxy = new SftpStreamProxy(proxyCommand, proxyUser, proxyHost, proxyPort, proxyPassword, proxyOptions);
-        return proxy;
+        return new SftpStreamProxy(proxyCommand, proxyUser, proxyHost, proxyPort, proxyPassword, proxyOptions);
     }
 
     private static ProxySOCKS5 createProxySOCKS5(final String proxyHost, final int proxyPort) {
