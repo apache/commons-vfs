@@ -109,7 +109,7 @@ public class VFSClassLoader extends SecureClassLoader {
      * @since 2.0
      */
     public FileObject[] getFileObjects() {
-        return resources.toArray(FileObjectUtils.EMPTY_ARRAY);
+        return resources.toArray(FileObject.EMPTY_ARRAY);
     }
 
     /**

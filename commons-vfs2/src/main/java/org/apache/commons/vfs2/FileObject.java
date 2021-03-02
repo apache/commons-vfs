@@ -96,6 +96,13 @@ import org.apache.commons.vfs2.operations.FileOperations;
 public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>, Closeable {
 
     /**
+     * An empty immutable {@code FileObject} array.
+     *
+     * @since 2.9.0
+     */
+    FileObject[] EMPTY_ARRAY = new FileObject[0];
+
+    /**
      * Queries the file if it is possible to rename it to newfile.
      *
      * @param newfile the new file(-name)

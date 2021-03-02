@@ -34,13 +34,6 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
 public final class FileObjectUtils {
 
     /**
-     * An empty immutable {@code FileObject} array.
-     *
-     * @since 2.9.0
-     */
-    public static final FileObject[] EMPTY_ARRAY = new FileObject[0];
-
-    /**
      * Null-safe call to {@link FileObject#exists()}.
      *
      * @param fileObject the file object to test, may be null.

@@ -39,6 +39,13 @@ public interface FileName extends Comparable<FileName> {
     String ROOT_PATH = "/";
 
     /**
+     * Empty array of FileName.
+     *
+     * @since 2.9.0
+     */
+    FileName[] EMPTY_ARRAY = new FileName[0];
+
+    /**
      * Returns the base name of this file. The base name is the last element of the file name. For example the base name
      * of {@code /somefolder/somefile} is {@code somefile}.
      * <p>

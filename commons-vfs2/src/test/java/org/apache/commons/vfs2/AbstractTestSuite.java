@@ -45,6 +45,7 @@ import junit.framework.TestSuite;
  */
 public abstract class AbstractTestSuite extends TestSetup {
 
+    private static final Thread[] EMPTY_THREAD_ARRAY = new Thread[0];
     public static final String WRITE_TESTS_FOLDER = "write-tests";
     public static final String READ_TESTS_FOLDER = "read-tests";
 
@@ -313,7 +314,7 @@ public abstract class AbstractTestSuite extends TestSetup {
             diff.add(element);
         }
 
-        return diff.toArray(new Thread[0]);
+        return diff.toArray(EMPTY_THREAD_ARRAY);
     }
 
     private Thread[] createThreadSnapshot() {

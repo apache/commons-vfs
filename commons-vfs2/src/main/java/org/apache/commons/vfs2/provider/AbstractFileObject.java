@@ -66,8 +66,6 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  */
 public abstract class AbstractFileObject<AFS extends AbstractFileSystem> implements FileObject {
 
-    private static final FileName[] EMPTY_FILE_NAME_ARRAY = new FileName[0];
-
     private static final String DO_GET_INPUT_STREAM_INT = "doGetInputStream(int)";
 
     /**
@@ -205,7 +203,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             } else {
                 list.add(childName);
             }
-            children = list.toArray(EMPTY_FILE_NAME_ARRAY);
+            children = list.toArray(FileName.EMPTY_ARRAY);
         }
 
         // removeChildrenCache();
@@ -990,7 +988,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public FileObject[] findFiles(final FileSelector selector) throws FileSystemException {
         final List<FileObject> list = this.listFiles(selector);
-        return list == null ? null : list.toArray(FileObjectUtils.EMPTY_ARRAY);
+        return list == null ? null : list.toArray(FileObject.EMPTY_ARRAY);
     }
 
     /**
@@ -1108,7 +1106,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 throw new FileNotFolderException(fileName);
             } else if (files.length == 0) {
                 // No children
-                children = EMPTY_FILE_NAME_ARRAY;
+                children = FileName.EMPTY_ARRAY;
             } else {
                 // Create file objects for the children
                 final FileName[] cache = new FileName[files.length];

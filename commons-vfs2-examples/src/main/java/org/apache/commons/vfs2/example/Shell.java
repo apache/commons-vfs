@@ -49,6 +49,7 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
  */
 public final class Shell {
 
+    private static final String[] EMPTY_STRING_ARRAY = new String[0];
     private final FileSystemManager mgr;
     private FileObject cwd;
     private final BufferedReader reader;
@@ -357,7 +358,7 @@ public final class Shell {
         while (tokens.hasMoreTokens()) {
             cmd.add(tokens.nextToken());
         }
-        return cmd.toArray(new String[0]);
+        return cmd.toArray(EMPTY_STRING_ARRAY);
     }
 
     private static String getVersion(final Class<?> cls) {
