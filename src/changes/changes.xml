@@ -218,6 +218,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-795" dev="kinow" due-to="Max Kellermann" type="update">
         Code improvements for SoftRefFilesCache (simplify loop, use isEmpty, ...).
       </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Update commons-lang3 3.11 -> 3.12.0.
+      </action>
     </release>
     <release version="2.7.0" date="2020-10-26" description="Maintenance release. Requires Java 8.">
       <action issue="VFS-753" dev="ggregory" due-to="John Webb, Gary Gregory" type="fix">
