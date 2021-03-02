@@ -45,7 +45,7 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="2.8.0" date="20YY-MM-DD" description="Maintenance release. Requires Java 8.">
+    <release version="2.8.0" date="2021-MM-DD" description="Maintenance release. Requires Java 8.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
@@ -183,7 +183,7 @@ The <action> type attribute can be add,update,fix,remove.
         Update tests from Log4j 2.13.3 to 2.14.0.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
-        Update com.puppycrawl.tools:checkstyle 8.36.2 -> 8.40.
+        Update com.puppycrawl.tools:checkstyle 8.36.2 -> 8.41.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Update maven-checkstyle-plugin 3.1.1 -> 3.1.2.
