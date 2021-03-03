@@ -220,7 +220,6 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
     /** The FileSystemConfigBuilder */
     private final Webdav4FileSystemConfigBuilder builder;
 
-    private final Webdav4FileSystem fileSystem;
 
     protected Webdav4FileObject(final AbstractFileName name, final Webdav4FileSystem fileSystem)
             throws FileSystemException {
@@ -230,7 +229,6 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
     protected Webdav4FileObject(final AbstractFileName name, final Webdav4FileSystem fileSystem,
             final Webdav4FileSystemConfigBuilder builder) throws FileSystemException {
         super(name, fileSystem, builder);
-        this.fileSystem = fileSystem;
         this.builder = builder;
     }
 
