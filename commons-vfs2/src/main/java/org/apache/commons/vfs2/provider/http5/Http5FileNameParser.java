@@ -30,11 +30,11 @@ public class Http5FileNameParser extends GenericURLFileNameParser {
 
     private static final Http5FileNameParser INSTANCE = new Http5FileNameParser();
 
-    public Http5FileNameParser() {
-        super(DEFAULT_PORT);
-    }
-
     public static FileNameParser getInstance() {
         return INSTANCE;
+    }
+
+    public Http5FileNameParser() {
+        super(DEFAULT_PORT);
     }
 }

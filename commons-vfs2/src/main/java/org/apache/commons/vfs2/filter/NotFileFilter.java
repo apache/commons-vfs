@@ -52,14 +52,14 @@ public class NotFileFilter implements FileFilter, Serializable {
      * Returns the logical NOT of the underlying filter's return value for the same
      * File.
      *
-     * @param fileInfo the File to check
+     * @param fileSelectInfo the File to check
      *
      * @return {@code true} if the filter returns {@code false}
      * @throws FileSystemException Thrown for file system errors.
      */
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) throws FileSystemException {
-        return !filter.accept(fileInfo);
+    public boolean accept(final FileSelectInfo fileSelectInfo) throws FileSystemException {
+        return !filter.accept(fileSelectInfo);
     }
 
     /**

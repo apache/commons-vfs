@@ -61,21 +61,12 @@ public class FtpFileSystem extends AbstractFileSystem {
         idleClient.set(ftpClient);
     }
 
-    @Override
-    protected void doCloseCommunicationLink() {
-        final FtpClient idle = idleClient.getAndSet(null);
-        // Clean up the connection
-        if (idle != null) {
-            closeConnection(idle);
-        }
-    }
-
     /**
      * Adds the capabilities of this file system.
      */
     @Override
     protected void addCapabilities(final Collection<Capability> caps) {
-        caps.addAll(FtpFileProvider.capabilities);
+        caps.addAll(FtpFileProvider.CAPABILITIES);
     }
 
     /**
@@ -96,6 +87,34 @@ public class FtpFileSystem extends AbstractFileSystem {
     }
 
     /**
+     * Creates a file object.
+     */
+    @Override
+    protected FileObject createFile(final AbstractFileName name) throws FileSystemException {
+        return new FtpFileObject(name, this, getRootName());
+    }
+
+    /**
+     * Gets the wrapper to access this file system.
+     *
+     * @return new instance.
+     * @throws FileSystemException if any error occurs.
+     * @since 2.1
+     */
+    protected FTPClientWrapper createWrapper() throws FileSystemException {
+        return new FTPClientWrapper((GenericFileName) getRoot().getName(), getFileSystemOptions());
+    }
+
+    @Override
+    protected void doCloseCommunicationLink() {
+        final FtpClient idle = idleClient.getAndSet(null);
+        // Clean up the connection
+        if (idle != null) {
+            closeConnection(idle);
+        }
+    }
+
+    /**
      * Creates an FTP client to use.
      *
      * @return An FTPCleint.
@@ -112,17 +131,6 @@ public class FtpFileSystem extends AbstractFileSystem {
     }
 
     /**
-     * Gets the wrapper to access this file system.
-     *
-     * @return new instance.
-     * @throws FileSystemException if any error occurs.
-     * @since 2.1
-     */
-    protected FTPClientWrapper createWrapper() throws FileSystemException {
-        return new FTPClientWrapper((GenericFileName) getRoot().getName(), getFileSystemOptions());
-    }
-
-    /**
      * Returns an FTP client after use.
      *
      * @param client The FTPClient.
@@ -133,13 +141,5 @@ public class FtpFileSystem extends AbstractFileSystem {
             // An idle client is already present so close the connection.
             closeConnection(client);
         }
-    }
-
-    /**
-     * Creates a file object.
-     */
-    @Override
-    protected FileObject createFile(final AbstractFileName name) throws FileSystemException {
-        return new FtpFileObject(name, this, getRootName());
     }
 }

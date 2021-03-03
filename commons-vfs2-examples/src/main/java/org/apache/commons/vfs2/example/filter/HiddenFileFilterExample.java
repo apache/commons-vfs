@@ -39,7 +39,7 @@ public class HiddenFileFilterExample {
             final FileSystemManager fsManager = VFS.getManager();
             final FileObject dir = fsManager.toFileObject(new File("."));
             final FileObject[] files = dir.findFiles(new FileFilterSelector(HiddenFileFilter.HIDDEN));
-            for (FileObject file : files) {
+            for (final FileObject file : files) {
                 System.out.println(file);
             }
         }
@@ -51,7 +51,7 @@ public class HiddenFileFilterExample {
             final FileSystemManager fsManager = VFS.getManager();
             final FileObject dir = fsManager.toFileObject(new File("."));
             final FileObject[] files = dir.findFiles(new FileFilterSelector(HiddenFileFilter.VISIBLE));
-            for (FileObject file : files) {
+            for (final FileObject file : files) {
                 System.out.println(file);
             }
         }

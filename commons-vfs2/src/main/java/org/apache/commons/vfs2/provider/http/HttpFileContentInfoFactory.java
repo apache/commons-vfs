@@ -21,6 +21,7 @@ import java.io.IOException;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HeaderElement;
 import org.apache.commons.httpclient.methods.HeadMethod;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileContentInfo;
 import org.apache.commons.vfs2.FileContentInfoFactory;
@@ -37,9 +38,8 @@ public class HttpFileContentInfoFactory implements FileContentInfoFactory {
     public FileContentInfo create(final FileContent fileContent) throws FileSystemException {
 
         String contentType = null;
-        String contentEncoding = null;
 
-        HeadMethod headMethod;
+        final HeadMethod headMethod;
         try (final HttpFileObject<HttpFileSystem> httpFile = (HttpFileObject<HttpFileSystem>) FileObjectUtils
                 .getAbstractFileObject(fileContent.getFile())) {
             headMethod = httpFile.getHeadMethod();
@@ -49,13 +49,11 @@ public class HttpFileContentInfoFactory implements FileContentInfoFactory {
         final Header header = headMethod.getResponseHeader("content-type");
         if (header != null) {
             final HeaderElement[] element = header.getElements();
-            if (element != null && element.length > 0) {
+            if (!ArrayUtils.isEmpty(element)) {
                 contentType = element[0].getName();
             }
         }
 
-        contentEncoding = headMethod.getResponseCharSet();
-
-        return new DefaultFileContentInfo(contentType, contentEncoding);
+        return new DefaultFileContentInfo(contentType, headMethod.getResponseCharSet());
     }
 }

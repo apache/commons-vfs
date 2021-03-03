@@ -81,7 +81,7 @@ public class PosixPermissions {
         /**
          * Initialize with the mask
          */
-        private Type(final int mask) {
+        Type(final int mask) {
             this.mask = mask;
         }
 

@@ -34,7 +34,7 @@ public enum RandomAccessMode {
     private final boolean read;
     private final boolean write;
 
-    private RandomAccessMode(final boolean read, final boolean write) {
+    RandomAccessMode(final boolean read, final boolean write) {
         this.read = read;
         this.write = write;
     }

@@ -28,11 +28,11 @@ public class HttpFileNameParser extends URLFileNameParser {
 
     private static final HttpFileNameParser INSTANCE = new HttpFileNameParser();
 
-    public HttpFileNameParser() {
-        super(DEFAULT_PORT);
-    }
-
     public static FileNameParser getInstance() {
         return INSTANCE;
+    }
+
+    public HttpFileNameParser() {
+        super(DEFAULT_PORT);
     }
 }

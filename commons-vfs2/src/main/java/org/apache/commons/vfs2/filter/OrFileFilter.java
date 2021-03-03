@@ -82,9 +82,9 @@ public class OrFileFilter implements FileFilter, ConditionalFileFilter, Serializ
     }
 
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) throws FileSystemException {
+    public boolean accept(final FileSelectInfo fileSelectInfo) throws FileSystemException {
         for (final FileFilter fileFilter : fileFilters) {
-            if (fileFilter.accept(fileInfo)) {
+            if (fileFilter.accept(fileSelectInfo)) {
                 return true;
             }
         }

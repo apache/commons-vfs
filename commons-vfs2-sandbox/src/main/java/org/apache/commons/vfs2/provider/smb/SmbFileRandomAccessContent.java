@@ -78,11 +78,7 @@ class SmbFileRandomAccessContent extends AbstractRandomAccessContent {
                     return n;
                 }
             };
-        } catch (final MalformedURLException e) {
-            throw new FileSystemException("vfs.provider/random-access-open-failed.error", smbFile, e);
-        } catch (final SmbException e) {
-            throw new FileSystemException("vfs.provider/random-access-open-failed.error", smbFile, e);
-        } catch (final UnknownHostException e) {
+        } catch (final MalformedURLException | SmbException | UnknownHostException e) {
             throw new FileSystemException("vfs.provider/random-access-open-failed.error", smbFile, e);
         }
     }

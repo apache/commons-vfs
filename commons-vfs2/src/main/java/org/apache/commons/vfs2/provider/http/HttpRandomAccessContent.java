@@ -30,15 +30,15 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 /**
  * RandomAccess content using HTTP.
  */
-class HttpRandomAccessContent<FS extends HttpFileSystem> extends AbstractRandomAccessStreamContent {
+final class HttpRandomAccessContent<FS extends HttpFileSystem> extends AbstractRandomAccessStreamContent {
 
-    protected long filePointer = 0;
+    protected long filePointer;
 
     private final HttpFileObject<FS> fileObject;
     private final HttpFileSystem fileSystem;
 
-    private DataInputStream dis = null;
-    private MonitorInputStream mis = null;
+    private DataInputStream dis;
+    private MonitorInputStream mis;
 
     HttpRandomAccessContent(final HttpFileObject<FS> fileObject, final RandomAccessMode mode) {
         super(mode);
@@ -48,25 +48,12 @@ class HttpRandomAccessContent<FS extends HttpFileSystem> extends AbstractRandomA
     }
 
     @Override
-    public long getFilePointer() throws IOException {
-        return filePointer;
-    }
-
-    @Override
-    public void seek(final long pos) throws IOException {
-        if (pos == filePointer) {
-            // no change
-            return;
-        }
-
-        if (pos < 0) {
-            throw new FileSystemException("vfs.provider/random-access-invalid-position.error", Long.valueOf(pos));
-        }
+    public void close() throws IOException {
         if (dis != null) {
-            close();
+            dis.close();
+            dis = null;
+            mis = null;
         }
-
-        filePointer = pos;
     }
 
     @Override
@@ -126,16 +113,29 @@ class HttpRandomAccessContent<FS extends HttpFileSystem> extends AbstractRandomA
     }
 
     @Override
-    public void close() throws IOException {
-        if (dis != null) {
-            dis.close();
-            dis = null;
-            mis = null;
-        }
+    public long getFilePointer() throws IOException {
+        return filePointer;
     }
 
     @Override
     public long length() throws IOException {
         return fileObject.getContent().getSize();
+    }
+
+    @Override
+    public void seek(final long pos) throws IOException {
+        if (pos == filePointer) {
+            // no change
+            return;
+        }
+
+        if (pos < 0) {
+            throw new FileSystemException("vfs.provider/random-access-invalid-position.error", Long.valueOf(pos));
+        }
+        if (dis != null) {
+            close();
+        }
+
+        filePointer = pos;
     }
 }

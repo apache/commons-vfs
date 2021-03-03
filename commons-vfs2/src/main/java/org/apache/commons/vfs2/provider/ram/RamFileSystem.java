@@ -16,19 +16,16 @@
  */
 package org.apache.commons.vfs2.provider.ram;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.vfs2.Capability;
+import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -41,8 +38,6 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
  * A RAM File System.
  */
 public class RamFileSystem extends AbstractFileSystem implements Serializable {
-
-    private static final int BUFFER_SIZE = 512;
 
     /**
      * serialVersionUID format is YYYYMMDD for the date of the last binary change.
@@ -98,21 +93,10 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
             return null;
         }
         final Collection<RamFileData> children = data.getChildren();
-        String[] names;
 
         synchronized (children) {
-            names = new String[children.size()];
-
-            int pos = 0;
-            final Iterator<RamFileData> iter = children.iterator();
-            while (iter.hasNext()) {
-                final RamFileData childData = iter.next();
-                names[pos] = childData.getName().getBaseName();
-                pos++;
-            }
+            return children.stream().map(childData -> childData.getName().getBaseName()).toArray(String[]::new);
         }
-
-        return names;
     }
 
     /**
@@ -213,7 +197,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
      * @param root
      * @throws FileSystemException
      */
-    void toRamFileObject(final FileObject fo, final FileObject root) throws FileSystemException {
+    private void toRamFileObject(final FileObject fo, final FileObject root) throws FileSystemException {
         final RamFileObject memFo = (RamFileObject) this
                 .resolveFile(fo.getName().getPath().substring(root.getName().getPath().length()));
         if (fo.getType().hasChildren()) {
@@ -225,24 +209,9 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
                 this.toRamFileObject(child, root);
             }
         } else if (fo.isFile()) {
-            // Read bytes
-            try {
-                final InputStream is = fo.getContent().getInputStream();
-                try {
-                    final OutputStream os = new BufferedOutputStream(memFo.getOutputStream(), BUFFER_SIZE);
-                    int i;
-                    while ((i = is.read()) != -1) {
-                        os.write(i);
-                    }
-                    os.close();
-                } finally {
-                    try {
-                        is.close();
-                    } catch (final IOException ignored) {
-                        /* ignore on close exception. */
-                    }
-                    // TODO: close os
-                }
+            // Copy bytes
+            try (final FileContent content = fo.getContent()) {
+                content.write(memFo);
             } catch (final IOException e) {
                 throw new FileSystemException(e.getClass().getName() + " " + e.getMessage());
             }
@@ -257,9 +226,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
     long size() {
         long size = 0;
         synchronized (cache) {
-            final Iterator<RamFileData> iter = cache.values().iterator();
-            while (iter.hasNext()) {
-                final RamFileData data = iter.next();
+            for (final RamFileData data : cache.values()) {
                 size += data.size();
             }
         }

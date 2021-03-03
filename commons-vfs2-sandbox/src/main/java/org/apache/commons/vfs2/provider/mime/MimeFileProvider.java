@@ -40,7 +40,6 @@ public class MimeFileProvider extends AbstractLayeredFileProvider implements Fil
                     Capability.READ_CONTENT, Capability.URI, Capability.ATTRIBUTES));
 
     public MimeFileProvider() {
-        super();
     }
 
     /**

@@ -28,6 +28,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.VfsLog;
 import org.apache.commons.vfs2.operations.FileOperationProvider;
@@ -104,7 +106,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
         configure(configUri);
         configurePlugins();
 
-        // Initialise super-class
+        // Initialize super-class
         super.init();
     }
 
@@ -117,16 +119,15 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
      * @throws FileSystemException if an error occurs.
      */
     protected void configurePlugins() throws FileSystemException {
-        Enumeration<URL> enumResources;
+        final Enumeration<URL> enumResources;
         try {
-            enumResources = loadResources(PLUGIN_CONFIG_RESOURCE);
+            enumResources = enumerateResources(PLUGIN_CONFIG_RESOURCE);
         } catch (final IOException e) {
             throw new FileSystemException(e);
         }
 
         while (enumResources.hasMoreElements()) {
-            final URL url = enumResources.nextElement();
-            configure(url);
+            configure(enumResources.nextElement());
         }
     }
 
@@ -191,10 +192,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
         try {
             // Load up the config
             // TODO - validate
-            final DocumentBuilder builder = createDocumentBuilder();
-            final Element config = builder.parse(configStream).getDocumentElement();
-
-            configure(config);
+            configure(createDocumentBuilder().parse(configStream).getDocumentElement());
 
         } catch (final Exception e) {
             throw new FileSystemException("vfs.impl/load-config.error", configUri, e);
@@ -267,7 +265,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
     private void addExtensionMap(final Element map) {
         final String extension = map.getAttribute("extension");
         final String scheme = map.getAttribute("scheme");
-        if (scheme != null && scheme.length() > 0) {
+        if (!StringUtils.isEmpty(scheme)) {
             addExtensionMap(extension, scheme);
         }
     }
@@ -365,11 +363,11 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
         for (int i = 0; i < count; i++) {
             final Element dep = (Element) deps.item(i);
             final String className = dep.getAttribute("class-name");
-            if (className != null && className.length() > 0) {
+            if (!StringUtils.isEmpty(className)) {
                 classes.add(className);
             }
         }
-        return classes.toArray(new String[classes.size()]);
+        return classes.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
     /**
@@ -382,11 +380,11 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
         for (int i = 0; i < count; i++) {
             final Element dep = (Element) deps.item(i);
             final String scheme = dep.getAttribute("scheme");
-            if (scheme != null && scheme.length() > 0) {
+            if (!StringUtils.isEmpty(scheme)) {
                 schemes.add(scheme);
             }
         }
-        return schemes.toArray(new String[schemes.size()]);
+        return schemes.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
     /**
@@ -400,7 +398,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
             final Element scheme = (Element) schemaElements.item(i);
             schemas.add(scheme.getAttribute("name"));
         }
-        return schemas.toArray(new String[schemas.size()]);
+        return schemas.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
     private ClassLoader getValidClassLoader(final Class<?> clazz) {
@@ -417,8 +415,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
      */
     private Object createInstance(final String className) throws FileSystemException {
         try {
-            final Class<?> clazz = loadClass(className);
-            return clazz.newInstance();
+            return loadClass(className).newInstance();
         } catch (final Exception e) {
             throw new FileSystemException("vfs.impl/create-provider.error", className, e);
         }
@@ -439,17 +436,17 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
     }
 
     /**
-     * Resolve resources from different class loaders.
+     * Enumerates resources from different class loaders.
      *
      * @throws IOException if {@code getResource} failed.
      * @see #findClassLoader()
      */
-    private Enumeration<URL> loadResources(final String name) throws IOException {
-        Enumeration<URL> res = findClassLoader().getResources(name);
-        if (res == null || !res.hasMoreElements()) {
-            res = getValidClassLoader(getClass()).getResources(name);
+    private Enumeration<URL> enumerateResources(final String name) throws IOException {
+        Enumeration<URL> enumeration = findClassLoader().getResources(name);
+        if (enumeration == null || !enumeration.hasMoreElements()) {
+            enumeration = getValidClassLoader(getClass()).getResources(name);
         }
-        return res;
+        return enumeration;
     }
 
 }

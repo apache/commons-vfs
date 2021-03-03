@@ -56,5 +56,5 @@ public enum HdfsFileAttributes {
     /**
      * Modification time.
      */
-    MODIFICATION_TIME;
+    MODIFICATION_TIME
 }

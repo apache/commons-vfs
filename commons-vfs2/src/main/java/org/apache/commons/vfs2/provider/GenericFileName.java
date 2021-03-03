@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileType;
 
@@ -33,17 +34,13 @@ public class GenericFileName extends AbstractFileName {
     private final int port;
 
     protected GenericFileName(final String scheme, final String hostName, final int port, final int defaultPort,
-            final String userName, final String password, final String path, final FileType type) {
+        final String userName, final String password, final String path, final FileType type) {
         super(scheme, path, type);
         this.hostName = hostName;
         this.defaultPort = defaultPort;
         this.password = password;
         this.userName = userName;
-        if (port > 0) {
-            this.port = port;
-        } else {
-            this.port = getDefaultPort();
-        }
+        this.port = port > 0 ? port : defaultPort;
     }
 
     /**
@@ -128,9 +125,9 @@ public class GenericFileName extends AbstractFileName {
      * @param addPassword flag if password should be added or replaced with placeholder (false).
      */
     protected void appendCredentials(final StringBuilder buffer, final boolean addPassword) {
-        if (userName != null && userName.length() != 0) {
+        if (!StringUtils.isEmpty(userName)) {
             UriParser.appendEncoded(buffer, userName, USERNAME_RESERVED);
-            if (password != null && password.length() != 0) {
+            if (password != null && !password.isEmpty()) {
                 buffer.append(':');
                 if (addPassword) {
                     UriParser.appendEncoded(buffer, password, PASSWORD_RESERVED);

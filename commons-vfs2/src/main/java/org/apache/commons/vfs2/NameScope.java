@@ -59,7 +59,7 @@ public enum NameScope {
     /** The name */
     private final String realName;
 
-    private NameScope(final String name) {
+    NameScope(final String name) {
         this.realName = name;
     }
 

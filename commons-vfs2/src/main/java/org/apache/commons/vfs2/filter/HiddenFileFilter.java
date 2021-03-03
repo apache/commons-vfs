@@ -75,17 +75,17 @@ public class HiddenFileFilter implements FileFilter, Serializable {
     /**
      * Checks to see if the file is hidden. Non existing files won't be accepted.
      *
-     * @param fileInfo the File to check
+     * @param fileSelectInfo the File to check
      *
      * @return {@code true} if the file is <i>hidden</i>, otherwise {@code false}.
      * @throws FileSystemException Thrown for file system errors.
      */
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) throws FileSystemException {
-        if (!fileInfo.getFile().exists()) {
+    public boolean accept(final FileSelectInfo fileSelectInfo) throws FileSystemException {
+        if (!fileSelectInfo.getFile().exists()) {
             return false;
         }
-        return fileInfo.getFile().isHidden();
+        return fileSelectInfo.getFile().isHidden();
     }
 
 }

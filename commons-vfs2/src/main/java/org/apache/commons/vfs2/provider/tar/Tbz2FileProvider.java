@@ -32,7 +32,6 @@ public class Tbz2FileProvider extends CompositeFileProvider {
     private static final String[] SCHEMES = new String[] { "bz2", "tar" };
 
     public Tbz2FileProvider() {
-        super();
     }
 
     @Override

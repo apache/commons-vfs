@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.util;
 
+import java.nio.charset.StandardCharsets;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -53,7 +55,7 @@ public class DefaultCryptor implements Cryptor {
      */
     @Override
     public String encrypt(final String plainKey) throws Exception {
-        final byte[] input = plainKey.getBytes();
+        final byte[] input = plainKey.getBytes(StandardCharsets.UTF_8);
         final SecretKeySpec key = new SecretKeySpec(KEY_BYTES, "AES");
 
         final Cipher cipher = Cipher.getInstance("AES");
@@ -83,7 +85,7 @@ public class DefaultCryptor implements Cryptor {
         final byte[] plainText = new byte[cipher.getOutputSize(decoded.length)];
         int ptLength = cipher.update(decoded, 0, decoded.length, plainText, 0);
         ptLength += cipher.doFinal(plainText, ptLength);
-        return new String(plainText).substring(0, ptLength);
+        return new String(plainText, StandardCharsets.UTF_8).substring(0, ptLength);
     }
 
     /** Hex-encode bytes. */

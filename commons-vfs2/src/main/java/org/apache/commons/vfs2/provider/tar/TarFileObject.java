@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.util.HashSet;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
@@ -108,7 +109,7 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem> {
             throw new RuntimeException(e);
         }
 
-        return children.toArray(new String[children.size()]);
+        return children.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
     /**

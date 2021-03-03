@@ -38,7 +38,7 @@ public class RegexFileFilterExample {
         final FileObject dir = fsManager.toFileObject(new File("."));
         final FileObject[] files = dir.findFiles(new FileFilterSelector(new RegexFileFilter(
                 "Ë†.*[tT]est(-\\d+)?\\.java$")));
-        for (FileObject file : files) {
+        for (final FileObject file : files) {
             System.out.println(file);
         }
 

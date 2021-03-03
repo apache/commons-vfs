@@ -42,7 +42,7 @@ public enum CacheStrategy {
      */
     private final String realName;
 
-    private CacheStrategy(final String name) {
+    CacheStrategy(final String name) {
         this.realName = name;
     }
 

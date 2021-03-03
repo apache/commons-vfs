@@ -78,11 +78,12 @@ public class LRUFilesCache extends AbstractFilesCache {
         @Override
         protected boolean removeLRU(final AbstractLinkedMap.LinkEntry<FileName, FileObject> linkEntry) {
             synchronized (LRUFilesCache.this) {
-                final FileObject file = linkEntry.getValue();
+                @SuppressWarnings("resource") // FileObject allocated elsewhere.
+                final FileObject fileObject = linkEntry.getValue();
 
                 // System.err.println(">>> " + size() + " check removeLRU:" + linkEntry.getKey().toString());
 
-                if (file.isAttached() || file.isContentOpen()) {
+                if (fileObject.isAttached() || fileObject.isContentOpen()) {
                     // do not allow open or attached files to be removed
                     // System.err.println(">>> " + size() + " VETO removeLRU:" +
                     // linkEntry.getKey().toString() + " (" + file.isAttached() + "/" +
@@ -94,13 +95,13 @@ public class LRUFilesCache extends AbstractFilesCache {
                 if (super.removeLRU(linkEntry)) {
                     try {
                         // force detach
-                        file.close();
+                        fileObject.close();
                     } catch (final FileSystemException e) {
                         VfsLog.warn(getLogger(), log, Messages.getString("vfs.impl/LRUFilesCache-remove-ex.warn"), e);
                     }
 
                     final Map<?, ?> files = filesystemCache.get(filesystem);
-                    if (files.size() < 1) {
+                    if (files.isEmpty()) {
                         filesystemCache.remove(filesystem);
                     }
 
@@ -208,7 +209,7 @@ public class LRUFilesCache extends AbstractFilesCache {
         try {
             files.remove(name);
 
-            if (files.size() < 1) {
+            if (files.isEmpty()) {
                 filesystemCache.remove(filesystem);
             }
         } finally {

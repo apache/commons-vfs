@@ -54,13 +54,13 @@ public final class UserAuthenticatorUtils {
     /**
      * Authenticates if there is an authenticator, else returns null.
      *
-     * @param opts The FileSystemOptions.
+     * @param options The FileSystemOptions.
      * @param authenticatorTypes An array of types describing the data to be retrieved.
      * @return A UserAuthenticationData object containing the data requested.
      */
-    public static UserAuthenticationData authenticate(final FileSystemOptions opts,
-            final UserAuthenticationData.Type[] authenticatorTypes) {
-        final UserAuthenticator auth = DefaultFileSystemConfigBuilder.getInstance().getUserAuthenticator(opts);
+    public static UserAuthenticationData authenticate(final FileSystemOptions options,
+        final UserAuthenticationData.Type[] authenticatorTypes) {
+        final UserAuthenticator auth = DefaultFileSystemConfigBuilder.getInstance().getUserAuthenticator(options);
         return authenticate(auth, authenticatorTypes);
     }
 

@@ -39,6 +39,13 @@ public interface FileName extends Comparable<FileName> {
     String ROOT_PATH = "/";
 
     /**
+     * Empty array of FileName.
+     *
+     * @since 2.8.0
+     */
+    FileName[] EMPTY_ARRAY = new FileName[0];
+
+    /**
      * Returns the base name of this file. The base name is the last element of the file name. For example the base name
      * of {@code /somefolder/somefile} is {@code somefile}.
      * <p>
@@ -48,6 +55,38 @@ public interface FileName extends Comparable<FileName> {
      * @return The base name. Never returns null.
      */
     String getBaseName();
+
+    /**
+     * Returns the depth of this file name, within its file system. The depth of the root of a file system is 0. The
+     * depth of any other file is 1 + the depth of its parent.
+     *
+     * @return The depth of this file name.
+     */
+    int getDepth();
+
+    /**
+     * Returns the extension of this file name.
+     *
+     * @return The extension. Returns an empty string if the name has no extension.
+     */
+    String getExtension();
+
+    /**
+     * Returns a "friendly path", this is a path without a password.
+     * <p>
+     * This path can not be used to resolve the path again.
+     * </p>
+     *
+     * @return the friendly URI as a String.
+     */
+    String getFriendlyURI();
+
+    /**
+     * Returns the file name of the parent of this file. The root of a file system has no parent.
+     *
+     * @return A {@link FileName} object representing the parent name. Returns null for the root of a file system.
+     */
+    FileName getParent();
 
     /**
      * Returns the absolute path of this file, within its file system. This path is normalized, so that {@code .} and
@@ -78,40 +117,13 @@ public interface FileName extends Comparable<FileName> {
     String getPathDecoded() throws FileSystemException;
 
     /**
-     * Returns the extension of this file name.
+     * Converts a file name to a relative name, relative to this file name.
      *
-     * @return The extension. Returns an empty string if the name has no extension.
+     * @param name The name to convert to a relative path.
+     * @return The relative name.
+     * @throws FileSystemException On error.
      */
-    String getExtension();
-
-    /**
-     * Returns the depth of this file name, within its file system. The depth of the root of a file system is 0. The
-     * depth of any other file is 1 + the depth of its parent.
-     *
-     * @return The depth of this file name.
-     */
-    int getDepth();
-
-    /**
-     * Returns the URI scheme of this file.
-     *
-     * @return The URI scheme of this file.
-     */
-    String getScheme();
-
-    /**
-     * Returns the absolute URI of this file.
-     *
-     * @return the absolute URI of this file.
-     */
-    String getURI();
-
-    /**
-     * Returns the root URI of the file system this file belongs to.
-     *
-     * @return the root URI.
-     */
-    String getRootURI();
+    String getRelativeName(FileName name) throws FileSystemException;
 
     /**
      * Finds the root of the file system.
@@ -121,20 +133,39 @@ public interface FileName extends Comparable<FileName> {
     FileName getRoot();
 
     /**
-     * Returns the file name of the parent of this file. The root of a file system has no parent.
+     * Returns the root URI of the file system this file belongs to.
      *
-     * @return A {@link FileName} object representing the parent name. Returns null for the root of a file system.
+     * @return the root URI.
      */
-    FileName getParent();
+    String getRootURI();
 
     /**
-     * Converts a file name to a relative name, relative to this file name.
+     * Returns the URI scheme of this file.
      *
-     * @param name The name to convert to a relative path.
-     * @return The relative name.
-     * @throws FileSystemException On error.
+     * @return The URI scheme of this file.
      */
-    String getRelativeName(FileName name) throws FileSystemException;
+    String getScheme();
+
+    /**
+     * Returns the requested or current type of this name.
+     * <p>
+     * The "requested" type is the one determined during resolving the name. In this case the name is a
+     * {@link FileType#FOLDER} if it ends with an "/" else it will be a {@link FileType#FILE}.
+     * </p>
+     * <p>
+     * Once attached it will be changed to reflect the real type of this resource.
+     * </p>
+     *
+     * @return {@link FileType#FOLDER} or {@link FileType#FILE}
+     */
+    FileType getType();
+
+    /**
+     * Returns the absolute URI of this file.
+     *
+     * @return the absolute URI of this file.
+     */
+    String getURI();
 
     /**
      * Determines if another file name is an ancestor of this file name.
@@ -171,28 +202,4 @@ public interface FileName extends Comparable<FileName> {
      * @since 2.1
      */
     boolean isFile() throws FileSystemException;
-
-    /**
-     * Returns the requested or current type of this name.
-     * <p>
-     * The "requested" type is the one determined during resolving the name. In this case the name is a
-     * {@link FileType#FOLDER} if it ends with an "/" else it will be a {@link FileType#FILE}.
-     * </p>
-     * <p>
-     * Once attached it will be changed to reflect the real type of this resource.
-     * </p>
-     *
-     * @return {@link FileType#FOLDER} or {@link FileType#FILE}
-     */
-    FileType getType();
-
-    /**
-     * Returns a "friendly path", this is a path without a password.
-     * <p>
-     * This path can not be used to resolve the path again.
-     * </p>
-     *
-     * @return the friendly URI as a String.
-     */
-    String getFriendlyURI();
 }

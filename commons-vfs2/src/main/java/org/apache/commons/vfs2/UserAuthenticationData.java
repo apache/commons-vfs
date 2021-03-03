@@ -16,8 +16,9 @@
  */
 package org.apache.commons.vfs2;
 
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 
 /**
@@ -29,6 +30,7 @@ public class UserAuthenticationData {
      * Represents a user authentication item.
      */
     public static class Type implements Comparable<Type> {
+
         /** The type name */
         private final String type;
 
@@ -49,14 +51,7 @@ public class UserAuthenticationData {
             if (o == null || getClass() != o.getClass()) {
                 return false;
             }
-
-            final Type type1 = (Type) o;
-
-            if (type != null ? !type.equals(type1.type) : type1.type != null) {
-                return false;
-            }
-
-            return true;
+            return Objects.equals(type, ((Type) o).type);
         }
 
         @Override
@@ -127,16 +122,12 @@ public class UserAuthenticationData {
      */
     public void cleanup() {
         // step 1: nullify character buffers
-        final Iterator<char[]> iterAuthenticationData = authenticationData.values().iterator();
-        while (iterAuthenticationData.hasNext()) {
-            final char[] data = iterAuthenticationData.next();
+        for (final char[] data : authenticationData.values()) {
             if (data == null) {
                 continue;
             }
 
-            for (int i = 0; i < data.length; i++) {
-                data[i] = 0;
-            }
+            Arrays.fill(data, (char) 0);
         }
         // step 2: allow data itself to gc
         authenticationData.clear();

@@ -19,15 +19,13 @@ package org.apache.commons.vfs2.cache;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystem;
 
-import java.util.Comparator;
-
 /**
  * Key for various cache implementations.
  * <p>
  * It compares the fileSystem (by hashCode) and the file name.
  * </p>
  */
-class FileSystemAndNameKey implements Comparable<FileSystemAndNameKey> {
+final class FileSystemAndNameKey implements Comparable<FileSystemAndNameKey> {
     /** The FileSystem */
     private final FileSystem fileSystem;
 

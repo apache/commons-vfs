@@ -16,11 +16,11 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.VFS;
-import org.apache.commons.vfs2.util.Os;
 
 /**
  * Utilities for dealing with URIs. See RFC 2396 for details.
@@ -171,7 +171,7 @@ public final class UriParser {
     }
 
     /**
-     * Removes %nn encodings from a string.
+     * Converts "special" characters to their %nn value.
      *
      * @param decodedStr The decoded String.
      * @return The encoded String.
@@ -230,6 +230,7 @@ public final class UriParser {
                 for (int i = 0; !match && i < reserved.length; i++) {
                     if (ch == reserved[i]) {
                         match = true;
+                        break;
                     }
                 }
             }
@@ -377,7 +378,7 @@ public final class UriParser {
             if (ch == ':') {
                 // Found the end of the scheme
                 final String scheme = uri.substring(0, pos);
-                if (scheme.length() <= 1 && Os.isFamily(Os.OS_FAMILY_WINDOWS)) {
+                if (scheme.length() <= 1 && SystemUtils.IS_OS_WINDOWS) {
                     // This is not a scheme, but a Windows drive letter
                     return null;
                 }

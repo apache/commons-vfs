@@ -52,16 +52,14 @@ public class DefaultURLStreamHandler extends URLStreamHandler {
         try {
             final FileObject old = context.resolveFile(u.toExternalForm(), fileSystemOptions);
 
-            FileObject newURL;
+            final FileObject newURL;
             if (start > 0 && spec.charAt(start - 1) == ':') {
                 newURL = context.resolveFile(old, spec, fileSystemOptions);
+            } else if (old.isFile() && old.getParent() != null) {
+                // for files we have to resolve relative
+                newURL = old.getParent().resolveFile(spec);
             } else {
-                if (old.isFile() && old.getParent() != null) {
-                    // for files we have to resolve relative
-                    newURL = old.getParent().resolveFile(spec);
-                } else {
-                    newURL = old.resolveFile(spec);
-                }
+                newURL = old.resolveFile(spec);
             }
 
             final String url = newURL.getName().getURI();

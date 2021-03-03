@@ -62,6 +62,7 @@ import org.apache.commons.vfs2.provider.VfsComponent;
  * The default file system manager implementation.
  */
 public class DefaultFileSystemManager implements FileSystemManager {
+
     /**
      * Mapping from URI scheme to FileProvider.
      */
@@ -209,6 +210,20 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
+     * Unregisters a file system provider.
+     *
+     * @param urlScheme The scheme of the provider.
+     * @since 2.8.0
+     */
+    public void removeProvider(final String urlScheme) {
+        final FileProvider provider = providers.remove(urlScheme);
+        // check whether the same instance is not used somewhere else
+        if (provider != null && !providers.containsValue(provider)) {
+            closeComponent(provider);
+        }
+    }
+
+    /**
      * Returns true if this manager has a provider for a particular scheme.
      *
      * @param scheme The scheme to check.
@@ -345,7 +360,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
         }
 
         try {
-            fileObjectDecoratorConst = fileObjectDecorator.getConstructor(new Class[] { FileObject.class });
+            fileObjectDecoratorConst = fileObjectDecorator.getConstructor(FileObject.class);
         } catch (final NoSuchMethodException e) {
             throw new FileSystemException("vfs.impl/invalid-decorator.error", fileObjectDecorator.getName(), e);
         }
@@ -419,7 +434,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Initializes a component, if it has not already been initialised.
+     * Initializes a component, if it has not already been initialized.
      *
      * @param component The component to setup.
      * @throws FileSystemException if an error occurs.
@@ -583,8 +598,9 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
         // Close the providers.
         for (final FileProvider fileProvider : providers.values()) {
-            final AbstractFileProvider provider = (AbstractFileProvider) fileProvider;
-            provider.freeUnusedResources();
+            if (fileProvider instanceof AbstractFileProvider) {
+                ((AbstractFileProvider) fileProvider).freeUnusedResources();
+            }
         }
         // vfsProvider does not need to free resources
     }
@@ -660,8 +676,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      */
     @Override
     public FileObject resolveFile(final File baseFile, final String uri) throws FileSystemException {
-        final FileObject baseFileObj = getLocalFileProvider().findLocalFile(baseFile);
-        return resolveFile(baseFileObj, uri);
+        return resolveFile(getLocalFileProvider().findLocalFile(baseFile), uri);
     }
 
     /**
@@ -773,7 +788,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
         String scheme = UriParser.extractScheme(getSchemes(), buffer.toString());
 
         // Determine whether to prepend the base path
-        if (name.length() == 0 || (scheme == null && buffer.charAt(0) != FileName.SEPARATOR_CHAR)) {
+        if (name.isEmpty() || (scheme == null && buffer.charAt(0) != FileName.SEPARATOR_CHAR)) {
             // Supplied path is not absolute
             if (!VFS.isUriStyle()) {
                 // when using URIs the parent already do have the trailing "/"
@@ -791,7 +806,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
             throw new FileSystemException("vfs.provider/invalid-descendent-name.error", name);
         }
 
-        String fullPath;
+        final String fullPath;
         if (scheme != null) {
             fullPath = resolvedPath;
         } else {
@@ -1123,7 +1138,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     public FileOperationProvider[] getOperationProviders(final String scheme) throws FileSystemException {
 
         final List<?> providers = operationProviders.get(scheme);
-        if (providers == null || providers.size() == 0) {
+        if (providers == null || providers.isEmpty()) {
             return null;
         }
         return providers.toArray(new FileOperationProvider[] {});

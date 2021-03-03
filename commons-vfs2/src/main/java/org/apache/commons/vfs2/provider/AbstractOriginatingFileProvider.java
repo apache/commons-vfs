@@ -29,7 +29,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
 public abstract class AbstractOriginatingFileProvider extends AbstractFileProvider {
 
     public AbstractOriginatingFileProvider() {
-        super();
     }
 
     /**
@@ -97,7 +96,7 @@ public abstract class AbstractOriginatingFileProvider extends AbstractFileProvid
     }
 
     /**
-     * Creates a {@link FileSystem}. If the returned FileSystem implements {@link VfsComponent}, it will be initialised.
+     * Creates a {@link FileSystem}. If the returned FileSystem implements {@link VfsComponent}, it will be initialized.
      *
      * @param rootName The name of the root file of the file system to create.
      * @param fileSystemOptions The FileSystem options.

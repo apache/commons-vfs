@@ -16,17 +16,23 @@
  */
 package org.apache.commons.vfs2.util;
 
+import org.apache.commons.lang3.SystemUtils;
+
 /**
  * An enumerated type, which represents an OS family.
+ *
+ * @deprecated Use Apache Commons Lang's {@link SystemUtils}. Remove in 3.0.
  */
+@Deprecated
 public final class OsFamily {
 
     private final String name;
     private final OsFamily[] families;
+    static final OsFamily[] EMPTY_OS_FAMILY_ARRAY = new OsFamily[0];
 
     OsFamily(final String name) {
         this.name = name;
-        families = new OsFamily[0];
+        families = EMPTY_OS_FAMILY_ARRAY;
     }
 
     OsFamily(final String name, final OsFamily[] families) {

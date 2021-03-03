@@ -16,13 +16,14 @@
  */
 package org.apache.commons.vfs2.cache;
 
+import org.apache.commons.vfs2.AbstractProviderTestCase;
+import org.apache.commons.vfs2.CacheTestSuite;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FilesCache;
-import org.apache.commons.vfs2.test.AbstractProviderTestCase;
-import org.apache.commons.vfs2.test.CacheTestSuite;
+import org.junit.Test;
 
 /**
  * Base class for different FilesCache tests.
@@ -30,10 +31,12 @@ import org.apache.commons.vfs2.test.CacheTestSuite;
  * Make sure {@link CacheTestSuite} is configured with correct FilesCache.
  */
 public abstract class AbstractFilesCacheTestsBase extends AbstractProviderTestCase {
+
     /**
      * Will test if the cache is cleared and if it is still useable afterwards. It will actually ensure the test is
      * hitting the cache.
      */
+    @Test
     public void testClearFiles() throws Exception {
         final FilesCache cache = getManager().getFilesCache();
 
@@ -50,8 +53,9 @@ public abstract class AbstractFilesCacheTestsBase extends AbstractProviderTestCa
     }
 
     /**
-     * Basic Cache operations, work for all caches (besides {@link NullFilesCache#testBasicCacheOps() NullFilesCache}).
+     * Basic Cache operations, work for all caches (besides {@link NullFilesCacheTests#testBasicCacheOps() NullFilesCache}).
      */
+    @Test
     public void testBasicCacheOps() throws Exception {
         final FilesCache cache = getManager().getFilesCache();
         final FileObject fo = getWriteFolder().resolveFile("dir1");

@@ -27,71 +27,70 @@ import org.apache.commons.vfs2.RandomAccessContent;
  */
 class FileContentThreadData {
 
-    // private int state = DefaultFileContent.STATE_CLOSED;
-
-    private final ArrayList<InputStream> inputStreamList = new ArrayList<>();
-    private final ArrayList<RandomAccessContent> randomAccessContentList = new ArrayList<>();
+    private ArrayList<InputStream> inputStreamList;
+    private ArrayList<RandomAccessContent> randomAccessContentList;
     private DefaultFileContent.FileContentOutputStream outputStream;
 
     FileContentThreadData() {
     }
 
-    /*
-     * int getState() { return state; }
-     *
-     * void setState(int state) { this.state = state; }
-     */
-
-    void addInstr(final InputStream inputStream) {
+    void add(final InputStream inputStream) {
+        if (this.inputStreamList == null) {
+            this.inputStreamList = new ArrayList<>();
+        }
         this.inputStreamList.add(inputStream);
     }
 
-    void setOutstr(final DefaultFileContent.FileContentOutputStream outputStream) {
-        this.outputStream = outputStream;
-    }
-
-    DefaultFileContent.FileContentOutputStream getOutstr() {
-        return this.outputStream;
-    }
-
-    void addRastr(final RandomAccessContent randomAccessContent) {
+    void add(final RandomAccessContent randomAccessContent) {
+        if (this.randomAccessContentList == null) {
+            this.randomAccessContentList = new ArrayList<>();
+        }
         this.randomAccessContentList.add(randomAccessContent);
     }
 
-    int getInstrsSize() {
-        return this.inputStreamList.size();
+    /**
+     * Closes the output stream.
+     *
+     * @throws FileSystemException if an IO error occurs.
+     */
+    void closeOutputStream() throws FileSystemException {
+        outputStream.close();
+        outputStream = null;
     }
 
-    public Object removeInstr(final int pos) {
-        return this.inputStreamList.remove(pos);
+    DefaultFileContent.FileContentOutputStream getOutputStream() {
+        return this.outputStream;
+    }
+
+    boolean hasInputStream() {
+        return this.inputStreamList != null && !this.inputStreamList.isEmpty();
+    }
+
+    boolean hasRandomAccessContent() {
+        return randomAccessContentList != null && !randomAccessContentList.isEmpty();
+    }
+
+    boolean hasStreams() {
+        return hasInputStream() || outputStream != null || hasRandomAccessContent();
     }
 
     InputStream removeInputStream(final int pos) {
         return this.inputStreamList.remove(pos);
     }
 
-    public void removeInstr(final InputStream inputStream) {
+    void remove(final InputStream inputStream) {
         this.inputStreamList.remove(inputStream);
     }
 
-    public Object removeRastr(final int pos) {
+    Object removeRandomAccessContent(final int pos) {
         return this.randomAccessContentList.remove(pos);
     }
 
-    public void removeRastr(final RandomAccessContent randomAccessContent) {
+    void remove(final RandomAccessContent randomAccessContent) {
         this.randomAccessContentList.remove(randomAccessContent);
     }
 
-    public boolean hasStreams() {
-        return inputStreamList.size() > 0 || outputStream != null || randomAccessContentList.size() > 0;
-    }
-
-    public void closeOutstr() throws FileSystemException {
-        outputStream.close();
-        outputStream = null;
-    }
-
-    int getRastrsSize() {
-        return randomAccessContentList.size();
+    void setOutputStream(final DefaultFileContent.FileContentOutputStream outputStream) {
+        this.outputStream = outputStream;
     }
 }

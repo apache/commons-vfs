@@ -38,7 +38,6 @@ public class Bzip2FileProvider extends CompressedFileFileProvider {
             Capability.WRITE_CONTENT, Capability.URI, Capability.COMPRESS));
 
     public Bzip2FileProvider() {
-        super();
     }
 
     @Override

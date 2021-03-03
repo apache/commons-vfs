@@ -117,13 +117,13 @@ public class RegexFileFilter implements FileFilter, Serializable {
     /**
      * Checks to see if the file name matches one of the regular expressions.
      *
-     * @param fileInfo the File to check
+     * @param fileSelectInfo the File to check
      *
      * @return true if the file matches one of the regular expressions
      */
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) {
-        final String name = fileInfo.getFile().getName().getBaseName();
+    public boolean accept(final FileSelectInfo fileSelectInfo) {
+        final String name = fileSelectInfo.getFile().getName().getBaseName();
         return pattern.matcher(name).matches();
     }
 

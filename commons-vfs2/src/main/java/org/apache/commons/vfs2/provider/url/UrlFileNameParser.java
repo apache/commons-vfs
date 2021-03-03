@@ -35,7 +35,6 @@ public class UrlFileNameParser extends AbstractFileNameParser {
     private final GenericFileNameParser generic = new GenericFileNameParser();
 
     public UrlFileNameParser() {
-        super();
     }
 
     @Override

@@ -25,7 +25,7 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 /**
  * An InputStream that cleans up the {@code org.apache.http.client.methods.CloseableHttpResponse} on close.
  */
-class MonitoredHttpResponseContentInputStream extends MonitorInputStream {
+final class MonitoredHttpResponseContentInputStream extends MonitorInputStream {
 
     private final HttpResponse httpResponse;
 

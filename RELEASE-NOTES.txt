@@ -1,3 +1,76 @@
+            Apache Commons VFS Project 2.7.0
+            RELEASE NOTES
+            2020-10-19
+
+The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.7.0.
+
+Apache Commons VFS is a Virtual File System library.
+
+Maintenance release. Requires Java 8.
+
+Changes in this version include:
+
+New features:
+o VFS-757:  [SFTP] Configure whether exec detection is enabled #80. Thanks to ddg-igh.
+o           Add proxy config for some HTTP/HTTPS test #108. Thanks to PeterAlfredLee.
+o           Fix some test error when JVM's default language is not US en #107. Thanks to PeterAlfredLee.
+o VFS-787:  Allow users to set proxy schemes like http/https #122. Thanks to satish bhor.
+o VFS-786:  Allow users to set custom keystore types like JCEKS, PKCS12 #121. Thanks to satish bhor.
+o VFS-570:  Add HDFS write support #114. Thanks to garpinc, Gary Gregory.
+o           Add FileObject.getURI(). Thanks to Gary Gregory.
+o           Add FileObject.getPath(). Thanks to Gary Gregory.
+o VFS-768:  Update Apache httpclient 4.5.11 to 4.5.13 and httpclient5 5.0-beta7 to 5.0.3. Thanks to ddg-igh, Gary Gregory.
+o           Add org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.isDisableDetectExecChannel(FileSystemOptions) and setDisableDetectExecChannel(FileSystemOptions, boolean). Thanks to Gary Gregory.
+o           Add org.apache.commons.vfs2.FileSystemConfigBuilder.toBooleanObject(boolean). Thanks to Gary Gregory.
+o           org.apache.commons.vfs2.provider.VfsComponent now implements java.io.Closeable. Thanks to Gary Gregory.
+o           Modify some code use try-with-resources #138. Thanks to PeterAlfredLee.
+
+Fixed Bugs:
+o VFS-753:  NumberFormatException in SftpFileSystem::getUId. Thanks to John Webb, Gary Gregory.
+o VFS-779:  Possible null pointer dereference in org.apache.commons.vfs2.impl.DefaultFileReplicator.close() due to return value of called method. Thanks to Gary Gregory.
+o           Modify some loop using stream API #96. Thanks to PeterAlfredLee.
+o VFS-780:  SftpFileSystem returns null channel and produce NPE - fix get… #110. Thanks to Wuchte.
+o VFS-788:  [webdav/webdav4] Jackrabbit1 and jackrabbit2 modules getting same OSGi symbolic name. Thanks to satish bhor.
+o VFS-624:  Fix for read() in constructors of LocalFileRandomAccessContent and RamFileRandomAccessContent #93. Thanks to PeterAlfredLee.
+o VFS-769:  Fix .tgz and .tbz2 createFileSystem fails #94 Thanks to PeterAlfredLee.
+o VFS-664:  Fix for file names with exclamation mark can not be read #95. Thanks to PeterAlfredLee.
+o VFS-777:  NoSuchMethodError due to multiple versions of commons-codec:commons-codec:jar. Thanks to Bing-ok, Gary Gregory.
+o           Remove workaround for JDK BUG: 6192331 which was fixed way back in Java 6: https://bugs.java.com/bugdatabase/view_bug.do?bug_id=6192331 Thanks to Gary Gregory.
+o           FileObject.getURL() returns an illegal URL when a it should escape a space. Thanks to Gary Gregory.
+o           Fix test fail caused by lack proxy configuration for machines behind a proxy #139. Thanks to PeterAlfredLee.
+
+Changes:
+o           Update some file from CRLF to LF #141. Thanks to PeterAlfredLee.
+o VFS-755:  Update org.apache.httpcomponents:httpclient from 4.5.10 to 4.5.11. Thanks to Gary Gregory.
+o VFS-756:  Update org.apache.jackrabbit:jackrabbit-standalone-components from 2.19.6 to 2.21.3. Thanks to Gary Gregory.
+o VFS-754:  Update Apache Commons Compress from 1.19 to 1.20. Thanks to Gary Gregory.
+o           Update tests from Apache Commons Lang 3.9 to 3.11. Thanks to Gary Gregory.
+o           Update tests from Log4j 2.13.0 to 2.13.3. Thanks to Gary Gregory.
+o           Update tests from org.mockito:mockito-core from 3.2.4 to 3.5.13, #131. Thanks to Gary Gregory, Dependabot.
+o           Update Apache Commons IO from 2.6 to 2.8.0. Thanks to Gary Gregory.
+o           Update site reports from org.apache.bcel:bcel 6.4.1 to 6.5.0. Thanks to Gary Gregory.
+o           Update actions/checkout from v1 to v2.3.3 #100, #109, #130. Thanks to Dependabot.
+o           Update actions/setup-java from v1.4.0 to v1.4.3 #111, #113, #133. Thanks to Dependabot.
+o           Update commons-parent from 50 to 52. Thanks to Gary Gregory.
+o           Update checkstyle from 8.27 to 8.36.2 #123, #132. Thanks to Dependabot.
+o           Update maven-pmd-plugin from 3.12.0 to 3.13.0 #125. Thanks to Dependabot.
+o           Update exec-maven-plugin from 1.6.0 to 3.0.0 #127. Thanks to Dependabot.
+o           Update com.puppycrawl.tools:checkstyle 8.36 -> 8.36.1. Thanks to Gary Gregory.
+o           Update Apache Commons Net from 3.6 to 3.7.2. Thanks to Gary Gregory.
+o           Update JUnit from 4.13 to 4.13.1. Thanks to Gary Gregory.
+
+
+Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
+
+For complete information on Apache Commons VFS Project, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons VFS Project website:
+
+http://commons.apache.org/proper/commons-vfs/
+
+Download page: http://commons.apache.org/proper/commons-vfs/download_vfs.cgi
+
+-----------------------------------------------------------------------------
+
             Apache Commons VFS Project 2.6.0
             RELEASE NOTES
             2020-01-06
@@ -89,7 +162,7 @@ Download it from http://commons.apache.org/proper/commons-vfs/download_vfs.cgi
             RELEASE NOTES
             2019-08-10    
 
-The Apache Commons VFS team is pleased to announce the release of Apache Commons VFS 2.4.1-SNAPSHOT
+The Apache Commons VFS team is pleased to announce the release of Apache Commons VFS 2.4.1
 
 Apache Commons VFS is a Virtual File System library.
 

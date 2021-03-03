@@ -79,7 +79,6 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider {
      * Constructs a new provider.
      */
     public SftpFileProvider() {
-        super();
         setFileNameParser(SftpFileNameParser.getInstance());
     }
 

@@ -103,11 +103,7 @@ public final class FileSystemOptions implements Cloneable {
             if (!fileSystemClass.equals(that.fileSystemClass)) {
                 return false;
             }
-            if (!name.equals(that.name)) {
-                return false;
-            }
-
-            return true;
+            return name.equals(that.name);
         }
 
         @Override
@@ -128,9 +124,9 @@ public final class FileSystemOptions implements Cloneable {
         options.put(new FileSystemOptionKey(fileSystemClass, name), value);
     }
 
-    Object getOption(final Class<? extends FileSystem> fileSystemClass, final String name) {
+    <T> T getOption(final Class<? extends FileSystem> fileSystemClass, final String name) {
         final FileSystemOptionKey key = new FileSystemOptionKey(fileSystemClass, name);
-        return options.get(key);
+        return (T) options.get(key);
     }
 
     boolean hasOption(final Class<? extends FileSystem> fileSystemClass, final String name) {
@@ -173,18 +169,11 @@ public final class FileSystemOptions implements Cloneable {
             }
         }
 
-        final Object[] array = new Object[propsSz];
-        final int hash = Arrays.deepHashCode(myOptions.values().toArray(array));
-        final int hashFk = Arrays.deepHashCode(theirOptions.values().toArray(array));
-        if (hash < hashFk) {
-            return -1;
-        }
-        if (hash > hashFk) {
-            return 1;
-        }
+        final int hash = Arrays.deepHashCode(myOptions.values().toArray());
+        final int hashFk = Arrays.deepHashCode(theirOptions.values().toArray());
+        return Integer.compare(hash, hashFk);
 
         // TODO: compare Entry by Entry ??
-        return 0;
     }
 
     @Override
@@ -198,7 +187,7 @@ public final class FileSystemOptions implements Cloneable {
                     ? (SortedMap<FileSystemOptionKey, Object>) options
                     : new TreeMap<>(options);
             result = prime * result + myOptions.keySet().hashCode();
-            result = prime * result + Arrays.deepHashCode(myOptions.values().toArray(new Object[options.size()]));
+            result = prime * result + Arrays.deepHashCode(myOptions.values().toArray());
         }
         return result;
     }

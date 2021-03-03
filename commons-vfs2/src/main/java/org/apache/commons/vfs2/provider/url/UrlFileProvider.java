@@ -40,7 +40,6 @@ public class UrlFileProvider extends AbstractFileProvider {
             Arrays.asList(Capability.READ_CONTENT, Capability.URI, Capability.GET_LAST_MODIFIED));
 
     public UrlFileProvider() {
-        super();
         setFileNameParser(new UrlFileNameParser());
     }
 

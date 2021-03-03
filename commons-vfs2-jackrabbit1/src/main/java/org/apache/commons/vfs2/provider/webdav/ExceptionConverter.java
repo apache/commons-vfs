@@ -46,22 +46,20 @@ public final class ExceptionConverter {
         if (davExc.hasErrorCondition()) {
             try {
                 final Element error = davExc.toXml(DomUtil.BUILDER_FACTORY.newDocumentBuilder().newDocument());
-                if (DomUtil.matches(error, DavException.XML_ERROR, DavConstants.NAMESPACE)) {
-                    if (DomUtil.hasChildElement(error, "exception", null)) {
-                        final Element exc = DomUtil.getChildElement(error, "exception", null);
-                        if (DomUtil.hasChildElement(exc, "message", null)) {
-                            msg = DomUtil.getChildText(exc, "message", null);
-                        }
-                        if (DomUtil.hasChildElement(exc, "class", null)) {
-                            final Class<?> cl = Class.forName(DomUtil.getChildText(exc, "class", null));
-                            final Constructor<?> excConstr = cl.getConstructor(new Class[] { String.class });
-                            if (excConstr != null) {
-                                final Object o = excConstr.newInstance(new Object[] { msg });
-                                if (o instanceof FileSystemException) {
-                                    return (FileSystemException) o;
-                                } else if (o instanceof Exception) {
-                                    return new FileSystemException(msg, (Exception) o);
-                                }
+                if (DomUtil.matches(error, DavException.XML_ERROR, DavConstants.NAMESPACE) && DomUtil.hasChildElement(error, "exception", null)) {
+                    final Element exc = DomUtil.getChildElement(error, "exception", null);
+                    if (DomUtil.hasChildElement(exc, "message", null)) {
+                        msg = DomUtil.getChildText(exc, "message", null);
+                    }
+                    if (DomUtil.hasChildElement(exc, "class", null)) {
+                        final Class<?> cl = Class.forName(DomUtil.getChildText(exc, "class", null));
+                        final Constructor<?> excConstr = cl.getConstructor(String.class);
+                        if (excConstr != null) {
+                            final Object o = excConstr.newInstance(msg);
+                            if (o instanceof FileSystemException) {
+                                return (FileSystemException) o;
+                            } else if (o instanceof Exception) {
+                                return new FileSystemException(msg, (Exception) o);
                             }
                         }
                     }

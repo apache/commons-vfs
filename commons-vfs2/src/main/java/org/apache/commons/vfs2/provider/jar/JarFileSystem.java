@@ -72,7 +72,7 @@ public class JarFileSystem extends ZipFileSystem {
     @Override
     protected void addCapabilities(final Collection<Capability> caps) {
         // super.addCapabilities(caps);
-        caps.addAll(JarFileProvider.capabilities);
+        caps.addAll(JarFileProvider.CAPABILITIES);
     }
 
     Attributes getAttributes() throws IOException {

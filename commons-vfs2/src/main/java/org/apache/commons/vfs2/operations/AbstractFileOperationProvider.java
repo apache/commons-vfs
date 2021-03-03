@@ -18,7 +18,6 @@ package org.apache.commons.vfs2.operations;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -72,11 +71,7 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
     @Override
     public final FileOperation getOperation(final FileObject file, final Class<? extends FileOperation> operationClass)
             throws FileSystemException {
-        final Class<? extends FileOperation> implementation = lookupOperation(operationClass);
-
-        final FileOperation operationInstance = instantiateOperation(file, implementation);
-
-        return operationInstance;
+        return instantiateOperation(file, lookupOperation(operationClass));
     }
 
     /**
@@ -106,9 +101,7 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
 
         // find appropriate class
         Class<? extends FileOperation> foundClass = null;
-        final Iterator<Class<? extends FileOperation>> iterator = operations.iterator();
-        while (iterator.hasNext()) {
-            final Class<? extends FileOperation> operation = iterator.next();
+        for (final Class<? extends FileOperation> operation : operations) {
             if (operationClass.isAssignableFrom(operation)) {
                 foundClass = operation;
                 break;

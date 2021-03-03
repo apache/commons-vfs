@@ -45,8 +45,7 @@ public class FileContentInfoFilenameFactory implements FileContentInfoFactory {
         // optimize object creation for common case
         if (contentType == null) {
             return NULL_INFO;
-        } else {
-            return new DefaultFileContentInfo(contentType, null);
         }
+        return new DefaultFileContentInfo(contentType, null);
     }
 }

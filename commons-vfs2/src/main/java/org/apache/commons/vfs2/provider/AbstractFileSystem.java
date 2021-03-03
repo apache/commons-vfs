@@ -55,6 +55,13 @@ import org.apache.commons.vfs2.util.Messages;
  */
 public abstract class AbstractFileSystem extends AbstractVfsComponent implements FileSystem {
 
+    /** Only provided for Serializable subclasses. */
+    AbstractFileSystem() {
+        this(null, null, null);
+    }
+
+    private static final FileListener[] EMPTY_FILE_LISTENER_ARRAY = new FileListener[0];
+
     private static final Log LOG = LogFactory.getLog(AbstractFileSystem.class);
 
     /**
@@ -94,15 +101,15 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      */
     private final AtomicInteger openStreams = new AtomicInteger(0);
 
-    protected AbstractFileSystem(final FileName rootName, final FileObject parentLayer,
-            final FileSystemOptions fileSystemOptions) {
+    protected AbstractFileSystem(final FileName rootFileName, final FileObject parentLayer,
+        final FileSystemOptions fileSystemOptions) {
         this.parentLayer = parentLayer;
-        this.rootName = rootName;
+        this.rootName = rootFileName;
         this.fileSystemOptions = fileSystemOptions;
         final FileSystemConfigBuilder builder = DefaultFileSystemConfigBuilder.getInstance();
         String uri = builder.getRootURI(fileSystemOptions);
         if (uri == null) {
-            uri = rootName.getURI();
+            uri = rootFileName != null ? rootFileName.getURI() : null;
         }
         this.rootURI = uri;
     }
@@ -331,8 +338,8 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
             }
         }
 
-        /**
-         * resync the file information if requested
+        /*
+          resync the file information if requested
          */
         if (getFileSystemManager().getCacheStrategy().equals(CacheStrategy.ON_RESOLVE)) {
             file.refresh();
@@ -347,15 +354,8 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
         if (getFileSystemManager().getFileObjectDecoratorConst() != null) {
             try {
-                file = (FileObject) getFileSystemManager().getFileObjectDecoratorConst()
-                        .newInstance(new Object[] { file });
-            } catch (final InstantiationException e) {
-                throw new FileSystemException("vfs.impl/invalid-decorator.error",
-                        getFileSystemManager().getFileObjectDecorator().getName(), e);
-            } catch (final IllegalAccessException e) {
-                throw new FileSystemException("vfs.impl/invalid-decorator.error",
-                        getFileSystemManager().getFileObjectDecorator().getName(), e);
-            } catch (final InvocationTargetException e) {
+                file = (FileObject) getFileSystemManager().getFileObjectDecoratorConst().newInstance(file);
+            } catch (final InstantiationException | IllegalAccessException | InvocationTargetException e) {
                 throw new FileSystemException("vfs.impl/invalid-decorator.error",
                         getFileSystemManager().getFileObjectDecorator().getName(), e);
             }
@@ -459,11 +459,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     @Override
     public void addListener(final FileObject file, final FileListener listener) {
         synchronized (listenerMap) {
-            ArrayList<FileListener> listeners = listenerMap.get(file.getName());
-            if (listeners == null) {
-                listeners = new ArrayList<>();
-                listenerMap.put(file.getName(), listeners);
-            }
+            final ArrayList<FileListener> listeners = listenerMap.computeIfAbsent(file.getName(), k -> new ArrayList<>());
             listeners.add(listener);
         }
     }
@@ -540,7 +536,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
         synchronized (listenerMap) {
             final ArrayList<?> listeners = listenerMap.get(fileObject.getName());
             if (listeners != null) {
-                fileListeners = listeners.toArray(new FileListener[listeners.size()]);
+                fileListeners = listeners.toArray(EMPTY_FILE_LISTENER_ARRAY);
             }
         }
 

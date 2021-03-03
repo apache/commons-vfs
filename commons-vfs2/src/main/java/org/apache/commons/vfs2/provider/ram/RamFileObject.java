@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
@@ -108,7 +109,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem> {
     @Override
     protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
         if (!bAppend) {
-            this.data.setContent(RamFileData.EMPTY);
+            this.data.setContent(ArrayUtils.EMPTY_BYTE_ARRAY);
         }
         return new RamFileOutputStream(this);
     }

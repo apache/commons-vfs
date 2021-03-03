@@ -101,7 +101,7 @@ public class FileExtensionSelectorTest {
         }
         final String message = String.format("Extensions: %s; files: %s", extensionSet.toString(),
                 Arrays.asList(foArray).toString());
-        Assert.assertTrue(message, extensionSet.size() > 0);
+        Assert.assertFalse(message, extensionSet.isEmpty());
         Assert.assertEquals(message, ExtensionCount, extensionSet.size());
         // check all unique extensions
         final FileSelector selector = new FileExtensionSelector(extensionSet);

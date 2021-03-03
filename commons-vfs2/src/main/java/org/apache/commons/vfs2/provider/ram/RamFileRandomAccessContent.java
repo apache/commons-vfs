@@ -22,6 +22,7 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 
 import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.util.RandomAccessMode;
@@ -34,7 +35,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
     /**
      * File Pointer
      */
-    protected int filePointer = 0;
+    protected int filePointer;
 
     /**
      * Buffer
@@ -68,12 +69,13 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
 
     private final InputStream rafis;
 
+    private final static int BYTE_VALUE_MASK = 0xFF;
+
     /**
      * @param file The file to access.
      * @param mode The access mode.
      */
     public RamFileRandomAccessContent(final RamFileObject file, final RandomAccessMode mode) {
-        super();
         this.buf = file.getData().getContent();
         this.file = file;
 
@@ -81,7 +83,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
             @Override
             public int read() throws IOException {
                 try {
-                    return readByte();
+                    return readByte() & BYTE_VALUE_MASK;
                 } catch (final EOFException e) {
                     return -1;
                 }
@@ -223,7 +225,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
     @Override
     public int readUnsignedByte() throws IOException {
         if (filePointer < buf.length) {
-            return buf[filePointer++] & 0xFF;
+            return buf[filePointer++] & BYTE_VALUE_MASK;
         }
         throw new EOFException();
     }
@@ -381,9 +383,9 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
      * @return A long.
      */
     public static long toLong(final byte[] b) {
-        return ((((long) b[7]) & 0xFF) + ((((long) b[6]) & 0xFF) << 8) + ((((long) b[5]) & 0xFF) << 16)
-                + ((((long) b[4]) & 0xFF) << 24) + ((((long) b[3]) & 0xFF) << 32) + ((((long) b[2]) & 0xFF) << 40)
-                + ((((long) b[1]) & 0xFF) << 48) + ((((long) b[0]) & 0xFF) << 56));
+        return ((((long) b[7]) & BYTE_VALUE_MASK) + ((((long) b[6]) & BYTE_VALUE_MASK) << 8) + ((((long) b[5]) & BYTE_VALUE_MASK) << 16)
+                + ((((long) b[4]) & BYTE_VALUE_MASK) << 24) + ((((long) b[3]) & BYTE_VALUE_MASK) << 32) + ((((long) b[2]) & BYTE_VALUE_MASK) << 40)
+                + ((((long) b[1]) & BYTE_VALUE_MASK) << 48) + ((((long) b[0]) & BYTE_VALUE_MASK) << 56));
     }
 
     /**
@@ -429,7 +431,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
      * @return A short.
      */
     public static int toUnsignedShort(final byte[] b) {
-        return ((b[1] & 0xFF) + ((b[0] & 0xFF) << 8));
+        return ((b[1] & BYTE_VALUE_MASK) + ((b[0] & BYTE_VALUE_MASK) << 8));
     }
 
     /*
@@ -460,7 +462,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
      */
     @Override
     public void writeBytes(final String s) throws IOException {
-        write(s.getBytes());
+        write(s.getBytes(Charset.defaultCharset()));
     }
 
     /*
@@ -470,8 +472,8 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
      */
     @Override
     public void writeChar(final int v) throws IOException {
-        buffer2[0] = (byte) ((v >>> 8) & 0xFF);
-        buffer2[1] = (byte) ((v >>> 0) & 0xFF);
+        buffer2[0] = (byte) ((v >>> 8) & BYTE_VALUE_MASK);
+        buffer2[1] = (byte) ((v >>> 0) & BYTE_VALUE_MASK);
         write(buffer2);
     }
 
@@ -515,10 +517,10 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
      */
     @Override
     public void writeInt(final int v) throws IOException {
-        buffer4[0] = (byte) ((v >>> 24) & 0xFF);
-        buffer4[1] = (byte) ((v >>> 16) & 0xFF);
-        buffer4[2] = (byte) ((v >>> 8) & 0xFF);
-        buffer4[3] = (byte) (v & 0xFF);
+        buffer4[0] = (byte) ((v >>> 24) & BYTE_VALUE_MASK);
+        buffer4[1] = (byte) ((v >>> 16) & BYTE_VALUE_MASK);
+        buffer4[2] = (byte) ((v >>> 8) & BYTE_VALUE_MASK);
+        buffer4[3] = (byte) (v & BYTE_VALUE_MASK);
         write(buffer4);
     }
 
@@ -539,8 +541,8 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
      */
     @Override
     public void writeShort(final int v) throws IOException {
-        buffer2[0] = (byte) ((v >>> 8) & 0xFF);
-        buffer2[1] = (byte) (v & 0xFF);
+        buffer2[0] = (byte) ((v >>> 8) & BYTE_VALUE_MASK);
+        buffer2[1] = (byte) (v & BYTE_VALUE_MASK);
         write(buffer2);
     }
 
