@@ -145,7 +145,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                         executeRequest(request);
                         isCheckedIn = false;
                     } catch (final FileSystemException ex) {
-                        // Ignore the exception checking out.
+                        log(ex);
                     }
                 }
 
@@ -163,7 +163,8 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                             executeRequest(request);
                             isCheckedIn = true;
                         } catch (final Exception e) {
-                            // Ignore the exception. Going to throw original.
+                            // Going to throw original.
+                            log(ex);
                         }
                         throw ex;
                     }
@@ -174,7 +175,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                         final DavPropertySet props = getPropertyNames(fileName);
                         isCheckedIn = !props.contains(VersionControlledResource.CHECKED_OUT);
                     } catch (final FileNotFoundException fnfe) {
-                        // Ignore the error
+                        log(fnfe);
                     }
                 }
                 if (!isCheckedIn) {
@@ -190,7 +191,8 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                 try {
                     setUserName(fileName, urlStr);
                 } catch (final IOException e) {
-                    // Ignore the exception if unable to set the user name.
+                    // Unable to set the user name.
+                    log(e);
                 }
             }
             ((DefaultFileContent) this.file.getContent()).resetAttributes();
@@ -224,6 +226,10 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
     protected Webdav4FileObject(final AbstractFileName name, final Webdav4FileSystem fileSystem)
             throws FileSystemException {
         this(name, fileSystem, Webdav4FileSystemConfigBuilder.getInstance());
+    }
+
+    void log(Exception ex) {
+        // TODO Consider logging
     }
 
     protected Webdav4FileObject(final AbstractFileName name, final Webdav4FileSystem fileSystem,
