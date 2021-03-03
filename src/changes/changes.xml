@@ -163,6 +163,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="Gary Gregory" type="add">
         [HTTP5] Add Http5FileSystemConfigBuilder.getSoTimeoutDuration(FileSystemOptions) and deprecate Integer version.
       </action>
+      <action dev="ggregory" due-to="PMD, Gary Gregory" type="add">
+        Add AbstractFileSystem.AbstractFileSystem() for Serializable subclasses (PMD).
+      </action>
       <!-- UPDATES -->
       <action dev="ggregory" due-to="PeterAlfredLee" type="update">
         Modify some code use for-each loop and stream API #142.

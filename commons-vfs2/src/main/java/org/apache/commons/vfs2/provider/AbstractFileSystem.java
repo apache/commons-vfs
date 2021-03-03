@@ -55,6 +55,11 @@ import org.apache.commons.vfs2.util.Messages;
  */
 public abstract class AbstractFileSystem extends AbstractVfsComponent implements FileSystem {
 
+    /** Only provided for Serializable subclasses. */
+    AbstractFileSystem() {
+        this(null, null, null);
+    }
+
     private static final FileListener[] EMPTY_FILE_LISTENER_ARRAY = new FileListener[0];
 
     private static final Log LOG = LogFactory.getLog(AbstractFileSystem.class);
@@ -96,15 +101,15 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      */
     private final AtomicInteger openStreams = new AtomicInteger(0);
 
-    protected AbstractFileSystem(final FileName rootName, final FileObject parentLayer,
-            final FileSystemOptions fileSystemOptions) {
+    protected AbstractFileSystem(final FileName rootFileName, final FileObject parentLayer,
+        final FileSystemOptions fileSystemOptions) {
         this.parentLayer = parentLayer;
-        this.rootName = rootName;
+        this.rootName = rootFileName;
         this.fileSystemOptions = fileSystemOptions;
         final FileSystemConfigBuilder builder = DefaultFileSystemConfigBuilder.getInstance();
         String uri = builder.getRootURI(fileSystemOptions);
         if (uri == null) {
-            uri = rootName.getURI();
+            uri = rootFileName != null ? rootFileName.getURI() : null;
         }
         this.rootURI = uri;
     }
