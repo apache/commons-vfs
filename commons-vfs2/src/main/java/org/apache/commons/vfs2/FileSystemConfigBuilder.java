@@ -551,7 +551,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets the root URI of the file system.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @return The root URI
+     * @return The root URI, or null.
      *
      * @since 2.0
      */
