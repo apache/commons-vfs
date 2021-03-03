@@ -146,7 +146,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
                         execute(checkout);
                         isCheckedIn = false;
                     } catch (final FileSystemException ex) {
-                        // Ignore the exception checking out.
+                        log(ex);
                     }
                 }
 
@@ -164,7 +164,8 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
                             execute(method);
                             isCheckedIn = true;
                         } catch (final Exception e) {
-                            // Ignore the exception. Going to throw original.
+                            // Going to throw original.
+                            log(e);
                         }
                         throw ex;
                     }
@@ -175,7 +176,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
                         final DavPropertySet props = getPropertyNames(fileName);
                         isCheckedIn = !props.contains(VersionControlledResource.CHECKED_OUT);
                     } catch (final FileNotFoundException fnfe) {
-                        // Ignore the error
+                        log(fnfe);
                     }
                 }
                 if (!isCheckedIn) {
@@ -191,7 +192,8 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
                 try {
                     setUserName(fileName, urlStr);
                 } catch (final IOException e) {
-                    // Ignore the exception if unable to set the user name.
+                    // Unable to set the user name.
+                    log(e);
                 }
             }
             ((DefaultFileContent) this.file.getContent()).resetAttributes();
@@ -226,6 +228,10 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
         super(name, fileSystem, WebdavFileSystemConfigBuilder.getInstance());
         this.fileSystem = fileSystem;
         builder = (WebdavFileSystemConfigBuilder) WebdavFileSystemConfigBuilder.getInstance();
+    }
+
+    void log(Exception ex) {
+        // TODO Consider logging.
     }
 
     protected void configureMethod(final HttpMethodBase httpMethod) {

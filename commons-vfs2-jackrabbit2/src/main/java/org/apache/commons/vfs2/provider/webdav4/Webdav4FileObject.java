@@ -164,7 +164,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                             isCheckedIn = true;
                         } catch (final Exception e) {
                             // Going to throw original.
-                            log(ex);
+                            log(e);
                         }
                         throw ex;
                     }
