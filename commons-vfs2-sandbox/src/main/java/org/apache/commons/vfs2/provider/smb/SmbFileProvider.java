@@ -45,7 +45,6 @@ public class SmbFileProvider extends AbstractOriginatingFileProvider implements 
                     Capability.RANDOM_ACCESS_WRITE));
 
     public SmbFileProvider() {
-        super();
         setFileNameParser(SmbFileNameParser.getInstance());
     }
 

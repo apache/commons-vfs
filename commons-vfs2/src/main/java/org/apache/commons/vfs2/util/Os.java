@@ -18,14 +18,20 @@ package org.apache.commons.vfs2.util;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import org.apache.commons.lang3.SystemUtils;
+
 /**
  * Class to help determining the OS.
+ *
+ * @deprecated Use Apache Commons Lang's {@link SystemUtils}. Remove in 3.0.
  */
+@Deprecated
 public final class Os {
 
     /**
@@ -238,30 +244,28 @@ public final class Os {
         if (OS_FAMILY != null) {
             final List<OsFamily> queue = new ArrayList<>();
             queue.add(OS_FAMILY);
-            while (queue.size() > 0) {
+            while (!queue.isEmpty()) {
                 final OsFamily family = queue.remove(0);
                 allFamilies.add(family);
                 final OsFamily[] families = family.getFamilies();
-                for (final OsFamily parent : families) {
-                    queue.add(parent);
-                }
+                Collections.addAll(queue, families);
             }
         }
-        return allFamilies.toArray(new OsFamily[allFamilies.size()]);
+        return allFamilies.toArray(OsFamily.EMPTY_OS_FAMILY_ARRAY);
     }
 
     private static OsFamily determineOsFamily() {
         // Determine the most specific OS family
-        if (OS_NAME.indexOf("windows") > -1) {
-            if (OS_NAME.indexOf("xp") > -1 || OS_NAME.indexOf("2000") > -1 || OS_NAME.indexOf("nt") > -1) {
+        if (OS_NAME.contains("windows")) {
+            if (OS_NAME.contains("xp") || OS_NAME.contains("2000") || OS_NAME.contains("nt")) {
                 return OS_FAMILY_WINNT;
             }
             return OS_FAMILY_WIN9X;
-        } else if (OS_NAME.indexOf("os/2") > -1) {
+        } else if (OS_NAME.contains("os/2")) {
             return OS_FAMILY_OS2;
-        } else if (OS_NAME.indexOf("netware") > -1) {
+        } else if (OS_NAME.contains("netware")) {
             return OS_FAMILY_NETWARE;
-        } else if (OS_NAME.indexOf("mac") > -1) {
+        } else if (OS_NAME.contains("mac")) {
             if (OS_NAME.endsWith("x")) {
                 return OS_FAMILY_OSX;
             }

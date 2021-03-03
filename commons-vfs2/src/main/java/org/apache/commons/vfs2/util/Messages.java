@@ -22,6 +22,8 @@ import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 /**
  * Formats messages.
  */
@@ -30,10 +32,15 @@ public final class Messages {
     /**
      * Map from message code to MessageFormat object for the message.
      */
-    private static ConcurrentMap<String, MessageFormat> messageMap = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, MessageFormat> messageMap = new ConcurrentHashMap<>();
     private static final ResourceBundle RESOURCES = new CombinedResources("org.apache.commons.vfs2.Resources");
 
-    private Messages() {
+    /**
+     * Locates a message by its code.
+     */
+    private static MessageFormat findMessage(final String code) throws MissingResourceException {
+        // Check if the message is cached
+        return messageMap.computeIfAbsent(code, k -> new MessageFormat(RESOURCES.getString(k)));
     }
 
     /**
@@ -43,7 +50,7 @@ public final class Messages {
      * @return The formatted message.
      */
     public static String getString(final String code) {
-        return getString(code, new Object[0]);
+        return getString(code, ArrayUtils.EMPTY_OBJECT_ARRAY);
     }
 
     /**
@@ -72,27 +79,13 @@ public final class Messages {
             if (code == null) {
                 return null;
             }
-
-            final MessageFormat msg = findMessage(code);
-            return msg.format(params);
+            return findMessage(code).format(params);
         } catch (final MissingResourceException mre) {
             return "Unknown message with code \"" + code + "\".";
         }
     }
 
-    /**
-     * Locates a message by its code.
-     */
-    private static MessageFormat findMessage(final String code) throws MissingResourceException {
-        // Check if the message is cached
-        MessageFormat msg = messageMap.get(code);
-        if (msg != null) {
-            return msg;
-        }
-
-        final String msgText = RESOURCES.getString(code);
-        msg = new MessageFormat(msgText);
-        messageMap.putIfAbsent(code, msg);
-        return messageMap.get(code);
+    private Messages() {
+        // no instances.
     }
 }

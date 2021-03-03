@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
  *
  * @see VFSClassLoader
  */
-class Resource {
+final class Resource {
 
     private final FileObject root;
     private final FileObject resource;

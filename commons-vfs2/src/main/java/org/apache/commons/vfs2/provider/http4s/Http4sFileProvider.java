@@ -29,7 +29,6 @@ public class Http4sFileProvider extends Http4FileProvider {
      * Construct a {@code Http4sFileProvider}.
      */
     public Http4sFileProvider() {
-        super();
         setFileNameParser(Http4sFileNameParser.getInstance());
     }
 }

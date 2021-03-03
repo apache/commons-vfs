@@ -74,14 +74,14 @@ public class CanExecuteFileFilter implements FileFilter, Serializable {
     /**
      * Checks to see if the file can be executed.
      *
-     * @param fileInfo the File to check.
+     * @param fileSelectInfo the File to check.
      *
      * @return {@code true} if the file can be executed, otherwise {@code false}.
      * @throws FileSystemException Thrown for file system errors.
      */
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) throws FileSystemException {
-        return fileInfo.getFile().isExecutable();
+    public boolean accept(final FileSelectInfo fileSelectInfo) throws FileSystemException {
+        return fileSelectInfo.getFile().isExecutable();
     }
 
 }

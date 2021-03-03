@@ -153,5 +153,5 @@ public enum Capability {
      *
      * @since 2.0
      */
-    DIRECTORY_READ_CONTENT;
+    DIRECTORY_READ_CONTENT
 }

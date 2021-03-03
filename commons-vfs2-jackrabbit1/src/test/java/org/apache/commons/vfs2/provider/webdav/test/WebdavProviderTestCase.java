@@ -31,15 +31,15 @@ import javax.jcr.SimpleCredentials;
 import javax.jcr.Value;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.temp.TemporaryFileProvider;
 import org.apache.commons.vfs2.provider.webdav.WebdavFileProvider;
 import org.apache.commons.vfs2.provider.webdav.WebdavFileSystemConfigBuilder;
-import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.test.ProviderTestSuite;
 import org.apache.commons.vfs2.util.FreeSocketPortUtil;
 import org.apache.jackrabbit.core.TransientRepository;
 import org.apache.log4j.Level;
@@ -69,7 +69,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig {
 
     private static File RepoDirectory;
 
-    private static boolean DEBUG = Boolean.getBoolean("WebdavProviderTestCase.Debug");
+    private static final boolean DEBUG = Boolean.getBoolean("WebdavProviderTestCase.Debug");
 
     static File createTempDirectory() throws IOException {
         // create base folder
@@ -172,12 +172,9 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig {
         final File[] files = sourceDir.listFiles();
         for (final File file : files) {
             if (file.isFile()) {
-                final InputStream data = new FileInputStream(file);
-                try {
+                try (InputStream data = new FileInputStream(file)) {
                     message("Importing file " + file);
                     JcrUtils.putFile(parent, file.getName(), "application/octet-stream", data);
-                } finally {
-                    data.close();
                 }
             } else if (file.isDirectory()) {
                 message("Importing folder " + file);

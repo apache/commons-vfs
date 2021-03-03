@@ -42,7 +42,6 @@ public class ZipFileProvider extends AbstractLayeredFileProvider {
             Capability.URI, Capability.COMPRESS, Capability.VIRTUAL));
 
     public ZipFileProvider() {
-        super();
     }
 
     /**

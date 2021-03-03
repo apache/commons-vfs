@@ -28,7 +28,6 @@ public class Webdav4FileNameParser extends Http4FileNameParser {
     private static final Webdav4FileNameParser INSTANCE = new Webdav4FileNameParser();
 
     public Webdav4FileNameParser() {
-        super();
     }
 
     public static FileNameParser getInstance() {

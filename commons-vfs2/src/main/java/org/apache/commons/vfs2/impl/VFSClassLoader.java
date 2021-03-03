@@ -27,7 +27,6 @@ import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.Attributes.Name;
@@ -110,7 +109,7 @@ public class VFSClassLoader extends SecureClassLoader {
      * @since 2.0
      */
     public FileObject[] getFileObjects() {
-        return resources.toArray(new FileObject[resources.size()]);
+        return resources.toArray(FileObject.EMPTY_ARRAY);
     }
 
     /**
@@ -169,10 +168,8 @@ public class VFSClassLoader extends SecureClassLoader {
                     if (!pkg.isSealed(url)) {
                         throw new FileSystemException("vfs.impl/pkg-sealed-other-url", pkgName);
                     }
-                } else {
-                    if (isSealed(res)) {
-                        throw new FileSystemException("vfs.impl/pkg-sealing-unsealed", pkgName);
-                    }
+                } else if (isSealed(res)) {
+                    throw new FileSystemException("vfs.impl/pkg-sealing-unsealed", pkgName);
                 }
             } else {
                 definePackage(pkgName, res);
@@ -268,9 +265,7 @@ public class VFSClassLoader extends SecureClassLoader {
      * Does a reverse lookup to find the FileObject when we only have the URL.
      */
     private FileObject lookupFileObject(final String name) {
-        final Iterator<FileObject> it = resources.iterator();
-        while (it.hasNext()) {
-            final FileObject object = it.next();
+        for (final FileObject object : resources) {
             if (name.equals(object.getName().getURI())) {
                 return object;
             }

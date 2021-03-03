@@ -39,7 +39,7 @@ import org.junit.Test;
  * Some tests for the DelegatingFileSystemOptionsBuilder
  */
 public class DelegatingFileSystemOptionsBuilderTest {
-    private StandardFileSystemManager fsm = null;
+    private StandardFileSystemManager fsm;
 
     @Before
     public void setUp() throws Exception {
@@ -104,7 +104,7 @@ public class DelegatingFileSystemOptionsBuilderTest {
         }
     }
 
-    private static String[] schemes = new String[] { "http", "ftp", "file", "zip", "tar", "tgz", "bz2", "gz",
+    private static final String[] schemes = new String[] { "http", "ftp", "file", "zip", "tar", "tgz", "bz2", "gz",
             "jar", "tmp", "ram" };
 
     @Test

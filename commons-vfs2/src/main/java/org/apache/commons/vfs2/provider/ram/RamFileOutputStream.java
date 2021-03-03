@@ -37,7 +37,7 @@ public class RamFileOutputStream extends OutputStream {
     protected byte[] buffer1 = new byte[1];
 
     /** File is open or closed */
-    protected boolean closed = false;
+    protected boolean closed;
 
     private IOException exception;
 
@@ -45,7 +45,6 @@ public class RamFileOutputStream extends OutputStream {
      * @param file The base file.
      */
     public RamFileOutputStream(final RamFileObject file) {
-        super();
         this.file = file;
     }
 

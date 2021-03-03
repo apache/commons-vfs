@@ -30,11 +30,11 @@ public class Http4sFileNameParser extends GenericURLFileNameParser {
 
     private static final Http4sFileNameParser INSTANCE = new Http4sFileNameParser();
 
-    public Http4sFileNameParser() {
-        super(DEFAULT_PORT);
-    }
-
     public static FileNameParser getInstance() {
         return INSTANCE;
+    }
+
+    public Http4sFileNameParser() {
+        super(DEFAULT_PORT);
     }
 }

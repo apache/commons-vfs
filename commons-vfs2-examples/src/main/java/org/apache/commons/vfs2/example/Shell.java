@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
@@ -83,19 +84,19 @@ public final class Shell {
     private void go() throws Exception {
         System.out.println("VFS Shell " + getVersion(Shell.class));
         while (true) {
-            final String[] cmd = nextCommand();
-            if (cmd == null) {
+            final String[] commands = nextCommand();
+            if (commands == null) {
                 return;
             }
-            if (cmd.length == 0) {
+            if (commands.length == 0) {
                 continue;
             }
-            final String cmdName = cmd[0];
+            final String cmdName = commands[0];
             if (cmdName.equalsIgnoreCase("exit") || cmdName.equalsIgnoreCase("quit")) {
                 return;
             }
             try {
-                handleCommand(cmd);
+                handleCommand(commands);
             } catch (final Exception e) {
                 System.err.println("Command failed:");
                 e.printStackTrace(System.err);
@@ -164,7 +165,7 @@ public final class Shell {
 
     private void info(final String scheme) throws Exception {
         System.out.println("Provider Info for scheme \"" + scheme + "\":");
-        Collection<Capability> caps;
+        final Collection<Capability> caps;
         caps = mgr.getProviderCapabilities(scheme);
         if (caps != null && !caps.isEmpty()) {
             System.out.println("  capabilities: " + caps);
@@ -357,7 +358,7 @@ public final class Shell {
         while (tokens.hasMoreTokens()) {
             cmd.add(tokens.nextToken());
         }
-        return cmd.toArray(new String[cmd.size()]);
+        return cmd.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
     private static String getVersion(final Class<?> cls) {

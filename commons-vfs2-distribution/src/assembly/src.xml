@@ -48,8 +48,9 @@
 
         <!-- IDEs -->
         <exclude>%regex[(?!((?!${project.build.directory}/)[^/]+/)*src/)(.*/)?maven-eclipse\.xml]</exclude>
-        <exclude>%regex[(?!((?!${project.build.directory}/)[^/]+/)*src/)(.*/)?\.project]</exclude>
         <exclude>%regex[(?!((?!${project.build.directory}/)[^/]+/)*src/)(.*/)?\.classpath]</exclude>
+        <exclude>%regex[(?!((?!${project.build.directory}/)[^/]+/)*src/)(.*/)?\.project]</exclude>
+        <exclude>%regex[(?!((?!${project.build.directory}/)[^/]+/)*src/)(.*/)?\.travis.yml]</exclude>
         <exclude>%regex[(?!((?!${project.build.directory}/)[^/]+/)*src/)(.*/)?[^/]*\.iws]</exclude>
         <exclude>%regex[(?!((?!${project.build.directory}/)[^/]+/)*src/)(.*/)?[^/]*\.ipr]</exclude>
         <exclude>%regex[(?!((?!${project.build.directory}/)[^/]+/)*src/)(.*/)?[^/]*\.iml]</exclude>
@@ -66,6 +67,7 @@
         <!-- release-plugin temp files -->
         <exclude>%regex[(?!((?!${project.build.directory}/)[^/]+/)*src/)(.*/)?pom\.xml\.releaseBackup]</exclude>
         <exclude>%regex[(?!((?!${project.build.directory}/)[^/]+/)*src/)(.*/)?release\.properties]</exclude>
+        <exclude>**/*.log_IS_UNDEFINED</exclude>
       </excludes>
     </fileSet>
   </fileSets>

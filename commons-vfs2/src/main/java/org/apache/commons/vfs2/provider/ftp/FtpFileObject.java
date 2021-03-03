@@ -20,14 +20,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.ftp.FTPFile;
@@ -51,18 +53,94 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  */
 public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
 
+    /**
+     * An InputStream that monitors for end-of-file.
+     */
+    class FtpInputStream extends MonitorInputStream {
+        private final FtpClient client;
+
+        public FtpInputStream(final FtpClient client, final InputStream in) {
+            super(in);
+            this.client = client;
+        }
+
+        public FtpInputStream(final FtpClient client, final InputStream in, final int bufferSize) {
+            super(in, bufferSize);
+            this.client = client;
+        }
+
+        void abort() throws IOException {
+            client.abort();
+            close();
+        }
+
+        private boolean isTransferAbortedOkReplyCode() throws IOException {
+            final List<Integer> transferAbortedOkReplyCodes = FtpFileSystemConfigBuilder
+                .getInstance()
+                .getTransferAbortedOkReplyCodes(getAbstractFileSystem().getFileSystemOptions());
+            return transferAbortedOkReplyCodes != null && transferAbortedOkReplyCodes.contains(client.getReplyCode());
+        }
+
+        /**
+         * Called after the stream has been closed.
+         */
+        @Override
+        protected void onClose() throws IOException {
+            final boolean ok;
+            try {
+                ok = client.completePendingCommand() || isTransferAbortedOkReplyCode();
+            } finally {
+                getAbstractFileSystem().putClient(client);
+            }
+
+            if (!ok) {
+                throw new FileSystemException("vfs.provider.ftp/finish-get.error", getName());
+            }
+        }
+    }
+    /**
+     * An OutputStream that monitors for end-of-file.
+     */
+    private class FtpOutputStream extends MonitorOutputStream {
+        private final FtpClient client;
+
+        public FtpOutputStream(final FtpClient client, final OutputStream outstr) {
+            super(outstr);
+            this.client = client;
+        }
+
+        /**
+         * Called after this stream is closed.
+         */
+        @Override
+        protected void onClose() throws IOException {
+            final boolean ok;
+            try {
+                ok = client.completePendingCommand();
+            } finally {
+                getAbstractFileSystem().putClient(client);
+            }
+
+            if (!ok) {
+                throw new FileSystemException("vfs.provider.ftp/finish-put.error", getName());
+            }
+        }
+    }
     private static final long DEFAULT_TIMESTAMP = 0L;
     private static final Map<String, FTPFile> EMPTY_FTP_FILE_MAP = Collections
             .unmodifiableMap(new TreeMap<String, FTPFile>());
+
     private static final FTPFile UNKNOWN = new FTPFile();
+
     private static final Log log = LogFactory.getLog(FtpFileObject.class);
-
+    private volatile boolean mdtmSet;
     private final String relPath;
-
     // Cached info
-    private volatile FTPFile fileInfo;
-    private volatile Map<String, FTPFile> children;
+    private volatile FTPFile ftpFile;
+    private volatile Map<String, FTPFile> childMap;
+
     private volatile FileObject linkDestination;
+
     private final AtomicBoolean inRefresh = new AtomicBoolean();
 
     protected FtpFileObject(final AbstractFileName name, final FtpFileSystem fileSystem, final FileName rootName)
@@ -81,48 +159,90 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     }
 
     /**
-     * Called by child file objects, to locate their ftp file info.
-     *
-     * @param name the file name in its native form ie. without URI stuff (%nn)
-     * @param flush recreate children cache
+     * Attaches this file object to its file resource.
      */
-    private FTPFile getChildFile(final String name, final boolean flush) throws IOException {
-        /*
-         * If we should flush cached children, clear our children map unless we're in the middle of a refresh in which
-         * case we've just recently refreshed our children. No need to do it again when our children are refresh()ed,
-         * calling getChildFile() for themselves from within getInfo(). See getChildren().
-         */
-        if (flush && !inRefresh.get()) {
-            children = null;
+    @Override
+    protected void doAttach() throws IOException {
+        // Get the parent folder to find the info for this file
+        // VFS-210 getInfo(false);
+    }
+
+    /**
+     * Creates this file as a folder.
+     */
+    @Override
+    protected void doCreateFolder() throws Exception {
+        final boolean ok;
+        final FtpClient client = getAbstractFileSystem().getClient();
+        try {
+            ok = client.makeDirectory(relPath);
+        } finally {
+            getAbstractFileSystem().putClient(client);
         }
 
-        // List the children of this file
-        doGetChildren();
+        if (!ok) {
+            throw new FileSystemException("vfs.provider.ftp/create-folder.error", getName());
+        }
+    }
 
-        // Look for the requested child
-        // VFS-210 adds the null check.
-        return children != null ? children.get(name) : null;
+    /**
+     * Deletes the file.
+     */
+    @Override
+    protected void doDelete() throws Exception {
+        synchronized (getFileSystem()) {
+            if (this.ftpFile != null) {
+                final boolean ok;
+                final FtpClient ftpClient = getAbstractFileSystem().getClient();
+                try {
+                    if (this.ftpFile.isDirectory()) {
+                        ok = ftpClient.removeDirectory(relPath);
+                    } else {
+                        ok = ftpClient.deleteFile(relPath);
+                    }
+                } finally {
+                    getAbstractFileSystem().putClient(ftpClient);
+                }
+
+                if (!ok) {
+                    throw new FileSystemException("vfs.provider.ftp/delete-file.error", getName());
+                }
+                this.ftpFile = null;
+            }
+            this.childMap = EMPTY_FTP_FILE_MAP;
+        }
+    }
+
+    /**
+     * Detaches this file object from its file resource.
+     */
+    @Override
+    protected void doDetach() {
+        synchronized (getFileSystem()) {
+            this.ftpFile = null;
+            this.childMap = null;
+        }
     }
 
     /**
      * Fetches the children of this file, if not already cached.
      */
     private void doGetChildren() throws IOException {
-        if (children != null) {
+        if (childMap != null) {
             return;
         }
 
         final FtpClient client = getAbstractFileSystem().getClient();
         try {
-            final String path = fileInfo != null && fileInfo.isSymbolicLink()
-                    ? getFileSystem().getFileSystemManager().resolveName(getParent().getName(), fileInfo.getLink())
+            final String path = ftpFile != null && ftpFile.isSymbolicLink()
+                    ? getFileSystem().getFileSystemManager().resolveName(getParent().getName(), ftpFile.getLink())
                             .getPath()
                     : relPath;
             final FTPFile[] tmpChildren = client.listFiles(path);
-            if (tmpChildren == null || tmpChildren.length == 0) {
-                children = EMPTY_FTP_FILE_MAP;
+            if (ArrayUtils.isEmpty(tmpChildren)) {
+                childMap = EMPTY_FTP_FILE_MAP;
             } else {
-                children = new TreeMap<>();
+                childMap = new TreeMap<>();
 
                 // Remove '.' and '..' elements
                 for (int i = 0; i < tmpChildren.length; i++) {
@@ -135,7 +255,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
                         continue;
                     }
                     if (!".".equals(child.getName()) && !"..".equals(child.getName())) {
-                        children.put(child.getName(), child);
+                        childMap.put(child.getName(), child);
                     }
                 }
             }
@@ -145,102 +265,95 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     }
 
     /**
-     * Attaches this file object to its file resource.
+     * Returns the size of the file content (in bytes).
      */
     @Override
-    protected void doAttach() throws IOException {
-        // Get the parent folder to find the info for this file
-        // VFS-210 getInfo(false);
-    }
-
-    /**
-     * Fetches the info for this file.
-     */
-    private void getInfo(final boolean flush) throws IOException {
+    protected long doGetContentSize() throws Exception {
         synchronized (getFileSystem()) {
-            final FtpFileObject parent = (FtpFileObject) FileObjectUtils.getAbstractFileObject(getParent());
-            FTPFile newFileInfo;
-            if (parent != null) {
-                newFileInfo = parent.getChildFile(UriParser.decode(getName().getBaseName()), flush);
-            } else {
-                // Assume the root is a directory and exists
-                newFileInfo = new FTPFile();
-                newFileInfo.setType(FTPFile.DIRECTORY_TYPE);
+            if (this.ftpFile == null) {
+                return 0;
             }
-
-            if (newFileInfo == null) {
-                this.fileInfo = UNKNOWN;
-            } else {
-                this.fileInfo = newFileInfo;
-            }
-        }}
-
-    /**
-     * @throws FileSystemException if an error occurs.
-     */
-    @Override
-    public void refresh() throws FileSystemException {
-        if (inRefresh.compareAndSet(false, true)) {
-            try {
-                super.refresh();
-                synchronized (getFileSystem()) {
-                    this.fileInfo = null;
+            if (this.ftpFile.isSymbolicLink()) {
+                final FileObject linkDest = getLinkDestination();
+                // VFS-437: Try to avoid a recursion loop.
+                if (this.isCircular(linkDest)) {
+                    return this.ftpFile.getSize();
                 }
-                /*
-                 * VFS-210 try { // this will tell the parent to recreate its children collection getInfo(true); } catch
-                 * (IOException e) { throw new FileSystemException(e); }
-                 */
-            } finally {
-                inRefresh.set(false);
+                return linkDest.getContent().getSize();
             }
+            return this.ftpFile.getSize();
         }
     }
 
     /**
-     * Detaches this file object from its file resource.
+     * Creates an input stream to read the file content from.
      */
     @Override
-    protected void doDetach() {
+    protected InputStream doGetInputStream(final int bufferSize) throws Exception {
+        final FtpClient client = getAbstractFileSystem().getClient();
+        try {
+            final InputStream inputStream = client.retrieveFileStream(relPath, 0);
+            // VFS-210
+            if (inputStream == null) {
+                throw new FileNotFoundException(getName().toString());
+            }
+            return new FtpInputStream(client, inputStream, bufferSize);
+        } catch (final Exception e) {
+            getAbstractFileSystem().putClient(client);
+            throw e;
+        }
+    }
+
+    /**
+     * Get the last modified time on an FTP file
+     *
+     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetLastModifiedTime()
+     */
+    @Override
+    protected long doGetLastModifiedTime() throws Exception {
         synchronized (getFileSystem()) {
-            this.fileInfo = null;
-            this.children = null;
+            if (this.ftpFile == null) {
+                return DEFAULT_TIMESTAMP;
+            }
+            if (this.ftpFile.isSymbolicLink()) {
+                final FileObject linkDest = getLinkDestination();
+                // VFS-437: Try to avoid a recursion loop.
+                if (this.isCircular(linkDest)) {
+                    return getTimestampMillis();
+                }
+                return linkDest.getContent().getLastModifiedTime();
+            }
+            return getTimestampMillis();
         }
     }
 
     /**
-     * Called when the children of this file change.
+     * Creates an output stream to write the file content to.
      */
     @Override
-    protected void onChildrenChanged(final FileName child, final FileType newType) {
-        if (children != null && newType.equals(FileType.IMAGINARY)) {
-            try {
-                children.remove(UriParser.decode(child.getBaseName()));
-            } catch (final FileSystemException e) {
-                throw new RuntimeException(e.getMessage());
+    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
+        final FtpClient client = getAbstractFileSystem().getClient();
+        try {
+            final OutputStream out;
+            if (bAppend) {
+                out = client.appendFileStream(relPath);
+            } else {
+                out = client.storeFileStream(relPath);
             }
-        } else {
-            // if child was added we have to rescan the children
-            // TODO - get rid of this
-            children = null;
+
+            FileSystemException.requireNonNull(out, "vfs.provider.ftp/output-error.debug", this.getName(),
+                    client.getReplyString());
+
+            return new FtpOutputStream(client, out);
+        } catch (final Exception e) {
+            getAbstractFileSystem().putClient(client);
+            throw e;
         }
     }
 
-    /**
-     * Called when the type or content of this file changes.
-     */
     @Override
-    protected void onChange() throws IOException {
-        children = null;
-
-        if (getType().equals(FileType.IMAGINARY)) {
-            // file is deleted, avoid server lookup
-            synchronized (getFileSystem()) {
-                this.fileInfo = UNKNOWN;
-            }
-            return;
-        }
-
-        getInfo(true);
+    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception {
+        return new FtpRandomAccessContent(this, mode);
     }
 
     /**
@@ -250,17 +363,17 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     protected FileType doGetType() throws Exception {
         // VFS-210
         synchronized (getFileSystem()) {
-            if (this.fileInfo == null) {
-                getInfo(false);
+            if (this.ftpFile == null) {
+                setFTPFile(false);
             }
 
-            if (this.fileInfo == UNKNOWN) {
+            if (this.ftpFile == UNKNOWN) {
                 return FileType.IMAGINARY;
-            } else if (this.fileInfo.isDirectory()) {
+            } else if (this.ftpFile.isDirectory()) {
                 return FileType.FOLDER;
-            } else if (this.fileInfo.isFile()) {
+            } else if (this.ftpFile.isFile()) {
                 return FileType.FILE;
-            } else if (this.fileInfo.isSymbolicLink()) {
+            } else if (this.ftpFile.isSymbolicLink()) {
                 final FileObject linkDest = getLinkDestination();
                 // VFS-437: We need to check if the symbolic link links back to the symbolic link itself
                 if (this.isCircular(linkDest)) {
@@ -277,24 +390,29 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         throw new FileSystemException("vfs.provider.ftp/get-type.error", getName());
     }
 
-    private FileObject getLinkDestination() throws FileSystemException {
-        if (linkDestination == null) {
-            final String path;
-            synchronized (getFileSystem()) {
-                path = this.fileInfo == null ? null : this.fileInfo.getLink();
-            }
-            final FileName parent = getName().getParent();
-            final FileName relativeTo = parent == null ? getName() : parent;
-            final FileName linkDestinationName = getFileSystem().getFileSystemManager().resolveName(relativeTo, path);
-            linkDestination = getFileSystem().resolveFile(linkDestinationName);
+    /**
+     * Lists the children of the file.
+     */
+    @Override
+    protected String[] doListChildren() throws Exception {
+        // List the children of this file
+        doGetChildren();
+
+        // VFS-210
+        if (childMap == null) {
+            return null;
         }
-        return linkDestination;
+
+        // TODO - get rid of this children stuff
+        final String[] childNames = childMap.values().stream().map(FTPFile::getName).toArray(String[]::new);
+
+        return UriParser.encode(childNames);
     }
 
     @Override
     protected FileObject[] doListChildrenResolved() throws Exception {
         synchronized (getFileSystem()) {
-            if (this.fileInfo != null && this.fileInfo.isSymbolicLink()) {
+            if (this.ftpFile != null && this.ftpFile.isSymbolicLink()) {
                 final FileObject linkDest = getLinkDestination();
                 // VFS-437: Try to avoid a recursion loop.
                 if (this.isCircular(linkDest)) {
@@ -304,6 +422,54 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
             }
         }
         return null;
+    }
+
+    /**
+     * Renames the file
+     */
+    @Override
+    protected void doRename(final FileObject newFile) throws Exception {
+        synchronized (getFileSystem()) {
+            final boolean ok;
+            final FtpClient ftpClient = getAbstractFileSystem().getClient();
+            try {
+                final String oldName = relPath;
+                final String newName = ((FtpFileObject) FileObjectUtils.getAbstractFileObject(newFile)).getRelPath();
+                ok = ftpClient.rename(oldName, newName);
+            } finally {
+                getAbstractFileSystem().putClient(ftpClient);
+            }
+
+            if (!ok) {
+                throw new FileSystemException("vfs.provider.ftp/rename-file.error", getName().toString(), newFile);
+            }
+            this.ftpFile = null;
+            this.childMap = EMPTY_FTP_FILE_MAP;
+        }
+    }
+
+    /**
+     * Called by child file objects, to locate their FTP file info.
+     *
+     * @param name the file name in its native form ie. without URI stuff (%nn)
+     * @param flush recreate children cache
+     */
+    private FTPFile getChildFile(final String name, final boolean flush) throws IOException {
+        /*
+         * If we should flush cached children, clear our children map unless we're in the middle of a refresh in which
+         * case we've just recently refreshed our children. No need to do it again when our children are refresh()ed,
+         * calling getChildFile() for themselves from within getInfo(). See getChildren().
+         */
+        if (flush && !inRefresh.get()) {
+            childMap = null;
+        }
+
+        // List the children of this file
+        doGetChildren();
+
+        // Look for the requested child
+        // VFS-210 adds the null check.
+        return childMap != null ? childMap.get(name) : null;
     }
 
     /**
@@ -338,210 +504,6 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         }
     }
 
-    /**
-     * Lists the children of the file.
-     */
-    @Override
-    protected String[] doListChildren() throws Exception {
-        // List the children of this file
-        doGetChildren();
-
-        // VFS-210
-        if (children == null) {
-            return null;
-        }
-
-        // TODO - get rid of this children stuff
-        final String[] childNames = new String[children.size()];
-        int childNum = -1;
-        final Iterator<FTPFile> iterChildren = children.values().iterator();
-        while (iterChildren.hasNext()) {
-            childNum++;
-            final FTPFile child = iterChildren.next();
-            childNames[childNum] = child.getName();
-        }
-
-        return UriParser.encode(childNames);
-    }
-
-    /**
-     * Deletes the file.
-     */
-    @Override
-    protected void doDelete() throws Exception {
-        synchronized (getFileSystem()) {
-            if (this.fileInfo != null) {
-                final boolean ok;
-                final FtpClient ftpClient = getAbstractFileSystem().getClient();
-                try {
-                    if (this.fileInfo.isDirectory()) {
-                        ok = ftpClient.removeDirectory(relPath);
-                    } else {
-                        ok = ftpClient.deleteFile(relPath);
-                    }
-                } finally {
-                    getAbstractFileSystem().putClient(ftpClient);
-                }
-
-                if (!ok) {
-                    throw new FileSystemException("vfs.provider.ftp/delete-file.error", getName());
-                }
-                this.fileInfo = null;
-            }
-            this.children = EMPTY_FTP_FILE_MAP;
-        }
-    }
-
-    /**
-     * Renames the file
-     */
-    @Override
-    protected void doRename(final FileObject newFile) throws Exception {
-        synchronized (getFileSystem()) {
-            final boolean ok;
-            final FtpClient ftpClient = getAbstractFileSystem().getClient();
-            try {
-                final String oldName = relPath;
-                final String newName = ((FtpFileObject) FileObjectUtils.getAbstractFileObject(newFile)).getRelPath();
-                ok = ftpClient.rename(oldName, newName);
-            } finally {
-                getAbstractFileSystem().putClient(ftpClient);
-            }
-
-            if (!ok) {
-                throw new FileSystemException("vfs.provider.ftp/rename-file.error", getName().toString(), newFile);
-            }
-            this.fileInfo = null;
-            this.children = EMPTY_FTP_FILE_MAP;
-        }
-    }
-
-    /**
-     * Creates this file as a folder.
-     */
-    @Override
-    protected void doCreateFolder() throws Exception {
-        final boolean ok;
-        final FtpClient client = getAbstractFileSystem().getClient();
-        try {
-            ok = client.makeDirectory(relPath);
-        } finally {
-            getAbstractFileSystem().putClient(client);
-        }
-
-        if (!ok) {
-            throw new FileSystemException("vfs.provider.ftp/create-folder.error", getName());
-        }
-    }
-
-    /**
-     * Returns the size of the file content (in bytes).
-     */
-    @Override
-    protected long doGetContentSize() throws Exception {
-        synchronized (getFileSystem()) {
-            if (this.fileInfo == null) {
-                return 0;
-            }
-            if (this.fileInfo.isSymbolicLink()) {
-                final FileObject linkDest = getLinkDestination();
-                // VFS-437: Try to avoid a recursion loop.
-                if (this.isCircular(linkDest)) {
-                    return this.fileInfo.getSize();
-                }
-                return linkDest.getContent().getSize();
-            }
-            return this.fileInfo.getSize();
-        }
-    }
-
-    /**
-     * get the last modified time on an ftp file
-     *
-     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetLastModifiedTime()
-     */
-    @Override
-    protected long doGetLastModifiedTime() throws Exception {
-        synchronized (getFileSystem()) {
-            if (this.fileInfo == null) {
-                return DEFAULT_TIMESTAMP;
-            }
-            if (this.fileInfo.isSymbolicLink()) {
-                final FileObject linkDest = getLinkDestination();
-                // VFS-437: Try to avoid a recursion loop.
-                if (this.isCircular(linkDest)) {
-                    return getTimestamp();
-                }
-                return linkDest.getContent().getLastModifiedTime();
-            }
-            return getTimestamp();
-        }
-    }
-
-    /**
-     * Creates an input stream to read the file content from.
-     */
-    @Override
-    protected InputStream doGetInputStream(final int bufferSize) throws Exception {
-        final FtpClient client = getAbstractFileSystem().getClient();
-        try {
-            final InputStream inputStream = client.retrieveFileStream(relPath, 0);
-            // VFS-210
-            if (inputStream == null) {
-                throw new FileNotFoundException(getName().toString());
-            }
-            return new FtpInputStream(client, inputStream, bufferSize);
-        } catch (final Exception e) {
-            getAbstractFileSystem().putClient(client);
-            throw e;
-        }
-    }
-
-    @Override
-    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception {
-        return new FtpRandomAccessContent(this, mode);
-    }
-
-    /**
-     * Creates an output stream to write the file content to.
-     */
-    @Override
-    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
-        final FtpClient client = getAbstractFileSystem().getClient();
-        try {
-            OutputStream out = null;
-            if (bAppend) {
-                out = client.appendFileStream(relPath);
-            } else {
-                out = client.storeFileStream(relPath);
-            }
-
-            FileSystemException.requireNonNull(out, "vfs.provider.ftp/output-error.debug", this.getName(),
-                    client.getReplyString());
-
-            return new FtpOutputStream(client, out);
-        } catch (final Exception e) {
-            getAbstractFileSystem().putClient(client);
-            throw e;
-        }
-    }
-
-    String getRelPath() {
-        return relPath;
-    }
-
-    private long getTimestamp() {
-        final Calendar timestamp = this.fileInfo != null ? this.fileInfo.getTimestamp() : null;
-        return timestamp == null ? DEFAULT_TIMESTAMP : timestamp.getTime().getTime();
-    }
-
-    /**
-     * This is an over simplistic implementation for VFS-437.
-     */
-    private boolean isCircular(final FileObject linkDest) throws FileSystemException {
-        return linkDest.getName().getPathDecoded().equals(this.getName().getPathDecoded());
-    }
-
     FtpInputStream getInputStream(final long filePointer) throws IOException {
         final FtpClient client = getAbstractFileSystem().getClient();
         try {
@@ -555,78 +517,124 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         }
     }
 
+    private FileObject getLinkDestination() throws FileSystemException {
+        if (linkDestination == null) {
+            final String path;
+            synchronized (getFileSystem()) {
+                path = this.ftpFile == null ? null : this.ftpFile.getLink();
+            }
+            final FileName parent = getName().getParent();
+            final FileName relativeTo = parent == null ? getName() : parent;
+            final FileName linkDestinationName = getFileSystem().getFileSystemManager().resolveName(relativeTo, path);
+            linkDestination = getFileSystem().resolveFile(linkDestinationName);
+        }
+        return linkDestination;
+    }
+
+    String getRelPath() {
+        return relPath;
+    }
+
     /**
-     * An InputStream that monitors for end-of-file.
+     * ftpFile is not null.
      */
-    class FtpInputStream extends MonitorInputStream {
-        private final FtpClient client;
+    @SuppressWarnings("resource") // abstractFileSystem is managed in the superclass.
+    private long getTimestampMillis() throws IOException {
+        final FtpFileSystem abstractFileSystem = getAbstractFileSystem();
+        final Boolean mdtmLastModifiedTime = FtpFileSystemConfigBuilder.getInstance()
+            .getMdtmLastModifiedTime(abstractFileSystem.getFileSystemOptions());
+        if (mdtmLastModifiedTime != null && mdtmLastModifiedTime.booleanValue()) {
+            final FtpClient client = abstractFileSystem.getClient();
+            if (!mdtmSet && client.hasFeature("MDTM")) {
+                final Instant mdtmInstant = client.mdtmInstant(relPath);
+                final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+                final long epochMilli = mdtmInstant.toEpochMilli();
+                calendar.setTimeInMillis(epochMilli);
+                ftpFile.setTimestamp(calendar);
+                mdtmSet = true;
+            }
+        }
+        return ftpFile.getTimestamp().getTime().getTime();
+    }
 
-        public FtpInputStream(final FtpClient client, final InputStream in) {
-            super(in);
-            this.client = client;
+    /**
+     * This is an over simplistic implementation for VFS-437.
+     */
+    private boolean isCircular(final FileObject linkDest) throws FileSystemException {
+        return linkDest.getName().getPathDecoded().equals(this.getName().getPathDecoded());
+    }
+
+    /**
+     * Called when the type or content of this file changes.
+     */
+    @Override
+    protected void onChange() throws IOException {
+        childMap = null;
+
+        if (getType().equals(FileType.IMAGINARY)) {
+            // file is deleted, avoid server lookup
+            synchronized (getFileSystem()) {
+                this.ftpFile = UNKNOWN;
+            }
+            return;
         }
 
-        public FtpInputStream(final FtpClient client, final InputStream in, final int bufferSize) {
-            super(in, bufferSize);
-            this.client = client;
-        }
+        setFTPFile(true);
+    }
 
-        void abort() throws IOException {
-            client.abort();
-            close();
-        }
-
-        /**
-         * Called after the stream has been closed.
-         */
-        @Override
-        protected void onClose() throws IOException {
-            final boolean ok;
+    /**
+     * Called when the children of this file change.
+     */
+    @Override
+    protected void onChildrenChanged(final FileName child, final FileType newType) {
+        if (childMap != null && newType.equals(FileType.IMAGINARY)) {
             try {
-                ok = client.completePendingCommand() || isTransferAbortedOkReplyCode();
-            } finally {
-                getAbstractFileSystem().putClient(client);
+                childMap.remove(UriParser.decode(child.getBaseName()));
+            } catch (final FileSystemException e) {
+                throw new RuntimeException(e.getMessage());
             }
-
-            if (!ok) {
-                throw new FileSystemException("vfs.provider.ftp/finish-get.error", getName());
-            }
-        }
-
-        private boolean isTransferAbortedOkReplyCode() throws IOException {
-            final List<Integer> transferAbortedOkReplyCodes = FtpFileSystemConfigBuilder
-                .getInstance()
-                .getTransferAbortedOkReplyCodes(getAbstractFileSystem().getFileSystemOptions());
-            return transferAbortedOkReplyCodes != null && transferAbortedOkReplyCodes.contains(client.getReplyCode());
+        } else {
+            // if child was added we have to rescan the children
+            // TODO - get rid of this
+            childMap = null;
         }
     }
 
     /**
-     * An OutputStream that monitors for end-of-file.
+     * @throws FileSystemException if an error occurs.
      */
-    private class FtpOutputStream extends MonitorOutputStream {
-        private final FtpClient client;
-
-        public FtpOutputStream(final FtpClient client, final OutputStream outstr) {
-            super(outstr);
-            this.client = client;
-        }
-
-        /**
-         * Called after this stream is closed.
-         */
-        @Override
-        protected void onClose() throws IOException {
-            final boolean ok;
+    @Override
+    public void refresh() throws FileSystemException {
+        if (inRefresh.compareAndSet(false, true)) {
             try {
-                ok = client.completePendingCommand();
+                super.refresh();
+                synchronized (getFileSystem()) {
+                    this.ftpFile = null;
+                }
+                /*
+                 * VFS-210 try { // this will tell the parent to recreate its children collection getInfo(true); } catch
+                 * (IOException e) { throw new FileSystemException(e); }
+                 */
             } finally {
-                getAbstractFileSystem().putClient(client);
-            }
-
-            if (!ok) {
-                throw new FileSystemException("vfs.provider.ftp/finish-put.error", getName());
+                inRefresh.set(false);
             }
         }
     }
+
+    /**
+     * Sets the internal FTPFile for this instance.
+     */
+    private void setFTPFile(final boolean flush) throws IOException {
+        synchronized (getFileSystem()) {
+            final FtpFileObject parent = (FtpFileObject) FileObjectUtils.getAbstractFileObject(getParent());
+            final FTPFile newFileInfo;
+            if (parent != null) {
+                newFileInfo = parent.getChildFile(UriParser.decode(getName().getBaseName()), flush);
+            } else {
+                // Assume the root is a directory and exists
+                newFileInfo = new FTPFile();
+                newFileInfo.setType(FTPFile.DIRECTORY_TYPE);
+            }
+            this.ftpFile = newFileInfo == null ? UNKNOWN : newFileInfo;
+        }}
 }

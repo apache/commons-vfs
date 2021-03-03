@@ -32,7 +32,6 @@ public class TgzFileProvider extends CompositeFileProvider {
     private static final String[] SCHEMES = new String[] { "gz", "tar" };
 
     public TgzFileProvider() {
-        super();
     }
 
     @Override

@@ -74,7 +74,7 @@ public class BasicOperationsTestCase {
      * Base class for different Test Providers. This is also a compile test to ensure interface stability.
      */
     static class MyFileOprationProviderBase implements FileOperationProvider {
-        int ops = 0; // bit array to record invocations (poor mans mock)
+        int ops; // bit array to record invocations (poor mans mock)
 
         @Override
         public void collectOperations(final Collection<Class<? extends FileOperation>> operationsList,

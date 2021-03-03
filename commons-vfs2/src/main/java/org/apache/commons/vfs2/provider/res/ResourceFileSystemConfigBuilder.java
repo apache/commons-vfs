@@ -22,7 +22,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.url.UrlFileSystem;
 
 /**
- * The config BUILDER for various ftp configuration options.
+ * The config BUILDER for various FTP configuration options.
  */
 public final class ResourceFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
@@ -46,7 +46,7 @@ public final class ResourceFileSystemConfigBuilder extends FileSystemConfigBuild
     }
 
     public ClassLoader getClassLoader(final FileSystemOptions opts) {
-        return (ClassLoader) getParam(opts, ClassLoader.class.getName());
+        return getParam(opts, ClassLoader.class.getName());
     }
 
     @Override

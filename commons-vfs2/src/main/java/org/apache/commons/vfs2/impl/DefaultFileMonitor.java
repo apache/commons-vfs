@@ -235,11 +235,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
      * @param delay The delay period.
      */
     public void setDelay(final long delay) {
-        if (delay > 0) {
-            this.delay = delay;
-        } else {
-            this.delay = DEFAULT_DELAY;
-        }
+        this.delay = delay > 0 ? delay : DEFAULT_DELAY;  
     }
 
     /**
@@ -304,13 +300,13 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
     public void run() {
         mainloop: while (!monitorThread.isInterrupted() && this.shouldRun) {
             // For each entry in the map
-            Object[] fileNames;
+            final Object[] fileNames;
             synchronized (this.monitorMap) {
                 fileNames = this.monitorMap.keySet().toArray();
             }
             for (int iterFileNames = 0; iterFileNames < fileNames.length; iterFileNames++) {
                 final FileName fileName = (FileName) fileNames[iterFileNames];
-                FileMonitorAgent agent;
+                final FileMonitorAgent agent;
                 synchronized (this.monitorMap) {
                     agent = this.monitorMap.get(fileName);
                 }
@@ -353,22 +349,22 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
      * File monitor agent.
      */
     private static final class FileMonitorAgent {
-        private final FileObject file;
-        private final DefaultFileMonitor fm;
+        private final FileObject fileObject;
+        private final DefaultFileMonitor defaultFileMonitor;
 
         private boolean exists;
         private long timestamp;
         private Map<FileName, Object> children;
 
         private FileMonitorAgent(final DefaultFileMonitor fm, final FileObject file) {
-            this.fm = fm;
-            this.file = file;
+            this.defaultFileMonitor = fm;
+            this.fileObject = file;
 
             this.refresh();
             this.resetChildrenList();
 
             try {
-                this.exists = this.file.exists();
+                this.exists = this.fileObject.exists();
             } catch (final FileSystemException fse) {
                 this.exists = false;
                 this.timestamp = -1;
@@ -376,7 +372,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
 
             if (this.exists) {
                 try {
-                    this.timestamp = this.file.getContent().getLastModifiedTime();
+                    this.timestamp = this.fileObject.getContent().getLastModifiedTime();
                 } catch (final FileSystemException fse) {
                     this.timestamp = -1;
                 }
@@ -385,9 +381,9 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
 
         private void resetChildrenList() {
             try {
-                if (this.file.getType().hasChildren()) {
+                if (this.fileObject.getType().hasChildren()) {
                     this.children = new HashMap<>();
-                    final FileObject[] childrenList = this.file.getChildren();
+                    final FileObject[] childrenList = this.fileObject.getChildren();
                     for (final FileObject element : childrenList) {
                         this.children.put(element.getName(), new Object()); // null?
                     }
@@ -402,7 +398,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
          */
         private void refresh() {
             try {
-                this.file.refresh();
+                this.fileObject.refresh();
             } catch (final FileSystemException fse) {
                 LOG.error(fse.getLocalizedMessage(), fse);
             }
@@ -416,21 +412,21 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
          */
         private void fireAllCreate(final FileObject child) {
             // Add listener so that it can be triggered
-            if (this.fm.getFileListener() != null) {
-                child.getFileSystem().addListener(child, this.fm.getFileListener());
+            if (this.defaultFileMonitor.getFileListener() != null) {
+                child.getFileSystem().addListener(child, this.defaultFileMonitor.getFileListener());
             }
 
             ((AbstractFileSystem) child.getFileSystem()).fireFileCreated(child);
 
             // Remove it because a listener is added in the queueAddFile
-            if (this.fm.getFileListener() != null) {
-                child.getFileSystem().removeListener(child, this.fm.getFileListener());
+            if (this.defaultFileMonitor.getFileListener() != null) {
+                child.getFileSystem().removeListener(child, this.defaultFileMonitor.getFileListener());
             }
 
-            this.fm.queueAddFile(child); // Add
+            this.defaultFileMonitor.queueAddFile(child); // Add
 
             try {
-                if (this.fm.isRecursive() && child.getType().hasChildren()) {
+                if (this.defaultFileMonitor.isRecursive() && child.getType().hasChildren()) {
                     final FileObject[] newChildren = child.getChildren();
                     for (final FileObject element : newChildren) {
                         fireAllCreate(element);
@@ -446,8 +442,8 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
          */
         private void checkForNewChildren() {
             try {
-                if (this.file.getType().hasChildren()) {
-                    final FileObject[] newChildren = this.file.getChildren();
+                if (this.fileObject.getType().hasChildren()) {
+                    final FileObject[] newChildren = this.fileObject.getChildren();
                     if (this.children != null) {
                         // See which new children are not listed in the current children map.
                         final Map<FileName, Object> newChildrenMap = new HashMap<>();
@@ -472,14 +468,12 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
                             }
                         }
 
-                    } else {
+                    } else if (newChildren.length > 0) {
                         // First set of children - Break out the cigars
-                        if (newChildren.length > 0) {
-                            this.children = new HashMap<>();
-                            for (final FileObject element : newChildren) {
-                                this.children.put(element.getName(), new Object()); // null?
-                                this.fireAllCreate(element);
-                            }
+                        this.children = new HashMap<>();
+                        for (final FileObject element : newChildren) {
+                            this.children.put(element.getName(), new Object()); // null?
+                            this.fireAllCreate(element);
                         }
                     }
                 }
@@ -493,42 +487,42 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
 
             try {
                 // If the file existed and now doesn't
-                if (this.exists && !this.file.exists()) {
-                    this.exists = this.file.exists();
+                if (this.exists && !this.fileObject.exists()) {
+                    this.exists = this.fileObject.exists();
                     this.timestamp = -1;
 
                     // Fire delete event
 
-                    ((AbstractFileSystem) this.file.getFileSystem()).fireFileDeleted(this.file);
+                    ((AbstractFileSystem) this.fileObject.getFileSystem()).fireFileDeleted(this.fileObject);
 
                     // Remove listener in case file is re-created. Don't want to fire twice.
-                    if (this.fm.getFileListener() != null) {
-                        this.file.getFileSystem().removeListener(this.file, this.fm.getFileListener());
+                    if (this.defaultFileMonitor.getFileListener() != null) {
+                        this.fileObject.getFileSystem().removeListener(this.fileObject, this.defaultFileMonitor.getFileListener());
                     }
 
                     // Remove from map
-                    this.fm.queueRemoveFile(this.file);
-                } else if (this.exists && this.file.exists()) {
+                    this.defaultFileMonitor.queueRemoveFile(this.fileObject);
+                } else if (this.exists && this.fileObject.exists()) {
 
                     // Check the timestamp to see if it has been modified
-                    if (this.timestamp != this.file.getContent().getLastModifiedTime()) {
-                        this.timestamp = this.file.getContent().getLastModifiedTime();
+                    if (this.timestamp != this.fileObject.getContent().getLastModifiedTime()) {
+                        this.timestamp = this.fileObject.getContent().getLastModifiedTime();
                         // Fire change event
 
                         // Don't fire if it's a folder because new file children
                         // and deleted files in a folder have their own event triggered.
-                        if (!this.file.getType().hasChildren()) {
-                            ((AbstractFileSystem) this.file.getFileSystem()).fireFileChanged(this.file);
+                        if (!this.fileObject.getType().hasChildren()) {
+                            ((AbstractFileSystem) this.fileObject.getFileSystem()).fireFileChanged(this.fileObject);
                         }
                     }
 
-                } else if (!this.exists && this.file.exists()) {
-                    this.exists = this.file.exists();
-                    this.timestamp = this.file.getContent().getLastModifiedTime();
+                } else if (!this.exists && this.fileObject.exists()) {
+                    this.exists = this.fileObject.exists();
+                    this.timestamp = this.fileObject.getContent().getLastModifiedTime();
                     // Don't fire if it's a folder because new file children
                     // and deleted files in a folder have their own event triggered.
-                    if (!this.file.getType().hasChildren()) {
-                        ((AbstractFileSystem) this.file.getFileSystem()).fireFileCreated(this.file);
+                    if (!this.fileObject.getType().hasChildren()) {
+                        ((AbstractFileSystem) this.fileObject.getFileSystem()).fireFileCreated(this.fileObject);
                     }
                 }
 

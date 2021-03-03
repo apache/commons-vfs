@@ -37,7 +37,13 @@ import org.apache.commons.vfs2.provider.http.HttpFileNameParser;
 public class HdfsFileProvider extends AbstractOriginatingFileProvider {
 
     static final Collection<Capability> CAPABILITIES = Collections
-            .unmodifiableCollection(Arrays.asList(Capability.GET_TYPE, Capability.READ_CONTENT, Capability.URI, Capability.GET_LAST_MODIFIED,
+            .unmodifiableCollection(Arrays.asList(Capability.GET_TYPE, Capability.READ_CONTENT,
+                    Capability.CREATE,
+                    Capability.DELETE,
+                    Capability.RENAME,
+                    Capability.WRITE_CONTENT,
+                    Capability.URI, Capability.GET_LAST_MODIFIED,
+                    Capability.SET_LAST_MODIFIED_FILE,
                     Capability.ATTRIBUTES, Capability.RANDOM_ACCESS_READ, Capability.DIRECTORY_READ_CONTENT,
                     Capability.LIST_CHILDREN));
 
@@ -45,12 +51,11 @@ public class HdfsFileProvider extends AbstractOriginatingFileProvider {
      * Constructs a new HdfsFileProvider.
      */
     public HdfsFileProvider() {
-        super();
         this.setFileNameParser(HttpFileNameParser.getInstance());
     }
 
     /**
-     * Create a new HdfsFileSystem instance.
+     * Creates a new HdfsFileSystem instance.
      *
      * @param rootName Name of the root file.
      * @param fileSystemOptions Configuration options for this instance.
@@ -63,7 +68,7 @@ public class HdfsFileProvider extends AbstractOriginatingFileProvider {
     }
 
     /**
-     * Get Capabilities of HdfsFileSystem.
+     * Gets Capabilities of HdfsFileSystem.
      *
      * @return The capabilities (unmodifiable).
      */
@@ -73,9 +78,9 @@ public class HdfsFileProvider extends AbstractOriginatingFileProvider {
     }
 
     /**
-     * Return config builder.
+     * Gets the config builder.
      *
-     * @return A config builder for HdfsFileSystems.
+     * @return The config builder for HdfsFileSystems.
      * @see org.apache.commons.vfs2.provider.AbstractFileProvider#getConfigBuilder()
      */
     @Override

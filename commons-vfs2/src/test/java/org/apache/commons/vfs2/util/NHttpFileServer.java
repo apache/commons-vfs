@@ -27,6 +27,7 @@ package org.apache.commons.vfs2.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.security.KeyManagementException;
@@ -76,7 +77,6 @@ public class NHttpFileServer {
         private final File docRoot;
 
         public HttpFileHandler(final File docRoot) {
-            super();
             this.docRoot = docRoot;
         }
 
@@ -141,7 +141,7 @@ public class NHttpFileServer {
 
     }
 
-    public static boolean DEBUG = false;
+    public static boolean DEBUG;
 
     private static void debug(final String message) {
         if (DEBUG) {
@@ -189,6 +189,13 @@ public class NHttpFileServer {
                 server.shutdown(5, TimeUnit.SECONDS);
             }
         });
+    }
+
+    public int getPort() {
+        if (server == null) {
+            return port;
+        }
+        return ((InetSocketAddress) server.getEndpoint().getAddress()).getPort();
     }
 
     public void shutdown(final long gracePeriod, final TimeUnit timeUnit) {

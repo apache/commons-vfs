@@ -21,7 +21,10 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.Proxy;
+import java.time.Duration;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DurationUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.PrintCommandListener;
@@ -37,45 +40,6 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
  * Create a FtpClient instance.
  */
 public final class FtpClientFactory {
-
-    private FtpClientFactory() {
-    }
-
-    /**
-     * Creates a new connection to the server.
-     *
-     * @param hostname The host name of the server.
-     * @param port The port to connect to.
-     * @param username The name of the user for authentication.
-     * @param password The user's password.
-     * @param workingDirectory The base directory.
-     * @param fileSystemOptions The FileSystemOptions.
-     * @return An FTPClient.
-     * @throws FileSystemException if an error occurs while connecting.
-     */
-    public static FTPClient createConnection(final String hostname, final int port, final char[] username,
-            final char[] password, final String workingDirectory, final FileSystemOptions fileSystemOptions)
-            throws FileSystemException {
-        final FtpConnectionFactory factory = new FtpConnectionFactory(FtpFileSystemConfigBuilder.getInstance());
-        return factory.createConnection(hostname, port, username, password, workingDirectory, fileSystemOptions);
-    }
-
-    /** Connection Factory, used to configure the FTPClient. */
-    public static final class FtpConnectionFactory extends ConnectionFactory<FTPClient, FtpFileSystemConfigBuilder> {
-        private FtpConnectionFactory(final FtpFileSystemConfigBuilder builder) {
-            super(builder);
-        }
-
-        @Override
-        protected FTPClient createClient(final FileSystemOptions fileSystemOptions) {
-            return new FTPClient();
-        }
-
-        @Override
-        protected void setupOpenConnection(final FTPClient client, final FileSystemOptions fileSystemOptions) {
-            // nothing to do for FTP
-        }
-    }
 
     /**
      * Abstract Factory, used to configure different FTPClients.
@@ -95,6 +59,45 @@ public final class FtpClientFactory {
         protected ConnectionFactory(final B builder) {
             this.builder = builder;
         }
+
+        private void configureClient(final FileSystemOptions fileSystemOptions, final C client) {
+            final String key = builder.getEntryParser(fileSystemOptions);
+            if (key != null) {
+                final FTPClientConfig config = new FTPClientConfig(key);
+
+                final String serverLanguageCode = builder.getServerLanguageCode(fileSystemOptions);
+                if (serverLanguageCode != null) {
+                    config.setServerLanguageCode(serverLanguageCode);
+                }
+                final String defaultDateFormat = builder.getDefaultDateFormat(fileSystemOptions);
+                if (defaultDateFormat != null) {
+                    config.setDefaultDateFormatStr(defaultDateFormat);
+                }
+                final String recentDateFormat = builder.getRecentDateFormat(fileSystemOptions);
+                if (recentDateFormat != null) {
+                    config.setRecentDateFormatStr(recentDateFormat);
+                }
+                final String serverTimeZoneId = builder.getServerTimeZoneId(fileSystemOptions);
+                if (serverTimeZoneId != null) {
+                    config.setServerTimeZoneId(serverTimeZoneId);
+                }
+                final String[] shortMonthNames = builder.getShortMonthNames(fileSystemOptions);
+                if (shortMonthNames != null) {
+                    final StringBuilder shortMonthNamesStr = new StringBuilder(BUFSZ);
+                    for (final String shortMonthName : shortMonthNames) {
+                        if (!StringUtils.isEmpty(shortMonthNamesStr)) {
+                            shortMonthNamesStr.append("|");
+                        }
+                        shortMonthNamesStr.append(shortMonthName);
+                    }
+                    config.setShortMonthNames(shortMonthNamesStr.toString());
+                }
+
+                client.configure(config);
+            }
+        }
+
+        protected abstract C createClient(FileSystemOptions fileSystemOptions) throws FileSystemException;
 
         public C createConnection(final String hostname, final int port, char[] username, char[] password,
                 final String workingDirectory, final FileSystemOptions fileSystemOptions) throws FileSystemException {
@@ -139,10 +142,9 @@ public final class FtpClientFactory {
                 }
 
                 try {
-                    // Set connect timeout
-                    final Integer connectTimeout = builder.getConnectTimeout(fileSystemOptions);
+                    final Duration connectTimeout = builder.getConnectTimeoutDuration(fileSystemOptions);
                     if (connectTimeout != null) {
-                        client.setDefaultTimeout(connectTimeout.intValue());
+                        client.setDefaultTimeout(DurationUtils.toMillisInt(connectTimeout));
                     }
 
                     final String controlEncoding = builder.getControlEncoding(fileSystemOptions);
@@ -169,9 +171,9 @@ public final class FtpClientFactory {
 
                     // Login
                     if (!client.login(UserAuthenticatorUtils.toString(username),
-                            UserAuthenticatorUtils.toString(password))) {
+                        UserAuthenticatorUtils.toString(password))) {
                         throw new FileSystemException("vfs.provider.ftp/login.error", hostname,
-                                UserAuthenticatorUtils.toString(username));
+                            UserAuthenticatorUtils.toString(username));
                     }
 
                     FtpFileType fileType = builder.getFileType(fileSystemOptions);
@@ -184,22 +186,32 @@ public final class FtpClientFactory {
                     }
 
                     // Set dataTimeout value
-                    final Integer dataTimeout = builder.getDataTimeout(fileSystemOptions);
+                    final Duration dataTimeout = builder.getDataTimeoutDuration(fileSystemOptions);
                     if (dataTimeout != null) {
-                        client.setDataTimeout(dataTimeout.intValue());
+                        client.setDataTimeout(DurationUtils.toMillisInt(dataTimeout));
                     }
 
-                    final Integer socketTimeout = builder.getSoTimeout(fileSystemOptions);
+                    final Duration socketTimeout = builder.getSoTimeoutDuration(fileSystemOptions);
                     if (socketTimeout != null) {
-                        client.setSoTimeout(socketTimeout.intValue());
+                        client.setSoTimeout(DurationUtils.toMillisInt(socketTimeout));
+                    }
+
+                    final Duration controlKeepAliveTimeout = builder.getControlKeepAliveTimeout(fileSystemOptions);
+                    if (controlKeepAliveTimeout != null) {
+                        // yes, in seconds.
+                        client.setControlKeepAliveTimeout(controlKeepAliveTimeout.getSeconds());
+                    }
+
+                    final Duration controlKeepAliveReplyTimeout = builder
+                        .getControlKeepAliveReplyTimeout(fileSystemOptions);
+                    if (controlKeepAliveReplyTimeout != null) {
+                        client.setControlKeepAliveReplyTimeout((int) controlKeepAliveReplyTimeout.toMillis());
                     }
 
                     final Boolean userDirIsRoot = builder.getUserDirIsRoot(fileSystemOptions);
-                    if (workingDirectory != null && (userDirIsRoot == null || !userDirIsRoot.booleanValue())) {
-                        if (!client.changeWorkingDirectory(workingDirectory)) {
-                            throw new FileSystemException("vfs.provider.ftp/change-work-directory.error",
-                                    workingDirectory);
-                        }
+                    if ((workingDirectory != null && (userDirIsRoot == null || !userDirIsRoot.booleanValue())) && !client.changeWorkingDirectory(workingDirectory)) {
+                        throw new FileSystemException("vfs.provider.ftp/change-work-directory.error",
+                            workingDirectory);
                     }
 
                     final Boolean passiveMode = builder.getPassiveMode(fileSystemOptions);
@@ -221,45 +233,45 @@ public final class FtpClientFactory {
             }
         }
 
-        protected abstract C createClient(FileSystemOptions fileSystemOptions) throws FileSystemException;
-
         protected abstract void setupOpenConnection(C client, FileSystemOptions fileSystemOptions) throws IOException;
+    }
 
-        private void configureClient(final FileSystemOptions fileSystemOptions, final C client) {
-            final String key = builder.getEntryParser(fileSystemOptions);
-            if (key != null) {
-                final FTPClientConfig config = new FTPClientConfig(key);
-
-                final String serverLanguageCode = builder.getServerLanguageCode(fileSystemOptions);
-                if (serverLanguageCode != null) {
-                    config.setServerLanguageCode(serverLanguageCode);
-                }
-                final String defaultDateFormat = builder.getDefaultDateFormat(fileSystemOptions);
-                if (defaultDateFormat != null) {
-                    config.setDefaultDateFormatStr(defaultDateFormat);
-                }
-                final String recentDateFormat = builder.getRecentDateFormat(fileSystemOptions);
-                if (recentDateFormat != null) {
-                    config.setRecentDateFormatStr(recentDateFormat);
-                }
-                final String serverTimeZoneId = builder.getServerTimeZoneId(fileSystemOptions);
-                if (serverTimeZoneId != null) {
-                    config.setServerTimeZoneId(serverTimeZoneId);
-                }
-                final String[] shortMonthNames = builder.getShortMonthNames(fileSystemOptions);
-                if (shortMonthNames != null) {
-                    final StringBuilder shortMonthNamesStr = new StringBuilder(BUFSZ);
-                    for (final String shortMonthName : shortMonthNames) {
-                        if (shortMonthNamesStr.length() > 0) {
-                            shortMonthNamesStr.append("|");
-                        }
-                        shortMonthNamesStr.append(shortMonthName);
-                    }
-                    config.setShortMonthNames(shortMonthNamesStr.toString());
-                }
-
-                client.configure(config);
-            }
+    /** Connection Factory, used to configure the FTPClient. */
+    public static final class FtpConnectionFactory extends ConnectionFactory<FTPClient, FtpFileSystemConfigBuilder> {
+        private FtpConnectionFactory(final FtpFileSystemConfigBuilder builder) {
+            super(builder);
         }
+
+        @Override
+        protected FTPClient createClient(final FileSystemOptions fileSystemOptions) {
+            return new FTPClient();
+        }
+
+        @Override
+        protected void setupOpenConnection(final FTPClient client, final FileSystemOptions fileSystemOptions) {
+            // nothing to do for FTP
+        }
+    }
+
+    /**
+     * Creates a new connection to the server.
+     *
+     * @param hostname The host name of the server.
+     * @param port The port to connect to.
+     * @param username The name of the user for authentication.
+     * @param password The user's password.
+     * @param workingDirectory The base directory.
+     * @param fileSystemOptions The FileSystemOptions.
+     * @return An FTPClient.
+     * @throws FileSystemException if an error occurs while connecting.
+     */
+    public static FTPClient createConnection(final String hostname, final int port, final char[] username,
+            final char[] password, final String workingDirectory, final FileSystemOptions fileSystemOptions)
+            throws FileSystemException {
+        final FtpConnectionFactory factory = new FtpConnectionFactory(FtpFileSystemConfigBuilder.getInstance());
+        return factory.createConnection(hostname, port, username, password, workingDirectory, fileSystemOptions);
+    }
+
+    private FtpClientFactory() {
     }
 }

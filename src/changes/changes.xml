@@ -45,73 +45,323 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="2.7.0" date="2020-MM-DD" description="Maintenance release.">
+    <release version="2.8.0" date="2021-MM-DD" description="Maintenance release. Requires Java 8.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
 <!-- START Might need to be moved to the next version -->
+      <!-- FIXES -->
+      <action issue="VFS-783" dev="ggregory" due-to="satish-csi, Michael Osipov, Woonsan Ko, Gary Gregory" type="fix">
+        Based on WEBDAV4 vs. WEBDAV4S set back-end http scheme #118.
+      </action>
+      <action issue="VFS-783" dev="ggregory" due-to="satish-csi, Woonsan Ko, Gary Gregory" type="fix">
+        Proper http scheme setting on webdav/webdav2 with unit tests #143.
+      </action>
+      <action issue="VFS-783" dev="ggregory" due-to="Gary Gregory" type="fix">
+        [SFTP] SftpFileSystem.executeCommand() should use UTF-8 instead of the platform default.
+      </action>
+      <action dev="ggregory" due-to="Max Kellermann" type="fix">
+        FileContentThreadData: lazy ArrayList initialization to save memory #155.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="fix">
+        Fix possible ClassCastException in DefaultFileSystemManager.freeUnusedResources().
+      </action>
+      <action issue="VFS-748" dev="ggregory" due-to="PeterAlfredLee, Gary Gregory" type="fix">
+        TarProvider Incorrectly marks file IMAGINARY after garbage collection with WeakRefFilesCache, #97.
+      </action>
+      <action issue="VFS-794" dev="ggregory" due-to="Gary Gregory" type="fix">
+        Fix file resource leak in CombinedResources (properties file) which keeps the Commons VFS jar file open.
+      </action>
+      <action dev="ggregory" due-to="Max Kellermann, Bruno P. Kinoshita, Gary Gregory" type="fix">
+        Rework SoftRefFilesCache locking part 1 #158.
+      </action>
+      <action issue="VFS-785" dev="ggregory" due-to="satish bhor, Michael Osipov, Gary Gregory" type="fix">
+        [HTTP4][HTTP5] Credentials conflict when root and proxy hosts are same name but different ports, #120.
+      </action>
+      <!-- ADDS -->
+      <action dev="ggregory" due-to="Boris Petrov, Gary Gregory" type="add">
+        Add ability to remove a provider from DefaultFileSystemManager #149.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        Add and use VFS.close().
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory, xiaqingyun" type="add">
+        [FTP] Add support for ControlKeepAliveReplyTimeout and ControlKeepAliveTimeout.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory, Michael Graham" type="add">
+        [FTP] Tests can be configured with a custom FTP server command factory.
+      </action>
+      <action issue="VFS-257" dev="ggregory" due-to="Andrew Franklin, Michael Graham, Gary Gregory" type="add">
+        [FTP] Add support for MDTM to get more accurate last modified times.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [FTP] Add FtpFileSystemConfigBuilder.setConnectTimeout(FileSystemOptions, Duration) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [FTP] Add FtpFileSystemConfigBuilder.setDataTimeout(FileSystemOptions, Duration) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [FTP] Add FtpFileSystemConfigBuilder.setSoTimeout(FileSystemOptions, Duration) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [FTP] Add FtpFileSystemConfigBuilder.getConnectTimeoutDuration(FileSystemOptions) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [FTP] Add FtpFileSystemConfigBuilder.getDataTimeoutDuration(FileSystemOptions) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [FTP] Add FtpFileSystemConfigBuilder.getSoTimeoutDuration(FileSystemOptions) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [FTP] Add FtpFileSystemConfigBuilder.getSoTimeoutDuration(FileSystemOptions) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [HTTP] Add HttpFileSystemConfigBuilder.setConnectionTimeout(FileSystemOptions, Duration) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [HTTP] Add HttpFileSystemConfigBuilder.setSoTimeout(FileSystemOptions, Duration) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [HTTP] Add HttpFileSystemConfigBuilder.getConnectionTimeout(FileSystemOptions) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [HTTP] Add HttpFileSystemConfigBuilder.getSoTimeoutDuration(FileSystemOptions) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [SFTP] Add SftpFileSystemConfigBuilder.setConnectTimeout(FileSystemOptions, Duration) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [SFTP] Add SftpFileSystemConfigBuilder.setSessionTimeout(FileSystemOptions, Duration) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [SFTP] Add SftpFileSystemConfigBuilder.getConnectTimeout(FileSystemOptions) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [SFTP] Add SftpFileSystemConfigBuilder.getSessionTimeout(FileSystemOptions) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [HTTP4] Add Http4FileSystemConfigBuilder.setConnectionTimeout(FileSystemOptions, Duration) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [HTTP4] Add Http4FileSystemConfigBuilder.setSoTimeout(FileSystemOptions, Duration) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [HTTP4] Add Http4FileSystemConfigBuilder.getConnectionTimeoutDuration(FileSystemOptions) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [HTTP4] Add Http4FileSystemConfigBuilder.getSoTimeoutDuration(FileSystemOptions) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [HTTP5] Add Http5FileSystemConfigBuilder.setConnectionTimeout(FileSystemOptions, Duration) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [HTTP5] Add Http5FileSystemConfigBuilder.setSoTimeout(FileSystemOptions, Duration) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [HTTP5] Add Http5FileSystemConfigBuilder.getConnectionTimeoutDuration(FileSystemOptions) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        [HTTP5] Add Http5FileSystemConfigBuilder.getSoTimeoutDuration(FileSystemOptions) and deprecate Integer version.
+      </action>
+      <action dev="ggregory" due-to="PMD, Gary Gregory" type="add">
+        Add AbstractFileSystem.AbstractFileSystem() for Serializable subclasses (PMD).
+      </action>
+      <!-- UPDATES -->
+      <action dev="ggregory" due-to="PeterAlfredLee" type="update">
+        Modify some code use for-each loop and stream API #142.
+      </action>
+      <action dev="ggregory" due-to="PeterAlfredLee" type="update">
+        Simplify some String tests in method Os#determineOsFamily #147.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Update org.mockito:mockito-core 3.5.13 -> 3.8.0.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Update org.apache.jackrabbit:jackrabbit-* 2.21.3 -> 2.21.5.
+      </action>
+      <action dev="ggregory" due-to="Dependabot" type="update">
+        Bump actions/checkout from v2.3.3 to v2.3.4 #144.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Update tests from Log4j 2.13.3 to 2.14.0.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Update com.puppycrawl.tools:checkstyle 8.36.2 -> 8.41.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Update maven-checkstyle-plugin 3.1.1 -> 3.1.2.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Update org.apache.httpcomponents:httpcore-nio 4.4.13 -> 4.4.14.
+      </action>
+      <action dev="ggregory" due-to="PeterAlfredLee, Gary Gregory" type="update">
+        Modify some calls of method Collection.toArray #145.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Update commons.japicmp.version 0.14.3 -> 0.15.2.
+      </action>
+      <action dev="ggregory" due-to="Arturo Bernal" type="update">
+        Minor Improvements, #152, #156, #160.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Update commons.spotbugs.version 4.1.4 -> 4.2.0.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Update commons.spotbugs.impl.version 4.1.3 -> 4.2.0.
+      </action>
+      <action dev="ggregory" due-to="Dependabot" type="update">
+        Bump actions/cache from v2 to v2.1.4 #159.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Update commons-net:commons-net 3.7.2-> 3.8.0.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Update junit 4.13.1 -> 4.13.2.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Update maven-pmd-plugin 3.13.0 -> 3.14.0.
+      </action>
+      <action issue="VFS-795" dev="kinow" due-to="Max Kellermann" type="update">
+        Code improvements for SoftRefFilesCache (simplify loop, use isEmpty, ...).
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Update commons-lang3 3.11 -> 3.12.0.
+      </action>
+    </release>
+    <release version="2.7.0" date="2020-10-26" description="Maintenance release. Requires Java 8.">
       <action issue="VFS-753" dev="ggregory" due-to="John Webb, Gary Gregory" type="fix">
         NumberFormatException in SftpFileSystem::getUId.
       </action>
       <action issue="VFS-779" dev="ggregory" due-to="Gary Gregory" type="fix">
         Possible null pointer dereference in org.apache.commons.vfs2.impl.DefaultFileReplicator.close() due to return value of called method.
       </action>
-      <action dev="ggregory" due-to="Gary Gregory" type="fix">
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
         Add org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.isDisableDetectExecChannel(FileSystemOptions) and setDisableDetectExecChannel(FileSystemOptions, boolean).
       </action>
-      <action dev="ggregory" due-to="Gary Gregory" type="fix">
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
         Add org.apache.commons.vfs2.FileSystemConfigBuilder.toBooleanObject(boolean).
       </action>
-      <action dev="ggregory" due-to="Gary Gregory" type="update">
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
         org.apache.commons.vfs2.provider.VfsComponent now implements java.io.Closeable.
       </action>
-      <action dev="ggregory" due-to="PeterAlfredLee" type="update">
+      <action dev="ggregory" due-to="PeterAlfredLee" type="fix">
         Modify some loop using stream API #96.
       </action>
-      <action issue="VFS-754" dev="ggregory" due-to="Gary Gregory" type="update">
-        Update Apache Commons Compress from 1.19 to 1.20.
+      <action issue="VFS-757" dev="ggregory" due-to="ddg-igh" type="add">
+        [SFTP] Configure whether exec detection is enabled #80.
       </action>
+      <action dev="ggregory" due-to="PeterAlfredLee" type="add">
+        Add proxy config for some HTTP/HTTPS test #108.
+      </action>
+      <action issue="VFS-780" dev="ggregory" due-to="Wuchte" type="fix">
+        SftpFileSystem returns null channel and produce NPE - fix get… #110.
+      </action>
+      <action dev="ggregory" due-to="PeterAlfredLee" type="add">
+        Fix some test error when JVM's default language is not US en #107.
+      </action>
+      <action issue="VFS-788" dev="ggregory" due-to="satish bhor" type="fix">
+        [webdav/webdav4] Jackrabbit1 and jackrabbit2 modules getting same OSGi symbolic name.
+      </action>
+      <action issue="VFS-787" dev="ggregory" due-to="satish bhor" type="add">
+        Allow users to set proxy schemes like http/https #122.
+      </action>
+      <action issue="VFS-786" dev="ggregory" due-to="satish bhor" type="add">
+        Allow users to set custom keystore types like JCEKS, PKCS12 #121.
+      </action>
+      <action issue="VFS-624" dev="ggregory" due-to="PeterAlfredLee" type="fix">
+        Fix for read() in constructors of LocalFileRandomAccessContent and RamFileRandomAccessContent #93.
+      </action>
+      <action issue="VFS-769" dev="ggregory" due-to="PeterAlfredLee" type="fix">
+        Fix .tgz and .tbz2 createFileSystem fails #94
+      </action>
+      <action issue="VFS-664" dev="ggregory" due-to="PeterAlfredLee" type="fix">
+        Fix for file names with exclamation mark can not be read #95.
+      </action>
+      <action issue="VFS-777" dev="ggregory" due-to="Bing-ok, Gary Gregory" type="fix">
+        NoSuchMethodError due to multiple versions of commons-codec:commons-codec:jar.
+      </action>
+      <action issue="VFS-570" dev="ggregory" due-to="garpinc, Gary Gregory" type="add">
+        Add HDFS write support #114.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="fix">
+        Remove workaround for JDK BUG: 6192331 which was fixed way back in Java 6: https://bugs.java.com/bugdatabase/view_bug.do?bug_id=6192331
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="fix">
+        FileObject.getURL() returns an illegal URL when a it should escape a space.
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        Add FileObject.getURI().
+      </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="add">
+        Add FileObject.getPath().
+      </action>
+      <action dev="ggregory" due-to="PeterAlfredLee" type="fix">
+        Fix test fail caused by lack proxy configuration for machines behind a proxy #139.
+      </action>
+      <action dev="ggregory" due-to="PeterAlfredLee" type="fix">
+        Modify some code use try-with-resources #138.
+      </action>
+      <!-- UPDATES -->
+      <action dev="ggregory" due-to="PeterAlfredLee" type="update">
+        Update some file from CRLF to LF #141.
+      </action>
+      <!-- UPDATES -->
       <action issue="VFS-755" dev="ggregory" due-to="Gary Gregory" type="update">
         Update org.apache.httpcomponents:httpclient from 4.5.10 to 4.5.11.
       </action>
       <action issue="VFS-756" dev="ggregory" due-to="Gary Gregory" type="update">
         Update org.apache.jackrabbit:jackrabbit-standalone-components from 2.19.6 to 2.21.3.
       </action>
-      <action issue="VFS-757" dev="ggregory" due-to="ddg-igh" type="add">
-        [SFTP] Configure whether exec detection is enabled #80.
-      </action>
-      <action dev="ggregory" due-to="PeterAlfredLee" type="add">
-        Add proxy config for some Http/Https test #108.
-      </action>
-      <action issue="VFS-780" dev="ggregory" due-to="Wuchte" type="fix">
-        SftpFileSystem returns null channel and produce NPE - fix get… #110.
-      </action>
-      <action dev="ggregory" due-to="PeterAlfredLee" type="add">
-        Fix some test error when jvm's default language is not US en #107. 
+      <action issue="VFS-754" dev="ggregory" due-to="Gary Gregory" type="update">
+        Update Apache Commons Compress from 1.19 to 1.20.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Update tests from Apache Commons Lang 3.9 to 3.11.
       </action>
-      <action issue="VFS-768" dev="ggregory" due-to="ddg-igh" type="add">
-        Update Apache httpclient 4.5.11 to 4.5.12 and httpclient5 5.0-beta7 to 5.0.1.
+      <action issue="VFS-768" dev="ggregory" due-to="ddg-igh, Gary Gregory" type="add">
+        Update Apache httpclient 4.5.11 to 4.5.13 and httpclient5 5.0-beta7 to 5.0.3.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Update tests from Log4j 2.13.0 to 2.13.3.
       </action>
-      <action type="update" dev="ggregory" due-to="Gary Gregory">
-        Update tests from org.mockito:mockito-core from 3.2.4 to 3.4.4.
+      <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">
+        Update tests from org.mockito:mockito-core from 3.2.4 to 3.5.13, #131.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">
-        Update Apache Commons IO from 2.6 to 2.7.
+        Update Apache Commons IO from 2.6 to 2.8.0.
       </action>
       <action dev="ggregory" type="update" due-to="Gary Gregory">
         Update site reports from org.apache.bcel:bcel 6.4.1 to 6.5.0.
       </action>
       <action dev="ggregory" type="update" due-to="Dependabot">
-        Update actions/checkout from v1 to v2.3.1 #100, #109.
+        Update actions/checkout from v1 to v2.3.3 #100, #109, #130.
       </action>
       <action dev="ggregory" type="update" due-to="Dependabot">
-        Update actions/setup-java from v1.4.0 to v1.4.1 #111.
+        Update actions/setup-java from v1.4.0 to v1.4.3 #111, #113, #133.
+      </action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory">
+        Update commons-parent from 50 to 52.
+      </action>
+      <action dev="ggregory" type="update" due-to="Dependabot">
+        Update checkstyle from 8.27 to 8.36.2 #123, #132.
+      </action>
+      <action dev="ggregory" type="update" due-to="Dependabot">
+        Update maven-pmd-plugin from 3.12.0 to 3.13.0 #125.
+      </action>
+      <action dev="ggregory" type="update" due-to="Dependabot">
+        Update exec-maven-plugin from 1.6.0 to 3.0.0 #127.
+      </action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory">
+        Update com.puppycrawl.tools:checkstyle 8.36 -> 8.36.1.
+      </action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory">
+        Update Apache Commons Net from 3.6 to 3.7.2.
+      </action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory">
+        Update JUnit from 4.13 to 4.13.1.
+      </action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory">
+        Update FindBugs to SpotBugs 4.1.3.
       </action>
     </release>
     <release version="2.6.0" date="2020-01-06" description="New features and bug fix release.">

@@ -16,8 +16,6 @@
  */
 package org.apache.commons.vfs2.provider;
 
-import java.net.URISyntaxException;
-
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
@@ -67,16 +65,14 @@ public class GenericURLFileName extends GenericFileName {
      *
      * @param charset the charset used for the path encoding
      * @return The encoded path.
-     * @throws URISyntaxException If an error occurs encoding the URI.
      * @throws FileSystemException If some other error occurs.
      */
-    public String getPathQueryEncoded(final String charset) throws URISyntaxException, FileSystemException {
+    public String getPathQueryEncoded(final String charset) throws FileSystemException {
         if (getQueryString() == null) {
             if (charset != null) {
                 return URIUtils.encodePath(getPathDecoded(), charset);
-            } else {
-                return URIUtils.encodePath(getPathDecoded());
             }
+            return URIUtils.encodePath(getPathDecoded());
         }
 
         final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
@@ -128,9 +124,8 @@ public class GenericURLFileName extends GenericFileName {
      * @param charset The character set.
      * @return The encoded URI
      * @throws FileSystemException if some other exception occurs.
-     * @throws URISyntaxException if an exception occurs encoding the URI.
      */
-    public String getURIEncoded(final String charset) throws FileSystemException, URISyntaxException {
+    public String getURIEncoded(final String charset) throws FileSystemException {
         final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
         appendRootUri(sb, true);
         sb.append(getPathQueryEncoded(charset));

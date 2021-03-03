@@ -65,10 +65,10 @@ public interface FilesCache {
      */
     void removeFile(final FileSystem fileSystem, final FileName name);
 
-    /**
-     * If the cache uses timestamps it could use this method to handle updates of them.
-     *
-     * @param file file name
+    /*
+      If the cache uses timestamps it could use this method to handle updates of them.
+
+      @param file file name
      */
     // public void touchFile(final FileObject file);
 }

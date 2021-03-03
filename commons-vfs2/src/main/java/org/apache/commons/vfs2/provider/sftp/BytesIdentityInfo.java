@@ -40,7 +40,6 @@ public class BytesIdentityInfo implements IdentityProvider {
      * @param passPhrase The passphrase to decrypt the private key (can be {@code null} if no passphrase is used)
      */
     public BytesIdentityInfo(final byte[] privateKey, final byte[] passPhrase) {
-        super();
         this.privateKey = privateKey;
         this.publicKey = null;
         this.passPhrase = passPhrase;
@@ -54,7 +53,6 @@ public class BytesIdentityInfo implements IdentityProvider {
      * @param passPhrase The passphrase to decrypt the private key (can be {@code null} if no passphrase is used)
      */
     public BytesIdentityInfo(final byte[] privateKey, final byte[] publicKey, final byte[] passPhrase) {
-        super();
         this.privateKey = privateKey;
         this.publicKey = publicKey;
         this.passPhrase = passPhrase;

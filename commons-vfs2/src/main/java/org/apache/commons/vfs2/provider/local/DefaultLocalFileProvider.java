@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
@@ -49,9 +50,7 @@ public class DefaultLocalFileProvider extends AbstractOriginatingFileProvider im
      * Constructs a new provider.
      */
     public DefaultLocalFileProvider() {
-        super();
-
-        if (Os.isFamily(Os.OS_FAMILY_WINDOWS)) {
+        if (SystemUtils.IS_OS_WINDOWS) {
             setFileNameParser(new WindowsFileNameParser());
         } else {
             setFileNameParser(new GenericFileNameParser());

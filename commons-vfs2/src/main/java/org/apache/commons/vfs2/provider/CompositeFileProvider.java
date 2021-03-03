@@ -16,11 +16,11 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import java.util.Arrays;
+
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
-
-import java.util.Arrays;
 
 /**
  * Description.
@@ -30,7 +30,6 @@ public abstract class CompositeFileProvider extends AbstractFileProvider {
     private static final int INITIAL_BUFSZ = 80;
 
     public CompositeFileProvider() {
-        super();
     }
 
     /**
@@ -57,7 +56,6 @@ public abstract class CompositeFileProvider extends AbstractFileProvider {
         UriParser.extractScheme(getContext().getFileSystemManager().getSchemes(), uri, buf);
         Arrays.stream(getSchemes()).forEach(scheme -> buf.insert(0, scheme + ":"));
 
-        final FileObject fo = getContext().getFileSystemManager().resolveFile(buf.toString(), fileSystemOptions);
-        return fo;
+        return getContext().getFileSystemManager().resolveFile(buf.toString(), fileSystemOptions);
     }
 }

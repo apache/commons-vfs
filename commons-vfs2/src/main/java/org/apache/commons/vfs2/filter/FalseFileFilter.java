@@ -46,12 +46,12 @@ public class FalseFileFilter implements FileFilter, Serializable {
     /**
      * Returns false.
      *
-     * @param fileInfo the file to check (ignored)
+     * @param fileSelectInfo the file to check (ignored)
      *
      * @return Always {@code false}
      */
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) {
+    public boolean accept(final FileSelectInfo fileSelectInfo) {
         return false;
     }
 

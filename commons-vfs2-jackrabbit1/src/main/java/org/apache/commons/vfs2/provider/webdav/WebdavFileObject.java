@@ -80,6 +80,11 @@ import org.w3c.dom.Node;
 public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
 
     /**
+     * An empty immutable {@code WebdavFileObject} array.
+     */
+    private static final WebdavFileObject[] EMPTY_ARRAY = new WebdavFileObject[0];
+
+    /**
      * An OutputStream that writes to a Webdav resource.
      * <p>
      * TODO - Use piped stream to avoid temporary file.
@@ -141,7 +146,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
                         execute(checkout);
                         isCheckedIn = false;
                     } catch (final FileSystemException ex) {
-                        // Ignore the exception checking out.
+                        log(ex);
                     }
                 }
 
@@ -159,7 +164,8 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
                             execute(method);
                             isCheckedIn = true;
                         } catch (final Exception e) {
-                            // Ignore the exception. Going to throw original.
+                            // Going to throw original.
+                            log(e);
                         }
                         throw ex;
                     }
@@ -170,7 +176,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
                         final DavPropertySet props = getPropertyNames(fileName);
                         isCheckedIn = !props.contains(VersionControlledResource.CHECKED_OUT);
                     } catch (final FileNotFoundException fnfe) {
-                        // Ignore the error
+                        log(fnfe);
                     }
                 }
                 if (!isCheckedIn) {
@@ -186,7 +192,8 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
                 try {
                     setUserName(fileName, urlStr);
                 } catch (final IOException e) {
-                    // Ignore the exception if unable to set the user name.
+                    // Unable to set the user name.
+                    log(e);
                 }
             }
             ((DefaultFileContent) this.file.getContent()).resetAttributes();
@@ -198,11 +205,9 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
             final String userName = fileName.getUserName();
             if (name == null) {
                 name = userName;
-            } else {
-                if (userName != null) {
-                    final String comment = "Modified by user " + userName;
-                    list.add(new DefaultDavProperty(DeltaVConstants.COMMENT, comment));
-                }
+            } else if (userName != null) {
+                final String comment = "Modified by user " + userName;
+                list.add(new DefaultDavProperty(DeltaVConstants.COMMENT, comment));
             }
             list.add(new DefaultDavProperty(DeltaVConstants.CREATOR_DISPLAYNAME, name));
             final PropPatchMethod method = new PropPatchMethod(urlStr, list);
@@ -223,6 +228,10 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
         super(name, fileSystem, WebdavFileSystemConfigBuilder.getInstance());
         this.fileSystem = fileSystem;
         builder = (WebdavFileSystemConfigBuilder) WebdavFileSystemConfigBuilder.getInstance();
+    }
+
+    void log(Exception ex) {
+        // TODO Consider logging.
     }
 
     protected void configureMethod(final HttpMethodBase httpMethod) {
@@ -331,9 +340,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
     protected FileType doGetType() throws Exception {
         try {
             return isDirectory((URLFileName) getName()) ? FileType.FOLDER : FileType.FILE;
-        } catch (final FileNotFolderException fnfe) {
-            return FileType.IMAGINARY;
-        } catch (final FileNotFoundException fnfe) {
+        } catch (final FileNotFolderException | FileNotFoundException fnfe) {
             return FileType.IMAGINARY;
         }
 
@@ -386,7 +393,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
                             continue;
                         }
                         final String resourceName = resourceName(response.getHref());
-                        if (resourceName != null && resourceName.length() > 0) {
+                        if (resourceName != null && !resourceName.isEmpty()) {
                             final WebdavFileObject fo = (WebdavFileObject) FileObjectUtils.getAbstractFileObject(
                                     getFileSystem().resolveFile(getFileSystem().getFileSystemManager()
                                             .resolveName(getName(), resourceName, NameScope.CHILD)));
@@ -394,14 +401,12 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
                         }
                     }
                 }
-                return vfs.toArray(new WebdavFileObject[vfs.size()]);
+                return vfs.toArray(EMPTY_ARRAY);
             }
             throw new FileNotFolderException(getName());
         } catch (final FileNotFolderException fnfe) {
             throw fnfe;
-        } catch (final DavException e) {
-            throw new FileSystemException(e.getMessage(), e);
-        } catch (final IOException e) {
+        } catch (final DavException | IOException e) {
             throw new FileSystemException(e.getMessage(), e);
         } finally {
             if (method != null) {
@@ -560,7 +565,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
     private boolean isDirectory(final URLFileName name) throws IOException {
         try {
             final DavProperty property = getProperty(name, DavConstants.PROPERTY_RESOURCETYPE);
-            Node node;
+            final Node node;
             if (property != null && (node = (Node) property.getValue()) != null) {
                 return node.getLocalName().equals(DavConstants.XML_COLLECTION);
             }

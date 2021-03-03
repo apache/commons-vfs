@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider.ftp;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.time.Instant;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -46,7 +47,7 @@ public class FTPClientWrapper implements FtpClient {
     private final GenericFileName root;
 
     protected FTPClientWrapper(final GenericFileName root, final FileSystemOptions fileSystemOptions)
-            throws FileSystemException {
+        throws FileSystemException {
         this.root = root;
         this.fileSystemOptions = fileSystemOptions;
         getFtpClient(); // fail-fast
@@ -101,13 +102,13 @@ public class FTPClientWrapper implements FtpClient {
     }
 
     protected FTPClient createClient(final GenericFileName rootName, final UserAuthenticationData authData)
-            throws FileSystemException {
+        throws FileSystemException {
         return FtpClientFactory.createConnection(rootName.getHostName(), rootName.getPort(),
-                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
-                        UserAuthenticatorUtils.toChar(rootName.getUserName())),
-                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
-                        UserAuthenticatorUtils.toChar(rootName.getPassword())),
-                rootName.getPath(), getFileSystemOptions());
+            UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
+                UserAuthenticatorUtils.toChar(rootName.getUserName())),
+            UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
+                UserAuthenticatorUtils.toChar(rootName.getPassword())),
+            rootName.getPath(), getFileSystemOptions());
     }
 
     @Override
@@ -163,6 +164,19 @@ public class FTPClientWrapper implements FtpClient {
         return root;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean hasFeature(final String feature) throws IOException {
+        try {
+            return getFtpClient().hasFeature(feature);
+        } catch (final IOException ex) {
+            disconnect();
+            return getFtpClient().hasFeature(feature);
+        }
+    }
+
     @Override
     public boolean isConnected() throws FileSystemException {
         return ftpClient != null && ftpClient.isConnected();
@@ -172,27 +186,23 @@ public class FTPClientWrapper implements FtpClient {
     public FTPFile[] listFiles(final String relPath) throws IOException {
         try {
             // VFS-210: return getFtpClient().listFiles(relPath);
-            final FTPFile[] files = listFilesInDirectory(relPath);
-            return files;
+            return listFilesInDirectory(relPath);
         } catch (final IOException e) {
             disconnect();
-            final FTPFile[] files = listFilesInDirectory(relPath);
-            return files;
+            return listFilesInDirectory(relPath);
         }
     }
 
     private FTPFile[] listFilesInDirectory(final String relPath) throws IOException {
-        FTPFile[] files;
-
         // VFS-307: no check if we can simply list the files, this might fail if there are spaces in the path
-        files = getFtpClient().listFiles(relPath);
+        FTPFile[] ftpFiles = getFtpClient().listFiles(relPath);
         if (FTPReply.isPositiveCompletion(getFtpClient().getReplyCode())) {
-            return files;
+            return ftpFiles;
         }
 
         // VFS-307: now try the hard way by cd'ing into the directory, list and cd back
         // if VFS is required to fallback here the user might experience a real bad FTP performance
-        // as then every list requires 4 ftp commands.
+        // as then every list requires 4 FTP commands.
         String workingDirectory = null;
         if (relPath != null) {
             workingDirectory = getFtpClient().printWorkingDirectory();
@@ -201,13 +211,13 @@ public class FTPClientWrapper implements FtpClient {
             }
         }
 
-        files = getFtpClient().listFiles();
+        ftpFiles = getFtpClient().listFiles();
 
         if (relPath != null && !getFtpClient().changeWorkingDirectory(workingDirectory)) {
             throw new FileSystemException("vfs.provider.ftp.wrapper/change-work-directory-back.error",
-                    workingDirectory);
+                workingDirectory);
         }
-        return files;
+        return ftpFiles;
     }
 
     @Override
@@ -217,6 +227,19 @@ public class FTPClientWrapper implements FtpClient {
         } catch (final IOException e) {
             disconnect();
             return getFtpClient().makeDirectory(relPath);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Instant mdtmInstant(final String relPath) throws IOException {
+        try {
+            return getFtpClient().mdtmCalendar(relPath).toInstant();
+        } catch (final IOException ex) {
+            disconnect();
+            return getFtpClient().mdtmCalendar(relPath).toInstant();
         }
     }
 

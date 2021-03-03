@@ -18,6 +18,7 @@ package org.apache.commons.vfs2.filter;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileFilter;
@@ -73,15 +74,12 @@ public class AgeFileFilter implements FileFilter, Serializable {
      * @throws IllegalArgumentException if the file is {@code null}
      */
     private static boolean isFileNewer(final FileObject fileObject, final long timeMillis) throws FileSystemException {
-        if (fileObject == null) {
-            throw new IllegalArgumentException("No specified file");
-        }
+        Objects.requireNonNull(fileObject, "fileObject");
         if (!fileObject.exists()) {
             return false;
         }
         try (final FileContent content = fileObject.getContent()) {
-            final long lastModified = content.getLastModifiedTime();
-            return lastModified > timeMillis;
+            return content.getLastModifiedTime() > timeMillis;
         }
     }
 
@@ -175,8 +173,7 @@ public class AgeFileFilter implements FileFilter, Serializable {
      */
     @Override
     public boolean accept(final FileSelectInfo fileInfo) throws FileSystemException {
-        final boolean newer = isFileNewer(fileInfo.getFile(), cutoff);
-        return acceptOlder ? !newer : newer;
+        return acceptOlder != isFileNewer(fileInfo.getFile(), cutoff);
     }
 
     /**

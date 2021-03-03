@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.local;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
@@ -44,7 +45,7 @@ public class GenericFileNameParser extends LocalFileNameParser {
         // TODO - this class isn't generic at all. Need to fix this
 
         // Looking for <sep>
-        if (name.length() == 0 || name.charAt(0) != '/') {
+        if (StringUtils.isEmpty(name) || name.charAt(0) != '/') {
             throw new FileSystemException("vfs.provider.local/not-absolute-file-name.error", uri);
         }
 

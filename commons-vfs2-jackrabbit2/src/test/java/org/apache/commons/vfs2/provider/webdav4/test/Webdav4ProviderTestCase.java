@@ -31,16 +31,16 @@ import javax.jcr.SimpleCredentials;
 import javax.jcr.Value;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.temp.TemporaryFileProvider;
 import org.apache.commons.vfs2.provider.webdav4.Webdav4FileProvider;
 import org.apache.commons.vfs2.provider.webdav4.Webdav4FileSystemConfigBuilder;
-import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.test.ProviderTestSuite;
 import org.apache.commons.vfs2.util.FreeSocketPortUtil;
 import org.apache.jackrabbit.core.TransientRepository;
 import org.apache.jackrabbit.standalone.Main;
@@ -73,7 +73,7 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
 
     private static File RepoDirectory;
 
-    private static boolean DEBUG = Boolean.getBoolean("Webdav4ProviderTestCase.Debug");
+    private static final boolean DEBUG = Boolean.getBoolean("Webdav4ProviderTestCase.Debug");
 
     static File createTempDirectory() throws IOException {
         // create base folder
@@ -153,7 +153,7 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
         return System.getProperty(TEST_URI);
     }
 
-    private static TransientRepository getTransientRepository(final File repoDirectory) throws IOException {
+    private static TransientRepository getTransientRepository(final File repoDirectory) {
         return new TransientRepository(new File(repoDirectory, "repository.xml"), repoDirectory);
     }
 
@@ -270,10 +270,8 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
      * <li>Remove temporary repository directory.</li>
      * </ol>
      * Stops the embedded Apache WebDAV Server.
-     *
-     * @throws Exception @throws
      */
-    private static void tearDownClass() throws Exception {
+    private static void tearDownClass() {
         // Stop Jackrabbit Main for graceful shutdown
         jrMain.shutdown();
 

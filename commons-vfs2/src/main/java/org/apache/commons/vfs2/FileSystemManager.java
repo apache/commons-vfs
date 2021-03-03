@@ -33,7 +33,7 @@ import org.apache.commons.vfs2.operations.FileOperationProvider;
  * To locate a {@link FileObject}, use one of the {@code resolveFile()} methods.
  * </p>
  *
- * <h2><a name="naming">File Naming</a></h2>
+ * <h2><a id="naming">File Naming</a></h2>
  * <p>
  * A file system manager can recognise several types of file names:
  * </p>
@@ -327,10 +327,10 @@ public interface FileSystemManager extends AutoCloseable {
     FileName resolveName(FileName root, String name, NameScope scope) throws FileSystemException;
 
     /**
-     * Resolves the uri to a file name.
+     * Resolves the URI to a file name.
      *
-     * @param uri The uri to resolve.
-     * @return A FileName that matches the uri.
+     * @param uri The URI to resolve.
+     * @return A FileName that matches the URI.
      * @throws FileSystemException if this is not possible.
      */
     FileName resolveURI(String uri) throws FileSystemException;
