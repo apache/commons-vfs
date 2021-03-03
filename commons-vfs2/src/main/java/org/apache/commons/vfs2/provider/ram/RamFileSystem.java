@@ -39,8 +39,6 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
  */
 public class RamFileSystem extends AbstractFileSystem implements Serializable {
 
-    private static final int BUFFER_SIZE = 512;
-
     /**
      * serialVersionUID format is YYYYMMDD for the date of the last binary change.
      */
