@@ -194,7 +194,7 @@
     <commons.surefire.version>2.19.1</commons.surefire.version>
     <commons.japicmp.version>0.15.2</commons.japicmp.version>
     <commons.jacoco.version>0.8.6</commons.jacoco.version>
-    <commons.spotbugs.version>4.1.4</commons.spotbugs.version>
+    <commons.spotbugs.version>4.2.0</commons.spotbugs.version>
     <commons.spotbugs.impl.version>4.2.0</commons.spotbugs.impl.version>
     <log4j2.version>2.14.0</log4j2.version>
     <clirr.skip>true</clirr.skip>
