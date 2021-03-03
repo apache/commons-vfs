@@ -196,6 +196,7 @@
     <commons.jacoco.version>0.8.6</commons.jacoco.version>
     <commons.spotbugs.version>4.2.0</commons.spotbugs.version>
     <commons.spotbugs.impl.version>4.2.0</commons.spotbugs.impl.version>
+    <commons.pmd.version>6.32.0</commons.pmd.version>
     <slf4j.version>1.7.26</slf4j.version>
     <log4j2.version>2.14.0</log4j2.version>
     <clirr.skip>true</clirr.skip>
@@ -208,6 +209,33 @@
     <defaultGoal>clean package apache-rat:check japicmp:cmp javadoc:javadoc</defaultGoal>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>3.14.0</version>
+          <dependencies>
+            <dependency>
+              <groupId>net.sourceforge.pmd</groupId>
+              <artifactId>pmd-core</artifactId>
+              <version>${commons.pmd.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>net.sourceforge.pmd</groupId>
+              <artifactId>pmd-java</artifactId>
+              <version>${commons.pmd.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>net.sourceforge.pmd</groupId>
+              <artifactId>pmd-javascript</artifactId>
+              <version>${commons.pmd.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>net.sourceforge.pmd</groupId>
+              <artifactId>pmd-jsp</artifactId>
+              <version>${commons.pmd.version}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
         <plugin>
           <!--  Fixes org.apache.bcel.classfile.ClassFormatException: Invalid byte tag in constant pool: 19 -->
           <groupId>org.apache.maven.plugins</groupId>
@@ -411,7 +439,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.14.0</version>
         <configuration>
           <targetJdk>${maven.compiler.target}</targetJdk>
           <aggregate>true</aggregate>
