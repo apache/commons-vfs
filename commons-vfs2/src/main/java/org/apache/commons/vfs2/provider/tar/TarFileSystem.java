@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -95,10 +94,10 @@ public class TarFileSystem extends AbstractFileSystem {
     protected TarArchiveInputStream createTarFile(final File file) throws FileSystemException {
         try {
             if ("tgz".equalsIgnoreCase(getRootName().getScheme())) {
-                return new TarArchiveInputStream(new GZIPInputStream(Files.newInputStream(file.toPath())));
+                return new TarArchiveInputStream(new GZIPInputStream(new FileInputStream(file)));
             } else if ("tbz2".equalsIgnoreCase(getRootName().getScheme())) {
                 return new TarArchiveInputStream(
-                    Bzip2FileObject.wrapInputStream(file.getAbsolutePath(), Files.newInputStream(file.toPath())));
+                    Bzip2FileObject.wrapInputStream(file.getAbsolutePath(), new FileInputStream(file)));
             }
             return new TarArchiveInputStream(new FileInputStream(file));
         } catch (final IOException ioe) {
