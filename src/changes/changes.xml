@@ -78,6 +78,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-785" dev="ggregory" due-to="satish bhor, Michael Osipov, Gary Gregory" type="fix">
         [HTTP4][HTTP5] Credentials conflict when root and proxy hosts are same name but different ports, #120.
       </action>
+      <action dev="ggregory" due-to="Max Kellermann, Gary Gregory, Florent Guillaume, Bruno P. Kinoshita, Bernd" type="fix">
+        Rework SoftRefFilesCache locking #154.
+      </action>
       <!-- ADDS -->
       <action dev="ggregory" due-to="Boris Petrov, Gary Gregory" type="add">
         Add ability to remove a provider from DefaultFileSystemManager #149.
