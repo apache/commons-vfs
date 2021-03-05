@@ -28,7 +28,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
-import org.apache.commons.vfs2.util.Messages;
 
 /**
  * This implementation caches every file as long as it is strongly reachable by the java vm. As soon as the vm needs
@@ -238,12 +237,6 @@ public class SoftRefFilesCache extends AbstractFilesCache {
             startThread();
         }
 
-        Map<FileName, Reference<FileObject>> files = fileSystemCache.get(fileSystem);
-        if (files == null) {
-            files = new HashMap<>();
-            fileSystemCache.put(fileSystem, files);
-        }
-
-        return files;
+        return fileSystemCache.computeIfAbsent(fileSystem, k -> new HashMap<>());
     }
 }
