@@ -259,8 +259,8 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
                 if (proxyAuthData != null) {
                     final UsernamePasswordCredentials proxyCreds = new UsernamePasswordCredentials(
                             UserAuthenticatorUtils.toString(
-                                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, null)),
-                            UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, null));
+                                    UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.USERNAME, null)),
+                            UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.PASSWORD, null));
 
                     // set proxy host port
                     credsProvider.setCredentials(new AuthScope(proxyHost.getHostName(), proxyHost.getPort()),
