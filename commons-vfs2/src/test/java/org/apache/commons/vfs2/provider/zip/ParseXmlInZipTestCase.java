@@ -66,13 +66,12 @@ public class ParseXmlInZipTestCase {
                     "http://www.w3.org/2001/XMLSchema");
             @SuppressWarnings("resource")
             final FileObject schema = containerFile.resolveFile(pathToXsdInZip);
-            if (schema.exists()) {
-                documentBuilderFactory.setAttribute("http://java.sun.com/xml/jaxp/properties/schemaSource",
-                        schema.getContent().getInputStream());
-            } else {
+            if (!schema.exists()) {
                 schema.close();
                 throw new FileNotFoundException(schema.toString());
             }
+            documentBuilderFactory.setAttribute("http://java.sun.com/xml/jaxp/properties/schemaSource",
+                    schema.getContent().getInputStream());
         }
         DocumentBuilder documentBuilder = null;
         try {

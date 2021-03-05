@@ -261,19 +261,22 @@ public final class Os {
                 return OS_FAMILY_WINNT;
             }
             return OS_FAMILY_WIN9X;
-        } else if (OS_NAME.contains("os/2")) {
+        }
+        if (OS_NAME.contains("os/2")) {
             return OS_FAMILY_OS2;
-        } else if (OS_NAME.contains("netware")) {
+        }
+        if (OS_NAME.contains("netware")) {
             return OS_FAMILY_NETWARE;
-        } else if (OS_NAME.contains("mac")) {
+        }
+        if (OS_NAME.contains("mac")) {
             if (OS_NAME.endsWith("x")) {
                 return OS_FAMILY_OSX;
             }
             return OS_FAMILY_MAC;
-        } else if (PATH_SEP.equals(":")) {
-            return OS_FAMILY_UNIX;
-        } else {
-            return null;
         }
+        if (PATH_SEP.equals(":")) {
+            return OS_FAMILY_UNIX;
+        }
+        return null;
     }
 }

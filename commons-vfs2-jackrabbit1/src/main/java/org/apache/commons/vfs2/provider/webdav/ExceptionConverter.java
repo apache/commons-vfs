@@ -58,7 +58,8 @@ public final class ExceptionConverter {
                             final Object o = excConstr.newInstance(msg);
                             if (o instanceof FileSystemException) {
                                 return (FileSystemException) o;
-                            } else if (o instanceof Exception) {
+                            }
+                            if (o instanceof Exception) {
                                 return new FileSystemException(msg, (Exception) o);
                             }
                         }

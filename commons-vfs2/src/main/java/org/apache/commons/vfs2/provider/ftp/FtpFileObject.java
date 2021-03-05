@@ -369,11 +369,14 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
 
             if (this.ftpFile == UNKNOWN) {
                 return FileType.IMAGINARY;
-            } else if (this.ftpFile.isDirectory()) {
+            }
+            if (this.ftpFile.isDirectory()) {
                 return FileType.FOLDER;
-            } else if (this.ftpFile.isFile()) {
+            }
+            if (this.ftpFile.isFile()) {
                 return FileType.FILE;
-            } else if (this.ftpFile.isSymbolicLink()) {
+            }
+            if (this.ftpFile.isSymbolicLink()) {
                 final FileObject linkDest = getLinkDestination();
                 // VFS-437: We need to check if the symbolic link links back to the symbolic link itself
                 if (this.isCircular(linkDest)) {

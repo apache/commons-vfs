@@ -160,11 +160,11 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
         if (status == HttpStatus.SC_OK
                 || status == HttpStatus.SC_METHOD_NOT_ALLOWED /* method is not allowed, but resource exist */) {
             return FileType.FILE;
-        } else if (status == HttpStatus.SC_NOT_FOUND || status == HttpStatus.SC_GONE) {
-            return FileType.IMAGINARY;
-        } else {
-            throw new FileSystemException("vfs.provider.http/head.error", getName(), Integer.valueOf(status));
         }
+        if (status == HttpStatus.SC_NOT_FOUND || status == HttpStatus.SC_GONE) {
+            return FileType.IMAGINARY;
+        }
+        throw new FileSystemException("vfs.provider.http/head.error", getName(), Integer.valueOf(status));
     }
 
     @Override

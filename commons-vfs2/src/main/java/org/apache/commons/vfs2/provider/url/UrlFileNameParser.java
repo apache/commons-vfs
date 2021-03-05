@@ -103,11 +103,10 @@ public class UrlFileNameParser extends AbstractFileNameParser {
                     continue;
                 }
             } else if (state == 1) {
-                if (c == '/') {
-                    nuofSlash++;
-                } else {
+                if (c != '/') {
                     return nuofSlash;
                 }
+                nuofSlash++;
             }
         }
         return nuofSlash;

@@ -1104,7 +1104,8 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 // honor the new doListChildren contract
                 // return null;
                 throw new FileNotFolderException(fileName);
-            } else if (files.length == 0) {
+            }
+            if (files.length == 0) {
                 // No children
                 children = FileName.EMPTY_ARRAY;
             } else {

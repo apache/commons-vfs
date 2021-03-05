@@ -116,9 +116,11 @@ public class SmbFileObject extends AbstractFileObject<SmbFileSystem> {
     protected FileType doGetType() throws Exception {
         if (!file.exists()) {
             return FileType.IMAGINARY;
-        } else if (file.isDirectory()) {
+        }
+        if (file.isDirectory()) {
             return FileType.FOLDER;
-        } else if (file.isFile()) {
+        }
+        if (file.isFile()) {
             return FileType.FILE;
         }
 
@@ -194,7 +196,8 @@ public class SmbFileObject extends AbstractFileObject<SmbFileSystem> {
         } catch (final SmbException e) {
             if (e.getNtStatus() == NtStatus.NT_STATUS_NO_SUCH_FILE) {
                 throw new org.apache.commons.vfs2.FileNotFoundException(getName());
-            } else if (file.isDirectory()) {
+            }
+            if (file.isDirectory()) {
                 throw new FileTypeHasNoContentException(getName());
             }
 

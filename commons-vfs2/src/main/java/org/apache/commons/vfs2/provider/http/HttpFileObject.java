@@ -169,11 +169,11 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
         if (status == HttpURLConnection.HTTP_OK
                 || status == HttpURLConnection.HTTP_BAD_METHOD /* method is bad, but resource exist */) {
             return FileType.FILE;
-        } else if (status == HttpURLConnection.HTTP_NOT_FOUND || status == HttpURLConnection.HTTP_GONE) {
-            return FileType.IMAGINARY;
-        } else {
-            throw new FileSystemException("vfs.provider.http/head.error", getName(), Integer.valueOf(status));
         }
+        if (status == HttpURLConnection.HTTP_NOT_FOUND || status == HttpURLConnection.HTTP_GONE) {
+            return FileType.IMAGINARY;
+        }
+        throw new FileSystemException("vfs.provider.http/head.error", getName(), Integer.valueOf(status));
     }
 
     @Override

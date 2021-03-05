@@ -95,7 +95,8 @@ public class TarFileSystem extends AbstractFileSystem {
         try {
             if ("tgz".equalsIgnoreCase(getRootName().getScheme())) {
                 return new TarArchiveInputStream(new GZIPInputStream(new FileInputStream(file)));
-            } else if ("tbz2".equalsIgnoreCase(getRootName().getScheme())) {
+            }
+            if ("tbz2".equalsIgnoreCase(getRootName().getScheme())) {
                 return new TarArchiveInputStream(
                     Bzip2FileObject.wrapInputStream(file.getAbsolutePath(), new FileInputStream(file)));
             }
