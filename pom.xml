@@ -206,7 +206,7 @@
 
   <build>
     <!-- japicmp:cmp needs package to work from a jar -->
-    <defaultGoal>clean package apache-rat:check japicmp:cmp javadoc:javadoc</defaultGoal>
+    <defaultGoal>clean package apache-rat:check japicmp:cmp javadoc:javadoc spotbugs:check</defaultGoal>
     <pluginManagement>
       <plugins>
         <plugin>
