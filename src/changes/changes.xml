@@ -45,7 +45,7 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="2.8.0" date="2021-MM-DD" description="Maintenance release. Requires Java 8.">
+    <release version="2.8.0" date="2021-MM-DD" description="Feature and maintenance release. Requires Java 8.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
@@ -234,7 +234,7 @@ The <action> type attribute can be add,update,fix,remove.
         Update commons-lang3 3.11 -> 3.12.0.
       </action>
     </release>
-    <release version="2.7.0" date="2020-10-26" description="Maintenance release. Requires Java 8.">
+    <release version="2.7.0" date="2020-10-26" description="Feature and maintenance release. Requires Java 8.">
       <action issue="VFS-753" dev="ggregory" due-to="John Webb, Gary Gregory" type="fix">
         NumberFormatException in SftpFileSystem::getUId.
       </action>
@@ -370,7 +370,7 @@ The <action> type attribute can be add,update,fix,remove.
         Update FindBugs to SpotBugs 4.1.3.
       </action>
     </release>
-    <release version="2.6.0" date="2020-01-06" description="New features and bug fix release.">
+    <release version="2.6.0" date="2020-01-06" description="Feature and maintenance release.">
       <action dev="ggregory" due-to="Eitan Adler" type="fix">
         Clean up tests and simplify assertions #76.
       </action>
@@ -384,7 +384,7 @@ The <action> type attribute can be add,update,fix,remove.
         Deprecate org.apache.commons.vfs2.FileUtil for org.apache.commons.vfs2.util.FileObjectUtils.
       </action>
     </release>
-    <release version="2.5.0" date="2019-12-24" description="New features and bug fix release.">
+    <release version="2.5.0" date="2019-12-24" description="Feature and maintenance release.">
       <action issue="VFS-741" dev="ecki" type="fix">
         FileObject#getChildren allows listing of files with known scheme prefix (generalizes VFS-398).
       </action>
@@ -472,7 +472,7 @@ The <action> type attribute can be add,update,fix,remove.
         Javadoc fixes.
       </action>
     </release>
-    <release version="2.4" date="2019-07-12" description="New features and bug fix release.">
+    <release version="2.4" date="2019-07-12" description="Feature and maintenance release.">
       <action issue="VFS-690" dev="ggregory" type="add">
         Allow to set key exchange algorithm explicitly. GitHub #32.
       </action>
@@ -580,7 +580,7 @@ The <action> type attribute can be add,update,fix,remove.
         Public API note: The overridden method org.apache.commons.vfs2.provider.sftp.SftpFileProvider#init() was removed but is implemented in a superclass.
       </action>
     </release>
-    <release version="2.3" date="2019-02-01" description="New features and bug fix release.">
+    <release version="2.3" date="2019-02-01" description="Feature and maintenance release.">
       <action issue="VFS-645" dev="ggregory" type="fix">
 		VfsClassLoaderTests and JarProviderTestCase fails on Java 9 and up.
       </action>
@@ -672,7 +672,7 @@ The <action> type attribute can be add,update,fix,remove.
         org.apache.commons.vfs2.provider.http.HttpFileObject.getHeadMethod() does not release connection when an exception is thrown.
       </action>
     </release>
-    <release version="2.2" date="2017-10-06" description="New features and bug fix release.">
+    <release version="2.2" date="2017-10-06" description="Feature and maintenance release.">
       <action issue="VFS-642" dev="pschumacher" type="update" due-to="ilangoldfeld">
         Upgrade to jcifs 1.3.17
       </action>
