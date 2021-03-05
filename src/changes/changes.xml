@@ -81,6 +81,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="Max Kellermann, Gary Gregory, Florent Guillaume, Bruno P. Kinoshita, Bernd" type="fix">
         Rework SoftRefFilesCache locking #154.
       </action>
+      <action issue="VFS-782" dev="ggregory" due-to="satish-csi, Gary Gregory" type="fix">
+        Pass correct proxy authentication credentials #117.
+      </action>
       <!-- ADDS -->
       <action dev="ggregory" due-to="Boris Petrov, Gary Gregory" type="add">
         Add ability to remove a provider from DefaultFileSystemManager #149.
