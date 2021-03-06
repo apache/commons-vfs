@@ -103,38 +103,10 @@
                 </tr>
             </table>
         </section>
-        <section name="Obtaining Commons VFS source">
-            <p>
-                To obtain the Commons VFS source, you can either:
-            </p>
-            <ul>
-                <li>
-                    The primary source repository for the Apache Commons VFS project is the 
-                    <em>Subversion</em> repository. You can use the following command to check out
-                    the latest source version:
-                    <br/>
-                    <code>svn co http://svn.apache.org/repos/asf/commons/proper/vfs/trunk commons-vfs</code><br/>
-                    <br/>
-                    For a certain version please look at
-                    <a href="http://svn.apache.org/repos/asf/commons/proper/vfs/tags">
-                        http://svn.apache.org/repos/asf/commons/proper/vfs/tags</a>
-                </li>
-                <li>
-                    If you prefer <em>Git</em>, you can get the sources from the Apache Git mirror:<br/>
-                    <br/>
-                    <code>git clone git://git.apache.org/commons-vfs.git commons-vfs</code><br/>
-                    <br/>
-                    There is also a guideline for <a href="https://github.com/apache/commons-vfs/blob/trunk/CONTRIBUTING.md">contributing via GitHub</a>.
-                </li>
-                <li>
-                    Obtain the source from the latest release distribution. See the <a href="download_vfs.cgi">downloads</a> page.
-                </li>
-            </ul>
-        </section>
         <section name="Building Commons VFS">
             <p>
-                To build Commons VFS, you can use <a href="http://maven.apache.org">Maven</a> 3.0.5 or later.
-                You need to use Java 8 or later. Production builds are done with the
+                To build Commons VFS, get the <a href="scm.html">sources</a> and use <a href="http://maven.apache.org">Maven</a> 3.0.5 or later.
+                You need to use Java 8 or later. Production builds can be done with the
                 <code>-Pjava-1.8</code> profile from Commons Parent (which will compile and test with a JDK
                 from the JAVA_1_8_HOME environment variable).
             </p><p>
