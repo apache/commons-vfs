@@ -34,14 +34,6 @@ public abstract class AbstractProviderTestConfig extends AbstractProviderTestCas
         return new DefaultFileSystemManager();
     }
 
-    /**
-     * Prepares the file system manager. This implementation does nothing.
-     */
-    @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception {
-        // default is do nothing.
-    }
-
     @Override
     public FilesCache getFilesCache() {
         if (cache == null) {
@@ -55,6 +47,14 @@ public abstract class AbstractProviderTestConfig extends AbstractProviderTestCas
     @Override
     public boolean isFileSystemRootAccessible() {
         return true;
+    }
+
+    /**
+     * Prepares the file system manager. This implementation does nothing.
+     */
+    @Override
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
+        // default is do nothing.
     }
 
 }
