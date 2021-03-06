@@ -105,7 +105,7 @@
         </section>
         <section name="Building Commons VFS">
             <p>
-                To build Commons VFS, get the <a href="scm.html">sources</a> and use <a href="http://maven.apache.org">Maven</a> 3.0.5 or later.
+                To build Commons VFS, get the <a href="scm.html">sources</a> and use <a href="http://maven.apache.org">Maven</a> 3.2.5 or later.
                 You need to use Java 8 or later. Production builds can be done with the
                 <code>-Pjava-1.8</code> profile from Commons Parent (which will compile and test with a JDK
                 from the JAVA_1_8_HOME environment variable).
