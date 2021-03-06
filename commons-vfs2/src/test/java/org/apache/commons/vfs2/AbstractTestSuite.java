@@ -23,6 +23,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.io.FileUtils;
@@ -198,7 +199,7 @@ public abstract class AbstractTestSuite extends TestSetup {
         baseFolder = null;
         testSuite = null;
 
-        // force the SoftRefFilesChache to free all files
+        // Suggest to threads (SoftRefFilesChache) to free all files.
         System.gc();
         Thread.sleep(1000);
         System.gc();
@@ -246,7 +247,8 @@ public abstract class AbstractTestSuite extends TestSetup {
             return StringUtils.EMPTY;
         }
         final StringBuffer sb = new StringBuffer(256);
-        sb.append("created threads still running:\n");
+        sb.append("Created threads still running:");
+        sb.append(System.lineSeparator());
 
         Field threadTargetField = null;
         try {
@@ -263,24 +265,24 @@ public abstract class AbstractTestSuite extends TestSetup {
                 continue;
             }
             liveCount++;
-            sb.append("#");
-            sb.append(index + 1);
-            sb.append(": ");
-            final ThreadGroup threadGroup = thread.getThreadGroup();
-            sb.append(threadGroup != null ? threadGroup.getName() : "(null)");
-            sb.append("\t");
-            sb.append(thread.getName());
-            sb.append("\t");
+            sb.append("Thread[");
+            sb.append(index);
+            sb.append("]: ");
+            sb.append(" ID ");
+            sb.append(thread.getId());
+            sb.append(", ");
+            // prints [name,priority,group]
+            sb.append(thread);
+            sb.append(", ");
             sb.append(thread.getState());
-            sb.append("\t");
-            if (thread.isDaemon()) {
-                sb.append("daemon");
-            } else {
-                sb.append("not_a_daemon");
-            }
+            sb.append(", ");
+            if (!thread.isDaemon()) {
+                sb.append("non_");
+            } 
+            sb.append("daemon");
 
             if (threadTargetField != null) {
-                sb.append("\t");
+                sb.append(", ");
                 try {
                     final Object threadTarget = threadTargetField.get(thread);
                     if (threadTarget != null) {
@@ -289,11 +291,18 @@ public abstract class AbstractTestSuite extends TestSetup {
                         sb.append("null");
                     }
                 } catch (final IllegalAccessException e) {
-                    sb.append("unknown class");
+                    sb.append("unknown (");
+                    sb.append(e);
+                    sb.append(")");
                 }
             }
 
-            sb.append("\n");
+            sb.append(System.lineSeparator());
+//            Stream.of(thread.getStackTrace()).forEach(e -> {
+//                sb.append('\t');
+//                sb.append(e);
+//                sb.append(System.lineSeparator());
+//            });
         }
         if (liveCount == 0) {
             return StringUtils.EMPTY;
