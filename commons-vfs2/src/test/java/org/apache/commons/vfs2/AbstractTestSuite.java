@@ -23,7 +23,6 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.io.FileUtils;
