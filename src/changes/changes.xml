@@ -45,7 +45,7 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="2.8.0" date="2021-MM-DD" description="Feature and maintenance release. Requires Java 8.">
+    <release version="2.8.0" date="2021-03-06" description="Feature and maintenance release. Requires Java 8.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
@@ -204,7 +204,7 @@ The <action> type attribute can be add,update,fix,remove.
         Modify some calls of method Collection.toArray #145.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
-        Update commons.japicmp.version 0.14.3 -> 0.15.2.
+        Update commons.japicmp.version 0.14.3 -> 0.15.3.
       </action>
       <action dev="ggregory" due-to="Arturo Bernal" type="update">
         Minor Improvements, #152, #156, #160.

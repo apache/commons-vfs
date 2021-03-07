@@ -38,31 +38,37 @@
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://commons.apache.org/logging/">Commons Logging</a>
+                        <a href="http://commons.apache.org/logging/">Apache Commons Logging</a>
                     </td>
                     <td>All</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://commons.apache.org/collections/">Commons Collections</a>
+                        <a href="http://commons.apache.org/lang/">Apache Commons Lang</a>
+                    </td>
+                    <td>All</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://commons.apache.org/collections/">Apache Commons Collections</a>
                     </td>
                     <td>LRU Cache (optional)</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://commons.apache.org/compress/">Commons Compress</a>
+                        <a href="http://commons.apache.org/compress/">Apache Commons Compress</a>
                     </td>
                     <td>TAR, Bzip2</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://commons.apache.org/net/">Commons Net</a>
+                        <a href="http://commons.apache.org/net/">Apache Commons Net</a>
                     </td>
                     <td>FTP</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://commons.apache.org/httpclient/">Commons Httpclient</a><br/>
+                        <a href="http://commons.apache.org/httpclient/">Apache Commons Httpclient</a><br/>
                         Requires <a href="http://commons.apache.org/proper/commons-codec/">Commons Codec</a>
                     </td>
                     <td>WebDAV, HTTP, URI Utils</td>
@@ -105,7 +111,7 @@
         </section>
         <section name="Building Commons VFS">
             <p>
-                To build Commons VFS, get the <a href="scm.html">sources</a> and use <a href="http://maven.apache.org">Maven</a> 3.2.5 or later.
+                To build Commons VFS, get the <a href="scm.html">sources</a> and use <a href="http://maven.apache.org">Apache Maven</a> 3.2.5 or later.
                 You need to use Java 8 or later. Production builds can be done with the
                 <code>-Pjava-1.8</code> profile from Commons Parent (which will compile and test with a JDK
                 from the JAVA_1_8_HOME environment variable).

@@ -45,8 +45,7 @@
 
             <source><![CDATA[
 FileSystemManager fsManager = VFS.getManager();
-FileObject jarFile = fsManager.resolveFile( "jar:lib/aJarFile.jar" );
-                ]]></source>
+FileObject jarFile = fsManager.resolveFile("jar:lib/aJarFile.jar");]]></source>
 
             <p>
                 Each file is represented by a
@@ -59,16 +58,14 @@ FileObject jarFile = fsManager.resolveFile( "jar:lib/aJarFile.jar" );
             <source><![CDATA[
 // Locate the Jar file
 FileSystemManager fsManager = VFS.getManager();
-FileObject jarFile = fsManager.resolveFile( "jar:lib/aJarFile.jar" );
+FileObject jarFile = fsManager.resolveFile("jar:lib/aJarFile.jar");
 
 // List the children of the Jar file
 FileObject[] children = jarFile.getChildren();
-System.out.println( "Children of " + jarFile.getName().getURI() );
-for ( int i = 0; i < children.length; i++ )
-{
-    System.out.println( children[ i ].getName().getBaseName() );
-}
-]]></source>
+System.out.println("Children of " + jarFile.getName().getURI());
+for (int i = 0; i < children.length; i++) {
+    System.out.println(children[i].getName().getBaseName());
+}]]></source>
 
             <p>
                 In some cases you might want to explicitely free resources allocated by the filesystem.
@@ -122,8 +119,7 @@ StaticUserAuthenticator auth = new StaticUserAuthenticator("domain", "username",
 FileSystemOptions opts = new FileSystemOptions();
 DefaultFileSystemConfigBuilder.getInstance().setUserAuthenticator(opts, auth);
 
-FileObject fo = VFS.getManager().resolveFile("smb://host/anyshare/dir", opts);
-]]></source>
+FileObject fo = VFS.getManager().resolveFile("smb://host/anyshare/dir", opts);]]></source>
                 <p>
                     Internally the UserAuthenticator uses char arrays which will be zeroed before it is
                     freed for garbage collection.Unhappily none of the current libraries use char
@@ -371,8 +367,7 @@ FileObject fo = VFS.getManager().resolveFile("smb://host/anyshare/dir", opts);
         <if-available class-name="org.apache.commons.net.ftp.FTPFile"/>
     </provider>
     <default-provider class-name="org.apache.commons.vfs2.provider.url.UrlFileProvider"/>
-</providers>
-]]></source>
+</providers>]]></source>
             </subsection>
         </section>
     </body>
