@@ -2,7 +2,7 @@
             RELEASE NOTES
             2021-03-06
 
-The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.8.0.
+The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.8.0-SNAPSHOT.
 
 Apache Commons VFS is a Virtual File System library.
 
@@ -65,7 +65,7 @@ o           Update com.puppycrawl.tools:checkstyle 8.36.2 -> 8.41. Thanks to Gar
 o           Update maven-checkstyle-plugin 3.1.1 -> 3.1.2. Thanks to Gary Gregory.
 o           Update org.apache.httpcomponents:httpcore-nio 4.4.13 -> 4.4.14. Thanks to Gary Gregory.
 o           Modify some calls of method Collection.toArray #145. Thanks to PeterAlfredLee, Gary Gregory.
-o           Update commons.japicmp.version 0.14.3 -> 0.15.2. Thanks to Gary Gregory.
+o           Update commons.japicmp.version 0.14.3 -> 0.15.3. Thanks to Gary Gregory.
 o           Minor Improvements, #152, #156, #160. Thanks to Arturo Bernal.
 o           Update commons.spotbugs.version 4.1.4 -> 4.2.0. Thanks to Gary Gregory.
 o           Update commons.spotbugs.impl.version 4.1.3 -> 4.2.0. Thanks to Gary Gregory.
