@@ -290,7 +290,6 @@ public class DefaultFileSystemManager implements FileSystemManager {
         if (init) {
             throw new FileSystemException("vfs.impl/already-inited.error");
         }
-
         this.filesCache = filesCache;
     }
 
@@ -459,8 +458,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     private void closeComponent(final Object component) {
         if (component != null && components.contains(component)) {
             if (component instanceof VfsComponent) {
-                final VfsComponent vfsComponent = (VfsComponent) component;
-                vfsComponent.close();
+                ((VfsComponent) component).close();
             }
             components.remove(component);
         }
@@ -504,7 +502,6 @@ public class DefaultFileSystemManager implements FileSystemManager {
         }
 
         if (filesCache == null) {
-            // filesCache = new DefaultFilesCache();
             filesCache = new SoftRefFilesCache();
         }
         if (fileCacheStrategy == null) {
@@ -543,16 +540,14 @@ public class DefaultFileSystemManager implements FileSystemManager {
         closeComponent(vfsProvider);
         closeComponent(fileReplicator);
         closeComponent(tempFileStore);
-        closeComponent(filesCache);
         closeComponent(defaultProvider);
-
 
         // unregister all providers here, so if any components have local file references
         // they can still resolve against the supported schemes
         providers.clear();
 
         // FileOperations are components, too
-        operationProviders.values().forEach(opproviders -> opproviders.forEach(this::closeComponent));
+        operationProviders.values().forEach(opProviders -> opProviders.forEach(this::closeComponent));
 
         // unregister all
         operationProviders.clear();
@@ -571,6 +566,11 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
         // virtual schemas
         virtualFileSystemSchemes.clear();
+
+        // Close cache last.
+        if (filesCache != null) {
+            filesCache.close();
+        }
 
         // setters and derived state
         defaultProvider = null;

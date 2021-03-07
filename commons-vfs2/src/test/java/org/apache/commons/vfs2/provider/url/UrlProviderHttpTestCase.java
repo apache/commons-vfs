@@ -20,10 +20,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.ProviderTestSuite;
+import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.util.NHttpFileServer;
 
@@ -80,10 +82,8 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig {
 
     /**
      * Stops the embedded Apache HTTP Server ().
-     *
-     * @throws IOException
      */
-    private static void tearDownClass() throws IOException {
+    public static void tearDownClass() {
         if (Server != null) {
             Server.shutdown(5000, TimeUnit.SECONDS);
         }

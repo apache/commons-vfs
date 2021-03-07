@@ -36,7 +36,7 @@ public class SoftRefFilesCacheTestCase extends AbstractProviderTestConfig {
     }
 
     @Override
-    public FilesCache getFilesCache() {
+    public FilesCache createFilesCache() {
         return new SoftRefFilesCache();
     }
 

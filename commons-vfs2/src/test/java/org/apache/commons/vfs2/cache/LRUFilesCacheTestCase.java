@@ -38,7 +38,7 @@ public class LRUFilesCacheTestCase extends AbstractProviderTestConfig {
     }
 
     @Override
-    public FilesCache getFilesCache() {
+    public FilesCache createFilesCache() {
         return new LRUFilesCache(5);
     }
 
