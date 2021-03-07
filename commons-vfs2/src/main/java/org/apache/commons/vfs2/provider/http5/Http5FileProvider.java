@@ -28,11 +28,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystem;
@@ -77,6 +77,7 @@ import org.apache.hc.core5.http.io.SocketConfig;
 import org.apache.hc.core5.http.message.BasicHeader;
 import org.apache.hc.core5.http.ssl.TLS;
 import org.apache.hc.core5.ssl.SSLContextBuilder;
+import org.apache.hc.core5.util.Timeout;
 
 /**
  * {@code FileProvider} implementation using HttpComponents HttpClient v5 library.
@@ -93,7 +94,7 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
                     };
 
     /** FileProvider capabilities */
-    static final Collection<Capability> capabilities =
+    static final Collection<Capability> CAPABILITIES =
             Collections.unmodifiableCollection(
                     Arrays.asList(
                             Capability.GET_TYPE,
@@ -110,39 +111,62 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
      * Constructs a new provider.
      */
     public Http5FileProvider() {
-        super();
         setFileNameParser(Http5FileNameParser.getInstance());
     }
 
-    @Override
-    public FileSystemConfigBuilder getConfigBuilder() {
-        return Http5FileSystemConfigBuilder.getInstance();
+    private HttpClientConnectionManager createConnectionManager(final Http5FileSystemConfigBuilder builder,
+            final FileSystemOptions fileSystemOptions) throws FileSystemException {
+
+        final SocketConfig socketConfig =
+                SocketConfig
+                .custom()
+                .setSoTimeout(Timeout.ofMilliseconds(builder.getSoTimeoutDuration(fileSystemOptions).toMillis()))
+                .build();
+
+        final String[] tlsVersions = builder.getTlsVersions(fileSystemOptions).split("\\s*,\\s*");
+
+        final TLS[] tlsArray = Arrays.stream(tlsVersions).map(TLS::valueOf).toArray(TLS[]::new);
+
+        final SSLConnectionSocketFactory sslSocketFactory = SSLConnectionSocketFactoryBuilder.create()
+                .setSslContext(createSSLContext(builder, fileSystemOptions))
+                .setHostnameVerifier(createHostnameVerifier(builder, fileSystemOptions))
+                .setTlsVersions(tlsArray)
+                .build();
+
+        return PoolingHttpClientConnectionManagerBuilder.create()
+                .setSSLSocketFactory(sslSocketFactory)
+                .setMaxConnTotal(builder.getMaxTotalConnections(fileSystemOptions))
+                .setMaxConnPerRoute(builder.getMaxConnectionsPerHost(fileSystemOptions))
+                .setDefaultSocketConfig(socketConfig)
+                .build();
     }
 
-    @Override
-    public Collection<Capability> getCapabilities() {
-        return capabilities;
-    }
+    private CookieStore createDefaultCookieStore(final Http5FileSystemConfigBuilder builder,
+            final FileSystemOptions fileSystemOptions) {
+        final CookieStore cookieStore = new BasicCookieStore();
+        final Cookie[] cookies = builder.getCookies(fileSystemOptions);
 
-    @Override
-    protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
-            throws FileSystemException {
-        final GenericFileName rootName = (GenericFileName) name;
-
-        UserAuthenticationData authData = null;
-        HttpClient httpClient = null;
-        HttpClientContext httpClientContext = null;
-
-        try {
-            final Http5FileSystemConfigBuilder builder = Http5FileSystemConfigBuilder.getInstance();
-            authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, AUTHENTICATOR_TYPES);
-            httpClientContext = createHttpClientContext(builder, rootName, fileSystemOptions, authData);
-            httpClient = createHttpClient(builder, rootName, fileSystemOptions);
-        } finally {
-            UserAuthenticatorUtils.cleanup(authData);
+        if (cookies != null) {
+            Arrays.stream(cookies).forEach(cookieStore::addCookie);
         }
 
-        return new Http5FileSystem(rootName, fileSystemOptions, httpClient, httpClientContext);
+        return cookieStore;
+    }
+
+    private RequestConfig createDefaultRequestConfig(final Http5FileSystemConfigBuilder builder,
+            final FileSystemOptions fileSystemOptions) {
+        return RequestConfig.custom()
+                .setConnectTimeout(Timeout.ofMilliseconds(builder.getSoTimeoutDuration(fileSystemOptions).toMillis()))
+                .build();
+    }
+
+    private HostnameVerifier createHostnameVerifier(final Http5FileSystemConfigBuilder builder,
+            final FileSystemOptions fileSystemOptions) throws FileSystemException {
+        if (!builder.isHostnameVerificationEnabled(fileSystemOptions)) {
+            return NoopHostnameVerifier.INSTANCE;
+        }
+
+        return new DefaultHostnameVerifier();
     }
 
     /**
@@ -194,6 +218,79 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
     }
 
     /**
+     * Create an {@link HttpClientContext} object for an http4 file system.
+     *
+     * @param builder Configuration options builder for http4 provider
+     * @param rootName The root path
+     * @param fileSystemOptions The FileSystem options
+     * @param authData The {@code UserAuthentiationData} object
+     * @return an {@link HttpClientContext} object
+     * @throws FileSystemException if an error occurs
+     */
+    protected HttpClientContext createHttpClientContext(final Http5FileSystemConfigBuilder builder,
+            final GenericFileName rootName, final FileSystemOptions fileSystemOptions,
+            final UserAuthenticationData authData) throws FileSystemException {
+
+        final HttpClientContext clientContext = HttpClientContext.create();
+        final BasicCredentialsProvider credsProvider = new BasicCredentialsProvider();
+        clientContext.setCredentialsProvider(credsProvider);
+
+        final String username = UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
+                UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName())));
+        final char[] password = UserAuthenticatorUtils.getData(authData,
+                UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword()));
+
+        if (!StringUtils.isEmpty(username)) {
+            // set root port
+            credsProvider.setCredentials(new AuthScope(rootName.getHostName(), rootName.getPort()),
+                    new UsernamePasswordCredentials(username, password));
+        }
+
+        final HttpHost proxyHost = getProxyHttpHost(builder, fileSystemOptions);
+
+        if (proxyHost != null) {
+            final UserAuthenticator proxyAuth = builder.getProxyAuthenticator(fileSystemOptions);
+
+            if (proxyAuth != null) {
+                final UserAuthenticationData proxyAuthData = UserAuthenticatorUtils.authenticate(proxyAuth,
+                        new UserAuthenticationData.Type[] { UserAuthenticationData.USERNAME,
+                                UserAuthenticationData.PASSWORD });
+
+                if (proxyAuthData != null) {
+                    final UsernamePasswordCredentials proxyCreds = new UsernamePasswordCredentials(
+                            UserAuthenticatorUtils.toString(
+                                    UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.USERNAME, null)),
+                            UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.PASSWORD, null));
+
+                    // set proxy host port
+                    credsProvider.setCredentials(new AuthScope(proxyHost.getHostName(), proxyHost.getPort()),
+                            proxyCreds);
+                }
+
+                if (builder.isPreemptiveAuth(fileSystemOptions)) {
+                    final AuthCache authCache = new BasicAuthCache();
+                    final BasicScheme basicAuth = new BasicScheme();
+                    authCache.put(proxyHost, basicAuth);
+                    clientContext.setAuthCache(authCache);
+                }
+            }
+        }
+
+        return clientContext;
+    }
+
+    private HttpRoutePlanner createHttpRoutePlanner(final Http5FileSystemConfigBuilder builder,
+            final FileSystemOptions fileSystemOptions) {
+        final HttpHost proxyHost = getProxyHttpHost(builder, fileSystemOptions);
+
+        if (proxyHost != null) {
+            return new DefaultProxyRoutePlanner(proxyHost);
+        }
+
+        return new SystemDefaultRoutePlanner(ProxySelector.getDefault());
+    }
+
+    /**
      * Create {@link SSLContext} for HttpClient. Invoked by {@link #createHttpClientBuilder(Http5FileSystemConfigBuilder, GenericFileName, FileSystemOptions)}.
      *
      * @param builder Configuration options builder for HTTP4 provider
@@ -205,11 +302,12 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
             final FileSystemOptions fileSystemOptions) throws FileSystemException {
         try {
             final SSLContextBuilder sslContextBuilder = new SSLContextBuilder();
+            sslContextBuilder.setKeyStoreType(builder.getKeyStoreType(fileSystemOptions));
 
             File keystoreFileObject = null;
             final String keystoreFile = builder.getKeyStoreFile(fileSystemOptions);
 
-            if (keystoreFile != null && !keystoreFile.isEmpty()) {
+            if (!StringUtils.isEmpty(keystoreFile)) {
                 keystoreFileObject = new File(keystoreFile);
             }
 
@@ -235,144 +333,48 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
         }
     }
 
-    /**
-     * Create an {@link HttpClientContext} object for an http4 file system.
-     *
-     * @param builder Configuration options builder for http4 provider
-     * @param rootName The root path
-     * @param fileSystemOptions The FileSystem options
-     * @param authData The {@code UserAuthentiationData} object
-     * @return an {@link HttpClientContext} object
-     * @throws FileSystemException if an error occurs
-     */
-    protected HttpClientContext createHttpClientContext(final Http5FileSystemConfigBuilder builder,
-            final GenericFileName rootName, final FileSystemOptions fileSystemOptions,
-            final UserAuthenticationData authData) throws FileSystemException {
+    @Override
+    protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
+            throws FileSystemException {
+        final GenericFileName rootName = (GenericFileName) name;
 
-        final HttpClientContext clientContext = HttpClientContext.create();
-        final BasicCredentialsProvider credsProvider = new BasicCredentialsProvider();
-        clientContext.setCredentialsProvider(credsProvider);
+        UserAuthenticationData authData = null;
+        HttpClient httpClient;
+        HttpClientContext httpClientContext;
 
-        final String username = UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
-                UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName())));
-        final char[] password = UserAuthenticatorUtils.getData(authData,
-                UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword()));
-
-        if (username != null && !username.isEmpty()) {
-            // -1 for any port
-            credsProvider.setCredentials(new AuthScope(rootName.getHostName(), -1),
-                    new UsernamePasswordCredentials(username, password));
+        try {
+            final Http5FileSystemConfigBuilder builder = Http5FileSystemConfigBuilder.getInstance();
+            authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, AUTHENTICATOR_TYPES);
+            httpClientContext = createHttpClientContext(builder, rootName, fileSystemOptions, authData);
+            httpClient = createHttpClient(builder, rootName, fileSystemOptions);
+        } finally {
+            UserAuthenticatorUtils.cleanup(authData);
         }
 
-        final HttpHost proxyHost = getProxyHttpHost(builder, fileSystemOptions);
-
-        if (proxyHost != null) {
-            final UserAuthenticator proxyAuth = builder.getProxyAuthenticator(fileSystemOptions);
-
-            if (proxyAuth != null) {
-                final UserAuthenticationData proxyAuthData = UserAuthenticatorUtils.authenticate(proxyAuth,
-                        new UserAuthenticationData.Type[] { UserAuthenticationData.USERNAME,
-                                UserAuthenticationData.PASSWORD });
-
-                if (proxyAuthData != null) {
-                    final UsernamePasswordCredentials proxyCreds = new UsernamePasswordCredentials(
-                            UserAuthenticatorUtils.toString(
-                                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, null)),
-                            UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, null));
-
-                    // -1 for any port
-                    credsProvider.setCredentials(new AuthScope(proxyHost.getHostName(), -1),
-                            proxyCreds);
-                }
-
-                if (builder.isPreemptiveAuth(fileSystemOptions)) {
-                    final AuthCache authCache = new BasicAuthCache();
-                    final BasicScheme basicAuth = new BasicScheme();
-                    authCache.put(proxyHost, basicAuth);
-                    clientContext.setAuthCache(authCache);
-                }
-            }
-        }
-
-        return clientContext;
+        return new Http5FileSystem(rootName, fileSystemOptions, httpClient, httpClientContext);
     }
 
-    private HttpClientConnectionManager createConnectionManager(final Http5FileSystemConfigBuilder builder,
-            final FileSystemOptions fileSystemOptions) throws FileSystemException {
-
-        final SocketConfig socketConfig =
-                SocketConfig
-                .custom()
-                .setSoTimeout(builder.getSoTimeout(fileSystemOptions), TimeUnit.MILLISECONDS)
-                .build();
-
-        final String[] tlsVersions = builder.getTlsVersions(fileSystemOptions).split("\\s*,\\s*");
-
-        final TLS[] tlsArray = Arrays.stream(tlsVersions).map(TLS::valueOf).toArray(TLS[]::new);
-
-        final SSLConnectionSocketFactory sslSocketFactory = SSLConnectionSocketFactoryBuilder.create()
-                .setSslContext(createSSLContext(builder, fileSystemOptions))
-                .setHostnameVerifier(createHostnameVerifier(builder, fileSystemOptions))
-                .setTlsVersions(tlsArray)
-                .build();
-
-        return PoolingHttpClientConnectionManagerBuilder.create()
-                .setSSLSocketFactory(sslSocketFactory)
-                .setMaxConnTotal(builder.getMaxTotalConnections(fileSystemOptions))
-                .setMaxConnPerRoute(builder.getMaxConnectionsPerHost(fileSystemOptions))
-                .setDefaultSocketConfig(socketConfig)
-                .build();
+    @Override
+    public Collection<Capability> getCapabilities() {
+        return CAPABILITIES;
     }
 
-    private RequestConfig createDefaultRequestConfig(final Http5FileSystemConfigBuilder builder,
-            final FileSystemOptions fileSystemOptions) {
-        return RequestConfig.custom()
-                .setConnectTimeout(builder.getConnectionTimeout(fileSystemOptions), TimeUnit.MILLISECONDS)
-                .build();
-    }
-
-    private HttpRoutePlanner createHttpRoutePlanner(final Http5FileSystemConfigBuilder builder,
-            final FileSystemOptions fileSystemOptions) {
-        final HttpHost proxyHost = getProxyHttpHost(builder, fileSystemOptions);
-
-        if (proxyHost != null) {
-            return new DefaultProxyRoutePlanner(proxyHost);
-        }
-
-        return new SystemDefaultRoutePlanner(ProxySelector.getDefault());
+    @Override
+    public FileSystemConfigBuilder getConfigBuilder() {
+        return Http5FileSystemConfigBuilder.getInstance();
     }
 
     private HttpHost getProxyHttpHost(final Http5FileSystemConfigBuilder builder,
             final FileSystemOptions fileSystemOptions) {
+        final String proxyScheme = builder.getProxyScheme(fileSystemOptions);
         final String proxyHost = builder.getProxyHost(fileSystemOptions);
         final int proxyPort = builder.getProxyPort(fileSystemOptions);
 
-        if (proxyHost != null && proxyHost.length() > 0 && proxyPort > 0) {
-            return new HttpHost(proxyHost, proxyPort);
+        if (!StringUtils.isEmpty(proxyHost) && proxyPort > 0) {
+            return new HttpHost(proxyScheme, proxyHost, proxyPort);
         }
 
         return null;
-    }
-
-    private CookieStore createDefaultCookieStore(final Http5FileSystemConfigBuilder builder,
-            final FileSystemOptions fileSystemOptions) {
-        final CookieStore cookieStore = new BasicCookieStore();
-        final Cookie[] cookies = builder.getCookies(fileSystemOptions);
-
-        if (cookies != null) {
-            Arrays.stream(cookies).forEach(cookieStore::addCookie);
-        }
-
-        return cookieStore;
-    }
-
-    private HostnameVerifier createHostnameVerifier(final Http5FileSystemConfigBuilder builder,
-            final FileSystemOptions fileSystemOptions) throws FileSystemException {
-        if (!builder.isHostnameVerificationEnabled(fileSystemOptions)) {
-            return NoopHostnameVerifier.INSTANCE;
-        }
-
-        return new DefaultHostnameVerifier();
     }
 
 }

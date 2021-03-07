@@ -48,8 +48,7 @@ public abstract class BaseFilterTest {
      * Creates a file select info object for the given file.
      *
      * @param file File to create an info for.
-     *
-     * @return File selct info.
+     * @return File select info.
      */
     protected static FileSelectInfo createFileSelectInfo(final File file) {
         try {
@@ -103,7 +102,7 @@ public abstract class BaseFilterTest {
      * Asserts that the array contains the given file names.
      *
      * @param files     Array to check.
-     * @param file names File names to find.
+     * @param fileNames names File names to find.
      */
     protected void assertContains(final FileObject[] files, final String... fileNames) {
         for (final String fileName : fileNames) {
@@ -249,7 +248,7 @@ public abstract class BaseFilterTest {
             throw new IllegalArgumentException("destFile cannot be null");
         }
 
-        try (final ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(destFile)));) {
+        try (final ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(destFile)))) {
             zipDir(srcDir, filter, destPath, out);
         }
 
@@ -289,13 +288,13 @@ public abstract class BaseFilterTest {
         if (fileName == null) {
             throw new IllegalArgumentException("file name cannot be null");
         }
-        if (fileName.trim().length() == 0) {
+        if (fileName.trim().isEmpty()) {
             throw new IllegalArgumentException("file name cannot be empty");
         }
         if (separator == null) {
             throw new IllegalArgumentException("separator cannot be null");
         }
-        if (separator.trim().length() == 0) {
+        if (separator.trim().isEmpty()) {
             throw new IllegalArgumentException("separator cannot be empty");
         }
 
@@ -303,7 +302,7 @@ public abstract class BaseFilterTest {
             return fileName;
         }
         final String trimmedPath = path.trim();
-        if (trimmedPath.length() == 0) {
+        if (trimmedPath.isEmpty()) {
             return fileName;
         }
         final String trimmedFilename = fileName.trim();

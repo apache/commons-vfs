@@ -22,7 +22,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -194,9 +193,7 @@ public class DelegatingFileSystemOptionsBuilder {
         ctx.fileSystemConfigBuilder = getManager().getFileSystemConfigBuilder(ctx.scheme);
 
         // try to find a setter which could accept the value
-        final Iterator<Method> iterConfigSetters = ctx.configSetters.iterator();
-        while (iterConfigSetters.hasNext()) {
-            final Method configSetter = iterConfigSetters.next();
+        for (final Method configSetter : ctx.configSetters) {
             if (convertValuesAndInvoke(configSetter, ctx)) {
                 return;
             }
@@ -262,13 +259,8 @@ public class DelegatingFileSystemOptionsBuilder {
             // can convert using constructor
             for (int iterValues = 0; iterValues < ctx.values.length; iterValues++) {
                 try {
-                    Array.set(convertedValues, iterValues,
-                            valueConstructor.newInstance(new Object[] { ctx.values[iterValues] }));
-                } catch (final InstantiationException e) {
-                    throw new FileSystemException(e);
-                } catch (final IllegalAccessException e) {
-                    throw new FileSystemException(e);
-                } catch (final InvocationTargetException e) {
+                    Array.set(convertedValues, iterValues, valueConstructor.newInstance(ctx.values[iterValues]));
+                } catch (final InstantiationException | IllegalAccessException | InvocationTargetException e) {
                     throw new FileSystemException(e);
                 }
             }
@@ -292,10 +284,8 @@ public class DelegatingFileSystemOptionsBuilder {
             for (int iterValues = 0; iterValues < ctx.values.length; iterValues++) {
                 try {
                     Array.set(convertedValues, iterValues,
-                            valueFactory.invoke(null, new Object[] { ctx.values[iterValues] }));
-                } catch (final IllegalAccessException e) {
-                    throw new FileSystemException(e);
-                } catch (final InvocationTargetException e) {
+                            valueFactory.invoke(null, ctx.values[iterValues]));
+                } catch (final IllegalAccessException | InvocationTargetException e) {
                     throw new FileSystemException(e);
                 }
             }
@@ -312,7 +302,7 @@ public class DelegatingFileSystemOptionsBuilder {
      */
     private void invokeSetter(final Class<?> valueParameter, final Context ctx, final Method configSetter,
             final Object values) throws FileSystemException {
-        Object[] args;
+        final Object[] args;
         if (valueParameter.isArray()) {
             args = new Object[] { ctx.fso, values };
         } else {
@@ -320,9 +310,7 @@ public class DelegatingFileSystemOptionsBuilder {
         }
         try {
             configSetter.invoke(ctx.fileSystemConfigBuilder, args);
-        } catch (final IllegalAccessException e) {
-            throw new FileSystemException(e);
-        } catch (final InvocationTargetException e) {
+        } catch (final IllegalAccessException | InvocationTargetException e) {
             throw new FileSystemException(e);
         }
     }
@@ -377,11 +365,7 @@ public class DelegatingFileSystemOptionsBuilder {
 
             final String key = methodName.substring(3).toLowerCase();
 
-            List<Method> configSetter = schemeMethods.get(key);
-            if (configSetter == null) {
-                configSetter = new ArrayList<>(2);
-                schemeMethods.put(key, configSetter);
-            }
+            final List<Method> configSetter = schemeMethods.computeIfAbsent(key, k -> new ArrayList<>(2));
             configSetter.add(method);
         }
 

@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
@@ -33,13 +34,13 @@ public abstract class AbstractFileName implements FileName {
     // How reserved URI chars were selected:
     //
     // URIs can contain :, /, ?, #, @
-    // See http://download.oracle.com/javase/6/docs/api/java/net/URI.html
+    // See https://docs.oracle.com/javase/8/docs/api/java/net/URI.html
     // http://tools.ietf.org/html/rfc3986#section-2.2
     //
     // Since : and / occur before the path, only chars after path are escaped (i.e., # and ?)
     // ? is a reserved filesystem character for Windows and Unix, so can't be part of a file name.
     // Therefore only # is a reserved char in a URI as part of the path that can be in the file name.
-    private static final char[] RESERVED_URI_CHARS = { '#' };
+    private static final char[] RESERVED_URI_CHARS = { '#', ' ' };
 
     private final String scheme;
     private final String absPath;
@@ -52,20 +53,20 @@ public abstract class AbstractFileName implements FileName {
     private String extension;
     private String decodedAbsPath;
 
-    private String key = null;
+    private String key;
 
     public AbstractFileName(final String scheme, final String absPath, final FileType type) {
         this.rootUri = null;
         this.scheme = scheme;
         this.type = type;
-        if (absPath != null && absPath.length() > 0) {
+        if (StringUtils.isEmpty(absPath)) {
+            this.absPath = ROOT_PATH;
+        } else {
             if (absPath.length() > 1 && absPath.endsWith("/")) {
                 this.absPath = absPath.substring(0, absPath.length() - 1);
             } else {
                 this.absPath = absPath;
             }
-        } else {
-            this.absPath = ROOT_PATH;
         }
     }
 
@@ -271,7 +272,7 @@ public abstract class AbstractFileName implements FileName {
     }
 
     private String handleURISpecialCharacters(String uri) {
-        if (uri != null && uri.length() > 0) {
+        if (!StringUtils.isEmpty(uri)) {
             try {
                 // VFS-325: Handle URI special characters in file name
                 // Decode the base URI and re-encode with URI special characters
@@ -510,18 +511,12 @@ public abstract class AbstractFileName implements FileName {
         }
 
         if (scope == NameScope.CHILD) {
-            if (path.length() == baseLen || baseLen > 1 && path.charAt(baseLen) != SEPARATOR_CHAR
-                    || path.indexOf(SEPARATOR_CHAR, baseLen + 1) != -1) {
-                return false;
-            }
+            return path.length() != baseLen && (baseLen <= 1 || path.charAt(baseLen) == SEPARATOR_CHAR)
+                    && path.indexOf(SEPARATOR_CHAR, baseLen + 1) == -1;
         } else if (scope == NameScope.DESCENDENT) {
-            if (path.length() == baseLen || baseLen > 1 && path.charAt(baseLen) != SEPARATOR_CHAR) {
-                return false;
-            }
+            return path.length() != baseLen && (baseLen <= 1 || path.charAt(baseLen) == SEPARATOR_CHAR);
         } else if (scope == NameScope.DESCENDENT_OR_SELF) {
-            if (baseLen > 1 && path.length() > baseLen && path.charAt(baseLen) != SEPARATOR_CHAR) {
-                return false;
-            }
+            return baseLen <= 1 || path.length() <= baseLen || path.charAt(baseLen) == SEPARATOR_CHAR;
         } else if (scope != NameScope.FILE_SYSTEM) {
             throw new IllegalArgumentException();
         }

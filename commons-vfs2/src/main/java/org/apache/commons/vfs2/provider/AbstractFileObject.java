@@ -73,8 +73,6 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      */
     public static final int DEFAULT_BUFFER_SIZE = 8192;
 
-    private static final FileName[] EMPTY_FILE_ARRAY = {};
-
     private static final int INITIAL_LIST_SIZE = 5;
 
     /**
@@ -205,8 +203,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             } else {
                 list.add(childName);
             }
-            children = new FileName[list.size()];
-            list.toArray(children);
+            children = list.toArray(FileName.EMPTY_ARRAY);
         }
 
         // removeChildrenCache();
@@ -409,8 +406,8 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
         // Delete 'em
         final int count = files.size();
-        for (int i = 0; i < count; i++) {
-            final AbstractFileObject file = FileObjectUtils.getAbstractFileObject(files.get(i));
+        for (final FileObject fileObject : files) {
+            final AbstractFileObject file = FileObjectUtils.getAbstractFileObject(fileObject);
             // file.attach();
 
             // VFS-210: It seems impossible to me that findFiles will return a list with hidden files/directories
@@ -991,7 +988,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public FileObject[] findFiles(final FileSelector selector) throws FileSystemException {
         final List<FileObject> list = this.listFiles(selector);
-        return list == null ? null : list.toArray(new FileObject[list.size()]);
+        return list == null ? null : list.toArray(FileObject.EMPTY_ARRAY);
     }
 
     /**
@@ -1041,8 +1038,9 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         final FileObject[] children = getChildren();
         for (final FileObject element : children) {
             final FileName child = element.getName();
+            final String childBaseName = child.getBaseName();
             // TODO - use a comparator to compare names
-            if (child.getBaseName().equals(name)) {
+            if (childBaseName.equals(name) || UriParser.decode(childBaseName).equals(name)) {
                 return resolveFile(child);
             }
         }
@@ -1075,7 +1073,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             }
 
             // allow the filesystem to return resolved children. e.g. prefill type for webdav
-            FileObject[] childrenObjects;
+            final FileObject[] childrenObjects;
             try {
                 childrenObjects = doListChildrenResolved();
                 children = extractNames(childrenObjects);
@@ -1108,7 +1106,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 throw new FileNotFolderException(fileName);
             } else if (files.length == 0) {
                 // No children
-                children = EMPTY_FILE_ARRAY;
+                children = FileName.EMPTY_ARRAY;
             } else {
                 // Create file objects for the children
                 final FileName[] cache = new FileName[files.length];
@@ -1195,9 +1193,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         // Get the raw input stream
         try {
             return doGetInputStream(bufferSize);
-        } catch (final org.apache.commons.vfs2.FileNotFoundException exc) {
-            throw new org.apache.commons.vfs2.FileNotFoundException(fileName, exc);
-        } catch (final FileNotFoundException exc) {
+        } catch (final org.apache.commons.vfs2.FileNotFoundException | FileNotFoundException exc) {
             throw new org.apache.commons.vfs2.FileNotFoundException(fileName, exc);
         } catch (final FileSystemException exc) {
             throw exc;
@@ -1521,7 +1517,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public boolean isExecutable() throws FileSystemException {
         try {
-            return exists() ? doIsExecutable() : false;
+            return exists() && doIsExecutable();
         } catch (final Exception exc) {
             throw new FileSystemException("vfs.provider/check-is-executable.error", fileName, exc);
         }
@@ -1564,7 +1560,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public boolean isHidden() throws FileSystemException {
         try {
-            return exists() ? doIsHidden() : false;
+            return exists() && doIsHidden();
         } catch (final Exception exc) {
             throw new FileSystemException("vfs.provider/check-is-hidden.error", fileName, exc);
         }
@@ -1579,7 +1575,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public boolean isReadable() throws FileSystemException {
         try {
-            return exists() ? doIsReadable() : false;
+            return exists() && doIsReadable();
         } catch (final Exception exc) {
             throw new FileSystemException("vfs.provider/check-is-readable.error", fileName, exc);
         }
@@ -1608,7 +1604,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public boolean isSymbolicLink() throws FileSystemException {
         try {
-            return exists() ? doIsSymbolicLink() : false;
+            return exists() && doIsSymbolicLink();
         } catch (final Exception exc) {
             throw new FileSystemException("vfs.provider/check-is-symbolic-link.error", fileName, exc);
         }
@@ -1680,10 +1676,8 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 throw new FileSystemException("vfs.provider/rename-parent-read-only.error", getName(),
                         getParent().getName());
             }
-        } else {
-            if (!isWriteable()) {
-                throw new FileSystemException("vfs.provider/rename-read-only.error", getName());
-            }
+        } else if (!isWriteable()) {
+            throw new FileSystemException("vfs.provider/rename-read-only.error", getName());
         }
 
         if (destFile.exists() && !isSameFile(destFile)) {
@@ -1849,7 +1843,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public boolean setExecutable(final boolean readable, final boolean ownerOnly) throws FileSystemException {
         try {
-            return exists() ? doSetExecutable(readable, ownerOnly) : false;
+            return exists() && doSetExecutable(readable, ownerOnly);
         } catch (final Exception exc) {
             throw new FileSystemException("vfs.provider/set-executable.error", fileName, exc);
         }
@@ -1869,18 +1863,16 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public boolean setReadable(final boolean readable, final boolean ownerOnly) throws FileSystemException {
         try {
-            return exists() ? doSetReadable(readable, ownerOnly) : false;
+            return exists() && doSetReadable(readable, ownerOnly);
         } catch (final Exception exc) {
             throw new FileSystemException("vfs.provider/set-readable.error", fileName, exc);
         }
     }
 
-    // --- OPERATIONS ---
-
     @Override
     public boolean setWritable(final boolean readable, final boolean ownerOnly) throws FileSystemException {
         try {
-            return exists() ? doSetWritable(readable, ownerOnly) : false;
+            return exists() && doSetWritable(readable, ownerOnly);
         } catch (final Exception exc) {
             throw new FileSystemException("vfs.provider/set-writeable.error", fileName, exc);
         }

@@ -53,7 +53,7 @@ public enum FileType {
     /** true if the FileType has attributes */
     private final boolean hasAttrs;
 
-    private FileType(final String name, final boolean hasChildren, final boolean hasContent, final boolean hasAttrs) {
+    FileType(final String name, final boolean hasChildren, final boolean hasContent, final boolean hasAttrs) {
         this.name = name;
         this.hasChildren = hasChildren;
         this.hasContent = hasContent;

@@ -19,7 +19,6 @@ package org.apache.commons.vfs2.provider.http5;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.apache.commons.vfs2.FileContentInfoFactory;
 import org.apache.commons.vfs2.FileNotFoundException;
@@ -75,10 +74,9 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
      * @param name file name
      * @param fileSystem file system
      * @throws FileSystemException if any error occurs
-     * @throws URISyntaxException if given file name cannot be converted to a URI due to URI syntax error
      */
     protected Http5FileObject(final AbstractFileName name, final FS fileSystem)
-            throws FileSystemException, URISyntaxException {
+            throws FileSystemException {
         this(name, fileSystem, Http5FileSystemConfigBuilder.getInstance());
     }
 
@@ -89,10 +87,9 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
      * @param fileSystem file system
      * @param builder {@code Http4FileSystemConfigBuilder} object
      * @throws FileSystemException if any error occurs
-     * @throws URISyntaxException if given file name cannot be converted to a URI due to URI syntax error
      */
     protected Http5FileObject(final AbstractFileName name, final FS fileSystem,
-            final Http5FileSystemConfigBuilder builder) throws FileSystemException, URISyntaxException {
+            final Http5FileSystemConfigBuilder builder) throws FileSystemException {
         super(name, fileSystem);
         final FileSystemOptions fileSystemOptions = fileSystem.getFileSystemOptions();
         urlCharset = builder.getUrlCharset(fileSystemOptions);
@@ -101,18 +98,8 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
     }
 
     @Override
-    protected FileType doGetType() throws Exception {
-        lastHeadResponse = executeHttpUriRequest(new HttpHead(getInternalURI()));
-        final int status = lastHeadResponse.getCode();
-
-        if (status == HttpStatus.SC_OK
-                || status == HttpStatus.SC_METHOD_NOT_ALLOWED /* method is not allowed, but resource exist */) {
-            return FileType.FILE;
-        } else if (status == HttpStatus.SC_NOT_FOUND || status == HttpStatus.SC_GONE) {
-            return FileType.IMAGINARY;
-        } else {
-            throw new FileSystemException("vfs.provider.http/head.error", getName(), Integer.valueOf(status));
-        }
+    protected void doDetach() throws Exception {
+        lastHeadResponse = null;
     }
 
     @Override
@@ -132,18 +119,6 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
     }
 
     @Override
-    protected long doGetLastModifiedTime() throws Exception {
-        FileSystemException.requireNonNull(lastHeadResponse, "vfs.provider.http/last-modified.error", getName());
-
-        final Header header = lastHeadResponse.getFirstHeader("Last-Modified");
-
-        FileSystemException.requireNonNull(header, "vfs.provider.http/last-modified.error", getName());
-
-        return DateUtils.parseDate(header.getValue()).getTime();
-    }
-
-
-    @Override
     protected InputStream doGetInputStream(final int bufferSize) throws Exception {
         final HttpGet getRequest = new HttpGet(getInternalURI());
         final ClassicHttpResponse httpResponse = executeHttpUriRequest(getRequest);
@@ -160,14 +135,36 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
         return new MonitoredHttpResponseContentInputStream(httpResponse, bufferSize);
     }
 
+
+    @Override
+    protected long doGetLastModifiedTime() throws Exception {
+        FileSystemException.requireNonNull(lastHeadResponse, "vfs.provider.http/last-modified.error", getName());
+
+        final Header header = lastHeadResponse.getFirstHeader("Last-Modified");
+
+        FileSystemException.requireNonNull(header, "vfs.provider.http/last-modified.error", getName());
+
+        return DateUtils.parseDate(header.getValue()).getTime();
+    }
+
     @Override
     protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception {
         return new Http5RandomAccessContent<>(this, mode);
     }
 
     @Override
-    protected String[] doListChildren() throws Exception {
-        throw new UnsupportedOperationException("Not implemented.");
+    protected FileType doGetType() throws Exception {
+        lastHeadResponse = executeHttpUriRequest(new HttpHead(getInternalURI()));
+        final int status = lastHeadResponse.getCode();
+
+        if (status == HttpStatus.SC_OK
+                || status == HttpStatus.SC_METHOD_NOT_ALLOWED /* method is not allowed, but resource exist */) {
+            return FileType.FILE;
+        } else if (status == HttpStatus.SC_NOT_FOUND || status == HttpStatus.SC_GONE) {
+            return FileType.IMAGINARY;
+        } else {
+            throw new FileSystemException("vfs.provider.http/head.error", getName(), Integer.valueOf(status));
+        }
     }
 
     @Override
@@ -176,21 +173,26 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
     }
 
     @Override
-    protected FileContentInfoFactory getFileContentInfoFactory() {
-        return new Http5FileContentInfoFactory();
-    }
-
-    @Override
-    protected void doDetach() throws Exception {
-        lastHeadResponse = null;
+    protected String[] doListChildren() throws Exception {
+        throw new UnsupportedOperationException("Not implemented.");
     }
 
     /**
-     * Return URL charset string.
-     * @return URL charset string
+     * Execute the request using the given {@code httpRequest} and return a {@code ClassicHttpResponse} from the execution.
+     *
+     * @param httpRequest {@code HttpUriRequest} object
+     * @return {@code ClassicHttpResponse} from the execution
+     * @throws IOException if IO error occurs
      */
-    protected String getUrlCharset() {
-        return urlCharset;
+    protected ClassicHttpResponse executeHttpUriRequest(final HttpUriRequest httpRequest) throws IOException {
+        final CloseableHttpClient httpClient = (CloseableHttpClient) getAbstractFileSystem().getHttpClient();
+        final HttpClientContext httpClientContext = getAbstractFileSystem().getHttpClientContext();
+        return httpClient.execute(httpRequest, httpClientContext);
+    }
+
+    @Override
+    protected FileContentInfoFactory getFileContentInfoFactory() {
+        return new Http5FileContentInfoFactory();
     }
 
     /**
@@ -218,16 +220,11 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
     }
 
     /**
-     * Execute the request using the given {@code httpRequest} and return a {@code ClassicHttpResponse} from the execution.
-     *
-     * @param httpRequest {@code HttpUriRequest} object
-     * @return {@code ClassicHttpResponse} from the execution
-     * @throws IOException if IO error occurs
+     * Return URL charset string.
+     * @return URL charset string
      */
-    protected ClassicHttpResponse executeHttpUriRequest(final HttpUriRequest httpRequest) throws IOException {
-        final CloseableHttpClient httpClient = (CloseableHttpClient) getAbstractFileSystem().getHttpClient();
-        final HttpClientContext httpClientContext = getAbstractFileSystem().getHttpClientContext();
-        return httpClient.execute(httpRequest, httpClientContext);
+    protected String getUrlCharset() {
+        return urlCharset;
     }
 
 }

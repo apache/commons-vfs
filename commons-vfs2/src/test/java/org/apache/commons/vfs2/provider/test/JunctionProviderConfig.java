@@ -20,8 +20,8 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FilesCache;
+import org.apache.commons.vfs2.ProviderTestConfig;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs2.test.ProviderTestConfig;
 
 /**
  * A provider config that wraps another provider, to run the tests via junctions.

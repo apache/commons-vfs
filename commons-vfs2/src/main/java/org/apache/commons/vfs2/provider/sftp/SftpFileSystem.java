@@ -18,9 +18,12 @@ package org.apache.commons.vfs2.provider.sftp;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.Collection;
 import java.util.Objects;
 
+import org.apache.commons.lang3.time.DurationUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.Capability;
@@ -62,7 +65,7 @@ public class SftpFileSystem extends AbstractFileSystem {
 
     private volatile ChannelSftp idleChannel;
 
-    private final int connectTimeoutMillis;
+    private final Duration connectTimeout;
 
     /**
      * Cache for the user ID (-1 when not set)
@@ -89,8 +92,8 @@ public class SftpFileSystem extends AbstractFileSystem {
             final FileSystemOptions fileSystemOptions) {
         super(rootName, null, fileSystemOptions);
         this.session = Objects.requireNonNull(session, "session");
-        this.connectTimeoutMillis = SftpFileSystemConfigBuilder.getInstance()
-                .getConnectTimeoutMillis(fileSystemOptions);
+        this.connectTimeout = SftpFileSystemConfigBuilder.getInstance()
+            .getConnectTimeout(fileSystemOptions);
 
         if (SftpFileSystemConfigBuilder.getInstance().isDisableDetectExecChannel(fileSystemOptions)) {
             this.execDisabled = true;
@@ -137,7 +140,7 @@ public class SftpFileSystem extends AbstractFileSystem {
 
             if (channel == null) {
                 channel = (ChannelSftp) getSession().openChannel("sftp");
-                channel.connect(connectTimeoutMillis);
+                channel.connect(DurationUtils.toMillisInt(connectTimeout));
                 final Boolean userDirIsRoot = SftpFileSystemConfigBuilder.getInstance()
                         .getUserDirIsRoot(getFileSystemOptions());
                 final String workingDirectory = getRootName().getPath();
@@ -312,9 +315,9 @@ public class SftpFileSystem extends AbstractFileSystem {
         try {
             channel.setCommand(command);
             channel.setInputStream(null);
-            try (final InputStreamReader stream = new InputStreamReader(channel.getInputStream())) {
+            try (final InputStreamReader stream = new InputStreamReader(channel.getInputStream(), StandardCharsets.UTF_8)) {
                 channel.setErrStream(System.err, true);
-                channel.connect(connectTimeoutMillis);
+                channel.connect(DurationUtils.toMillisInt(connectTimeout));
 
                 // Read the stream
                 final char[] buffer = new char[EXEC_BUFFER_SIZE];
@@ -354,7 +357,7 @@ public class SftpFileSystem extends AbstractFileSystem {
     private boolean detectExecDisabled() {
         try {
             return getUId() == UNIDENTIFED;
-        } catch(JSchException | IOException e) {
+        } catch(final JSchException | IOException e) {
             LOG.debug("Cannot get UID, assuming no exec channel is present", e);
             return true;
         }

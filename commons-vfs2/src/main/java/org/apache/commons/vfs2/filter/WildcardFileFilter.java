@@ -22,6 +22,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileFilter;
 import org.apache.commons.vfs2.FileSelectInfo;
 
@@ -121,13 +123,13 @@ public class WildcardFileFilter implements FileFilter, Serializable {
     /**
      * Checks to see if the file name matches one of the wildcards.
      *
-     * @param fileInfo the file to check
+     * @param fileSelectInfo the file to check
      *
      * @return true if the file name matches one of the wildcards
      */
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) {
-        final String name = fileInfo.getFile().getName().getBaseName();
+    public boolean accept(final FileSelectInfo fileSelectInfo) {
+        final String name = fileSelectInfo.getFile().getName().getBaseName();
         for (final String wildcard : wildcards) {
             if (wildcardMatch(name, wildcard, caseSensitivity)) {
                 return true;
@@ -176,12 +178,12 @@ public class WildcardFileFilter implements FileFilter, Serializable {
 
         final char[] array = text.toCharArray();
         final ArrayList<String> list = new ArrayList<>();
-        final StringBuilder buffer = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         for (int i = 0; i < array.length; i++) {
             if (array[i] == '?' || array[i] == '*') {
-                if (buffer.length() != 0) {
-                    list.add(buffer.toString());
-                    buffer.setLength(0);
+                if (StringUtils.isNotEmpty(builder)) {
+                    list.add(builder.toString());
+                    builder.setLength(0);
                 }
                 if (array[i] == '?') {
                     list.add("?");
@@ -189,14 +191,14 @@ public class WildcardFileFilter implements FileFilter, Serializable {
                     list.add("*");
                 }
             } else {
-                buffer.append(array[i]);
+                builder.append(array[i]);
             }
         }
-        if (buffer.length() != 0) {
-            list.add(buffer.toString());
+        if (StringUtils.isNotEmpty(builder)) {
+            list.add(builder.toString());
         }
 
-        return list.toArray(new String[list.size()]);
+        return list.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
     // CHECKSTYLE:ON
@@ -236,7 +238,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
 
         // loop around a backtrack stack, to handle complex * matching
         do {
-            if (backtrack.size() > 0) {
+            if (!backtrack.isEmpty()) {
                 final int[] array = backtrack.pop();
                 wcsIdx = array[0];
                 textIdx = array[1];
@@ -274,12 +276,10 @@ public class WildcardFileFilter implements FileFilter, Serializable {
                         if (repeat >= 0) {
                             backtrack.push(new int[] { wcsIdx, repeat });
                         }
-                    } else {
+                    } else if (!caseSensitivity.checkRegionMatches(fileName, textIdx, wcs[wcsIdx])) {
                         // matching from current position
-                        if (!caseSensitivity.checkRegionMatches(fileName, textIdx, wcs[wcsIdx])) {
-                            // couldnt match token
-                            break;
-                        }
+                        // couldnt match token
+                        break;
                     }
 
                     // matched text token, move text index to end of matched
@@ -296,7 +296,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
                 return true;
             }
 
-        } while (backtrack.size() > 0);
+        } while (!backtrack.isEmpty());
 
         return false;
     }

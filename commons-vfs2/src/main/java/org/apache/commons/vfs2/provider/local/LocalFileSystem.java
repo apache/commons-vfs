@@ -68,8 +68,7 @@ public class LocalFileSystem extends AbstractFileSystem {
         final File file = localFile.getLocalFile();
         final SecurityManager sm = System.getSecurityManager();
         if (sm != null) {
-            final FilePermission requiredPerm = new FilePermission(file.getAbsolutePath(), "read");
-            sm.checkPermission(requiredPerm);
+            sm.checkPermission(new FilePermission(file.getAbsolutePath(), "read"));
         }
         return file;
     }

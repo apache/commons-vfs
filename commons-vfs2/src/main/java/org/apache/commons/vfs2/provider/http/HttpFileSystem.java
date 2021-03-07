@@ -46,11 +46,7 @@ public class HttpFileSystem extends AbstractFileSystem {
      */
     @Override
     protected void addCapabilities(final Collection<Capability> caps) {
-        caps.addAll(HttpFileProvider.capabilities);
-    }
-
-    protected HttpClient getClient() {
-        return client;
+        caps.addAll(HttpFileProvider.CAPABILITIES);
     }
 
     /** @since 2.0 */
@@ -70,5 +66,9 @@ public class HttpFileSystem extends AbstractFileSystem {
     @Override
     protected FileObject createFile(final AbstractFileName name) throws Exception {
         return new HttpFileObject<>(name, this);
+    }
+
+    protected HttpClient getClient() {
+        return client;
     }
 }

@@ -187,7 +187,7 @@ public abstract class AbstractSyncTask extends VfsTask {
             }
         }
 
-        if (srcFiles.size() == 0) {
+        if (srcFiles.isEmpty()) {
             final String message = Messages.getString("vfs.tasks/sync.no-source-files.warn");
             logOrDie(message, Project.MSG_WARN);
             return;
@@ -247,7 +247,7 @@ public abstract class AbstractSyncTask extends VfsTask {
 
             if (rootFile.isFile()) {
                 // Build the destination file name
-                String relName = null;
+                final String relName;
                 if (srcDirName == null || !srcDirIsBase) {
                     relName = rootName.getBaseName();
                 } else {
@@ -265,7 +265,7 @@ public abstract class AbstractSyncTask extends VfsTask {
 
                 for (final FileObject srcFile : files) {
                     // Build the destination file name
-                    String relName = null;
+                    final String relName;
                     if (srcDirName == null || !srcDirIsBase) {
                         relName = rootName.getRelativeName(srcFile.getName());
                     } else {

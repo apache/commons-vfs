@@ -139,9 +139,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
      */
     @Override
     protected FileType doGetType() throws Exception {
-        // JDK BUG: 6192331
-        // if (!file.exists())
-        if (!file.exists() && file.length() < 1) {
+        if (!file.exists()) {
             return FileType.IMAGINARY;
         }
 

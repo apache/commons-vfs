@@ -52,14 +52,12 @@ public class GzipFileObject extends CompressedFileFileObject<GzipFileSystem> {
 
     @Override
     protected InputStream doGetInputStream(final int bufferSize) throws Exception {
-        final InputStream inputStream = getContainer().getContent().getInputStream();
-        return new GZIPInputStream(inputStream, bufferSize);
+        return new GZIPInputStream(getContainer().getContent().getInputStream(), bufferSize);
     }
 
     @Override
     protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
-        final OutputStream os = getContainer().getContent().getOutputStream(false);
-        return new GZIPOutputStream(os);
+        return new GZIPOutputStream(getContainer().getContent().getOutputStream(false));
     }
 
     private static GzipFileSystem cast(final CompressedFileFileSystem fs) {

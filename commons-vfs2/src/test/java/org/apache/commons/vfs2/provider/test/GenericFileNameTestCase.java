@@ -20,14 +20,17 @@ import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.provider.GenericFileName;
 import org.apache.commons.vfs2.provider.URLFileNameParser;
+import org.junit.Test;
 
 /**
  * Some GenericFileName test cases.
  */
 public class GenericFileNameTestCase extends AbstractVfsTestCase {
+
     /**
      * Tests parsing a URI into its parts.
      */
+    @Test
     public void testParseUri() throws Exception {
         final URLFileNameParser urlParser = new URLFileNameParser(21);
         // Simple name
@@ -101,6 +104,7 @@ public class GenericFileNameTestCase extends AbstractVfsTestCase {
     /**
      * Tests error handling in URI parser.
      */
+    @Test
     public void testBadlyFormedUri() throws Exception {
         // Does not start with ftp://
         testBadlyFormedUri("ftp:", "vfs.provider/missing-double-slashes.error");

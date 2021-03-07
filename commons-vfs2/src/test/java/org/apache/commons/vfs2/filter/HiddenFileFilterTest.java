@@ -124,7 +124,7 @@ public class HiddenFileFilterTest extends BaseFilterTest {
     public void testZipFile() throws FileSystemException {
 
         // Same test with ZIP file
-        FileObject[] files;
+        final FileObject[] files;
 
         // TODO xxx In Java 6 there is no way to hide a file
         // files = zipFileObj.findFiles(new

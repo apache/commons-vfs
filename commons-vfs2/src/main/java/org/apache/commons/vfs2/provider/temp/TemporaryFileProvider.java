@@ -51,21 +51,14 @@ public class TemporaryFileProvider extends AbstractFileProvider implements Compa
     }
 
     public TemporaryFileProvider() {
-        super();
     }
 
     @Override
     public int compareTo(final Object o) {
         final int h1 = hashCode();
         final int h2 = o.hashCode();
-        if (h1 < h2) {
-            return -1;
-        }
-        if (h1 > h2) {
-            return 1;
-        }
+        return Integer.compare(h1, h2);
 
-        return 0;
     }
 
     /**
@@ -73,13 +66,13 @@ public class TemporaryFileProvider extends AbstractFileProvider implements Compa
      *
      * @param baseFile The base FileObject.
      * @param uri The URI of the file to be located.
-     * @param properties FileSystemOptions to use to locate or create the file.
+     * @param fileSystemOptions FileSystemOptions to use to locate or create the file.
      * @return The FileObject.
      * @throws FileSystemException if an error occurs.
      */
     @Override
     public synchronized FileObject findFile(final FileObject baseFile, final String uri,
-            final FileSystemOptions properties) throws FileSystemException {
+            final FileSystemOptions fileSystemOptions) throws FileSystemException {
         // Parse the name
         final StringBuilder buffer = new StringBuilder(uri);
         final String scheme = UriParser.extractScheme(getContext().getFileSystemManager().getSchemes(), uri, buffer);
@@ -89,7 +82,7 @@ public class TemporaryFileProvider extends AbstractFileProvider implements Compa
 
         // Create the temp file system if it does not exist
         // FileSystem filesystem = findFileSystem( this, (Properties) null);
-        FileSystem filesystem = findFileSystem(this, properties);
+        FileSystem filesystem = findFileSystem(this, fileSystemOptions);
         if (filesystem == null) {
             if (rootFile == null) {
                 rootFile = getContext().getTemporaryFileStore().allocateFile("tempfs");
@@ -97,7 +90,7 @@ public class TemporaryFileProvider extends AbstractFileProvider implements Compa
             final FileName rootName = getContext().parseURI(scheme + ":" + FileName.ROOT_PATH);
             // final FileName rootName =
             // new LocalFileName(scheme, scheme + ":", FileName.ROOT_PATH);
-            filesystem = new LocalFileSystem(rootName, rootFile.getAbsolutePath(), properties);
+            filesystem = new LocalFileSystem(rootName, rootFile.getAbsolutePath(), fileSystemOptions);
             addFileSystem(this, filesystem);
         }
 

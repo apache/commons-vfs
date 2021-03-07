@@ -17,11 +17,14 @@
 package org.apache.commons.vfs2.cache;
 
 import org.apache.commons.vfs2.FileObject;
+import org.junit.Test;
 
 /**
  * Tests for {@link DefaultFilesCache} used by {@link DefaultFilesCacheTestCase}.
  */
 public class DefaultFilesCacheTests extends AbstractFilesCacheTestsBase {
+
+    @Test
     public void testFilesCache() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
 

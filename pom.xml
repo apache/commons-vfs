@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>50</version>
+    <version>52</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -29,7 +29,7 @@
   <name>Apache Commons VFS Project</name>
   <description>Apache Commons VFS is a Virtual File System library.</description>
   <packaging>pom</packaging>
-  <version>2.7.0-SNAPSHOT</version>
+  <version>2.8.0-SNAPSHOT</version>
 
   <url>http://commons.apache.org/proper/commons-vfs/</url>
   <inceptionYear>2002</inceptionYear>
@@ -52,7 +52,7 @@
     <connection>scm:git:https://gitbox.apache.org/repos/asf/commons-vfs.git</connection>
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-vfs.git</developerConnection>
     <url>https://gitbox.apache.org/repos/asf?p=commons-vfs.git</url>
-    <tag>commons-vfs-project-2.5.0</tag>
+    <tag>commons-vfs-project-2.8.0</tag>
   </scm>
 
   <developers>
@@ -160,11 +160,11 @@
     <commons.siteOutputDirectory>${basedir}/../target/site</commons.siteOutputDirectory>
     <commons.releaseNotesLocation>${basedir}/../RELEASE-NOTES.txt</commons.releaseNotesLocation>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
-    <commons.release.version>2.7.0</commons.release.version>
+    <commons.release.version>2.8.0</commons.release.version>
     <!-- Commons Release Plugin -->
-    <commons.bc.version>2.6.0</commons.bc.version>
-    <commons.releaseManagerName>Gary Gregory</commons.releaseManagerName>    
-    <commons.releaseManagerKey>86fdc7e2a11262cb</commons.releaseManagerKey>  
+    <commons.bc.version>2.7.0</commons.bc.version>
+    <commons.releaseManagerName>Gary Gregory</commons.releaseManagerName>
+    <commons.releaseManagerKey>86fdc7e2a11262cb</commons.releaseManagerKey>
     <commons.rc.version>RC1</commons.rc.version>
     <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
     <commons.release.desc>(requires Java 8)</commons.release.desc>
@@ -176,7 +176,7 @@
 -->
 
     <vfs.parent.dir>${basedir}</vfs.parent.dir>
-    <version.checkstyle>3.1.0</version.checkstyle>
+    <version.checkstyle>3.1.2</version.checkstyle>
     <!-- make sure bundle plugin has dependency informations for 'optional' -->
     <commons.osgi.excludeDependencies />
     <commons.osgi.import>
@@ -186,21 +186,68 @@
         org.apache.commons.httpclient.*;resolution:=optional,
         *
     </commons.osgi.import>
-    <!-- Newer versions of clirr throw an NPE building the site -->
-    <commons.clirr.version>2.6</commons.clirr.version>
     <!-- Avoid warnings about being unable to find jars during site building -->
     <dependency.locations.enabled>false</dependency.locations.enabled>
-    <hadoop.version>3.2.1</hadoop.version>
+    <hadoop.version>3.3.0</hadoop.version>
     <jackrabbit.version>1.6.5</jackrabbit.version>
-    <jackrabbit2.version>2.21.3</jackrabbit2.version>
+    <jackrabbit2.version>2.21.5</jackrabbit2.version>
     <commons.surefire.version>2.19.1</commons.surefire.version>
-    <commons.japicmp.version>0.14.3</commons.japicmp.version>
-    <log4j2.version>2.13.3</log4j2.version>
+    <commons.japicmp.version>0.15.2</commons.japicmp.version>
+    <commons.jacoco.version>0.8.6</commons.jacoco.version>
+    <commons.spotbugs.version>4.2.0</commons.spotbugs.version>
+    <commons.spotbugs.impl.version>4.2.2</commons.spotbugs.impl.version>
+    <commons.pmd.version>6.32.0</commons.pmd.version>
+    <slf4j.version>1.7.26</slf4j.version>
+    <log4j2.version>2.14.0</log4j2.version>
+    <clirr.skip>true</clirr.skip>
+    <japicmp.skip>false</japicmp.skip>
+    <jacoco.skip>false</jacoco.skip>
   </properties>
 
   <build>
+    <!-- japicmp:cmp needs package to work from a jar -->
+    <defaultGoal>clean package apache-rat:check japicmp:cmp javadoc:javadoc</defaultGoal>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>3.14.0</version>
+          <dependencies>
+            <dependency>
+              <groupId>net.sourceforge.pmd</groupId>
+              <artifactId>pmd-core</artifactId>
+              <version>${commons.pmd.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>net.sourceforge.pmd</groupId>
+              <artifactId>pmd-java</artifactId>
+              <version>${commons.pmd.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>net.sourceforge.pmd</groupId>
+              <artifactId>pmd-javascript</artifactId>
+              <version>${commons.pmd.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>net.sourceforge.pmd</groupId>
+              <artifactId>pmd-jsp</artifactId>
+              <version>${commons.pmd.version}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+        <plugin>
+          <groupId>com.github.spotbugs</groupId>
+          <artifactId>spotbugs-maven-plugin</artifactId>
+          <version>${commons.spotbugs.impl.version}</version>
+          <dependencies>
+            <dependency>
+              <groupId>com.github.spotbugs</groupId>
+              <artifactId>spotbugs</artifactId>
+              <version>${commons.spotbugs.impl.version}</version>
+            </dependency>
+          </dependencies>
+        </plugin>        
         <plugin>
           <!--  Fixes org.apache.bcel.classfile.ClassFormatException: Invalid byte tag in constant pool: 19 -->
           <groupId>org.apache.maven.plugins</groupId>
@@ -279,9 +326,9 @@
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>8.27</version>
+            <version>8.41</version>
           </dependency>
-        </dependencies>        
+        </dependencies>
         <!-- Keep build/reporting in sync -->
         <configuration>
           <!--<propertiesLocation>${vfs.parent.dir}/checkstyle.properties</propertiesLocation> -->
@@ -328,7 +375,17 @@
             </excludes>
           </parameter>
         </configuration>
-      </plugin>    
+      </plugin>
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>${commons.spotbugs.version}</version>
+        <configuration>
+          <threshold>Normal</threshold>
+          <effort>Default</effort>
+          <excludeFilterFile>${vfs.parent.dir}/findbugs-exclude-filter.xml</excludeFilterFile>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
@@ -382,10 +439,9 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <!-- commons-parent defines version 2.5.x or 3.x depending on JDK active. -->
-        <version>${commons.findbugs.version}</version>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>${commons.spotbugs.version}</version>
         <configuration>
           <threshold>Normal</threshold>
           <effort>Default</effort>
@@ -395,7 +451,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.12.0</version>
         <configuration>
           <targetJdk>${maven.compiler.target}</targetJdk>
           <aggregate>true</aggregate>
@@ -420,7 +475,7 @@
             </excludes>
           </parameter>
         </configuration>
-      </plugin>    
+      </plugin>
       <!-- cobertura breaks because it cannot parse annotations in methods. -->
       <!--
       <plugin>
@@ -473,9 +528,14 @@
         <version>1.2</version>
       </dependency>
       <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+        <version>1.15</version>
+      </dependency>
+      <dependency>
         <groupId>commons-net</groupId>
         <artifactId>commons-net</artifactId>
-        <version>3.6</version>
+        <version>3.8.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -490,12 +550,12 @@
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
-        <version>4.5.12</version>
+        <version>4.5.13</version>
       </dependency>
       <dependency>
         <groupId>org.apache.httpcomponents.client5</groupId>
         <artifactId>httpclient5</artifactId>
-        <version>5.0.1</version>
+        <version>5.0.3</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -521,6 +581,11 @@
         <groupId>javax.mail</groupId>
         <artifactId>mail</artifactId>
         <version>1.4.7</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.12.0</version>
       </dependency>
       <!-- HDFS -->
       <dependency>
@@ -554,17 +619,12 @@
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.13</version>
+        <version>4.13.2</version>
       </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.4.4</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-lang3</artifactId>
-        <version>3.11</version>
+        <version>3.8.0</version>
       </dependency>
       <!-- Test FTP with Apache FTP Server (MINA) -->
       <dependency>
@@ -575,12 +635,12 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>1.7.26</version>
+        <version>${slf4j.version}</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>jcl-over-slf4j</artifactId>
-        <version>1.7.26</version>
+        <version>${slf4j.version}</version>
       </dependency>
       <!-- Test SFTP with Apache SSHd Server (MINA) -->
       <dependency>
@@ -591,7 +651,7 @@
       <dependency>
         <groupId>org.apache.mina</groupId>
         <artifactId>mina-core</artifactId>
-        <version>2.0.20</version>
+        <version>2.1.4</version>
       </dependency>
       <dependency>
         <groupId>org.bouncycastle</groupId>
@@ -601,13 +661,13 @@
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
-        <version>2.7</version>
+        <version>2.8.0</version>
       </dependency>
       <!-- Test HTTP with Apache HttpComponent Core -->
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpcore-nio</artifactId>
-        <version>4.4.13</version>
+        <version>4.4.14</version>
       </dependency>
       <!-- Test WebDAV with Apache Jackrabbit Standalone -->
       <dependency>

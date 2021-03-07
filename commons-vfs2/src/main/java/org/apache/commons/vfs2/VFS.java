@@ -17,7 +17,6 @@
 package org.apache.commons.vfs2;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 /**
  * The main entry point for the VFS. Used to create {@link FileSystemManager} instances.
@@ -31,9 +30,23 @@ public final class VFS {
     private static Boolean uriStyle;
 
     /**
+     * Closes the default {@link FileSystemManager} instance.
+     * <p>
+     * Warning, if you close the default instance, a new one will be created by {@link #getManager()}.
+     * </p>
+     *
+     * @since 2.8.0
+     */
+    public static synchronized void close() {
+        if (instance != null) {
+            instance.close();
+        }
+    }
+
+    /**
      * Creates a file system manager instance.
      *
-     * @param managerClassName The specific manager impelmentation class name.
+     * @param managerClassName The specific manager implementation class name.
      * @return The FileSystemManager.
      * @throws FileSystemException if an error occurs creating the manager.
      */
@@ -45,8 +58,7 @@ public final class VFS {
 
             try {
                 // Initialize
-                final Method initMethod = mgrClass.getMethod("init", (Class[]) null);
-                initMethod.invoke(mgr, (Object[]) null);
+                mgrClass.getMethod("init", (Class[]) null).invoke(mgr, (Object[]) null);
             } catch (final NoSuchMethodException ignored) {
                 /* Ignore; don't initialize. */
             }
@@ -90,9 +102,7 @@ public final class VFS {
      * @since 2.5.0
      */
     public static FileSystemManager reset() throws FileSystemException {
-        if (instance != null) {
-            instance.close();
-        }
+        close();
         return instance = createFileSystemManager("org.apache.commons.vfs2.impl.StandardFileSystemManager");
     }
 

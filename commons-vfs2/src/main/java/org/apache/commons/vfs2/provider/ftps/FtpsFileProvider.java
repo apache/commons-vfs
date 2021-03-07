@@ -34,7 +34,6 @@ import org.apache.commons.vfs2.provider.ftp.FtpFileProvider;
  */
 public class FtpsFileProvider extends FtpFileProvider {
     public FtpsFileProvider() {
-        super();
     }
 
     /**

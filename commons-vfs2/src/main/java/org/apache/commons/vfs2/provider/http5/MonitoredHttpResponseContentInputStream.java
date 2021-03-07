@@ -24,7 +24,7 @@ import org.apache.hc.core5.http.ClassicHttpResponse;
 /**
  * An InputStream that cleans up the {@code org.apache.hc.core5.http.ClassicHttpResponse} on close.
  */
-class MonitoredHttpResponseContentInputStream extends MonitorInputStream {
+final class MonitoredHttpResponseContentInputStream extends MonitorInputStream {
 
     private final ClassicHttpResponse httpResponse;
 

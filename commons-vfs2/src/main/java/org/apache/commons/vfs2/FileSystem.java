@@ -179,14 +179,15 @@ public interface FileSystem {
     FileSystemManager getFileSystemManager();
 
     /**
-     * Returns the accuracy of the last modification time.
+     * Returns the accuracy of the last modification time in milliseconds.
      * <p>
      * The local file provider is not very smart in figuring this out, for remote access to file systems the providers
      * typically don't know the value of the underlying real file system.
      * </p>
      *
      * @return the accuracy of the last modification time in milliseconds. A value of 0 means perfectly accurate,
-     *         anything {@literal > 0} might be off by this value. For example, sftp has an accuracy of 1000 ms.
+     *         anything {@literal > 0} might be off by this value. For example, sftp has an accuracy of 1000
+     *         milliseconds.
      */
     double getLastModTimeAccuracy();
 }

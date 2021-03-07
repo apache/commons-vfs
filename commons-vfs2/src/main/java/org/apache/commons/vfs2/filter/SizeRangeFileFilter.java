@@ -47,8 +47,8 @@ public class SizeRangeFileFilter implements FileFilter, Serializable {
     }
 
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) throws FileSystemException {
-        return filter.accept(fileInfo);
+    public boolean accept(final FileSelectInfo fileSelectInfo) throws FileSystemException {
+        return filter.accept(fileSelectInfo);
     }
 
 }

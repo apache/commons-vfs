@@ -48,11 +48,7 @@ public class FileFilterSelector extends FileDepthSelector {
      */
     @Override
     public boolean includeFile(final FileSelectInfo fileInfo) throws Exception {
-        if (!super.includeFile(fileInfo)) {
-            return false;
-        }
-
-        return accept(fileInfo);
+        return super.includeFile(fileInfo) ? accept(fileInfo) : false;
     }
 
     /**

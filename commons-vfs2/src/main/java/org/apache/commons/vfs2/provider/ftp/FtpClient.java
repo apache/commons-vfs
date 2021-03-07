@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider.ftp;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.time.Instant;
 
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
@@ -45,11 +46,42 @@ public interface FtpClient {
 
     String getReplyString() throws IOException;
 
+    /**
+     * Queries the server for a supported feature.
+     *
+     * @param feature the name of the feature, converted to upper case.
+     * @return {@code true} if the feature is present, {@code false} if the feature is not present or the FTP command
+     *         failed.
+     *
+     * @throws IOException on error
+     * @since 2.8.0
+     */
+    boolean hasFeature(final String feature) throws IOException;
+
     boolean isConnected() throws FileSystemException;
 
+    // This interface should not leak Apache Commons NET types like FTPFile
     FTPFile[] listFiles(String relPath) throws IOException;
 
     boolean makeDirectory(String relPath) throws IOException;
+
+    /**
+     * Sends the MDTM command to get a file's date and time information after file transfer. It is typically more
+     * accurate than the {@code "LIST"} command response. Time values are always represented in UTC (GMT), and in the
+     * Gregorian calendar regardless of what calendar may have been in use at the date and time the file was last
+     * modified.
+     * <p>
+     * NOTE: not all remote FTP servers support {@code MDTM}.
+     * </p>
+     *
+     * @param relPath The relative path of the file object to execute {@code MDTM} command against
+     * @return new {@code Instant} object containing the {@code MDTM} timestamp.
+     * @throws IOException If the underlying FTP client encountered an error.
+     * @since 2.8.0
+     */
+    default Instant mdtmInstant(final String relPath) throws IOException {
+        return null;
+    }
 
     boolean removeDirectory(String relPath) throws IOException;
 

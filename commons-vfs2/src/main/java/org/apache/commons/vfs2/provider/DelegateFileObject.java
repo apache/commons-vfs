@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.vfs2.FileChangeEvent;
 import org.apache.commons.vfs2.FileContentInfo;
 import org.apache.commons.vfs2.FileListener;
@@ -122,10 +123,10 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
     protected FileType doGetType() throws FileSystemException {
         if (file != null) {
             return file.getType();
-        } else if (children.size() > 0) {
-            return FileType.FOLDER;
-        } else {
+        } else if (children.isEmpty()) {
             return FileType.IMAGINARY;
+        } else {
+            return FileType.FOLDER;
         }
     }
 
@@ -191,7 +192,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
 
             return Arrays.stream(children).map(child -> child.getName().getBaseName()).toArray(String[]::new);
         }
-        return children.toArray(new String[children.size()]);
+        return children.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
     /**

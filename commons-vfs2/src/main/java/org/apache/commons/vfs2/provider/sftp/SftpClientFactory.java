@@ -18,8 +18,11 @@ package org.apache.commons.vfs2.provider.sftp;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Properties;
 
+import org.apache.commons.lang3.SystemUtils;
+import org.apache.commons.lang3.time.DurationUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.FileSystemException;
@@ -68,8 +71,6 @@ public final class SftpClientFactory {
             final char[] password, final FileSystemOptions fileSystemOptions) throws FileSystemException {
         final JSch jsch = new JSch();
 
-        File sshDir = null;
-
         // new style - user passed
         final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
         final File knownHostsFile = builder.getKnownHosts(fileSystemOptions);
@@ -78,7 +79,7 @@ public final class SftpClientFactory {
         final ConfigRepository configRepository = builder.getConfigRepository(fileSystemOptions);
         final boolean loadOpenSSHConfig = builder.isLoadOpenSSHConfig(fileSystemOptions);
 
-        sshDir = findSshDir();
+        final File sshDir = findSshDir();
 
         setKnownHosts(jsch, sshDir, knownHostsFile);
 
@@ -89,16 +90,16 @@ public final class SftpClientFactory {
         addIdentities(jsch, sshDir, identities);
         setConfigRepository(jsch, sshDir, configRepository, loadOpenSSHConfig);
 
-        Session session;
+        final Session session;
         try {
             session = jsch.getSession(new String(username), hostname, port);
             if (password != null) {
                 session.setPassword(new String(password));
             }
 
-            final Integer sessionTimeout = builder.getSessionTimeoutMillis(fileSystemOptions);
+            final Duration sessionTimeout = builder.getSessionTimeout(fileSystemOptions);
             if (sessionTimeout != null) {
-                session.setTimeout(sessionTimeout.intValue());
+                session.setTimeout(DurationUtils.toMillisInt(sessionTimeout));
             }
 
             final UserInfo userInfo = builder.getUserInfo(fileSystemOptions);
@@ -154,7 +155,7 @@ public final class SftpClientFactory {
             }
 
             // set properties for the session
-            if (config.size() > 0) {
+            if (!config.isEmpty()) {
                 session.setConfig(config);
             }
             session.setDaemonThread(true);
@@ -223,7 +224,6 @@ public final class SftpClientFactory {
 
     private static Proxy createStreamProxy(final String proxyHost, final int proxyPort,
             final FileSystemOptions fileSystemOptions, final SftpFileSystemConfigBuilder builder) {
-        Proxy proxy;
         // Use a stream proxy, i.e. it will use a remote host as a proxy
         // and run a command (e.g. netcat) that forwards input/output
         // to the target host.
@@ -237,8 +237,7 @@ public final class SftpClientFactory {
         final String proxyCommand = builder.getProxyCommand(fileSystemOptions);
 
         // Create the stream proxy
-        proxy = new SftpStreamProxy(proxyCommand, proxyUser, proxyHost, proxyPort, proxyPassword, proxyOptions);
-        return proxy;
+        return new SftpStreamProxy(proxyCommand, proxyUser, proxyHost, proxyPort, proxyPassword, proxyOptions);
     }
 
     private static ProxySOCKS5 createProxySOCKS5(final String proxyHost, final int proxyPort) {
@@ -270,7 +269,7 @@ public final class SftpClientFactory {
      * @return The {@code .ssh} directory
      */
     private static File findSshDir() {
-        String sshDirPath;
+        final String sshDirPath;
         sshDirPath = System.getProperty("vfs.sftp.sshdir");
         if (sshDirPath != null) {
             final File sshDir = new File(sshDirPath);
@@ -284,7 +283,7 @@ public final class SftpClientFactory {
             return sshDir;
         }
 
-        if (Os.isFamily(Os.OS_FAMILY_WINDOWS)) {
+        if (SystemUtils.IS_OS_WINDOWS) {
             // TODO - this may not be true
             final String userName = System.getProperty("user.name");
             sshDir = new File("C:\\cygwin\\home\\" + userName + "\\" + SSH_DIR_NAME);

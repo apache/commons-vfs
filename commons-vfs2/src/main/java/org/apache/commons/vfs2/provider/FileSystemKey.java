@@ -19,28 +19,26 @@ package org.apache.commons.vfs2.provider;
 import org.apache.commons.vfs2.FileSystemOptions;
 
 /**
- * Used to identify a file system
+ * Identifies a file system.
  */
 class FileSystemKey implements Comparable<FileSystemKey> {
 
     private static final FileSystemOptions EMPTY_OPTIONS = new FileSystemOptions();
 
     private final Comparable<?> key;
+
+    /** Never null as the ctor sets it to EMPTY_OPTIONS if input is null. */
     private final FileSystemOptions fileSystemOptions;
 
     /**
-     * Create the FS key.
+     * Creates the FS key.
      *
-     * @param key must implement Comparable, and must be self-comparable
-     * @param fileSystemOptions the required options
+     * @param key must implement Comparable, and must be self-comparable.
+     * @param fileSystemOptions the required options, may be null.
      */
     FileSystemKey(final Comparable<?> key, final FileSystemOptions fileSystemOptions) {
         this.key = key;
-        if (fileSystemOptions != null) {
-            this.fileSystemOptions = fileSystemOptions;
-        } else {
-            this.fileSystemOptions = EMPTY_OPTIONS;
-        }
+        this.fileSystemOptions = fileSystemOptions != null ? fileSystemOptions : EMPTY_OPTIONS;
     }
 
     @Override

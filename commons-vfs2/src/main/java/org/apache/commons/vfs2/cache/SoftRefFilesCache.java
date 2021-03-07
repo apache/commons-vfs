@@ -51,7 +51,7 @@ public class SoftRefFilesCache extends AbstractFilesCache {
     private final Map<Reference<FileObject>, FileSystemAndNameKey> refReverseMap = new HashMap<>(100);
     private final ReferenceQueue<FileObject> refQueue = new ReferenceQueue<>();
 
-    private volatile SoftRefReleaseThread softRefReleaseThread = null; // @GuardedBy("lock")
+    private volatile SoftRefReleaseThread softRefReleaseThread; // @GuardedBy("lock")
 
     private final Lock lock = new ReentrantLock();
 
@@ -69,8 +69,8 @@ public class SoftRefFilesCache extends AbstractFilesCache {
 
         @Override
         public void run() {
-            loop: while (!requestEnd && !Thread.currentThread().isInterrupted()) {
-                try {
+            try {
+                while (!requestEnd) {
                     final Reference<?> ref = refQueue.remove(TIMEOUT);
                     if (ref == null) {
                         continue;
@@ -86,12 +86,11 @@ public class SoftRefFilesCache extends AbstractFilesCache {
                     } finally {
                         lock.unlock();
                     }
-                } catch (final InterruptedException e) {
-                    if (!requestEnd) {
-                        VfsLog.warn(getLogger(), log,
+                }
+            } catch (final InterruptedException e) {
+                if (!requestEnd) {
+                    VfsLog.warn(getLogger(), log,
                                 Messages.getString("vfs.impl/SoftRefReleaseThread-interrupt.info"));
-                    }
-                    break loop;
                 }
             }
         }
@@ -223,7 +222,7 @@ public class SoftRefFilesCache extends AbstractFilesCache {
                 }
             }
 
-            if (files.size() < 1) {
+            if (files.isEmpty()) {
                 close(fileSystem);
             }
         } finally {
@@ -242,7 +241,7 @@ public class SoftRefFilesCache extends AbstractFilesCache {
         }
 
         fileSystemCache.remove(fileSystem);
-        if (fileSystemCache.size() < 1) {
+        if (fileSystemCache.isEmpty()) {
             endThread();
         }
         /*
@@ -253,8 +252,6 @@ public class SoftRefFilesCache extends AbstractFilesCache {
 
     @Override
     public void close() {
-        super.close();
-
         endThread();
 
         lock.lock();
@@ -288,14 +285,14 @@ public class SoftRefFilesCache extends AbstractFilesCache {
                 refReverseMap.remove(ref);
             }
 
-            return files.size() < 1;
+            return files.isEmpty();
         } finally {
             lock.unlock();
         }
     }
 
     protected Map<FileName, Reference<FileObject>> getOrCreateFilesystemCache(final FileSystem fileSystem) {
-        if (fileSystemCache.size() < 1) {
+        if (fileSystemCache.isEmpty()) {
             startThread();
         }
 

@@ -36,13 +36,13 @@ import org.junit.Test;
 // CHECKSTYLE:OFF Test code
 public class AgeFileFilterTest extends BaseFilterTest {
 
-    private static long DAY_MILLIS = 24 * 60 * 60 * 1000;
+    private static final long DAY_MILLIS = 24 * 60 * 60 * 1000;
 
-    private static long NOW = System.currentTimeMillis();
+    private static final long NOW_MILLIS = System.currentTimeMillis();
 
-    private static long TWO_DAYS_AGO = NOW - (2 * DAY_MILLIS);
+    private static final long TWO_DAYS_AGO_MILLIS = NOW_MILLIS - (2 * DAY_MILLIS);
 
-    private static long TWO_DAYS_LATER = NOW + (2 * DAY_MILLIS);
+    private static final long TWO_DAYS_LATER_MILLIS = NOW_MILLIS + (2 * DAY_MILLIS);
 
     private static File testDir;
 
@@ -69,19 +69,19 @@ public class AgeFileFilterTest extends BaseFilterTest {
         // Set the file's time stamp two days back
         oldFile = new File(testDir, "old.txt");
         FileUtils.touch(oldFile);
-        oldFile.setLastModified(TWO_DAYS_AGO);
+        oldFile.setLastModified(TWO_DAYS_AGO_MILLIS);
         oldFileInfo = createFileSelectInfo(oldFile);
 
         // Reference file
         currentFile = new File(testDir, "current.txt");
         FileUtils.touch(currentFile);
-        currentFile.setLastModified(NOW);
+        currentFile.setLastModified(NOW_MILLIS);
         currentFileInfo = createFileSelectInfo(currentFile);
 
         // Set the file's time stamp two days into the future
         newFile = new File(testDir, "new.txt");
         FileUtils.touch(newFile);
-        newFile.setLastModified(TWO_DAYS_LATER);
+        newFile.setLastModified(TWO_DAYS_LATER_MILLIS);
         newFileInfo = createFileSelectInfo(newFile);
 
         // Zip the test directory
@@ -167,7 +167,7 @@ public class AgeFileFilterTest extends BaseFilterTest {
     @Test
     public void testAgeFileFilterLong() throws FileSystemException {
 
-        final AgeFileFilter testee = new AgeFileFilter(NOW);
+        final AgeFileFilter testee = new AgeFileFilter(NOW_MILLIS);
         Assert.assertTrue(testee.accept(oldFileInfo));
         Assert.assertTrue(testee.accept(currentFileInfo));
         Assert.assertFalse(testee.accept(newFileInfo));
@@ -179,12 +179,12 @@ public class AgeFileFilterTest extends BaseFilterTest {
 
         AgeFileFilter testee;
 
-        testee = new AgeFileFilter(NOW, true);
+        testee = new AgeFileFilter(NOW_MILLIS, true);
         Assert.assertTrue(testee.accept(oldFileInfo));
         Assert.assertTrue(testee.accept(currentFileInfo));
         Assert.assertFalse(testee.accept(newFileInfo));
 
-        testee = new AgeFileFilter(NOW, false);
+        testee = new AgeFileFilter(NOW_MILLIS, false);
         Assert.assertFalse(testee.accept(oldFileInfo));
         Assert.assertFalse(testee.accept(currentFileInfo));
         Assert.assertTrue(testee.accept(newFileInfo));
@@ -192,11 +192,11 @@ public class AgeFileFilterTest extends BaseFilterTest {
         // Same test with ZIP file
         FileObject[] files;
 
-        files = zipFileObj.findFiles(new FileFilterSelector(new AgeFileFilter(NOW, true)));
+        files = zipFileObj.findFiles(new FileFilterSelector(new AgeFileFilter(NOW_MILLIS, true)));
         assertContains(files, oldFile.getName(), currentFile.getName());
         Assert.assertEquals(2, files.length);
 
-        files = zipFileObj.findFiles(new FileFilterSelector(new AgeFileFilter(NOW, false)));
+        files = zipFileObj.findFiles(new FileFilterSelector(new AgeFileFilter(NOW_MILLIS, false)));
         assertContains(files, newFile.getName());
         Assert.assertEquals(1, files.length);
 

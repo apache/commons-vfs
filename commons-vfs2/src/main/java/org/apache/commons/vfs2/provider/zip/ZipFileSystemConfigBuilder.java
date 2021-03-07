@@ -38,7 +38,7 @@ public class ZipFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     public Charset getCharset(final FileSystemOptions opts) {
-        return (Charset) getParam(opts, KEY_CHARSET);
+        return getParam(opts, KEY_CHARSET);
     }
 
     @Override

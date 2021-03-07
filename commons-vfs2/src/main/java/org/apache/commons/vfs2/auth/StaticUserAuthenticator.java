@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.auth;
 
+import java.util.Objects;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.UserAuthenticationData;
@@ -54,12 +56,10 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
                 data.setData(UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(username));
             } else if (type == UserAuthenticationData.PASSWORD) {
                 data.setData(UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(password));
-            } else {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug(StaticUserAuthenticator.class.getSimpleName()
-                            + " does not support authentication data type '" + type
-                            + "'; authentication request for this type ignored.");
-                }
+            } else if (LOG.isDebugEnabled()) {
+                LOG.debug(StaticUserAuthenticator.class.getSimpleName()
+                        + " does not support authentication data type '" + type
+                        + "'; authentication request for this type ignored.");
             }
         }
         return data;
@@ -101,19 +101,8 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
         }
 
         final StaticUserAuthenticator other = (StaticUserAuthenticator) obj;
-        return equalsNullsafe(domain, other.domain) && equalsNullsafe(username, other.username)
-                && equalsNullsafe(password, other.password);
-    }
-
-    private boolean equalsNullsafe(final String thisString, final String otherString) {
-        if (thisString == null) {
-            if (otherString != null) {
-                return false;
-            }
-        } else if (!thisString.equals(otherString)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(domain, other.domain) && Objects.equals(username, other.username)
+            && Objects.equals(password, other.password);
     }
 
     /**
@@ -141,9 +130,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
             }
 
             final int result = thisString.compareTo(otherString);
-            if (result != 0) {
-                return result;
-            }
+            return result;
         }
 
         return 0;

@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.res;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
@@ -50,7 +51,7 @@ public class ResourceFileNameParser extends GenericFileNameParser {
             name.delete(0, index);
         }
 
-        if (name.length() == 0) {
+        if (StringUtils.isEmpty(name)) {
             throw new FileSystemException("vfs.provider.res/not-valid-resource-location.error", uri);
         }
 

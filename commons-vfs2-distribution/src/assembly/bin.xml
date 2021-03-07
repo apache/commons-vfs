@@ -15,32 +15,32 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <assembly>
-    <id>bin</id>
-    <formats>
-        <format>tar.gz</format>
-        <format>zip</format>
-    </formats>
-    <includeSiteDirectory>false</includeSiteDirectory>
-  
-    <dependencySets>
-        <dependencySet>
-            <includes>
-                <include>org.apache.commons:commons-vfs2</include>
-                <include>org.apache.commons:commons-vfs2-examples</include>
-            </includes>
-            <useProjectArtifact>false</useProjectArtifact>
-        </dependencySet>
-    </dependencySets>
+  <id>bin</id>
+  <formats>
+    <format>tar.gz</format>
+    <format>zip</format>
+  </formats>
+  <includeSiteDirectory>false</includeSiteDirectory>
 
-    <fileSets>
-        <fileSet>
-            <directory>..</directory>
-            <includes>
-                <include>LICENSE.txt</include>
-                <include>NOTICE.txt</include>
-                <include>RELEASE-NOTES.txt</include>
-            </includes>
-        </fileSet>
-    </fileSets>
+  <dependencySets>
+    <dependencySet>
+      <includes>
+        <include>org.apache.commons:commons-vfs2</include>
+        <include>org.apache.commons:commons-vfs2-examples</include>
+      </includes>
+      <useProjectArtifact>false</useProjectArtifact>
+    </dependencySet>
+  </dependencySets>
 
-	</assembly>
+  <fileSets>
+    <fileSet>
+      <directory>..</directory>
+      <includes>
+        <include>LICENSE.txt</include>
+        <include>NOTICE.txt</include>
+        <include>RELEASE-NOTES.txt</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+
+</assembly>

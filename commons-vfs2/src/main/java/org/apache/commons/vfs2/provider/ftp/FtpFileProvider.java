@@ -46,15 +46,15 @@ public class FtpFileProvider extends AbstractOriginatingFileProvider {
     public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[] {
             UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD };
 
-    static final Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays.asList(Capability.CREATE, Capability.DELETE, Capability.RENAME, Capability.GET_TYPE,
-            Capability.LIST_CHILDREN, Capability.READ_CONTENT, Capability.GET_LAST_MODIFIED, Capability.URI,
-            Capability.WRITE_CONTENT, Capability.APPEND_CONTENT, Capability.RANDOM_ACCESS_READ));
+    static final Collection<Capability> CAPABILITIES = Collections
+        .unmodifiableCollection(Arrays.asList(Capability.CREATE, Capability.DELETE, Capability.RENAME,
+            Capability.GET_TYPE, Capability.LIST_CHILDREN, Capability.READ_CONTENT, Capability.GET_LAST_MODIFIED,
+            Capability.URI, Capability.WRITE_CONTENT, Capability.APPEND_CONTENT, Capability.RANDOM_ACCESS_READ));
 
     /**
      * Constructs a new provider.
      */
     public FtpFileProvider() {
-        super();
         setFileNameParser(FtpFileNameParser.getInstance());
     }
 
@@ -77,12 +77,12 @@ public class FtpFileProvider extends AbstractOriginatingFileProvider {
     }
 
     @Override
-    public FileSystemConfigBuilder getConfigBuilder() {
-        return FtpFileSystemConfigBuilder.getInstance();
+    public Collection<Capability> getCapabilities() {
+        return CAPABILITIES;
     }
 
     @Override
-    public Collection<Capability> getCapabilities() {
-        return capabilities;
+    public FileSystemConfigBuilder getConfigBuilder() {
+        return FtpFileSystemConfigBuilder.getInstance();
     }
 }

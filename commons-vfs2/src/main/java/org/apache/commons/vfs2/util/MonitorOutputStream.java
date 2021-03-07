@@ -60,7 +60,7 @@ public class MonitorOutputStream extends BufferedOutputStream {
      * This does nothing if the stream is closed already.
      * </p>
      *
-     * @throws IOException if an error occurs.
+     * @throws IOException if an IO error occurs.
      */
     @Override
     public void close() throws IOException {

@@ -73,17 +73,17 @@ public class SymbolicLinkFileFilter implements FileFilter, Serializable {
     /**
      * Checks to see if the file is a symbolic link. Non existing files won't be accepted.
      *
-     * @param fileInfo the file to check
+     * @param fileSelectInfo the file to check
      *
      * @return {@code true} if the file is <i>symbolic link</i>, otherwise {@code false}.
      * @throws FileSystemException Thrown for file system errors.
      */
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) throws FileSystemException {
-        if (!fileInfo.getFile().exists()) {
+    public boolean accept(final FileSelectInfo fileSelectInfo) throws FileSystemException {
+        if (!fileSelectInfo.getFile().exists()) {
             return false;
         }
-        return fileInfo.getFile().isSymbolicLink();
+        return fileSelectInfo.getFile().isSymbolicLink();
     }
 
 }

@@ -73,8 +73,6 @@ public class Webdav4FileProvider extends Http4FileProvider {
     protected static final Collection<Capability> capabilities = DEFAULT_CAPABILITIES;
 
     public Webdav4FileProvider() {
-        super();
-
         setFileNameParser(Webdav4FileNameParser.getInstance());
     }
 
@@ -97,8 +95,8 @@ public class Webdav4FileProvider extends Http4FileProvider {
         final FileSystemOptions fsOpts = fileSystemOptions == null ? new FileSystemOptions() : fileSystemOptions;
 
         UserAuthenticationData authData = null;
-        HttpClient httpClient = null;
-        HttpClientContext httpClientContext = null;
+        final HttpClient httpClient;
+        final HttpClientContext httpClientContext;
 
         try {
             final Webdav4FileSystemConfigBuilder builder = Webdav4FileSystemConfigBuilder.getInstance();

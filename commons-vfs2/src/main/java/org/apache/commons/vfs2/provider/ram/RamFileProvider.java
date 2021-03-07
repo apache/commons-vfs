@@ -44,7 +44,6 @@ public class RamFileProvider extends AbstractOriginatingFileProvider {
      * Constructs a new provider.
      */
     public RamFileProvider() {
-        super();
     }
 
     /*
