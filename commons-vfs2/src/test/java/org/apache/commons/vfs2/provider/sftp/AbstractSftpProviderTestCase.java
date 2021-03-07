@@ -367,9 +367,8 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
                     if (command.equals("id -G") || command.equals("id -u")) {
                         if (isExecChannelClosed) {
                             throw new IOException();
-                        } else {
-                            new PrintStream(out).println(0);
                         }
+                        new PrintStream(out).println(0);
                     } else if (NETCAT_COMMAND.matcher(command).matches()) {
                         final Matcher matcher = NETCAT_COMMAND.matcher(command);
                         matcher.matches();

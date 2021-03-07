@@ -53,17 +53,18 @@ public final class VFS {
     private static FileSystemManager createFileSystemManager(final String managerClassName) throws FileSystemException {
         try {
             // Create instance
-            final Class<?> mgrClass = Class.forName(managerClassName);
-            final FileSystemManager mgr = (FileSystemManager) mgrClass.newInstance();
+            final Class<FileSystemManager> clazz = (Class<FileSystemManager>) Class.forName(managerClassName);
+            final FileSystemManager manager = clazz.newInstance();
 
             try {
                 // Initialize
-                mgrClass.getMethod("init", (Class[]) null).invoke(mgr, (Object[]) null);
-            } catch (final NoSuchMethodException ignored) {
+                clazz.getMethod("init", (Class[]) null).invoke(manager, (Object[]) null);
+            } catch (final NoSuchMethodException e) {
                 /* Ignore; don't initialize. */
+                e.printStackTrace();
             }
 
-            return mgr;
+            return manager;
         } catch (final InvocationTargetException e) {
             throw new FileSystemException("vfs/create-manager.error", managerClassName, e.getTargetException());
         } catch (final Exception e) {
@@ -101,7 +102,7 @@ public final class VFS {
      * @throws FileSystemException if an error occurs creating the manager.
      * @since 2.5.0
      */
-    public static FileSystemManager reset() throws FileSystemException {
+    public static synchronized FileSystemManager reset() throws FileSystemException {
         close();
         return instance = createFileSystemManager("org.apache.commons.vfs2.impl.StandardFileSystemManager");
     }
@@ -124,5 +125,6 @@ public final class VFS {
     }
 
     private VFS() {
+        // no public instantiation.
     }
 }

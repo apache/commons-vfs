@@ -25,7 +25,6 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.PermissionsTests;
 import org.apache.commons.vfs2.ProviderTestSuite;
-import org.apache.commons.vfs2.util.Os;
 
 import junit.framework.Test;
 

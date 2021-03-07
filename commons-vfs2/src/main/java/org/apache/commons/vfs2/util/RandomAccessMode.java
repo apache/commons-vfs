@@ -57,7 +57,8 @@ public enum RandomAccessMode {
                 return "rw"; // NON-NLS
             }
             return "r"; // NON-NLS
-        } else if (requestWrite()) {
+        }
+        if (requestWrite()) {
             return "w"; // NON-NLS
         }
 

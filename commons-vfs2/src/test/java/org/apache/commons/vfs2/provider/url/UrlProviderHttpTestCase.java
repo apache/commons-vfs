@@ -80,10 +80,8 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig {
 
     /**
      * Stops the embedded Apache HTTP Server ().
-     *
-     * @throws IOException
      */
-    private static void tearDownClass() throws IOException {
+    public static void tearDownClass() {
         if (Server != null) {
             Server.shutdown(5000, TimeUnit.SECONDS);
         }

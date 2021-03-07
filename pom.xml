@@ -169,12 +169,6 @@
     <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
     <commons.release.desc>(requires Java 8)</commons.release.desc>
 
-<!--
-    <commons.release.2.version>2.0</commons.release.2.version>
-    <commons.release.2.name>commons-vfs-2.0</commons.release.2.name>
-    <commons.release.2.desc>(requires Java 1.5+)</commons.release.2.desc>
--->
-
     <vfs.parent.dir>${basedir}</vfs.parent.dir>
     <version.checkstyle>3.1.2</version.checkstyle>
     <!-- make sure bundle plugin has dependency informations for 'optional' -->
@@ -192,10 +186,11 @@
     <jackrabbit.version>1.6.5</jackrabbit.version>
     <jackrabbit2.version>2.21.5</jackrabbit2.version>
     <commons.surefire.version>2.19.1</commons.surefire.version>
-    <commons.japicmp.version>0.15.2</commons.japicmp.version>
+    <commons.japicmp.version>0.15.3</commons.japicmp.version>
     <commons.jacoco.version>0.8.6</commons.jacoco.version>
     <commons.spotbugs.version>4.2.0</commons.spotbugs.version>
     <commons.spotbugs.impl.version>4.2.2</commons.spotbugs.impl.version>
+    <commons.asm.version>9.1</commons.asm.version>
     <commons.pmd.version>6.32.0</commons.pmd.version>
     <slf4j.version>1.7.26</slf4j.version>
     <log4j2.version>2.14.0</log4j2.version>
@@ -206,7 +201,7 @@
 
   <build>
     <!-- japicmp:cmp needs package to work from a jar -->
-    <defaultGoal>clean package apache-rat:check japicmp:cmp javadoc:javadoc</defaultGoal>
+    <defaultGoal>clean package apache-rat:check japicmp:cmp javadoc:javadoc spotbugs:check</defaultGoal>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -239,8 +234,13 @@
         <plugin>
           <groupId>com.github.spotbugs</groupId>
           <artifactId>spotbugs-maven-plugin</artifactId>
-          <version>${commons.spotbugs.impl.version}</version>
+          <version>${commons.spotbugs.version}</version>
           <dependencies>
+            <dependency>
+              <groupId>org.ow2.asm</groupId>
+              <artifactId>asm</artifactId>
+              <version>${commons.asm.version}</version>
+            </dependency>
             <dependency>
               <groupId>com.github.spotbugs</groupId>
               <artifactId>spotbugs</artifactId>
@@ -263,6 +263,7 @@
         </plugin>
       </plugins>
     </pluginManagement>
+
     <resources>
       <resource>
         <directory>${basedir}/osgi</directory>
@@ -379,7 +380,6 @@
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>${commons.spotbugs.version}</version>
         <configuration>
           <threshold>Normal</threshold>
           <effort>Default</effort>
@@ -441,7 +441,6 @@
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>${commons.spotbugs.version}</version>
         <configuration>
           <threshold>Normal</threshold>
           <effort>Default</effort>

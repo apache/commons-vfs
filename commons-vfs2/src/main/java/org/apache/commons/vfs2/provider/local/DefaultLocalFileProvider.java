@@ -31,7 +31,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs2.provider.LocalFileProvider;
 import org.apache.commons.vfs2.provider.UriParser;
-import org.apache.commons.vfs2.util.Os;
 
 /**
  * A file system provider, which uses direct file access.

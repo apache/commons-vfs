@@ -63,4 +63,5 @@ public class ProviderTestSuite extends AbstractTestSuite {
         addTests(UrlStructureTests.class);
         addTests(VfsClassLoaderTests.class);
     }
+    
 }

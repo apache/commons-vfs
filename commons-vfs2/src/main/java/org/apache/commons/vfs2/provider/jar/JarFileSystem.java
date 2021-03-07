@@ -104,41 +104,56 @@ public class JarFileSystem extends ZipFileSystem {
     Name lookupName(final String attrName) {
         if (Name.CLASS_PATH.toString().equals(attrName)) {
             return Name.CLASS_PATH;
-        } else if (Name.CONTENT_TYPE.toString().equals(attrName)) {
-            return Name.CONTENT_TYPE;
-        } else if (Name.EXTENSION_INSTALLATION.toString().equals(attrName)) {
-            return Name.EXTENSION_INSTALLATION;
-        } else if (Name.EXTENSION_LIST.toString().equals(attrName)) {
-            return Name.EXTENSION_LIST;
-        } else if (Name.EXTENSION_NAME.toString().equals(attrName)) {
-            return Name.EXTENSION_NAME;
-        } else if (Name.IMPLEMENTATION_TITLE.toString().equals(attrName)) {
-            return Name.IMPLEMENTATION_TITLE;
-        } else if (Name.IMPLEMENTATION_URL.toString().equals(attrName)) {
-            return Name.IMPLEMENTATION_URL;
-        } else if (Name.IMPLEMENTATION_VENDOR.toString().equals(attrName)) {
-            return Name.IMPLEMENTATION_VENDOR;
-        } else if (Name.IMPLEMENTATION_VENDOR_ID.toString().equals(attrName)) {
-            return Name.IMPLEMENTATION_VENDOR_ID;
-        } else if (Name.IMPLEMENTATION_VERSION.toString().equals(attrName)) {
-            return Name.IMPLEMENTATION_VENDOR;
-        } else if (Name.MAIN_CLASS.toString().equals(attrName)) {
-            return Name.MAIN_CLASS;
-        } else if (Name.MANIFEST_VERSION.toString().equals(attrName)) {
-            return Name.MANIFEST_VERSION;
-        } else if (Name.SEALED.toString().equals(attrName)) {
-            return Name.SEALED;
-        } else if (Name.SIGNATURE_VERSION.toString().equals(attrName)) {
-            return Name.SIGNATURE_VERSION;
-        } else if (Name.SPECIFICATION_TITLE.toString().equals(attrName)) {
-            return Name.SPECIFICATION_TITLE;
-        } else if (Name.SPECIFICATION_VENDOR.toString().equals(attrName)) {
-            return Name.SPECIFICATION_VENDOR;
-        } else if (Name.SPECIFICATION_VERSION.toString().equals(attrName)) {
-            return Name.SPECIFICATION_VERSION;
-        } else {
-            return new Name(attrName);
         }
+        if (Name.CONTENT_TYPE.toString().equals(attrName)) {
+            return Name.CONTENT_TYPE;
+        }
+        if (Name.EXTENSION_INSTALLATION.toString().equals(attrName)) {
+            return Name.EXTENSION_INSTALLATION;
+        }
+        if (Name.EXTENSION_LIST.toString().equals(attrName)) {
+            return Name.EXTENSION_LIST;
+        }
+        if (Name.EXTENSION_NAME.toString().equals(attrName)) {
+            return Name.EXTENSION_NAME;
+        }
+        if (Name.IMPLEMENTATION_TITLE.toString().equals(attrName)) {
+            return Name.IMPLEMENTATION_TITLE;
+        }
+        if (Name.IMPLEMENTATION_URL.toString().equals(attrName)) {
+            return Name.IMPLEMENTATION_URL;
+        }
+        if (Name.IMPLEMENTATION_VENDOR.toString().equals(attrName)) {
+            return Name.IMPLEMENTATION_VENDOR;
+        }
+        if (Name.IMPLEMENTATION_VENDOR_ID.toString().equals(attrName)) {
+            return Name.IMPLEMENTATION_VENDOR_ID;
+        }
+        if (Name.IMPLEMENTATION_VERSION.toString().equals(attrName)) {
+            return Name.IMPLEMENTATION_VENDOR;
+        }
+        if (Name.MAIN_CLASS.toString().equals(attrName)) {
+            return Name.MAIN_CLASS;
+        }
+        if (Name.MANIFEST_VERSION.toString().equals(attrName)) {
+            return Name.MANIFEST_VERSION;
+        }
+        if (Name.SEALED.toString().equals(attrName)) {
+            return Name.SEALED;
+        }
+        if (Name.SIGNATURE_VERSION.toString().equals(attrName)) {
+            return Name.SIGNATURE_VERSION;
+        }
+        if (Name.SPECIFICATION_TITLE.toString().equals(attrName)) {
+            return Name.SPECIFICATION_TITLE;
+        }
+        if (Name.SPECIFICATION_VENDOR.toString().equals(attrName)) {
+            return Name.SPECIFICATION_VENDOR;
+        }
+        if (Name.SPECIFICATION_VERSION.toString().equals(attrName)) {
+            return Name.SPECIFICATION_VERSION;
+        }
+        return new Name(attrName);
     }
 
     /**

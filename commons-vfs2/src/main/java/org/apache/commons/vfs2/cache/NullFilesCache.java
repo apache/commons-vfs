@@ -31,8 +31,10 @@ import org.apache.commons.vfs2.FileSystem;
  * </p>
  */
 public class NullFilesCache extends AbstractFilesCache {
+
     @Override
     public void putFile(final FileObject file) {
+        // empty
     }
 
     @Override
@@ -47,9 +49,11 @@ public class NullFilesCache extends AbstractFilesCache {
 
     @Override
     public void clear(final FileSystem filesystem) {
+        // empty
     }
 
     @Override
     public void removeFile(final FileSystem filesystem, final FileName name) {
+        // empty
     }
 }

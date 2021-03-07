@@ -22,6 +22,27 @@ package org.apache.commons.vfs2;
 public interface FilesCache {
 
     /**
+     * Purges the entries corresponding to the FileSystem.
+     *
+     * @param fileSystem The FileSystem.
+     */
+    void clear(final FileSystem fileSystem);
+
+    /**
+     * Purges the whole cache.
+     */
+    void close();
+
+    /**
+     * Retrieves a FileObject from the cache by name.
+     *
+     * @param fileSystem The FileSystem.
+     * @param fileName the name
+     * @return the file object or null if file is not cached
+     */
+    FileObject getFile(final FileSystem fileSystem, final FileName fileName);
+
+    /**
      * Adds a FileObject to the cache.
      *
      * @param file the file
@@ -35,27 +56,6 @@ public interface FilesCache {
      * @return true if the file was stored, false otherwise.
      */
     boolean putFileIfAbsent(final FileObject file);
-
-    /**
-     * Retrieves a FileObject from the cache by name.
-     *
-     * @param fileSystem The FileSystem.
-     * @param fileName the name
-     * @return the file object or null if file is not cached
-     */
-    FileObject getFile(final FileSystem fileSystem, final FileName fileName);
-
-    /**
-     * Purges the entries corresponding to the FileSystem.
-     *
-     * @param fileSystem The FileSystem.
-     */
-    void clear(final FileSystem fileSystem);
-
-    /**
-     * Purges the whole cache.
-     */
-    void close();
 
     /**
      * Removes a file from cache.
