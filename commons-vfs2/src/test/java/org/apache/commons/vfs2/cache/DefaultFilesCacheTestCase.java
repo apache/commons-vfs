@@ -38,7 +38,7 @@ public class DefaultFilesCacheTestCase extends AbstractProviderTestConfig {
     }
 
     @Override
-    public FilesCache getFilesCache() {
+    public FilesCache createFilesCache() {
         return new DefaultFilesCache();
     }
 

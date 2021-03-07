@@ -35,9 +35,8 @@ public class SmbProviderTestCase extends AbstractProviderTestConfig implements P
     public static Test suite() throws Exception {
         if (System.getProperty(TEST_URI) != null) {
             return new ProviderTestSuite(new SmbProviderTestCase());
-        } else {
-            return notConfigured(SmbProviderTestCase.class);
         }
+        return notConfigured(SmbProviderTestCase.class);
     }
 
     /**

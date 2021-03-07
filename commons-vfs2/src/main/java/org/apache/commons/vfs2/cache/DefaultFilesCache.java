@@ -95,7 +95,6 @@ public class DefaultFilesCache extends AbstractFilesCache {
     @Override
     public void close() {
         super.close();
-
         filesystemCache.clear();
     }
 

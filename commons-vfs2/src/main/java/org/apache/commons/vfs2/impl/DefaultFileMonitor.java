@@ -235,7 +235,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
      * @param delay The delay period.
      */
     public void setDelay(final long delay) {
-        this.delay = delay > 0 ? delay : DEFAULT_DELAY;  
+        this.delay = delay > 0 ? delay : DEFAULT_DELAY;
     }
 
     /**

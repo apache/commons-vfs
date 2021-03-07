@@ -24,7 +24,16 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
  */
 public abstract class AbstractProviderTestConfig extends AbstractProviderTestCase implements ProviderTestConfig {
 
-    private FilesCache cache;
+    private FilesCache filesCache;
+
+    /**
+     * Subclasses can override.
+     *
+     * @return A new cache.
+     */
+    protected FilesCache createFilesCache() {
+        return new SoftRefFilesCache();
+    }
 
     /**
      * Returns a DefaultFileSystemManager instance (or subclass instance).
@@ -32,6 +41,19 @@ public abstract class AbstractProviderTestConfig extends AbstractProviderTestCas
     @Override
     public DefaultFileSystemManager getDefaultFileSystemManager() {
         return new DefaultFileSystemManager();
+    }
+
+    @Override
+    public final FilesCache getFilesCache() {
+        if (filesCache == null) {
+            filesCache = createFilesCache();
+        }
+        return filesCache;
+    }
+
+    @Override
+    public boolean isFileSystemRootAccessible() {
+        return true;
     }
 
     /**
@@ -43,18 +65,11 @@ public abstract class AbstractProviderTestConfig extends AbstractProviderTestCas
     }
 
     @Override
-    public FilesCache getFilesCache() {
-        if (cache == null) {
-            // cache = new DefaultFilesCache();
-            cache = new SoftRefFilesCache();
+    public void tearDown() throws Exception {
+        if (filesCache != null) {
+            filesCache.close();
+            // Give a chance for any threads to end.
+            Thread.sleep(20);
         }
-
-        return cache;
     }
-
-    @Override
-    public boolean isFileSystemRootAccessible() {
-        return true;
-    }
-
 }

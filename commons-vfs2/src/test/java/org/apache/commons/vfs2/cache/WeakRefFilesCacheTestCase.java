@@ -38,7 +38,7 @@ public class WeakRefFilesCacheTestCase extends AbstractProviderTestConfig {
     }
 
     @Override
-    public FilesCache getFilesCache() {
+    public FilesCache createFilesCache() {
         return new WeakRefFilesCache();
     }
 

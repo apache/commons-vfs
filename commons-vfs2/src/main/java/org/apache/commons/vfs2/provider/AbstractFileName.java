@@ -191,7 +191,8 @@ public abstract class AbstractFileName implements FileName {
         if (idx == -1 || idx == getPath().length() - 1) {
             // No parent
             return null;
-        } else if (idx == 0) {
+        }
+        if (idx == 0) {
             // Root is the parent
             parentPath = SEPARATOR;
         } else {
@@ -305,7 +306,8 @@ public abstract class AbstractFileName implements FileName {
         // Deal with root
         if (basePathLen == 1 && pathLen == 1) {
             return ".";
-        } else if (basePathLen == 1) {
+        }
+        if (basePathLen == 1) {
             return path.substring(1);
         }
 
@@ -317,7 +319,8 @@ public abstract class AbstractFileName implements FileName {
         if (pos == basePathLen && pos == pathLen) {
             // Same names
             return ".";
-        } else if (pos == basePathLen && pos < pathLen && path.charAt(pos) == SEPARATOR_CHAR) {
+        }
+        if (pos == basePathLen && pos < pathLen && path.charAt(pos) == SEPARATOR_CHAR) {
             // A descendent of the base path
             return path.substring(pos + 1);
         }
@@ -513,11 +516,14 @@ public abstract class AbstractFileName implements FileName {
         if (scope == NameScope.CHILD) {
             return path.length() != baseLen && (baseLen <= 1 || path.charAt(baseLen) == SEPARATOR_CHAR)
                     && path.indexOf(SEPARATOR_CHAR, baseLen + 1) == -1;
-        } else if (scope == NameScope.DESCENDENT) {
+        }
+        if (scope == NameScope.DESCENDENT) {
             return path.length() != baseLen && (baseLen <= 1 || path.charAt(baseLen) == SEPARATOR_CHAR);
-        } else if (scope == NameScope.DESCENDENT_OR_SELF) {
+        }
+        if (scope == NameScope.DESCENDENT_OR_SELF) {
             return baseLen <= 1 || path.length() <= baseLen || path.charAt(baseLen) == SEPARATOR_CHAR;
-        } else if (scope != NameScope.FILE_SYSTEM) {
+        }
+        if (scope != NameScope.FILE_SYSTEM) {
             throw new IllegalArgumentException();
         }
 

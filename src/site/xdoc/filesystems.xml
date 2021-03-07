@@ -759,7 +759,7 @@
             </ul>
         </section>
 
-        <section name="res">
+        <section name="Resource">
 
             <p>
                 This is not really a filesystem, it just tries to lookup a resource using javas <code>ClassLoader.getResource()</code>
@@ -789,7 +789,7 @@
             </ul>
         </section>
 
-        <section name="ram">
+        <section name="RAM">
 
             <p>
                 A filesystem which stores all the data in memory (one byte array for each file content).
@@ -823,7 +823,7 @@
             </ul>
         </section>
 
-        <section name="mime">
+        <section name="MIME">
 
             <p>
                 This (sandbox) filesystem can read mails and its attachements like archives.<br />

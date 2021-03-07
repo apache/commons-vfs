@@ -23,6 +23,10 @@ To perform the Release Audit which validate license headers (the "RAT" check), r
 
 mvn apache-rat:check
 
+You can also use the default goal to perform all validations that are know to pass:
+
+mvn
+
 The Maven profile test-deploy is used for testing, a release manager will omit it when it is time to create a 
 release candidate.
 

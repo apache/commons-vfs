@@ -25,7 +25,12 @@ import org.apache.commons.vfs2.provider.AbstractVfsComponent;
  */
 public abstract class AbstractFilesCache extends AbstractVfsComponent implements FilesCache {
 
-    // @Override - commented in FilesCache interface
+    /**
+     * Default implementation is a NOOP.
+     *
+     * @param file touch this file.
+     */
     public void touchFile(final FileObject file) {
+        // empty
     }
 }
