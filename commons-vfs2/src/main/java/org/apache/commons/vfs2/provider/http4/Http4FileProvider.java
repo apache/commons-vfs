@@ -207,7 +207,8 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
                 .setRoutePlanner(createHttpRoutePlanner(builder, fileSystemOptions))
                 .setConnectionManager(createConnectionManager(builder, fileSystemOptions, sslContext, hostNameVerifier))
                 .setSSLContext(sslContext)
-                .setSSLHostnameVerifier(hostNameVerifier).setConnectionReuseStrategy(connectionReuseStrategy)
+                .setSSLHostnameVerifier(hostNameVerifier)
+                .setConnectionReuseStrategy(connectionReuseStrategy)
                 .setDefaultRequestConfig(createDefaultRequestConfig(builder, fileSystemOptions))
                 .setDefaultHeaders(defaultHeaders)
                 .setDefaultCookieStore(createDefaultCookieStore(builder, fileSystemOptions));
