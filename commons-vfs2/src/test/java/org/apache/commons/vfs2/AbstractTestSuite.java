@@ -274,18 +274,18 @@ public abstract class AbstractTestSuite extends TestSetup {
                 sb.append(thread);
                 sb.append(",\t");
                 sb.append(thread.getState());
-                sb.append(", ");
+                sb.append(",\t");
                 if (!thread.isDaemon()) {
                     sb.append("non_");
                 }
                 sb.append("daemon");
 
                 if (threadTargetField != null) {
-                    sb.append("\t, ");
+                    sb.append(",\t");
                     try {
                         final Object threadTarget = threadTargetField.get(thread);
                         if (threadTarget != null) {
-                            sb.append(threadTarget.getClass());
+                            sb.append(threadTarget.getClass().getCanonicalName());
                         } else {
                             sb.append("null");
                         }
