@@ -2,7 +2,7 @@
             RELEASE NOTES
             2021-03-06
 
-The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.8.0-SNAPSHOT.
+The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.8.0.
 
 Apache Commons VFS is a Virtual File System library.
 
