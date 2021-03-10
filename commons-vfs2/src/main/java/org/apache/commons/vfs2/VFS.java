@@ -40,6 +40,7 @@ public final class VFS {
     public static synchronized void close() {
         if (instance != null) {
             instance.close();
+            instance = null;
         }
     }
 
