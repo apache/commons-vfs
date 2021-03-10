@@ -46,6 +46,10 @@ The <action> type attribute can be add,update,fix,remove.
 
   <body>
     <release version="2.8.1" date="2021-MM-DD" description="Maintenance release. Requires Java 8.">
+      <!-- FIXES -->
+      <action type="fix" dev="ggregory" due-to="Boris Petrov">
+        VFS.close(): Set `instance` to `null` after closing it #163. 
+      </action>
     </release>
     <release version="2.8.0" date="2021-03-06" description="Feature and maintenance release. Requires Java 8.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
