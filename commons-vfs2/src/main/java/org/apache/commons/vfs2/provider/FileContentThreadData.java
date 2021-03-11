@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.RandomAccessContent;
 
 /**
- * Holds the data which needs to be local to the current thread
+ * Holds information about the opened streams of a file (from any thread)
  */
 class FileContentThreadData {
 

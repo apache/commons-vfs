@@ -62,8 +62,8 @@ public final class DefaultFileContent implements FileContent {
     private Map<String, Object> roAttrs;
     private FileContentInfo fileContentInfo;
     private final FileContentInfoFactory fileContentInfoFactory;
+    private FileContentThreadData fileContentThreadData;
 
-    private final ThreadLocal<FileContentThreadData> threadLocal = ThreadLocal.withInitial(FileContentThreadData::new);
     private boolean resetAttributes;
 
     /**
@@ -76,8 +76,15 @@ public final class DefaultFileContent implements FileContent {
         this.fileContentInfoFactory = fileContentInfoFactory;
     }
 
+    /**
+     * This method should *only* be called in a synchronized context to prevent race-conditions! See:
+     * https://github.com/apache/commons-vfs/pull/166
+     */
     private FileContentThreadData getFileContentThreadData() {
-        return this.threadLocal.get();
+        if (fileContentThreadData == null) {
+            fileContentThreadData = new FileContentThreadData();
+        }
+        return fileContentThreadData;
     }
 
     void streamOpened() {
@@ -374,7 +381,9 @@ public final class DefaultFileContent implements FileContent {
 
         final FileRandomAccessContent rac = new FileRandomAccessContent(fileObject, rastr);
 
-        getFileContentThreadData().add(rac);
+        synchronized (this) {
+            getFileContentThreadData().add(rac);
+        }
         streamOpened();
 
         return rac;
@@ -438,12 +447,29 @@ public final class DefaultFileContent implements FileContent {
     @Override
     public void close() throws FileSystemException {
         FileSystemException caught = null;
-        try {
-            final FileContentThreadData threadData = getFileContentThreadData();
 
-            // Close the input stream
-            while (threadData.hasInputStream()) {
-                final InputStream inputStream = threadData.removeInputStream(0);
+        while (true) {
+            InputStream inputStream = null;
+            FileRandomAccessContent randomAccessContent = null;
+            FileContentOutputStream outputStream = null;
+
+            synchronized (this) {
+                final FileContentThreadData threadData = getFileContentThreadData();
+
+                if (threadData.hasInputStream()) {
+                    inputStream = threadData.removeInputStream(0);
+                } else if (threadData.hasRandomAccessContent()) {
+                    randomAccessContent = (FileRandomAccessContent) threadData.removeRandomAccessContent(0);
+                } else if (threadData.getOutputStream() != null) {
+                    outputStream = threadData.getOutputStream();
+                    threadData.setOutputStream(null);
+                } else {
+                    fileContentThreadData = null;
+                    break;
+                }
+            }
+
+            if (inputStream != null) {
                 try {
                     if (inputStream instanceof FileContentInputStream) {
                         ((FileContentInputStream) inputStream).close();
@@ -454,33 +480,20 @@ public final class DefaultFileContent implements FileContent {
                     }
                 } catch (final FileSystemException ex) {
                     caught = ex;
-
                 }
-            }
-
-            // Close the randomAccess stream
-            while (threadData.hasRandomAccessContent()) {
-                final FileRandomAccessContent randomAccessContent = (FileRandomAccessContent) threadData
-                        .removeRandomAccessContent(0);
+            } else if (randomAccessContent != null) {
                 try {
                     randomAccessContent.close();
                 } catch (final FileSystemException ex) {
                     caught = ex;
                 }
-            }
-
-            // Close the output stream
-            final FileContentOutputStream outputStream = threadData.getOutputStream();
-            if (outputStream != null) {
-                threadData.setOutputStream(null);
+            } else if (outputStream != null) {
                 try {
                     outputStream.close();
                 } catch (final FileSystemException ex) {
                     caught = ex;
                 }
             }
-        } finally {
-            threadLocal.remove();
         }
 
         // throw last error (out >> rac >> input) after all closes have been tried
@@ -517,7 +530,9 @@ public final class DefaultFileContent implements FileContent {
                     : new FileContentInputStream(fileObject, inputStream, bufferSize);
             // @formatter:on
         }
-        getFileContentThreadData().add(wrappedInputStream);
+        synchronized (this) {
+            getFileContentThreadData().add(wrappedInputStream);
+        }
         streamOpened();
 
         return wrappedInputStream;
@@ -527,20 +542,23 @@ public final class DefaultFileContent implements FileContent {
         /*
          * if (getThreadData().getState() != STATE_NONE)
          */
-        final FileContentThreadData threadData = getFileContentThreadData();
+        FileContentOutputStream wrapped;
+        synchronized (this) {
+            final FileContentThreadData threadData = getFileContentThreadData();
 
-        if (threadData.getOutputStream() != null) {
-            throw new FileSystemException("vfs.provider/write-in-use.error", fileObject);
+            if (threadData.getOutputStream() != null) {
+                throw new FileSystemException("vfs.provider/write-in-use.error", fileObject);
+            }
+
+            // Get the raw output stream
+            final OutputStream outstr = fileObject.getOutputStream(bAppend);
+
+            // Create and set wrapper
+            wrapped = bufferSize == 0 ?
+                new FileContentOutputStream(fileObject, outstr) :
+                new FileContentOutputStream(fileObject, outstr, bufferSize);
+            threadData.setOutputStream(wrapped);
         }
-
-        // Get the raw output stream
-        final OutputStream outstr = fileObject.getOutputStream(bAppend);
-
-        // Create and set wrapper
-        final FileContentOutputStream wrapped = bufferSize == 0 ?
-            new FileContentOutputStream(fileObject, outstr) :
-            new FileContentOutputStream(fileObject, outstr, bufferSize);
-        threadData.setOutputStream(wrapped);
         streamOpened();
 
         return wrapped;
@@ -550,13 +568,15 @@ public final class DefaultFileContent implements FileContent {
      * Handles the end of input stream.
      */
     private void endInput(final InputStream instr) {
-        final FileContentThreadData fileContentThreadData = threadLocal.get();
-        if (fileContentThreadData != null) {
-            fileContentThreadData.remove(instr);
-        }
-        if (fileContentThreadData == null || !fileContentThreadData.hasStreams()) {
-            // remove even when no value is set to remove key
-            threadLocal.remove();
+        synchronized (this) {
+            final FileContentThreadData fileContentThreadData = getFileContentThreadData();
+            if (fileContentThreadData != null) {
+                fileContentThreadData.remove(instr);
+            }
+            if (fileContentThreadData == null || !fileContentThreadData.hasStreams()) {
+                // remove even when no value is set to remove key
+                this.fileContentThreadData = null;
+            }
         }
         streamClosed();
     }
@@ -565,13 +585,15 @@ public final class DefaultFileContent implements FileContent {
      * Handles the end of random access.
      */
     private void endRandomAccess(final RandomAccessContent rac) {
-        final FileContentThreadData fileContentThreadData = threadLocal.get();
-        if (fileContentThreadData != null) {
-            fileContentThreadData.remove(rac);
-        }
-        if (fileContentThreadData == null || !fileContentThreadData.hasStreams()) {
-            // remove even when no value is set to remove key
-            threadLocal.remove();
+        synchronized (this) {
+            final FileContentThreadData fileContentThreadData = getFileContentThreadData();
+            if (fileContentThreadData != null) {
+                fileContentThreadData.remove(rac);
+            }
+            if (fileContentThreadData == null || !fileContentThreadData.hasStreams()) {
+                // remove even when no value is set to remove key
+                this.fileContentThreadData = null;
+            }
         }
         streamClosed();
     }
@@ -580,13 +602,15 @@ public final class DefaultFileContent implements FileContent {
      * Handles the end of output stream.
      */
     private void endOutput() throws Exception {
-        final FileContentThreadData fileContentThreadData = threadLocal.get();
-        if (fileContentThreadData != null) {
-            fileContentThreadData.setOutputStream(null);
-        }
-        if (fileContentThreadData == null || !fileContentThreadData.hasStreams()) {
-            // remove even when no value is set to remove key
-            threadLocal.remove();
+        synchronized (this) {
+            final FileContentThreadData fileContentThreadData = getFileContentThreadData();
+            if (fileContentThreadData != null) {
+                fileContentThreadData.setOutputStream(null);
+            }
+            if (fileContentThreadData == null || !fileContentThreadData.hasStreams()) {
+                // remove even when no value is set to remove key
+                this.fileContentThreadData = null;
+            }
         }
         streamClosed();
         fileObject.endOutput();
@@ -594,20 +618,17 @@ public final class DefaultFileContent implements FileContent {
 
     /**
      * Checks if a input and/or output stream is open.
-     * <p>
-     * This checks only the scope of the current thread.
-     * </p>
      *
      * @return true if this is the case
      */
     @Override
-    public boolean isOpen() {
-        final FileContentThreadData fileContentThreadData = threadLocal.get();
+    public synchronized boolean isOpen() {
+        final FileContentThreadData fileContentThreadData = getFileContentThreadData();
         if (fileContentThreadData != null && fileContentThreadData.hasStreams()) {
             return true;
         }
-        // threadData.get() created empty entry
-        threadLocal.remove();
+        // getFileContentThreadData() created empty entry
+        this.fileContentThreadData = null;
         return false;
     }
 
