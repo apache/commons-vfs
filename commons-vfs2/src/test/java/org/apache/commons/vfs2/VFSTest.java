@@ -17,6 +17,8 @@
 
 package org.apache.commons.vfs2;
 
+import static org.junit.Assert.assertNotEquals;
+
 import java.nio.file.Paths;
 
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
@@ -50,5 +52,17 @@ public class VFSTest {
         VFS.setManager(null);
         Assert.assertNotNull(VFS.getManager());
         Assert.assertNotEquals(fileSystemManager, VFS.getManager());
+    }
+
+    @Test
+    public void testStaticClose() throws FileSystemException {
+        final FileSystemManager manager = VFS.getManager();
+        VFS.close();
+        assertNotEquals(manager, VFS.getManager());
+    }
+    @Test
+    public void testStaticCloseRepeatable() throws FileSystemException {
+        VFS.close();
+        VFS.close();
     }
 }
