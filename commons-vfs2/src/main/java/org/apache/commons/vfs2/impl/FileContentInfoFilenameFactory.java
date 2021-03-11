@@ -27,10 +27,11 @@ import org.apache.commons.vfs2.FileContentInfoFactory;
  * The FileContentInfoFilenameFactory.
  * <p>
  * Uses the file name extension to determine the content-type. The content-encoding is not resolved.
+ * </p>
  */
 public class FileContentInfoFilenameFactory implements FileContentInfoFactory {
 
-    private static final FileContentInfo NULL_INFO = new DefaultFileContentInfo(null, null);
+    private static final FileContentInfo NULL_INSTANCE = new DefaultFileContentInfo(null, null);
 
     @Override
     public FileContentInfo create(final FileContent fileContent) {
@@ -38,13 +39,12 @@ public class FileContentInfoFilenameFactory implements FileContentInfoFactory {
 
         final String name = fileContent.getFile().getName().getBaseName();
         if (name != null) {
-            final FileNameMap fileNameMap = URLConnection.getFileNameMap();
-            contentType = fileNameMap.getContentTypeFor(name);
+            contentType = URLConnection.getFileNameMap().getContentTypeFor(name);
         }
 
         // optimize object creation for common case
         if (contentType == null) {
-            return NULL_INFO;
+            return NULL_INSTANCE;
         }
         return new DefaultFileContentInfo(contentType, null);
     }
