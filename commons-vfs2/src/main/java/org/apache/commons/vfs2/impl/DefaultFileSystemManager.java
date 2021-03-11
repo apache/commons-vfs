@@ -555,6 +555,9 @@ public class DefaultFileSystemManager implements FileSystemManager {
         // collections with add()
         typeMap.clear();
 
+        // Close cache last.
+        closeComponent(filesCache);
+
         // should not happen, but make debugging easier:
         if (!components.isEmpty()) {
             log.warn("DefaultFilesystemManager.close: not all components are closed: " + components.toString());
@@ -566,11 +569,6 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
         // virtual schemas
         virtualFileSystemSchemes.clear();
-
-        // Close cache last.
-        if (filesCache != null) {
-            filesCache.close();
-        }
 
         // setters and derived state
         defaultProvider = null;
