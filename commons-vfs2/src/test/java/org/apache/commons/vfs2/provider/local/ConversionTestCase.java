@@ -20,10 +20,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
 
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -59,7 +59,7 @@ public class ConversionTestCase {
         assertEquals(file.getAbsoluteFile(), new File(file.toURI().getPath()));
         assertEquals(file.getAbsoluteFile(), new File(new URL(fileURL).toURI().getPath()));
         try {
-            new FileOutputStream(file).close();
+            Files.newOutputStream(file.toPath()).close();
             assertTrue(file.exists());
 
             final FileSystemManager manager = VFS.getManager();

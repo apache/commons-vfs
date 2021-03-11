@@ -22,10 +22,9 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -180,7 +179,7 @@ public abstract class BaseFilterTest {
             throws IOException {
 
         final byte[] buf = new byte[1024];
-        try (final InputStream in = new BufferedInputStream(new FileInputStream(srcFile))) {
+        try (final InputStream in = new BufferedInputStream(Files.newInputStream(srcFile.toPath()))) {
             final ZipEntry zipEntry = new ZipEntry(concatPathAndFilename(destPath, srcFile.getName(), File.separator));
             zipEntry.setTime(srcFile.lastModified());
             out.putNextEntry(zipEntry);
@@ -248,7 +247,7 @@ public abstract class BaseFilterTest {
             throw new IllegalArgumentException("destFile cannot be null");
         }
 
-        try (final ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(destFile)))) {
+        try (final ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(Files.newOutputStream(destFile.toPath())))) {
             zipDir(srcDir, filter, destPath, out);
         }
 

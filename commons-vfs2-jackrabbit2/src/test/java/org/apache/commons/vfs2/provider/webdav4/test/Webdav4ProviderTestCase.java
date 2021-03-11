@@ -17,9 +17,9 @@
 package org.apache.commons.vfs2.provider.webdav4.test;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
@@ -173,7 +173,7 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
         final File[] files = sourceDir.listFiles();
         for (final File file : files) {
             if (file.isFile()) {
-                try (final InputStream data = new FileInputStream(file)) {
+                try (final InputStream data = Files.newInputStream(file.toPath())) {
                     message("Importing file " + file);
                     JcrUtils.putFile(parent, file.getName(), "application/octet-stream", data);
                 }

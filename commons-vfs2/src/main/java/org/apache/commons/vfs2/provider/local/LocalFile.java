@@ -18,11 +18,11 @@ package org.apache.commons.vfs2.provider.local;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -126,7 +126,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
      */
     @Override
     protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
-        return new FileOutputStream(file.getPath(), bAppend);
+        return Files.newOutputStream(file.toPath(),  bAppend ? StandardOpenOption.APPEND : StandardOpenOption.CREATE);
     }
 
     @Override
