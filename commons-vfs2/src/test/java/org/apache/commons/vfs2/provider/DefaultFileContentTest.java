@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,6 +27,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
 import org.junit.Assert;
@@ -77,6 +79,11 @@ public class DefaultFileContentTest {
     @Test(expected = IllegalArgumentException.class)
     public void testInputStreamBufferSizeNegative() throws Exception {
         testInputStreamBufferSize(-2);
+    }
+
+    @Test
+    public void testInputStreamClosedInADifferentThread() throws Exception {
+        testStreamClosedInADifferentThread(content -> content.getInputStream());
     }
 
     @Test
@@ -167,4 +174,32 @@ public class DefaultFileContentTest {
         }
     }
 
+    @Test
+    public void testOutputStreamClosedInADifferentThread() throws Exception {
+        testStreamClosedInADifferentThread(content -> content.getOutputStream());
+    }
+
+    private <T extends Closeable> void testStreamClosedInADifferentThread(FunctionThrowingException<FileContent, T> getStream) throws Exception {
+        final File temp = File.createTempFile("temp-file-name", ".tmp");
+        final FileSystemManager fileSystemManager = VFS.getManager();
+
+        try (FileObject file = fileSystemManager.resolveFile(temp.getAbsolutePath())) {
+            T stream = getStream.apply(file.getContent());
+            boolean[] check = { false };
+            Thread thread = new Thread(() -> {
+                try {
+                    stream.close();
+                } catch (IOException exception) {
+                }
+                check[0] = true;
+            });
+            thread.start();
+            thread.join();
+            Assert.assertTrue(check[0]);
+        }
+    }
+}
+
+interface FunctionThrowingException<T, R> {
+    R apply(T t) throws FileSystemException;
 }
