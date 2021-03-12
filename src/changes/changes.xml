@@ -53,6 +53,10 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="Boris Petrov">
         Fix closing the files cache after warning that not all components have been closed; #165.
       </action>
+      <!-- UPDATES  -->
+      <action type="fix" dev="ggregory" due-to="Arturo Bernal">
+        Replace construction of FileInputStream and FileOutputStream objects with Files NIO APIs. #164.
+      </action>
     </release>
     <release version="2.8.0" date="2021-03-06" description="Feature and maintenance release. Requires Java 8.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
