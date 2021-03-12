@@ -54,7 +54,7 @@ The <action> type attribute can be add,update,fix,remove.
         Fix closing the files cache after warning that not all components have been closed; #165.
       </action>
       <!-- UPDATES  -->
-      <action type="fix" dev="ggregory" due-to="Arturo Bernal">
+      <action type="update" dev="ggregory" due-to="Arturo Bernal">
         Replace construction of FileInputStream and FileOutputStream objects with Files NIO APIs. #164.
       </action>
     </release>
