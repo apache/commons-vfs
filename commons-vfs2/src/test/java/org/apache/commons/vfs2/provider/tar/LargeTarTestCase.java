@@ -21,10 +21,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 
@@ -175,8 +175,9 @@ public class LargeTarTestCase {
             };
             source.start();
 
+            final File gzFile = new File(path + name + ".tar.gz");
             // Create compressed archive
-            final OutputStream outGzipFileStream = new FileOutputStream(path + name + ".tar.gz");
+            final OutputStream outGzipFileStream = Files.newOutputStream(gzFile.toPath());
 
             final GzipCompressorOutputStream outGzipStream = (GzipCompressorOutputStream) new CompressorStreamFactory()
                     .createCompressorOutputStream(CompressorStreamFactory.GZIP, outGzipFileStream);

@@ -20,9 +20,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeFalse;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.commons.AbstractVfsTestCase;
@@ -325,7 +327,7 @@ public class DefaultFileMonitorTest {
 
     private void writeToFile(final File file) throws IOException {
         // assertTrue(file.delete());
-        try (final FileWriter out = new FileWriter(file)) {
+        try (final BufferedWriter out = Files.newBufferedWriter(file.toPath())) {
             out.write("string=value1");
         }
     }
