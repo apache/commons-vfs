@@ -42,7 +42,6 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * </p>
  *
  * @see FileObject#getContent
- * @since 2.2
  */
 public interface FileContent extends Closeable {
 
