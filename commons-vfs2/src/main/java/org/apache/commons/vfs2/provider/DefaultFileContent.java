@@ -570,10 +570,8 @@ public final class DefaultFileContent implements FileContent {
     private void endInput(final InputStream instr) {
         synchronized (this) {
             final FileContentThreadData fileContentThreadData = getFileContentThreadData();
-            if (fileContentThreadData != null) {
-                fileContentThreadData.remove(instr);
-            }
-            if (fileContentThreadData == null || !fileContentThreadData.hasStreams()) {
+            fileContentThreadData.remove(instr);
+            if (!fileContentThreadData.hasStreams()) {
                 // remove even when no value is set to remove key
                 this.fileContentThreadData = null;
             }
@@ -587,10 +585,8 @@ public final class DefaultFileContent implements FileContent {
     private void endRandomAccess(final RandomAccessContent rac) {
         synchronized (this) {
             final FileContentThreadData fileContentThreadData = getFileContentThreadData();
-            if (fileContentThreadData != null) {
-                fileContentThreadData.remove(rac);
-            }
-            if (fileContentThreadData == null || !fileContentThreadData.hasStreams()) {
+            fileContentThreadData.remove(rac);
+            if (!fileContentThreadData.hasStreams()) {
                 // remove even when no value is set to remove key
                 this.fileContentThreadData = null;
             }
@@ -604,10 +600,8 @@ public final class DefaultFileContent implements FileContent {
     private void endOutput() throws Exception {
         synchronized (this) {
             final FileContentThreadData fileContentThreadData = getFileContentThreadData();
-            if (fileContentThreadData != null) {
-                fileContentThreadData.setOutputStream(null);
-            }
-            if (fileContentThreadData == null || !fileContentThreadData.hasStreams()) {
+            fileContentThreadData.setOutputStream(null);
+            if (!fileContentThreadData.hasStreams()) {
                 // remove even when no value is set to remove key
                 this.fileContentThreadData = null;
             }
@@ -623,8 +617,7 @@ public final class DefaultFileContent implements FileContent {
      */
     @Override
     public synchronized boolean isOpen() {
-        final FileContentThreadData fileContentThreadData = getFileContentThreadData();
-        if (fileContentThreadData != null && fileContentThreadData.hasStreams()) {
+        if (getFileContentThreadData().hasStreams()) {
             return true;
         }
         // getFileContentThreadData() created empty entry
