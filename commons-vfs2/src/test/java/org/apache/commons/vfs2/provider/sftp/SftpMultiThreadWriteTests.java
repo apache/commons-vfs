@@ -80,6 +80,8 @@ public class SftpMultiThreadWriteTests extends AbstractProviderTestCase {
                     assertFalse(fileCopy.exists());
                     fileCopy.copyFrom(localFileObject, Selectors.SELECT_SELF);
                 } catch (final Throwable e) {
+                    System.err.println("Copying threw an exception:");
+                    e.printStackTrace(System.err);
                     return false;
                 }
                 return true;
@@ -93,6 +95,8 @@ public class SftpMultiThreadWriteTests extends AbstractProviderTestCase {
                 try {
                     return fut.get(5, TimeUnit.SECONDS);
                 } catch (final Exception e) {
+                    System.err.println("Waiting for promise threw an exception:");
+                    e.printStackTrace(System.err);
                     return false;
                 }
             }));
