@@ -67,7 +67,7 @@ public interface FileContent extends Closeable {
     Object getAttribute(String attrName) throws FileSystemException;
 
     /**
-     * Lists the attributes of the file's content.
+     * Gets the attributes of the file's content.
      *
      * @return The names of the attributes. Never returns null;
      * @throws FileSystemException If the file does not exist, or does not support attributes.
@@ -108,7 +108,7 @@ public interface FileContent extends Closeable {
     }
 
     /**
-     * Retrieves the certificates if any used to sign this file or folder.
+     * Gets the certificates if any used to sign this file or folder.
      *
      * @return The certificates, or an empty array if there are no certificates or the file does not support signing.
      * @throws FileSystemException If the file does not exist, or is being written.
@@ -116,7 +116,7 @@ public interface FileContent extends Closeable {
     Certificate[] getCertificates() throws FileSystemException;
 
     /**
-     * get the content info. e.g. type, encoding, ...
+     * Gets the content info. e.g. type, encoding, ...
      *
      * @return the FileContentInfo
      * @throws FileSystemException if an error occurs.
@@ -124,14 +124,14 @@ public interface FileContent extends Closeable {
     FileContentInfo getContentInfo() throws FileSystemException;
 
     /**
-     * Returns the file which this is the content of.
+     * Gets the file which this is the content of.
      *
      * @return The FileObject this is the content of.
      */
     FileObject getFile();
 
     /**
-     * Returns an input stream for reading the file's content.
+     * Gets an input stream for reading the file's content.
      * <p>
      * There may only be a single input or output stream open for the file at any time.
      * </p>
@@ -144,7 +144,7 @@ public interface FileContent extends Closeable {
     InputStream getInputStream() throws FileSystemException;
 
     /**
-     * Returns an input stream for reading the file's content.
+     * Gets an input stream for reading the file's content.
      * <p>
      * There may only be a single input or output stream open for the file at any time.
      * </p>
@@ -161,7 +161,7 @@ public interface FileContent extends Closeable {
     }
 
     /**
-     * Determines the last-modified timestamp of the file.
+     * Gets the last-modified timestamp of the file.
      *
      * @return The last-modified timestamp.
      * @throws FileSystemException If the file does not exist, or is being written to, or on error determining the
@@ -170,7 +170,7 @@ public interface FileContent extends Closeable {
     long getLastModifiedTime() throws FileSystemException;
 
     /**
-     * Returns an output stream for writing the file's content.
+     * Gets an output stream for writing the file's content.
      * <p>
      * If the file does not exist, this method creates it, and the parent folder, if necessary. If the file does exist,
      * it is replaced with whatever is written to the output stream.
@@ -187,7 +187,7 @@ public interface FileContent extends Closeable {
     OutputStream getOutputStream() throws FileSystemException;
 
     /**
-     * Returns an output stream for writing the file's content.
+     * Gets an output stream for writing the file's content.
      * <p>
      * If the file does not exist, this method creates it, and the parent folder, if necessary. If the file does exist,
      * it is replaced with whatever is written to the output stream.
@@ -205,7 +205,7 @@ public interface FileContent extends Closeable {
     OutputStream getOutputStream(boolean bAppend) throws FileSystemException;
 
     /**
-     * Returns an output stream for writing the file's content.
+     * Gets an output stream for writing the file's content.
      * <p>
      * If the file does not exist, this method creates it, and the parent folder, if necessary. If the file does exist,
      * it is replaced with whatever is written to the output stream.
@@ -227,7 +227,7 @@ public interface FileContent extends Closeable {
     }
 
     /**
-     * Returns an output stream for writing the file's content.
+     * Gets an output stream for writing the file's content.
      * <p>
      * If the file does not exist, this method creates it, and the parent folder, if necessary. If the file does exist,
      * it is replaced with whatever is written to the output stream.
@@ -248,7 +248,7 @@ public interface FileContent extends Closeable {
     }
 
     /**
-     * Returns an stream for reading/writing the file's content.
+     * Gets an stream for reading/writing the file's content.
      * <p>
      * If the file does not exist, and you use one of the write* methods, this method creates it, and the parent folder,
      * if necessary. If the file does exist, parts of the file are replaced with whatever is written at a given
@@ -266,7 +266,7 @@ public interface FileContent extends Closeable {
     RandomAccessContent getRandomAccessContent(final RandomAccessMode mode) throws FileSystemException;
 
     /**
-     * Determines the size of the file, in bytes.
+     * Gets the size of the file, in bytes.
      *
      * @return The size of the file, in bytes.
      * @throws FileSystemException If the file does not exist, or is being written to, or on error determining the size.
@@ -286,7 +286,7 @@ public interface FileContent extends Closeable {
     }
 
     /**
-     * Returns the content of a file as a String.
+     * Gets the content of a file as a String.
      *
      * @param charset The file character set, may be null.
      * @return The content as a byte array.
