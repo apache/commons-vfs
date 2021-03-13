@@ -22,7 +22,7 @@
  * individuals on behalf of the Apache Software Foundation.  For more
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
- *
+
  */
 package org.apache.commons.vfs2.util;
 
@@ -32,6 +32,7 @@ import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -54,6 +55,7 @@ import org.apache.hc.core5.http.HttpHeaders;
 import org.apache.hc.core5.http.HttpRequest;
 import org.apache.hc.core5.http.HttpStatus;
 import org.apache.hc.core5.http.Message;
+import org.apache.hc.core5.http.MethodNotSupportedException;
 import org.apache.hc.core5.http.ProtocolException;
 import org.apache.hc.core5.http.impl.bootstrap.AsyncServerBootstrap;
 import org.apache.hc.core5.http.impl.bootstrap.HttpAsyncServer;
@@ -75,11 +77,94 @@ import org.apache.hc.core5.ssl.SSLContexts;
 import org.apache.hc.core5.util.TimeValue;
 
 /**
- * Example of asynchronous embedded HTTP/1.1 file server.
+ * Embedded HTTP/1.1 file server based on a non-blocking I/O model and capable of direct channel (zero copy) data
+ * transfer.
  */
 public class NHttpFileServer {
 
-    public static boolean DEBUG;
+    private static class HttpFileHandler implements AsyncServerRequestHandler<Message<HttpRequest, Void>> {
+
+        private final File docRoot;
+
+        HttpFileHandler(final File docRoot) {
+            this.docRoot = docRoot;
+        }
+
+        @Override
+        public void handle(final Message<HttpRequest, Void> message, final ResponseTrigger responseTrigger,
+            final HttpContext context) throws HttpException, IOException {
+            final HttpRequest request = message.getHead();
+            final String method = request.getMethod().toUpperCase(Locale.ROOT);
+            if (!method.equals("GET") && !method.equals("HEAD") && !method.equals("POST")) {
+                throw new MethodNotSupportedException(method + " method not supported");
+            }
+
+            final URI requestUri;
+            try {
+                requestUri = request.getUri();
+            } catch (final URISyntaxException ex) {
+                throw new ProtocolException(ex.getMessage(), ex);
+            }
+            final String path = requestUri.getPath();
+            final File file = new File(docRoot, path);
+            final ContentType mimeType = ContentType.TEXT_HTML;
+            if (!file.exists()) {
+
+                final String msg = "File " + file.getPath() + " not found";
+                println(msg);
+                responseTrigger.submitResponse(
+                    AsyncResponseBuilder.create(HttpStatus.SC_NOT_FOUND)
+                        .setEntity("<html><body><h1>" + msg + "</h1></body></html>", mimeType).build(),
+                    context);
+
+            } else if (!file.canRead()) {
+                final String msg = "Cannot read file " + file.getPath();
+                println(msg);
+                responseTrigger.submitResponse(
+                    AsyncResponseBuilder.create(HttpStatus.SC_FORBIDDEN)
+                        .setEntity("<html><body><h1>" + msg + "</h1></body></html>", mimeType).build(),
+                    context);
+
+            } else {
+
+                final ContentType contentType;
+                final String filename = file.getName().toLowerCase(Locale.ROOT);
+                if (filename.endsWith(".txt")) {
+                    contentType = ContentType.TEXT_PLAIN;
+                } else if (filename.endsWith(".html") || filename.endsWith(".htm")) {
+                    contentType = ContentType.TEXT_HTML;
+                } else if (filename.endsWith(".xml")) {
+                    contentType = ContentType.TEXT_XML;
+                } else {
+                    contentType = ContentType.DEFAULT_BINARY;
+                }
+
+                final HttpCoreContext coreContext = HttpCoreContext.adapt(context);
+                final EndpointDetails endpoint = coreContext.getEndpointDetails();
+
+                println(endpoint + " | serving file " + file.getPath());
+
+                // @formatter:off
+                responseTrigger.submitResponse(
+                    AsyncResponseBuilder.create(HttpStatus.SC_OK)
+                        .setEntity(file.isDirectory() 
+                            ? AsyncEntityProducers.create(file.toString(), contentType)
+                            : AsyncEntityProducers.create(file, contentType))
+                        .addHeader(HttpHeaders.LAST_MODIFIED, DateUtils.formatDate(new Date(file.lastModified())))
+                    .build(), context);
+                // @formatter:on
+            }
+        }
+
+        @Override
+        public AsyncRequestConsumer<Message<HttpRequest, Void>> prepare(final HttpRequest request,
+            final EntityDetails entityDetails, final HttpContext context) throws HttpException {
+            return new BasicRequestConsumer<>(entityDetails != null ? new NoopEntityConsumer() : null);
+        }
+
+    }
+
+    public static boolean DEBUG = Boolean.getBoolean(NHttpFileServer.class.getSimpleName() + ".debug");
 
     public static void main(final String[] args) throws Exception {
         if (args.length < 1) {
@@ -160,72 +245,7 @@ public class NHttpFileServer {
                 .build();
         // @formatter:on
 
-        server = bootstrap.setIOReactorConfig(config)
-            .register("*", new AsyncServerRequestHandler<Message<HttpRequest, Void>>() {
-
-                @Override
-                public void handle(final Message<HttpRequest, Void> message, final ResponseTrigger responseTrigger,
-                    final HttpContext context) throws HttpException, IOException {
-                    final HttpRequest request = message.getHead();
-                    final URI requestUri;
-                    try {
-                        requestUri = request.getUri();
-                    } catch (final URISyntaxException ex) {
-                        throw new ProtocolException(ex.getMessage(), ex);
-                    }
-                    final String path = requestUri.getPath();
-                    final File file = new File(docRoot, path);
-                    if (!file.exists()) {
-
-                        final String msg = "File " + file.getPath() + " not found";
-                        println(msg);
-                        responseTrigger.submitResponse(AsyncResponseBuilder.create(HttpStatus.SC_NOT_FOUND)
-                            .setEntity("<html><body><h1>" + msg + "</h1></body></html>", ContentType.TEXT_HTML).build(),
-                            context);
-
-                    } else if (!file.canRead() /* || file.isDirectory() */) {
-                        final String msg = "Cannot read file " + file.getPath();
-                        println(msg);
-                        responseTrigger.submitResponse(AsyncResponseBuilder.create(HttpStatus.SC_FORBIDDEN)
-                            .setEntity("<html><body><h1>" + msg + "</h1></body></html>", ContentType.TEXT_HTML).build(),
-                            context);
-
-                    } else {                    
-                        
-                        final ContentType contentType;
-                        final String filename = file.getName().toLowerCase(Locale.ROOT);
-                        if (filename.endsWith(".txt")) {
-                            contentType = ContentType.TEXT_PLAIN;
-                        } else if (filename.endsWith(".html") || filename.endsWith(".htm")) {
-                            contentType = ContentType.TEXT_HTML;
-                        } else if (filename.endsWith(".xml")) {
-                            contentType = ContentType.TEXT_XML;
-                        } else {
-                            contentType = ContentType.DEFAULT_BINARY;
-                        }
-
-                        final HttpCoreContext coreContext = HttpCoreContext.adapt(context);
-                        final EndpointDetails endpoint = coreContext.getEndpointDetails();
-
-                        println(endpoint + " | serving file " + file.getPath());
-
-                        // @formatter:off
-                        responseTrigger.submitResponse(
-                            AsyncResponseBuilder.create(HttpStatus.SC_OK)
-                                .setEntity(AsyncEntityProducers.create(file, contentType))
-                                .addHeader(HttpHeaders.LAST_MODIFIED, DateUtils.formatDate(new Date(file.lastModified())))
-                            .build(), context);
-                        // @formatter:on
-                    }
-                }
-
-                @Override
-                public AsyncRequestConsumer<Message<HttpRequest, Void>> prepare(final HttpRequest request,
-                    final EntityDetails entityDetails, final HttpContext context) throws HttpException {
-                    return new BasicRequestConsumer<>(entityDetails != null ? new NoopEntityConsumer() : null);
-                }
-
-            }).create();
+        server = bootstrap.setIOReactorConfig(config).register("*", new HttpFileHandler(docRoot)).create();
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
