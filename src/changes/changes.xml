@@ -57,6 +57,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="update" dev="ggregory" due-to="Arturo Bernal">
         Replace construction of FileInputStream and FileOutputStream objects with Files NIO APIs. #164.
       </action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">
+        Update Log4j 2.14.0 -> 2.14.1.
+      </action>
     </release>
     <release version="2.8.0" date="2021-03-06" description="Feature and maintenance release. Requires Java 8.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
