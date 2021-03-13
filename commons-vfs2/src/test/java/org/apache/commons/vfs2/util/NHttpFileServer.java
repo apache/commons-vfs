@@ -22,14 +22,16 @@
  * individuals on behalf of the Apache Software Foundation.  For more
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
+ *
  */
 package org.apache.commons.vfs2.util;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -37,120 +39,49 @@ import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLContext;
 
-import org.apache.http.ExceptionLogger;
-import org.apache.http.HttpConnection;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpException;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.MethodNotSupportedException;
-import org.apache.http.entity.ContentType;
-import org.apache.http.impl.cookie.DateUtils;
-import org.apache.http.impl.nio.bootstrap.HttpServer;
-import org.apache.http.impl.nio.bootstrap.ServerBootstrap;
-import org.apache.http.impl.nio.reactor.IOReactorConfig;
-import org.apache.http.nio.entity.NFileEntity;
-import org.apache.http.nio.entity.NStringEntity;
-import org.apache.http.nio.protocol.BasicAsyncRequestConsumer;
-import org.apache.http.nio.protocol.BasicAsyncResponseProducer;
-import org.apache.http.nio.protocol.HttpAsyncExchange;
-import org.apache.http.nio.protocol.HttpAsyncRequestConsumer;
-import org.apache.http.nio.protocol.HttpAsyncRequestHandler;
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.protocol.HttpCoreContext;
-import org.apache.http.ssl.SSLContexts;
+import org.apache.hc.client5.http.utils.DateUtils;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.EndpointDetails;
+import org.apache.hc.core5.http.EntityDetails;
+import org.apache.hc.core5.http.HttpException;
+import org.apache.hc.core5.http.HttpHeaders;
+import org.apache.hc.core5.http.HttpRequest;
+import org.apache.hc.core5.http.HttpStatus;
+import org.apache.hc.core5.http.Message;
+import org.apache.hc.core5.http.ProtocolException;
+import org.apache.hc.core5.http.impl.bootstrap.AsyncServerBootstrap;
+import org.apache.hc.core5.http.impl.bootstrap.HttpAsyncServer;
+import org.apache.hc.core5.http.nio.AsyncRequestConsumer;
+import org.apache.hc.core5.http.nio.AsyncServerRequestHandler;
+import org.apache.hc.core5.http.nio.entity.AsyncEntityProducers;
+import org.apache.hc.core5.http.nio.entity.NoopEntityConsumer;
+import org.apache.hc.core5.http.nio.ssl.BasicServerTlsStrategy;
+import org.apache.hc.core5.http.nio.ssl.FixedPortStrategy;
+import org.apache.hc.core5.http.nio.support.AsyncResponseBuilder;
+import org.apache.hc.core5.http.nio.support.BasicRequestConsumer;
+import org.apache.hc.core5.http.protocol.HttpContext;
+import org.apache.hc.core5.http.protocol.HttpCoreContext;
+import org.apache.hc.core5.http.protocol.HttpDateGenerator;
+import org.apache.hc.core5.io.CloseMode;
+import org.apache.hc.core5.reactor.IOReactorConfig;
+import org.apache.hc.core5.reactor.ListenerEndpoint;
+import org.apache.hc.core5.ssl.SSLContexts;
+import org.apache.hc.core5.util.TimeValue;
 
 /**
- * Embedded HTTP/1.1 file server based on a non-blocking I/O model and capable of direct channel (zero copy) data
- * transfer.
+ * Example of asynchronous embedded HTTP/1.1 file server.
  */
 public class NHttpFileServer {
 
-    static class HttpFileHandler implements HttpAsyncRequestHandler<HttpRequest> {
-
-        private final File docRoot;
-
-        public HttpFileHandler(final File docRoot) {
-            this.docRoot = docRoot;
-        }
-
-        @Override
-        public void handle(final HttpRequest request, final HttpAsyncExchange httpexchange, final HttpContext context)
-                throws HttpException, IOException {
-            final HttpResponse response = httpexchange.getResponse();
-            handleInternal(request, response, context);
-            httpexchange.submitResponse(new BasicAsyncResponseProducer(response));
-        }
-
-        private void handleInternal(final HttpRequest request, final HttpResponse response, final HttpContext context)
-                throws HttpException, IOException {
-
-            final String method = request.getRequestLine().getMethod().toUpperCase(Locale.ENGLISH);
-            if (!method.equals("GET") && !method.equals("HEAD") && !method.equals("POST")) {
-                throw new MethodNotSupportedException(method + " method not supported");
-            }
-
-            final String target = request.getRequestLine().getUri();
-            final File file = new File(this.docRoot, URLDecoder.decode(target, "UTF-8"));
-            final String mimeType = "text/html";
-            if (!file.exists()) {
-
-                response.setStatusCode(HttpStatus.SC_NOT_FOUND);
-                final NStringEntity entity = new NStringEntity(
-                        "<html><body><h1>File " + file.getPath() + " not found</h1></body></html>",
-                        ContentType.create(mimeType, "UTF-8"));
-                response.setEntity(entity);
-                debug("File " + file.getPath() + " not found");
-
-            } else if (!file.canRead() /* || file.isDirectory() */) {
-
-                response.setStatusCode(HttpStatus.SC_FORBIDDEN);
-                final NStringEntity entity = new NStringEntity("<html><body><h1>Access denied</h1></body></html>",
-                        ContentType.create(mimeType, "UTF-8"));
-                response.setEntity(entity);
-                debug("Cannot read file " + file.getPath());
-
-            } else {
-
-                final HttpCoreContext coreContext = HttpCoreContext.adapt(context);
-                final HttpConnection conn = coreContext.getConnection(HttpConnection.class);
-                response.setStatusCode(HttpStatus.SC_OK);
-                final HttpEntity body = file.isDirectory()
-                        ? new NStringEntity(file.toString(), ContentType.create(mimeType))
-                        : new NFileEntity(file, ContentType.create(mimeType));
-                response.setEntity(body);
-                if (!response.containsHeader(HttpHeaders.LAST_MODIFIED)) {
-                    response.addHeader(HttpHeaders.LAST_MODIFIED, DateUtils.formatDate(new Date(file.lastModified())));
-                }
-                debug(conn + ": serving file " + file.getPath());
-            }
-        }
-
-        @Override
-        public HttpAsyncRequestConsumer<HttpRequest> processRequest(final HttpRequest request,
-                final HttpContext context) {
-            // Buffer request content in memory for simplicity
-            return new BasicAsyncRequestConsumer();
-        }
-
-    }
-
     public static boolean DEBUG;
 
-    private static void debug(final String message) {
-        if (DEBUG) {
-            System.out.println(message);
-        }
-    }
-
-    public static void main(final String[] args) throws KeyManagementException, UnrecoverableKeyException,
-            NoSuchAlgorithmException, KeyStoreException, CertificateException, IOException, InterruptedException {
+    public static void main(final String[] args) throws Exception {
         if (args.length < 1) {
             System.err.println("Please specify document root directory");
             System.exit(1);
@@ -164,16 +95,22 @@ public class NHttpFileServer {
         new NHttpFileServer(port, docRoot).start().awaitTermination();
     }
 
+    static final void println(final String msg) {
+        if (DEBUG) {
+            System.out.println(HttpDateGenerator.INSTANCE.getCurrentDate() + " | " + msg);
+        }
+    }
+
     public static NHttpFileServer start(final int port, final File docRoot, final long waitMillis)
-            throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException,
-            CertificateException, IOException, InterruptedException {
+        throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException,
+        CertificateException, IOException, InterruptedException, ExecutionException {
         return new NHttpFileServer(port, docRoot).start();
     }
 
     private final File docRoot;
+    private ListenerEndpoint listenerEndpoint;
     private final int port;
-
-    private HttpServer server;
+    private HttpAsyncServer server;
 
     private NHttpFileServer(final int port, final File docRoot) {
         this.port = port;
@@ -181,62 +118,129 @@ public class NHttpFileServer {
     }
 
     private void awaitTermination() throws InterruptedException {
-        server.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
-
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                server.shutdown(5, TimeUnit.SECONDS);
-            }
-        });
+        server.awaitShutdown(TimeValue.MAX_VALUE);
     }
 
     public int getPort() {
         if (server == null) {
             return port;
         }
-        return ((InetSocketAddress) server.getEndpoint().getAddress()).getPort();
+        return ((InetSocketAddress) listenerEndpoint.getAddress()).getPort();
     }
 
-    public void shutdown(final long gracePeriod, final TimeUnit timeUnit) {
+    public void shutdown(final long gracePeriod, final TimeUnit timeUnit) throws InterruptedException {
         if (server != null) {
-            server.shutdown(gracePeriod, timeUnit);
+            server.initiateShutdown();
+            server.awaitShutdown(TimeValue.of(gracePeriod, timeUnit));
         }
 
     }
 
     private NHttpFileServer start() throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException,
-            KeyStoreException, CertificateException, IOException, InterruptedException {
+        KeyStoreException, CertificateException, IOException, InterruptedException, ExecutionException {
+        final AsyncServerBootstrap bootstrap = AsyncServerBootstrap.bootstrap();
         SSLContext sslContext = null;
-        if (port == 8443) {
+        if (port == 8443 || port == 443) {
             // Initialize SSL context
             final URL url = NHttpFileServer.class.getResource("/test.keystore");
             if (url == null) {
-                debug("Keystore not found");
+                println("Keystore not found");
                 System.exit(1);
             }
-            debug("Loading keystore " + url);
+            println("Loading keystore " + url);
             sslContext = SSLContexts.custom()
-                    .loadKeyMaterial(url, "nopassword".toCharArray(), "nopassword".toCharArray()).build();
+                .loadKeyMaterial(url, "nopassword".toCharArray(), "nopassword".toCharArray()).build();
+            bootstrap.setTlsStrategy(new BasicServerTlsStrategy(sslContext, new FixedPortStrategy(port)));
         }
 
-        final IOReactorConfig config = IOReactorConfig.custom().setSoTimeout(15000).setTcpNoDelay(true).build();
-
         // @formatter:off
-        server = ServerBootstrap.bootstrap()
-                .setListenerPort(port)
-                .setServerInfo("Test/1.1")
-                .setIOReactorConfig(config)
-                .setSslContext(sslContext)
-                .setExceptionLogger(ExceptionLogger.STD_ERR)
-                .registerHandler("*", new HttpFileHandler(docRoot)).create();
+        final IOReactorConfig config = IOReactorConfig.custom()
+                .setSoTimeout(15, TimeUnit.SECONDS)
+                .setTcpNoDelay(true)
+                .build();
         // @formatter:on
 
+        server = bootstrap.setIOReactorConfig(config)
+            .register("*", new AsyncServerRequestHandler<Message<HttpRequest, Void>>() {
+
+                @Override
+                public void handle(final Message<HttpRequest, Void> message, final ResponseTrigger responseTrigger,
+                    final HttpContext context) throws HttpException, IOException {
+                    final HttpRequest request = message.getHead();
+                    final URI requestUri;
+                    try {
+                        requestUri = request.getUri();
+                    } catch (final URISyntaxException ex) {
+                        throw new ProtocolException(ex.getMessage(), ex);
+                    }
+                    final String path = requestUri.getPath();
+                    final File file = new File(docRoot, path);
+                    if (!file.exists()) {
+
+                        final String msg = "File " + file.getPath() + " not found";
+                        println(msg);
+                        responseTrigger.submitResponse(AsyncResponseBuilder.create(HttpStatus.SC_NOT_FOUND)
+                            .setEntity("<html><body><h1>" + msg + "</h1></body></html>", ContentType.TEXT_HTML).build(),
+                            context);
+
+                    } else if (!file.canRead() /* || file.isDirectory() */) {
+                        final String msg = "Cannot read file " + file.getPath();
+                        println(msg);
+                        responseTrigger.submitResponse(AsyncResponseBuilder.create(HttpStatus.SC_FORBIDDEN)
+                            .setEntity("<html><body><h1>" + msg + "</h1></body></html>", ContentType.TEXT_HTML).build(),
+                            context);
+
+                    } else {                    
+                        
+                        final ContentType contentType;
+                        final String filename = file.getName().toLowerCase(Locale.ROOT);
+                        if (filename.endsWith(".txt")) {
+                            contentType = ContentType.TEXT_PLAIN;
+                        } else if (filename.endsWith(".html") || filename.endsWith(".htm")) {
+                            contentType = ContentType.TEXT_HTML;
+                        } else if (filename.endsWith(".xml")) {
+                            contentType = ContentType.TEXT_XML;
+                        } else {
+                            contentType = ContentType.DEFAULT_BINARY;
+                        }
+
+                        final HttpCoreContext coreContext = HttpCoreContext.adapt(context);
+                        final EndpointDetails endpoint = coreContext.getEndpointDetails();
+
+                        println(endpoint + " | serving file " + file.getPath());
+
+                        // @formatter:off
+                        responseTrigger.submitResponse(
+                            AsyncResponseBuilder.create(HttpStatus.SC_OK)
+                                .setEntity(AsyncEntityProducers.create(file, contentType))
+                                .addHeader(HttpHeaders.LAST_MODIFIED, DateUtils.formatDate(new Date(file.lastModified())))
+                            .build(), context);
+                        // @formatter:on
+                    }
+                }
+
+                @Override
+                public AsyncRequestConsumer<Message<HttpRequest, Void>> prepare(final HttpRequest request,
+                    final EntityDetails entityDetails, final HttpContext context) throws HttpException {
+                    return new BasicRequestConsumer<>(entityDetails != null ? new NoopEntityConsumer() : null);
+                }
+
+            }).create();
+
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                println("HTTP server shutting down");
+                server.close(CloseMode.GRACEFUL);
+            }
+        });
+
         server.start();
-        debug("Serving " + docRoot + " on " + server.getEndpoint().getAddress()
-                + (sslContext == null ? "" : " with " + sslContext.getProvider() + " " + sslContext.getProtocol()));
-        server.getEndpoint().waitFor();
-        // Thread.sleep(startWaitMillis); // hack
+
+        final Future<ListenerEndpoint> future = server.listen(new InetSocketAddress(port));
+        listenerEndpoint = future.get();
+        println("Serving " + docRoot + " on " + listenerEndpoint.getAddress()
+            + (sslContext == null ? "" : " with " + sslContext.getProvider() + " " + sslContext.getProtocol()));
         return this;
     }
 

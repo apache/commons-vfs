@@ -63,6 +63,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Update Maven Surefire from 2.19.1 to 3.0.0-M5.
       </action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">
+        Port internal embedded HTTP asynchronous file server used in tests from  from Apache HttpComponents HttpCore/HttpClient 4.x to 5.0.x.
+      </action>
     </release>
     <release version="2.8.0" date="2021-03-06" description="Feature and maintenance release. Requires Java 8.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->

@@ -101,8 +101,9 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
 
     /**
      * Stops the embedded Apache HTTP Server.
+     * @throws InterruptedException 
      */
-    private static void tearDownClass() {
+    private static void tearDownClass() throws InterruptedException {
         if (Server != null) {
             Server.shutdown(5000, TimeUnit.SECONDS);
         }
