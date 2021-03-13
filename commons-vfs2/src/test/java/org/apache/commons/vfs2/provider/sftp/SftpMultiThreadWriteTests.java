@@ -75,10 +75,10 @@ public class SftpMultiThreadWriteTests extends AbstractProviderTestCase {
             final String fileName = "file" + i + "copy.txt";
             tasks.add(() -> {
                 try {
-                    final FileObject fileCopy = scratchFolder.resolveFile(fileName);
+                    final FileObject fileObjectCopy = scratchFolder.resolveFile(fileName);
 
-                    assertFalse(fileCopy.exists());
-                    fileCopy.copyFrom(localFileObject, Selectors.SELECT_SELF);
+                    assertFalse(fileObjectCopy.exists());
+                    fileObjectCopy.copyFrom(localFileObject, Selectors.SELECT_SELF);
                 } catch (final Throwable e) {
                     return false;
                 }
