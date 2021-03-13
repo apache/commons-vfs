@@ -113,7 +113,12 @@ public class ProviderDeleteTests extends AbstractProviderTestCase {
     public void testDeleteAllFiles() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
-        assertEquals(2, scratchFolder.delete(new FileTypeSelector(FileType.FILE)));
+        final int deleteCount = scratchFolder.delete(new FileTypeSelector(FileType.FILE));
+        if (deleteCount < 2) {
+            // Slow deletion in an embedded server perhaps (FTPS for example). 
+            Thread.sleep(500);
+        }
+        assertEquals(2, deleteCount);
     }
 
     /**
