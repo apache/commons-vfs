@@ -89,9 +89,9 @@ public class SftpMultiThreadWriteTests extends AbstractProviderTestCase {
         final ExecutorService service = Executors.newFixedThreadPool(10);
         try {
             final List<Future<Boolean>> futures = service.invokeAll(tasks);
-            assertTrue(futures.stream().allMatch(fut -> {
+            assertTrue(futures.stream().allMatch(future -> {
                 try {
-                    return fut.get(5, TimeUnit.SECONDS);
+                    return future.get(5, TimeUnit.SECONDS);
                 } catch (final Exception e) {
                     return false;
                 }
