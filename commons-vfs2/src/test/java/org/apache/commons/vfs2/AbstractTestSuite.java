@@ -63,13 +63,6 @@ public abstract class AbstractTestSuite extends TestSetup {
     private Thread[] endThreadSnapshot;
     private final boolean addEmptyDir;
 
-    /**
-     * Adds the tests for a file system to this suite.
-     */
-    public AbstractTestSuite(final ProviderTestConfig providerConfig) throws Exception {
-        this(providerConfig, "", false, false);
-    }
-
     protected AbstractTestSuite(final ProviderTestConfig providerConfig, final String prefix, final boolean nested)
             throws Exception {
         this(providerConfig, prefix, nested, false);
