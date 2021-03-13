@@ -189,6 +189,11 @@
             <test.basedir.res>test-data</test.basedir.res>
             <derby.stream.error.file>target/derby.log</derby.stream.error.file>
           </systemPropertyVariables>
+          <excludes>
+            <!-- Need to port fully to JUnit 4 or 5. -->
+            <!-- *Tests.java files with @Test methods should not be run since these classes are in fact JUnit 3 classes used in custom JUnit 3 test suites. -->
+            <exclude>**/*Tests.java</exclude>
+          </excludes>
         </configuration>
       </plugin>
     </plugins>
