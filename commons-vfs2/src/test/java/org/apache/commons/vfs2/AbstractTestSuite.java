@@ -191,7 +191,7 @@ public abstract class AbstractTestSuite extends TestSetup {
         baseFolder = null;
         testSuite = null;
 
-        // Suggest to threads (SoftRefFilesChache) to free all files.
+        // Suggest to threads (SoftRefFilesCache) to free all files.
         System.gc();
         Thread.sleep(1000);
         System.gc();
@@ -208,6 +208,7 @@ public abstract class AbstractTestSuite extends TestSetup {
 
         // Make sure temp directory is empty or gone
         checkTempDir("Temp dir not empty after test");
+        VFS.close();
     }
 
     private void validateThreadSnapshot() {
