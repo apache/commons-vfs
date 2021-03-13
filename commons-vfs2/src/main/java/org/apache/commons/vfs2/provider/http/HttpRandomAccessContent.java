@@ -37,8 +37,8 @@ final class HttpRandomAccessContent<FS extends HttpFileSystem> extends AbstractR
     private final HttpFileObject<FS> fileObject;
     private final HttpFileSystem fileSystem;
 
-    private DataInputStream dis;
-    private MonitorInputStream mis;
+    private DataInputStream dataInputStream;
+    private MonitorInputStream monitorInputStream;
 
     HttpRandomAccessContent(final HttpFileObject<FS> fileObject, final RandomAccessMode mode) {
         super(mode);
@@ -49,17 +49,17 @@ final class HttpRandomAccessContent<FS extends HttpFileSystem> extends AbstractR
 
     @Override
     public void close() throws IOException {
-        if (dis != null) {
-            dis.close();
-            dis = null;
-            mis = null;
+        if (dataInputStream != null) {
+            dataInputStream.close();
+            dataInputStream = null;
+            monitorInputStream = null;
         }
     }
 
     @Override
     protected DataInputStream getDataInputStream() throws IOException {
-        if (dis != null) {
-            return dis;
+        if (dataInputStream != null) {
+            return dataInputStream;
         }
 
         final GetMethod getMethod = new GetMethod();
@@ -71,16 +71,16 @@ final class HttpRandomAccessContent<FS extends HttpFileSystem> extends AbstractR
                     Long.valueOf(filePointer), Integer.valueOf(status));
         }
 
-        mis = new HttpFileObject.HttpInputStream(getMethod);
+        monitorInputStream = new HttpFileObject.HttpInputStream(getMethod);
         // If the range request was ignored
         if (status == HttpURLConnection.HTTP_OK) {
-            final long skipped = mis.skip(filePointer);
+            final long skipped = monitorInputStream.skip(filePointer);
             if (skipped != filePointer) {
                 throw new FileSystemException("vfs.provider.http/get-range.error", fileObject.getName(),
                         Long.valueOf(filePointer), Integer.valueOf(status));
             }
         }
-        dis = new DataInputStream(new FilterInputStream(mis) {
+        dataInputStream = new DataInputStream(new FilterInputStream(monitorInputStream) {
             @Override
             public int read() throws IOException {
                 final int ret = super.read();
@@ -109,7 +109,7 @@ final class HttpRandomAccessContent<FS extends HttpFileSystem> extends AbstractR
             }
         });
 
-        return dis;
+        return dataInputStream;
     }
 
     @Override
@@ -132,7 +132,7 @@ final class HttpRandomAccessContent<FS extends HttpFileSystem> extends AbstractR
         if (pos < 0) {
             throw new FileSystemException("vfs.provider/random-access-invalid-position.error", Long.valueOf(pos));
         }
-        if (dis != null) {
+        if (dataInputStream != null) {
             close();
         }
 
