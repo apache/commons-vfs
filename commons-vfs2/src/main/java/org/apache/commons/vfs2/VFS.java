@@ -17,6 +17,10 @@
 package org.apache.commons.vfs2;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import org.apache.commons.lang3.reflect.MethodUtils;
+import org.apache.commons.vfs2.provider.AbstractFileSystem;
 
 /**
  * The main entry point for the VFS. Used to create {@link FileSystemManager} instances.
@@ -56,15 +60,15 @@ public final class VFS {
             // Create instance
             final Class<FileSystemManager> clazz = (Class<FileSystemManager>) Class.forName(managerClassName);
             final FileSystemManager manager = clazz.newInstance();
-
-            try {
-                // Initialize
-                clazz.getMethod("init", (Class[]) null).invoke(manager, (Object[]) null);
-            } catch (final NoSuchMethodException e) {
-                /* Ignore; don't initialize. */
-                e.printStackTrace();
+            // Initialize
+            if (manager instanceof AbstractFileSystem) {
+                ((AbstractFileSystem) manager).init();
+            } else {
+                final Method method = MethodUtils.getMatchingMethod(clazz, "init");
+                if (method != null) {
+                    method.invoke(manager, (Object[]) null);
+                }
             }
-
             return manager;
         } catch (final InvocationTargetException e) {
             throw new FileSystemException("vfs/create-manager.error", managerClassName, e.getTargetException());
