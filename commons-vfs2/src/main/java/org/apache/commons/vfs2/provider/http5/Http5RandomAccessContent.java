@@ -37,8 +37,8 @@ final class Http5RandomAccessContent<FS extends Http5FileSystem> extends Abstrac
 
     private final Http5FileObject<FS> fileObject;
 
-    private DataInputStream dis;
-    private MonitorInputStream mis;
+    private DataInputStream dataInputStream;
+    private MonitorInputStream monitorInputStream;
 
     Http5RandomAccessContent(final Http5FileObject<FS> fileObject, final RandomAccessMode mode) {
         super(mode);
@@ -47,17 +47,17 @@ final class Http5RandomAccessContent<FS extends Http5FileSystem> extends Abstrac
 
     @Override
     public void close() throws IOException {
-        if (dis != null) {
-            dis.close();
-            dis = null;
-            mis = null;
+        if (dataInputStream != null) {
+            dataInputStream.close();
+            dataInputStream = null;
+            monitorInputStream = null;
         }
     }
 
     @Override
     protected DataInputStream getDataInputStream() throws IOException {
-        if (dis != null) {
-            return dis;
+        if (dataInputStream != null) {
+            return dataInputStream;
         }
 
         final HttpGet httpGet = new HttpGet(fileObject.getInternalURI());
@@ -70,18 +70,18 @@ final class Http5RandomAccessContent<FS extends Http5FileSystem> extends Abstrac
                     Long.valueOf(filePointer), Integer.valueOf(status));
         }
 
-        mis = new MonitoredHttpResponseContentInputStream(httpResponse);
+        monitorInputStream = new MonitoredHttpResponseContentInputStream(httpResponse);
 
         // If the range request was ignored
         if (status == HttpURLConnection.HTTP_OK) {
-            final long skipped = mis.skip(filePointer);
+            final long skipped = monitorInputStream.skip(filePointer);
             if (skipped != filePointer) {
                 throw new FileSystemException("vfs.provider.http/get-range.error", fileObject.getName(),
                         Long.valueOf(filePointer), Integer.valueOf(status));
             }
         }
 
-        dis = new DataInputStream(new FilterInputStream(mis) {
+        dataInputStream = new DataInputStream(new FilterInputStream(monitorInputStream) {
             @Override
             public int read() throws IOException {
                 final int ret = super.read();
@@ -110,7 +110,7 @@ final class Http5RandomAccessContent<FS extends Http5FileSystem> extends Abstrac
             }
         });
 
-        return dis;
+        return dataInputStream;
     }
 
     @Override
@@ -134,7 +134,7 @@ final class Http5RandomAccessContent<FS extends Http5FileSystem> extends Abstrac
             throw new FileSystemException("vfs.provider/random-access-invalid-position.error", Long.valueOf(pos));
         }
 
-        if (dis != null) {
+        if (dataInputStream != null) {
             close();
         }
 
