@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -185,17 +186,18 @@ public class DefaultFileContentTest {
 
         try (FileObject file = fileSystemManager.resolveFile(temp.getAbsolutePath())) {
             T stream = getStream.apply(file.getContent());
-            boolean[] check = { false };
+            AtomicBoolean check = new AtomicBoolean();
             Thread thread = new Thread(() -> {
                 try {
                     stream.close();
                 } catch (IOException exception) {
+                    // ignore
                 }
-                check[0] = true;
+                check.set(true);
             });
             thread.start();
             thread.join();
-            Assert.assertTrue(check[0]);
+            Assert.assertTrue(check.get());
         }
     }
 }
