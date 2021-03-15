@@ -79,7 +79,19 @@ class FileContentThreadData {
     }
 
     void remove(final InputStream inputStream) {
-        this.inputStreamList.remove(inputStream);
+        // this null-check (as well as the one in the other `remove` method) should not
+        // be needed because `remove` is called only in `DefaultFileContent.endInput` which
+        // should only be called after an input stream has been created and hence the `inputStreamList`
+        // variable initialized. However, `DefaultFileContent` uses this class per thread -
+        // so it is possible to get a stream, pass it to another thread and close it there -
+        // and that would lead to a NPE here if it weren't for that check. This "solution" here -
+        // adding a null-check - is really "bad" in the sense that it will fix a crash but there will
+        // be a leak because the input stream won't be removed from the original thread's `inputStreamList`.
+        // See https://github.com/apache/commons-vfs/pull/166 for more context.
+        // TODO: fix this problem
+        if (this.inputStreamList != null) {
+            this.inputStreamList.remove(inputStream);
+        }
     }
 
     Object removeRandomAccessContent(final int pos) {
@@ -87,7 +99,9 @@ class FileContentThreadData {
     }
 
     void remove(final RandomAccessContent randomAccessContent) {
-        this.randomAccessContentList.remove(randomAccessContent);
+        if (this.randomAccessContentList != null) {
+            this.randomAccessContentList.remove(randomAccessContent);
+        }
     }
 
     void setOutputStream(final DefaultFileContent.FileContentOutputStream outputStream) {
