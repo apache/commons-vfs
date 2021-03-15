@@ -317,7 +317,15 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
      * @since 2.7.0
      */
     default Path getPath() {
-        return Paths.get(getURI());
+        URI uri = getURI();
+        if ("file".equals(uri.getScheme())) {
+            String rawPath = uri.getRawPath();
+            if (!rawPath.startsWith("/")) {
+                rawPath = "/" + rawPath;
+            }
+            uri = URI.create("file:" + rawPath);
+        }
+        return Paths.get(uri);
     }
 
     /**
