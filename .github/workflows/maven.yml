@@ -20,16 +20,21 @@ on: [push, pull_request]
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     strategy:
-      fail-fast: false
       matrix:
+        os: [ubuntu-latest, windows-latest]
         java: [ 8, 11, 16 ]
         experimental: [false]
         include:
           - java: 17-ea
+            os: ubuntu-latest
             experimental: true        
+          - java: 17-ea
+            os: windows-latest
+            experimental: true        
+      fail-fast: false
         
     steps:
     - uses: actions/checkout@v2.3.4
@@ -44,4 +49,4 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
     - name: Build with Maven
-      run: mvn -V --file pom.xml --no-transfer-progress -e
+      run: mvn -V --file pom.xml --no-transfer-progress -DtrimStackTrace=false
