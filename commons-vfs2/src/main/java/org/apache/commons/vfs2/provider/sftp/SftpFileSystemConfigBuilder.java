@@ -186,6 +186,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @since 2.3
      * @deprecated Use {@link #getConnectTimeout(FileSystemOptions)}.
      */
+    @Deprecated
     public Integer getConnectTimeoutMillis(final FileSystemOptions options) {
         return this.getDurationInteger(options, CONNECT_TIMEOUT, DEFAULT_CONNECT_TIMEOUT);
     }
@@ -768,6 +769,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @since 2.3
      * @deprecated Use {@link #setSessionTimeout(FileSystemOptions, Duration)}.
      */
+    @Deprecated
     public void setSessionTimeoutMillis(final FileSystemOptions options, final Integer timeout) {
         this.setSessionTimeout(options, Duration.ofMillis(timeout));
     }

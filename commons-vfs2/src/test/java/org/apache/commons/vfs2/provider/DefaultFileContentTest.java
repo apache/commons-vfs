@@ -180,14 +180,14 @@ public class DefaultFileContentTest {
         testStreamClosedInADifferentThread(content -> content.getOutputStream());
     }
 
-    private <T extends Closeable> void testStreamClosedInADifferentThread(FailableFunction<FileContent, T, IOException> getStream) throws Exception {
+    private <T extends Closeable> void testStreamClosedInADifferentThread(final FailableFunction<FileContent, T, IOException> getStream) throws Exception {
         final File temp = File.createTempFile("temp-file-name", ".tmp");
         final FileSystemManager fileSystemManager = VFS.getManager();
 
         try (FileObject file = fileSystemManager.resolveFile(temp.getAbsolutePath())) {
-            T stream = getStream.apply(file.getContent());
-            AtomicBoolean check = new AtomicBoolean();
-            Thread thread = new Thread(() -> {
+            final T stream = getStream.apply(file.getContent());
+            final AtomicBoolean check = new AtomicBoolean();
+            final Thread thread = new Thread(() -> {
                 try {
                     stream.close();
                 } catch (IOException exception) {
