@@ -80,7 +80,7 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig {
 
     /**
      * Stops the embedded Apache HTTP Server ().
-     * @throws InterruptedException 
+     * @throws InterruptedException
      */
     public static void tearDownClass() throws InterruptedException {
         if (Server != null) {

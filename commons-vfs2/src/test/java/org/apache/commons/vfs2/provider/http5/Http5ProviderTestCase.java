@@ -101,7 +101,7 @@ public class Http5ProviderTestCase extends AbstractProviderTestConfig {
 
     /**
      * Stops the embedded Apache HTTP Server.
-     * @throws InterruptedException 
+     * @throws InterruptedException
      */
     private static void tearDownClass() throws InterruptedException {
         if (Server != null) {

@@ -115,7 +115,7 @@ public class ProviderDeleteTests extends AbstractProviderTestCase {
 
         final int deleteCount = scratchFolder.delete(new FileTypeSelector(FileType.FILE));
         if (deleteCount < 2) {
-            // Slow deletion in an embedded server perhaps (FTPS for example). 
+            // Slow deletion in an embedded server perhaps (FTPS for example).
             Thread.sleep(500);
         }
         assertEquals(2, deleteCount);

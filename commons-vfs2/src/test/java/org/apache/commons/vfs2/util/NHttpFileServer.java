@@ -131,7 +131,7 @@ public class NHttpFileServer {
                 final String filename = file.getName().toLowerCase(Locale.ROOT);
 // The following causes a failure on Linux and Macos in HttpProviderTestCase:
 // org.apache.commons.vfs2.FileSystemException: GET method failed for "http://localhost:37637/read-tests/file1.txt" range "10" with HTTP status 200.
-//                at org.apache.commons.vfs2.provider.http.HttpRandomAccessContent.getDataInputStream(HttpRandomAccessContent.java:80)                
+//                at org.apache.commons.vfs2.provider.http.HttpRandomAccessContent.getDataInputStream(HttpRandomAccessContent.java:80)
 //                if (filename.endsWith(".txt")) {
 //                    contentType = ContentType.TEXT_PLAIN;
 //                } else if (filename.endsWith(".html") || filename.endsWith(".htm") || file.isDirectory()) {
@@ -150,7 +150,7 @@ public class NHttpFileServer {
                 // @formatter:off
                 responseTrigger.submitResponse(
                     AsyncResponseBuilder.create(HttpStatus.SC_OK)
-                        .setEntity(file.isDirectory() 
+                        .setEntity(file.isDirectory()
                             ? AsyncEntityProducers.create(file.toString(), contentType)
                             : AsyncEntityProducers.create(file, contentType))
                         .addHeader(HttpHeaders.LAST_MODIFIED, DateUtils.formatDate(new Date(file.lastModified())))
