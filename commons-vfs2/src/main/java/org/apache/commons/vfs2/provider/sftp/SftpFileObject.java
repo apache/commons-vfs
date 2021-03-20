@@ -103,16 +103,17 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
      * @throws IOException
      */
     private void statSelf() throws IOException {
-        ChannelSftp channel = getAbstractFileSystem().getChannel();
+        ChannelSftp channelSftp = null;
         try {
-            setStat(channel.stat(relPath));
+            channelSftp = getAbstractFileSystem().getChannel();
+            setStat(channelSftp.stat(relPath));
         } catch (final SftpException e) {
             try {
                 // maybe the channel has some problems, so recreate the channel and retry
                 if (e.id != ChannelSftp.SSH_FX_NO_SUCH_FILE) {
-                    channel.disconnect();
-                    channel = getAbstractFileSystem().getChannel();
-                    setStat(channel.stat(relPath));
+                    channelSftp.disconnect();
+                    channelSftp = getAbstractFileSystem().getChannel();
+                    setStat(channelSftp.stat(relPath));
                 } else {
                     // Really does not exist
                     attrs = null;
@@ -129,7 +130,9 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
                 attrs = null;
             }
         } finally {
-            getAbstractFileSystem().putChannel(channel);
+            if (channelSftp != null) {
+                getAbstractFileSystem().putChannel(channelSftp);
+            }
         }
     }
 
