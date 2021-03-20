@@ -24,6 +24,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -303,6 +304,9 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
         builder.setStrictHostKeyChecking(fileSystemOptions, "no");
         builder.setUserInfo(fileSystemOptions, new TrustEveryoneUserInfo());
         builder.setIdentityRepositoryFactory(fileSystemOptions, new TestIdentityRepositoryFactory());
+        builder.setConnectTimeout(fileSystemOptions, Duration.ofSeconds(60));
+        builder.setSessionTimeout(fileSystemOptions, Duration.ofSeconds(60));
+
         final FileObject fileObject = manager.resolveFile(uri, fileSystemOptions);
         this.fileSystem = (SftpFileSystem) fileObject.getFileSystem();
         return fileObject;
