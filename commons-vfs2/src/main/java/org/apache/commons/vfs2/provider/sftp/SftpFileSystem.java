@@ -191,22 +191,22 @@ public class SftpFileSystem extends AbstractFileSystem {
     /**
      * Returns a channel to the pool.
      *
-     * @param channel the used channel.
+     * @param channelSftp the SFTP channel.
      */
-    protected void putChannel(final ChannelSftp channel) {
+    protected void putChannel(final ChannelSftp channelSftp) {
         if (idleChannel == null) {
             synchronized (this) {
                 if (idleChannel == null) {
                     // put back the channel only if it is still connected
-                    if (channel.isConnected() && !channel.isClosed()) {
-                        idleChannel = channel;
+                    if (channelSftp.isConnected() && !channelSftp.isClosed()) {
+                        idleChannel = channelSftp;
                     }
                 } else {
-                    channel.disconnect();
+                    channelSftp.disconnect();
                 }
             }
         } else {
-            channel.disconnect();
+            channelSftp.disconnect();
         }
     }
 
