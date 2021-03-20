@@ -89,11 +89,10 @@ public class SftpFileSystem extends AbstractFileSystem {
     private final boolean execDisabled;
 
     protected SftpFileSystem(final GenericFileName rootName, final Session session,
-            final FileSystemOptions fileSystemOptions) {
+        final FileSystemOptions fileSystemOptions) {
         super(rootName, null, fileSystemOptions);
         this.session = Objects.requireNonNull(session, "session");
-        this.connectTimeout = SftpFileSystemConfigBuilder.getInstance()
-            .getConnectTimeout(fileSystemOptions);
+        this.connectTimeout = SftpFileSystemConfigBuilder.getInstance().getConnectTimeout(fileSystemOptions);
 
         if (SftpFileSystemConfigBuilder.getInstance().isDisableDetectExecChannel(fileSystemOptions)) {
             this.execDisabled = true;
@@ -142,20 +141,20 @@ public class SftpFileSystem extends AbstractFileSystem {
                 channel = (ChannelSftp) getSession().openChannel("sftp");
                 channel.connect(DurationUtils.toMillisInt(connectTimeout));
                 final Boolean userDirIsRoot = SftpFileSystemConfigBuilder.getInstance()
-                        .getUserDirIsRoot(getFileSystemOptions());
+                    .getUserDirIsRoot(getFileSystemOptions());
                 final String workingDirectory = getRootName().getPath();
                 if (workingDirectory != null && (userDirIsRoot == null || !userDirIsRoot.booleanValue())) {
                     try {
                         channel.cd(workingDirectory);
                     } catch (final SftpException e) {
                         throw new FileSystemException("vfs.provider.sftp/change-work-directory.error", workingDirectory,
-                                e);
+                            e);
                     }
                 }
             }
 
             final String fileNameEncoding = SftpFileSystemConfigBuilder.getInstance()
-                    .getFileNameEncoding(getFileSystemOptions());
+                .getFileNameEncoding(getFileSystemOptions());
 
             if (fileNameEncoding != null) {
                 try {
@@ -181,7 +180,7 @@ public class SftpFileSystem extends AbstractFileSystem {
                 if (!this.session.isConnected()) {
                     doCloseCommunicationLink();
                     this.session = SftpFileProvider.createSession((GenericFileName) getRootName(),
-                            getFileSystemOptions());
+                        getFileSystemOptions());
                 }
             }
         }
