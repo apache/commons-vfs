@@ -106,7 +106,7 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
      */
     private static void tearDownClass() throws InterruptedException {
         if (Server != null) {
-            Server.shutdown(5000, TimeUnit.SECONDS);
+            Server.close();
         }
     }
 

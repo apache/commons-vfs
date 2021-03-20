@@ -20,6 +20,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -64,12 +65,12 @@ public abstract class AbstractTestSuite extends TestSetup {
     private final boolean addEmptyDir;
 
     protected AbstractTestSuite(final ProviderTestConfig providerConfig, final String prefix, final boolean nested)
-            throws Exception {
+        throws Exception {
         this(providerConfig, prefix, nested, false);
     }
 
     protected AbstractTestSuite(final ProviderTestConfig providerConfig, final String prefix, final boolean nested,
-            final boolean addEmptyDir) throws Exception {
+        final boolean addEmptyDir) throws Exception {
         super(new TestSuite());
         testSuite = (TestSuite) fTest;
         this.providerConfig = providerConfig;
@@ -100,7 +101,7 @@ public abstract class AbstractTestSuite extends TestSetup {
         // Verify the class
         if (!AbstractProviderTestCase.class.isAssignableFrom(testClass)) {
             throw new Exception("Test class " + testClass.getName() + " is not assignable to "
-                    + AbstractProviderTestCase.class.getName());
+                + AbstractProviderTestCase.class.getName());
         }
 
         // Locate the test methods
@@ -108,7 +109,7 @@ public abstract class AbstractTestSuite extends TestSetup {
         for (final Method method2 : methods) {
             final Method method = method2;
             if (!method.getName().startsWith("test") || Modifier.isStatic(method.getModifiers())
-                    || method.getReturnType() != Void.TYPE || method.getParameterTypes().length != 0) {
+                || method.getReturnType() != Void.TYPE || method.getParameterTypes().length != 0) {
                 continue;
             }
 
@@ -169,7 +170,7 @@ public abstract class AbstractTestSuite extends TestSetup {
         // Configure the tests
         final Enumeration<Test> tests = testSuite.tests();
         if (!tests.hasMoreElements()) {
-        	Assert.fail("No tests.");
+            Assert.fail("No tests.");
         }
         while (tests.hasMoreElements()) {
             final Test test = tests.nextElement();
@@ -242,7 +243,7 @@ public abstract class AbstractTestSuite extends TestSetup {
             return StringUtils.EMPTY;
         }
         final StringBuffer sb = new StringBuffer(256);
-        sb.append("Threads still running (" + threadSnapshot.length + "): ");
+        sb.append("Threads still running (" + threadSnapshot.length + ") at " + Instant.now() + ", live threads:");
         sb.append(System.lineSeparator());
 
         Field threadTargetField = null;

@@ -71,6 +71,7 @@ import org.apache.hc.core5.http.protocol.HttpCoreContext;
 import org.apache.hc.core5.http.protocol.HttpDateGenerator;
 import org.apache.hc.core5.io.CloseMode;
 import org.apache.hc.core5.reactor.IOReactorConfig;
+import org.apache.hc.core5.reactor.IOReactorStatus;
 import org.apache.hc.core5.reactor.ListenerEndpoint;
 import org.apache.hc.core5.ssl.SSLContexts;
 import org.apache.hc.core5.util.TimeValue;
@@ -111,18 +112,14 @@ public class NHttpFileServer {
 
                 final String msg = "File " + file.getPath() + " not found";
                 println(msg);
-                responseTrigger.submitResponse(
-                    AsyncResponseBuilder.create(HttpStatus.SC_NOT_FOUND)
-                        .setEntity("<html><body><h1>" + msg + "</h1></body></html>", mimeType).build(),
-                    context);
+                responseTrigger.submitResponse(AsyncResponseBuilder.create(HttpStatus.SC_NOT_FOUND)
+                    .setEntity("<html><body><h1>" + msg + "</h1></body></html>", mimeType).build(), context);
 
             } else if (!file.canRead()) {
                 final String msg = "Cannot read file " + file.getPath();
                 println(msg);
-                responseTrigger.submitResponse(
-                    AsyncResponseBuilder.create(HttpStatus.SC_FORBIDDEN)
-                        .setEntity("<html><body><h1>" + msg + "</h1></body></html>", mimeType).build(),
-                    context);
+                responseTrigger.submitResponse(AsyncResponseBuilder.create(HttpStatus.SC_FORBIDDEN)
+                    .setEntity("<html><body><h1>" + msg + "</h1></body></html>", mimeType).build(), context);
 
             } else {
 
@@ -252,9 +249,9 @@ public class NHttpFileServer {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
-                println("HTTP server shutting down");
-                server.close(CloseMode.GRACEFUL);
+                close();
             }
+
         });
 
         server.start();
@@ -264,6 +261,15 @@ public class NHttpFileServer {
         println("Serving " + docRoot + " on " + listenerEndpoint.getAddress()
             + (sslContext == null ? "" : " with " + sslContext.getProvider() + " " + sslContext.getProtocol()));
         return this;
+    }
+
+    public void close() {
+        if (server.getStatus() == IOReactorStatus.ACTIVE) {
+            final CloseMode closeMode = CloseMode.GRACEFUL;
+            println("HTTP server shutting down (closeMode=" + closeMode + ")...");
+            server.close(closeMode);
+            println("HTTP server shut down.");
+        }
     }
 
 }

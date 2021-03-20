@@ -31,6 +31,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -204,7 +205,7 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
             }
         });
         Server.setSubsystemFactories(list);
-        Server.setPasswordAuthenticator((username, password, session) -> username != null && username.equals(password));
+        Server.setPasswordAuthenticator((username, password, session) -> StringUtils.equals(username, password));
         Server.setPublickeyAuthenticator((username, key, session) -> true);
         Server.setForwardingFilter(new ForwardingFilter() {
             @Override
