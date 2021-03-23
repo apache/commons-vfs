@@ -32,11 +32,11 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  */
 final class LocalFileRandomAccessContent extends AbstractRandomAccessContent {
 
+    private final static int BYTE_VALUE_MASK = 0xFF;
     // private final LocalFile localFile;
     private final RandomAccessFile raf;
-    private final InputStream rafis;
 
-    private final static int BYTE_VALUE_MASK = 0xFF;
+    private final InputStream rafis;
 
     LocalFileRandomAccessContent(final File localFile, final RandomAccessMode mode) throws FileSystemException {
         super(mode);
@@ -45,23 +45,27 @@ final class LocalFileRandomAccessContent extends AbstractRandomAccessContent {
             raf = new RandomAccessFile(localFile, mode.getModeString());
             rafis = new InputStream() {
                 @Override
+                public int available() throws IOException {
+                    final long available = raf.length() - raf.getFilePointer();
+                    if (available > Integer.MAX_VALUE) {
+                        return Integer.MAX_VALUE;
+                    }
+
+                    return (int) available;
+                }
+
+                @Override
+                public void close() throws IOException {
+                    raf.close();
+                }
+
+                @Override
                 public int read() throws IOException {
                     try {
                         return raf.readByte() & BYTE_VALUE_MASK;
                     } catch (final EOFException e) {
                         return -1;
                     }
-                }
-
-                @Override
-                public long skip(final long n) throws IOException {
-                    raf.seek(raf.getFilePointer() + n);
-                    return n;
-                }
-
-                @Override
-                public void close() throws IOException {
-                    raf.close();
                 }
 
                 @Override
@@ -75,13 +79,9 @@ final class LocalFileRandomAccessContent extends AbstractRandomAccessContent {
                 }
 
                 @Override
-                public int available() throws IOException {
-                    final long available = raf.length() - raf.getFilePointer();
-                    if (available > Integer.MAX_VALUE) {
-                        return Integer.MAX_VALUE;
-                    }
-
-                    return (int) available;
+                public long skip(final long n) throws IOException {
+                    raf.seek(raf.getFilePointer() + n);
+                    return n;
                 }
             };
         } catch (final FileNotFoundException e) {
@@ -90,13 +90,18 @@ final class LocalFileRandomAccessContent extends AbstractRandomAccessContent {
     }
 
     @Override
+    public void close() throws IOException {
+        raf.close();
+    }
+
+    @Override
     public long getFilePointer() throws IOException {
         return raf.getFilePointer();
     }
 
     @Override
-    public void seek(final long pos) throws IOException {
-        raf.seek(pos);
+    public InputStream getInputStream() throws IOException {
+        return rafis;
     }
 
     @Override
@@ -105,8 +110,8 @@ final class LocalFileRandomAccessContent extends AbstractRandomAccessContent {
     }
 
     @Override
-    public void close() throws IOException {
-        raf.close();
+    public boolean readBoolean() throws IOException {
+        return raf.readBoolean();
     }
 
     @Override
@@ -130,18 +135,18 @@ final class LocalFileRandomAccessContent extends AbstractRandomAccessContent {
     }
 
     @Override
+    public void readFully(final byte[] b) throws IOException {
+        raf.readFully(b);
+    }
+
+    @Override
+    public void readFully(final byte[] b, final int off, final int len) throws IOException {
+        raf.readFully(b, off, len);
+    }
+
+    @Override
     public int readInt() throws IOException {
         return raf.readInt();
-    }
-
-    @Override
-    public int readUnsignedByte() throws IOException {
-        return raf.readUnsignedByte();
-    }
-
-    @Override
-    public int readUnsignedShort() throws IOException {
-        return raf.readUnsignedShort();
     }
 
     @Override
@@ -155,23 +160,13 @@ final class LocalFileRandomAccessContent extends AbstractRandomAccessContent {
     }
 
     @Override
-    public boolean readBoolean() throws IOException {
-        return raf.readBoolean();
+    public int readUnsignedByte() throws IOException {
+        return raf.readUnsignedByte();
     }
 
     @Override
-    public int skipBytes(final int n) throws IOException {
-        return raf.skipBytes(n);
-    }
-
-    @Override
-    public void readFully(final byte[] b) throws IOException {
-        raf.readFully(b);
-    }
-
-    @Override
-    public void readFully(final byte[] b, final int off, final int len) throws IOException {
-        raf.readFully(b, off, len);
+    public int readUnsignedShort() throws IOException {
+        return raf.readUnsignedShort();
     }
 
     @Override
@@ -180,48 +175,18 @@ final class LocalFileRandomAccessContent extends AbstractRandomAccessContent {
     }
 
     @Override
-    public void writeDouble(final double v) throws IOException {
-        raf.writeDouble(v);
+    public void seek(final long pos) throws IOException {
+        raf.seek(pos);
     }
 
     @Override
-    public void writeFloat(final float v) throws IOException {
-        raf.writeFloat(v);
+    public void setLength(final long newLength) throws IOException {
+        raf.setLength(newLength);
     }
 
     @Override
-    public void write(final int b) throws IOException {
-        raf.write(b);
-    }
-
-    @Override
-    public void writeByte(final int v) throws IOException {
-        raf.writeByte(v);
-    }
-
-    @Override
-    public void writeChar(final int v) throws IOException {
-        raf.writeChar(v);
-    }
-
-    @Override
-    public void writeInt(final int v) throws IOException {
-        raf.writeInt(v);
-    }
-
-    @Override
-    public void writeShort(final int v) throws IOException {
-        raf.writeShort(v);
-    }
-
-    @Override
-    public void writeLong(final long v) throws IOException {
-        raf.writeLong(v);
-    }
-
-    @Override
-    public void writeBoolean(final boolean v) throws IOException {
-        raf.writeBoolean(v);
+    public int skipBytes(final int n) throws IOException {
+        return raf.skipBytes(n);
     }
 
     @Override
@@ -235,8 +200,28 @@ final class LocalFileRandomAccessContent extends AbstractRandomAccessContent {
     }
 
     @Override
+    public void write(final int b) throws IOException {
+        raf.write(b);
+    }
+
+    @Override
+    public void writeBoolean(final boolean v) throws IOException {
+        raf.writeBoolean(v);
+    }
+
+    @Override
+    public void writeByte(final int v) throws IOException {
+        raf.writeByte(v);
+    }
+
+    @Override
     public void writeBytes(final String s) throws IOException {
         raf.writeBytes(s);
+    }
+
+    @Override
+    public void writeChar(final int v) throws IOException {
+        raf.writeChar(v);
     }
 
     @Override
@@ -245,17 +230,32 @@ final class LocalFileRandomAccessContent extends AbstractRandomAccessContent {
     }
 
     @Override
+    public void writeDouble(final double v) throws IOException {
+        raf.writeDouble(v);
+    }
+
+    @Override
+    public void writeFloat(final float v) throws IOException {
+        raf.writeFloat(v);
+    }
+
+    @Override
+    public void writeInt(final int v) throws IOException {
+        raf.writeInt(v);
+    }
+
+    @Override
+    public void writeLong(final long v) throws IOException {
+        raf.writeLong(v);
+    }
+
+    @Override
+    public void writeShort(final int v) throws IOException {
+        raf.writeShort(v);
+    }
+
+    @Override
     public void writeUTF(final String str) throws IOException {
         raf.writeUTF(str);
-    }
-
-    @Override
-    public InputStream getInputStream() throws IOException {
-        return rafis;
-    }
-
-    @Override
-    public void setLength(final long newLength) throws IOException {
-        raf.setLength(newLength);
     }
 }

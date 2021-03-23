@@ -30,6 +30,26 @@ import org.apache.commons.vfs2.provider.VfsComponentContext;
  */
 public abstract class LocalFileNameParser extends AbstractFileNameParser {
 
+    protected abstract FileName createFileName(String scheme, final String rootFile, final String path,
+            final FileType type);
+
+    /**
+     * Pops the root prefix off a URI, which has had the scheme removed.
+     *
+     * @param name the URI to modify.
+     * @param uri the whole URI for error reporting.
+     * @return the root prefix extracted.
+     * @throws FileSystemException if an error occurs.
+     */
+    protected abstract String extractRootPrefix(final String uri, final StringBuilder name) throws FileSystemException;
+
+    private String[] getSchemes(final VfsComponentContext context, final FileName base, final String uri) {
+        if (context == null) {
+            return new String[] { base != null ? base.getScheme() : URI.create(uri).getScheme() };
+        }
+        return context.getFileSystemManager().getSchemes();
+    }
+
     /**
      * Determines if a name is an absolute file name.
      *
@@ -47,16 +67,6 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser {
             return false;
         }
     }
-
-    /**
-     * Pops the root prefix off a URI, which has had the scheme removed.
-     *
-     * @param name the URI to modify.
-     * @param uri the whole URI for error reporting.
-     * @return the root prefix extracted.
-     * @throws FileSystemException if an error occurs.
-     */
-    protected abstract String extractRootPrefix(final String uri, final StringBuilder name) throws FileSystemException;
 
     @Override
     public FileName parseUri(final VfsComponentContext context, final FileName base, final String uri)
@@ -87,14 +97,4 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser {
 
         return createFileName(scheme, rootFile, path, fileType);
     }
-
-    private String[] getSchemes(final VfsComponentContext context, final FileName base, final String uri) {
-        if (context == null) {
-            return new String[] { base != null ? base.getScheme() : URI.create(uri).getScheme() };
-        }
-        return context.getFileSystemManager().getSchemes();
-    }
-
-    protected abstract FileName createFileName(String scheme, final String rootFile, final String path,
-            final FileType type);
 }

@@ -37,6 +37,16 @@ public class GenericFileNameParser extends LocalFileNameParser {
         return INSTANCE;
     }
 
+    /*
+     * ... this is why whe need this: here the rootFilename can only be "/" (see above) put this "/" is also in the
+     * pathname so its of no value for the LocalFileName instance
+     */
+    @Override
+    protected FileName createFileName(final String scheme, final String rootFile, final String path,
+            final FileType type) {
+        return new LocalFileName(scheme, "", path, type);
+    }
+
     /**
      * Pops the root prefix off a URI, which has had the scheme removed.
      */
@@ -51,15 +61,5 @@ public class GenericFileNameParser extends LocalFileNameParser {
 
         // do not strip the separator, BUT also return it ...
         return "/";
-    }
-
-    /*
-     * ... this is why whe need this: here the rootFilename can only be "/" (see above) put this "/" is also in the
-     * pathname so its of no value for the LocalFileName instance
-     */
-    @Override
-    protected FileName createFileName(final String scheme, final String rootFile, final String path,
-            final FileType type) {
-        return new LocalFileName(scheme, "", path, type);
     }
 }

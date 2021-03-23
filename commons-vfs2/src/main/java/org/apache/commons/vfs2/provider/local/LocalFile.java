@@ -199,20 +199,20 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
     }
 
     /**
-     * Determines if this file can be written to.
-     */
-    @Override
-    protected boolean doIsWriteable() throws FileSystemException {
-        return file.canWrite();
-    }
-
-    /**
      * Determines if this file is a symbolic link.
      * @since 2.4
      */
     @Override
     protected boolean doIsSymbolicLink() throws FileSystemException {
         return Files.isSymbolicLink(file.toPath());
+    }
+
+    /**
+     * Determines if this file can be written to.
+     */
+    @Override
+    protected boolean doIsWriteable() throws FileSystemException {
+        return file.canWrite();
     }
 
     /**

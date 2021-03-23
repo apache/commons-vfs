@@ -43,20 +43,20 @@ public class LocalFileSystem extends AbstractFileSystem {
     }
 
     /**
+     * Returns the capabilities of this file system.
+     */
+    @Override
+    protected void addCapabilities(final Collection<Capability> caps) {
+        caps.addAll(DefaultLocalFileProvider.capabilities);
+    }
+
+    /**
      * Creates a file object.
      */
     @Override
     protected FileObject createFile(final AbstractFileName name) throws FileSystemException {
         // Create the file
         return new LocalFile(this, rootFile, name);
-    }
-
-    /**
-     * Returns the capabilities of this file system.
-     */
-    @Override
-    protected void addCapabilities(final Collection<Capability> caps) {
-        caps.addAll(DefaultLocalFileProvider.capabilities);
     }
 
     /**

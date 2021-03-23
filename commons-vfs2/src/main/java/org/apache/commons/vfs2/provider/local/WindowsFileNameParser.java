@@ -25,6 +25,41 @@ import org.apache.commons.vfs2.FileType;
  */
 public class WindowsFileNameParser extends LocalFileNameParser {
 
+    @Override
+    protected FileName createFileName(final String scheme, final String rootFile, final String path,
+            final FileType type) {
+        return new WindowsFileName(scheme, rootFile, path, type);
+    }
+
+    /**
+     * Extracts a drive prefix from a path. Leading '/' chars have been removed.
+     */
+    private String extractDrivePrefix(final StringBuilder name) {
+        // Looking for <letter> ':' '/'
+        if (name.length() < 3) {
+            // Too short
+            return null;
+        }
+        final char ch = name.charAt(0);
+        if (ch == '/' || ch == ':') {
+            // Missing drive letter
+            return null;
+        }
+        if (name.charAt(1) != ':') {
+            // Missing ':'
+            return null;
+        }
+        if (name.charAt(2) != '/') {
+            // Missing separator
+            return null;
+        }
+
+        final String prefix = name.substring(0, 2);
+        name.delete(0, 2);
+
+        return prefix.intern();
+    }
+
     /**
      * Pops the root prefix off a URI, which has had the scheme removed.
      */
@@ -33,10 +68,34 @@ public class WindowsFileNameParser extends LocalFileNameParser {
         return extractWindowsRootPrefix(uri, name);
     }
 
-    @Override
-    protected FileName createFileName(final String scheme, final String rootFile, final String path,
-            final FileType type) {
-        return new WindowsFileName(scheme, rootFile, path, type);
+    /**
+     * Extracts a UNC name from a path. Leading '/' chars have been removed.
+     */
+    private String extractUNCPrefix(final String uri, final StringBuilder name) throws FileSystemException {
+        // Looking for <name> '/' <name> ( '/' | <end> )
+
+        // Look for first separator
+        final int maxpos = name.length();
+        int pos = 0;
+        for (; pos < maxpos && name.charAt(pos) != '/'; pos++) {
+        }
+        pos++;
+        if (pos >= maxpos) {
+            throw new FileSystemException("vfs.provider.local/missing-share-name.error", uri);
+        }
+
+        // Now have <name> '/'
+        final int startShareName = pos;
+        for (; pos < maxpos && name.charAt(pos) != '/'; pos++) {
+        }
+        if (pos == startShareName) {
+            throw new FileSystemException("vfs.provider.local/missing-share-name.error", uri);
+        }
+
+        // Now have <name> '/' <name> ( '/' | <end> )
+        final String prefix = name.substring(0, pos);
+        name.delete(0, pos);
+        return prefix;
     }
 
     /**
@@ -70,64 +129,5 @@ public class WindowsFileNameParser extends LocalFileNameParser {
         }
 
         return "//" + extractUNCPrefix(uri, name);
-    }
-
-    /**
-     * Extracts a drive prefix from a path. Leading '/' chars have been removed.
-     */
-    private String extractDrivePrefix(final StringBuilder name) {
-        // Looking for <letter> ':' '/'
-        if (name.length() < 3) {
-            // Too short
-            return null;
-        }
-        final char ch = name.charAt(0);
-        if (ch == '/' || ch == ':') {
-            // Missing drive letter
-            return null;
-        }
-        if (name.charAt(1) != ':') {
-            // Missing ':'
-            return null;
-        }
-        if (name.charAt(2) != '/') {
-            // Missing separator
-            return null;
-        }
-
-        final String prefix = name.substring(0, 2);
-        name.delete(0, 2);
-
-        return prefix.intern();
-    }
-
-    /**
-     * Extracts a UNC name from a path. Leading '/' chars have been removed.
-     */
-    private String extractUNCPrefix(final String uri, final StringBuilder name) throws FileSystemException {
-        // Looking for <name> '/' <name> ( '/' | <end> )
-
-        // Look for first separator
-        final int maxpos = name.length();
-        int pos = 0;
-        for (; pos < maxpos && name.charAt(pos) != '/'; pos++) {
-        }
-        pos++;
-        if (pos >= maxpos) {
-            throw new FileSystemException("vfs.provider.local/missing-share-name.error", uri);
-        }
-
-        // Now have <name> '/'
-        final int startShareName = pos;
-        for (; pos < maxpos && name.charAt(pos) != '/'; pos++) {
-        }
-        if (pos == startShareName) {
-            throw new FileSystemException("vfs.provider.local/missing-share-name.error", uri);
-        }
-
-        // Now have <name> '/' <name> ( '/' | <end> )
-        final String prefix = name.substring(0, pos);
-        name.delete(0, pos);
-        return prefix;
     }
 }

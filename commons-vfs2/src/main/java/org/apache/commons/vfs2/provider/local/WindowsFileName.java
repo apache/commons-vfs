@@ -29,18 +29,6 @@ public class WindowsFileName extends LocalFileName {
     }
 
     /**
-     * Factory method for creating name instances.
-     *
-     * @param path The file path.
-     * @param type The file type.
-     * @return The FileName.
-     */
-    @Override
-    public FileName createName(final String path, final FileType type) {
-        return new WindowsFileName(getScheme(), getRootFile(), path, type);
-    }
-
-    /**
      * Builds the root URI for this file name.
      */
     @Override
@@ -52,5 +40,17 @@ public class WindowsFileName extends LocalFileName {
             buffer.append("/");
         }
         buffer.append(getRootFile());
+    }
+
+    /**
+     * Factory method for creating name instances.
+     *
+     * @param path The file path.
+     * @param type The file type.
+     * @return The FileName.
+     */
+    @Override
+    public FileName createName(final String path, final FileType type) {
+        return new WindowsFileName(getScheme(), getRootFile(), path, type);
     }
 }

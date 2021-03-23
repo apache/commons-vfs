@@ -35,12 +35,13 @@ public class LocalFileName extends AbstractFileName {
     }
 
     /**
-     * Returns the root file for this file.
-     *
-     * @return The root file name.
+     * Builds the root URI for this file name.
      */
-    public String getRootFile() {
-        return rootFile;
+    @Override
+    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword) {
+        buffer.append(getScheme());
+        buffer.append("://");
+        buffer.append(rootFile);
     }
 
     /**
@@ -56,6 +57,15 @@ public class LocalFileName extends AbstractFileName {
     }
 
     /**
+     * Returns the root file for this file.
+     *
+     * @return The root file name.
+     */
+    public String getRootFile() {
+        return rootFile;
+    }
+
+    /**
      * Returns the decoded URI of the file.
      *
      * @return the FileName as a URI.
@@ -67,15 +77,5 @@ public class LocalFileName extends AbstractFileName {
         } catch (final FileSystemException e) {
             return super.getURI();
         }
-    }
-
-    /**
-     * Builds the root URI for this file name.
-     */
-    @Override
-    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword) {
-        buffer.append(getScheme());
-        buffer.append("://");
-        buffer.append(rootFile);
     }
 }
