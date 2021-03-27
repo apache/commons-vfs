@@ -16,10 +16,6 @@
  */
 package org.apache.commons.vfs2.provider.local;
 
-import java.net.URI;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
@@ -60,38 +56,6 @@ public class LocalFileName extends AbstractFileName {
         return new LocalFileName(getScheme(), rootFile, path, type);
     }
 
-    @Override
-    protected String createURI() {
-        final StringBuilder buffer = new StringBuilder();
-        appendRootUri(buffer, true);
-        final URI tmpUri = getFilePath().toUri();
-        buffer.append(tmpUri.getRawPath());
-        final String query = tmpUri.getRawQuery();
-        if (query != null) {
-            buffer.append('?');
-            buffer.append(query);
-        }
-        final String fragment = tmpUri.getRawFragment();
-        if (fragment != null) {
-            buffer.append('#');
-            buffer.append(fragment);
-        }
-        return buffer.toString();
-    }
-
-    private String createUriDecoded() throws FileSystemException {
-        return UriParser.decode(getURI());
-    }
-
-    /**
-     * Gets the NIO file Path.
-     *
-     * @return the NIO file Path.
-     */
-    private Path getFilePath() {
-        return Paths.get(getPath());
-    }
-
     /**
      * Returns the root file for this file.
      *
@@ -109,9 +73,9 @@ public class LocalFileName extends AbstractFileName {
     @Override
     public String toString() {
         try {
-            return createUriDecoded();
+            return UriParser.decode(super.getURI());
         } catch (final FileSystemException e) {
-            return getURI();
+            return super.getURI();
         }
     }
 }

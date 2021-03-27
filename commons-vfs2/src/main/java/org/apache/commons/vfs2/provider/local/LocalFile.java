@@ -21,10 +21,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
-import java.util.Objects;
 
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -72,7 +70,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
             file = new File(fileName);
         }
     }
-   
+
     /**
      * Creates this folder.
      */
@@ -188,7 +186,6 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
             return false;
         }
 
-        @SuppressWarnings("resource") // unwrapping, not allocating
         final LocalFile destLocalFile = (LocalFile) FileObjectUtils.getAbstractFileObject(destFile);
         if (!exists() || !destLocalFile.exists()) {
             return false;
@@ -231,7 +228,6 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
      */
     @Override
     protected void doRename(final FileObject newFile) throws Exception {
-        @SuppressWarnings("resource") // unwrapping, not allocating
         final LocalFile newLocalFile = (LocalFile) FileObjectUtils.getAbstractFileObject(newFile);
 
         if (!file.renameTo(newLocalFile.getLocalFile())) {
@@ -271,16 +267,6 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
      */
     protected File getLocalFile() {
         return file;
-    }
-
-    @Override
-    public URI getURI() {
-        try {
-            doAttach();
-        } catch (Exception e) {
-            throw new IllegalArgumentException(Objects.toString(file));
-        }
-        return URI.create(getName().getURI());
     }
 
     /**

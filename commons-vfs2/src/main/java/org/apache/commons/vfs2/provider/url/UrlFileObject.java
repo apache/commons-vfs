@@ -30,8 +30,6 @@ import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.provider.URLFileName;
-import org.apache.commons.vfs2.provider.UriParser;
-import org.apache.commons.vfs2.provider.local.LocalFileName;
 
 /**
  * A {@link org.apache.commons.vfs2.FileObject FileObject} implementation backed by a {@link URL}.
@@ -56,20 +54,17 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
     @Override
     protected void doAttach() throws Exception {
         if (url == null) {
+            // url = new URL(getName().getURI());
             url = createURL(getName());
         }
     }
 
-    protected URL createURL(final FileName fileName) throws MalformedURLException, FileSystemException, URIException {
-        // TODO Forthcoming clean up...
-        if (fileName instanceof URLFileName) {
-            final URLFileName urlFileName = (URLFileName) getName();
+    protected URL createURL(final FileName name) throws MalformedURLException, FileSystemException, URIException {
+        if (name instanceof URLFileName) {
+            final URLFileName urlName = (URLFileName) getName();
+
             // TODO: charset
-            return new URL(urlFileName.getURIEncoded(null));
-        }
-        if (fileName instanceof LocalFileName) {
-            // decode
-            return new URL(((LocalFileName) getName()).toString());
+            return new URL(urlName.getURIEncoded(null));
         }
         return new URL(getName().getURI());
     }
