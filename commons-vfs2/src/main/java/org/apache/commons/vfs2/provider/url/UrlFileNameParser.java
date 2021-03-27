@@ -31,8 +31,8 @@ import org.apache.commons.vfs2.provider.local.GenericFileNameParser;
  */
 public class UrlFileNameParser extends AbstractFileNameParser {
 
-    private final URLFileNameParser url = new URLFileNameParser(80);
-    private final GenericFileNameParser generic = new GenericFileNameParser();
+    private final URLFileNameParser urlFileNameParser = new URLFileNameParser(80);
+    private final GenericFileNameParser genericFileNameParser = new GenericFileNameParser();
 
     public UrlFileNameParser() {
     }
@@ -55,10 +55,10 @@ public class UrlFileNameParser extends AbstractFileNameParser {
     public FileName parseUri(final VfsComponentContext context, final FileName base, final String uri)
             throws FileSystemException {
         if (isUrlBased(base, uri)) {
-            return url.parseUri(context, base, uri);
+            return urlFileNameParser.parseUri(context, base, uri);
         }
 
-        return generic.parseUri(context, base, uri);
+        return genericFileNameParser.parseUri(context, base, uri);
     }
 
     /**
