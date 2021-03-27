@@ -29,16 +29,16 @@ public class GenericFileNameParser extends LocalFileNameParser {
     private static final GenericFileNameParser INSTANCE = new GenericFileNameParser();
 
     /**
-     * retrieve a instance to this parser.
+     * Gets the singleton instance.
      *
-     * @return the parser
+     * @return the singleton instance.
      */
     public static GenericFileNameParser getInstance() {
         return INSTANCE;
     }
 
     /*
-     * ... this is why whe need this: here the rootFilename can only be "/" (see above) put this "/" is also in the
+     * ... this is why why need this: here the rootFilename can only be "/" (see above) put this "/" is also in the
      * pathname so its of no value for the LocalFileName instance
      */
     @Override
@@ -48,7 +48,7 @@ public class GenericFileNameParser extends LocalFileNameParser {
     }
 
     /**
-     * Pops the root prefix off a URI, which has had the scheme removed.
+     * Extracts the root prefix from a URI string, which has had the scheme removed.
      */
     @Override
     protected String extractRootPrefix(final String uri, final StringBuilder name) throws FileSystemException {
