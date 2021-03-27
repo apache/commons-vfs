@@ -57,7 +57,6 @@ public class UrlFileNameParser extends AbstractFileNameParser {
         if (isUrlBased(base, uri)) {
             return urlFileNameParser.parseUri(context, base, uri);
         }
-
         return genericFileNameParser.parseUri(context, base, uri);
     }
 
