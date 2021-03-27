@@ -62,7 +62,7 @@ public class UrlFileNameParser extends AbstractFileNameParser {
     }
 
     /**
-     * Guess if the given file name is an URL with host or not.
+     * Guess if the given file name is a URL with host or not.
      * <p>
      * VFS treats such URLs differently.
      * </p>
