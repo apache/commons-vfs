@@ -46,8 +46,8 @@ public abstract class AbstractFileName implements FileName {
     private final String absPath;
     private FileType type;
 
-    // Cached stuff
-    private String uri;
+    // Cached attributes
+    private String uriString;
     private String baseName;
     private String rootUri;
     private String extension;
@@ -233,10 +233,10 @@ public abstract class AbstractFileName implements FileName {
      */
     @Override
     public String getURI() {
-        if (uri == null) {
-            uri = createURI();
+        if (uriString == null) {
+            uriString = createURI();
         }
-        return uri;
+        return uriString;
     }
 
     protected String createURI() {
@@ -314,6 +314,7 @@ public abstract class AbstractFileName implements FileName {
         final int maxlen = Math.min(basePathLen, pathLen);
         int pos = 0;
         for (; pos < maxlen && getPath().charAt(pos) == path.charAt(pos); pos++) {
+            // empty
         }
 
         if (pos == basePathLen && pos == pathLen) {
