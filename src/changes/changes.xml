@@ -72,6 +72,12 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Only use reflection VFS.createFileSystemManager(String) if the FileSystemManager is not a subclass of AbstractFileSystem.
       </action>
+      <action type="update" dev="ggregory" due-to="Arturo Bernal">
+        Simplify if conditions #170.
+      </action>
+      <action type="update" dev="ggregory" due-to="Arturo Bernal">
+        Redundant local variable #171.
+      </action>
     </release>
     <release version="2.8.0" date="2021-03-06" description="Feature and maintenance release. Requires Java 8.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
