@@ -523,10 +523,7 @@ public abstract class AbstractFileName implements FileName {
         if (scope == NameScope.DESCENDENT_OR_SELF) {
             return baseLen <= 1 || path.length() <= baseLen || path.charAt(baseLen) == SEPARATOR_CHAR;
         }
-        if (scope != NameScope.FILE_SYSTEM) {
-            throw new IllegalArgumentException();
-        }
+        throw new IllegalArgumentException();
 
-        return true;
     }
 }
