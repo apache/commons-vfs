@@ -27,10 +27,10 @@ import org.apache.commons.vfs2.util.CryptorFactory;
 /**
  * Implementation for any URL based file system.
  * <p>
- * Parses the URL into user/password/host/port/path. Does not handle a query string (after ?)
+ * Parses the URL into user/password/host/port/path. Does not handle a query string (after ?).
  * </p>
  *
- * @see URLFileNameParser URLFileNameParser for the implementation which also handles the query string too
+ * @see URLFileNameParser URLFileNameParser for the implementation which also handles the query string too.
  */
 public class HostFileNameParser extends AbstractFileNameParser {
     /**
