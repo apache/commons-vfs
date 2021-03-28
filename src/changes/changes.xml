@@ -84,6 +84,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="update" issue="VFS-804" dev="ggregory" due-to="Arturo Bernal">
         Fix and Refine Javadoc #174.
       </action>
+      <action dev="ggregory" type="update">
+        Update net.sourceforge.pmd:pmd-* -> 6.32.0 -> 6.33.0.
+      </action>
     </release>
     <release version="2.8.0" date="2021-03-06" description="Feature and maintenance release. Requires Java 8.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
