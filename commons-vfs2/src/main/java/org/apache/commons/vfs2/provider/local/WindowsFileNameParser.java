@@ -78,6 +78,7 @@ public class WindowsFileNameParser extends LocalFileNameParser {
         final int maxpos = name.length();
         int pos = 0;
         for (; pos < maxpos && name.charAt(pos) != '/'; pos++) {
+            // empty
         }
         pos++;
         if (pos >= maxpos) {
@@ -87,6 +88,7 @@ public class WindowsFileNameParser extends LocalFileNameParser {
         // Now have <name> '/'
         final int startShareName = pos;
         for (; pos < maxpos && name.charAt(pos) != '/'; pos++) {
+            // empty
         }
         if (pos == startShareName) {
             throw new FileSystemException("vfs.provider.local/missing-share-name.error", uri);
@@ -110,6 +112,7 @@ public class WindowsFileNameParser extends LocalFileNameParser {
         int startPos = 0;
         final int maxlen = Math.min(4, name.length());
         for (; startPos < maxlen && name.charAt(startPos) == '/'; startPos++) {
+            // empty
         }
         if (startPos == maxlen && name.length() > (startPos + 1) && name.charAt(startPos + 1) == '/') {
             // Too many '/'

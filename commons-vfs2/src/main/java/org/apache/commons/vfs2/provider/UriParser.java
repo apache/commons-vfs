@@ -333,8 +333,8 @@ public final class UriParser {
             buffer.setLength(0);
             buffer.append(uri);
         }
-        for(final String scheme : schemes) {
-            if(uri.startsWith(scheme + ":")) {
+        for (final String scheme : schemes) {
+            if (uri.startsWith(scheme + ":")) {
                 if (buffer != null) {
                     buffer.delete(0, uri.indexOf(':') + 1);
                 }
