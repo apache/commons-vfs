@@ -84,7 +84,7 @@ public class DefaultFileContentTest {
 
     @Test
     public void testInputStreamClosedInADifferentThread() throws Exception {
-        testStreamClosedInADifferentThread(content -> content.getInputStream());
+        testStreamClosedInADifferentThread(FileContent::getInputStream);
     }
 
     @Test
@@ -177,7 +177,7 @@ public class DefaultFileContentTest {
 
     @Test
     public void testOutputStreamClosedInADifferentThread() throws Exception {
-        testStreamClosedInADifferentThread(content -> content.getOutputStream());
+        testStreamClosedInADifferentThread(FileContent::getOutputStream);
     }
 
     private <T extends Closeable> void testStreamClosedInADifferentThread(final FailableFunction<FileContent, T, IOException> getStream) throws Exception {
@@ -190,7 +190,7 @@ public class DefaultFileContentTest {
             final Thread thread = new Thread(() -> {
                 try {
                     stream.close();
-                } catch (IOException exception) {
+                } catch (final IOException exception) {
                     // ignore
                 }
                 check.set(true);
