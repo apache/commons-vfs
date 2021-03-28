@@ -18,7 +18,6 @@ package org.apache.commons.vfs2;
 
 import java.io.File;
 
-import org.apache.commons.AbstractVfsTestCase;
 import org.junit.Test;
 
 /**

@@ -21,7 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.VFS;

@@ -31,9 +31,9 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
+import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;

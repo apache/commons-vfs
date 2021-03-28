@@ -19,8 +19,8 @@ package org.apache.commons.vfs2.provider.zip;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 
-import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
+import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemManager;

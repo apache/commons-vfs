@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;

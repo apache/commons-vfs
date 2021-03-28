@@ -19,8 +19,8 @@ package org.apache.commons.vfs2.provider.ftp;
 import java.io.IOException;
 import java.net.SocketException;
 
-import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.VFS;

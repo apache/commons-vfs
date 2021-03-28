@@ -17,9 +17,9 @@
 
 package org.apache.commons.vfs2.provider.res;
 
-import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
+import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;

@@ -16,7 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.test;
 
-import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.provider.GenericFileName;
 import org.apache.commons.vfs2.provider.URLFileNameParser;

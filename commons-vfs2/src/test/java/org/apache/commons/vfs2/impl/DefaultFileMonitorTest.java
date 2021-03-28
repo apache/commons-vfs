@@ -26,8 +26,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.lang3.SystemUtils;
+import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileChangeEvent;
 import org.apache.commons.vfs2.FileListener;
 import org.apache.commons.vfs2.FileObject;

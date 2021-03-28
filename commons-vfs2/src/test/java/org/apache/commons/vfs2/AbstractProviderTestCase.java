@@ -25,7 +25,6 @@ import java.lang.reflect.Method;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 
-import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;

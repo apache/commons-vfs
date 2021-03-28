@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons;
+package org.apache.commons.vfs2;
 
 import java.io.File;
 import java.io.IOException;
