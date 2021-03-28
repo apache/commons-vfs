@@ -125,8 +125,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
                 return 1;
             }
 
-            final int result = thisString.compareTo(otherString);
-            return result;
+            return thisString.compareTo(otherString);
         }
         if (otherString != null) {
             return -1;

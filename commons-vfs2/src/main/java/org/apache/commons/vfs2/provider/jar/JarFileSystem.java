@@ -94,8 +94,7 @@ public class JarFileSystem extends ZipFileSystem {
     Object getAttribute(final Name attrName) throws FileSystemException {
         try {
             final Attributes attr = getAttributes();
-            final String value = attr.getValue(attrName);
-            return value;
+            return attr.getValue(attrName);
         } catch (final IOException ioe) {
             throw new FileSystemException(attrName.toString(), ioe);
         }
