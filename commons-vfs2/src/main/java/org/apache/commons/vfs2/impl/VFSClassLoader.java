@@ -193,7 +193,7 @@ public class VFSClassLoader extends SecureClassLoader {
     /**
      * Reads attributes for the package and defines it.
      */
-    private Package definePackage(final String name, final Resource res) throws FileSystemException {
+    private void definePackage(final String name, final Resource res) throws FileSystemException {
         // TODO - check for MANIFEST_ATTRIBUTES capability first
         final String specTitle = res.getPackageAttribute(Name.SPECIFICATION_TITLE);
         final String specVendor = res.getPackageAttribute(Attributes.Name.SPECIFICATION_VENDOR);
@@ -209,7 +209,7 @@ public class VFSClassLoader extends SecureClassLoader {
             sealBase = null;
         }
 
-        return definePackage(name, specTitle, specVersion, specVendor, implTitle, implVersion, implVendor, sealBase);
+        definePackage(name, specTitle, specVersion, specVendor, implTitle, implVersion, implVendor, sealBase);
     }
 
     /**

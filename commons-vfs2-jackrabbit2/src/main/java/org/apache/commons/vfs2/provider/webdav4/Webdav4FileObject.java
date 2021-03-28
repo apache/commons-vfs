@@ -97,14 +97,12 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
             this.file = file;
         }
 
-        private boolean createVersion(final String urlStr) {
+        private void createVersion(final String urlStr) {
             try {
                 final HttpVersionControl request = new HttpVersionControl(urlStr);
                 setupRequest(request);
                 executeRequest(request);
-                return true;
             } catch (final Exception ex) {
-                return false;
             }
         }
 

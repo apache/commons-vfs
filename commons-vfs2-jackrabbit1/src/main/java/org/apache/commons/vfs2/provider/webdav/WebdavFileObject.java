@@ -98,14 +98,12 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
             this.file = file;
         }
 
-        private boolean createVersion(final String urlStr) {
+        private void createVersion(final String urlStr) {
             try {
                 final VersionControlMethod method = new VersionControlMethod(urlStr);
                 setupMethod(method);
                 execute(method);
-                return true;
             } catch (final Exception ex) {
-                return false;
             }
         }
 
