@@ -279,7 +279,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
             }
         }
 
-        // Extract hostname, and normalise (lowercase)
+        // Extract hostname, and normalize (lowercase)
         final String hostName = extractHostName(name);
         if (hostName == null) {
             throw new FileSystemException("vfs.provider/missing-hostname.error", uri);
@@ -336,7 +336,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         // Extract the scheme and authority parts
         final Authority auth = extractToPath(context, fileName, name);
 
-        // Decode and normalise the file name
+        // Decode and normalize the file name
         UriParser.canonicalizePath(name, 0, name.length(), this);
         UriParser.fixSeparators(name);
         final FileType fileType = UriParser.normalisePath(name);
