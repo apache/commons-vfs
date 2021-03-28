@@ -34,10 +34,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.function.FailableFunction;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
-import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
 public class FileObjectEscapeChartInPathTest {
 
     private static final String REL_PATH_GREAT = "src/test/resources/test-data/好.txt";

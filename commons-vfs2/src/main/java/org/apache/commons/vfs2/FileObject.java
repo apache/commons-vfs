@@ -307,7 +307,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
      * @since 2.7.0
      */
     default URI getURI() {
-        return URI.create(getName().getURI());
+        return URI.create(URI.create(getName().getURI()).toASCIIString());
     }
 
     /**
