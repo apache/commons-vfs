@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.url;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.provider.URLFileName;
 
@@ -38,14 +39,14 @@ public class UrlFileName extends URLFileName {
      * @param queryString Parameters to use when locating or creating the file name.
      */
     public UrlFileName(final String scheme, final String hostName, final int port, final int defaultPort,
-            final String userName, final String password, final String path, final FileType type,
-            final String queryString) {
+        final String userName, final String password, final String path, final FileType type,
+        final String queryString) {
         super(scheme, hostName, port, defaultPort, userName, password, path, type, queryString);
     }
 
     @Override
     protected void appendRootUri(final StringBuilder buffer, final boolean addPassword) {
-        if (getHostName() != null && !"".equals(getHostName())) {
+        if (!StringUtils.isEmpty(getHostName())) {
             super.appendRootUri(buffer, addPassword);
             return;
         }
