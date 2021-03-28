@@ -436,9 +436,8 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
             final boolean ok;
             final FtpClient ftpClient = getAbstractFileSystem().getClient();
             try {
-                final String oldName = relPath;
                 final String newName = ((FtpFileObject) FileObjectUtils.getAbstractFileObject(newFile)).getRelPath();
-                ok = ftpClient.rename(oldName, newName);
+                ok = ftpClient.rename(relPath, newName);
             } finally {
                 getAbstractFileSystem().putClient(ftpClient);
             }

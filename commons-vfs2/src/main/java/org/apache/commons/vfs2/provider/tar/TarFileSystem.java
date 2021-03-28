@@ -220,8 +220,7 @@ public class TarFileSystem extends AbstractFileSystem {
             }
             tarFile = null;
         }
-        final TarArchiveInputStream tarFile = createTarFile(this.file);
-        this.tarFile = tarFile;
+        this.tarFile = createTarFile(this.file);
     }
 
     /**
