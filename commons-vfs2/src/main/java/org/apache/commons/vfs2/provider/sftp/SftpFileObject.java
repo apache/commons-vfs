@@ -100,7 +100,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     /**
      * Fetches file attributes from server.
      *
-     * @throws IOException
+     * @throws IOException if an error occurs.
      */
     private void statSelf() throws IOException {
         ChannelSftp channelSftp = null;
