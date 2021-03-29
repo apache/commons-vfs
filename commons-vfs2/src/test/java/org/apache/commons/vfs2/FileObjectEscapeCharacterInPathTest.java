@@ -36,7 +36,7 @@ import org.apache.commons.lang3.function.FailableFunction;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.junit.Test;
 
-public class FileObjectEscapeChartInPathTest {
+public class FileObjectEscapeCharacterInPathTest {
 
     private static final String REL_PATH_GREAT = "src/test/resources/test-data/好.txt";
 
@@ -111,6 +111,6 @@ public class FileObjectEscapeChartInPathTest {
 
     @Test
     public void testToFile2() throws IOException {
-        testToFile(FileObjectEscapeChartInPathTest::toFile2);
+        testToFile(FileObjectEscapeCharacterInPathTest::toFile2);
     }
 }
