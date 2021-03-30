@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.vfs2.FileContent;
+import org.apache.commons.vfs2.FileContentInfo;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 
@@ -54,26 +55,27 @@ final class FileTypeMap {
     }
 
     /**
-     * Find the scheme for the provider of a layered file system.
+     * Gets the scheme for the provider of a layered file system.
      * <p>
-     * This will check the FileContentInfo or file extension.
+     * This will check the {@link FileContentInfo} or file extension.
      * </p>
      *
+     * @param fileObject The file object to query.
      * @return Scheme supporting the file type or null (if unknown).
+     * @throws FileSystemException if an error occurs.
      */
-    public String getScheme(final FileObject file) throws FileSystemException {
+    public String getScheme(final FileObject fileObject) throws FileSystemException {
         // Check the file's mime type for a match
-        final FileContent content = file.getContent();
+        final FileContent content = fileObject.getContent();
         final String mimeType = content.getContentInfo().getContentType();
         if (mimeType != null) {
             return mimeTypeMap.get(mimeType);
         }
 
         // no specific mime-type - if it is a file also check the extension
-        if (!file.isFile()) {
+        if (!fileObject.isFile()) {
             return null; // VFS-490 folders don't use extensions for mime-type
         }
-        final String extension = file.getName().getExtension();
-        return extensionMap.get(extension);
+        return extensionMap.get(fileObject.getName().getExtension());
     }
 }
