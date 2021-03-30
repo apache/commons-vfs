@@ -32,6 +32,13 @@ final class FileTypeMap {
     private final Map<String, String> extensionMap = new HashMap<>();
 
     /**
+     * Adds a file name extension mapping.
+     */
+    public void addExtension(final String extension, final String scheme) {
+        extensionMap.put(extension, scheme);
+    }
+
+    /**
      * Adds a MIME type mapping.
      */
     public void addMimeType(final String mimeType, final String scheme) {
@@ -39,10 +46,11 @@ final class FileTypeMap {
     }
 
     /**
-     * Adds a file name extension mapping.
+     * Removes all extensions and scheme mappings.
      */
-    public void addExtension(final String extension, final String scheme) {
-        extensionMap.put(extension, scheme);
+    public void clear() {
+        mimeTypeMap.clear();
+        extensionMap.clear();
     }
 
     /**
@@ -67,13 +75,5 @@ final class FileTypeMap {
         }
         final String extension = file.getName().getExtension();
         return extensionMap.get(extension);
-    }
-
-    /**
-     * Removes all extensions and scheme mappings.
-     */
-    public void clear() {
-        mimeTypeMap.clear();
-        extensionMap.clear();
     }
 }
