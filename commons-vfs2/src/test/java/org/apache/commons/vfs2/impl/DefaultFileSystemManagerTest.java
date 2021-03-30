@@ -28,8 +28,13 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FilesCache;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.cache.NullFilesCache;
+import org.apache.commons.vfs2.provider.bzip2.Bzip2FileObject;
+import org.apache.commons.vfs2.provider.gzip.GzipFileObject;
+import org.apache.commons.vfs2.provider.jar.JarFileObject;
 import org.apache.commons.vfs2.provider.ram.RamFileProvider;
+import org.apache.commons.vfs2.provider.zip.ZipFileObject;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -78,12 +83,41 @@ public class DefaultFileSystemManagerTest {
         }
     }
 
+    private void testCreateFileSystem(final String path, Class<?> clazz) throws FileSystemException {
+        FileSystemManager manager = VFS.getManager();
+        try (FileObject localFileObject = manager.resolveFile(new File(path).getAbsolutePath());
+                FileObject fileObject = manager.createFileSystem(localFileObject);) {
+            Assert.assertEquals(clazz, fileObject.getClass());
+        }
+    }
+
+    @Test
+    @Ignore
+    public void testCreateGzipFileSystem() throws FileSystemException {
+        testCreateFileSystem("src/test/resources/test-data/好.txt.gz", GzipFileObject.class);
+    }
+
+    @Test
+    public void testCreateBz2FileSystem() throws FileSystemException {
+        testCreateFileSystem("src/test/resources/test-data/bla.txt.bz2", Bzip2FileObject.class);
+    }
+
+    @Test
+    public void testCreateJarFileSystem() throws FileSystemException {
+        testCreateFileSystem("src/test/resources/test-data/nested.jar", JarFileObject.class);
+    }
+
+    @Test
+    public void testCreateZipFileSystem() throws FileSystemException {
+        testCreateFileSystem("src/test/resources/test-data/nested.zip", ZipFileObject.class);
+    }
+
     @Test
     public void testFileCacheEmptyAfterManagerClose() throws FileSystemException {
         final FileSystemManager manager = VFS.getManager();
         Assert.assertNotNull(manager);
         try (final FileObject fileObject = manager
-            .resolveFile(Paths.get("src/test/resources/test-data/read-tests/file1.txt").toUri())) {
+                .resolveFile(Paths.get("src/test/resources/test-data/read-tests/file1.txt").toUri())) {
             Assert.assertTrue(fileObject.exists());
             final FilesCache filesCache = manager.getFilesCache();
             final FileName name = fileObject.getName();
@@ -103,7 +137,7 @@ public class DefaultFileSystemManagerTest {
         final FileSystemManager manager = VFS.getManager();
         Assert.assertNotNull(manager);
         try (final FileObject fileObject = manager
-            .resolveFile(Paths.get("src/test/resources/test-data/read-tests/file1.txt").toUri())) {
+                .resolveFile(Paths.get("src/test/resources/test-data/read-tests/file1.txt").toUri())) {
             Assert.assertTrue(fileObject.exists());
             final FilesCache filesCache = manager.getFilesCache();
             final FileName name = fileObject.getName();
