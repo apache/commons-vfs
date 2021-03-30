@@ -27,7 +27,7 @@ import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
 
 /**
- * Filesytem to handle compressed files using the gzip method.
+ * A compressed file system using the Gzip method.
  */
 public class GzipFileSystem extends CompressedFileFileSystem {
 

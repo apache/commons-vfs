@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.compressed.CompressedFileFileProvider;
 
 /**
- * Provides access to the content of gzip compressed files.
+ * Provides access to the content of Gzip files.
  */
 public class GzipFileProvider extends CompressedFileFileProvider {
 

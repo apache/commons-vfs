@@ -27,7 +27,7 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileObject;
 import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
 
 /**
- * the gzip file.
+ * A Gzip file.
  */
 public class GzipFileObject extends CompressedFileFileObject<GzipFileSystem> {
 
