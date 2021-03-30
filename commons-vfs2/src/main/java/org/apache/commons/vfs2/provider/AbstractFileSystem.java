@@ -75,7 +75,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      */
     private final String rootURI;
 
-    private final Collection<Capability> caps = new HashSet<>();
+    private final Collection<Capability> capabilities = new HashSet<>();
 
     private final FileObject parentLayer;
 
@@ -121,7 +121,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      */
     @Override
     public void init() throws FileSystemException {
-        addCapabilities(caps);
+        addCapabilities(capabilities);
     }
 
     /**
@@ -233,7 +233,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      */
     @Override
     public boolean hasCapability(final Capability capability) {
-        return caps.contains(capability);
+        return capabilities.contains(capability);
     }
 
     /**
