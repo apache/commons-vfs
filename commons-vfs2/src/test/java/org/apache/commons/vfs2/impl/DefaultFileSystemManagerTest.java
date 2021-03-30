@@ -79,23 +79,6 @@ public class DefaultFileSystemManagerTest {
     }
 
     @Test
-    public void testFileCacheEmptyAfterVFSClose() throws FileSystemException {
-        final FileSystemManager manager = VFS.getManager();
-        Assert.assertNotNull(manager);
-        try (final FileObject fileObject = manager
-            .resolveFile(Paths.get("src/test/resources/test-data/read-tests/file1.txt").toUri())) {
-            Assert.assertTrue(fileObject.exists());
-            final FilesCache filesCache = manager.getFilesCache();
-            final FileName name = fileObject.getName();
-            // Make sure we have file object in the cache.
-            Assert.assertNotNull(filesCache.getFile(fileObject.getFileSystem(), name));
-            VFS.close();
-            // Cache MUST now be empty.
-            Assert.assertNull(filesCache.getFile(fileObject.getFileSystem(), name));
-        }
-    }
-
-    @Test
     public void testFileCacheEmptyAfterManagerClose() throws FileSystemException {
         final FileSystemManager manager = VFS.getManager();
         Assert.assertNotNull(manager);
@@ -112,6 +95,23 @@ public class DefaultFileSystemManagerTest {
         } finally {
             // Makes sure we reset the singleton or other tests will fail.
             VFS.close();
+        }
+    }
+
+    @Test
+    public void testFileCacheEmptyAfterVFSClose() throws FileSystemException {
+        final FileSystemManager manager = VFS.getManager();
+        Assert.assertNotNull(manager);
+        try (final FileObject fileObject = manager
+            .resolveFile(Paths.get("src/test/resources/test-data/read-tests/file1.txt").toUri())) {
+            Assert.assertTrue(fileObject.exists());
+            final FilesCache filesCache = manager.getFilesCache();
+            final FileName name = fileObject.getName();
+            // Make sure we have file object in the cache.
+            Assert.assertNotNull(filesCache.getFile(fileObject.getFileSystem(), name));
+            VFS.close();
+            // Cache MUST now be empty.
+            Assert.assertNull(filesCache.getFile(fileObject.getFileSystem(), name));
         }
     }
 
