@@ -87,6 +87,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" type="update">
         Update net.sourceforge.pmd:pmd-* -> 6.32.0 -> 6.33.0.
       </action>
+      <action dev="ggregory" due-to="Dependabot" type="update">
+        Bump checkstyle from 8.41 to 8.41.1 #175.
+      </action>
     </release>
     <release version="2.8.0" date="2021-03-06" description="Feature and maintenance release. Requires Java 8.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
