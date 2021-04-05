@@ -171,6 +171,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * <p>
      * The manager takes care of all lifecycle management. A provider may be registered multiple times. The first
      * {@link LocalFileProvider} added will be remembered for {@link #getLocalFileProvider()}.
+     * </p>
      *
      * @param urlScheme The scheme the provider will handle.
      * @param provider The provider.
@@ -185,6 +186,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * <p>
      * The manager takes care of all lifecycle management. A provider may be registered multiple times. The first
      * {@link LocalFileProvider} added will be remembered for {@link #getLocalFileProvider()}.
+     * </p>
      *
      * @param urlSchemes The schemes the provider will handle.
      * @param provider The provider.
@@ -280,8 +282,10 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * Sets the filesCache implementation used to cache files.
      * <p>
      * Can only be set before the FileSystemManager is initialized.
+     * </p>
      * <p>
      * The manager takes care of the lifecycle. If none is set, a default is picked in {@link #init()}.
+     * </p>
      *
      * @param filesCache The FilesCache.
      * @throws FileSystemException if an error occurs setting the cache..
@@ -297,8 +301,10 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * Set the cache strategy to use when dealing with file object data.
      * <p>
      * Can only be set before the FileSystemManager is initialized.
+     * </p>
      * <p>
-     * The default is {@link CacheStrategy#ON_RESOLVE}
+     * The default is {@link CacheStrategy#ON_RESOLVE}.
+     * </p>
      *
      * @param fileCacheStrategy The CacheStrategy to use.
      * @throws FileSystemException if this is not possible. e.g. it is already set.
@@ -345,6 +351,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * Set a fileObject decorator to be used for ALL returned file objects.
      * <p>
      * Can only be set before the FileSystemManager is initialized.
+     * </p>
      *
      * @param fileObjectDecorator must be inherted from {@link DecoratedFileObject} a has to provide a constructor with
      *            a single {@link FileObject} as argument
@@ -381,6 +388,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * set the fileContentInfoFactory used to determine the infos of a file content.
      * <p>
      * Can only be set before the FileSystemManager is initialized.
+     * </p>
      *
      * @param fileContentInfoFactory The FileContentInfoFactory.
      * @throws FileSystemException if an error occurs setting the FileContentInfoFactory.
@@ -398,6 +406,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * Sets the file replicator to use.
      * <p>
      * The manager takes care of all lifecycle management.
+     * </p>
      *
      * @param replicator The FileReplicator.
      * @throws FileSystemException if an error occurs setting the replicator.
@@ -411,6 +420,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * Sets the temporary file store to use.
      * <p>
      * The manager takes care of all lifecycle management.
+     * </p>
      *
      * @param tempFileStore The temporary FileStore.
      * @throws FileSystemException if an error occurs adding the file store.
@@ -424,6 +434,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * Sets the logger to use.
      * <p>
      * This overwrites the default logger for this manager and is not reset in {@link #close()}.
+     * </p>
      *
      * @param log The Logger to use.
      */
@@ -488,6 +499,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * Initializes this manager.
      * <p>
      * If no value for the following properties was specified, it will use the following defaults:
+     * </p>
      * <ul>
      * <li>fileContentInfoFactory = new FileContentInfoFilenameFactory()</li>
      * <li>filesCache = new SoftRefFilesCache()</li>
@@ -520,8 +532,10 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * <p>
      * This will close all providers (all files), it will also close all managed components including temporary files,
      * replicator, file cache and file operations.
+     * </p>
      * <p>
      * The manager is in uninitialized state after this method.
+     * </p>
      */
     @Override
     public void close() {
@@ -970,6 +984,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * <p>
      * The local file provider is the first {@linkplain #addProvider(String[], FileProvider) provider added}
      * implementing {@link LocalFileProvider}.
+     * </p>
      *
      * @return The LocalFileProvider.
      * @throws FileSystemException if no local file provider was set.
@@ -992,6 +1007,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * Closes the given file system.
      * <p>
      * If you use VFS as singleton it is VERY dangerous to call this method.
+     * </p>
      *
      * @param fileSystem The FileSystem to close.
      */
