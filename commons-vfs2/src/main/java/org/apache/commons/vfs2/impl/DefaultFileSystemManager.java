@@ -609,7 +609,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
         if (providers == null || providers.isEmpty()) {
             return null;
         }
-        return providers.toArray(new FileOperationProvider[] {});
+        return providers.toArray(FileOperationProvider.EMPTY_ARRAY);
     }
 
     /**

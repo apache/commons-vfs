@@ -27,6 +27,13 @@ import org.apache.commons.vfs2.FileSystemException;
  * @since 0.1
  */
 public interface FileOperationProvider {
+    
+    /**
+     * Empty array.
+     *
+     * @since 2.9.0
+     */
+    public static final FileOperationProvider[] EMPTY_ARRAY = {};
 
     /**
      * Gather available operations for the specified FileObject and put them into specified operationsList.

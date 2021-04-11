@@ -75,6 +75,10 @@
               <th>Java Version</th>
             </tr>
             <tr>
+              <td>2.9.0</td>
+              <td>8</td>
+            </tr>
+            <tr>
               <td>2.8.0</td>
               <td>8</td>
             </tr>
