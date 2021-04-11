@@ -34,19 +34,19 @@ public abstract class AbstractOriginatingFileProvider extends AbstractFileProvid
     /**
      * Locates a file object, by absolute URI.
      *
-     * @param baseFile The base file object.
+     * @param baseFileObject The base file object.
      * @param uri The URI of the file to locate
      * @param fileSystemOptions The FileSystem options.
      * @return The located FileObject
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public FileObject findFile(final FileObject baseFile, final String uri, final FileSystemOptions fileSystemOptions)
+    public FileObject findFile(final FileObject baseFileObject, final String uri, final FileSystemOptions fileSystemOptions)
             throws FileSystemException {
         // Parse the URI
         final FileName name;
         try {
-            name = parseUri(baseFile != null ? baseFile.getName() : null, uri);
+            name = parseUri(baseFileObject != null ? baseFileObject.getName() : null, uri);
         } catch (final FileSystemException exc) {
             throw new FileSystemException("vfs.provider/invalid-absolute-uri.error", uri, exc);
         }
@@ -58,39 +58,39 @@ public abstract class AbstractOriginatingFileProvider extends AbstractFileProvid
     /**
      * Locates a file from its parsed URI.
      *
-     * @param name The file name.
+     * @param fileName The file name.
      * @param fileSystemOptions FileSystem options.
      * @return A FileObject associated with the file.
      * @throws FileSystemException if an error occurs.
      */
-    protected FileObject findFile(final FileName name, final FileSystemOptions fileSystemOptions)
+    protected FileObject findFile(final FileName fileName, final FileSystemOptions fileSystemOptions)
             throws FileSystemException {
         // Check in the cache for the file system
-        final FileName rootName = getContext().getFileSystemManager().resolveName(name, FileName.ROOT_PATH);
+        final FileName rootName = getContext().getFileSystemManager().resolveName(fileName, FileName.ROOT_PATH);
 
         final FileSystem fs = getFileSystem(rootName, fileSystemOptions);
 
         // Locate the file
         // return fs.resolveFile(name.getPath());
-        return fs.resolveFile(name);
+        return fs.resolveFile(fileName);
     }
 
     /**
      * Returns the FileSystem associated with the specified root.
      *
-     * @param rootName The root path.
+     * @param rootFileName The root path.
      * @param fileSystemOptions The FileSystem options.
      * @return The FileSystem.
      * @throws FileSystemException if an error occurs.
      * @since 2.0
      */
-    protected synchronized FileSystem getFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
+    protected synchronized FileSystem getFileSystem(final FileName rootFileName, final FileSystemOptions fileSystemOptions)
             throws FileSystemException {
-        FileSystem fs = findFileSystem(rootName, fileSystemOptions);
+        FileSystem fs = findFileSystem(rootFileName, fileSystemOptions);
         if (fs == null) {
             // Need to create the file system, and cache it
-            fs = doCreateFileSystem(rootName, fileSystemOptions);
-            addFileSystem(rootName, fs);
+            fs = doCreateFileSystem(rootFileName, fileSystemOptions);
+            addFileSystem(rootFileName, fs);
         }
         return fs;
     }
@@ -98,11 +98,11 @@ public abstract class AbstractOriginatingFileProvider extends AbstractFileProvid
     /**
      * Creates a {@link FileSystem}. If the returned FileSystem implements {@link VfsComponent}, it will be initialized.
      *
-     * @param rootName The name of the root file of the file system to create.
+     * @param rootFileName The name of the root file of the file system to create.
      * @param fileSystemOptions The FileSystem options.
      * @return The FileSystem.
      * @throws FileSystemException if an error occurs.
      */
-    protected abstract FileSystem doCreateFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
+    protected abstract FileSystem doCreateFileSystem(final FileName rootFileName, final FileSystemOptions fileSystemOptions)
             throws FileSystemException;
 }
