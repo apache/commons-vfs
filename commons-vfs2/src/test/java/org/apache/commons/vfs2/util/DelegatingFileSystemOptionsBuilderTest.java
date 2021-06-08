@@ -73,7 +73,7 @@ public class DelegatingFileSystemOptionsBuilderTest {
         assertSame("sftp.userInfo", SftpFileSystemConfigBuilder.getInstance().getUserInfo(opts).getClass(),
                 TrustEveryoneUserInfo.class);
 
-        final File identities[] = SftpFileSystemConfigBuilder.getInstance().getIdentities(opts);
+        final File[] identities = SftpFileSystemConfigBuilder.getInstance().getIdentities(opts);
         assertNotNull("sftp.identities", identities);
         assertEquals("sftp.identities size", identities.length, identityPaths.length);
         for (int iterIdentities = 0; iterIdentities < identities.length; iterIdentities++) {

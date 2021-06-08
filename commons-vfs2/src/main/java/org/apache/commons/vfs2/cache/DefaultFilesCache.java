@@ -85,7 +85,7 @@ public class DefaultFilesCache extends AbstractFilesCache {
         ConcurrentMap<FileName, FileObject> files = filesystemCache.get(filesystem);
         // we loop to make sure we never return null even when concurrent clean is called
         while (files == null) {
-            filesystemCache.putIfAbsent(filesystem, new ConcurrentHashMap<FileName, FileObject>(200, 0.75f, 8));
+            filesystemCache.putIfAbsent(filesystem, new ConcurrentHashMap<>(200, 0.75f, 8));
             files = filesystemCache.get(filesystem);
         }
 

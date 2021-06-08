@@ -18,7 +18,6 @@ package org.apache.commons.vfs2.provider.http;
 
 import java.io.File;
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileNotFolderException;

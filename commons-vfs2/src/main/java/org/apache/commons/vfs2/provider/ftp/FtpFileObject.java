@@ -128,7 +128,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     }
     private static final long DEFAULT_TIMESTAMP = 0L;
     private static final Map<String, FTPFile> EMPTY_FTP_FILE_MAP = Collections
-            .unmodifiableMap(new TreeMap<String, FTPFile>());
+            .unmodifiableMap(new TreeMap<>());
 
     private static final FTPFile UNKNOWN = new FTPFile();
 

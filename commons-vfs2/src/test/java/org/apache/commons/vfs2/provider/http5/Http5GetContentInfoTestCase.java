@@ -65,7 +65,7 @@ public class Http5GetContentInfoTestCase extends TestCase {
         // get proxy host and port from env var "https_proxy"
         String proxyHost = null;
         int proxyPort = -1;
-        String user[] = null;
+        String[] user = null;
         final String proxyUrl = System.getenv("https_proxy");
         if (proxyUrl != null) {
             final URL url = new URL(proxyUrl);

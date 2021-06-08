@@ -57,7 +57,7 @@ public final class DefaultFileContent implements FileContent {
      */
     private static final int WRITE_BUFFER_SIZE = 4096;
 
-    private final AbstractFileObject fileObject;
+    private final AbstractFileObject<?> fileObject;
     private Map<String, Object> attrs;
     private Map<String, Object> roAttrs;
     private FileContentInfo fileContentInfo;

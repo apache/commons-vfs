@@ -55,7 +55,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
      */
     protected RamFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions) {
         super(rootName, null, fileSystemOptions);
-        this.cache = Collections.synchronizedMap(new HashMap<FileName, RamFileData>());
+        this.cache = Collections.synchronizedMap(new HashMap<>());
         // create root
         final RamFileData rootData = new RamFileData(rootName);
         rootData.setType(FileType.FOLDER);
