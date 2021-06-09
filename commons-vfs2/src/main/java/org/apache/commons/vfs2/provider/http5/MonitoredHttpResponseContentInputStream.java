@@ -20,6 +20,9 @@ import java.io.IOException;
 
 import org.apache.commons.vfs2.util.MonitorInputStream;
 import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.io.entity.ByteArrayEntity;
 
 /**
  * An InputStream that cleans up the {@code org.apache.hc.core5.http.ClassicHttpResponse} on close.
@@ -49,6 +52,14 @@ final class MonitoredHttpResponseContentInputStream extends MonitorInputStream {
 
     @Override
     protected void onClose() throws IOException {
+        // Replace the response's entity with a dummy entity in order to prevent
+        // exhausting all data (VFS-805)
+        // Note: HC 5.1 introduces a dedicated NullEntity class
+        HttpEntity nullEntity = new ByteArrayEntity(new byte[0], ContentType.APPLICATION_OCTET_STREAM);
+
+        httpResponse.setEntity(nullEntity);
+
+        // Note that this also calls close on the dummy entity
         httpResponse.close();
     }
 
