@@ -38,6 +38,15 @@ final class MonitoredHttpResponseContentInputStream extends MonitorInputStream {
         this.httpResponse = httpResponse;
     }
 
+    /**
+     * Prevent closing the stream itself if the httpResponse is closeable.
+     * Closing the stream may consume all remaining data no matter how large (VFS-805).
+     */
+    @Override
+    protected void closeSuper() throws IOException {
+        // Suppressed close() invocation on the underlying input stream
+    }
+
     @Override
     protected void onClose() throws IOException {
         httpResponse.close();

@@ -82,7 +82,7 @@ public class MonitorInputStream extends BufferedInputStream {
         // Close the stream
         IOException exc = null;
         try {
-            super.close();
+            closeSuper();
         } catch (final IOException ioe) {
             exc = ioe;
         }
@@ -106,6 +106,16 @@ public class MonitorInputStream extends BufferedInputStream {
      */
     public long getCount() {
         return atomicCount.get();
+    }
+
+    /**
+     * This method exists in order to allow overriding whether to actually close
+     * the underlying stream (VFS-805). There are cases where closing that stream will
+     * consume any amount of remaining data. In such cases closing a different
+     * entity instead (such as an HttpResponse) may be more appropriate.
+     */
+    protected void closeSuper() throws IOException {
+        super.close();
     }
 
     /**
