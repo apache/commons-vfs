@@ -73,7 +73,7 @@ public class DeleteTask extends VfsTask {
         }
 
         try {
-            if (srcDirUrl != null && filesList != null) {
+            if (srcDirUrl != null) {
                 log("Deleting " + filesList + " in the directory " + srcDirUrl);
                 if (!srcDirUrl.endsWith("/")) {
                     srcDirUrl += "/";
