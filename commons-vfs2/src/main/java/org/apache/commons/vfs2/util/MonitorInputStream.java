@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class MonitorInputStream extends BufferedInputStream {
 
     private static final int EOF_CHAR = -1;
-    private final AtomicLong atomicCount = new AtomicLong(0);
+    private final AtomicLong atomicCount = new AtomicLong();
     private final AtomicBoolean finished = new AtomicBoolean(false);
 
     /**

@@ -34,7 +34,7 @@ public class RawMonitorInputStream extends FilterInputStream {
 
     private static final int EOF_CHAR = -1;
     private final AtomicBoolean finished = new AtomicBoolean(false);
-    private final AtomicLong atomicCount = new AtomicLong(0);
+    private final AtomicLong atomicCount = new AtomicLong();
 
 //    @Override
 //    public synchronized void reset() throws IOException {

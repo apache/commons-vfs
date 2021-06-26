@@ -92,7 +92,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     /**
      * How many fileObjects are handed out
      */
-    private final AtomicLong useCount = new AtomicLong(0);
+    private final AtomicLong useCount = new AtomicLong();
 
     private FileSystemKey cacheKey;
 
