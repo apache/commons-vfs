@@ -17,7 +17,7 @@
 package org.apache.commons.vfs2.provider;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.stream.Stream;
 
 import org.apache.commons.vfs2.FileSystemException;
 
@@ -82,7 +82,7 @@ public abstract class AbstractVfsContainer extends AbstractVfsComponent {
         }
 
         // Close all components
-        Arrays.stream(toclose).filter(component -> component instanceof VfsComponent)
-                              .forEach(component -> ((VfsComponent) component).close());
+        Stream.of(toclose).filter(component -> component instanceof VfsComponent)
+                          .forEach(component -> ((VfsComponent) component).close());
     }
 }

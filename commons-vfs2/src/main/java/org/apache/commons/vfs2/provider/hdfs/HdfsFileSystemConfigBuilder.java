@@ -19,7 +19,7 @@ package org.apache.commons.vfs2.provider.hdfs;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileSystem;
@@ -107,7 +107,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
         if (StringUtils.isEmpty(pathNames)) {
             return null;
         }
-        return Arrays.stream(pathNames.split(",")).map(Path::new).toArray(Path[]::new);
+        return Stream.of(pathNames.split(",")).map(Path::new).toArray(Path[]::new);
     }
 
     /**

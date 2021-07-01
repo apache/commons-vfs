@@ -20,9 +20,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.apache.commons.vfs2.FileNotFolderException;
 import org.apache.commons.vfs2.FileObject;
@@ -236,7 +236,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
         }
 
         final FileStatus[] fileStatuses = this.hdfs.listStatus(this.path);
-        return Arrays.stream(fileStatuses).map(status -> status.getPath().getName()).toArray(String[]::new);
+        return Stream.of(fileStatuses).map(status -> status.getPath().getName()).toArray(String[]::new);
     }
 
     /**

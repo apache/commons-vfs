@@ -16,9 +16,9 @@
  */
 package org.apache.commons.vfs2.provider;
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Stream;
 
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
@@ -140,8 +140,8 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
         }
 
         // process snapshot outside lock
-        Arrays.stream(abstractFileSystems).filter(AbstractFileSystem::isReleaseable)
-                                          .forEach(AbstractFileSystem::closeCommunicationLink);
+        Stream.of(abstractFileSystems).filter(AbstractFileSystem::isReleaseable)
+                                      .forEach(AbstractFileSystem::closeCommunicationLink);
     }
 
     /**

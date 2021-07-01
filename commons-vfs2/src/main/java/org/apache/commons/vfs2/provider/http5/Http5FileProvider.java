@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
@@ -125,7 +126,7 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
 
         final String[] tlsVersions = builder.getTlsVersions(fileSystemOptions).split("\\s*,\\s*");
 
-        final TLS[] tlsArray = Arrays.stream(tlsVersions).map(TLS::valueOf).toArray(TLS[]::new);
+        final TLS[] tlsArray = Stream.of(tlsVersions).map(TLS::valueOf).toArray(TLS[]::new);
 
         final SSLConnectionSocketFactory sslSocketFactory = SSLConnectionSocketFactoryBuilder.create()
                 .setSslContext(createSSLContext(builder, fileSystemOptions))
@@ -147,7 +148,7 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
         final Cookie[] cookies = builder.getCookies(fileSystemOptions);
 
         if (cookies != null) {
-            Arrays.stream(cookies).forEach(cookieStore::addCookie);
+            Stream.of(cookies).forEach(cookieStore::addCookie);
         }
 
         return cookieStore;

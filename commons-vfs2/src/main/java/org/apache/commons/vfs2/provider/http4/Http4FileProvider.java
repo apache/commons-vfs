@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
@@ -138,7 +139,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
         final Cookie[] cookies = builder.getCookies(fileSystemOptions);
 
         if (cookies != null) {
-            Arrays.stream(cookies).forEach(cookieStore::addCookie);
+            Stream.of(cookies).forEach(cookieStore::addCookie);
         }
 
         return cookieStore;

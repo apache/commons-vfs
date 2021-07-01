@@ -32,6 +32,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileContent;
@@ -968,7 +969,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         if (objects == null) {
             return null;
         }
-        return Arrays.stream(objects).map(FileObject::getName).toArray(FileName[]::new);
+        return Stream.of(objects).map(FileObject::getName).toArray(FileName[]::new);
     }
 
     @Override

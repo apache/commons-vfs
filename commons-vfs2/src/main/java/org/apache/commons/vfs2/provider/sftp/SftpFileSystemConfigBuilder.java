@@ -19,8 +19,8 @@ package org.apache.commons.vfs2.provider.sftp;
 import java.io.File;
 import java.io.Serializable;
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
@@ -216,7 +216,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public File[] getIdentities(final FileSystemOptions options) {
         final IdentityInfo[] info = getIdentityInfo(options);
         if (info != null) {
-            return Arrays.stream(info).map(IdentityInfo::getPrivateKey).toArray(File[]::new);
+            return Stream.of(info).map(IdentityInfo::getPrivateKey).toArray(File[]::new);
         }
         return null;
     }
@@ -231,8 +231,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public IdentityInfo[] getIdentityInfo(final FileSystemOptions options) {
         final IdentityProvider[] infos = getIdentityProvider(options);
         if (infos != null) {
-            return Arrays.stream(infos).filter(info -> info instanceof IdentityInfo)
-                                       .map(info -> (IdentityInfo) info).toArray(IdentityInfo[]::new);
+            return Stream.of(infos).filter(info -> info instanceof IdentityInfo)
+                                   .map(info -> (IdentityInfo) info).toArray(IdentityInfo[]::new);
         }
         return null;
     }
@@ -561,7 +561,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public void setIdentities(final FileSystemOptions options, final File... identityFiles) throws FileSystemException {
         IdentityProvider[] info = null;
         if (identityFiles != null) {
-            info = Arrays.stream(identityFiles).map(IdentityInfo::new).toArray(IdentityProvider[]::new);
+            info = Stream.of(identityFiles).map(IdentityInfo::new).toArray(IdentityProvider[]::new);
         }
         this.setParam(options, IDENTITIES, info);
     }
