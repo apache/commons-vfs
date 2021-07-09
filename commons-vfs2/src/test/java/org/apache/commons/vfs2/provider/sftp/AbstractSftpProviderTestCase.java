@@ -429,7 +429,7 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
         final Thread thread = new Thread((Runnable) () -> {
             int code = 0;
             try {
-                final byte buffer[] = new byte[1024];
+                final byte[] buffer = new byte[1024];
                 int len;
                 while ((len = in.read(buffer, 0, buffer.length)) != -1) {
                     out.write(buffer, 0, len);

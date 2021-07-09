@@ -33,7 +33,7 @@ public interface FileOperationProvider {
      *
      * @since 2.9.0
      */
-    public static final FileOperationProvider[] EMPTY_ARRAY = {};
+    FileOperationProvider[] EMPTY_ARRAY = {};
 
     /**
      * Gather available operations for the specified FileObject and put them into specified operationsList.

@@ -96,7 +96,7 @@ public class FileObjectEscapeCharacterInPathTest {
     private void testToFile(FailableFunction<FileObject, File, IOException> function) throws IOException {
         for (String testFilePath : TEST_FILE_PATHS) {
             try (FileSystemManager fileSystemManager = loadFileSystemManager();
-                FileObject fileObject = fileSystemManager.resolveFile(testFilePath);) {
+                FileObject fileObject = fileSystemManager.resolveFile(testFilePath)) {
                 assertNotNull(fileObject);
                 try (final FileContent content = fileObject.getContent();
                     InputStream inputStream = content.getInputStream()) {

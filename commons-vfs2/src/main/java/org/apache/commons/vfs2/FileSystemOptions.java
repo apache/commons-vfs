@@ -53,7 +53,7 @@ public final class FileSystemOptions implements Cloneable {
      * Creates a new instance.
      */
     public FileSystemOptions() {
-        this(new TreeMap<FileSystemOptionKey, Object>());
+        this(new TreeMap<>());
     }
 
     protected FileSystemOptions(final Map<FileSystemOptionKey, Object> options) {

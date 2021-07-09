@@ -323,7 +323,7 @@ public abstract class AbstractTestSuite extends TestSetup {
             tg = tg.getParent();
         }
 
-        final Thread snapshot[] = new Thread[200];
+        final Thread[] snapshot = new Thread[200];
         tg.enumerate(snapshot, true);
 
         return snapshot;

@@ -86,7 +86,7 @@ public class DefaultFileSystemManagerTest {
     private void testCreateFileSystem(final String path, Class<?> clazz) throws FileSystemException {
         FileSystemManager manager = VFS.getManager();
         try (FileObject localFileObject = manager.resolveFile(new File(path).getAbsolutePath());
-                FileObject fileObject = manager.createFileSystem(localFileObject);) {
+                FileObject fileObject = manager.createFileSystem(localFileObject)) {
             Assert.assertEquals(clazz, fileObject.getClass());
         }
     }
