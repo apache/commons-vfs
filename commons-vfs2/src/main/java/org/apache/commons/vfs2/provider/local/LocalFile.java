@@ -52,7 +52,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
      * @throws FileSystemException if an error occurs.
      */
     protected LocalFile(final LocalFileSystem fileSystem, final String rootFile, final AbstractFileName name)
-            throws FileSystemException {
+        throws FileSystemException {
         super(name, fileSystem);
         this.rootFile = rootFile;
     }
@@ -126,7 +126,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
      */
     @Override
     protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
-        return Files.newOutputStream(file.toPath(),  bAppend ? StandardOpenOption.APPEND : StandardOpenOption.CREATE);
+        return Files.newOutputStream(file.toPath(), bAppend ? StandardOpenOption.APPEND : StandardOpenOption.CREATE);
     }
 
     @Override
@@ -200,6 +200,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
 
     /**
      * Determines if this file is a symbolic link.
+     * 
      * @since 2.4
      */
     @Override
