@@ -63,6 +63,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" issue="VFS-798" due-to="XenoAmess, Gary Gregory">
         IllegalArgumentException: Bad escape for Chinese characters in FileObject path #168.
       </action>
+      <action type="fix" dev="ggregory" due-to="Arturo Bernal">
+        Minor changes #185.
+      </action>
       <!-- UPDATES  -->
       <action type="update" dev="ggregory" due-to="Arturo Bernal">
         Replace construction of FileInputStream and FileOutputStream objects with Files NIO APIs. #164.
