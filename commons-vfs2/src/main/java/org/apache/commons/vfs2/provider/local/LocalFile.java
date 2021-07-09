@@ -262,7 +262,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
     }
 
     /**
-     * Returns the local file that this file object represents.
+     * Gets the local file that this file object represents.
      *
      * @return the local file that this file object represents.
      */
