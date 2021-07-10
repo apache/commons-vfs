@@ -347,7 +347,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 throw new FileSystemException("vfs.provider/create-folder-mismatched-type.error", fileName);
             }
             /*
-             * VFS-210: checking for writeable is not always possible as the security constraint might be more complex
+             * VFS-210: checking for writable is not always possible as the security constraint might be more complex
              * if (!isWriteable()) { throw new FileSystemException("vfs.provider/create-folder-read-only.error", name);
              * }
              */
@@ -527,7 +527,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * Creates this file as a folder. Is only called when:
      * <ul>
      * <li>{@link #doGetType} returns {@link FileType#IMAGINARY}.</li>
-     * <li>The parent folder exists and is writeable, or this file is the root of the file system.</li>
+     * <li>The parent folder exists and is writable, or this file is the root of the file system.</li>
      * </ul>
      * This implementation throws an exception.
      *
@@ -923,7 +923,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * Make the file or folder writeable.
+     * Make the file or folder writable.
      * <p>
      * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      * </p>
@@ -1630,7 +1630,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             }
             return true;
         } catch (final Exception exc) {
-            throw new FileSystemException("vfs.provider/check-is-writeable.error", fileName, exc);
+            throw new FileSystemException("vfs.provider/check-is-writable.error", fileName, exc);
         }
     }
 
@@ -1876,7 +1876,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         try {
             return exists() && doSetWritable(readable, ownerOnly);
         } catch (final Exception exc) {
-            throw new FileSystemException("vfs.provider/set-writeable.error", fileName, exc);
+            throw new FileSystemException("vfs.provider/set-writable.error", fileName, exc);
         }
     }
 

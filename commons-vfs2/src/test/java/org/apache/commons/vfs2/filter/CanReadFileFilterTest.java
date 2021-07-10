@@ -35,15 +35,15 @@ import org.junit.Test;
 // CHECKSTYLE:OFF Test code
 public class CanReadFileFilterTest extends BaseFilterTest {
 
-    private static final String WRITEABLE = "writeable.txt";
+    private static final String WRITABLE = "writable.txt";
 
     private static final String READONLY = "readonly.txt";
 
     private static File testDir;
 
-    private static File writeableFile;
+    private static File writableFile;
 
-    private static FileSelectInfo writeableFileInfo;
+    private static FileSelectInfo writableFileInfo;
 
     private static File readOnlyFile;
 
@@ -62,9 +62,9 @@ public class CanReadFileFilterTest extends BaseFilterTest {
 
         testDir = getTestDir(CanReadFileFilterTest.class.getName());
 
-        writeableFile = new File(testDir, WRITEABLE);
-        writeableFileInfo = createFileSelectInfo(writeableFile);
-        FileUtils.touch(writeableFile);
+        writableFile = new File(testDir, WRITABLE);
+        writableFileInfo = createFileSelectInfo(writableFile);
+        FileUtils.touch(writableFile);
 
         readOnlyFile = new File(testDir, READONLY);
         readOnlyFileInfo = createFileSelectInfo(readOnlyFile);
@@ -84,9 +84,9 @@ public class CanReadFileFilterTest extends BaseFilterTest {
     @AfterClass
     public static void afterClass() throws IOException {
 
-        writeableFileInfo = null;
-        writeableFile.delete();
-        writeableFile = null;
+        writableFileInfo = null;
+        writableFile.delete();
+        writableFile = null;
 
         readOnlyFileInfo = null;
         readOnlyFile.delete();
@@ -107,7 +107,7 @@ public class CanReadFileFilterTest extends BaseFilterTest {
     @Test
     public void testAcceptCanRead() throws FileSystemException {
 
-        Assert.assertTrue(CanReadFileFilter.CAN_READ.accept(writeableFileInfo));
+        Assert.assertTrue(CanReadFileFilter.CAN_READ.accept(writableFileInfo));
         Assert.assertTrue(CanReadFileFilter.CAN_READ.accept(readOnlyFileInfo));
         Assert.assertFalse(CanReadFileFilter.CAN_READ.accept(notExistingFileInfo));
 
@@ -116,7 +116,7 @@ public class CanReadFileFilterTest extends BaseFilterTest {
     @Test
     public void testAcceptCannotRead() throws FileSystemException {
 
-        Assert.assertFalse(CanReadFileFilter.CANNOT_READ.accept(writeableFileInfo));
+        Assert.assertFalse(CanReadFileFilter.CANNOT_READ.accept(writableFileInfo));
         Assert.assertFalse(CanReadFileFilter.CANNOT_READ.accept(readOnlyFileInfo));
         Assert.assertTrue(CanReadFileFilter.CANNOT_READ.accept(notExistingFileInfo));
 
@@ -125,7 +125,7 @@ public class CanReadFileFilterTest extends BaseFilterTest {
     @Test
     public void testAcceptReadOnly() throws FileSystemException {
 
-        Assert.assertFalse(CanReadFileFilter.READ_ONLY.accept(writeableFileInfo));
+        Assert.assertFalse(CanReadFileFilter.READ_ONLY.accept(writableFileInfo));
         Assert.assertTrue(CanReadFileFilter.READ_ONLY.accept(readOnlyFileInfo));
         Assert.assertFalse(CanReadFileFilter.READ_ONLY.accept(notExistingFileInfo));
 
@@ -138,7 +138,7 @@ public class CanReadFileFilterTest extends BaseFilterTest {
 
         // CAN_READ Filter
         files = zipFileObj.findFiles(new FileFilterSelector(CanReadFileFilter.CAN_READ));
-        assertContains(files, READONLY, WRITEABLE);
+        assertContains(files, READONLY, WRITABLE);
         Assert.assertEquals(2, files.length);
 
         // CANNOT_READ Filter
@@ -147,7 +147,7 @@ public class CanReadFileFilterTest extends BaseFilterTest {
 
         // READ_ONLY Filter
         files = zipFileObj.findFiles(new FileFilterSelector(CanReadFileFilter.READ_ONLY));
-        assertContains(files, READONLY, WRITEABLE);
+        assertContains(files, READONLY, WRITABLE);
         Assert.assertEquals(2, files.length);
 
     }

@@ -70,7 +70,7 @@ public class PermissionsTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Tests for the writeable permission
+     * Tests for the writable permission
      */
     @Test
     public void testWriteable() throws Exception {

@@ -403,7 +403,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Determines if this file can be written to.
      *
-     * @return {@code true} if this file is writeable, {@code false} if not.
+     * @return {@code true} if this file is writable, {@code false} if not.
      * @throws FileSystemException On error determining if this file exists.
      */
     boolean isWriteable() throws FileSystemException;
