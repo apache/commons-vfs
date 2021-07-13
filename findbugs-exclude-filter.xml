@@ -35,4 +35,11 @@
     <Field name="AUTHENTICATOR_TYPES" />
     <Bug pattern="MS_MUTABLE_ARRAY" />
   </Match>
+
+  <Match>
+    <!-- Bug https://github.com/spotbugs/spotbugs/issues/1539  -->
+    <Class name="org.apache.commons.vfs2.impl.DefaultFileReplicator" />
+    <Method name="init" />
+    <Bug pattern="DMI_RANDOM_USED_ONLY_ONCE" />
+  </Match>
 </FindBugsFilter>
