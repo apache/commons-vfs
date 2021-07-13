@@ -66,39 +66,39 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="Arturo Bernal">
         Minor changes #185.
       </action>
-      <!-- UPDATES  -->
-      <action type="update" dev="ggregory" due-to="Arturo Bernal">
-        Replace construction of FileInputStream and FileOutputStream objects with Files NIO APIs. #164.
-      </action>
-      <action type="update" dev="ggregory" due-to="Gary Gregory">
-        Update Log4j 2.14.0 -> 2.14.1.
-      </action>
-      <action type="update" dev="ggregory" due-to="Gary Gregory">
-        Update Maven Surefire from 2.19.1 to 3.0.0-M5.
-      </action>
-      <action type="update" dev="ggregory" due-to="Gary Gregory">
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">
         Port internal embedded HTTP asynchronous file server used in tests from  from Apache HttpComponents HttpCore/HttpClient 4.x to 5.0.x.
       </action>
-      <action type="update" dev="ggregory" due-to="Gary Gregory">
+      <action type="fix" dev="ggregory" due-to="Arturo Bernal">
+        Replace construction of FileInputStream and FileOutputStream objects with Files NIO APIs. #164.
+      </action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">
         Only use reflection VFS.createFileSystemManager(String) if the FileSystemManager is not a subclass of AbstractFileSystem.
       </action>
-      <action type="update" dev="ggregory" due-to="Arturo Bernal">
+      <action type="fix" dev="ggregory" due-to="Arturo Bernal">
         Simplify if conditions #170.
       </action>
-      <action type="update" dev="ggregory" due-to="Arturo Bernal">
+      <action type="fix" dev="ggregory" due-to="Arturo Bernal">
         Redundant local variable #171.
       </action>
-      <action type="update" issue="VFS-804" dev="ggregory" due-to="Arturo Bernal">
+      <action type="fix" issue="VFS-804" dev="ggregory" due-to="Arturo Bernal">
         Fix and Refine Javadoc #174.
       </action>
+      <!-- UPDATES  -->
+      <action type="update" dev="ggregory" due-to="Gary Gregory">
+        Bump Log4j 2.14.0 -> 2.14.1.
+      </action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">
+        Bump Maven Surefire from 2.19.1 to 3.0.0-M5.
+      </action>
       <action dev="ggregory" type="update">
-        Update net.sourceforge.pmd:pmd-* from 6.32.0 to 6.33.0.
+        Bump net.sourceforge.pmd:pmd-* from 6.32.0 to 6.33.0.
       </action>
       <action dev="ggregory" due-to="Dependabot" type="update">
         Bump checkstyle from 8.41 to 8.41.1 #175.
       </action>
       <action dev="ggregory" due-to="Boris Petrov" type="update">
-        Update actions/setup-java to v2 #177.
+        Bump actions/setup-java to v2 #177.
       </action>
       <action dev="ggregory" due-to="Dependabot, Gary GRegory" type="update">
         Bump mockito-core from 3.8.0 to 3.11.2 #178.
@@ -120,6 +120,9 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="ggregory" due-to="Dependabot" type="update">
         Bump commons.pmd.version from 6.33.0 to 6.36.0 #191.
+      </action>
+      <action dev="ggregory" due-to="Dependabot" type="update">
+        Bump asm from 9.1 to 9.2 #194.
       </action>
     </release>
     <release version="2.8.0" date="2021-03-06" description="Feature and maintenance release. Requires Java 8.">
