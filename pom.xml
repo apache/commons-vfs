@@ -198,7 +198,7 @@
     <commons.jacoco.version>0.8.7</commons.jacoco.version>
     <commons.spotbugs.version>4.2.2</commons.spotbugs.version>
     <commons.spotbugs.impl.version>4.2.2</commons.spotbugs.impl.version>
-    <commons.asm.version>9.1</commons.asm.version>
+    <commons.asm.version>9.2</commons.asm.version>
     <commons.pmd.version>6.36.0</commons.pmd.version>
     <slf4j.version>1.7.26</slf4j.version>
     <log4j2.version>2.14.1</log4j2.version>
@@ -567,7 +567,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
-        <version>1.20</version>
+        <version>1.21</version>
       </dependency>
       <dependency>
         <groupId>ant</groupId>
