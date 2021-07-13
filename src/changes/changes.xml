@@ -92,7 +92,7 @@ The <action> type attribute can be add,update,fix,remove.
         Fix and Refine Javadoc #174.
       </action>
       <action dev="ggregory" type="update">
-        Update net.sourceforge.pmd:pmd-* -> 6.32.0 -> 6.33.0.
+        Update net.sourceforge.pmd:pmd-* from 6.32.0 to 6.33.0.
       </action>
       <action dev="ggregory" due-to="Dependabot" type="update">
         Bump checkstyle from 8.41 to 8.41.1 #175.
