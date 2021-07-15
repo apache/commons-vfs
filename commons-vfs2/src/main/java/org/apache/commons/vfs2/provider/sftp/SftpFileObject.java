@@ -99,8 +99,6 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
 
     private final String relPath;
 
-    private boolean inRefresh;
-
     protected SftpFileObject(final AbstractFileName name, final SftpFileSystem fileSystem) throws FileSystemException {
         super(name, fileSystem);
         relPath = UriParser.decode(fileSystem.getRootName().getRelativeName(name));

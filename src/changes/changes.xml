@@ -111,6 +111,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" issue="VFS-805" dev="ggregory" due-to="Claus Stadler, Gary Gregory">
         HTTP seek always exhausts response #186.
       </action>
+      <action type="fix" issue="VFS-805" dev="ggregory" due-to="Max Kellermann, Mark Thomas, Bernd, Gary Gregory">
+        SftpFileObject: Add synchronized to methods that read or write the thread-unsafe instance variable of type com.jcraft.jsch.SftpATTRS.
+      </action>
       <!-- UPDATES  -->
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Bump Log4j 2.14.0 -> 2.14.1.
