@@ -108,6 +108,9 @@ The <action> type attribute can be add,update,fix,remove.
         - org.apache.commons.vfs2.provider.http4.Http4FileObject.getInternalURI()
         - org.apache.commons.vfs2.provider.http5.Http5FileObject.getInternalURI()
       </action>
+      <action type="fix" issue="VFS-805" dev="ggregory" due-to="Claus Stadler, Gary Gregory">
+        HTTP seek always exhausts response #186.
+      </action>
       <!-- UPDATES  -->
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Bump Log4j 2.14.0 -> 2.14.1.
