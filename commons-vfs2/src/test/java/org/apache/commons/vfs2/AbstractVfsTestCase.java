@@ -23,7 +23,6 @@ import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.util.Messages;
 
 import junit.framework.TestCase;
