@@ -67,7 +67,7 @@ The <action> type attribute can be add,update,fix,remove.
         Minor changes #185.
       </action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">
-        Port internal embedded HTTP asynchronous file server used in tests from  from Apache HttpComponents HttpCore/HttpClient 4.x to 5.0.x.
+        Port internal embedded HTTP asynchronous file server used in tests from from Apache HttpComponents HttpCore/HttpClient 4.x to 5.0.x.
       </action>
       <action type="fix" dev="ggregory" due-to="Arturo Bernal">
         Replace construction of FileInputStream and FileOutputStream objects with Files NIO APIs. #164.
