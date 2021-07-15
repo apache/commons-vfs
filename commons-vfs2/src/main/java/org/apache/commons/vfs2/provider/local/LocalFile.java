@@ -49,10 +49,8 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
      * @param fileSystem the file system this file belongs to.
      * @param rootFile the root file for the file system.
      * @param name the file name on this file system.
-     * @throws FileSystemException if an error occurs.
      */
-    protected LocalFile(final LocalFileSystem fileSystem, final String rootFile, final AbstractFileName name)
-        throws FileSystemException {
+    protected LocalFile(final LocalFileSystem fileSystem, final String rootFile, final AbstractFileName name) {
         super(name, fileSystem);
         this.rootFile = rootFile;
     }

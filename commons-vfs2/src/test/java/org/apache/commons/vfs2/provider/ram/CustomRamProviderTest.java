@@ -122,7 +122,7 @@ public class CustomRamProviderTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         for (final Closeable closeable : this.closeables) {
             try {
                 closeable.close();

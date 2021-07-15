@@ -38,7 +38,7 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem> {
     private FileType type;
 
     protected ZipFileObject(final AbstractFileName name, final ZipEntry entry, final ZipFileSystem fs,
-            final boolean zipExists) throws FileSystemException {
+            final boolean zipExists) {
         super(name, fs);
         setZipEntry(entry);
         if (!zipExists) {

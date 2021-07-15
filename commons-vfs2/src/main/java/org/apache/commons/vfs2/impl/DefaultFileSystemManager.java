@@ -1014,9 +1014,8 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * Sets the base file to use when resolving relative URI.
      *
      * @param baseFile The new base FileObject.
-     * @throws FileSystemException if an error occurs.
      */
-    public void setBaseFile(final FileObject baseFile) throws FileSystemException {
+    public void setBaseFile(final FileObject baseFile) {
         this.baseFile = baseFile;
     }
 

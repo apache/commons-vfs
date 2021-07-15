@@ -199,9 +199,8 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
      * Return the internal {@code URI} object mapped to this file object.
      *
      * @return the internal {@code URI} object mapped to this file object
-     * @throws FileSystemException if any error occurs
      */
-    protected URI getInternalURI() throws FileSystemException {
+    protected URI getInternalURI() {
         return internalURI;
     }
 

@@ -106,8 +106,7 @@ public class TarFileSystem extends AbstractFileSystem {
         }
     }
 
-    protected TarFileObject createTarFileObject(final AbstractFileName name, final TarArchiveEntry entry)
-        throws FileSystemException {
+    protected TarFileObject createTarFileObject(final AbstractFileName name, final TarArchiveEntry entry) {
         return new TarFileObject(name, entry, this, true);
     }
 

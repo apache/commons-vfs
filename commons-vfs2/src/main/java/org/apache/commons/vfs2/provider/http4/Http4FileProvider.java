@@ -229,11 +229,10 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
      * @param fileSystemOptions The FileSystem options
      * @param authData The {@code UserAuthentiationData} object
      * @return an {@link HttpClientContext} object
-     * @throws FileSystemException if an error occurs
      */
     protected HttpClientContext createHttpClientContext(final Http4FileSystemConfigBuilder builder,
             final GenericFileName rootName, final FileSystemOptions fileSystemOptions,
-            final UserAuthenticationData authData) throws FileSystemException {
+            final UserAuthenticationData authData) {
 
         final HttpClientContext clientContext = HttpClientContext.create();
         final CredentialsProvider credsProvider = new BasicCredentialsProvider();

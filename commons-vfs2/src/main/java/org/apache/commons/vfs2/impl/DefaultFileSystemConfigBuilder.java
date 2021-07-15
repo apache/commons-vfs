@@ -18,7 +18,6 @@ package org.apache.commons.vfs2.impl;
 
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
-import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticator;
 
@@ -43,10 +42,8 @@ public class DefaultFileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param opts The FileSystemOptions.
      * @param userAuthenticator The UserAuthenticator.
-     * @throws FileSystemException if an error occurs setting the UserAuthenticator.
      */
-    public void setUserAuthenticator(final FileSystemOptions opts, final UserAuthenticator userAuthenticator)
-            throws FileSystemException {
+    public void setUserAuthenticator(final FileSystemOptions opts, final UserAuthenticator userAuthenticator) {
         setParam(opts, "userAuthenticator", userAuthenticator);
     }
 

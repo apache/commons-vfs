@@ -38,7 +38,7 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem> {
     private FileType type;
 
     protected TarFileObject(final AbstractFileName name, final TarArchiveEntry entry, final TarFileSystem fs,
-            final boolean tarExists) throws FileSystemException {
+            final boolean tarExists) {
         super(name, fs);
         setTarEntry(entry);
         if (!tarExists) {

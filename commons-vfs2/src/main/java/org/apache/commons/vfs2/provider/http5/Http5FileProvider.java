@@ -161,12 +161,10 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
                 .build();
     }
 
-    private HostnameVerifier createHostnameVerifier(final Http5FileSystemConfigBuilder builder,
-            final FileSystemOptions fileSystemOptions) throws FileSystemException {
+    private HostnameVerifier createHostnameVerifier(final Http5FileSystemConfigBuilder builder, final FileSystemOptions fileSystemOptions) {
         if (!builder.isHostnameVerificationEnabled(fileSystemOptions)) {
             return NoopHostnameVerifier.INSTANCE;
         }
-
         return new DefaultHostnameVerifier();
     }
 
@@ -226,11 +224,10 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
      * @param fileSystemOptions The FileSystem options
      * @param authData The {@code UserAuthentiationData} object
      * @return an {@link HttpClientContext} object
-     * @throws FileSystemException if an error occurs
      */
     protected HttpClientContext createHttpClientContext(final Http5FileSystemConfigBuilder builder,
             final GenericFileName rootName, final FileSystemOptions fileSystemOptions,
-            final UserAuthenticationData authData) throws FileSystemException {
+            final UserAuthenticationData authData) {
 
         final HttpClientContext clientContext = HttpClientContext.create();
         final BasicCredentialsProvider credsProvider = new BasicCredentialsProvider();

@@ -478,9 +478,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param options        The FileSystem options.
      * @param compression The names of the compression algorithms, comma-separated.
-     * @throws FileSystemException if an error occurs.
      */
-    public void setCompression(final FileSystemOptions options, final String compression) throws FileSystemException {
+    public void setCompression(final FileSystemOptions options, final String compression) {
         this.setParam(options, COMPRESSION, compression);
     }
 
@@ -492,11 +491,9 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param options             The FileSystem options.
      * @param configRepository An config repository.
-     * @throws FileSystemException if an error occurs.
      * @see <a href="http://www.jcraft.com/jsch/examples/OpenSSHConfig.java.html">OpenSSHConfig</a>
      */
-    public void setConfigRepository(final FileSystemOptions options, final ConfigRepository configRepository)
-            throws FileSystemException {
+    public void setConfigRepository(final FileSystemOptions options, final ConfigRepository configRepository) {
         this.setParam(options, CONFIG_REPOSITORY, configRepository);
     }
 
@@ -554,11 +551,10 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param options          The FileSystem options.
      * @param identityFiles An array of identity Files.
-     * @throws FileSystemException if an error occurs.
      * @deprecated As of 2.1 use {@link #setIdentityInfo(FileSystemOptions, IdentityInfo...)}
      */
     @Deprecated
-    public void setIdentities(final FileSystemOptions options, final File... identityFiles) throws FileSystemException {
+    public void setIdentities(final FileSystemOptions options, final File... identityFiles) {
         IdentityProvider[] info = null;
         if (identityFiles != null) {
             info = Stream.of(identityFiles).map(IdentityInfo::new).toArray(IdentityProvider[]::new);
@@ -571,13 +567,11 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param options      The FileSystem options.
      * @param identites An array of identity info.
-     * @throws FileSystemException if an error occurs.
      * @since 2.1
      * @deprecated Use {@link #setIdentityProvider(FileSystemOptions,IdentityProvider...)}
      */
     @Deprecated
-    public void setIdentityInfo(final FileSystemOptions options, final IdentityInfo... identites)
-            throws FileSystemException {
+    public void setIdentityInfo(final FileSystemOptions options, final IdentityInfo... identites) {
         this.setParam(options, IDENTITIES, identites);
     }
 
@@ -586,11 +580,9 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param options      The FileSystem options.
      * @param identites An array of identity info.
-     * @throws FileSystemException if an error occurs.
      * @since 2.4
      */
-    public void setIdentityProvider(final FileSystemOptions options, final IdentityProvider... identites)
-            throws FileSystemException {
+    public void setIdentityProvider(final FileSystemOptions options, final IdentityProvider... identites) {
         this.setParam(options, IDENTITIES, identites);
     }
 
@@ -602,11 +594,9 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param options    The FileSystem options.
      * @param factory An identity repository.
-     * @throws FileSystemException if an error occurs.
      * @see <a href="http://www.jcraft.com/jsch-agent-proxy/">JSch agent proxy</a>
      */
-    public void setIdentityRepositoryFactory(final FileSystemOptions options, final IdentityRepositoryFactory factory)
-            throws FileSystemException {
+    public void setIdentityRepositoryFactory(final FileSystemOptions options, final IdentityRepositoryFactory factory) {
         this.setParam(options, IDENTITY_REPOSITORY_FACTORY, factory);
     }
 
@@ -630,9 +620,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param options       The FileSystem options.
      * @param knownHosts The known hosts file.
-     * @throws FileSystemException if an error occurs.
      */
-    public void setKnownHosts(final FileSystemOptions options, final File knownHosts) throws FileSystemException {
+    public void setKnownHosts(final FileSystemOptions options, final File knownHosts) {
         this.setParam(options, KNOWN_HOSTS, knownHosts);
     }
 

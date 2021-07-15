@@ -87,6 +87,27 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" issue="VFS-784" dev="ggregory" due-to="satish-csi, Michael Osipov, Gary Gregory">
         SSL Connection failing with http4 provider with squid proxy nginx combination.
       </action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">
+        Remove checked exception from method signatures that do not throw them. This maintains binary compatibility but not source compatibility.
+        - org.apache.commons.vfs2.impl.DefaultFileSystemConfigBuilder.setUserAuthenticator(FileSystemOptions, UserAuthenticator)
+        - org.apache.commons.vfs2.impl.DefaultFileSystemManager.setBaseFile(File)
+        - org.apache.commons.vfs2.provider.LayeredFileNameParser.extractRootName(StringBuilder)
+        - org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.setCompression(FileSystemOptions, String)
+        - org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.setConfigRepository(FileSystemOptions, ConfigRepository)
+        - org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.setIdentities(FileSystemOptions, File...)
+        - org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.setIdentityInfo(FileSystemOptions, IdentityInfo...)
+        - org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.setIdentityProvider(FileSystemOptions, IdentityProvider...)
+        - org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.setIdentityRepositoryFactory(FileSystemOptions, IdentityRepositoryFactory)
+        - org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.setKnownHosts(FileSystemOptions, File)
+        - org.apache.commons.vfs2.provider.local.LocalFile.LocalFile(LocalFileSystem, String, AbstractFileName)
+        - org.apache.commons.vfs2.provider.tar.TarFileObject.TarFileObject(AbstractFileName, TarArchiveEntry, TarFileSystem, boolean)
+        - org.apache.commons.vfs2.provider.tar.TarFileSystem.createTarFileObject(AbstractFileName, TarArchiveEntry)
+        - org.apache.commons.vfs2.provider.zip.ZipFileObject.ZipFileObject(AbstractFileName, ZipEntry, ZipFileSystem, boolean)
+        - org.apache.commons.vfs2.provider.http4.Http4FileProvider.createHttpClientContext()
+        - org.apache.commons.vfs2.provider.http5.Http5FileProvider.createHttpClientContext()
+        - org.apache.commons.vfs2.provider.http4.Http4FileObject.getInternalURI()
+        - org.apache.commons.vfs2.provider.http5.Http5FileObject.getInternalURI()
+      </action>
       <!-- UPDATES  -->
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Bump Log4j 2.14.0 -> 2.14.1.

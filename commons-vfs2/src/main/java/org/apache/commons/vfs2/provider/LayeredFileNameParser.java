@@ -87,9 +87,8 @@ public class LayeredFileNameParser extends AbstractFileNameParser {
      *
      * @param uri string builder which gets modified.
      * @return the extracted root name.
-     * @throws FileSystemException if error occurs.
      */
-    protected String extractRootName(final StringBuilder uri) throws FileSystemException {
+    protected String extractRootName(final StringBuilder uri) {
         // Looking for <name>!<abspath> (staring at the end)
         final int maxlen = uri.length();
         int pos = maxlen - 1;
