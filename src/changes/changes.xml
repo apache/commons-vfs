@@ -84,6 +84,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" issue="VFS-804" dev="ggregory" due-to="Arturo Bernal">
         Fix and Refine Javadoc #174.
       </action>
+      <action type="fix" issue="VFS-784" dev="ggregory" due-to="satish-csi, Michael Osipov, Gary Gregory">
+        SSL Connection failing with http4 provider with squid proxy nginx combination.
+      </action>
       <!-- UPDATES  -->
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Bump Log4j 2.14.0 -> 2.14.1.
