@@ -57,11 +57,16 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.config.Registry;
+import org.apache.http.config.RegistryBuilder;
 import org.apache.http.config.SocketConfig;
 import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.conn.routing.HttpRoutePlanner;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.DefaultHostnameVerifier;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustAllStrategy;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.DefaultConnectionReuseStrategy;
@@ -115,8 +120,15 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
     }
 
     private HttpClientConnectionManager createConnectionManager(final Http4FileSystemConfigBuilder builder,
-        final FileSystemOptions fileSystemOptions) {
-        final PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager();
+        final FileSystemOptions fileSystemOptions, final SSLContext sslContext, final HostnameVerifier verifier) {
+        final SSLConnectionSocketFactory sslFactory = new SSLConnectionSocketFactory(sslContext, verifier);
+        final Registry<ConnectionSocketFactory> socketFactoryRegistry =
+                RegistryBuilder.<ConnectionSocketFactory> create()
+                        .register("https", sslFactory)
+                        .register("http", new PlainConnectionSocketFactory())
+                        .build();
+
+        final PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
         connManager.setMaxTotal(builder.getMaxTotalConnections(fileSystemOptions));
         connManager.setDefaultMaxPerRoute(builder.getMaxConnectionsPerHost(fileSystemOptions));
 
@@ -189,13 +201,14 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
         final ConnectionReuseStrategy connectionReuseStrategy = builder.isKeepAlive(fileSystemOptions)
                 ? DefaultConnectionReuseStrategy.INSTANCE
                 : NoConnectionReuseStrategy.INSTANCE;
-
+        final SSLContext sslContext = createSSLContext(builder, fileSystemOptions);
+        final HostnameVerifier hostNameVerifier = createHostnameVerifier(builder, fileSystemOptions);
         final HttpClientBuilder httpClientBuilder =
                 HttpClients.custom()
                 .setRoutePlanner(createHttpRoutePlanner(builder, fileSystemOptions))
-                .setConnectionManager(createConnectionManager(builder, fileSystemOptions))
-                .setSSLContext(createSSLContext(builder, fileSystemOptions))
-                .setSSLHostnameVerifier(createHostnameVerifier(builder, fileSystemOptions))
+                .setConnectionManager(createConnectionManager(builder, fileSystemOptions, sslContext, hostNameVerifier))
+                .setSSLContext(sslContext)
+                .setSSLHostnameVerifier(hostNameVerifier)
                 .setConnectionReuseStrategy(connectionReuseStrategy)
                 .setDefaultRequestConfig(createDefaultRequestConfig(builder, fileSystemOptions))
                 .setDefaultHeaders(defaultHeaders)
