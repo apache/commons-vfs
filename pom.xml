@@ -269,6 +269,26 @@
             </dependency>
           </dependencies>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+         <version>${version.checkstyle}</version>
+          <dependencies>
+            <dependency>
+              <groupId>com.puppycrawl.tools</groupId>
+              <artifactId>checkstyle</artifactId>
+              <version>8.41.1</version>
+            </dependency>
+          </dependencies>
+          <!-- Keep build/reporting in sync -->
+          <configuration>
+            <!--<propertiesLocation>${vfs.parent.dir}/checkstyle.properties</propertiesLocation> -->
+            <configLocation>${vfs.parent.dir}/checkstyle.xml</configLocation>
+            <suppressionsLocation>${vfs.parent.dir}/checkstyle-suppressions.xml</suppressionsLocation>
+            <enableRulesSummary>false</enableRulesSummary>
+            <propertyExpansion>basedir=${basedir}</propertyExpansion>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -330,22 +350,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>${version.checkstyle}</version>
-        <dependencies>
-          <dependency>
-            <groupId>com.puppycrawl.tools</groupId>
-            <artifactId>checkstyle</artifactId>
-            <version>8.41.1</version>
-          </dependency>
-        </dependencies>
-        <!-- Keep build/reporting in sync -->
-        <configuration>
-          <!--<propertiesLocation>${vfs.parent.dir}/checkstyle.properties</propertiesLocation> -->
-          <configLocation>${vfs.parent.dir}/checkstyle.xml</configLocation>
-          <suppressionsLocation>${vfs.parent.dir}/checkstyle-suppressions.xml</suppressionsLocation>
-          <enableRulesSummary>false</enableRulesSummary>
-          <propertyExpansion>basedir=${basedir}</propertyExpansion>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.rat</groupId>
@@ -420,15 +424,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>${version.checkstyle}</version>
-        <!-- Keep build/reporting in sync -->
-        <configuration>
-          <!--<propertiesLocation>${vfs.parent.dir}/checkstyle.properties</propertiesLocation> -->
-          <configLocation>${vfs.parent.dir}/checkstyle.xml</configLocation>
-          <suppressionsLocation>${vfs.parent.dir}/checkstyle-suppressions.xml</suppressionsLocation>
-          <enableRulesSummary>false</enableRulesSummary>
-          <propertyExpansion>basedir=${basedir}</propertyExpansion>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
