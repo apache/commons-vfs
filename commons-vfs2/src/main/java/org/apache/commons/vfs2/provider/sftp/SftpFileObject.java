@@ -138,7 +138,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
 
     /** @since 2.0 */
     @Override
-    protected void doDetach() throws Exception {
+    protected synchronized void doDetach() throws Exception {
         attrs = null;
     }
 
@@ -146,7 +146,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
      * Returns the size of the file content (in bytes).
      */
     @Override
-    protected long doGetContentSize() throws Exception {
+    protected synchronized long doGetContentSize() throws Exception {
         if (attrs == null || (attrs.getFlags() & SftpATTRS.SSH_FILEXFER_ATTR_SIZE) == 0) {
             throw new FileSystemException("vfs.provider.sftp/unknown-size.error");
         }
@@ -200,7 +200,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     }
 
     @Override
-    protected long doGetLastModifiedTime() throws Exception {
+    protected synchronized long doGetLastModifiedTime() throws Exception {
         if (attrs == null || (attrs.getFlags() & SftpATTRS.SSH_FILEXFER_ATTR_ACMODTIME) == 0) {
             throw new FileSystemException("vfs.provider.sftp/unknown-modtime.error");
         }
@@ -231,7 +231,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
      * Determines the type of this file, returns null if the file does not exist.
      */
     @Override
-    protected FileType doGetType() throws Exception {
+    protected synchronized FileType doGetType() throws Exception {
         if (attrs == null) {
             statSelf();
         }
@@ -366,7 +366,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     }
 
     @Override
-    protected boolean doSetExecutable(final boolean executable, final boolean ownerOnly) throws Exception {
+    protected synchronized boolean doSetExecutable(final boolean executable, final boolean ownerOnly) throws Exception {
         final PosixPermissions permissions = getPermissions(false);
         final int newPermissions = permissions.makeExecutable(executable, ownerOnly);
         if (newPermissions == permissions.getPermissions()) {
@@ -387,7 +387,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
      *            at the moment jsch send them with second precision.
      */
     @Override
-    protected boolean doSetLastModifiedTime(final long modtime) throws Exception {
+    protected synchronized boolean doSetLastModifiedTime(final long modtime) throws Exception {
         final int newMTime = (int) (modtime / MOD_TIME_FACTOR);
         attrs.setACMODTIME(attrs.getATime(), newMTime);
         flushStat();
@@ -409,7 +409,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     }
 
     @Override
-    protected boolean doSetWritable(final boolean writable, final boolean ownerOnly) throws Exception {
+    protected synchronized boolean doSetWritable(final boolean writable, final boolean ownerOnly) throws Exception {
         final PosixPermissions permissions = getPermissions(false);
         final int newPermissions = permissions.makeWritable(writable, ownerOnly);
         if (newPermissions == permissions.getPermissions()) {
@@ -422,7 +422,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
         return true;
     }
 
-    private void flushStat() throws IOException, SftpException {
+    private synchronized void flushStat() throws IOException, SftpException {
         final ChannelSftp channel = getAbstractFileSystem().getChannel();
         try {
             channel.setStat(relPath, attrs);
@@ -455,7 +455,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
      * @throws Exception If an error occurs
      * @since 2.1
      */
-    protected PosixPermissions getPermissions(final boolean checkIds) throws Exception {
+    protected synchronized PosixPermissions getPermissions(final boolean checkIds) throws Exception {
         statSelf();
         boolean isInGroup = false;
         if (checkIds) {
@@ -488,7 +488,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     /**
      * Sets attrs from listChildrenResolved
      */
-    private void setStat(final SftpATTRS attrs) {
+    private synchronized void setStat(final SftpATTRS attrs) {
         this.attrs = attrs;
     }
 
@@ -497,7 +497,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
      *
      * @throws IOException if an error occurs.
      */
-    private void statSelf() throws IOException {
+    private synchronized void statSelf() throws IOException {
         ChannelSftp channelSftp = null;
         try {
             channelSftp = getAbstractFileSystem().getChannel();
