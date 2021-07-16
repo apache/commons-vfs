@@ -119,6 +119,11 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
      */
     private final FileListener listener;
 
+    /**
+     * Creates a new instance with the given listener.
+     *
+     * @param listener the listener.
+     */
     public DefaultFileMonitor(final FileListener listener) {
         this.listener = listener;
     }
