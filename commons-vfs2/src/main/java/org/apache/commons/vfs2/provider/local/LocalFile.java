@@ -140,18 +140,10 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
         if (!file.exists()) {
             return FileType.IMAGINARY;
         }
-
         if (file.isDirectory()) {
             return FileType.FOLDER;
         }
-
-        // In doubt, treat an existing file as file
-        // if (file.isFile())
-        // {
         return FileType.FILE;
-        // }
-
-        // throw new FileSystemException("vfs.provider.local/get-type.error", file);
     }
 
     /**
