@@ -100,6 +100,7 @@ The <action> type attribute can be add,update,fix,remove.
         - org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.setIdentityRepositoryFactory(FileSystemOptions, IdentityRepositoryFactory)
         - org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.setKnownHosts(FileSystemOptions, File)
         - org.apache.commons.vfs2.provider.local.LocalFile.LocalFile(LocalFileSystem, String, AbstractFileName)
+        - org.apache.commons.vfs2.provider.local.LocalFile.doGetType()
         - org.apache.commons.vfs2.provider.tar.TarFileObject.TarFileObject(AbstractFileName, TarArchiveEntry, TarFileSystem, boolean)
         - org.apache.commons.vfs2.provider.tar.TarFileSystem.createTarFileObject(AbstractFileName, TarArchiveEntry)
         - org.apache.commons.vfs2.provider.zip.ZipFileObject.ZipFileObject(AbstractFileName, ZipEntry, ZipFileSystem, boolean)

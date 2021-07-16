@@ -136,7 +136,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
      * Returns the file's type.
      */
     @Override
-    protected FileType doGetType() throws Exception {
+    protected FileType doGetType() {
         if (!file.exists()) {
             return FileType.IMAGINARY;
         }
