@@ -118,6 +118,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" issue="VFS-759" dev="ggregory" due-to="Woonsan Ko">
         WebDAV providers should loaded only when commons-vfs2-jackrabbit* jars are available #84
       </action>
+      <action type="fix" dev="ggregory" due-to="Arturo Bernal">
+        Simplify conditions and avoid extra checks #187.
+      </action>
       <!-- UPDATES  -->
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Bump Log4j 2.14.0 -> 2.14.1.
