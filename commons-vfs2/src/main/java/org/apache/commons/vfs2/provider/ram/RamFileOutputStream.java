@@ -19,8 +19,6 @@ package org.apache.commons.vfs2.provider.ram;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.apache.commons.vfs2.FileSystemException;
-
 /**
  * OutputStream to a RamFile.
  */
@@ -92,13 +90,7 @@ public class RamFileOutputStream extends OutputStream {
         if (exception != null) {
             throw exception;
         }
-        try {
-            this.closed = true;
-            // Close the
-            this.file.endOutput();
-        } catch (final Exception e) {
-            throw new FileSystemException(e);
-        }
+        this.closed = true;
     }
 
 }
