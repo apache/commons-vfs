@@ -336,7 +336,7 @@ public final class Shell {
             if (child.getType() == FileType.FOLDER) {
                 System.out.println("/");
                 if (recursive) {
-                    listChildren(child, recursive, prefix + "    ");
+                    listChildren(child, true, prefix + "    ");
                 }
             } else {
                 System.out.println();
