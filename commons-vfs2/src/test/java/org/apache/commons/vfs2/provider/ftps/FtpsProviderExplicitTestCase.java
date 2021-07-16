@@ -23,6 +23,13 @@ import junit.framework.Test;
  */
 public class FtpsProviderExplicitTestCase extends AbstractFtpsProviderTestCase {
 
+    /**
+     * Creates the test suite for the ftps file system.
+     */
+    public static Test suite() throws Exception {
+        return new FtpProviderTestSuite(new FtpsProviderExplicitTestCase());
+    }
+
     @Override
     protected boolean isImplicit() {
         return false;
@@ -33,12 +40,5 @@ public class FtpsProviderExplicitTestCase extends AbstractFtpsProviderTestCase {
         super.setupOptions(builder);
         builder.setDataChannelProtectionLevel(fileSystemOptions, FtpsDataChannelProtectionLevel.P);
         builder.setFtpsMode(fileSystemOptions, FtpsMode.EXPLICIT);
-    }
-
-    /**
-     * Creates the test suite for the ftps file system.
-     */
-    public static Test suite() throws Exception {
-        return new FtpProviderTestSuite(new FtpsProviderExplicitTestCase());
     }
 }

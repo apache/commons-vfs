@@ -25,6 +25,20 @@ import org.junit.Test;
  */
 public class FileSystemManagerFactoryTestCase extends AbstractVfsTestCase {
 
+    private void check(final FileSystemManager manager, FileObject file) throws FileSystemException {
+        assertNotNull(file);
+        assertTrue(file.exists());
+        assertSame(FileType.FILE, file.getType());
+        assertTrue(file.isFile());
+
+        // Expand it
+        file = manager.createFileSystem(file);
+        assertNotNull(file);
+        assertTrue(file.exists());
+        assertSame(FileType.FOLDER, file.getType());
+        assertTrue(file.isFolder());
+    }
+
     /**
      * Sanity test.
      */
@@ -44,20 +58,6 @@ public class FileSystemManagerFactoryTestCase extends AbstractVfsTestCase {
         // URL
         final FileObject file3 = manager.resolveFile(jarFile.toURI().toURL());
         check(manager, file3);
-    }
-
-    private void check(final FileSystemManager manager, FileObject file) throws FileSystemException {
-        assertNotNull(file);
-        assertTrue(file.exists());
-        assertSame(FileType.FILE, file.getType());
-        assertTrue(file.isFile());
-
-        // Expand it
-        file = manager.createFileSystem(file);
-        assertNotNull(file);
-        assertTrue(file.exists());
-        assertSame(FileType.FOLDER, file.getType());
-        assertTrue(file.isFolder());
     }
 
 }

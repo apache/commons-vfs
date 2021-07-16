@@ -39,15 +39,6 @@ public class TarProviderTestCase extends AbstractProviderTestConfig {
     }
 
     /**
-     * Prepares the file system manager.
-     */
-    @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception {
-        manager.addProvider("tar", new TarFileProvider());
-        manager.addMimeTypeMap("application/x-tar", "tar");
-    }
-
-    /**
      * Returns the base folder for read tests.
      */
     @Override
@@ -55,5 +46,14 @@ public class TarProviderTestCase extends AbstractProviderTestConfig {
         final File tarFile = AbstractVfsTestCase.getTestResource("test.tar");
         final String uri = "tar:file:" + tarFile.getAbsolutePath() + "!/";
         return manager.resolveFile(uri);
+    }
+
+    /**
+     * Prepares the file system manager.
+     */
+    @Override
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
+        manager.addProvider("tar", new TarFileProvider());
+        manager.addMimeTypeMap("application/x-tar", "tar");
     }
 }

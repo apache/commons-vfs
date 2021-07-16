@@ -37,16 +37,6 @@ public class NestedTgzTestCase extends AbstractProviderTestConfig {
     }
 
     /**
-     * Prepares the file system manager.
-     */
-    @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception {
-        manager.addProvider("tgz", new TarFileProvider());
-        manager.addExtensionMap("tgz", "tgz");
-        manager.addProvider("tar", new TarFileProvider());
-    }
-
-    /**
      * Returns the base folder for tests.
      */
     @Override
@@ -59,5 +49,15 @@ public class NestedTgzTestCase extends AbstractProviderTestConfig {
         // Now build the nested file system
         final FileObject nestedFS = manager.createFileSystem(tarFile);
         return nestedFS.resolveFile("/");
+    }
+
+    /**
+     * Prepares the file system manager.
+     */
+    @Override
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
+        manager.addProvider("tgz", new TarFileProvider());
+        manager.addExtensionMap("tgz", "tgz");
+        manager.addProvider("tar", new TarFileProvider());
     }
 }

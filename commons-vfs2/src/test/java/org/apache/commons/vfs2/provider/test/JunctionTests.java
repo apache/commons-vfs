@@ -37,32 +37,6 @@ public class JunctionTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Checks nested junctions are not supported.
-     */
-    @Test
-    public void testNestedJunction() throws Exception {
-        final FileSystem fs = getManager().createVirtualFileSystem("vfs:").getFileSystem();
-        final FileObject baseDir = getBaseDir();
-        fs.addJunction("/a", baseDir);
-
-        // Nested
-        try {
-            fs.addJunction("/a/b", baseDir);
-            fail();
-        } catch (final Exception e) {
-            assertSameMessage("vfs.impl/nested-junction.error", "vfs:/a/b", e);
-        }
-
-        // At same point
-        try {
-            fs.addJunction("/a", baseDir);
-            fail();
-        } catch (final Exception e) {
-            assertSameMessage("vfs.impl/nested-junction.error", "vfs:/a", e);
-        }
-    }
-
-    /**
      * Checks ancestors are created when a junction is created.
      */
     @Test
@@ -88,6 +62,32 @@ public class JunctionTests extends AbstractProviderTestCase {
         assertTrue("Does not exist", file.exists());
         file = file.getParent();
         assertTrue("Does not exist", file.exists());
+    }
+
+    /**
+     * Checks nested junctions are not supported.
+     */
+    @Test
+    public void testNestedJunction() throws Exception {
+        final FileSystem fs = getManager().createVirtualFileSystem("vfs:").getFileSystem();
+        final FileObject baseDir = getBaseDir();
+        fs.addJunction("/a", baseDir);
+
+        // Nested
+        try {
+            fs.addJunction("/a/b", baseDir);
+            fail();
+        } catch (final Exception e) {
+            assertSameMessage("vfs.impl/nested-junction.error", "vfs:/a/b", e);
+        }
+
+        // At same point
+        try {
+            fs.addJunction("/a", baseDir);
+            fail();
+        } catch (final Exception e) {
+            assertSameMessage("vfs.impl/nested-junction.error", "vfs:/a", e);
+        }
     }
 
     // Check that file @ junction point exists only when backing file exists

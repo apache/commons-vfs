@@ -44,6 +44,29 @@ public class VerifyingFileSelector extends Assert implements FileSelector {
     }
 
     /**
+     * Asserts that the selector has seen all the files.
+     *
+     * @return The files in the order they where visited.
+     */
+    public List<FileObject> finish() {
+        assertEquals(0, children.size());
+        return files;
+    }
+
+    /**
+     * Finds a child of the current folder.
+     */
+    private FileInfo getChild(final String baseName) {
+        if (currentFolderInfo == null) {
+            assertEquals(rootFile.baseName, baseName);
+            return rootFile;
+        }
+        final FileInfo child = currentFolderInfo.children.get(baseName);
+        assertNotNull("Could not locate child " + baseName, child);
+        return child;
+    }
+
+    /**
      * Determines if a file or folder should be selected.
      */
     @Override
@@ -99,28 +122,5 @@ public class VerifyingFileSelector extends Assert implements FileSelector {
         currentFolder = folder;
 
         return true;
-    }
-
-    /**
-     * Finds a child of the current folder.
-     */
-    private FileInfo getChild(final String baseName) {
-        if (currentFolderInfo == null) {
-            assertEquals(rootFile.baseName, baseName);
-            return rootFile;
-        }
-        final FileInfo child = currentFolderInfo.children.get(baseName);
-        assertNotNull("Could not locate child " + baseName, child);
-        return child;
-    }
-
-    /**
-     * Asserts that the selector has seen all the files.
-     *
-     * @return The files in the order they where visited.
-     */
-    public List<FileObject> finish() {
-        assertEquals(0, children.size());
-        return files;
     }
 }

@@ -79,17 +79,6 @@ public class LastModifiedTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Tests getting the last modified time of a folder.
-     *
-     * @throws FileSystemException if error occurred
-     */
-    @Test
-    public void testGetLastModifiedFolder() throws FileSystemException {
-        final FileObject file = getReadFolder().resolveFile("dir1");
-        assertNotEquals(0L, file.getContent().getLastModifiedTime());
-    }
-
-    /**
      * Tests getting the last modified time of a file.
      *
      * @throws FileSystemException if error occurred
@@ -101,24 +90,14 @@ public class LastModifiedTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Tests setting the last modified time of a folder.
+     * Tests getting the last modified time of a folder.
      *
      * @throws FileSystemException if error occurred
      */
     @Test
-    public void testSetLastModifiedFolder() throws FileSystemException {
-        final long yesterdayMillis = Instant.now().minus(ONE_DAY).toEpochMilli();
-
-        if (getReadFolder().getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FOLDER)) {
-            // Try a folder
-            final FileObject folder = getReadFolder().resolveFile("dir1");
-            folder.getContent().setLastModifiedTime(yesterdayMillis);
-            final long lastModTimeAccuracyMillis = (long) folder.getFileSystem().getLastModTimeAccuracy();
-            // folder.refresh(); TODO: does not work with SSH VFS-563
-            final long lastModifiedTime = folder.getContent().getLastModifiedTime();
-            assertDeltaMillis("set/getLastModified on Folder", yesterdayMillis, lastModifiedTime,
-                lastModTimeAccuracyMillis);
-        }
+    public void testGetLastModifiedFolder() throws FileSystemException {
+        final FileObject file = getReadFolder().resolveFile("dir1");
+        assertNotEquals(0L, file.getContent().getLastModifiedTime());
     }
 
     /**
@@ -138,6 +117,27 @@ public class LastModifiedTests extends AbstractProviderTestCase {
             // folder.refresh(); TODO: does not work with SSH VFS-563
             final long lastModifiedTime = file.getContent().getLastModifiedTime();
             assertDeltaMillis("set/getLastModified on File", yesterdayMillis, lastModifiedTime,
+                lastModTimeAccuracyMillis);
+        }
+    }
+
+    /**
+     * Tests setting the last modified time of a folder.
+     *
+     * @throws FileSystemException if error occurred
+     */
+    @Test
+    public void testSetLastModifiedFolder() throws FileSystemException {
+        final long yesterdayMillis = Instant.now().minus(ONE_DAY).toEpochMilli();
+
+        if (getReadFolder().getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FOLDER)) {
+            // Try a folder
+            final FileObject folder = getReadFolder().resolveFile("dir1");
+            folder.getContent().setLastModifiedTime(yesterdayMillis);
+            final long lastModTimeAccuracyMillis = (long) folder.getFileSystem().getLastModTimeAccuracy();
+            // folder.refresh(); TODO: does not work with SSH VFS-563
+            final long lastModifiedTime = folder.getContent().getLastModifiedTime();
+            assertDeltaMillis("set/getLastModified on Folder", yesterdayMillis, lastModifiedTime,
                 lastModTimeAccuracyMillis);
         }
     }

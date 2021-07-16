@@ -39,6 +39,9 @@ import org.junit.Test;
  * Some tests for the DelegatingFileSystemOptionsBuilder
  */
 public class DelegatingFileSystemOptionsBuilderTest {
+    private static final String[] schemes = new String[] { "http", "ftp", "file", "zip", "tar", "tgz", "bz2", "gz",
+            "jar", "tmp", "ram" };
+
     private StandardFileSystemManager fsm;
 
     @Before
@@ -53,6 +56,35 @@ public class DelegatingFileSystemOptionsBuilderTest {
     public void tearDown() throws Exception {
         if (fsm != null) {
             fsm.close();
+        }
+    }
+
+    @Test
+    public void testConfiguration() throws Exception {
+        for (final String scheme : schemes) {
+            assertTrue("Missing " + scheme + " provider", fsm.hasProvider(scheme));
+        }
+    }
+
+    @Test
+    public void testDelegatingBad() throws Throwable {
+        final FileSystemOptions opts = new FileSystemOptions();
+        final DelegatingFileSystemOptionsBuilder delgate = new DelegatingFileSystemOptionsBuilder(fsm);
+
+        try {
+            delgate.setConfigString(opts, "http", "proxyPort", "wrong_port");
+            fail();
+        } catch (final FileSystemException e) {
+            assertSame(e.getCause().getClass(), InvocationTargetException.class);
+            assertSame(((InvocationTargetException) e.getCause()).getTargetException().getClass(),
+                    NumberFormatException.class);
+        }
+
+        try {
+            delgate.setConfigClass(opts, "sftp", "userinfo", String.class);
+            fail();
+        } catch (final FileSystemException e) {
+            assertEquals(e.getCode(), "vfs.provider/config-value-invalid.error");
         }
     }
 
@@ -79,38 +111,6 @@ public class DelegatingFileSystemOptionsBuilderTest {
         for (int iterIdentities = 0; iterIdentities < identities.length; iterIdentities++) {
             assertEquals("sftp.identities #" + iterIdentities, identities[iterIdentities].getAbsolutePath(),
                     new File(identityPaths[iterIdentities]).getAbsolutePath());
-        }
-    }
-
-    @Test
-    public void testDelegatingBad() throws Throwable {
-        final FileSystemOptions opts = new FileSystemOptions();
-        final DelegatingFileSystemOptionsBuilder delgate = new DelegatingFileSystemOptionsBuilder(fsm);
-
-        try {
-            delgate.setConfigString(opts, "http", "proxyPort", "wrong_port");
-            fail();
-        } catch (final FileSystemException e) {
-            assertSame(e.getCause().getClass(), InvocationTargetException.class);
-            assertSame(((InvocationTargetException) e.getCause()).getTargetException().getClass(),
-                    NumberFormatException.class);
-        }
-
-        try {
-            delgate.setConfigClass(opts, "sftp", "userinfo", String.class);
-            fail();
-        } catch (final FileSystemException e) {
-            assertEquals(e.getCode(), "vfs.provider/config-value-invalid.error");
-        }
-    }
-
-    private static final String[] schemes = new String[] { "http", "ftp", "file", "zip", "tar", "tgz", "bz2", "gz",
-            "jar", "tmp", "ram" };
-
-    @Test
-    public void testConfiguration() throws Exception {
-        for (final String scheme : schemes) {
-            assertTrue("Missing " + scheme + " provider", fsm.hasProvider(scheme));
         }
     }
 }

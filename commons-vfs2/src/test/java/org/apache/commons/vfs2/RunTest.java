@@ -68,17 +68,6 @@ public class RunTest {
 
         final TestResult result = new TestResult() {
             @Override
-            public void startTest(final Test test) {
-                System.out.println("start " + test);
-                System.out.flush();
-            }
-
-            @Override
-            public void endTest(final Test test) {
-                // System.err.println("end " + test);
-            }
-
-            @Override
             public synchronized void addError(final Test test, final Throwable throwable) {
                 // throw new RuntimeException(throwable.getMessage());
                 throwable.printStackTrace();
@@ -88,6 +77,17 @@ public class RunTest {
             public synchronized void addFailure(final Test test, final AssertionFailedError assertionFailedError) {
                 // throw new RuntimeException(assertionFailedError.getMessage());
                 assertionFailedError.printStackTrace();
+            }
+
+            @Override
+            public void endTest(final Test test) {
+                // System.err.println("end " + test);
+            }
+
+            @Override
+            public void startTest(final Test test) {
+                System.out.println("start " + test);
+                System.out.flush();
             }
         };
 

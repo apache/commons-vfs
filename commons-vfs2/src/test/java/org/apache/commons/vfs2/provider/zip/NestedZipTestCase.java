@@ -37,16 +37,6 @@ public class NestedZipTestCase extends AbstractProviderTestConfig {
     }
 
     /**
-     * Prepares the file system manager.
-     */
-    @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception {
-        manager.addProvider("zip", new ZipFileProvider());
-        manager.addExtensionMap("zip", "zip");
-        manager.addMimeTypeMap("application/zip", "zip");
-    }
-
-    /**
      * Returns the base folder for tests.
      */
     @Override
@@ -59,5 +49,15 @@ public class NestedZipTestCase extends AbstractProviderTestConfig {
         // Now build the nested file system
         final FileObject nestedFS = manager.createFileSystem(zipFile);
         return nestedFS.resolveFile("/");
+    }
+
+    /**
+     * Prepares the file system manager.
+     */
+    @Override
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
+        manager.addProvider("zip", new ZipFileProvider());
+        manager.addExtensionMap("zip", "zip");
+        manager.addMimeTypeMap("application/zip", "zip");
     }
 }

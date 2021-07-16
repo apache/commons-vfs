@@ -42,15 +42,6 @@ public class ProviderDeleteTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Returns the capabilities required by the tests of this test case.
-     */
-    @Override
-    protected Capability[] getRequiredCapabilities() {
-        return new Capability[] { Capability.CREATE, Capability.DELETE, Capability.GET_TYPE,
-                Capability.LIST_CHILDREN, };
-    }
-
-    /**
      * Sets up a scratch folder for the test to use.
      */
     protected FileObject createScratchFolder() throws Exception {
@@ -73,37 +64,12 @@ public class ProviderDeleteTests extends AbstractProviderTestCase {
     }
 
     /**
-     * deletes the complete structure
+     * Returns the capabilities required by the tests of this test case.
      */
-    @Test
-    public void testDeleteFiles() throws Exception {
-        final FileObject scratchFolder = createScratchFolder();
-
-        assertEquals(4, scratchFolder.delete(Selectors.EXCLUDE_SELF));
-    }
-
-    /**
-     * deletes a single file
-     */
-    @Test
-    public void testDeleteFile() throws Exception {
-        final FileObject scratchFolder = createScratchFolder();
-
-        final FileObject file = scratchFolder.resolveFile("dir1/a.txt");
-
-        assertTrue(file.delete());
-    }
-
-    /**
-     * Deletes a non existent file
-     */
-    @Test
-    public void testDeleteNonExistantFile() throws Exception {
-        final FileObject scratchFolder = createScratchFolder();
-
-        final FileObject file = scratchFolder.resolveFile("dir1/aa.txt");
-
-        assertFalse(file.delete());
+    @Override
+    protected Capability[] getRequiredCapabilities() {
+        return new Capability[] { Capability.CREATE, Capability.DELETE, Capability.GET_TYPE,
+                Capability.LIST_CHILDREN, };
     }
 
     /**
@@ -119,6 +85,40 @@ public class ProviderDeleteTests extends AbstractProviderTestCase {
             Thread.sleep(500);
         }
         assertEquals(2, deleteCount);
+    }
+
+    /**
+     * deletes a single file
+     */
+    @Test
+    public void testDeleteFile() throws Exception {
+        final FileObject scratchFolder = createScratchFolder();
+
+        final FileObject file = scratchFolder.resolveFile("dir1/a.txt");
+
+        assertTrue(file.delete());
+    }
+
+    /**
+     * deletes the complete structure
+     */
+    @Test
+    public void testDeleteFiles() throws Exception {
+        final FileObject scratchFolder = createScratchFolder();
+
+        assertEquals(4, scratchFolder.delete(Selectors.EXCLUDE_SELF));
+    }
+
+    /**
+     * Deletes a non existent file
+     */
+    @Test
+    public void testDeleteNonExistantFile() throws Exception {
+        final FileObject scratchFolder = createScratchFolder();
+
+        final FileObject file = scratchFolder.resolveFile("dir1/aa.txt");
+
+        assertFalse(file.delete());
     }
 
     /**

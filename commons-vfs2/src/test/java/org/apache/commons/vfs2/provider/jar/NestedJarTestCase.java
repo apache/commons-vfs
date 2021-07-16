@@ -39,15 +39,6 @@ public class NestedJarTestCase extends AbstractProviderTestConfig {
     }
 
     /**
-     * Prepares the file system manager.
-     */
-    @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception {
-        manager.addProvider("jar", new JarFileProvider());
-        manager.addExtensionMap("jar", "jar");
-    }
-
-    /**
      * Returns the base folder for tests.
      */
     @Override
@@ -60,5 +51,14 @@ public class NestedJarTestCase extends AbstractProviderTestConfig {
         // Now build the nested file system
         final FileObject nestedFS = manager.createFileSystem(jarFile);
         return nestedFS.resolveFile("/");
+    }
+
+    /**
+     * Prepares the file system manager.
+     */
+    @Override
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
+        manager.addProvider("jar", new JarFileProvider());
+        manager.addExtensionMap("jar", "jar");
     }
 }

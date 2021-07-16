@@ -68,34 +68,6 @@ public class HdfsFileProviderTest {
     protected static Configuration conf;
     protected static MiniDFSCluster cluster;
 
-    @BeforeClass
-    public static void setUp() throws Exception {
-        Logger.getRootLogger().setLevel(Level.ERROR);
-
-        // Put the MiniDFSCluster directory in the target directory
-        final File data = new File("target/test/hdfstestdata").getAbsoluteFile();
-        data.mkdirs();
-        System.setProperty("test.build.data", data.toString());
-        FileUtils.cleanDirectory(data);
-
-        // Setup HDFS
-        conf = new Configuration();
-        conf.set(FileSystem.FS_DEFAULT_NAME_KEY, HDFS_URI);
-        conf.set("hadoop.security.token.service.use_ip", "true");
-        conf.setLong(DFSConfigKeys.DFS_BLOCK_SIZE_KEY, 1024 * 1024); // 1M blocksize
-
-        setUmask(conf);
-
-        cluster = new MiniDFSCluster(PORT, conf, 1, true, true, true, null, null, null, null);
-        cluster.waitActive();
-
-        // Set up the VFS
-        manager = new DefaultFileSystemManager();
-        manager.addProvider("hdfs", new HdfsFileProvider());
-        manager.init();
-        hdfs = cluster.getFileSystem();
-    }
-
     /**
      * Add {@code dfs.datanode.data.dir.perm} setting if OS needs it.
      * <P>
@@ -123,6 +95,34 @@ public class HdfsFileProviderTest {
         } catch (final Exception e) {
             throw new RuntimeException("Error getting umask from O/S", e);
         }
+    }
+
+    @BeforeClass
+    public static void setUp() throws Exception {
+        Logger.getRootLogger().setLevel(Level.ERROR);
+
+        // Put the MiniDFSCluster directory in the target directory
+        final File data = new File("target/test/hdfstestdata").getAbsoluteFile();
+        data.mkdirs();
+        System.setProperty("test.build.data", data.toString());
+        FileUtils.cleanDirectory(data);
+
+        // Setup HDFS
+        conf = new Configuration();
+        conf.set(FileSystem.FS_DEFAULT_NAME_KEY, HDFS_URI);
+        conf.set("hadoop.security.token.service.use_ip", "true");
+        conf.setLong(DFSConfigKeys.DFS_BLOCK_SIZE_KEY, 1024 * 1024); // 1M blocksize
+
+        setUmask(conf);
+
+        cluster = new MiniDFSCluster(PORT, conf, 1, true, true, true, null, null, null, null);
+        cluster.waitActive();
+
+        // Set up the VFS
+        manager = new DefaultFileSystemManager();
+        manager.addProvider("hdfs", new HdfsFileProvider());
+        manager.init();
+        hdfs = cluster.getFileSystem();
     }
 
     @AfterClass

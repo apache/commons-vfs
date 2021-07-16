@@ -42,10 +42,6 @@ public class FileInfo {
         this.content = content;
     }
 
-    public FileInfo getParent() {
-        return parent;
-    }
-
     /**
      * Adds a child.
      */
@@ -82,12 +78,11 @@ public class FileInfo {
     }
 
     /**
-     * Returns the {@link FileType} of the file
-     *
-     * @return {@link FileType}
+     * Returns a {@code Map} of this {@code FileInfo}'s children.
+     * @return the {@code FileInfo}'s children
      */
-    public FileType getType() {
-        return type;
+    public Map<String, FileInfo> getChildren() {
+        return children;
     }
 
     /**
@@ -99,11 +94,16 @@ public class FileInfo {
         return content;
     }
 
+    public FileInfo getParent() {
+        return parent;
+    }
+
     /**
-     * Returns a {@code Map} of this {@code FileInfo}'s children.
-     * @return the {@code FileInfo}'s children
+     * Returns the {@link FileType} of the file
+     *
+     * @return {@link FileType}
      */
-    public Map<String, FileInfo> getChildren() {
-        return children;
+    public FileType getType() {
+        return type;
     }
 }

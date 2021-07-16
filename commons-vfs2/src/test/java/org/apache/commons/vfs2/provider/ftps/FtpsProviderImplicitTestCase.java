@@ -27,6 +27,13 @@ import junit.framework.Test;
  * @see <a href="http://en.wikipedia.org/wiki/FTPS#Implicit">Wikipedia: FTPS/Implicit</a>
  */
 public class FtpsProviderImplicitTestCase extends AbstractFtpsProviderTestCase {
+    /**
+     * Creates the test suite for the ftps file system.
+     */
+    public static Test suite() throws Exception {
+        return new FtpProviderTestSuite(new FtpsProviderImplicitTestCase());
+    }
+
     @Override
     protected boolean isImplicit() {
         return true;
@@ -36,12 +43,5 @@ public class FtpsProviderImplicitTestCase extends AbstractFtpsProviderTestCase {
     protected void setupOptions(final FtpsFileSystemConfigBuilder builder) {
         super.setupOptions(builder);
         builder.setFtpsMode(fileSystemOptions, FtpsMode.IMPLICIT);
-    }
-
-    /**
-     * Creates the test suite for the ftps file system.
-     */
-    public static Test suite() throws Exception {
-        return new FtpProviderTestSuite(new FtpsProviderImplicitTestCase());
     }
 }

@@ -65,6 +65,15 @@ public class ZipFileObjectTestCase {
                 streamData);
     }
 
+    private void resolveReadAssert(final FileObject zipFileObject, final String path)
+            throws IOException, FileSystemException {
+        try (final FileObject zipFileObject2 = zipFileObject.resolveFile(path)) {
+            try (final InputStream inputStream = zipFileObject2.getContent().getInputStream()) {
+                readAndAssert(zipFileObject2, inputStream, "2");
+            }
+        }
+    }
+
     /**
      * Tests that when we read a file inside a file Zip and leave it open, we can still delete the Zip after we clean up
      * the Zip file.
@@ -102,15 +111,6 @@ public class ZipFileObjectTestCase {
             resolveReadAssert(zipFileObject, NESTED_FILE_2);
         }
         assertDelete(newZipFile);
-    }
-
-    private void resolveReadAssert(final FileObject zipFileObject, final String path)
-            throws IOException, FileSystemException {
-        try (final FileObject zipFileObject2 = zipFileObject.resolveFile(path)) {
-            try (final InputStream inputStream = zipFileObject2.getContent().getInputStream()) {
-                readAndAssert(zipFileObject2, inputStream, "2");
-            }
-        }
     }
 
     /**
@@ -164,24 +164,6 @@ public class ZipFileObjectTestCase {
     }
 
     /**
-     * Tests that we can resolve a file in a Zip file, then close the container zip, which should still let us delete
-     * the Zip file.
-     *
-     * @throws IOException
-     */
-    @Test
-    public void testResolveNestedFileWithoutCleanup() throws IOException {
-        final File newZipFile = createTempFile();
-        final FileSystemManager manager = VFS.getManager();
-        try (final FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
-            @SuppressWarnings({ "unused", "resource" })
-            // We resolve a nested file and do nothing else.
-            final FileObject zipFileObject1 = zipFileObject.resolveFile(NESTED_FILE_1);
-        }
-        assertDelete(newZipFile);
-    }
-
-    /**
      * Test read file with special name in a zip file
      */
     @Test
@@ -203,5 +185,23 @@ public class ZipFileObjectTestCase {
                 Assert.assertNotNull("can't read file " + fileName, fileObject.getChild(fileName));
             }
         }
+    }
+
+    /**
+     * Tests that we can resolve a file in a Zip file, then close the container zip, which should still let us delete
+     * the Zip file.
+     *
+     * @throws IOException
+     */
+    @Test
+    public void testResolveNestedFileWithoutCleanup() throws IOException {
+        final File newZipFile = createTempFile();
+        final FileSystemManager manager = VFS.getManager();
+        try (final FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
+            @SuppressWarnings({ "unused", "resource" })
+            // We resolve a nested file and do nothing else.
+            final FileObject zipFileObject1 = zipFileObject.resolveFile(NESTED_FILE_1);
+        }
+        assertDelete(newZipFile);
     }
 }

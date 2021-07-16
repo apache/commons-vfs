@@ -62,6 +62,25 @@ public class AgeFileFilterTest extends BaseFilterTest {
 
     private static FileObject zipFileObj;
 
+    @AfterClass
+    public static void afterClass() throws IOException {
+        newFileInfo = null;
+        newFile = null;
+
+        currentFileInfo = null;
+        currentFile = null;
+
+        oldFileInfo = null;
+        oldFile = null;
+
+        zipFileObj.close();
+        FileUtils.deleteQuietly(zipFile);
+        zipFile = null;
+
+        FileUtils.deleteDirectory(testDir);
+        testDir = null;
+    }
+
     @BeforeClass
     public static void beforeClass() throws IOException {
         testDir = getTestDir(AgeFileFilterTest.class.getName());
@@ -89,25 +108,6 @@ public class AgeFileFilterTest extends BaseFilterTest {
         zipDir(testDir, "", zipFile);
         zipFileObj = getZipFileObject(zipFile);
 
-    }
-
-    @AfterClass
-    public static void afterClass() throws IOException {
-        newFileInfo = null;
-        newFile = null;
-
-        currentFileInfo = null;
-        currentFile = null;
-
-        oldFileInfo = null;
-        oldFile = null;
-
-        zipFileObj.close();
-        FileUtils.deleteQuietly(zipFile);
-        zipFile = null;
-
-        FileUtils.deleteDirectory(testDir);
-        testDir = null;
     }
 
     @Test

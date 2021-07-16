@@ -36,19 +36,19 @@ public class UrlHttpProviderTestCase extends AbstractProviderTestConfig {
     }
 
     /**
-     * Prepares the file system manager. This implementation does nothing.
-     */
-    @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception {
-        manager.addProvider("http", new UrlFileProvider());
-    }
-
-    /**
      * Returns the base folder for tests.
      */
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         final File baseDir = AbstractVfsTestCase.getTestDirectoryFile();
         return manager.resolveFile(baseDir.toURI().toURL().toExternalForm());
+    }
+
+    /**
+     * Prepares the file system manager. This implementation does nothing.
+     */
+    @Override
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
+        manager.addProvider("http", new UrlFileProvider());
     }
 }

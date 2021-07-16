@@ -40,16 +40,18 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Test to verify DefaultFileMonitor
+ * Tests {@link DefaultFileMonitor}.
  */
 public class DefaultFileMonitorTest {
 
     private static class CountingListener implements FileListener {
         private final AtomicLong created = new AtomicLong();
+        private final AtomicLong changed = new AtomicLong();
+        private final AtomicLong deleted = new AtomicLong();
 
         @Override
         public void fileChanged(final FileChangeEvent event) {
-            throw new UnsupportedOperationException();
+            changed.incrementAndGet();
         }
 
         @Override
@@ -59,7 +61,7 @@ public class DefaultFileMonitorTest {
 
         @Override
         public void fileDeleted(final FileChangeEvent event) {
-            throw new UnsupportedOperationException();
+            deleted.incrementAndGet();
         }
     }
 

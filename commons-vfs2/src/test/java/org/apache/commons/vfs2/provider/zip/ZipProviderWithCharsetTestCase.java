@@ -43,16 +43,6 @@ public class ZipProviderWithCharsetTestCase extends AbstractProviderTestConfig {
     }
 
     /**
-     * Prepares the file system manager.
-     */
-    @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception {
-        manager.addProvider("zip", new ZipFileProvider());
-        manager.addExtensionMap("zip", "zip");
-        manager.addMimeTypeMap("application/zip", "zip");
-    }
-
-    /**
      * Returns the base folder for read tests.
      */
     @Override
@@ -70,5 +60,15 @@ public class ZipProviderWithCharsetTestCase extends AbstractProviderTestConfig {
         final ZipFileSystem zipFileSystem = (ZipFileSystem) fileSystem;
         Assert.assertEquals(StandardCharsets.UTF_8, zipFileSystem.getCharset());
         return resolvedFile;
+    }
+
+    /**
+     * Prepares the file system manager.
+     */
+    @Override
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
+        manager.addProvider("zip", new ZipFileProvider());
+        manager.addExtensionMap("zip", "zip");
+        manager.addMimeTypeMap("application/zip", "zip");
     }
 }

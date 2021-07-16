@@ -69,6 +69,27 @@ public class SymbolicLinkFileFilterTest extends BaseFilterTest {
 
     private static FileObject zipFileObject;
 
+    @AfterClass
+    public static void afterClass() throws IOException {
+        targetFile = null;
+        targetFileInfo = null;
+        linkFile = null;
+        linkFileInfo = null;
+        notExistingFile = null;
+        notExistingFileInfo = null;
+        if (zipFileObject != null) {
+            zipFileObject.close();
+        }
+        if (zipFile != null) {
+            FileUtils.deleteQuietly(zipFile);
+            zipFile = null;
+        }
+        if (testDir != null) {
+            FileUtils.deleteDirectory(testDir);
+            testDir = null;
+        }
+    }
+
     @BeforeClass
     public static void beforeClass() throws IOException {
         Assume.assumeTrue(Boolean.getBoolean(SymbolicLinkFileFilterTest.class.getSimpleName() + ".Enable"));
@@ -92,27 +113,6 @@ public class SymbolicLinkFileFilterTest extends BaseFilterTest {
         zipFile = new File(getTempDir(), SymbolicLinkFileFilterTest.class.getName() + ".zip");
         zipDir(testDir, "", zipFile);
         zipFileObject = getZipFileObject(zipFile);
-    }
-
-    @AfterClass
-    public static void afterClass() throws IOException {
-        targetFile = null;
-        targetFileInfo = null;
-        linkFile = null;
-        linkFileInfo = null;
-        notExistingFile = null;
-        notExistingFileInfo = null;
-        if (zipFileObject != null) {
-            zipFileObject.close();
-        }
-        if (zipFile != null) {
-            FileUtils.deleteQuietly(zipFile);
-            zipFile = null;
-        }
-        if (testDir != null) {
-            FileUtils.deleteDirectory(testDir);
-            testDir = null;
-        }
     }
 
     @Test

@@ -32,6 +32,16 @@ import org.junit.Test;
 public class RegexFileFilterTestCase extends BaseFilterTest {
 
     @Test
+    public void testPatternNullArgConstruction() {
+        try {
+            new RegexFileFilter((Pattern) null);
+            fail();
+        } catch (final IllegalArgumentException ex) {
+            Assert.assertEquals(RegexFileFilter.PATTERN_IS_MISSING, ex.getMessage());
+        }
+    }
+
+    @Test
     public void testRegex() throws Exception {
 
         FileFilter filter;
@@ -64,6 +74,16 @@ public class RegexFileFilterTestCase extends BaseFilterTest {
     }
 
     @Test
+    public void testStringIOCaseNullArgConstruction() {
+        try {
+            new RegexFileFilter((String) null, IOCase.INSENSITIVE);
+            fail();
+        } catch (final IllegalArgumentException ex) {
+            Assert.assertEquals(RegexFileFilter.PATTERN_IS_MISSING, ex.getMessage());
+        }
+    }
+
+    @Test
     public void testStringNullArgConstruction() {
         try {
             new RegexFileFilter((String) null);
@@ -74,29 +94,9 @@ public class RegexFileFilterTestCase extends BaseFilterTest {
     }
 
     @Test
-    public void testPatternNullArgConstruction() {
-        try {
-            new RegexFileFilter((Pattern) null);
-            fail();
-        } catch (final IllegalArgumentException ex) {
-            Assert.assertEquals(RegexFileFilter.PATTERN_IS_MISSING, ex.getMessage());
-        }
-    }
-
-    @Test
     public void testStringPatternNullArgConstruction() {
         try {
             new RegexFileFilter((String) null, Pattern.CASE_INSENSITIVE);
-            fail();
-        } catch (final IllegalArgumentException ex) {
-            Assert.assertEquals(RegexFileFilter.PATTERN_IS_MISSING, ex.getMessage());
-        }
-    }
-
-    @Test
-    public void testStringIOCaseNullArgConstruction() {
-        try {
-            new RegexFileFilter((String) null, IOCase.INSENSITIVE);
             fail();
         } catch (final IllegalArgumentException ex) {
             Assert.assertEquals(RegexFileFilter.PATTERN_IS_MISSING, ex.getMessage());

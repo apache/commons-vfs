@@ -22,10 +22,6 @@ import java.net.ServerSocket;
 
 public class FreeSocketPortUtil {
 
-    public static void main(final String[] args) throws IOException {
-        System.out.println(FreeSocketPortUtil.findFreeLocalPort());
-    }
-
     /**
      * Finds a free local socket port.
      *
@@ -36,5 +32,9 @@ public class FreeSocketPortUtil {
         try (final ServerSocket server = new ServerSocket(0)) {
             return server.getLocalPort();
         }
+    }
+
+    public static void main(final String[] args) throws IOException {
+        System.out.println(FreeSocketPortUtil.findFreeLocalPort());
     }
 }

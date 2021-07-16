@@ -47,6 +47,15 @@ public class ParseXmlInZipTestCase {
 
     private Locale defaultLocale;
 
+    @Before
+    public void changeDefaultLocale() {
+        // save origin default Locale
+        defaultLocale = Locale.getDefault();
+
+        // change default Locale to US. Prevent Regular Matching fail.
+        Locale.setDefault(new Locale("en", "US"));
+    }
+
     private File createTempFile() throws IOException {
         final File zipFile = new File("src/test/resources/test-data/read-xml-tests.zip");
         final File newZipFile = File.createTempFile(getClass().getSimpleName(), ".zip");
@@ -82,15 +91,6 @@ public class ParseXmlInZipTestCase {
         }
         documentBuilder.setErrorHandler(new TestErrorHandler(containerFile + " - " + sourceFile));
         return documentBuilder;
-    }
-
-    @Before
-    public void changeDefaultLocale() {
-        // save origin default Locale
-        defaultLocale = Locale.getDefault();
-
-        // change default Locale to US. Prevent Regular Matching fail.
-        Locale.setDefault(new Locale("en", "US"));
     }
 
     @After

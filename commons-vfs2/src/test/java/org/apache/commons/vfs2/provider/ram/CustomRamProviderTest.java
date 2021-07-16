@@ -49,10 +49,10 @@ import org.junit.Test;
  * Custom tests for RamProvider.
  */
 public class CustomRamProviderTest {
+    private static final byte[] NON_EMPTY_FILE_CONTENT = new byte[] { 1, 2, 3 };
+
     /** List of URL special characters encoded for AbstractFileObject#getChild */
     final char[] ENC = { /*'#',*/ '!', '?'};
-
-    private static final byte[] NON_EMPTY_FILE_CONTENT = new byte[] { 1, 2, 3 };
 
     private final List<Closeable> closeables = new ArrayList<>();
 
@@ -131,6 +131,41 @@ public class CustomRamProviderTest {
             }
         }
         manager.close();
+    }
+
+    @Test
+    public void testFSOptions() throws Exception {
+        // Default FS
+        final FileObject fo1 = manager.resolveFile("ram:/");
+        final FileObject fo2 = manager.resolveFile("ram:/");
+        assertSame("Both files should exist in the same fs instance.", fo1.getFileSystem(), fo2.getFileSystem());
+
+        FileSystemOptions fsOptions = fo1.getFileSystem().getFileSystemOptions();
+        long maxFilesystemSize = RamFileSystemConfigBuilder.getInstance().getLongMaxSize(fsOptions);
+        assertEquals("Filesystem option maxSize must be unlimited", Long.MAX_VALUE, maxFilesystemSize);
+
+        // Small FS
+        final FileObject fo3 = manager.resolveFile("ram:/fo3", smallSizedFso);
+        final FileObject fo4 = manager.resolveFile("ram:/", smallSizedFso);
+        assertSame("Both files should exist in the same FileSystem instance.", fo3.getFileSystem(), fo4.getFileSystem());
+        assertNotSame("Both files should exist in different FileSystem instance.", fo1.getFileSystem(), fo3.getFileSystem());
+
+        fsOptions = fo3.getFileSystem().getFileSystemOptions();
+        maxFilesystemSize = RamFileSystemConfigBuilder.getInstance().getLongMaxSize(fsOptions);
+        assertEquals("Filesystem option maxSize must be set", 10, maxFilesystemSize);
+    }
+
+    /**
+     * Tests VFS-625.
+     * @throws FileSystemException
+     */
+    @Test
+    public void testMoveFile() throws FileSystemException {
+        final FileObject fileSource = manager.resolveFile("ram://virtual/source");
+        fileSource.createFile();
+        final FileObject fileDest = manager.resolveFile("ram://virtual/dest");
+        Assert.assertTrue(fileSource.canRenameTo(fileDest));
+        fileSource.moveTo(fileDest);
     }
 
     @Test
@@ -223,108 +258,6 @@ public class CustomRamProviderTest {
 
     }
 
-    @Test
-    public void testFSOptions() throws Exception {
-        // Default FS
-        final FileObject fo1 = manager.resolveFile("ram:/");
-        final FileObject fo2 = manager.resolveFile("ram:/");
-        assertSame("Both files should exist in the same fs instance.", fo1.getFileSystem(), fo2.getFileSystem());
-
-        FileSystemOptions fsOptions = fo1.getFileSystem().getFileSystemOptions();
-        long maxFilesystemSize = RamFileSystemConfigBuilder.getInstance().getLongMaxSize(fsOptions);
-        assertEquals("Filesystem option maxSize must be unlimited", Long.MAX_VALUE, maxFilesystemSize);
-
-        // Small FS
-        final FileObject fo3 = manager.resolveFile("ram:/fo3", smallSizedFso);
-        final FileObject fo4 = manager.resolveFile("ram:/", smallSizedFso);
-        assertSame("Both files should exist in the same FileSystem instance.", fo3.getFileSystem(), fo4.getFileSystem());
-        assertNotSame("Both files should exist in different FileSystem instance.", fo1.getFileSystem(), fo3.getFileSystem());
-
-        fsOptions = fo3.getFileSystem().getFileSystemOptions();
-        maxFilesystemSize = RamFileSystemConfigBuilder.getInstance().getLongMaxSize(fsOptions);
-        assertEquals("Filesystem option maxSize must be set", 10, maxFilesystemSize);
-    }
-
-    @Test
-    public void testSmallFS() throws Exception {
-        // Small FS
-        final FileObject fo3 = manager.resolveFile("ram:/fo3", smallSizedFso);
-        fo3.createFile();
-        try {
-            final OutputStream os = fo3.getContent().getOutputStream();
-            os.write(new byte[10]);
-            os.close();
-        } catch (final FileSystemException e) {
-            fail("Test should be able to save such a small file");
-        }
-
-        try {
-            final OutputStream os = fo3.getContent().getOutputStream();
-            os.write(new byte[11]);
-            os.close();
-            fail("It shouldn't save such a big file");
-        } catch (final FileSystemException e) {
-            // Expected
-        }
-    }
-
-    /**
-     * Tests VFS-625.
-     * @throws FileSystemException
-     */
-    @Test
-    public void testMoveFile() throws FileSystemException {
-        final FileObject fileSource = manager.resolveFile("ram://virtual/source");
-        fileSource.createFile();
-        final FileObject fileDest = manager.resolveFile("ram://virtual/dest");
-        Assert.assertTrue(fileSource.canRenameTo(fileDest));
-        fileSource.moveTo(fileDest);
-    }
-
-    /**
-     * Test some special file name symbols.
-     * <p>
-     * Use the RamProvider since it has no character limitations like
-     * the (Windows) LocalFileProvider.
-     */
-    @Test
-    public void testSpecialName() throws FileSystemException
-    {
-        // we test with this file name
-        // does not work with '!'
-        final String testDir = "/spacialtest/";
-        final String testFileName = "test:+-_ \"()<>%#.txt";
-        final String expectedName = testDir + testFileName;
-
-        final FileObject dir = prepareSpecialFile(testDir, testFileName);
-
-
-        // DO: verify you can list it:
-        final FileObject[] findFilesResult = dir.findFiles(new AllFileSelector()); // includes dir
-        final FileObject[] getChildrenResult = dir.getChildren();
-        final FileObject getChildResult = dir.getChild(UriParser.encode(testFileName, ENC));
-
-
-        // validate findFiles returns expected result
-        assertEquals("Unexpected result findFiles: " + Arrays.toString(findFilesResult), 2, findFilesResult.length);
-        String resultName = findFilesResult[0].getName().getPathDecoded();
-        assertEquals("findFiles Child name does not match", expectedName, resultName);
-        assertEquals("Did findFiles but child was no file", FileType.FILE, findFilesResult[0].getType());
-
-        // validate getChildren returns expected result
-        assertEquals("Unexpected result getChildren: " + Arrays.toString(getChildrenResult), 1, getChildrenResult.length);
-        resultName = getChildrenResult[0].getName().getPathDecoded();
-        assertEquals("getChildren Child name does not match", expectedName, resultName);
-        assertEquals("Did getChildren but child was no file", FileType.FILE, getChildrenResult[0].getType());
-
-        // validate getChild returns expected child
-        assertNotNull("Did not find direct child", getChildResult);
-        resultName = getChildResult.getName().getPathDecoded();
-        assertEquals("getChild name does not match", expectedName, resultName);
-        assertEquals("getChild was no file", FileType.FILE, getChildResult.getType());
-    }
-
-
     /**
      * Test if listing files with known scheme prefix works.
      * <p>
@@ -358,6 +291,73 @@ public class CustomRamProviderTest {
         final FileObject[] findFilesResult = dir.findFiles(new AllFileSelector()); // includes dir
         final FileObject[] getChildrenResult = dir.getChildren();
         final FileObject getChildResult = dir.getChild(testFileName);
+
+        // validate findFiles returns expected result
+        assertEquals("Unexpected result findFiles: " + Arrays.toString(findFilesResult), 2, findFilesResult.length);
+        String resultName = findFilesResult[0].getName().getPathDecoded();
+        assertEquals("findFiles Child name does not match", expectedName, resultName);
+        assertEquals("Did findFiles but child was no file", FileType.FILE, findFilesResult[0].getType());
+
+        // validate getChildren returns expected result
+        assertEquals("Unexpected result getChildren: " + Arrays.toString(getChildrenResult), 1, getChildrenResult.length);
+        resultName = getChildrenResult[0].getName().getPathDecoded();
+        assertEquals("getChildren Child name does not match", expectedName, resultName);
+        assertEquals("Did getChildren but child was no file", FileType.FILE, getChildrenResult[0].getType());
+
+        // validate getChild returns expected child
+        assertNotNull("Did not find direct child", getChildResult);
+        resultName = getChildResult.getName().getPathDecoded();
+        assertEquals("getChild name does not match", expectedName, resultName);
+        assertEquals("getChild was no file", FileType.FILE, getChildResult.getType());
+    }
+
+    @Test
+    public void testSmallFS() throws Exception {
+        // Small FS
+        final FileObject fo3 = manager.resolveFile("ram:/fo3", smallSizedFso);
+        fo3.createFile();
+        try {
+            final OutputStream os = fo3.getContent().getOutputStream();
+            os.write(new byte[10]);
+            os.close();
+        } catch (final FileSystemException e) {
+            fail("Test should be able to save such a small file");
+        }
+
+        try {
+            final OutputStream os = fo3.getContent().getOutputStream();
+            os.write(new byte[11]);
+            os.close();
+            fail("It shouldn't save such a big file");
+        } catch (final FileSystemException e) {
+            // Expected
+        }
+    }
+
+
+    /**
+     * Test some special file name symbols.
+     * <p>
+     * Use the RamProvider since it has no character limitations like
+     * the (Windows) LocalFileProvider.
+     */
+    @Test
+    public void testSpecialName() throws FileSystemException
+    {
+        // we test with this file name
+        // does not work with '!'
+        final String testDir = "/spacialtest/";
+        final String testFileName = "test:+-_ \"()<>%#.txt";
+        final String expectedName = testDir + testFileName;
+
+        final FileObject dir = prepareSpecialFile(testDir, testFileName);
+
+
+        // DO: verify you can list it:
+        final FileObject[] findFilesResult = dir.findFiles(new AllFileSelector()); // includes dir
+        final FileObject[] getChildrenResult = dir.getChildren();
+        final FileObject getChildResult = dir.getChild(UriParser.encode(testFileName, ENC));
+
 
         // validate findFiles returns expected result
         assertEquals("Unexpected result findFiles: " + Arrays.toString(findFilesResult), 2, findFilesResult.length);

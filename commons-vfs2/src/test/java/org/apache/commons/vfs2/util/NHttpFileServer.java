@@ -205,6 +205,15 @@ public class NHttpFileServer {
         server.awaitShutdown(TimeValue.MAX_VALUE);
     }
 
+    public void close() {
+        if (server.getStatus() == IOReactorStatus.ACTIVE) {
+            final CloseMode closeMode = CloseMode.GRACEFUL;
+            println("HTTP server shutting down (closeMode=" + closeMode + ")...");
+            server.close(closeMode);
+            println("HTTP server shut down.");
+        }
+    }
+
     public int getPort() {
         if (server == null) {
             return port;
@@ -261,15 +270,6 @@ public class NHttpFileServer {
         println("Serving " + docRoot + " on " + listenerEndpoint.getAddress()
             + (sslContext == null ? "" : " with " + sslContext.getProvider() + " " + sslContext.getProtocol()));
         return this;
-    }
-
-    public void close() {
-        if (server.getStatus() == IOReactorStatus.ACTIVE) {
-            final CloseMode closeMode = CloseMode.GRACEFUL;
-            println("HTTP server shutting down (closeMode=" + closeMode + ")...");
-            server.close(closeMode);
-            println("HTTP server shut down.");
-        }
     }
 
 }

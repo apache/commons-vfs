@@ -29,11 +29,6 @@ import com.jcraft.jsch.TestIdentityRepositoryFactory;
 import junit.framework.Test;
 
 public class SftpProviderStreamProxyModeTestCase extends AbstractSftpProviderTestCase {
-    @Override
-    protected boolean isExecChannelClosed() {
-        return false;
-    }
-
     // --- VFS-440: stream proxy test suite
     // We override the addBaseTests method so that only
     // one test is run (we just test that the input/output are correctly forwarded, and
@@ -96,5 +91,10 @@ public class SftpProviderStreamProxyModeTestCase extends AbstractSftpProviderTes
         final FileObject fileObject = manager.resolveFile(uri, fileSystemOptions);
         this.fileSystem = (SftpFileSystem) fileObject.getFileSystem();
         return fileObject;
+    }
+
+    @Override
+    protected boolean isExecChannelClosed() {
+        return false;
     }
 }

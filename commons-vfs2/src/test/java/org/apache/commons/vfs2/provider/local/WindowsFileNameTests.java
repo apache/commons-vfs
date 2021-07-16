@@ -32,6 +32,37 @@ import org.junit.Test;
 public class WindowsFileNameTests extends AbstractProviderTestCase {
 
     @Test
+    public void testWindowsFilenameParserError() throws Exception {
+        // check VFS-338 with 2+4 slashes we want a dedicated error
+        try {
+            final String FILE = "file://////";
+            final DefaultFileSystemManager manager = getManager();
+            Assert.assertNotNull("Unexpected null manager for test " + this, manager);
+            final FileObject fo = manager.resolveFile(FILE);
+            fail("Windows File Parser should not allow " + FILE + " " + fo);
+        } catch (FileSystemException ex) {
+            assertEquals("Exception code", "vfs.provider/invalid-absolute-uri.error", ex.getCode());
+            ex = (FileSystemException) ex.getCause();
+            assertEquals("Exception code", "vfs.provider.local/not-absolute-file-name.error", ex.getCode());
+        }
+    }
+
+    @Test
+    public void testWindowsFilenameUNCStartError() throws Exception {
+        try {
+            final String FILE = "file://///";
+            final DefaultFileSystemManager manager = getManager();
+            Assert.assertNotNull("Unexpected null manager for test " + this, manager);
+            final FileObject fo = manager.resolveFile(FILE);
+            fail("Windows File Parser should not allow " + FILE + " " + fo);
+        } catch (FileSystemException ex) {
+            assertEquals("Exception code", "vfs.provider/invalid-absolute-uri.error", ex.getCode());
+            ex = (FileSystemException) ex.getCause();
+            assertEquals("Exception code", "vfs.provider.local/missing-share-name.error", ex.getCode());
+        }
+    }
+
+    @Test
     public void testWindowsRoots() throws Exception {
         // valid URI forms of the filesystem root
         final String[] tests = new String[] { "file:///C:/", "file://C:/", "file:/C:/", "file:C:/" };
@@ -72,37 +103,6 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
                 assertEquals("vfs.provider/invalid-absolute-uri.error", ex.getCode());
                 assertTrue(ex.toString().indexOf(name) >= 0);
             }
-        }
-    }
-
-    @Test
-    public void testWindowsFilenameUNCStartError() throws Exception {
-        try {
-            final String FILE = "file://///";
-            final DefaultFileSystemManager manager = getManager();
-            Assert.assertNotNull("Unexpected null manager for test " + this, manager);
-            final FileObject fo = manager.resolveFile(FILE);
-            fail("Windows File Parser should not allow " + FILE + " " + fo);
-        } catch (FileSystemException ex) {
-            assertEquals("Exception code", "vfs.provider/invalid-absolute-uri.error", ex.getCode());
-            ex = (FileSystemException) ex.getCause();
-            assertEquals("Exception code", "vfs.provider.local/missing-share-name.error", ex.getCode());
-        }
-    }
-
-    @Test
-    public void testWindowsFilenameParserError() throws Exception {
-        // check VFS-338 with 2+4 slashes we want a dedicated error
-        try {
-            final String FILE = "file://////";
-            final DefaultFileSystemManager manager = getManager();
-            Assert.assertNotNull("Unexpected null manager for test " + this, manager);
-            final FileObject fo = manager.resolveFile(FILE);
-            fail("Windows File Parser should not allow " + FILE + " " + fo);
-        } catch (FileSystemException ex) {
-            assertEquals("Exception code", "vfs.provider/invalid-absolute-uri.error", ex.getCode());
-            ex = (FileSystemException) ex.getCause();
-            assertEquals("Exception code", "vfs.provider.local/not-absolute-file-name.error", ex.getCode());
         }
     }
 }

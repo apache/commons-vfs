@@ -44,6 +44,10 @@ public class PatternFileSelectorTest {
 
     private static final int FilesPerExtensionCount = 3;
 
+    static FileObject getBaseFolder() {
+        return BaseFolder;
+    }
+
     /**
      * Creates a RAM FS.
      *
@@ -75,28 +79,6 @@ public class PatternFileSelectorTest {
         if (BaseFolder != null) {
             BaseFolder.deleteAll();
         }
-    }
-
-    /**
-     * Tests a null selector.
-     *
-     * @throws Exception
-     */
-    @Test(expected = NullPointerException.class)
-    public void testNullString() throws Exception {
-        // Yep, this will blow up.
-        new PatternFileSelector((String) null);
-    }
-
-    /**
-     * Tests matching all
-     *
-     * @throws Exception
-     */
-    @Test
-    public void testMatchAll() throws Exception {
-        final FileObject[] list = BaseFolder.findFiles(new PatternFileSelector(".*"));
-        assertEquals(EntryCount, list.length);
     }
 
     /**
@@ -132,6 +114,17 @@ public class PatternFileSelectorTest {
     }
 
     /**
+     * Tests matching all
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testMatchAll() throws Exception {
+        final FileObject[] list = BaseFolder.findFiles(new PatternFileSelector(".*"));
+        assertEquals(EntryCount, list.length);
+    }
+
+    /**
      * Tests matching partial file names
      *
      * @throws Exception
@@ -155,8 +148,15 @@ public class PatternFileSelectorTest {
         assertEquals("b.htm", list[0].getName().getBaseName());
     }
 
-    static FileObject getBaseFolder() {
-        return BaseFolder;
+    /**
+     * Tests a null selector.
+     *
+     * @throws Exception
+     */
+    @Test(expected = NullPointerException.class)
+    public void testNullString() throws Exception {
+        // Yep, this will blow up.
+        new PatternFileSelector((String) null);
     }
 
 }

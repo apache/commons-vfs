@@ -39,16 +39,6 @@ public class ZipProviderTestCase extends AbstractProviderTestConfig {
     }
 
     /**
-     * Prepares the file system manager.
-     */
-    @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception {
-        manager.addProvider("zip", new ZipFileProvider());
-        manager.addExtensionMap("zip", "zip");
-        manager.addMimeTypeMap("application/zip", "zip");
-    }
-
-    /**
      * Returns the base folder for read tests.
      */
     @Override
@@ -56,5 +46,15 @@ public class ZipProviderTestCase extends AbstractProviderTestConfig {
         final File zipFile = AbstractVfsTestCase.getTestResource("test.zip");
         final String uri = "zip:file:" + zipFile.getAbsolutePath() + "!/";
         return manager.resolveFile(uri);
+    }
+
+    /**
+     * Prepares the file system manager.
+     */
+    @Override
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
+        manager.addProvider("zip", new ZipFileProvider());
+        manager.addExtensionMap("zip", "zip");
+        manager.addMimeTypeMap("application/zip", "zip");
     }
 }

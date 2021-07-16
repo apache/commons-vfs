@@ -54,6 +54,24 @@ public class HiddenFileFilterTest extends BaseFilterTest {
 
     private static FileObject zipFileObj;
 
+    @AfterClass
+    public static void afterClass() throws IOException {
+
+        visibleFile = null;
+        visibleFileInfo = null;
+        hiddenFile = null;
+        hiddenFileInfo = null;
+        notExistingFile = null;
+        notExistingFileInfo = null;
+
+        zipFileObj.close();
+        FileUtils.deleteQuietly(zipFile);
+        zipFile = null;
+
+        FileUtils.deleteDirectory(testDir);
+        testDir = null;
+    }
+
     @BeforeClass
     public static void beforeClass() throws IOException {
         testDir = getTestDir(HiddenFileFilterTest.class.getName());
@@ -76,24 +94,6 @@ public class HiddenFileFilterTest extends BaseFilterTest {
         zipDir(testDir, "", zipFile);
         zipFileObj = getZipFileObject(zipFile);
 
-    }
-
-    @AfterClass
-    public static void afterClass() throws IOException {
-
-        visibleFile = null;
-        visibleFileInfo = null;
-        hiddenFile = null;
-        hiddenFileInfo = null;
-        notExistingFile = null;
-        notExistingFileInfo = null;
-
-        zipFileObj.close();
-        FileUtils.deleteQuietly(zipFile);
-        zipFile = null;
-
-        FileUtils.deleteDirectory(testDir);
-        testDir = null;
     }
 
     @Test

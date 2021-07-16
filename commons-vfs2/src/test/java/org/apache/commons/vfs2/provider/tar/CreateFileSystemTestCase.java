@@ -53,18 +53,18 @@ public class CreateFileSystemTestCase {
     }
 
     @Test
-    public void testTgzFile() throws IOException {
+    public void testTbz2File() throws IOException {
 
-        final String testFilePath = "src/test/resources/test-data/test.tgz";
+        final String testFilePath = "src/test/resources/test-data/test.tbz2";
         try (FileObject fileObject = createFileSystem(testFilePath)) {
             Assert.assertTrue(fileObject instanceof TarFileObject);
         }
     }
 
     @Test
-    public void testTbz2File() throws IOException {
+    public void testTgzFile() throws IOException {
 
-        final String testFilePath = "src/test/resources/test-data/test.tbz2";
+        final String testFilePath = "src/test/resources/test-data/test.tgz";
         try (FileObject fileObject = createFileSystem(testFilePath)) {
             Assert.assertTrue(fileObject instanceof TarFileObject);
         }

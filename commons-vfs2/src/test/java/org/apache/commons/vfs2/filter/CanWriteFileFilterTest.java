@@ -57,6 +57,29 @@ public class CanWriteFileFilterTest extends BaseFilterTest {
 
     private static FileObject zipFileObj;
 
+    @AfterClass
+    public static void afterClass() throws IOException {
+
+        writableFileInfo = null;
+        writableFile.delete();
+        writableFile = null;
+
+        readOnlyFileInfo = null;
+        readOnlyFile.delete();
+        readOnlyFile = null;
+
+        notExistingFileInfo = null;
+        notExistingFile = null;
+
+        zipFileObj.close();
+        FileUtils.deleteQuietly(zipFile);
+        zipFile = null;
+
+        FileUtils.deleteDirectory(testDir);
+        testDir = null;
+
+    }
+
     @BeforeClass
     public static void beforeClass() throws IOException {
 
@@ -81,26 +104,12 @@ public class CanWriteFileFilterTest extends BaseFilterTest {
 
     }
 
-    @AfterClass
-    public static void afterClass() throws IOException {
+    @Test
+    public void testAcceptCannotWrite() throws FileSystemException {
 
-        writableFileInfo = null;
-        writableFile.delete();
-        writableFile = null;
-
-        readOnlyFileInfo = null;
-        readOnlyFile.delete();
-        readOnlyFile = null;
-
-        notExistingFileInfo = null;
-        notExistingFile = null;
-
-        zipFileObj.close();
-        FileUtils.deleteQuietly(zipFile);
-        zipFile = null;
-
-        FileUtils.deleteDirectory(testDir);
-        testDir = null;
+        Assert.assertFalse(CanWriteFileFilter.CANNOT_WRITE.accept(writableFileInfo));
+        Assert.assertTrue(CanWriteFileFilter.CANNOT_WRITE.accept(readOnlyFileInfo));
+        Assert.assertFalse(CanWriteFileFilter.CANNOT_WRITE.accept(notExistingFileInfo));
 
     }
 
@@ -110,15 +119,6 @@ public class CanWriteFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(CanWriteFileFilter.CAN_WRITE.accept(writableFileInfo));
         Assert.assertFalse(CanWriteFileFilter.CAN_WRITE.accept(readOnlyFileInfo));
         Assert.assertTrue(CanWriteFileFilter.CAN_WRITE.accept(notExistingFileInfo));
-
-    }
-
-    @Test
-    public void testAcceptCannotWrite() throws FileSystemException {
-
-        Assert.assertFalse(CanWriteFileFilter.CANNOT_WRITE.accept(writableFileInfo));
-        Assert.assertTrue(CanWriteFileFilter.CANNOT_WRITE.accept(readOnlyFileInfo));
-        Assert.assertFalse(CanWriteFileFilter.CANNOT_WRITE.accept(notExistingFileInfo));
 
     }
 

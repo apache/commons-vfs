@@ -121,6 +121,108 @@ public abstract class AbstractTestSuite extends TestSetup {
         }
     }
 
+    /**
+     * Asserts that the temp dir is empty or gone.
+     */
+    private void checkTempDir(final String assertMsg) {
+        if (tempDir.exists()) {
+            Assert.assertTrue(assertMsg + " (" + tempDir.getAbsolutePath() + ")",
+                tempDir.isDirectory() && ArrayUtils.isEmpty(tempDir.list()));
+        }
+    }
+
+    private Thread[] createThreadSnapshot() {
+        ThreadGroup tg = Thread.currentThread().getThreadGroup();
+        while (tg.getParent() != null) {
+            tg = tg.getParent();
+        }
+
+        final Thread[] snapshot = new Thread[200];
+        tg.enumerate(snapshot, true);
+
+        return snapshot;
+    }
+
+    private Thread[] diffThreadSnapshot(final Thread[] startThreadSnapshot, final Thread[] endThreadSnapshot) {
+        final List<Thread> diff = new ArrayList<>(10);
+
+        nextEnd: for (final Thread element : endThreadSnapshot) {
+            for (final Thread element2 : startThreadSnapshot) {
+                if (element2 == element) {
+                    continue nextEnd;
+                }
+            }
+
+            diff.add(element);
+        }
+
+        return diff.toArray(EMPTY_THREAD_ARRAY);
+    }
+
+    private String dumpThreadSnapshot(final Thread[] threadSnapshot) {
+        if (ArrayUtils.isEmpty(threadSnapshot)) {
+            return StringUtils.EMPTY;
+        }
+        final StringBuffer sb = new StringBuffer(256);
+        sb.append("Threads still running (" + threadSnapshot.length + ") at " + Instant.now() + ", live threads:");
+        sb.append(System.lineSeparator());
+
+        Field threadTargetField = null;
+        try {
+            threadTargetField = Thread.class.getDeclaredField("target");
+            threadTargetField.setAccessible(true);
+        } catch (final Exception e) {
+            System.err.println("Test suite cannot show you a thread snapshot: " + e);
+        }
+
+        int liveCount = 0;
+        for (int index = 0; index < threadSnapshot.length; index++) {
+            final Thread thread = threadSnapshot[index];
+            if (thread != null && thread.isAlive()) {
+                liveCount++;
+                sb.append("\tThread[");
+                sb.append(index);
+                sb.append("] ");
+                sb.append(" ID ");
+                sb.append(thread.getId());
+                sb.append(", ");
+                // prints [name,priority,group]
+                sb.append(thread);
+                sb.append(",\t");
+                sb.append(thread.getState());
+                sb.append(",\t");
+                if (!thread.isDaemon()) {
+                    sb.append("non_");
+                }
+                sb.append("daemon");
+
+                if (threadTargetField != null) {
+                    sb.append(",\t");
+                    try {
+                        final Object threadTarget = threadTargetField.get(thread);
+                        if (threadTarget != null) {
+                            sb.append(threadTarget.getClass().getCanonicalName());
+                        } else {
+                            sb.append("null");
+                        }
+                    } catch (final IllegalAccessException e) {
+                        sb.append("unknown (");
+                        sb.append(e);
+                        sb.append(")");
+                    }
+                }
+
+                sb.append(System.lineSeparator());
+//              Stream.of(thread.getStackTrace()).forEach(e -> {
+//                  sb.append('\t');
+//                  sb.append(e);
+//                  sb.append(System.lineSeparator());
+//              });
+            }
+        }
+        return liveCount == 0 ? StringUtils.EMPTY : sb.toString();
+    }
+
     @Override
     public void run(final TestResult result) {
         final Protectable p = () -> {
@@ -225,107 +327,5 @@ public abstract class AbstractTestSuite extends TestSetup {
             // }
         }
         // System.in.read();
-    }
-
-    /**
-     * Asserts that the temp dir is empty or gone.
-     */
-    private void checkTempDir(final String assertMsg) {
-        if (tempDir.exists()) {
-            Assert.assertTrue(assertMsg + " (" + tempDir.getAbsolutePath() + ")",
-                tempDir.isDirectory() && ArrayUtils.isEmpty(tempDir.list()));
-        }
-    }
-
-    private String dumpThreadSnapshot(final Thread[] threadSnapshot) {
-        if (ArrayUtils.isEmpty(threadSnapshot)) {
-            return StringUtils.EMPTY;
-        }
-        final StringBuffer sb = new StringBuffer(256);
-        sb.append("Threads still running (" + threadSnapshot.length + ") at " + Instant.now() + ", live threads:");
-        sb.append(System.lineSeparator());
-
-        Field threadTargetField = null;
-        try {
-            threadTargetField = Thread.class.getDeclaredField("target");
-            threadTargetField.setAccessible(true);
-        } catch (final Exception e) {
-            System.err.println("Test suite cannot show you a thread snapshot: " + e);
-        }
-
-        int liveCount = 0;
-        for (int index = 0; index < threadSnapshot.length; index++) {
-            final Thread thread = threadSnapshot[index];
-            if (thread != null && thread.isAlive()) {
-                liveCount++;
-                sb.append("\tThread[");
-                sb.append(index);
-                sb.append("] ");
-                sb.append(" ID ");
-                sb.append(thread.getId());
-                sb.append(", ");
-                // prints [name,priority,group]
-                sb.append(thread);
-                sb.append(",\t");
-                sb.append(thread.getState());
-                sb.append(",\t");
-                if (!thread.isDaemon()) {
-                    sb.append("non_");
-                }
-                sb.append("daemon");
-
-                if (threadTargetField != null) {
-                    sb.append(",\t");
-                    try {
-                        final Object threadTarget = threadTargetField.get(thread);
-                        if (threadTarget != null) {
-                            sb.append(threadTarget.getClass().getCanonicalName());
-                        } else {
-                            sb.append("null");
-                        }
-                    } catch (final IllegalAccessException e) {
-                        sb.append("unknown (");
-                        sb.append(e);
-                        sb.append(")");
-                    }
-                }
-
-                sb.append(System.lineSeparator());
-//              Stream.of(thread.getStackTrace()).forEach(e -> {
-//                  sb.append('\t');
-//                  sb.append(e);
-//                  sb.append(System.lineSeparator());
-//              });
-            }
-        }
-        return liveCount == 0 ? StringUtils.EMPTY : sb.toString();
-    }
-
-    private Thread[] diffThreadSnapshot(final Thread[] startThreadSnapshot, final Thread[] endThreadSnapshot) {
-        final List<Thread> diff = new ArrayList<>(10);
-
-        nextEnd: for (final Thread element : endThreadSnapshot) {
-            for (final Thread element2 : startThreadSnapshot) {
-                if (element2 == element) {
-                    continue nextEnd;
-                }
-            }
-
-            diff.add(element);
-        }
-
-        return diff.toArray(EMPTY_THREAD_ARRAY);
-    }
-
-    private Thread[] createThreadSnapshot() {
-        ThreadGroup tg = Thread.currentThread().getThreadGroup();
-        while (tg.getParent() != null) {
-            tg = tg.getParent();
-        }
-
-        final Thread[] snapshot = new Thread[200];
-        tg.enumerate(snapshot, true);
-
-        return snapshot;
     }
 }

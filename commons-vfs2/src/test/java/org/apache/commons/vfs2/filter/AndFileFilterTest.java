@@ -29,96 +29,39 @@ import org.junit.Test;
 // CHECKSTYLE:OFF Test code
 public class AndFileFilterTest extends BaseFilterTest {
 
-    @Test
-    public void testAndFileFilterFileFilter() {
+    /**
+     * Just a filter class.
+     */
+    private static class DummyFilter implements FileFilter {
 
-        // PREPARE
-        final FileFilter filter1 = new DummyFilter();
-        final FileFilter filter2 = new DummyFilter();
-        final FileFilter filter3 = new DummyFilter();
-
-        // TEST
-        final AndFileFilter testee = new AndFileFilter(filter1, filter2, filter3);
-
-        // VERIFY
-        assertContainsOnly(testee.getFileFilters(), filter1, filter2, filter3);
+        @Override
+        public boolean accept(final FileSelectInfo fileSelectInfo) {
+            return false;
+        }
 
     }
 
-    @Test
-    public void testAndFileFilterList() {
+    /**
+     * Always FALSE.
+     */
+    private static class False implements FileFilter {
 
-        // PREPARE
-        final FileFilter filter1 = new DummyFilter();
-        final FileFilter filter2 = new DummyFilter();
-        final FileFilter filter3 = new DummyFilter();
-        final List<FileFilter> list = new ArrayList<>();
-        list.add(filter1);
-        list.add(filter2);
-        list.add(filter3);
-
-        // TEST
-        final AndFileFilter testee = new AndFileFilter(list);
-
-        // VERIFY
-        assertContainsOnly(testee.getFileFilters(), filter1, filter2, filter3);
+        @Override
+        public boolean accept(final FileSelectInfo fileSelectInfo) {
+            return false;
+        }
 
     }
 
-    @Test
-    public void testAddFileFilter() {
+    /**
+     * Always TRUE.
+     */
+    private static class True implements FileFilter {
 
-        // PREPARE
-        final FileFilter filter1 = new DummyFilter();
-        final FileFilter filter2 = new DummyFilter();
-        final FileFilter filter3 = new DummyFilter();
-
-        // TEST
-        final AndFileFilter testee = new AndFileFilter();
-        testee.addFileFilter(filter1);
-        testee.addFileFilter(filter2);
-        testee.addFileFilter(filter3);
-
-        // VERIFY
-        assertContainsOnly(testee.getFileFilters(), filter1, filter2, filter3);
-
-    }
-
-    @Test
-    public void testRemoveFileFilter() {
-
-        // PREPARE
-        final FileFilter filter1 = new DummyFilter();
-        final FileFilter filter2 = new DummyFilter();
-        final FileFilter filter3 = new DummyFilter();
-        final AndFileFilter testee = new AndFileFilter(filter1, filter2, filter3);
-
-        // TEST
-        testee.removeFileFilter(filter2);
-
-        // VERIFY
-        assertContainsOnly(testee.getFileFilters(), filter1, filter3);
-
-    }
-
-    @Test
-    public void testSetFileFilters() {
-
-        // PREPARE
-        final FileFilter filter1 = new DummyFilter();
-        final FileFilter filter2 = new DummyFilter();
-        final FileFilter filter3 = new DummyFilter();
-        final List<FileFilter> list = new ArrayList<>();
-        list.add(filter1);
-        list.add(filter2);
-        list.add(filter3);
-        final AndFileFilter testee = new AndFileFilter();
-
-        // TEST
-        testee.setFileFilters(list);
-
-        // VERIFY
-        assertContainsOnly(testee.getFileFilters(), filter1, filter2, filter3);
+        @Override
+        public boolean accept(final FileSelectInfo fileSelectInfo) {
+            return true;
+        }
 
     }
 
@@ -163,39 +106,96 @@ public class AndFileFilterTest extends BaseFilterTest {
 
     }
 
-    /**
-     * Just a filter class.
-     */
-    private static class DummyFilter implements FileFilter {
+    @Test
+    public void testAddFileFilter() {
 
-        @Override
-        public boolean accept(final FileSelectInfo fileSelectInfo) {
-            return false;
-        }
+        // PREPARE
+        final FileFilter filter1 = new DummyFilter();
+        final FileFilter filter2 = new DummyFilter();
+        final FileFilter filter3 = new DummyFilter();
 
-    }
+        // TEST
+        final AndFileFilter testee = new AndFileFilter();
+        testee.addFileFilter(filter1);
+        testee.addFileFilter(filter2);
+        testee.addFileFilter(filter3);
 
-    /**
-     * Always TRUE.
-     */
-    private static class True implements FileFilter {
-
-        @Override
-        public boolean accept(final FileSelectInfo fileSelectInfo) {
-            return true;
-        }
+        // VERIFY
+        assertContainsOnly(testee.getFileFilters(), filter1, filter2, filter3);
 
     }
 
-    /**
-     * Always FALSE.
-     */
-    private static class False implements FileFilter {
+    @Test
+    public void testAndFileFilterFileFilter() {
 
-        @Override
-        public boolean accept(final FileSelectInfo fileSelectInfo) {
-            return false;
-        }
+        // PREPARE
+        final FileFilter filter1 = new DummyFilter();
+        final FileFilter filter2 = new DummyFilter();
+        final FileFilter filter3 = new DummyFilter();
+
+        // TEST
+        final AndFileFilter testee = new AndFileFilter(filter1, filter2, filter3);
+
+        // VERIFY
+        assertContainsOnly(testee.getFileFilters(), filter1, filter2, filter3);
+
+    }
+
+    @Test
+    public void testAndFileFilterList() {
+
+        // PREPARE
+        final FileFilter filter1 = new DummyFilter();
+        final FileFilter filter2 = new DummyFilter();
+        final FileFilter filter3 = new DummyFilter();
+        final List<FileFilter> list = new ArrayList<>();
+        list.add(filter1);
+        list.add(filter2);
+        list.add(filter3);
+
+        // TEST
+        final AndFileFilter testee = new AndFileFilter(list);
+
+        // VERIFY
+        assertContainsOnly(testee.getFileFilters(), filter1, filter2, filter3);
+
+    }
+
+    @Test
+    public void testRemoveFileFilter() {
+
+        // PREPARE
+        final FileFilter filter1 = new DummyFilter();
+        final FileFilter filter2 = new DummyFilter();
+        final FileFilter filter3 = new DummyFilter();
+        final AndFileFilter testee = new AndFileFilter(filter1, filter2, filter3);
+
+        // TEST
+        testee.removeFileFilter(filter2);
+
+        // VERIFY
+        assertContainsOnly(testee.getFileFilters(), filter1, filter3);
+
+    }
+
+    @Test
+    public void testSetFileFilters() {
+
+        // PREPARE
+        final FileFilter filter1 = new DummyFilter();
+        final FileFilter filter2 = new DummyFilter();
+        final FileFilter filter3 = new DummyFilter();
+        final List<FileFilter> list = new ArrayList<>();
+        list.add(filter1);
+        list.add(filter2);
+        list.add(filter3);
+        final AndFileFilter testee = new AndFileFilter();
+
+        // TEST
+        testee.setFileFilters(list);
+
+        // VERIFY
+        assertContainsOnly(testee.getFileFilters(), filter1, filter2, filter3);
 
     }
 

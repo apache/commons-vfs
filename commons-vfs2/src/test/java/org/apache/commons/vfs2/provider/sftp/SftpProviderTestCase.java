@@ -22,11 +22,6 @@ import junit.framework.Test;
 
 public class SftpProviderTestCase extends AbstractSftpProviderTestCase {
 
-    @Override
-    protected boolean isExecChannelClosed() {
-        return false;
-    }
-
     /**
      * Creates the test suite for the sftp file system.
      */
@@ -36,5 +31,10 @@ public class SftpProviderTestCase extends AbstractSftpProviderTestCase {
         suite.addTests(PermissionsTests.class);
         suite.addTests(SftpMultiThreadWriteTests.class);
         return suite;
+    }
+
+    @Override
+    protected boolean isExecChannelClosed() {
+        return false;
     }
 }

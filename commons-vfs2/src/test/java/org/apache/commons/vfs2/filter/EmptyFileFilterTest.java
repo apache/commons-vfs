@@ -62,6 +62,28 @@ public class EmptyFileFilterTest extends BaseFilterTest {
 
     private static FileObject zipFileObj;
 
+    @AfterClass
+    public static void afterClass() throws IOException {
+
+        notEmptyFile = null;
+        notEmptyFileInfo = null;
+        emptyFile = null;
+        emptyFileInfo = null;
+        notEmptyDir = null;
+        notEmptyDirInfo = null;
+        emptyDir = null;
+        emptyDirInfo = null;
+        notExistingFile = null;
+        notExistingFileInfo = null;
+
+        zipFileObj.close();
+        FileUtils.deleteQuietly(zipFile);
+        zipFile = null;
+
+        FileUtils.deleteDirectory(testDir);
+        testDir = null;
+    }
+
     @BeforeClass
     public static void beforeClass() throws IOException {
         testDir = getTestDir(EmptyFileFilterTest.class.getName());
@@ -92,28 +114,6 @@ public class EmptyFileFilterTest extends BaseFilterTest {
         zipDir(testDir, "", zipFile);
         zipFileObj = getZipFileObject(zipFile);
 
-    }
-
-    @AfterClass
-    public static void afterClass() throws IOException {
-
-        notEmptyFile = null;
-        notEmptyFileInfo = null;
-        emptyFile = null;
-        emptyFileInfo = null;
-        notEmptyDir = null;
-        notEmptyDirInfo = null;
-        emptyDir = null;
-        emptyDirInfo = null;
-        notExistingFile = null;
-        notExistingFileInfo = null;
-
-        zipFileObj.close();
-        FileUtils.deleteQuietly(zipFile);
-        zipFile = null;
-
-        FileUtils.deleteDirectory(testDir);
-        testDir = null;
     }
 
     @Test

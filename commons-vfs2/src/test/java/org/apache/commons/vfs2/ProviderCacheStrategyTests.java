@@ -26,6 +26,24 @@ import org.junit.Test;
  * Test the cache stragey
  */
 public class ProviderCacheStrategyTests extends AbstractProviderTestCase {
+    public void assertContains(final FileObject[] fos, final String string) {
+        for (final FileObject fo : fos) {
+            if (string.equals(fo.getName().getBaseName())) {
+                return;
+            }
+        }
+
+        fail(string + " should be seen");
+    }
+
+    public void assertContainsNot(final FileObject[] fos, final String string) {
+        for (final FileObject fo : fos) {
+            if (string.equals(fo.getName().getBaseName())) {
+                fail(string + " should not be seen");
+            }
+        }
+    }
+
     /**
      * Returns the capabilities required by the tests of this test case.
      */
@@ -69,6 +87,36 @@ public class ProviderCacheStrategyTests extends AbstractProviderTestCase {
     }
 
     /**
+     * Test the on_call strategy
+     */
+    @Test
+    public void testOnCallCache() throws Exception {
+        final FileObject scratchFolder = getWriteFolder();
+        if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class)
+                || scratchFolder.getFileSystem() instanceof VirtualFileSystem) {
+            // cant check ram filesystem as every manager holds its own ram filesystem data
+            return;
+        }
+
+        scratchFolder.delete(Selectors.EXCLUDE_SELF);
+
+        final DefaultFileSystemManager fs = createManager();
+        fs.setCacheStrategy(CacheStrategy.ON_CALL);
+        fs.init();
+        final FileObject foBase2 = getBaseTestFolder(fs);
+
+        final FileObject cachedFolder = foBase2.resolveFile(scratchFolder.getName().getPath());
+
+        FileObject[] fos = cachedFolder.getChildren();
+        assertContainsNot(fos, "file1.txt");
+
+        scratchFolder.resolveFile("file1.txt").createFile();
+
+        fos = cachedFolder.getChildren();
+        assertContains(fos, "file1.txt");
+    }
+
+    /**
      * Test the on_resolve strategy
      */
     @Test
@@ -100,53 +148,5 @@ public class ProviderCacheStrategyTests extends AbstractProviderTestCase {
         cachedFolder = foBase2.resolveFile(scratchFolder.getName().getPath());
         fos = cachedFolder.getChildren();
         assertContains(fos, "file1.txt");
-    }
-
-    /**
-     * Test the on_call strategy
-     */
-    @Test
-    public void testOnCallCache() throws Exception {
-        final FileObject scratchFolder = getWriteFolder();
-        if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class)
-                || scratchFolder.getFileSystem() instanceof VirtualFileSystem) {
-            // cant check ram filesystem as every manager holds its own ram filesystem data
-            return;
-        }
-
-        scratchFolder.delete(Selectors.EXCLUDE_SELF);
-
-        final DefaultFileSystemManager fs = createManager();
-        fs.setCacheStrategy(CacheStrategy.ON_CALL);
-        fs.init();
-        final FileObject foBase2 = getBaseTestFolder(fs);
-
-        final FileObject cachedFolder = foBase2.resolveFile(scratchFolder.getName().getPath());
-
-        FileObject[] fos = cachedFolder.getChildren();
-        assertContainsNot(fos, "file1.txt");
-
-        scratchFolder.resolveFile("file1.txt").createFile();
-
-        fos = cachedFolder.getChildren();
-        assertContains(fos, "file1.txt");
-    }
-
-    public void assertContainsNot(final FileObject[] fos, final String string) {
-        for (final FileObject fo : fos) {
-            if (string.equals(fo.getName().getBaseName())) {
-                fail(string + " should not be seen");
-            }
-        }
-    }
-
-    public void assertContains(final FileObject[] fos, final String string) {
-        for (final FileObject fo : fos) {
-            if (string.equals(fo.getName().getBaseName())) {
-                return;
-            }
-        }
-
-        fail(string + " should be seen");
     }
 }

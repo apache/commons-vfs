@@ -27,15 +27,6 @@ public class ProviderRandomReadWriteTests extends AbstractProviderTestCase {
     private static final String TEST_DATA = "This is a test file.";
 
     /**
-     * Returns the capabilities required by the tests of this test case.
-     */
-    @Override
-    protected Capability[] getRequiredCapabilities() {
-        return new Capability[] { Capability.GET_TYPE, Capability.CREATE, Capability.RANDOM_ACCESS_READ,
-                Capability.RANDOM_ACCESS_WRITE };
-    }
-
-    /**
      * Sets up a scratch folder for the test to use.
      */
     protected FileObject createScratchFolder() throws Exception {
@@ -46,6 +37,15 @@ public class ProviderRandomReadWriteTests extends AbstractProviderTestCase {
         scratchFolder.createFolder();
 
         return scratchFolder;
+    }
+
+    /**
+     * Returns the capabilities required by the tests of this test case.
+     */
+    @Override
+    protected Capability[] getRequiredCapabilities() {
+        return new Capability[] { Capability.GET_TYPE, Capability.CREATE, Capability.RANDOM_ACCESS_READ,
+                Capability.RANDOM_ACCESS_WRITE };
     }
 
     /**

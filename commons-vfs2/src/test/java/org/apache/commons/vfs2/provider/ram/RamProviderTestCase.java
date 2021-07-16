@@ -31,8 +31,6 @@ import junit.framework.Test;
  * Tests for the RAM file system.
  */
 public class RamProviderTestCase extends AbstractProviderTestConfig {
-    private boolean inited;
-
     /** logger */
     private static final Log log = LogFactory.getLog(RamProviderTestCase.class);
 
@@ -43,23 +41,7 @@ public class RamProviderTestCase extends AbstractProviderTestConfig {
         return new ProviderTestSuite(new RamProviderTestCase());
     }
 
-    /**
-     * Prepares the file system manager.
-     *
-     * Imports test data from the disk.
-     *
-     * @throws Exception
-     */
-    @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception {
-        try {
-            manager.addProvider("ram", new RamFileProvider());
-            manager.addProvider("file", new DefaultLocalFileProvider());
-        } catch (final Exception e) {
-            log.error(e);
-            throw e;
-        }
-    }
+    private boolean inited;
 
     /**
      * Returns the base folder for tests.
@@ -78,5 +60,23 @@ public class RamProviderTestCase extends AbstractProviderTestConfig {
 
         final String uri = "ram:/";
         return manager.resolveFile(uri);
+    }
+
+    /**
+     * Prepares the file system manager.
+     *
+     * Imports test data from the disk.
+     *
+     * @throws Exception
+     */
+    @Override
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
+        try {
+            manager.addProvider("ram", new RamFileProvider());
+            manager.addProvider("file", new DefaultLocalFileProvider());
+        } catch (final Exception e) {
+            log.error(e);
+            throw e;
+        }
     }
 }

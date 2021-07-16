@@ -42,6 +42,36 @@ import org.junit.Assert;
  * Abstract tests for FTP file systems.
  */
 abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
+    static final class FtpProviderTestSuite extends ProviderTestSuite {
+        private final boolean implicit;
+
+        public FtpProviderTestSuite(final AbstractFtpsProviderTestCase providerConfig) throws Exception {
+            super(providerConfig);
+            this.implicit = providerConfig.isImplicit();
+        }
+
+        @Override
+        protected void setUp() throws Exception {
+            if (getSystemTestUriOverride() == null) {
+                setUpClass(implicit);
+            }
+            super.setUp();
+        }
+
+        @Override
+        protected void tearDown() throws Exception {
+            try {
+                // This will report running threads of the FTP server.
+                // However, shutting down the FTP server first will always
+                // report an exception closing the manager, because the
+                // server is already down
+                super.tearDown();
+            } finally {
+                tearDownClass();
+            }
+        }
+    }
+
     private static int SocketPort;
 
     /**
@@ -50,8 +80,6 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
     private static String ConnectionUri;
 
     private static FtpServer Server;
-
-    protected FileSystemOptions fileSystemOptions;
 
     private static final String TEST_URI = "test.ftps.uri";
 
@@ -130,37 +158,7 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         }
     }
 
-    static final class FtpProviderTestSuite extends ProviderTestSuite {
-        private final boolean implicit;
-
-        public FtpProviderTestSuite(final AbstractFtpsProviderTestCase providerConfig) throws Exception {
-            super(providerConfig);
-            this.implicit = providerConfig.isImplicit();
-        }
-
-        @Override
-        protected void setUp() throws Exception {
-            if (getSystemTestUriOverride() == null) {
-                setUpClass(implicit);
-            }
-            super.setUp();
-        }
-
-        @Override
-        protected void tearDown() throws Exception {
-            try {
-                // This will report running threads of the FTP server.
-                // However, shutting down the FTP server first will always
-                // report an exception closing the manager, because the
-                // server is already down
-                super.tearDown();
-            } finally {
-                tearDownClass();
-            }
-        }
-    }
-
-    protected abstract boolean isImplicit();
+    protected FileSystemOptions fileSystemOptions;
 
     /**
      * Returns the base folder for tests. You can override the DEFAULT_URI by using the system property name defined by
@@ -183,10 +181,7 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         return fileSystemOptions;
     }
 
-    protected void setupOptions(final FtpsFileSystemConfigBuilder builder) {
-        builder.setConnectTimeout(fileSystemOptions, Duration.ofSeconds(1));
-        builder.setDataTimeout(fileSystemOptions, Duration.ofSeconds(2));
-    }
+    protected abstract boolean isImplicit();
 
     /**
      * Prepares the file system manager.
@@ -194,5 +189,10 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
     @Override
     public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("ftps", new FtpsFileProvider());
+    }
+
+    protected void setupOptions(final FtpsFileSystemConfigBuilder builder) {
+        builder.setConnectTimeout(fileSystemOptions, Duration.ofSeconds(1));
+        builder.setDataTimeout(fileSystemOptions, Duration.ofSeconds(2));
     }
 }

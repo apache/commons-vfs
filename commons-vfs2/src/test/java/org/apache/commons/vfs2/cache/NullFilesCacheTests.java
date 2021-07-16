@@ -30,17 +30,6 @@ import org.junit.Test;
  */
 public class NullFilesCacheTests extends AbstractFilesCacheTestsBase {
 
-    @Test
-    public void testFilesCache() throws Exception {
-        final FileObject scratchFolder = getWriteFolder();
-        Assert.assertNotNull("This test should not have a null FileObject scratch folder", scratchFolder);
-
-        final FileObject dir1 = scratchFolder.resolveFile("dir1");
-        final FileObject dir1_2 = scratchFolder.resolveFile("dir1");
-
-        assertNotSame("Should always be new instance with NullCache", dir1, dir1_2);
-    }
-
     @Override
     @Test
     public void testBasicCacheOps() throws Exception {
@@ -70,5 +59,16 @@ public class NullFilesCacheTests extends AbstractFilesCacheTestsBase {
         final DefaultFileSystemManager manager = getManager();
         Assert.assertNotNull("This test should not have a null DefaultFileSystemManager", manager);
         assertTrue(manager.getFilesCache() instanceof NullFilesCache);
+    }
+
+    @Test
+    public void testFilesCache() throws Exception {
+        final FileObject scratchFolder = getWriteFolder();
+        Assert.assertNotNull("This test should not have a null FileObject scratch folder", scratchFolder);
+
+        final FileObject dir1 = scratchFolder.resolveFile("dir1");
+        final FileObject dir1_2 = scratchFolder.resolveFile("dir1");
+
+        assertNotSame("Should always be new instance with NullCache", dir1, dir1_2);
     }
 }

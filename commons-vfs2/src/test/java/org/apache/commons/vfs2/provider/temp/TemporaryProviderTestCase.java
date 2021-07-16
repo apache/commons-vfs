@@ -39,19 +39,19 @@ public class TemporaryProviderTestCase extends AbstractProviderTestConfig {
     }
 
     /**
+     * Returns the base folder for tests.
+     */
+    @Override
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
+        return manager.resolveFile("tmp:/");
+    }
+
+    /**
      * Prepares the file system manager.
      */
     @Override
     public void prepare(final DefaultFileSystemManager manager) throws Exception {
         final File baseDir = AbstractVfsTestCase.getTestDirectoryFile();
         manager.addProvider("tmp", new TemporaryFileProvider(baseDir));
-    }
-
-    /**
-     * Returns the base folder for tests.
-     */
-    @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-        return manager.resolveFile("tmp:/");
     }
 }

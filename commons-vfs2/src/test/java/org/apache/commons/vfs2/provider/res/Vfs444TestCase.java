@@ -35,48 +35,12 @@ import org.junit.Test;
  */
 public class Vfs444TestCase extends AbstractProviderTestConfig {
 
-    public static junit.framework.Test suite() throws Exception {
-        final ProviderTestSuite suite = new ProviderTestSuite(new Vfs444TestCase(), true);
-        suite.addTests(Vfs444Tests.class);
-        return suite;
-    }
-
-    /**
-     * Prepares the file system manager. This implementation does nothing.
-     */
-    @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception {
-        manager.addProvider("res", new ResourceFileProvider());
-        manager.addProvider("zip", new ZipFileProvider());
-    }
-
-    /**
-     * Returns the base folder for tests.
-     */
-    @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-        final String baseDir = AbstractVfsTestCase.getResourceTestDirectory();
-        return manager.resolveFile("zip:res:" + baseDir + "/test.zip");
-    }
-
     public static class Vfs444Tests extends AbstractProviderTestCase {
-
-        @Test
-        public void testResolveFullPathURI0() throws FileSystemException {
-            final FileName result = getManager().resolveURI("res:test-data/test.zip");
-            Assert.assertTrue(result.isFile());
-        }
 
         @Test
         public void testResolveFullPathFile0() throws FileSystemException {
             final FileObject result = getManager().resolveFile("res:test-data/test.zip");
             Assert.assertTrue(result.exists());
-        }
-
-        @Test
-        public void testResolveFullPathURI1() throws FileSystemException {
-            final FileName result = getManager().resolveURI("res:/test-data/test.zip");
-            Assert.assertTrue(result.isFile());
         }
 
         @Test
@@ -86,15 +50,27 @@ public class Vfs444TestCase extends AbstractProviderTestConfig {
         }
 
         @Test
-        public void testResolveFullPathURI2() throws FileSystemException {
-            final FileName result = getManager().resolveURI("res://test-data/test.zip");
+        public void testResolveFullPathFile2() throws FileSystemException {
+        	final FileObject result = getManager().resolveFile("res://test-data/test.zip");
+            Assert.assertTrue(result.exists());
+        }
+
+        @Test
+        public void testResolveFullPathURI0() throws FileSystemException {
+            final FileName result = getManager().resolveURI("res:test-data/test.zip");
             Assert.assertTrue(result.isFile());
         }
 
         @Test
-        public void testResolveFullPathFile2() throws FileSystemException {
-        	final FileObject result = getManager().resolveFile("res://test-data/test.zip");
-            Assert.assertTrue(result.exists());
+        public void testResolveFullPathURI1() throws FileSystemException {
+            final FileName result = getManager().resolveURI("res:/test-data/test.zip");
+            Assert.assertTrue(result.isFile());
+        }
+
+        @Test
+        public void testResolveFullPathURI2() throws FileSystemException {
+            final FileName result = getManager().resolveURI("res://test-data/test.zip");
+            Assert.assertTrue(result.isFile());
         }
 
         @Test
@@ -112,5 +88,29 @@ public class Vfs444TestCase extends AbstractProviderTestConfig {
             Assert.assertNotNull(result);
             Assert.assertTrue(result.exists());
         }
+    }
+
+    public static junit.framework.Test suite() throws Exception {
+        final ProviderTestSuite suite = new ProviderTestSuite(new Vfs444TestCase(), true);
+        suite.addTests(Vfs444Tests.class);
+        return suite;
+    }
+
+    /**
+     * Returns the base folder for tests.
+     */
+    @Override
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
+        final String baseDir = AbstractVfsTestCase.getResourceTestDirectory();
+        return manager.resolveFile("zip:res:" + baseDir + "/test.zip");
+    }
+
+    /**
+     * Prepares the file system manager. This implementation does nothing.
+     */
+    @Override
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
+        manager.addProvider("res", new ResourceFileProvider());
+        manager.addProvider("zip", new ZipFileProvider());
     }
 }

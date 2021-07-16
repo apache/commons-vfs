@@ -58,6 +58,29 @@ public class CanExecuteFileFilterTest extends BaseFilterTest {
 
     private static FileObject zipFileObj;
 
+    @AfterClass
+    public static void afterClass() throws IOException {
+
+        executableFileInfo = null;
+        executableFile.delete();
+        executableFile = null;
+
+        notExecutableFileInfo = null;
+        notExecutableFile.delete();
+        notExecutableFile = null;
+
+        notExistingFileInfo = null;
+        notExistingFile = null;
+
+        zipFileObj.close();
+        FileUtils.deleteQuietly(zipFile);
+        zipFile = null;
+
+        FileUtils.deleteDirectory(testDir);
+        testDir = null;
+
+    }
+
     @BeforeClass
     public static void beforeClass() throws IOException {
 
@@ -79,29 +102,6 @@ public class CanExecuteFileFilterTest extends BaseFilterTest {
         zipFile = new File(getTempDir(), CanExecuteFileFilterTest.class.getName() + ".zip");
         zipDir(testDir, "", zipFile);
         zipFileObj = getZipFileObject(zipFile);
-
-    }
-
-    @AfterClass
-    public static void afterClass() throws IOException {
-
-        executableFileInfo = null;
-        executableFile.delete();
-        executableFile = null;
-
-        notExecutableFileInfo = null;
-        notExecutableFile.delete();
-        notExecutableFile = null;
-
-        notExistingFileInfo = null;
-        notExistingFile = null;
-
-        zipFileObj.close();
-        FileUtils.deleteQuietly(zipFile);
-        zipFile = null;
-
-        FileUtils.deleteDirectory(testDir);
-        testDir = null;
 
     }
 

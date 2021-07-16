@@ -28,6 +28,43 @@ import org.junit.Test;
 public class GenericFileNameTestCase extends AbstractVfsTestCase {
 
     /**
+     * Tests error handling in URI parser.
+     */
+    @Test
+    public void testBadlyFormedUri() throws Exception {
+        // Does not start with ftp://
+        testBadlyFormedUri("ftp:", "vfs.provider/missing-double-slashes.error");
+        testBadlyFormedUri("ftp:/", "vfs.provider/missing-double-slashes.error");
+        testBadlyFormedUri("ftp:a", "vfs.provider/missing-double-slashes.error");
+
+        // Missing hostname
+        testBadlyFormedUri("ftp://", "vfs.provider/missing-hostname.error");
+        testBadlyFormedUri("ftp://:21/file", "vfs.provider/missing-hostname.error");
+        testBadlyFormedUri("ftp:///file", "vfs.provider/missing-hostname.error");
+
+        // Empty port
+        testBadlyFormedUri("ftp://host:", "vfs.provider/missing-port.error");
+        testBadlyFormedUri("ftp://host:/file", "vfs.provider/missing-port.error");
+        testBadlyFormedUri("ftp://host:port/file", "vfs.provider/missing-port.error");
+
+        // Missing absolute path
+        testBadlyFormedUri("ftp://host:90a", "vfs.provider/missing-hostname-path-sep.error");
+        testBadlyFormedUri("ftp://host?a", "vfs.provider/missing-hostname-path-sep.error");
+    }
+
+    /**
+     * Tests that parsing a URI fails with the expected error.
+     */
+    private void testBadlyFormedUri(final String uri, final String errorMsg) {
+        try {
+            new URLFileNameParser(80).parseUri(null, null, uri);
+            fail();
+        } catch (final FileSystemException e) {
+            assertSameMessage(errorMsg, uri, e);
+        }
+    }
+
+    /**
      * Tests parsing a URI into its parts.
      */
     @Test
@@ -99,42 +136,5 @@ public class GenericFileNameTestCase extends AbstractVfsTestCase {
         assertEquals("/", name.getPath());
         assertEquals("ftp://user%3a:%40@hostname/", name.getRootURI());
         assertEquals("ftp://user%3a:%40@hostname/", name.getURI());
-    }
-
-    /**
-     * Tests error handling in URI parser.
-     */
-    @Test
-    public void testBadlyFormedUri() throws Exception {
-        // Does not start with ftp://
-        testBadlyFormedUri("ftp:", "vfs.provider/missing-double-slashes.error");
-        testBadlyFormedUri("ftp:/", "vfs.provider/missing-double-slashes.error");
-        testBadlyFormedUri("ftp:a", "vfs.provider/missing-double-slashes.error");
-
-        // Missing hostname
-        testBadlyFormedUri("ftp://", "vfs.provider/missing-hostname.error");
-        testBadlyFormedUri("ftp://:21/file", "vfs.provider/missing-hostname.error");
-        testBadlyFormedUri("ftp:///file", "vfs.provider/missing-hostname.error");
-
-        // Empty port
-        testBadlyFormedUri("ftp://host:", "vfs.provider/missing-port.error");
-        testBadlyFormedUri("ftp://host:/file", "vfs.provider/missing-port.error");
-        testBadlyFormedUri("ftp://host:port/file", "vfs.provider/missing-port.error");
-
-        // Missing absolute path
-        testBadlyFormedUri("ftp://host:90a", "vfs.provider/missing-hostname-path-sep.error");
-        testBadlyFormedUri("ftp://host?a", "vfs.provider/missing-hostname-path-sep.error");
-    }
-
-    /**
-     * Tests that parsing a URI fails with the expected error.
-     */
-    private void testBadlyFormedUri(final String uri, final String errorMsg) {
-        try {
-            new URLFileNameParser(80).parseUri(null, null, uri);
-            fail();
-        } catch (final FileSystemException e) {
-            assertSameMessage(errorMsg, uri, e);
-        }
     }
 }

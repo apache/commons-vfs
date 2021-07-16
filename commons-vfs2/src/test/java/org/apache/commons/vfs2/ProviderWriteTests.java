@@ -31,17 +31,86 @@ import org.junit.Test;
  */
 public class ProviderWriteTests extends AbstractProviderTestCase {
 
-    protected FileObject getReadFolderDir1() throws FileSystemException {
-        return getReadFolder().resolveFile("dir1");
+    /**
+     * A test listener.
+     */
+    private static class TestListener implements FileListener {
+        private static final Object CREATE = "create";
+        private static final Object DELETE = "delete";
+        private static final Object CHANGED = "changed";
+        private final FileObject file;
+        private final ArrayList<Object> events = new ArrayList<>();
+
+        public TestListener(final FileObject file) {
+            this.file = file;
+        }
+
+        public void addCreateEvent() {
+            events.add(CREATE);
+        }
+
+        public void addDeleteEvent() {
+            events.add(DELETE);
+        }
+
+        public void assertFinished() {
+            assertEquals("Missing event", 0, events.size());
+        }
+
+        @Override
+        public void fileChanged(final FileChangeEvent event) throws Exception {
+            assertFalse("Unexpected changed event", events.isEmpty());
+            assertSame("Expecting a changed event", CHANGED, events.remove(0));
+            assertEquals(Objects.toString(file), file, event.getFileObject());
+            try {
+                assertFalse(Objects.toString(file), file.exists());
+            } catch (final FileSystemException e) {
+                fail();
+            }
+        }
+
+        /**
+         * Called when a file is created.
+         */
+        @Override
+        public void fileCreated(final FileChangeEvent event) {
+            assertFalse("Unexpected create event", events.isEmpty());
+            assertSame("Expecting a create event", CREATE, events.remove(0));
+            assertEquals(Objects.toString(file), file, event.getFileObject());
+            try {
+                assertTrue(Objects.toString(file), file.exists());
+            } catch (final FileSystemException e) {
+                fail();
+            }
+        }
+
+        /**
+         * Called when a file is deleted.
+         */
+        @Override
+        public void fileDeleted(final FileChangeEvent event) {
+            assertFalse("Unexpected delete event", events.isEmpty());
+            assertSame("Expecting a delete event", DELETE, events.remove(0));
+            assertEquals(Objects.toString(file), file, event.getFileObject());
+            try {
+                assertFalse(Objects.toString(file), file.exists());
+            } catch (final FileSystemException e) {
+                fail();
+            }
+        }
     }
 
     /**
-     * Returns the capabilities required by the tests of this test case.
+     * Ensures the names of a set of files match an expected set.
      */
-    @Override
-    protected Capability[] getRequiredCapabilities() {
-        return new Capability[] { Capability.CREATE, Capability.DELETE, Capability.GET_TYPE, Capability.LIST_CHILDREN,
-                Capability.READ_CONTENT, Capability.WRITE_CONTENT };
+    private void assertSameFileSet(final Set<String> names, final FileObject[] files) {
+        // Make sure the sets are the same length
+        assertEquals(names.size(), files.length);
+
+        // Check for unexpected names
+        for (final FileObject file : files) {
+            assertTrue(names.contains(file.getName().getBaseName()));
+        }
     }
 
     /**
@@ -57,38 +126,245 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         return scratchFolder;
     }
 
+    protected FileObject getReadFolderDir1() throws FileSystemException {
+        return getReadFolder().resolveFile("dir1");
+    }
+
     /**
-     * Tests folder creation.
+     * Returns the capabilities required by the tests of this test case.
+     */
+    @Override
+    protected Capability[] getRequiredCapabilities() {
+        return new Capability[] { Capability.CREATE, Capability.DELETE, Capability.GET_TYPE, Capability.LIST_CHILDREN,
+                Capability.READ_CONTENT, Capability.WRITE_CONTENT };
+    }
+
+    /**
+     * Tests overwriting a file on the same file system.
      */
     @Test
-    public void testFolderCreate() throws Exception {
+    public void testCopyFromOverwriteSameFileSystem() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
         // Create direct child of the test folder
-        FileObject folder = scratchFolder.resolveFile("dir1");
-        assertFalse(folder.exists());
-        folder.createFolder();
-        assertTrue(folder.exists());
-        assertSame(FileType.FOLDER, folder.getType());
-        assertTrue(folder.isFolder());
-        assertEquals(0, folder.getChildren().length);
+        final FileObject file = scratchFolder.resolveFile("file1.txt");
+        assertFalse(file.exists());
 
-        // Create a descendant, where the intermediate folders don't exist
-        folder = scratchFolder.resolveFile("dir2/dir1/dir1");
-        assertFalse(folder.exists());
-        assertFalse(folder.getParent().exists());
-        assertFalse(folder.getParent().getParent().exists());
-        folder.createFolder();
-        assertTrue(folder.exists());
-        assertSame(FileType.FOLDER, folder.getType());
-        assertTrue(folder.isFolder());
-        assertEquals(0, folder.getChildren().length);
-        assertTrue(folder.getParent().exists());
-        assertTrue(folder.getParent().getParent().exists());
+        // Create the source file
+        final String content = "Here is some sample content for the file.  Blah Blah Blah.";
+        try (OutputStream os = file.getContent().getOutputStream()) {
+            os.write(content.getBytes(StandardCharsets.UTF_8));
+        }
 
-        // Test creating a folder that already exists
-        assertTrue(folder.exists());
-        folder.createFolder();
+        assertSameContent(content, file);
+
+        // Make sure we can copy the new file to another file on the same filesystem
+        final FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
+        assertFalse(fileCopy.exists());
+        fileCopy.copyFrom(file, Selectors.SELECT_SELF);
+
+        assertSameContent(content, fileCopy);
+
+        // Make sure we can copy the same new file to the same target file on the same filesystem
+        assertTrue(fileCopy.exists());
+        fileCopy.copyFrom(file, Selectors.SELECT_SELF);
+
+        assertSameContent(content, fileCopy);
+    }
+
+    /**
+     * Tests file copy to and from the same file system type. This was a problem w/ FTP.
+     */
+    @Test
+    public void testCopySameFileSystem() throws Exception {
+        final FileObject scratchFolder = createScratchFolder();
+
+        // Create direct child of the test folder
+        final FileObject file = scratchFolder.resolveFile("file1.txt");
+        assertFalse(file.exists());
+
+        // Create the source file
+        final String content = "Here is some sample content for the file.  Blah Blah Blah.";
+        try (OutputStream os = file.getContent().getOutputStream()) {
+            os.write(content.getBytes(StandardCharsets.UTF_8));
+        }
+
+        assertSameContent(content, file);
+
+        // Make sure we can copy the new file to another file on the same filesystem
+        final FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
+        assertFalse(fileCopy.exists());
+        fileCopy.copyFrom(file, Selectors.SELECT_SELF);
+
+        assertSameContent(content, fileCopy);
+    }
+
+    /**
+     * Tests create-delete-create-a-file sequence on the same file system.
+     */
+    @Test
+    public void testCreateDeleteCreateSameFileSystem() throws Exception {
+        final FileObject scratchFolder = createScratchFolder();
+
+        // Create direct child of the test folder
+        final FileObject file = scratchFolder.resolveFile("file1.txt");
+        assertFalse(file.exists());
+
+        // Create the source file
+        final String content = "Here is some sample content for the file.  Blah Blah Blah.";
+        try (OutputStream os = file.getContent().getOutputStream()) {
+            os.write(content.getBytes(StandardCharsets.UTF_8));
+        }
+
+        assertSameContent(content, file);
+
+        // Make sure we can copy the new file to another file on the same filesystem
+        final FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
+        assertFalse(fileCopy.exists());
+        fileCopy.copyFrom(file, Selectors.SELECT_SELF);
+
+        assertSameContent(content, fileCopy);
+
+        // Delete the file.
+        assertTrue(fileCopy.exists());
+        assertTrue(fileCopy.delete());
+
+        // Make sure we can copy the same new file to the same target file on the same filesystem
+        assertFalse(fileCopy.exists());
+        fileCopy.copyFrom(file, Selectors.SELECT_SELF);
+
+        assertSameContent(content, fileCopy);
+    }
+
+    /*
+      Tests concurrent read and write on the same file fails.
+     */
+    /*
+     * imario@apache.org leave this to some sort of LockManager public void testConcurrentReadWrite() throws Exception {
+     * final FileObject scratchFolder = createScratchFolder();
+     *
+     * final FileObject file = scratchFolder.resolveFile("file1.txt"); file.createFile();
+     *
+     * // Start reading from the file final InputStream instr = file.getContent().getInputStream();
+     *
+     * try { // Try to write to the file file.getContent().getOutputStream(); fail(); } catch (final FileSystemException
+     * e) { // Check error message assertSameMessage("vfs.provider/write-in-use.error", file, e); } finally {
+     * instr.close(); } }
+     */
+
+    /*
+      Tests concurrent writes on the same file fails.
+     */
+    /*
+     * imario@apache.org leave this to some sort of LockManager public void testConcurrentWrite() throws Exception {
+     * final FileObject scratchFolder = createScratchFolder();
+     *
+     * final FileObject file = scratchFolder.resolveFile("file1.txt"); file.createFile();
+     *
+     * // Start writing to the file final OutputStream outstr = file.getContent().getOutputStream(); final String
+     * testContent = "some content"; try { // Write some content to the first stream
+     * outstr.write(testContent.getBytes());
+     *
+     * // Try to open another output stream file.getContent().getOutputStream(); fail(); } catch (final
+     * FileSystemException e) { // Check error message assertSameMessage("vfs.provider/write-in-use.error", file, e); }
+     * finally { outstr.close(); }
+     *
+     * // Make sure that the content written to the first stream is actually applied assertSameContent(testContent,
+     * file); }
+     */
+
+    /**
+     * Tests deletion
+     */
+    @Test
+    public void testDelete() throws Exception {
+        // Set-up the test structure
+        final FileObject folder = createScratchFolder();
+        folder.resolveFile("file1.txt").createFile();
+        folder.resolveFile("file%25.txt").createFile();
+        folder.resolveFile("emptydir").createFolder();
+        folder.resolveFile("dir1/file1.txt").createFile();
+        folder.resolveFile("dir1/dir2/file2.txt").createFile();
+
+        // Delete a file
+        FileObject file = folder.resolveFile("file1.txt");
+        assertTrue(file.exists());
+        file.deleteAll();
+        assertFalse(file.exists());
+
+        // Delete a special name file
+        file = folder.resolveFile("file%25.txt");
+        assertTrue(file.exists());
+        file.deleteAll();
+        assertFalse(file.exists());
+
+        // Delete an empty folder
+        file = folder.resolveFile("emptydir");
+        assertTrue(file.exists());
+        file.deleteAll();
+        assertFalse(file.exists());
+
+        // Recursive delete
+        file = folder.resolveFile("dir1");
+        final FileObject file2 = file.resolveFile("dir2/file2.txt");
+        assertTrue(file.exists());
+        assertTrue(file2.exists());
+        file.deleteAll();
+        assertFalse(file.exists());
+        assertFalse(file2.exists());
+
+        // Delete a file that does not exist
+        file = folder.resolveFile("some-folder/some-file");
+        assertFalse(file.exists());
+        file.deleteAll();
+        assertFalse(file.exists());
+    }
+
+    /**
+     * Tests deletion
+     */
+    @Test
+    public void testDeleteAllDescendents() throws Exception {
+        // Set-up the test structure
+        final FileObject folder = createScratchFolder();
+        folder.resolveFile("file1.txt").createFile();
+        folder.resolveFile("file%25.txt").createFile();
+        folder.resolveFile("emptydir").createFolder();
+        folder.resolveFile("dir1/file1.txt").createFile();
+        folder.resolveFile("dir1/dir2/file2.txt").createFile();
+
+        // Delete a file
+        FileObject file = folder.resolveFile("file1.txt");
+        assertTrue(file.exists());
+        file.deleteAll();
+        assertFalse(file.exists());
+
+        // Delete a special name file
+        file = folder.resolveFile("file%25.txt");
+        assertTrue(file.exists());
+        file.deleteAll();
+        assertFalse(file.exists());
+
+        // Delete an empty folder
+        file = folder.resolveFile("emptydir");
+        assertTrue(file.exists());
+        file.deleteAll();
+        assertFalse(file.exists());
+
+        // Recursive delete
+        file = folder.resolveFile("dir1");
+        final FileObject file2 = file.resolveFile("dir2/file2.txt");
+        assertTrue(file.exists());
+        assertTrue(file2.exists());
+        file.deleteAll();
+        assertFalse(file.exists());
+        assertFalse(file2.exists());
+
+        // Delete a file that does not exist
+        file = folder.resolveFile("some-folder/some-file");
+        assertFalse(file.exists());
+        file.deleteAll();
+        assertFalse(file.exists());
     }
 
     /**
@@ -189,231 +465,37 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Tests deletion
+     * Tests folder creation.
      */
     @Test
-    public void testDelete() throws Exception {
-        // Set-up the test structure
-        final FileObject folder = createScratchFolder();
-        folder.resolveFile("file1.txt").createFile();
-        folder.resolveFile("file%25.txt").createFile();
-        folder.resolveFile("emptydir").createFolder();
-        folder.resolveFile("dir1/file1.txt").createFile();
-        folder.resolveFile("dir1/dir2/file2.txt").createFile();
-
-        // Delete a file
-        FileObject file = folder.resolveFile("file1.txt");
-        assertTrue(file.exists());
-        file.deleteAll();
-        assertFalse(file.exists());
-
-        // Delete a special name file
-        file = folder.resolveFile("file%25.txt");
-        assertTrue(file.exists());
-        file.deleteAll();
-        assertFalse(file.exists());
-
-        // Delete an empty folder
-        file = folder.resolveFile("emptydir");
-        assertTrue(file.exists());
-        file.deleteAll();
-        assertFalse(file.exists());
-
-        // Recursive delete
-        file = folder.resolveFile("dir1");
-        final FileObject file2 = file.resolveFile("dir2/file2.txt");
-        assertTrue(file.exists());
-        assertTrue(file2.exists());
-        file.deleteAll();
-        assertFalse(file.exists());
-        assertFalse(file2.exists());
-
-        // Delete a file that does not exist
-        file = folder.resolveFile("some-folder/some-file");
-        assertFalse(file.exists());
-        file.deleteAll();
-        assertFalse(file.exists());
-    }
-
-    /**
-     * Tests deletion
-     */
-    @Test
-    public void testDeleteAllDescendents() throws Exception {
-        // Set-up the test structure
-        final FileObject folder = createScratchFolder();
-        folder.resolveFile("file1.txt").createFile();
-        folder.resolveFile("file%25.txt").createFile();
-        folder.resolveFile("emptydir").createFolder();
-        folder.resolveFile("dir1/file1.txt").createFile();
-        folder.resolveFile("dir1/dir2/file2.txt").createFile();
-
-        // Delete a file
-        FileObject file = folder.resolveFile("file1.txt");
-        assertTrue(file.exists());
-        file.deleteAll();
-        assertFalse(file.exists());
-
-        // Delete a special name file
-        file = folder.resolveFile("file%25.txt");
-        assertTrue(file.exists());
-        file.deleteAll();
-        assertFalse(file.exists());
-
-        // Delete an empty folder
-        file = folder.resolveFile("emptydir");
-        assertTrue(file.exists());
-        file.deleteAll();
-        assertFalse(file.exists());
-
-        // Recursive delete
-        file = folder.resolveFile("dir1");
-        final FileObject file2 = file.resolveFile("dir2/file2.txt");
-        assertTrue(file.exists());
-        assertTrue(file2.exists());
-        file.deleteAll();
-        assertFalse(file.exists());
-        assertFalse(file2.exists());
-
-        // Delete a file that does not exist
-        file = folder.resolveFile("some-folder/some-file");
-        assertFalse(file.exists());
-        file.deleteAll();
-        assertFalse(file.exists());
-    }
-
-    /*
-      Tests concurrent read and write on the same file fails.
-     */
-    /*
-     * imario@apache.org leave this to some sort of LockManager public void testConcurrentReadWrite() throws Exception {
-     * final FileObject scratchFolder = createScratchFolder();
-     *
-     * final FileObject file = scratchFolder.resolveFile("file1.txt"); file.createFile();
-     *
-     * // Start reading from the file final InputStream instr = file.getContent().getInputStream();
-     *
-     * try { // Try to write to the file file.getContent().getOutputStream(); fail(); } catch (final FileSystemException
-     * e) { // Check error message assertSameMessage("vfs.provider/write-in-use.error", file, e); } finally {
-     * instr.close(); } }
-     */
-
-    /*
-      Tests concurrent writes on the same file fails.
-     */
-    /*
-     * imario@apache.org leave this to some sort of LockManager public void testConcurrentWrite() throws Exception {
-     * final FileObject scratchFolder = createScratchFolder();
-     *
-     * final FileObject file = scratchFolder.resolveFile("file1.txt"); file.createFile();
-     *
-     * // Start writing to the file final OutputStream outstr = file.getContent().getOutputStream(); final String
-     * testContent = "some content"; try { // Write some content to the first stream
-     * outstr.write(testContent.getBytes());
-     *
-     * // Try to open another output stream file.getContent().getOutputStream(); fail(); } catch (final
-     * FileSystemException e) { // Check error message assertSameMessage("vfs.provider/write-in-use.error", file, e); }
-     * finally { outstr.close(); }
-     *
-     * // Make sure that the content written to the first stream is actually applied assertSameContent(testContent,
-     * file); }
-     */
-
-    /**
-     * Tests file copy to and from the same file system type. This was a problem w/ FTP.
-     */
-    @Test
-    public void testCopySameFileSystem() throws Exception {
+    public void testFolderCreate() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
         // Create direct child of the test folder
-        final FileObject file = scratchFolder.resolveFile("file1.txt");
-        assertFalse(file.exists());
+        FileObject folder = scratchFolder.resolveFile("dir1");
+        assertFalse(folder.exists());
+        folder.createFolder();
+        assertTrue(folder.exists());
+        assertSame(FileType.FOLDER, folder.getType());
+        assertTrue(folder.isFolder());
+        assertEquals(0, folder.getChildren().length);
 
-        // Create the source file
-        final String content = "Here is some sample content for the file.  Blah Blah Blah.";
-        try (OutputStream os = file.getContent().getOutputStream()) {
-            os.write(content.getBytes(StandardCharsets.UTF_8));
-        }
+        // Create a descendant, where the intermediate folders don't exist
+        folder = scratchFolder.resolveFile("dir2/dir1/dir1");
+        assertFalse(folder.exists());
+        assertFalse(folder.getParent().exists());
+        assertFalse(folder.getParent().getParent().exists());
+        folder.createFolder();
+        assertTrue(folder.exists());
+        assertSame(FileType.FOLDER, folder.getType());
+        assertTrue(folder.isFolder());
+        assertEquals(0, folder.getChildren().length);
+        assertTrue(folder.getParent().exists());
+        assertTrue(folder.getParent().getParent().exists());
 
-        assertSameContent(content, file);
-
-        // Make sure we can copy the new file to another file on the same filesystem
-        final FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
-        assertFalse(fileCopy.exists());
-        fileCopy.copyFrom(file, Selectors.SELECT_SELF);
-
-        assertSameContent(content, fileCopy);
-    }
-
-    /**
-     * Tests overwriting a file on the same file system.
-     */
-    @Test
-    public void testCopyFromOverwriteSameFileSystem() throws Exception {
-        final FileObject scratchFolder = createScratchFolder();
-
-        // Create direct child of the test folder
-        final FileObject file = scratchFolder.resolveFile("file1.txt");
-        assertFalse(file.exists());
-
-        // Create the source file
-        final String content = "Here is some sample content for the file.  Blah Blah Blah.";
-        try (OutputStream os = file.getContent().getOutputStream()) {
-            os.write(content.getBytes(StandardCharsets.UTF_8));
-        }
-
-        assertSameContent(content, file);
-
-        // Make sure we can copy the new file to another file on the same filesystem
-        final FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
-        assertFalse(fileCopy.exists());
-        fileCopy.copyFrom(file, Selectors.SELECT_SELF);
-
-        assertSameContent(content, fileCopy);
-
-        // Make sure we can copy the same new file to the same target file on the same filesystem
-        assertTrue(fileCopy.exists());
-        fileCopy.copyFrom(file, Selectors.SELECT_SELF);
-
-        assertSameContent(content, fileCopy);
-    }
-
-    /**
-     * Tests create-delete-create-a-file sequence on the same file system.
-     */
-    @Test
-    public void testCreateDeleteCreateSameFileSystem() throws Exception {
-        final FileObject scratchFolder = createScratchFolder();
-
-        // Create direct child of the test folder
-        final FileObject file = scratchFolder.resolveFile("file1.txt");
-        assertFalse(file.exists());
-
-        // Create the source file
-        final String content = "Here is some sample content for the file.  Blah Blah Blah.";
-        try (OutputStream os = file.getContent().getOutputStream()) {
-            os.write(content.getBytes(StandardCharsets.UTF_8));
-        }
-
-        assertSameContent(content, file);
-
-        // Make sure we can copy the new file to another file on the same filesystem
-        final FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
-        assertFalse(fileCopy.exists());
-        fileCopy.copyFrom(file, Selectors.SELECT_SELF);
-
-        assertSameContent(content, fileCopy);
-
-        // Delete the file.
-        assertTrue(fileCopy.exists());
-        assertTrue(fileCopy.delete());
-
-        // Make sure we can copy the same new file to the same target file on the same filesystem
-        assertFalse(fileCopy.exists());
-        fileCopy.copyFrom(file, Selectors.SELECT_SELF);
-
-        assertSameContent(content, fileCopy);
+        // Test creating a folder that already exists
+        assertTrue(folder.exists());
+        folder.createFolder();
     }
 
     /**
@@ -554,136 +636,6 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Ensures the names of a set of files match an expected set.
-     */
-    private void assertSameFileSet(final Set<String> names, final FileObject[] files) {
-        // Make sure the sets are the same length
-        assertEquals(names.size(), files.length);
-
-        // Check for unexpected names
-        for (final FileObject file : files) {
-            assertTrue(names.contains(file.getName().getBaseName()));
-        }
-    }
-
-    /**
-     * A test listener.
-     */
-    private static class TestListener implements FileListener {
-        private final FileObject file;
-        private final ArrayList<Object> events = new ArrayList<>();
-        private static final Object CREATE = "create";
-        private static final Object DELETE = "delete";
-        private static final Object CHANGED = "changed";
-
-        public TestListener(final FileObject file) {
-            this.file = file;
-        }
-
-        /**
-         * Called when a file is created.
-         */
-        @Override
-        public void fileCreated(final FileChangeEvent event) {
-            assertFalse("Unexpected create event", events.isEmpty());
-            assertSame("Expecting a create event", CREATE, events.remove(0));
-            assertEquals(Objects.toString(file), file, event.getFileObject());
-            try {
-                assertTrue(Objects.toString(file), file.exists());
-            } catch (final FileSystemException e) {
-                fail();
-            }
-        }
-
-        /**
-         * Called when a file is deleted.
-         */
-        @Override
-        public void fileDeleted(final FileChangeEvent event) {
-            assertFalse("Unexpected delete event", events.isEmpty());
-            assertSame("Expecting a delete event", DELETE, events.remove(0));
-            assertEquals(Objects.toString(file), file, event.getFileObject());
-            try {
-                assertFalse(Objects.toString(file), file.exists());
-            } catch (final FileSystemException e) {
-                fail();
-            }
-        }
-
-        @Override
-        public void fileChanged(final FileChangeEvent event) throws Exception {
-            assertFalse("Unexpected changed event", events.isEmpty());
-            assertSame("Expecting a changed event", CHANGED, events.remove(0));
-            assertEquals(Objects.toString(file), file, event.getFileObject());
-            try {
-                assertFalse(Objects.toString(file), file.exists());
-            } catch (final FileSystemException e) {
-                fail();
-            }
-        }
-
-        public void addCreateEvent() {
-            events.add(CREATE);
-        }
-
-        public void addDeleteEvent() {
-            events.add(DELETE);
-        }
-
-        public void assertFinished() {
-            assertEquals("Missing event", 0, events.size());
-        }
-    }
-
-    /**
-     * Tests file write to and from the same file system type
-     */
-    @Test
-    public void testWriteSameFileSystem() throws Exception {
-        final FileObject scratchFolder = createScratchFolder();
-
-        // Create direct child of the test folder
-        final FileObject fileSource = scratchFolder.resolveFile("file1.txt");
-        assertFalse(fileSource.exists());
-
-        // Create the source file
-        final String expectedString = "Here is some sample content for the file.  Blah Blah Blah.";
-        try (OutputStream expectedOutputStream = fileSource.getContent().getOutputStream()) {
-            expectedOutputStream.write(expectedString.getBytes(StandardCharsets.UTF_8));
-        }
-
-        assertSameContent(expectedString, fileSource);
-
-        // Make sure we can copy the new file to another file on the same filesystem
-        final FileObject fileTarget = scratchFolder.resolveFile("file1copy.txt");
-        assertFalse(fileTarget.exists());
-
-        final FileContent contentSource = fileSource.getContent();
-        //
-        // Tests FileContent#write(FileContent)
-        contentSource.write(fileTarget.getContent());
-        assertSameContent(expectedString, fileTarget);
-        //
-        // Tests FileContent#write(OutputStream)
-        OutputStream outputStream = fileTarget.getContent().getOutputStream();
-        try {
-            contentSource.write(outputStream);
-        } finally {
-            outputStream.close();
-        }
-        assertSameContent(expectedString, fileTarget);
-        //
-        // Tests FileContent#write(OutputStream, int)
-        outputStream = fileTarget.getContent().getOutputStream();
-        try {
-            contentSource.write(outputStream, 1234);
-        } finally {
-            outputStream.close();
-        }
-        assertSameContent(expectedString, fileTarget);
-    }
-
-    /**
      * Tests overwriting a file on the same file system.
      */
     @Test
@@ -740,6 +692,54 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
             outputStream.close();
         }
         assertSameContent(content, fileCopy);
+    }
+
+    /**
+     * Tests file write to and from the same file system type
+     */
+    @Test
+    public void testWriteSameFileSystem() throws Exception {
+        final FileObject scratchFolder = createScratchFolder();
+
+        // Create direct child of the test folder
+        final FileObject fileSource = scratchFolder.resolveFile("file1.txt");
+        assertFalse(fileSource.exists());
+
+        // Create the source file
+        final String expectedString = "Here is some sample content for the file.  Blah Blah Blah.";
+        try (OutputStream expectedOutputStream = fileSource.getContent().getOutputStream()) {
+            expectedOutputStream.write(expectedString.getBytes(StandardCharsets.UTF_8));
+        }
+
+        assertSameContent(expectedString, fileSource);
+
+        // Make sure we can copy the new file to another file on the same filesystem
+        final FileObject fileTarget = scratchFolder.resolveFile("file1copy.txt");
+        assertFalse(fileTarget.exists());
+
+        final FileContent contentSource = fileSource.getContent();
+        //
+        // Tests FileContent#write(FileContent)
+        contentSource.write(fileTarget.getContent());
+        assertSameContent(expectedString, fileTarget);
+        //
+        // Tests FileContent#write(OutputStream)
+        OutputStream outputStream = fileTarget.getContent().getOutputStream();
+        try {
+            contentSource.write(outputStream);
+        } finally {
+            outputStream.close();
+        }
+        assertSameContent(expectedString, fileTarget);
+        //
+        // Tests FileContent#write(OutputStream, int)
+        outputStream = fileTarget.getContent().getOutputStream();
+        try {
+            contentSource.write(outputStream, 1234);
+        } finally {
+            outputStream.close();
+        }
+        assertSameContent(expectedString, fileTarget);
     }
 
 }

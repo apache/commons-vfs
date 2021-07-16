@@ -39,16 +39,6 @@ public class TgzProviderTestCase extends AbstractProviderTestConfig {
     }
 
     /**
-     * Prepares the file system manager.
-     */
-    @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception {
-        // manager.addProvider("tgz", new TgzFileProvider());
-        manager.addProvider("tgz", new TarFileProvider());
-        manager.addProvider("tar", new TarFileProvider());
-    }
-
-    /**
      * Returns the base folder for read tests.
      */
     @Override
@@ -56,5 +46,15 @@ public class TgzProviderTestCase extends AbstractProviderTestConfig {
         final File tarFile = AbstractVfsTestCase.getTestResource("test.tgz");
         final String uri = "tgz:file:" + tarFile.getAbsolutePath() + "!/";
         return manager.resolveFile(uri);
+    }
+
+    /**
+     * Prepares the file system manager.
+     */
+    @Override
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
+        // manager.addProvider("tgz", new TgzFileProvider());
+        manager.addProvider("tgz", new TarFileProvider());
+        manager.addProvider("tar", new TarFileProvider());
     }
 }

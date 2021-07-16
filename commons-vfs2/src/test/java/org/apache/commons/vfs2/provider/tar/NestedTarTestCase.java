@@ -40,16 +40,6 @@ public class NestedTarTestCase extends AbstractProviderTestConfig {
     }
 
     /**
-     * Prepares the file system manager.
-     */
-    @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception {
-        manager.addProvider("tar", new TarFileProvider());
-        manager.addExtensionMap("tar", "tar");
-        manager.addMimeTypeMap("application/x-tar", "tar");
-    }
-
-    /**
      * Returns the base folder for tests.
      */
     @Override
@@ -67,5 +57,15 @@ public class NestedTarTestCase extends AbstractProviderTestConfig {
         final FileObject tarFile = manager.resolveFile(uri, opts);
         final FileObject nestedFS = manager.createFileSystem(tarFile);
         return nestedFS.resolveFile("/");
+    }
+
+    /**
+     * Prepares the file system manager.
+     */
+    @Override
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
+        manager.addProvider("tar", new TarFileProvider());
+        manager.addExtensionMap("tar", "tar");
+        manager.addMimeTypeMap("application/x-tar", "tar");
     }
 }

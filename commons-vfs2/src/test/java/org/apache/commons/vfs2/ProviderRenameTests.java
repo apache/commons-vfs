@@ -28,15 +28,6 @@ import org.junit.Test;
  */
 public class ProviderRenameTests extends AbstractProviderTestCase {
     /**
-     * Returns the capabilities required by the tests of this test case.
-     */
-    @Override
-    protected Capability[] getRequiredCapabilities() {
-        return new Capability[] { Capability.CREATE, Capability.DELETE, Capability.GET_TYPE, Capability.LIST_CHILDREN,
-                Capability.READ_CONTENT, Capability.WRITE_CONTENT, Capability.RENAME };
-    }
-
-    /**
      * Sets up a scratch folder for the test to use.
      */
     protected FileObject createScratchFolder() throws Exception {
@@ -47,6 +38,27 @@ public class ProviderRenameTests extends AbstractProviderTestCase {
         scratchFolder.createFolder();
 
         return scratchFolder;
+    }
+
+    private String createTestFile(final FileObject file)
+            throws FileSystemException, IOException, UnsupportedEncodingException, Exception {
+        // Create the source file
+        final String content = "Here is some sample content for the file.  Blah Blah Blah.";
+
+        try (OutputStream os = file.getContent().getOutputStream()) {
+            os.write(content.getBytes(StandardCharsets.UTF_8));
+        }
+        assertSameContent(content, file);
+        return content;
+    }
+
+    /**
+     * Returns the capabilities required by the tests of this test case.
+     */
+    @Override
+    protected Capability[] getRequiredCapabilities() {
+        return new Capability[] { Capability.CREATE, Capability.DELETE, Capability.GET_TYPE, Capability.LIST_CHILDREN,
+                Capability.READ_CONTENT, Capability.WRITE_CONTENT, Capability.RENAME };
     }
 
     private void moveFile(final FileObject scratchFolder, final FileObject file, final String content)
@@ -66,18 +78,6 @@ public class ProviderRenameTests extends AbstractProviderTestCase {
         assertTrue(fileMove.delete());
     }
 
-    private String createTestFile(final FileObject file)
-            throws FileSystemException, IOException, UnsupportedEncodingException, Exception {
-        // Create the source file
-        final String content = "Here is some sample content for the file.  Blah Blah Blah.";
-
-        try (OutputStream os = file.getContent().getOutputStream()) {
-            os.write(content.getBytes(StandardCharsets.UTF_8));
-        }
-        assertSameContent(content, file);
-        return content;
-    }
-
     /**
      * Tests create-delete-create-a-file sequence on the same file system.
      */
@@ -93,6 +93,27 @@ public class ProviderRenameTests extends AbstractProviderTestCase {
 
         // Make sure we can move the new file to another file on the same file system
         moveFile(scratchFolder, file, content);
+    }
+
+    /**
+     * Moves a file from a child folder to a parent folder to test what happens when the original folder is now empty.
+     *
+     * See [VFS-298] FTP: Exception is thrown when renaming a file.
+     */
+    @Test
+    public void testRenameFileAndLeaveFolderEmpty() throws Exception {
+        final FileObject scratchFolder = createScratchFolder();
+        final FileObject folder = scratchFolder.resolveFile("folder");
+        folder.createFolder();
+        assertTrue(folder.exists());
+        final FileObject file = folder.resolveFile("file1.txt");
+        assertFalse(file.exists());
+
+        final String content = createTestFile(file);
+
+        // Make sure we can move the new file to another file on the same file system
+        moveFile(scratchFolder, file, content);
+        assertEquals(0, folder.getChildren().length);
     }
 
     /**
@@ -116,26 +137,5 @@ public class ProviderRenameTests extends AbstractProviderTestCase {
         assertEquals("new destination must be emty", 0, destFolder.getChildren().length);
 
         moveFile(destFolder, file, content);
-    }
-
-    /**
-     * Moves a file from a child folder to a parent folder to test what happens when the original folder is now empty.
-     *
-     * See [VFS-298] FTP: Exception is thrown when renaming a file.
-     */
-    @Test
-    public void testRenameFileAndLeaveFolderEmpty() throws Exception {
-        final FileObject scratchFolder = createScratchFolder();
-        final FileObject folder = scratchFolder.resolveFile("folder");
-        folder.createFolder();
-        assertTrue(folder.exists());
-        final FileObject file = folder.resolveFile("file1.txt");
-        assertFalse(file.exists());
-
-        final String content = createTestFile(file);
-
-        // Make sure we can move the new file to another file on the same file system
-        moveFile(scratchFolder, file, content);
-        assertEquals(0, folder.getChildren().length);
     }
 }

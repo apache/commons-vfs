@@ -57,6 +57,29 @@ public class CanReadFileFilterTest extends BaseFilterTest {
 
     private static FileObject zipFileObj;
 
+    @AfterClass
+    public static void afterClass() throws IOException {
+
+        writableFileInfo = null;
+        writableFile.delete();
+        writableFile = null;
+
+        readOnlyFileInfo = null;
+        readOnlyFile.delete();
+        readOnlyFile = null;
+
+        notExistingFileInfo = null;
+        notExistingFile = null;
+
+        zipFileObj.close();
+        FileUtils.deleteQuietly(zipFile);
+        zipFile = null;
+
+        FileUtils.deleteDirectory(testDir);
+        testDir = null;
+
+    }
+
     @BeforeClass
     public static void beforeClass() throws IOException {
 
@@ -81,26 +104,12 @@ public class CanReadFileFilterTest extends BaseFilterTest {
 
     }
 
-    @AfterClass
-    public static void afterClass() throws IOException {
+    @Test
+    public void testAcceptCannotRead() throws FileSystemException {
 
-        writableFileInfo = null;
-        writableFile.delete();
-        writableFile = null;
-
-        readOnlyFileInfo = null;
-        readOnlyFile.delete();
-        readOnlyFile = null;
-
-        notExistingFileInfo = null;
-        notExistingFile = null;
-
-        zipFileObj.close();
-        FileUtils.deleteQuietly(zipFile);
-        zipFile = null;
-
-        FileUtils.deleteDirectory(testDir);
-        testDir = null;
+        Assert.assertFalse(CanReadFileFilter.CANNOT_READ.accept(writableFileInfo));
+        Assert.assertFalse(CanReadFileFilter.CANNOT_READ.accept(readOnlyFileInfo));
+        Assert.assertTrue(CanReadFileFilter.CANNOT_READ.accept(notExistingFileInfo));
 
     }
 
@@ -110,15 +119,6 @@ public class CanReadFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(CanReadFileFilter.CAN_READ.accept(writableFileInfo));
         Assert.assertTrue(CanReadFileFilter.CAN_READ.accept(readOnlyFileInfo));
         Assert.assertFalse(CanReadFileFilter.CAN_READ.accept(notExistingFileInfo));
-
-    }
-
-    @Test
-    public void testAcceptCannotRead() throws FileSystemException {
-
-        Assert.assertFalse(CanReadFileFilter.CANNOT_READ.accept(writableFileInfo));
-        Assert.assertFalse(CanReadFileFilter.CANNOT_READ.accept(readOnlyFileInfo));
-        Assert.assertTrue(CanReadFileFilter.CANNOT_READ.accept(notExistingFileInfo));
 
     }
 

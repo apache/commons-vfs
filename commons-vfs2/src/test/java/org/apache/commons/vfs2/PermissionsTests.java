@@ -34,6 +34,28 @@ import org.junit.Test;
 public class PermissionsTests extends AbstractProviderTestCase {
     public static final String FILENAME = "permission.txt";
 
+    private FileObject createTestFile() throws Exception {
+        // Get the scratch folder
+        final FileObject scratchFolder = getWriteFolder();
+        assertNotNull(scratchFolder);
+
+        // Make sure the test folder is empty
+        scratchFolder.delete(Selectors.EXCLUDE_SELF);
+        scratchFolder.createFolder();
+
+        // Create direct child of the test folder
+        final FileObject file = scratchFolder.resolveFile(FILENAME);
+        assertFalse(file.exists());
+
+        // Create the source file
+        final String content = "Here is some sample content for the file.  Blah Blah Blah.";
+
+        try (OutputStream os = file.getContent().getOutputStream()) {
+            os.write(content.getBytes(StandardCharsets.UTF_8));
+        }
+        return file;
+    }
+
     /**
      * Returns the capabilities required by the tests of this test case.
      */
@@ -41,6 +63,26 @@ public class PermissionsTests extends AbstractProviderTestCase {
     protected Capability[] getRequiredCapabilities() {
         return new Capability[] { Capability.CREATE, Capability.DELETE, Capability.READ_CONTENT,
                 Capability.WRITE_CONTENT, };
+    }
+
+    /**
+     * Returns true if the file system is a LocalFileSystem on Windows
+     */
+    private boolean isWindows() {
+        return SystemUtils.IS_OS_WINDOWS && this.getFileSystem() instanceof LocalFileSystem;
+    }
+
+    /**
+     * Clean up the permission-modified file to not affect other tests.
+     */
+    @Override
+    protected void tearDown() throws Exception {
+        final FileObject scratchFolder = getWriteFolder();
+        final FileObject file = scratchFolder.resolveFile(FILENAME);
+        file.setWritable(true, true);
+        file.delete();
+
+        super.tearDown();
     }
 
     /**
@@ -70,26 +112,6 @@ public class PermissionsTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Tests for the writable permission
-     */
-    @Test
-    public void testWriteable() throws Exception {
-        final FileObject file = createTestFile();
-
-        // Set the write permission for owner
-        Assert.assertTrue("Setting write permission failed: " + file, file.setWritable(true, true));
-        Assert.assertTrue("File expected to be writable: " + file, file.isWriteable());
-
-        // Set the write permission for all
-        Assert.assertTrue("Setting write permission failed: " + file, file.setWritable(true, false));
-        Assert.assertTrue("File expected to be writable: " + file, file.isWriteable());
-
-        // Clear the write permission
-        Assert.assertTrue("Setting write permission failed: " + file, file.setWritable(false, true));
-        Assert.assertFalse("File expected to be not writable: " + file, file.isWriteable());
-    }
-
-    /**
      * Tests for the readable permission
      */
     @Test
@@ -115,44 +137,22 @@ public class PermissionsTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Clean up the permission-modified file to not affect other tests.
+     * Tests for the writable permission
      */
-    @Override
-    protected void tearDown() throws Exception {
-        final FileObject scratchFolder = getWriteFolder();
-        final FileObject file = scratchFolder.resolveFile(FILENAME);
-        file.setWritable(true, true);
-        file.delete();
+    @Test
+    public void testWriteable() throws Exception {
+        final FileObject file = createTestFile();
 
-        super.tearDown();
-    }
+        // Set the write permission for owner
+        Assert.assertTrue("Setting write permission failed: " + file, file.setWritable(true, true));
+        Assert.assertTrue("File expected to be writable: " + file, file.isWriteable());
 
-    private FileObject createTestFile() throws Exception {
-        // Get the scratch folder
-        final FileObject scratchFolder = getWriteFolder();
-        assertNotNull(scratchFolder);
+        // Set the write permission for all
+        Assert.assertTrue("Setting write permission failed: " + file, file.setWritable(true, false));
+        Assert.assertTrue("File expected to be writable: " + file, file.isWriteable());
 
-        // Make sure the test folder is empty
-        scratchFolder.delete(Selectors.EXCLUDE_SELF);
-        scratchFolder.createFolder();
-
-        // Create direct child of the test folder
-        final FileObject file = scratchFolder.resolveFile(FILENAME);
-        assertFalse(file.exists());
-
-        // Create the source file
-        final String content = "Here is some sample content for the file.  Blah Blah Blah.";
-
-        try (OutputStream os = file.getContent().getOutputStream()) {
-            os.write(content.getBytes(StandardCharsets.UTF_8));
-        }
-        return file;
-    }
-
-    /**
-     * Returns true if the file system is a LocalFileSystem on Windows
-     */
-    private boolean isWindows() {
-        return SystemUtils.IS_OS_WINDOWS && this.getFileSystem() instanceof LocalFileSystem;
+        // Clear the write permission
+        Assert.assertTrue("Setting write permission failed: " + file, file.setWritable(false, true));
+        Assert.assertFalse("File expected to be not writable: " + file, file.isWriteable());
     }
 }

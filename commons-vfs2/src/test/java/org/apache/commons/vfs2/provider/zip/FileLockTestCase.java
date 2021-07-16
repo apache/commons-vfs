@@ -49,6 +49,12 @@ public class FileLockTestCase {
         Assert.assertTrue("Could not delete file", newZipFile.delete());
     }
 
+    private void readAndAssert(final InputStream inputStream) throws IOException {
+        final String string = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+        Assert.assertNotNull(string);
+        Assert.assertEquals("This is a test file.", string);
+    }
+
     private void resolveAndOpenCloseContent() throws FileSystemException {
         try (final FileObject zipFileObject = manager.resolveFile(zipFileUri)) {
             zipFileObject.getContent().close();
@@ -67,12 +73,6 @@ public class FileLockTestCase {
                 readAndAssert(inputStream);
             }
         }
-    }
-
-    private void readAndAssert(final InputStream inputStream) throws IOException {
-        final String string = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
-        Assert.assertNotNull(string);
-        Assert.assertEquals("This is a test file.", string);
     }
 
     @Before
@@ -110,22 +110,25 @@ public class FileLockTestCase {
     }
 
     @Test
+    public void testReadClosedFileObject() throws Exception {
+        final FileObject zipFileObjectRef;
+        try (final FileObject zipFileObject = manager.resolveFile(zipFileUri)) {
+            zipFileObjectRef = zipFileObject;
+            try (final InputStream inputStream = zipFileObject.getContent().getInputStream()) {
+                readAndAssert(inputStream);
+            }
+        }
+        try (final InputStream inputStream = zipFileObjectRef.getContent().getInputStream()) {
+            readAndAssert(inputStream);
+        } finally {
+            zipFileObjectRef.close();
+        }
+        assertDelete();
+    }
+
+    @Test
     public void testResolveAndOpenCloseContent() throws Exception {
         resolveAndOpenCloseContent();
-        assertDelete();
-    }
-
-    @Test
-    public void testResolveAndOpenReadCloseInputStream() throws Exception {
-        resolveAndOpenReadCloseInputStream();
-        assertDelete();
-    }
-
-    @Test
-    public void testResolveAndOpenReadCloseInputStream3() throws Exception {
-        resolveAndOpenReadCloseInputStream();
-        resolveAndOpenReadCloseInputStream();
-        resolveAndOpenReadCloseInputStream();
         assertDelete();
     }
 
@@ -160,29 +163,26 @@ public class FileLockTestCase {
     }
 
     @Test
+    public void testResolveAndOpenReadCloseInputStream() throws Exception {
+        resolveAndOpenReadCloseInputStream();
+        assertDelete();
+    }
+
+    @Test
+    public void testResolveAndOpenReadCloseInputStream3() throws Exception {
+        resolveAndOpenReadCloseInputStream();
+        resolveAndOpenReadCloseInputStream();
+        resolveAndOpenReadCloseInputStream();
+        assertDelete();
+    }
+
+    @Test
     public void testResolveOpenCloseNestedInputStreams() throws Exception {
         try (final FileObject zipFileObject = manager.resolveFile(zipFileUri)) {
             try (final FileObject zipFileObject2 = manager.resolveFile(zipFileUri)) {
                 zipFileObject2.getContent().getInputStream().close();
             }
             zipFileObject.getContent().getInputStream().close();
-        }
-        assertDelete();
-    }
-
-    @Test
-    public void testReadClosedFileObject() throws Exception {
-        final FileObject zipFileObjectRef;
-        try (final FileObject zipFileObject = manager.resolveFile(zipFileUri)) {
-            zipFileObjectRef = zipFileObject;
-            try (final InputStream inputStream = zipFileObject.getContent().getInputStream()) {
-                readAndAssert(inputStream);
-            }
-        }
-        try (final InputStream inputStream = zipFileObjectRef.getContent().getInputStream()) {
-            readAndAssert(inputStream);
-        } finally {
-            zipFileObjectRef.close();
         }
         assertDelete();
     }

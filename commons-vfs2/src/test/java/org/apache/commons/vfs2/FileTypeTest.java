@@ -39,9 +39,17 @@ public class FileTypeTest {
 
     }
 
-    @Test
-    public void testSerializationFile() {
-        test(FileType.FILE);
+    private void assertEquals(final FileType expected, final FileType actualFileType) {
+        Assert.assertEquals(expected.getName(), actualFileType.getName());
+        Assert.assertEquals(expected.hasAttributes(), actualFileType.hasAttributes());
+        Assert.assertEquals(expected.hasChildren(), actualFileType.hasChildren());
+        Assert.assertEquals(expected.hasContent(), actualFileType.hasContent());
+    }
+
+    private void test(final FileType expected) {
+        final byte[] serialized = SerializationUtils.serialize(expected);
+        final FileType actualFileType = (FileType) SerializationUtils.deserialize(serialized);
+        assertEquals(expected, actualFileType);
     }
 
     @Test
@@ -50,6 +58,11 @@ public class FileTypeTest {
         final byte[] serialized = SerializationUtils.serialize(expectedFixture);
         final Fixture actualFixture = (Fixture) SerializationUtils.deserialize(serialized);
         assertEquals(expectedFixture.getFileType(), actualFixture.getFileType());
+    }
+
+    @Test
+    public void testSerializationFile() {
+        test(FileType.FILE);
     }
 
     @Test
@@ -65,18 +78,5 @@ public class FileTypeTest {
     @Test
     public void testSerializationImaginary() {
         test(FileType.IMAGINARY);
-    }
-
-    private void test(final FileType expected) {
-        final byte[] serialized = SerializationUtils.serialize(expected);
-        final FileType actualFileType = (FileType) SerializationUtils.deserialize(serialized);
-        assertEquals(expected, actualFileType);
-    }
-
-    private void assertEquals(final FileType expected, final FileType actualFileType) {
-        Assert.assertEquals(expected.getName(), actualFileType.getName());
-        Assert.assertEquals(expected.hasAttributes(), actualFileType.hasAttributes());
-        Assert.assertEquals(expected.hasChildren(), actualFileType.hasChildren());
-        Assert.assertEquals(expected.hasContent(), actualFileType.hasContent());
     }
 }

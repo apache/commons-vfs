@@ -28,33 +28,6 @@ import org.junit.Test;
 
 public class TarFileObjectTestCase {
 
-    /**
-     * Test read file with special name in a tar file
-     */
-    @Test
-    public void testReadSpecialNameFileInTarFile() throws FileSystemException {
-
-        testReadSpecialNameFileInFile("src/test/resources/test-data/special_fileName.tar", "tar");
-    }
-
-    /**
-     * Test read file with special name in a tgz file
-     */
-    @Test
-    public void testReadSpecialNameFileInTgzFile() throws FileSystemException {
-
-        testReadSpecialNameFileInFile("src/test/resources/test-data/special_fileName.tgz", "tgz");
-    }
-
-    /**
-     * Test read file with special name in a tbz2 file
-     */
-    @Test
-    public void testReadSpecialNameFileInTbz2File() throws FileSystemException {
-
-        testReadSpecialNameFileInFile("src/test/resources/test-data/special_fileName.tbz2", "tbz2");
-    }
-
     private void testReadSpecialNameFileInFile(final String testFilePath, final String scheme) throws FileSystemException {
 
         final File testFile = new File(testFilePath);
@@ -73,5 +46,32 @@ public class TarFileObjectTestCase {
                 Assert.assertNotNull("can't read file " + fileName, fileObject.getChild(fileName));
             }
         }
+    }
+
+    /**
+     * Test read file with special name in a tar file
+     */
+    @Test
+    public void testReadSpecialNameFileInTarFile() throws FileSystemException {
+
+        testReadSpecialNameFileInFile("src/test/resources/test-data/special_fileName.tar", "tar");
+    }
+
+    /**
+     * Test read file with special name in a tbz2 file
+     */
+    @Test
+    public void testReadSpecialNameFileInTbz2File() throws FileSystemException {
+
+        testReadSpecialNameFileInFile("src/test/resources/test-data/special_fileName.tbz2", "tbz2");
+    }
+
+    /**
+     * Test read file with special name in a tgz file
+     */
+    @Test
+    public void testReadSpecialNameFileInTgzFile() throws FileSystemException {
+
+        testReadSpecialNameFileInFile("src/test/resources/test-data/special_fileName.tgz", "tgz");
     }
 }

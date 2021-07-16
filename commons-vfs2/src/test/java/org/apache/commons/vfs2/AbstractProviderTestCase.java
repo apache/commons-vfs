@@ -39,206 +39,35 @@ import junit.framework.TestCase;
  * Works from a base folder, and assumes a particular structure under that base folder.
  */
 public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
+    // Expected contents of "file1.txt"
+    public static final String FILE1_CONTENT = "This is a test file.";
+    // Expected contents of test files
+    public static final String TEST_FILE_CONTENT = "A test file.";
+    protected static Test notConfigured(final Class<?> testClass) {
+        return warning(testClass + " is not configured for tests, skipping");
+    }
+    private static Test warning(final String message) {
+        return new TestCase("warning") {
+            @Override
+            protected void runTest() {
+                System.out.println(message);
+            }
+        };
+    }
     private FileObject baseFolder;
     private FileObject readFolder;
     private FileObject writeFolder;
+
     private DefaultFileSystemManager manager;
+
     private ProviderTestConfig providerConfig;
+
     private Method method;
+
     private boolean addEmptyDir;
 
-    // Expected contents of "file1.txt"
-    public static final String FILE1_CONTENT = "This is a test file.";
-
-    // Expected contents of test files
-    public static final String TEST_FILE_CONTENT = "A test file.";
-
-    /**
-     * Sets the test method.
-     */
-    public void setMethod(final Method method) {
-        this.method = method;
-    }
-
-    /**
-     * Configures this test.
-     */
-    public void setConfig(final DefaultFileSystemManager manager, final ProviderTestConfig providerConfig,
-            final FileObject baseFolder, final FileObject readFolder, final FileObject writeFolder) {
-        this.manager = manager;
-        this.providerConfig = providerConfig;
-        this.baseFolder = baseFolder;
-        this.readFolder = readFolder;
-        this.writeFolder = writeFolder;
-        assertNotNull("setConfig manager", manager);
-        assertNotNull("setConfig providerConfig", providerConfig);
-        assertNotNull("setConfig baseFolder", baseFolder);
-        assertNotNull("setConfig readFolder", readFolder);
-        assertNotNull("setConfig writeFolder", writeFolder);
-    }
-
-    /**
-     * Returns the file system manager used by this test.
-     */
-    protected DefaultFileSystemManager getManager() {
-        return manager;
-    }
-
-    /**
-     * creates a new uninitialized file system manager
-     *
-     * @throws Exception
-     */
-    protected DefaultFileSystemManager createManager() throws Exception {
-        final DefaultFileSystemManager fs = getProviderConfig().getDefaultFileSystemManager();
-        fs.setFilesCache(getProviderConfig().getFilesCache());
-        getProviderConfig().prepare(fs);
-        if (!fs.hasProvider("file")) {
-            fs.addProvider("file", new DefaultLocalFileProvider());
-        }
-        return fs;
-    }
-
-    /**
-     * some provider config do some post-initialization in getBaseTestFolder. This is a hack to allow access to this
-     * code for {@code createManager}
-     */
-    public FileObject getBaseTestFolder(final FileSystemManager fs) throws Exception {
-        return providerConfig.getBaseTestFolder(fs);
-    }
-
-    protected FileSystem getFileSystem() {
-        final FileObject rFolder = getReadFolder();
-        Assert.assertNotNull("This test's read folder should not be null", rFolder);
-        return rFolder.getFileSystem();
-    }
-
-    /**
-     * Returns the base test folder. This is the parent of both the read test and write test folders.
-     */
-    public FileObject getBaseFolder() {
-        return baseFolder;
-    }
-
-    /**
-     * get the provider configuration
-     */
-    public ProviderTestConfig getProviderConfig() {
-        return providerConfig;
-    }
-
-    /**
-     * Returns the read test folder.
-     */
-    protected FileObject getReadFolder() {
-        return readFolder;
-    }
-
-    /**
-     * Returns the write test folder.
-     */
-    protected FileObject getWriteFolder() {
-        return writeFolder;
-    }
-
-    /**
-     * Sets the write test folder.
-     *
-     * @param folder
-     */
-    protected void setWriteFolder(final FileObject folder) {
-        writeFolder = folder;
-    }
-
-    /**
-     * Returns the capabilities required by the tests of this test case. The tests are not run if the provider being
-     * tested does not support all the required capabilities. Return null or an empty array to always run the tests.
-     * <p>
-     * This implementation returns null.
-     */
-    protected Capability[] getRequiredCapabilities() {
-        return null;
-    }
-
-    /**
-     * Runs the test. This implementation short-circuits the test if the provider being tested does not have the
-     * capabilities required by this test.
-     * <p>
-     * TODO - Handle negative caps as well - ie, only run a test if the provider does not have certain caps.
-     * </p>
-     * <p>
-     * TODO - Figure out how to remove the test from the TestResult if the test is skipped.
-     * </p>
-     */
-    @Override
-    protected void runTest() throws Throwable {
-        // Check the capabilities
-        final Capability[] caps = getRequiredCapabilities();
-        if (caps != null) {
-            for (final Capability cap2 : caps) {
-                final Capability cap = cap2;
-                final FileSystem fs = getFileSystem();
-                if (!fs.hasCapability(cap)) {
-                    // String name = fs.getClass().getName();
-                    // int index = name.lastIndexOf('.');
-                    // String fsName = (index > 0) ? name.substring(index + 1) : name;
-                    // System.out.println("skipping " + getName() + " because " +
-                    // fsName + " does not have capability " + cap);
-                    return;
-                }
-            }
-        }
-
-        // Provider has all the capabilities - execute the test
-        if (method != null) {
-            try {
-                method.invoke(this, (Object[]) null);
-            } catch (final InvocationTargetException e) {
-                throw e.getTargetException();
-            }
-        } else {
-            super.runTest();
-        }
-
-        if (readFolder != null && ((AbstractFileSystem) readFolder.getFileSystem()).isOpen()) {
-            String name = "unknown";
-            if (method != null) {
-                name = method.getName();
-            }
-
-            throw new IllegalStateException(getClass().getName() + ": filesystem has open streams after: " + name);
-        }
-    }
-
-    /**
-     * Asserts that the content of a file is the same as expected. Checks the length reported by getContentLength() is
-     * correct, then reads the content as a byte stream and compares the result with the expected content. Assumes files
-     * are encoded using UTF-8.
-     */
-    protected void assertSameURLContent(final String expected, final URLConnection connection) throws Exception {
-        // Get file content as a binary stream
-        final byte[] expectedBin = expected.getBytes(StandardCharsets.UTF_8);
-
-        // Check lengths
-        assertEquals("same content length", expectedBin.length, connection.getContentLength());
-
-        // Read content into byte array
-        final InputStream instr = connection.getInputStream();
-        final ByteArrayOutputStream outstr;
-        try {
-            outstr = new ByteArrayOutputStream();
-            final byte[] buffer = new byte[256];
-            int nread = 0;
-            while (nread >= 0) {
-                outstr.write(buffer, 0, nread);
-                nread = instr.read(buffer);
-            }
-        } finally {
-            instr.close();
-        }
-
-        // Compare
-        assertArrayEquals("same binary content", expectedBin, outstr.toByteArray());
+    protected void addEmptyDir(final boolean addEmptyDir) {
+        this.addEmptyDir = addEmptyDir;
     }
 
     /**
@@ -264,6 +93,37 @@ public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
         final ByteArrayOutputStream outstr;
         try {
             outstr = new ByteArrayOutputStream(expectedBin.length);
+            final byte[] buffer = new byte[256];
+            int nread = 0;
+            while (nread >= 0) {
+                outstr.write(buffer, 0, nread);
+                nread = instr.read(buffer);
+            }
+        } finally {
+            instr.close();
+        }
+
+        // Compare
+        assertArrayEquals("same binary content", expectedBin, outstr.toByteArray());
+    }
+
+    /**
+     * Asserts that the content of a file is the same as expected. Checks the length reported by getContentLength() is
+     * correct, then reads the content as a byte stream and compares the result with the expected content. Assumes files
+     * are encoded using UTF-8.
+     */
+    protected void assertSameURLContent(final String expected, final URLConnection connection) throws Exception {
+        // Get file content as a binary stream
+        final byte[] expectedBin = expected.getBytes(StandardCharsets.UTF_8);
+
+        // Check lengths
+        assertEquals("same content length", expectedBin.length, connection.getContentLength());
+
+        // Read content into byte array
+        final InputStream instr = connection.getInputStream();
+        final ByteArrayOutputStream outstr;
+        try {
+            outstr = new ByteArrayOutputStream();
             final byte[] buffer = new byte[256];
             int nread = 0;
             while (nread >= 0) {
@@ -335,21 +195,161 @@ public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
         return base;
     }
 
-    protected void addEmptyDir(final boolean addEmptyDir) {
-        this.addEmptyDir = addEmptyDir;
+    /**
+     * creates a new uninitialized file system manager
+     *
+     * @throws Exception
+     */
+    protected DefaultFileSystemManager createManager() throws Exception {
+        final DefaultFileSystemManager fs = getProviderConfig().getDefaultFileSystemManager();
+        fs.setFilesCache(getProviderConfig().getFilesCache());
+        getProviderConfig().prepare(fs);
+        if (!fs.hasProvider("file")) {
+            fs.addProvider("file", new DefaultLocalFileProvider());
+        }
+        return fs;
     }
 
-    protected static Test notConfigured(final Class<?> testClass) {
-        return warning(testClass + " is not configured for tests, skipping");
+    /**
+     * Returns the base test folder. This is the parent of both the read test and write test folders.
+     */
+    public FileObject getBaseFolder() {
+        return baseFolder;
     }
 
-    private static Test warning(final String message) {
-        return new TestCase("warning") {
-            @Override
-            protected void runTest() {
-                System.out.println(message);
+    /**
+     * some provider config do some post-initialization in getBaseTestFolder. This is a hack to allow access to this
+     * code for {@code createManager}
+     */
+    public FileObject getBaseTestFolder(final FileSystemManager fs) throws Exception {
+        return providerConfig.getBaseTestFolder(fs);
+    }
+
+    protected FileSystem getFileSystem() {
+        final FileObject rFolder = getReadFolder();
+        Assert.assertNotNull("This test's read folder should not be null", rFolder);
+        return rFolder.getFileSystem();
+    }
+
+    /**
+     * Returns the file system manager used by this test.
+     */
+    protected DefaultFileSystemManager getManager() {
+        return manager;
+    }
+
+    /**
+     * get the provider configuration
+     */
+    public ProviderTestConfig getProviderConfig() {
+        return providerConfig;
+    }
+
+    /**
+     * Returns the read test folder.
+     */
+    protected FileObject getReadFolder() {
+        return readFolder;
+    }
+
+    /**
+     * Returns the capabilities required by the tests of this test case. The tests are not run if the provider being
+     * tested does not support all the required capabilities. Return null or an empty array to always run the tests.
+     * <p>
+     * This implementation returns null.
+     */
+    protected Capability[] getRequiredCapabilities() {
+        return null;
+    }
+
+    /**
+     * Returns the write test folder.
+     */
+    protected FileObject getWriteFolder() {
+        return writeFolder;
+    }
+
+    /**
+     * Runs the test. This implementation short-circuits the test if the provider being tested does not have the
+     * capabilities required by this test.
+     * <p>
+     * TODO - Handle negative caps as well - ie, only run a test if the provider does not have certain caps.
+     * </p>
+     * <p>
+     * TODO - Figure out how to remove the test from the TestResult if the test is skipped.
+     * </p>
+     */
+    @Override
+    protected void runTest() throws Throwable {
+        // Check the capabilities
+        final Capability[] caps = getRequiredCapabilities();
+        if (caps != null) {
+            for (final Capability cap2 : caps) {
+                final Capability cap = cap2;
+                final FileSystem fs = getFileSystem();
+                if (!fs.hasCapability(cap)) {
+                    // String name = fs.getClass().getName();
+                    // int index = name.lastIndexOf('.');
+                    // String fsName = (index > 0) ? name.substring(index + 1) : name;
+                    // System.out.println("skipping " + getName() + " because " +
+                    // fsName + " does not have capability " + cap);
+                    return;
+                }
             }
-        };
+        }
+
+        // Provider has all the capabilities - execute the test
+        if (method != null) {
+            try {
+                method.invoke(this, (Object[]) null);
+            } catch (final InvocationTargetException e) {
+                throw e.getTargetException();
+            }
+        } else {
+            super.runTest();
+        }
+
+        if (readFolder != null && ((AbstractFileSystem) readFolder.getFileSystem()).isOpen()) {
+            String name = "unknown";
+            if (method != null) {
+                name = method.getName();
+            }
+
+            throw new IllegalStateException(getClass().getName() + ": filesystem has open streams after: " + name);
+        }
+    }
+
+    /**
+     * Configures this test.
+     */
+    public void setConfig(final DefaultFileSystemManager manager, final ProviderTestConfig providerConfig,
+            final FileObject baseFolder, final FileObject readFolder, final FileObject writeFolder) {
+        this.manager = manager;
+        this.providerConfig = providerConfig;
+        this.baseFolder = baseFolder;
+        this.readFolder = readFolder;
+        this.writeFolder = writeFolder;
+        assertNotNull("setConfig manager", manager);
+        assertNotNull("setConfig providerConfig", providerConfig);
+        assertNotNull("setConfig baseFolder", baseFolder);
+        assertNotNull("setConfig readFolder", readFolder);
+        assertNotNull("setConfig writeFolder", writeFolder);
+    }
+
+    /**
+     * Sets the test method.
+     */
+    public void setMethod(final Method method) {
+        this.method = method;
+    }
+
+    /**
+     * Sets the write test folder.
+     *
+     * @param folder
+     */
+    protected void setWriteFolder(final FileObject folder) {
+        writeFolder = folder;
     }
 
     @Override

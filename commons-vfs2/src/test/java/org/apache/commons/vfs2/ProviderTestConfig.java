@@ -24,16 +24,6 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
  */
 public interface ProviderTestConfig {
     /**
-     * Returns a DefaultFileSystemManager instance (or subclass instance).
-     */
-    DefaultFileSystemManager getDefaultFileSystemManager();
-
-    /**
-     * Prepares the file system manager.
-     */
-    void prepare(DefaultFileSystemManager manager) throws Exception;
-
-    /**
      * Returns the base folder for tests. This folder must exist, and contain the following structure:
      * <ul>
      * <li>"/read-tests"</li>
@@ -41,6 +31,11 @@ public interface ProviderTestConfig {
      * </ul>
      */
     FileObject getBaseTestFolder(FileSystemManager manager) throws Exception;
+
+    /**
+     * Returns a DefaultFileSystemManager instance (or subclass instance).
+     */
+    DefaultFileSystemManager getDefaultFileSystemManager();
 
     /**
      * Returns the filesCache implementation used for tests.
@@ -55,4 +50,9 @@ public interface ProviderTestConfig {
      * @return Whether or not the root of test file system is accessible.
      */
     boolean isFileSystemRootAccessible();
+
+    /**
+     * Prepares the file system manager.
+     */
+    void prepare(DefaultFileSystemManager manager) throws Exception;
 }

@@ -44,9 +44,13 @@ public class BasicOperationsTestCase {
     /** This FileOperationsProvider is a VfsComponent and records invocations. */
     static class MyFileOperationProviderComp extends MyFileOprationProviderBase implements VfsComponent {
         @Override
-        public void setLogger(final Log logger) {
-            assertNotNull("setLogger", logger);
-            ops |= 1;
+        public void close() {
+            ops |= 8;
+        }
+
+        @Override
+        public void init() throws FileSystemException {
+            ops |= 4;
         }
 
         @Override
@@ -56,13 +60,9 @@ public class BasicOperationsTestCase {
         }
 
         @Override
-        public void init() throws FileSystemException {
-            ops |= 4;
-        }
-
-        @Override
-        public void close() {
-            ops |= 8;
+        public void setLogger(final Log logger) {
+            assertNotNull("setLogger", logger);
+            ops |= 1;
         }
     }
 
@@ -108,6 +108,19 @@ public class BasicOperationsTestCase {
         final FileProvider fp = new DefaultLocalFileProvider();
         manager.addProvider("file", fp);
         manager.init();
+    }
+
+    /**
+     * JUnit Fixture: Tear Down the FSM.
+     *
+     * @throws FileSystemException for runtime problems
+     */
+    @After
+    public void tearDown() throws FileSystemException {
+        if (manager != null) {
+            manager.close();
+            manager = null;
+        }
     }
 
     /**
@@ -182,18 +195,5 @@ public class BasicOperationsTestCase {
             assertEquals("vfs.operation/operation-not-supported.error", e.getCode());
         }
         assertSame(32, myop.ops); // getOperation was called
-    }
-
-    /**
-     * JUnit Fixture: Tear Down the FSM.
-     *
-     * @throws FileSystemException for runtime problems
-     */
-    @After
-    public void tearDown() throws FileSystemException {
-        if (manager != null) {
-            manager.close();
-            manager = null;
-        }
     }
 }

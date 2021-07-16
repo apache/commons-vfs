@@ -38,11 +38,26 @@ import org.junit.Test;
 public class VfsClassLoaderTests extends AbstractProviderTestCase {
 
     /**
-     * Returns the capabilities required by the tests of this test case.
+     * Non-Delegating Class Loader.
      */
-    @Override
-    protected Capability[] getRequiredCapabilities() {
-        return new Capability[] { Capability.READ_CONTENT, Capability.URI };
+    public static class MockClassloader extends ClassLoader {
+        MockClassloader() {
+            super(null);
+        }
+
+        @Override
+        protected Class<?> findClass(final String name) throws ClassNotFoundException {
+            fail("Not intended to be used for class loading.");
+            return null;
+        }
+
+        /**
+         * This method will not return any hit to VFSClassLoader#testGetResourcesJARs.
+         */
+        @Override
+        public Enumeration<URL> getResources(final String name) throws IOException {
+            return Collections.enumeration(Collections.<URL>emptyList());
+        }
     }
 
     /**
@@ -53,45 +68,11 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Tests loading a class.
+     * Returns the capabilities required by the tests of this test case.
      */
-    @Test
-    public void testLoadClass() throws Exception {
-        final VFSClassLoader loader = createClassLoader();
-
-        final Class<?> testClass = loader.loadClass("code.ClassToLoad");
-        final Package pack = testClass.getPackage();
-        assertEquals("code", pack.getName());
-        verifyPackage(pack, false);
-
-        final Object testObject = testClass.newInstance();
-        assertEquals("**PRIVATE**", testObject.toString());
-    }
-
-    /**
-     * Tests loading a resource.
-     */
-    @Test
-    public void testLoadResource() throws Exception {
-        final VFSClassLoader loader = createClassLoader();
-
-        final URL resource = loader.getResource("read-tests/file1.txt");
-
-        assertNotNull(resource);
-        final URLConnection urlCon = resource.openConnection();
-        assertSameURLContent(FILE1_CONTENT, urlCon);
-    }
-
-    /**
-     * Tests package sealing.
-     */
-    @Test
-    public void testSealing() throws Exception {
-        final VFSClassLoader loader = createClassLoader();
-        final Class<?> testClass = loader.loadClass("code.sealed.AnotherClass");
-        final Package pack = testClass.getPackage();
-        assertEquals("code.sealed", pack.getName());
-        verifyPackage(pack, true);
+    @Override
+    protected Capability[] getRequiredCapabilities() {
+        return new Capability[] { Capability.READ_CONTENT, Capability.URI };
     }
 
     /**
@@ -181,6 +162,48 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
     }
 
     /**
+     * Tests loading a class.
+     */
+    @Test
+    public void testLoadClass() throws Exception {
+        final VFSClassLoader loader = createClassLoader();
+
+        final Class<?> testClass = loader.loadClass("code.ClassToLoad");
+        final Package pack = testClass.getPackage();
+        assertEquals("code", pack.getName());
+        verifyPackage(pack, false);
+
+        final Object testObject = testClass.newInstance();
+        assertEquals("**PRIVATE**", testObject.toString());
+    }
+
+    /**
+     * Tests loading a resource.
+     */
+    @Test
+    public void testLoadResource() throws Exception {
+        final VFSClassLoader loader = createClassLoader();
+
+        final URL resource = loader.getResource("read-tests/file1.txt");
+
+        assertNotNull(resource);
+        final URLConnection urlCon = resource.openConnection();
+        assertSameURLContent(FILE1_CONTENT, urlCon);
+    }
+
+    /**
+     * Tests package sealing.
+     */
+    @Test
+    public void testSealing() throws Exception {
+        final VFSClassLoader loader = createClassLoader();
+        final Class<?> testClass = loader.loadClass("code.sealed.AnotherClass");
+        final Package pack = testClass.getPackage();
+        assertEquals("code.sealed", pack.getName());
+        verifyPackage(pack, true);
+    }
+
+    /**
      * Verify the package loaded with class loader.
      */
     private void verifyPackage(final Package pack, final boolean sealed) {
@@ -200,29 +223,6 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
             assertNull(pack.getSpecificationVendor());
             assertNull(pack.getSpecificationVersion());
             assertFalse(pack.isSealed());
-        }
-    }
-
-    /**
-     * Non-Delegating Class Loader.
-     */
-    public static class MockClassloader extends ClassLoader {
-        MockClassloader() {
-            super(null);
-        }
-
-        /**
-         * This method will not return any hit to VFSClassLoader#testGetResourcesJARs.
-         */
-        @Override
-        public Enumeration<URL> getResources(final String name) throws IOException {
-            return Collections.enumeration(Collections.<URL>emptyList());
-        }
-
-        @Override
-        protected Class<?> findClass(final String name) throws ClassNotFoundException {
-            fail("Not intended to be used for class loading.");
-            return null;
         }
     }
 }

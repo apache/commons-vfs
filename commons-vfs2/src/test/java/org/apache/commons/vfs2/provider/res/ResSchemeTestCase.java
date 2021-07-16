@@ -47,6 +47,12 @@ public class ResSchemeTestCase {
         Assert.assertTrue(VFS.getManager().resolveFile("res://test.properties").exists());
     }
 
+    @Test(expected = FileSystemException.class)
+    public void test_resolveFile_String_SSSnull() throws FileSystemException {
+        // Resulting path is empty
+        Assert.assertTrue(VFS.getManager().resolveFile("res:///").exists());
+    }
+
     @Test
     public void test_resolveFile_URI() throws FileSystemException, URISyntaxException {
         Assert.assertTrue(VFS.getManager().resolveFile(new URI("res:test.properties")).exists());
@@ -91,11 +97,5 @@ public class ResSchemeTestCase {
     public void test_resolveURI_String_SSSnull() throws FileSystemException {
         // Resulting path is empty
         Assert.assertTrue(VFS.getManager().resolveURI("res:///").isFile());
-    }
-
-    @Test(expected = FileSystemException.class)
-    public void test_resolveFile_String_SSSnull() throws FileSystemException {
-        // Resulting path is empty
-        Assert.assertTrue(VFS.getManager().resolveFile("res:///").exists());
     }
 }

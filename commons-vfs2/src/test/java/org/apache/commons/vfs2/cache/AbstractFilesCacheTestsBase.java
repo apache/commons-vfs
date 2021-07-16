@@ -32,24 +32,14 @@ import org.junit.Test;
  */
 public abstract class AbstractFilesCacheTestsBase extends AbstractProviderTestCase {
 
-    /**
-     * Will test if the cache is cleared and if it is still useable afterwards. It will actually ensure the test is
-     * hitting the cache.
-     */
-    @Test
-    public void testClearFiles() throws Exception {
-        final FilesCache cache = getManager().getFilesCache();
+    /** Helper method, may be used in cache specific tests. */
+    protected int getFileHashCode() throws FileSystemException {
+        final FileObject fo = getWriteFolder().resolveFile("file2");
+        if (!fo.exists()) {
+            fo.createFile();
+        }
 
-        final FileObject fo1 = getWriteFolder().resolveFile("dir1");
-
-        // clean the cache for this file system
-        cache.clear(fo1.getFileSystem());
-        // make sure a empty cache clean does not fail
-        cache.clear(fo1.getFileSystem());
-
-        final FileObject fo2 = getWriteFolder().resolveFile("dir1");
-
-        assertNotSame("Objects after cache clear should be different", fo1, fo2);
+        return fo.hashCode();
     }
 
     /**
@@ -78,13 +68,23 @@ public abstract class AbstractFilesCacheTestsBase extends AbstractProviderTestCa
         assertTrue(cache.putFileIfAbsent(fo));
     }
 
-    /** Helper method, may be used in cache specific tests. */
-    protected int getFileHashCode() throws FileSystemException {
-        final FileObject fo = getWriteFolder().resolveFile("file2");
-        if (!fo.exists()) {
-            fo.createFile();
-        }
+    /**
+     * Will test if the cache is cleared and if it is still useable afterwards. It will actually ensure the test is
+     * hitting the cache.
+     */
+    @Test
+    public void testClearFiles() throws Exception {
+        final FilesCache cache = getManager().getFilesCache();
 
-        return fo.hashCode();
+        final FileObject fo1 = getWriteFolder().resolveFile("dir1");
+
+        // clean the cache for this file system
+        cache.clear(fo1.getFileSystem());
+        // make sure a empty cache clean does not fail
+        cache.clear(fo1.getFileSystem());
+
+        final FileObject fo2 = getWriteFolder().resolveFile("dir1");
+
+        assertNotSame("Objects after cache clear should be different", fo1, fo2);
     }
 }

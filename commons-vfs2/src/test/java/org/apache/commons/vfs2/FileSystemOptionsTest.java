@@ -26,6 +26,30 @@ import org.junit.Test;
  */
 public class FileSystemOptionsTest {
 
+    public static class JUnitConfigBuilder extends FileSystemConfigBuilder {
+        private abstract static class JUnitFS implements FileSystem {
+        }
+
+        private static final JUnitConfigBuilder BUILDER = new JUnitConfigBuilder();
+
+        public static JUnitConfigBuilder getInstance() {
+            return BUILDER;
+        }
+
+        @Override
+        protected Class<? extends FileSystem> getConfigClass() {
+            return JUnitFS.class;
+        }
+
+        public void setId(final FileSystemOptions opts, final String id) {
+            setParam(opts, "id", id);
+        }
+
+        public void setNames(final FileSystemOptions opts, final String[] names) {
+            setParam(opts, "names", names);
+        }
+    }
+
     @Test
     public void testEqualsHashCodeAndCompareTo() {
         final JUnitConfigBuilder builder = JUnitConfigBuilder.getInstance();
@@ -50,30 +74,6 @@ public class FileSystemOptionsTest {
         Assert.assertEquals(expected, actual);
         Assert.assertEquals(0, actual.compareTo(expected));
         Assert.assertEquals(expected.hashCode(), actual.hashCode());
-    }
-
-    public static class JUnitConfigBuilder extends FileSystemConfigBuilder {
-        private static final JUnitConfigBuilder BUILDER = new JUnitConfigBuilder();
-
-        public static JUnitConfigBuilder getInstance() {
-            return BUILDER;
-        }
-
-        public void setId(final FileSystemOptions opts, final String id) {
-            setParam(opts, "id", id);
-        }
-
-        public void setNames(final FileSystemOptions opts, final String[] names) {
-            setParam(opts, "names", names);
-        }
-
-        @Override
-        protected Class<? extends FileSystem> getConfigClass() {
-            return JUnitFS.class;
-        }
-
-        private abstract static class JUnitFS implements FileSystem {
-        }
     }
 
 }

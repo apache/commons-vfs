@@ -44,104 +44,6 @@ import org.junit.Assert;
 public abstract class BaseFilterTest {
 
     /**
-     * Creates a file select info object for the given file.
-     *
-     * @param file File to create an info for.
-     * @return File select info.
-     */
-    protected static FileSelectInfo createFileSelectInfo(final File file) {
-        try {
-            final FileSystemManager fsManager = VFS.getManager();
-            final FileObject fileObject = fsManager.toFileObject(file);
-            return new FileSelectInfo() {
-                @Override
-                public FileObject getFile() {
-                    return fileObject;
-                }
-
-                @Override
-                public int getDepth() {
-                    return 0;
-                }
-
-                @Override
-                public FileObject getBaseFolder() {
-                    try {
-                        return fileObject.getParent();
-                    } catch (final FileSystemException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                }
-
-                @Override
-                public String toString() {
-                    return Objects.toString(fileObject);
-                }
-            };
-        } catch (final FileSystemException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
-    /**
-     * Returns a ZIP file object.
-     *
-     * @param file File to resolve.
-     *
-     * @return File object.
-     *
-     * @throws FileSystemException Error resolving the file.
-     */
-    protected static FileObject getZipFileObject(final File file) throws FileSystemException {
-        final FileSystemManager fsManager = VFS.getManager();
-        return fsManager.resolveFile("zip:" + file.toURI());
-    }
-
-    /**
-     * Asserts that the array contains the given file names.
-     *
-     * @param files     Array to check.
-     * @param fileNames names File names to find.
-     */
-    protected void assertContains(final FileObject[] files, final String... fileNames) {
-        for (final String fileName : fileNames) {
-            if (!find(files, fileName)) {
-                fail("File '" + fileName + "' not found in: " + Arrays.asList(files));
-            }
-        }
-    }
-
-    private boolean find(final FileObject[] files, final String fileName) {
-        for (final FileObject file : files) {
-            final String name = file.getName().getBaseName();
-            if (name.equals(fileName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Returns the temporary directory.
-     *
-     * @return java.io.tmpdir
-     */
-    protected static File getTempDir() {
-        return new File(System.getProperty("java.io.tmpdir"));
-    }
-
-    /**
-     * Returns a sub directory of the temporary directory.
-     *
-     * @param name Name of the sub directory.
-     *
-     * @return Sub directory of java.io.tmpdir.
-     */
-    protected static File getTestDir(final String name) {
-        return new File(getTempDir(), name);
-    }
-
-    /**
      * Verifies at least all given objects are in the list.
      *
      * @param list    List to use.
@@ -164,111 +66,6 @@ public abstract class BaseFilterTest {
             Assert.assertTrue("Couldn't find " + obj + " in " + Arrays.asList(objects), list.indexOf(obj) > -1);
         }
         Assert.assertEquals(objects.length, list.size());
-    }
-
-    /**
-     * Adds a file to a ZIP output stream.
-     *
-     * @param srcFile  File to add - Cannot be {@code null}.
-     * @param destPath Path to use for the file - May be {@code null} or empty.
-     * @param out      Destination stream - Cannot be {@code null}.
-     *
-     * @throws IOException Error writing to the output stream.
-     */
-    private static void zipFile(final File srcFile, final String destPath, final ZipOutputStream out)
-            throws IOException {
-
-        final byte[] buf = new byte[1024];
-        try (final InputStream in = new BufferedInputStream(Files.newInputStream(srcFile.toPath()))) {
-            final ZipEntry zipEntry = new ZipEntry(concatPathAndFilename(destPath, srcFile.getName(), File.separator));
-            zipEntry.setTime(srcFile.lastModified());
-            out.putNextEntry(zipEntry);
-            int len;
-            while ((len = in.read(buf)) > 0) {
-                out.write(buf, 0, len);
-            }
-            out.closeEntry();
-        }
-    }
-
-    /**
-     * Add a directory to a ZIP output stream.
-     *
-     * @param srcDir   Directory to add - Cannot be {@code null} and must be a
-     *                 valid directory.
-     * @param filter   Filter or {@code null} for all files.
-     * @param destPath Path to use for the ZIP archive - May be {@code null} or
-     *                 an empyt string.
-     * @param out      Destination stream - Cannot be {@code null}.
-     *
-     * @throws IOException Error writing to the output stream.
-     */
-    private static void zipDir(final File srcDir, final FileFilter filter, final String destPath,
-            final ZipOutputStream out) throws IOException {
-
-        final File[] files = listFiles(srcDir, filter);
-        for (final File file : files) {
-            if (file.isDirectory()) {
-                zipDir(file, filter, concatPathAndFilename(destPath, file.getName(), File.separator), out);
-            } else {
-                zipFile(file, destPath, out);
-            }
-        }
-
-    }
-
-    /**
-     * Creates a ZIP file and adds all files in a directory and all it's sub
-     * directories to the archive. Only entries are added that comply to the file
-     * filter.
-     *
-     * @param srcDir   Directory to add - Cannot be {@code null} and must be a
-     *                 valid directory.
-     * @param filter   Filter or {@code null} for all files/directories.
-     * @param destPath Path to use for the ZIP archive - May be {@code null} or
-     *                 an empyt string.
-     * @param destFile Target ZIP file - Cannot be {@code null}.
-     *
-     * @throws IOException Error writing to the output stream.
-     */
-    public static void zipDir(final File srcDir, final FileFilter filter, final String destPath, final File destFile)
-            throws IOException {
-
-        if (srcDir == null) {
-            throw new IllegalArgumentException("srcDir cannot be null");
-        }
-        if (!srcDir.exists()) {
-            throw new IllegalArgumentException("srcDir does not exist");
-        }
-        if (!srcDir.isDirectory()) {
-            throw new IllegalArgumentException("srcDir is not a directory");
-        }
-        if (destFile == null) {
-            throw new IllegalArgumentException("destFile cannot be null");
-        }
-
-        try (final ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(Files.newOutputStream(destFile.toPath())))) {
-            zipDir(srcDir, filter, destPath, out);
-        }
-
-    }
-
-    /**
-     * Creates a ZIP file and adds all files in a directory and all it's sub
-     * directories to the archive.
-     *
-     * @param srcDir   Directory to add - Cannot be {@code null} and must be a
-     *                 valid directory.
-     * @param destPath Path to use for the ZIP archive - May be {@code null} or
-     *                 an empyt string.
-     * @param destFile Target ZIP file - Cannot be {@code null}.
-     *
-     * @throws IOException Error writing to the output stream.
-     */
-    public static void zipDir(final File srcDir, final String destPath, final File destFile) throws IOException {
-
-        zipDir(srcDir, null, destPath, destFile);
-
     }
 
     /**
@@ -313,6 +110,80 @@ public abstract class BaseFilterTest {
     }
 
     /**
+     * Creates a file select info object for the given file.
+     *
+     * @param file File to create an info for.
+     * @return File select info.
+     */
+    protected static FileSelectInfo createFileSelectInfo(final File file) {
+        try {
+            final FileSystemManager fsManager = VFS.getManager();
+            final FileObject fileObject = fsManager.toFileObject(file);
+            return new FileSelectInfo() {
+                @Override
+                public FileObject getBaseFolder() {
+                    try {
+                        return fileObject.getParent();
+                    } catch (final FileSystemException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+
+                @Override
+                public int getDepth() {
+                    return 0;
+                }
+
+                @Override
+                public FileObject getFile() {
+                    return fileObject;
+                }
+
+                @Override
+                public String toString() {
+                    return Objects.toString(fileObject);
+                }
+            };
+        } catch (final FileSystemException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    /**
+     * Returns the temporary directory.
+     *
+     * @return java.io.tmpdir
+     */
+    protected static File getTempDir() {
+        return new File(System.getProperty("java.io.tmpdir"));
+    }
+
+    /**
+     * Returns a sub directory of the temporary directory.
+     *
+     * @param name Name of the sub directory.
+     *
+     * @return Sub directory of java.io.tmpdir.
+     */
+    protected static File getTestDir(final String name) {
+        return new File(getTempDir(), name);
+    }
+
+    /**
+     * Returns a ZIP file object.
+     *
+     * @param file File to resolve.
+     *
+     * @return File object.
+     *
+     * @throws FileSystemException Error resolving the file.
+     */
+    protected static FileObject getZipFileObject(final File file) throws FileSystemException {
+        final FileSystemManager fsManager = VFS.getManager();
+        return fsManager.resolveFile("zip:" + file.toURI());
+    }
+
+    /**
      * List all files for a directory.
      *
      * @param srcDir Directory to list the files for - Cannot be {@code null}
@@ -331,6 +202,135 @@ public abstract class BaseFilterTest {
         }
         return files;
 
+    }
+
+    /**
+     * Creates a ZIP file and adds all files in a directory and all it's sub
+     * directories to the archive. Only entries are added that comply to the file
+     * filter.
+     *
+     * @param srcDir   Directory to add - Cannot be {@code null} and must be a
+     *                 valid directory.
+     * @param filter   Filter or {@code null} for all files/directories.
+     * @param destPath Path to use for the ZIP archive - May be {@code null} or
+     *                 an empyt string.
+     * @param destFile Target ZIP file - Cannot be {@code null}.
+     *
+     * @throws IOException Error writing to the output stream.
+     */
+    public static void zipDir(final File srcDir, final FileFilter filter, final String destPath, final File destFile)
+            throws IOException {
+
+        if (srcDir == null) {
+            throw new IllegalArgumentException("srcDir cannot be null");
+        }
+        if (!srcDir.exists()) {
+            throw new IllegalArgumentException("srcDir does not exist");
+        }
+        if (!srcDir.isDirectory()) {
+            throw new IllegalArgumentException("srcDir is not a directory");
+        }
+        if (destFile == null) {
+            throw new IllegalArgumentException("destFile cannot be null");
+        }
+
+        try (final ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(Files.newOutputStream(destFile.toPath())))) {
+            zipDir(srcDir, filter, destPath, out);
+        }
+
+    }
+
+    /**
+     * Add a directory to a ZIP output stream.
+     *
+     * @param srcDir   Directory to add - Cannot be {@code null} and must be a
+     *                 valid directory.
+     * @param filter   Filter or {@code null} for all files.
+     * @param destPath Path to use for the ZIP archive - May be {@code null} or
+     *                 an empyt string.
+     * @param out      Destination stream - Cannot be {@code null}.
+     *
+     * @throws IOException Error writing to the output stream.
+     */
+    private static void zipDir(final File srcDir, final FileFilter filter, final String destPath,
+            final ZipOutputStream out) throws IOException {
+
+        final File[] files = listFiles(srcDir, filter);
+        for (final File file : files) {
+            if (file.isDirectory()) {
+                zipDir(file, filter, concatPathAndFilename(destPath, file.getName(), File.separator), out);
+            } else {
+                zipFile(file, destPath, out);
+            }
+        }
+
+    }
+
+    /**
+     * Creates a ZIP file and adds all files in a directory and all it's sub
+     * directories to the archive.
+     *
+     * @param srcDir   Directory to add - Cannot be {@code null} and must be a
+     *                 valid directory.
+     * @param destPath Path to use for the ZIP archive - May be {@code null} or
+     *                 an empyt string.
+     * @param destFile Target ZIP file - Cannot be {@code null}.
+     *
+     * @throws IOException Error writing to the output stream.
+     */
+    public static void zipDir(final File srcDir, final String destPath, final File destFile) throws IOException {
+
+        zipDir(srcDir, null, destPath, destFile);
+
+    }
+
+    /**
+     * Adds a file to a ZIP output stream.
+     *
+     * @param srcFile  File to add - Cannot be {@code null}.
+     * @param destPath Path to use for the file - May be {@code null} or empty.
+     * @param out      Destination stream - Cannot be {@code null}.
+     *
+     * @throws IOException Error writing to the output stream.
+     */
+    private static void zipFile(final File srcFile, final String destPath, final ZipOutputStream out)
+            throws IOException {
+
+        final byte[] buf = new byte[1024];
+        try (final InputStream in = new BufferedInputStream(Files.newInputStream(srcFile.toPath()))) {
+            final ZipEntry zipEntry = new ZipEntry(concatPathAndFilename(destPath, srcFile.getName(), File.separator));
+            zipEntry.setTime(srcFile.lastModified());
+            out.putNextEntry(zipEntry);
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            out.closeEntry();
+        }
+    }
+
+    /**
+     * Asserts that the array contains the given file names.
+     *
+     * @param files     Array to check.
+     * @param fileNames names File names to find.
+     */
+    protected void assertContains(final FileObject[] files, final String... fileNames) {
+        for (final String fileName : fileNames) {
+            if (!find(files, fileName)) {
+                fail("File '" + fileName + "' not found in: " + Arrays.asList(files));
+            }
+        }
+    }
+
+    private boolean find(final FileObject[] files, final String fileName) {
+        for (final FileObject file : files) {
+            final String name = file.getName().getBaseName();
+            if (name.equals(fileName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -26,15 +26,15 @@ public class AbstractFileNameTest {
     public void testHashSignEncoded() {
         final AbstractFileName fileName = new AbstractFileName("file", "/foo/bar/file#name.txt", FileType.FILE) {
             @Override
-            public FileName createName(final String absolutePath, final FileType fileType) {
-                return null;
-            }
-
-            @Override
             protected void appendRootUri(final StringBuilder buffer, final boolean addPassword) {
                 if (addPassword) {
                     buffer.append("pass");
                 }
+            }
+
+            @Override
+            public FileName createName(final String absolutePath, final FileType fileType) {
+                return null;
             }
         };
 

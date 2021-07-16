@@ -25,6 +25,11 @@ import org.junit.Test;
 public class WeakRefFilesCacheTests extends AbstractFilesCacheTestsBase {
 
     @Test
+    public void testClass() {
+        assertTrue(getManager().getFilesCache() instanceof WeakRefFilesCache);
+    }
+
+    @Test
     public void testFilesCache() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
 
@@ -33,10 +38,5 @@ public class WeakRefFilesCacheTests extends AbstractFilesCacheTestsBase {
 
         // since both are still referenced they are not purged
         assertSame(dir1, dir1_2);
-    }
-
-    @Test
-    public void testClass() {
-        assertTrue(getManager().getFilesCache() instanceof WeakRefFilesCache);
     }
 }

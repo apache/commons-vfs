@@ -46,86 +46,9 @@ import org.junit.Test;
 public class LargeTarTestCase {
     private final static String baseDir = "target/test-classes/test-data/";
 
-    private DefaultFileSystemManager manager;
     private final static String largeFilePath = baseDir;
     private final static String largeFileName = "largefile";
-
-    @Before
-    public void setUp() throws Exception {
-        manager = new DefaultFileSystemManager();
-
-        manager.setFilesCache(new SoftRefFilesCache());
-        manager.setCacheStrategy(CacheStrategy.ON_RESOLVE);
-
-        manager.addProvider("file", new DefaultLocalFileProvider());
-        manager.addProvider("tgz", new TarFileProvider());
-        manager.addProvider("tar", new TarFileProvider());
-
-        new File(baseDir).mkdir(); // if test is run standalone
-        createLargeFile(largeFilePath, largeFileName);
-    }
-
-    @Test
-    public void testLargeFile() throws Exception {
-        final File realFile = new File(largeFilePath + largeFileName + ".tar.gz");
-
-        final FileObject file = manager.resolveFile("tgz:file://" + realFile.getCanonicalPath() + "!/");
-
-        assertNotNull(file);
-        final List<FileObject> files = Arrays.asList(file.getChildren());
-
-        assertNotNull(files);
-        assertEquals(1, files.size());
-        final FileObject f = files.get(0);
-
-        assertEquals("Expected file not found: " + largeFileName + ".txt", f.getName().getBaseName(), largeFileName + ".txt");
-    }
-
-    /*
-     * public void testFileCheck() throws Exception { String[] expectedFiles = { "plugins.tsv", "languages.tsv",
-     * "browser_type.tsv", "timezones.tsv", "color_depth.tsv", "resolution.tsv", "connection_type.tsv",
-     * "search_engines.tsv", "javascript_version.tsv", "operating_systems.tsv", "country.tsv", "browser.tsv" };
-     *
-     * fileCheck(expectedFiles, "tar:file://c:/temp/data/data/data-small.tar"); }
-     */
-
-    protected void fileCheck(final String[] expectedFiles, final String tarFile) throws Exception {
-        assertNotNull(manager);
-        final FileObject file = manager.resolveFile(tarFile);
-
-        assertNotNull(file);
-        final List<FileObject> files = Arrays.asList(file.getChildren());
-
-        assertNotNull(files);
-        for (final String expectedFile : expectedFiles) {
-            assertTrue("Expected file not found: " + expectedFile, fileExists(expectedFile, files));
-        }
-    }
-
-    /**
-     * Search for the expected file in a given list, without using the full path.
-     *
-     * @param expectedFile the expected file.
-     * @param files a list of files to search.
-     * @return {@code true} if {@code expectedFile} is in {@code files}.
-     */
-    protected boolean fileExists(final String expectedFile, final List<FileObject> files) {
-        for (final FileObject file : files) {
-            if (file.getName().getBaseName().equals(expectedFile)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected boolean endsWith(final String testString, final String[] testList) {
-        for (final String string : testList) {
-            if (testString.endsWith(string)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    private DefaultFileSystemManager manager;
 
     // @SuppressWarnings("unused")
     protected void createLargeFile(final String path, final String name) throws Exception {
@@ -189,5 +112,82 @@ public class LargeTarTestCase {
             outGzipFileStream.close();
 
         }
+    }
+
+    protected boolean endsWith(final String testString, final String[] testList) {
+        for (final String string : testList) {
+            if (testString.endsWith(string)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /*
+     * public void testFileCheck() throws Exception { String[] expectedFiles = { "plugins.tsv", "languages.tsv",
+     * "browser_type.tsv", "timezones.tsv", "color_depth.tsv", "resolution.tsv", "connection_type.tsv",
+     * "search_engines.tsv", "javascript_version.tsv", "operating_systems.tsv", "country.tsv", "browser.tsv" };
+     *
+     * fileCheck(expectedFiles, "tar:file://c:/temp/data/data/data-small.tar"); }
+     */
+
+    protected void fileCheck(final String[] expectedFiles, final String tarFile) throws Exception {
+        assertNotNull(manager);
+        final FileObject file = manager.resolveFile(tarFile);
+
+        assertNotNull(file);
+        final List<FileObject> files = Arrays.asList(file.getChildren());
+
+        assertNotNull(files);
+        for (final String expectedFile : expectedFiles) {
+            assertTrue("Expected file not found: " + expectedFile, fileExists(expectedFile, files));
+        }
+    }
+
+    /**
+     * Search for the expected file in a given list, without using the full path.
+     *
+     * @param expectedFile the expected file.
+     * @param files a list of files to search.
+     * @return {@code true} if {@code expectedFile} is in {@code files}.
+     */
+    protected boolean fileExists(final String expectedFile, final List<FileObject> files) {
+        for (final FileObject file : files) {
+            if (file.getName().getBaseName().equals(expectedFile)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        manager = new DefaultFileSystemManager();
+
+        manager.setFilesCache(new SoftRefFilesCache());
+        manager.setCacheStrategy(CacheStrategy.ON_RESOLVE);
+
+        manager.addProvider("file", new DefaultLocalFileProvider());
+        manager.addProvider("tgz", new TarFileProvider());
+        manager.addProvider("tar", new TarFileProvider());
+
+        new File(baseDir).mkdir(); // if test is run standalone
+        createLargeFile(largeFilePath, largeFileName);
+    }
+
+    @Test
+    public void testLargeFile() throws Exception {
+        final File realFile = new File(largeFilePath + largeFileName + ".tar.gz");
+
+        final FileObject file = manager.resolveFile("tgz:file://" + realFile.getCanonicalPath() + "!/");
+
+        assertNotNull(file);
+        final List<FileObject> files = Arrays.asList(file.getChildren());
+
+        assertNotNull(files);
+        assertEquals(1, files.size());
+        final FileObject f = files.get(0);
+
+        assertEquals("Expected file not found: " + largeFileName + ".txt", f.getName().getBaseName(), largeFileName + ".txt");
     }
 }

@@ -83,6 +83,11 @@ public class DefaultFileSystemManagerTest {
         }
     }
 
+    @Test
+    public void testCreateBz2FileSystem() throws FileSystemException {
+        testCreateFileSystem("src/test/resources/test-data/bla.txt.bz2", Bzip2FileObject.class);
+    }
+
     private void testCreateFileSystem(final String path, Class<?> clazz) throws FileSystemException {
         FileSystemManager manager = VFS.getManager();
         try (FileObject localFileObject = manager.resolveFile(new File(path).getAbsolutePath());
@@ -95,11 +100,6 @@ public class DefaultFileSystemManagerTest {
     @Ignore
     public void testCreateGzipFileSystem() throws FileSystemException {
         testCreateFileSystem("src/test/resources/test-data/好.txt.gz", GzipFileObject.class);
-    }
-
-    @Test
-    public void testCreateBz2FileSystem() throws FileSystemException {
-        testCreateFileSystem("src/test/resources/test-data/bla.txt.bz2", Bzip2FileObject.class);
     }
 
     @Test

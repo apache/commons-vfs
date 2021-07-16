@@ -30,6 +30,15 @@ import org.junit.Test;
 public class LRUFilesCacheTests extends AbstractFilesCacheTestsBase {
 
     @Test
+    public void testClass() {
+        @SuppressWarnings("resource")
+        final DefaultFileSystemManager manager = getManager();
+        Assert.assertNotNull("manager", manager);
+        final FilesCache filesCache = manager.getFilesCache();
+        assertTrue(Objects.toString(filesCache), filesCache instanceof LRUFilesCache);
+    }
+
+    @Test
     public void testFilesCache() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
         Assert.assertNotNull("scratchFolder", scratchFolder);
@@ -72,14 +81,5 @@ public class LRUFilesCacheTests extends AbstractFilesCacheTestsBase {
         // check if the cache still holds the right instance
         final FileObject dir1_2 = scratchFolder.resolveFile("dir1");
         assertNotSame(dir1, dir1_2);
-    }
-
-    @Test
-    public void testClass() {
-        @SuppressWarnings("resource")
-        final DefaultFileSystemManager manager = getManager();
-        Assert.assertNotNull("manager", manager);
-        final FilesCache filesCache = manager.getFilesCache();
-        assertTrue(Objects.toString(filesCache), filesCache instanceof LRUFilesCache);
     }
 }
