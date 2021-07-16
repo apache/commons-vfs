@@ -38,13 +38,13 @@ public class TrustEveryoneUserInfo implements UserInfo {
     }
 
     @Override
-    public boolean promptPassword(final String s) {
+    public boolean promptPassphrase(final String s) {
         log.info(s + " - Answer: False");
         return false;
     }
 
     @Override
-    public boolean promptPassphrase(final String s) {
+    public boolean promptPassword(final String s) {
         log.info(s + " - Answer: False");
         return false;
     }

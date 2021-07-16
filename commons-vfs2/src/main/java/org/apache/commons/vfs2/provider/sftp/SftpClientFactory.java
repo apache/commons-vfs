@@ -44,15 +44,80 @@ import com.jcraft.jsch.UserInfo;
  */
 public final class SftpClientFactory {
 
+    /** Interface JSchLogger with JCL. */
+    private static class JSchLogger implements Logger {
+        @Override
+        public boolean isEnabled(final int level) {
+            switch (level) {
+            case FATAL:
+                return LOG.isFatalEnabled();
+            case ERROR:
+                return LOG.isErrorEnabled();
+            case WARN:
+                return LOG.isDebugEnabled();
+            case DEBUG:
+                return LOG.isDebugEnabled();
+            case INFO:
+                return LOG.isInfoEnabled();
+            default:
+                return LOG.isDebugEnabled();
+
+            }
+        }
+
+        @Override
+        public void log(final int level, final String msg) {
+            switch (level) {
+            case FATAL:
+                LOG.fatal(msg);
+                break;
+            case ERROR:
+                LOG.error(msg);
+                break;
+            case WARN:
+                LOG.warn(msg);
+                break;
+            case DEBUG:
+                LOG.debug(msg);
+                break;
+            case INFO:
+                LOG.info(msg);
+                break;
+            default:
+                LOG.debug(msg);
+            }
+        }
+    }
     private static final String SSH_DIR_NAME = ".ssh";
     private static final String OPENSSH_CONFIG_NAME = "config";
+
     private static final Log LOG = LogFactory.getLog(SftpClientFactory.class);
 
     static {
         JSch.setLogger(new JSchLogger());
     }
 
-    private SftpClientFactory() {
+    private static void addIdentities(final JSch jsch, final File sshDir, final IdentityProvider[] identities)
+            throws FileSystemException {
+        if (identities != null) {
+            for (final IdentityProvider info : identities) {
+                addIdentity(jsch, info);
+            }
+        } else {
+            // Load the private key (rsa-key only)
+            final File privateKeyFile = new File(sshDir, "id_rsa");
+            if (privateKeyFile.isFile() && privateKeyFile.canRead()) {
+                addIdentity(jsch, new IdentityInfo(privateKeyFile));
+            }
+        }
+    }
+
+    private static void addIdentity(final JSch jsch, final IdentityProvider identity) throws FileSystemException {
+        try {
+            identity.addIdentity(jsch);
+        } catch (final JSchException e) {
+            throw new FileSystemException("vfs.provider.sftp/load-private-key.error", identity, e);
+        }
     }
 
     /**
@@ -166,59 +231,12 @@ public final class SftpClientFactory {
         return session;
     }
 
-    private static void addIdentities(final JSch jsch, final File sshDir, final IdentityProvider[] identities)
-            throws FileSystemException {
-        if (identities != null) {
-            for (final IdentityProvider info : identities) {
-                addIdentity(jsch, info);
-            }
-        } else {
-            // Load the private key (rsa-key only)
-            final File privateKeyFile = new File(sshDir, "id_rsa");
-            if (privateKeyFile.isFile() && privateKeyFile.canRead()) {
-                addIdentity(jsch, new IdentityInfo(privateKeyFile));
-            }
-        }
+    private static ProxyHTTP createProxyHTTP(final String proxyHost, final int proxyPort) {
+        return proxyPort == 0 ? new ProxyHTTP(proxyHost) : new ProxyHTTP(proxyHost, proxyPort);
     }
 
-    private static void setConfigRepository(final JSch jsch, final File sshDir, final ConfigRepository configRepository, final boolean loadOpenSSHConfig) throws FileSystemException {
-        if (configRepository != null) {
-            jsch.setConfigRepository(configRepository);
-        } else if (loadOpenSSHConfig) {
-            try {
-                // loading openssh config (~/.ssh/config)
-                final ConfigRepository openSSHConfig = OpenSSHConfig.parseFile(new File(sshDir, OPENSSH_CONFIG_NAME).getAbsolutePath());
-                jsch.setConfigRepository(openSSHConfig);
-            } catch (final IOException e) {
-                throw new FileSystemException("vfs.provider.sftp/load-openssh-config.error", e);
-            }
-        }
-    }
-
-    private static void addIdentity(final JSch jsch, final IdentityProvider identity) throws FileSystemException {
-        try {
-            identity.addIdentity(jsch);
-        } catch (final JSchException e) {
-            throw new FileSystemException("vfs.provider.sftp/load-private-key.error", identity, e);
-        }
-    }
-
-    private static void setKnownHosts(final JSch jsch, final File sshDir, File knownHostsFile)
-            throws FileSystemException {
-        try {
-            if (knownHostsFile != null) {
-                jsch.setKnownHosts(knownHostsFile.getAbsolutePath());
-            } else {
-                // Load the known hosts file
-                knownHostsFile = new File(sshDir, "known_hosts");
-                if (knownHostsFile.isFile() && knownHostsFile.canRead()) {
-                    jsch.setKnownHosts(knownHostsFile.getAbsolutePath());
-                }
-            }
-        } catch (final JSchException e) {
-            throw new FileSystemException("vfs.provider.sftp/known-hosts.error", knownHostsFile.getAbsolutePath(), e);
-        }
-
+    private static ProxySOCKS5 createProxySOCKS5(final String proxyHost, final int proxyPort) {
+        return proxyPort == 0 ? new ProxySOCKS5(proxyHost) : new ProxySOCKS5(proxyHost, proxyPort);
     }
 
     private static Proxy createStreamProxy(final String proxyHost, final int proxyPort,
@@ -237,14 +255,6 @@ public final class SftpClientFactory {
 
         // Create the stream proxy
         return new SftpStreamProxy(proxyCommand, proxyUser, proxyHost, proxyPort, proxyPassword, proxyOptions);
-    }
-
-    private static ProxySOCKS5 createProxySOCKS5(final String proxyHost, final int proxyPort) {
-        return proxyPort == 0 ? new ProxySOCKS5(proxyHost) : new ProxySOCKS5(proxyHost, proxyPort);
-    }
-
-    private static ProxyHTTP createProxyHTTP(final String proxyHost, final int proxyPort) {
-        return proxyPort == 0 ? new ProxyHTTP(proxyHost) : new ProxyHTTP(proxyHost, proxyPort);
     }
 
     /**
@@ -293,48 +303,38 @@ public final class SftpClientFactory {
         return new File("");
     }
 
-    /** Interface JSchLogger with JCL. */
-    private static class JSchLogger implements Logger {
-        @Override
-        public boolean isEnabled(final int level) {
-            switch (level) {
-            case FATAL:
-                return LOG.isFatalEnabled();
-            case ERROR:
-                return LOG.isErrorEnabled();
-            case WARN:
-                return LOG.isDebugEnabled();
-            case DEBUG:
-                return LOG.isDebugEnabled();
-            case INFO:
-                return LOG.isInfoEnabled();
-            default:
-                return LOG.isDebugEnabled();
-
+    private static void setConfigRepository(final JSch jsch, final File sshDir, final ConfigRepository configRepository, final boolean loadOpenSSHConfig) throws FileSystemException {
+        if (configRepository != null) {
+            jsch.setConfigRepository(configRepository);
+        } else if (loadOpenSSHConfig) {
+            try {
+                // loading openssh config (~/.ssh/config)
+                final ConfigRepository openSSHConfig = OpenSSHConfig.parseFile(new File(sshDir, OPENSSH_CONFIG_NAME).getAbsolutePath());
+                jsch.setConfigRepository(openSSHConfig);
+            } catch (final IOException e) {
+                throw new FileSystemException("vfs.provider.sftp/load-openssh-config.error", e);
             }
         }
+    }
 
-        @Override
-        public void log(final int level, final String msg) {
-            switch (level) {
-            case FATAL:
-                LOG.fatal(msg);
-                break;
-            case ERROR:
-                LOG.error(msg);
-                break;
-            case WARN:
-                LOG.warn(msg);
-                break;
-            case DEBUG:
-                LOG.debug(msg);
-                break;
-            case INFO:
-                LOG.info(msg);
-                break;
-            default:
-                LOG.debug(msg);
+    private static void setKnownHosts(final JSch jsch, final File sshDir, File knownHostsFile)
+            throws FileSystemException {
+        try {
+            if (knownHostsFile != null) {
+                jsch.setKnownHosts(knownHostsFile.getAbsolutePath());
+            } else {
+                // Load the known hosts file
+                knownHostsFile = new File(sshDir, "known_hosts");
+                if (knownHostsFile.isFile() && knownHostsFile.canRead()) {
+                    jsch.setKnownHosts(knownHostsFile.getAbsolutePath());
+                }
             }
+        } catch (final JSchException e) {
+            throw new FileSystemException("vfs.provider.sftp/known-hosts.error", knownHostsFile.getAbsolutePath(), e);
         }
+
+    }
+
+    private SftpClientFactory() {
     }
 }

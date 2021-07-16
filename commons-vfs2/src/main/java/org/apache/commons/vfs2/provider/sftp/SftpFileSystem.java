@@ -101,6 +101,36 @@ public class SftpFileSystem extends AbstractFileSystem {
         }
     }
 
+    /**
+     * Adds the capabilities of this file system.
+     */
+    @Override
+    protected void addCapabilities(final Collection<Capability> caps) {
+        caps.addAll(SftpFileProvider.capabilities);
+    }
+
+    /**
+     * Creates a file object. This method is called only if the requested file is not cached.
+     */
+    @Override
+    protected FileObject createFile(final AbstractFileName name) throws FileSystemException {
+        return new SftpFileObject(name, this);
+    }
+
+    /**
+     * Some SFTP-only servers disable the exec channel.
+     *
+     * Attempt to detect this by calling getUid.
+     */
+    private boolean detectExecDisabled() {
+        try {
+            return getUId() == UNIDENTIFED;
+        } catch(final JSchException | IOException e) {
+            LOG.debug("Cannot get UID, assuming no exec channel is present", e);
+            return true;
+        }
+    }
+
     @Override
     protected void doCloseCommunicationLink() {
         if (idleChannel != null) {
@@ -115,6 +145,47 @@ public class SftpFileSystem extends AbstractFileSystem {
         if (session != null) {
             session.disconnect();
         }
+    }
+
+    /**
+     * Executes a command and returns the (standard) output through a StringBuilder.
+     *
+     * @param command The command
+     * @param output  The output
+     * @return The exit code of the command
+     * @throws JSchException       if a JSch error is detected.
+     * @throws FileSystemException if a session cannot be created.
+     * @throws IOException         if an I/O error is detected.
+     */
+    private int executeCommand(final String command, final StringBuilder output) throws JSchException, IOException {
+        final ChannelExec channel = (ChannelExec) getSession().openChannel("exec");
+        try {
+            channel.setCommand(command);
+            channel.setInputStream(null);
+            try (final InputStreamReader stream = new InputStreamReader(channel.getInputStream(), StandardCharsets.UTF_8)) {
+                channel.setErrStream(System.err, true);
+                channel.connect(DurationUtils.toMillisInt(connectTimeout));
+
+                // Read the stream
+                final char[] buffer = new char[EXEC_BUFFER_SIZE];
+                int read;
+                while ((read = stream.read(buffer, 0, buffer.length)) >= 0) {
+                    output.append(buffer, 0, read);
+                }
+            }
+
+            // Wait until the command finishes (should not be long since we read the output stream)
+            while (!channel.isClosed()) {
+                try {
+                    Thread.sleep(SLEEP_MILLIS);
+                } catch (final Exception ee) {
+                    // TODO: swallow exception, really?
+                }
+            }
+        } finally {
+            channel.disconnect();
+        }
+        return channel.getExitStatus();
     }
 
     /**
@@ -170,72 +241,6 @@ public class SftpFileSystem extends AbstractFileSystem {
     }
 
     /**
-     * Ensures that the session link is established.
-     *
-     * @throws FileSystemException if a session cannot be created.
-     */
-    private Session getSession() throws FileSystemException {
-        if (!this.session.isConnected()) {
-            synchronized (this) {
-                if (!this.session.isConnected()) {
-                    doCloseCommunicationLink();
-                    this.session = SftpFileProvider.createSession((GenericFileName) getRootName(),
-                        getFileSystemOptions());
-                }
-            }
-        }
-        return this.session;
-    }
-
-    /**
-     * Returns a channel to the pool.
-     *
-     * @param channelSftp the SFTP channel.
-     */
-    protected void putChannel(final ChannelSftp channelSftp) {
-        if (idleChannel == null) {
-            synchronized (this) {
-                if (idleChannel == null) {
-                    // put back the channel only if it is still connected
-                    if (channelSftp.isConnected() && !channelSftp.isClosed()) {
-                        idleChannel = channelSftp;
-                    }
-                } else {
-                    channelSftp.disconnect();
-                }
-            }
-        } else {
-            channelSftp.disconnect();
-        }
-    }
-
-    /**
-     * Adds the capabilities of this file system.
-     */
-    @Override
-    protected void addCapabilities(final Collection<Capability> caps) {
-        caps.addAll(SftpFileProvider.capabilities);
-    }
-
-    /**
-     * Creates a file object. This method is called only if the requested file is not cached.
-     */
-    @Override
-    protected FileObject createFile(final AbstractFileName name) throws FileSystemException {
-        return new SftpFileObject(name, this);
-    }
-
-    /**
-     * Last modification time is only an int and in seconds, thus can be off by 999.
-     *
-     * @return 1000
-     */
-    @Override
-    public double getLastModTimeAccuracy() {
-        return LAST_MOD_TIME_ACCURACY;
-    }
-
-    /**
      * Gets the (numeric) group IDs.
      *
      * @return the (numeric) group IDs.
@@ -270,6 +275,34 @@ public class SftpFileSystem extends AbstractFileSystem {
     }
 
     /**
+     * Last modification time is only an int and in seconds, thus can be off by 999.
+     *
+     * @return 1000
+     */
+    @Override
+    public double getLastModTimeAccuracy() {
+        return LAST_MOD_TIME_ACCURACY;
+    }
+
+    /**
+     * Ensures that the session link is established.
+     *
+     * @throws FileSystemException if a session cannot be created.
+     */
+    private Session getSession() throws FileSystemException {
+        if (!this.session.isConnected()) {
+            synchronized (this) {
+                if (!this.session.isConnected()) {
+                    doCloseCommunicationLink();
+                    this.session = SftpFileProvider.createSession((GenericFileName) getRootName(),
+                        getFileSystemOptions());
+                }
+            }
+        }
+        return this.session;
+    }
+
+    /**
      * Gets the (numeric) group IDs.
      *
      * @return The numeric user ID
@@ -300,47 +333,6 @@ public class SftpFileSystem extends AbstractFileSystem {
     }
 
     /**
-     * Executes a command and returns the (standard) output through a StringBuilder.
-     *
-     * @param command The command
-     * @param output  The output
-     * @return The exit code of the command
-     * @throws JSchException       if a JSch error is detected.
-     * @throws FileSystemException if a session cannot be created.
-     * @throws IOException         if an I/O error is detected.
-     */
-    private int executeCommand(final String command, final StringBuilder output) throws JSchException, IOException {
-        final ChannelExec channel = (ChannelExec) getSession().openChannel("exec");
-        try {
-            channel.setCommand(command);
-            channel.setInputStream(null);
-            try (final InputStreamReader stream = new InputStreamReader(channel.getInputStream(), StandardCharsets.UTF_8)) {
-                channel.setErrStream(System.err, true);
-                channel.connect(DurationUtils.toMillisInt(connectTimeout));
-
-                // Read the stream
-                final char[] buffer = new char[EXEC_BUFFER_SIZE];
-                int read;
-                while ((read = stream.read(buffer, 0, buffer.length)) >= 0) {
-                    output.append(buffer, 0, read);
-                }
-            }
-
-            // Wait until the command finishes (should not be long since we read the output stream)
-            while (!channel.isClosed()) {
-                try {
-                    Thread.sleep(SLEEP_MILLIS);
-                } catch (final Exception ee) {
-                    // TODO: swallow exception, really?
-                }
-            }
-        } finally {
-            channel.disconnect();
-        }
-        return channel.getExitStatus();
-    }
-
-    /**
      * @return Whether the exec channel is disabled.
      * @see SftpFileSystem#execDisabled
      */
@@ -349,16 +341,24 @@ public class SftpFileSystem extends AbstractFileSystem {
     }
 
     /**
-     * Some SFTP-only servers disable the exec channel.
+     * Returns a channel to the pool.
      *
-     * Attempt to detect this by calling getUid.
+     * @param channelSftp the SFTP channel.
      */
-    private boolean detectExecDisabled() {
-        try {
-            return getUId() == UNIDENTIFED;
-        } catch(final JSchException | IOException e) {
-            LOG.debug("Cannot get UID, assuming no exec channel is present", e);
-            return true;
+    protected void putChannel(final ChannelSftp channelSftp) {
+        if (idleChannel == null) {
+            synchronized (this) {
+                if (idleChannel == null) {
+                    // put back the channel only if it is still connected
+                    if (channelSftp.isConnected() && !channelSftp.isClosed()) {
+                        idleChannel = channelSftp;
+                    }
+                } else {
+                    channelSftp.disconnect();
+                }
+            }
+        } else {
+            channelSftp.disconnect();
         }
     }
 
