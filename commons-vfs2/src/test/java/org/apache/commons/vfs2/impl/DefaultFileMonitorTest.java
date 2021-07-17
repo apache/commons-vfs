@@ -193,7 +193,7 @@ public class DefaultFileMonitorTest {
 
     @After
     public void tearDown() {
-        //fileSystemManager.close();
+        // fileSystemManager.close();
         deleteTestFileIfPresent();
     }
 
@@ -231,15 +231,11 @@ public class DefaultFileMonitorTest {
                 status = null;
                 Thread.sleep(DELAY_MILLIS * 5);
                 testFile.delete();
-                Thread.sleep(DELAY_MILLIS * 30);
-                assertTrue("No event occurred", status != null);
-                assertEquals("Incorrect event " + status, Status.DELETED, status);
+                waitFor(Status.DELETED, DELAY_MILLIS * 30);
                 status = null;
                 Thread.sleep(DELAY_MILLIS * 5);
                 writeToFile(testFile);
-                Thread.sleep(DELAY_MILLIS * 30);
-                assertTrue("No event occurred", status != null);
-                assertEquals("Incorrect event " + status, Status.CREATED, status);
+                waitFor(Status.CREATED, DELAY_MILLIS * 30);
             } finally {
                 monitor.stop();
             }
@@ -257,8 +253,7 @@ public class DefaultFileMonitorTest {
             try {
                 writeToFile(testFile);
                 Thread.sleep(DELAY_MILLIS * 5);
-                assertTrue("No event occurred", status != null);
-                assertEquals("Incorrect event", Status.CREATED, status);
+                waitFor(Status.CREATED, DELAY_MILLIS * 5);
             } finally {
                 monitor.stop();
             }
@@ -276,9 +271,7 @@ public class DefaultFileMonitorTest {
             monitor.start();
             try {
                 testFile.delete();
-                Thread.sleep(500);
-                assertTrue("No event occurred", status != null);
-                assertEquals("Incorrect event", Status.DELETED, status);
+                waitFor(Status.DELETED, DELAY_MILLIS * 5);
             } finally {
                 monitor.stop();
             }
@@ -301,9 +294,7 @@ public class DefaultFileMonitorTest {
                 final long valueMillis = System.currentTimeMillis();
                 final boolean rcMillis = testFile.setLastModified(valueMillis);
                 assertTrue("setLastModified succeeded", rcMillis);
-                Thread.sleep(DELAY_MILLIS * 5);
-                assertTrue("No event occurred", status != null);
-                assertEquals("Incorrect event", Status.CHANGED, status);
+                waitFor(Status.CHANGED, DELAY_MILLIS * 5);
             } finally {
                 monitor.stop();
             }
@@ -329,9 +320,7 @@ public class DefaultFileMonitorTest {
             monitor.start();
             try {
                 testFile.delete();
-                Thread.sleep(DELAY_MILLIS * 5);
-                assertTrue("No event occurred", status != null);
-                assertEquals("Incorrect event", Status.DELETED, status);
+                waitFor(Status.DELETED, DELAY_MILLIS * 5);
             } finally {
                 monitor.stop();
             }
@@ -348,25 +337,36 @@ public class DefaultFileMonitorTest {
             monitor.start();
             try {
                 writeToFile(testFile);
-                Thread.sleep(DELAY_MILLIS * 5);
-                assertTrue("No event occurred", status != null);
-                assertEquals("Incorrect event " + status, Status.CREATED, status);
+                waitFor(Status.CREATED, DELAY_MILLIS * 10);
                 status = null;
                 testFile.delete();
-                Thread.sleep(DELAY_MILLIS * 5);
-                assertTrue("No event occurred", status != null);
-                assertEquals("Incorrect event " + status, Status.DELETED, status);
+                waitFor(Status.DELETED, DELAY_MILLIS * 10);
                 status = null;
                 Thread.sleep(DELAY_MILLIS * 5);
                 monitor.addFile(fileObject);
                 writeToFile(testFile);
-                Thread.sleep(DELAY_MILLIS * 10);
-                assertTrue("No event occurred", status != null);
-                assertEquals("Incorrect event " + status, Status.CREATED, status);
+                waitFor(Status.CREATED, DELAY_MILLIS * 10);
             } finally {
                 monitor.stop();
             }
         }
+    }
+
+    private void waitFor(final Status expected, final long timeoutMillis) throws InterruptedException {
+        if (expected == status) {
+            return;
+        }
+        long remaining = timeoutMillis;
+        final long interval = timeoutMillis / 10;
+        while (remaining > 0) {
+            Thread.sleep(interval);
+            remaining -= interval;
+            if (expected == status) {
+                return;
+            }
+        }
+        assertTrue("No event occurred", status != null);
+        assertEquals("Incorrect event " + status, expected, status);
     }
 
     private void writeToFile(final File file) throws IOException {
