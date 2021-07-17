@@ -86,12 +86,6 @@ public class DefaultFileMonitorTest {
 
     private static final int DELAY_MILLIS = 100;
 
-    @BeforeClass
-    public static void beforeClass() {
-        // ?Fails randomly on Windows and Unbuntu on GitHub Actions builds?
-        // assumeFalse(SystemUtils.IS_OS_WINDOWS);
-    }
-
     private FileSystemManager fileSystemManager;
 
     private File testDir;
