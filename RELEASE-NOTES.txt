@@ -1,3 +1,92 @@
+            Apache Commons VFS Project 2.9.0
+            RELEASE NOTES
+            2021-07-16
+
+The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.9.0.
+
+Apache Commons VFS is a Virtual File System library.
+
+Maintenance release. Requires Java 8.
+
+Changes in this version include:
+
+Fixed Bugs:
+o           Add and use FileOperationProvider.EMPTY_ARRAY. Thanks to Gary Gregory.
+o           VFS.close(): Set `instance` to `null` after closing it; #163. Thanks to Boris Petrov.
+o           Fix closing the files cache after warning that not all components have been closed; #165. Thanks to Boris Petrov.
+o           Fix NPE when closing a stream from a different thread #167. See also #166. Thanks to Boris Petrov, Gary Gregory, Max Kellermann.
+o VFS-798:  IllegalArgumentException: Bad escape for Chinese characters in FileObject path #168. Thanks to XenoAmess, Gary Gregory.
+o           Minor changes #185. Thanks to Arturo Bernal.
+o           Port internal embedded HTTP asynchronous file server used in tests from from Apache HttpComponents HttpCore/HttpClient 4.x to 5.0.x. Thanks to Gary Gregory.
+o           Replace construction of FileInputStream and FileOutputStream objects with Files NIO APIs. #164. Thanks to Arturo Bernal.
+o           Only use reflection VFS.createFileSystemManager(String) if the FileSystemManager is not a subclass of AbstractFileSystem. Thanks to Gary Gregory.
+o           Simplify if conditions #170. Thanks to Arturo Bernal.
+o           Redundant local variable #171. Thanks to Arturo Bernal.
+o VFS-804:  Fix and Refine Javadoc #174. Thanks to Arturo Bernal.
+o VFS-784:  SSL Connection failing with http4 provider with squid proxy nginx combination. Thanks to satish-csi, Michael Osipov, Gary Gregory.
+o           Remove checked exception from method signatures that do not throw them. This maintains binary compatibility but not source compatibility.
+            - org.apache.commons.vfs2.impl.DefaultFileSystemConfigBuilder.setUserAuthenticator(FileSystemOptions, UserAuthenticator)
+            - org.apache.commons.vfs2.impl.DefaultFileSystemManager.setBaseFile(File)
+            - org.apache.commons.vfs2.provider.LayeredFileNameParser.extractRootName(StringBuilder)
+            - org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.setCompression(FileSystemOptions, String)
+            - org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.setConfigRepository(FileSystemOptions, ConfigRepository)
+            - org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.setIdentities(FileSystemOptions, File...)
+            - org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.setIdentityInfo(FileSystemOptions, IdentityInfo...)
+            - org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.setIdentityProvider(FileSystemOptions, IdentityProvider...)
+            - org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.setIdentityRepositoryFactory(FileSystemOptions, IdentityRepositoryFactory)
+            - org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.setKnownHosts(FileSystemOptions, File)
+            - org.apache.commons.vfs2.provider.local.LocalFile.LocalFile(LocalFileSystem, String, AbstractFileName)
+            - org.apache.commons.vfs2.provider.local.LocalFile.doGetType()
+            - org.apache.commons.vfs2.provider.tar.TarFileObject.TarFileObject(AbstractFileName, TarArchiveEntry, TarFileSystem, boolean)
+            - org.apache.commons.vfs2.provider.tar.TarFileSystem.createTarFileObject(AbstractFileName, TarArchiveEntry)
+            - org.apache.commons.vfs2.provider.zip.ZipFileObject.ZipFileObject(AbstractFileName, ZipEntry, ZipFileSystem, boolean)
+            - org.apache.commons.vfs2.provider.http4.Http4FileProvider.createHttpClientContext()
+            - org.apache.commons.vfs2.provider.http5.Http5FileProvider.createHttpClientContext()
+            - org.apache.commons.vfs2.provider.http4.Http4FileObject.getInternalURI()
+            - org.apache.commons.vfs2.provider.http5.Http5FileObject.getInternalURI() Thanks to Gary Gregory.
+o VFS-805:  HTTP seek always exhausts response #186. Thanks to Claus Stadler, Gary Gregory.
+o VFS-805:  SftpFileObject: Add synchronized to methods that read or write the thread-unsafe instance variable of type com.jcraft.jsch.SftpATTRS. Thanks to Max Kellermann, Mark Thomas, Bernd, Gary Gregory.
+o VFS-759:  WebDAV providers should loaded only when commons-vfs2-jackrabbit* jars are available #84 Thanks to Woonsan Ko.
+o           Simplify conditions and avoid extra checks #187. Thanks to Arturo Bernal.
+o VFS-803:  Simplify if as some conditions are covered by others #173. Thanks to Arturo Bernal.
+
+Changes:
+o           Bump Log4j 2.14.0 -> 2.14.1. Thanks to Gary Gregory.
+o           Bump Maven Surefire from 2.19.1 to 3.0.0-M5. Thanks to Gary Gregory.
+o           Bump net.sourceforge.pmd:pmd-* from 6.32.0 to 6.33.0.
+o           Bump checkstyle from 8.41 to 8.44 #175. Thanks to Dependabot, Gary Gregory.
+o           Bump actions/setup-java to v2 #177. Thanks to Boris Petrov.
+o           Bump mockito-core from 3.8.0 to 3.11.2 #178. Thanks to Dependabot, Gary GRegory.
+o           Bump commons-io from 2.8.0 to 2.10.0. Thanks to Gary Gregory.
+o           Bump actions/cache from 2.1.4 to 2.1.6 #183. Thanks to Dependabot.
+o           Bump jackrabbit2.version from 2.21.5 to 2.21.6 #180. Thanks to Dependabot.
+o           Bump commons.jacoco.version from 0.8.6 to 0.8.7. Thanks to Gary Gregory.
+o           Bump hadoop.version 3.3.0 to 3.3.1. Thanks to Gary Gregory.
+o           Bump commons.pmd.version from 6.33.0 to 6.36.0 #191. Thanks to Dependabot.
+o           Bump asm from 9.1 to 9.2 #194. Thanks to Dependabot.
+o           Bump commons-compress from 1.20 to 1.21 #195. Thanks to Dependabot.
+o           Bump httpclient5 from 5.0.3 to 5.1 #196. Thanks to Dependabot.
+o           Bump commons.spotbugs.version from 4.2.2 to 4.3.0. Thanks to Gary Gregory.
+o           Bump commons-io from 2.10.0 to 2.11.0 #197. Thanks to Gary Gregory.
+o           Bump commons.spotbugs.impl.version from 4.2.2 to 4.3.0.
+            Workaround https://github.com/spotbugs/spotbugs/issues/1539 Thanks to Gary Gregory.
+o           Bump commons.felix.version from 5.1.1 to 5.1.2. Thanks to Gary Gregory.
+o           Bump biz.aQute.bndlib.version from 5.1.2 to 5.3.0. Thanks to Gary Gregory.
+o           Bump commons.javadoc.version from 3.2.0 to 3.3.0. Thanks to Gary Gregory.
+o           Update from to javax.mail:mail 1.4.7 to com.sun.mail:jakarta.mail 1.6.7. Thanks to Gary Gregory.
+
+
+Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
+
+For complete information on Apache Commons VFS Project, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons VFS Project website:
+
+http://commons.apache.org/proper/commons-vfs/
+
+Download page: http://commons.apache.org/proper/commons-vfs/download_vfs.cgi
+
+-----------------------------------------------------------------------------
+
             Apache Commons VFS Project 2.8.0
             RELEASE NOTES
             2021-03-06
