@@ -18,7 +18,6 @@ package org.apache.commons.vfs2.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeFalse;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -26,7 +25,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileChangeEvent;
 import org.apache.commons.vfs2.FileListener;
@@ -68,39 +66,46 @@ public class DefaultFileMonitorTest {
     private enum Status {
         CHANGED, DELETED, CREATED
     }
-    
+
     private class TestFileListener implements FileListener {
         @Override
         public void fileChanged(final FileChangeEvent event) throws Exception {
-            changeStatus = Status.CHANGED;
+            status = Status.CHANGED;
         }
 
         @Override
         public void fileCreated(final FileChangeEvent event) throws Exception {
-            changeStatus = Status.CREATED;
+            status = Status.CREATED;
         }
 
         @Override
         public void fileDeleted(final FileChangeEvent event) throws Exception {
-            changeStatus = Status.DELETED;
+            status = Status.DELETED;
         }
     }
-    
+
     private static final int DELAY_MILLIS = 100;
-    
+
     @BeforeClass
     public static void beforeClass() {
-        // Fails randomly on Windows.
-        assumeFalse(SystemUtils.IS_OS_WINDOWS);
+        // ?Fails randomly on Windows and Unbuntu on GitHub Actions builds?
+        // assumeFalse(SystemUtils.IS_OS_WINDOWS);
     }
 
-    private FileSystemManager fsManager;
+    private FileSystemManager fileSystemManager;
 
     private File testDir;
 
-    private volatile Status changeStatus;
+    private volatile Status status;
 
     private File testFile;
+
+    private void deleteTestFileIfPresent() {
+        if (testFile != null && testFile.exists()) {
+            final boolean deleted = testFile.delete();
+            assertTrue(testFile.toString(), deleted);
+        }
+    }
 
     /**
      * VFS-299: Handlers are not removed. One instance is {@link DefaultFileMonitor#removeFile(FileObject)}.
@@ -110,7 +115,7 @@ public class DefaultFileMonitorTest {
     @Ignore("VFS-299")
     @Test
     public void ignore_testAddRemove() throws Exception {
-        try (final FileObject fileObject = fsManager.resolveFile(testFile.toURI().toString())) {
+        try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
             final CountingListener listener = new CountingListener();
             final DefaultFileMonitor monitor = new DefaultFileMonitor(listener);
             monitor.setDelay(DELAY_MILLIS);
@@ -136,7 +141,7 @@ public class DefaultFileMonitorTest {
     @Ignore("VFS-299")
     @Test
     public void ignore_testStartStop() throws Exception {
-        try (final FileObject fileObject = fsManager.resolveFile(testFile.toURI().toString())) {
+        try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
             final CountingListener stoppedListener = new CountingListener();
             final DefaultFileMonitor stoppedMonitor = new DefaultFileMonitor(stoppedListener);
             stoppedMonitor.start();
@@ -169,10 +174,8 @@ public class DefaultFileMonitorTest {
                 writeToFile(testFile);
                 Thread.sleep(DELAY_MILLIS * 10);
 
-                assertEquals("The listener of the active monitor received one created event", 1,
-                    activeListener.created.get());
-                assertEquals("The listener of the stopped monitor received no events", 0,
-                    stoppedListener.created.get());
+                assertEquals("The listener of the active monitor received one created event", 1, activeListener.created.get());
+                assertEquals("The listener of the stopped monitor received no events", 0, stoppedListener.created.get());
             } finally {
                 activeMonitor.stop();
             }
@@ -181,38 +184,34 @@ public class DefaultFileMonitorTest {
 
     @Before
     public void setUp() throws Exception {
-        fsManager = VFS.getManager();
+        fileSystemManager = VFS.getManager();
         testDir = AbstractVfsTestCase.getTestDirectoryFile();
-        changeStatus = null;
+        status = null;
         testFile = new File(testDir, "testReload.properties");
-
-        if (testFile.exists()) {
-            testFile.delete();
-        }
+        deleteTestFileIfPresent();
     }
 
     @After
-    public void tearDown() throws Exception {
-        if (testFile != null && !testFile.delete()) {
-            testFile.deleteOnExit();
-        }
+    public void tearDown() {
+        //fileSystemManager.close();
+        deleteTestFileIfPresent();
     }
 
     @Test
     public void testChildFileDeletedWithoutRecursiveChecking() throws Exception {
         writeToFile(testFile);
-        try (final FileObject fileObject = fsManager.resolveFile(testDir.toURI().toURL().toString())) {
+        try (final FileObject fileObject = fileSystemManager.resolveFile(testDir.toURI().toURL().toString())) {
             final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
             monitor.setDelay(2000);
             monitor.setRecursive(false);
             monitor.addFile(fileObject);
             monitor.start();
             try {
-                changeStatus = null;
+                status = null;
                 Thread.sleep(DELAY_MILLIS * 5);
                 testFile.delete();
                 Thread.sleep(DELAY_MILLIS * 30);
-                assertEquals("Event should not have occurred", null, changeStatus);
+                assertEquals("Event should not have occurred", null, status);
             } finally {
                 monitor.stop();
             }
@@ -222,25 +221,25 @@ public class DefaultFileMonitorTest {
     @Test
     public void testChildFileRecreated() throws Exception {
         writeToFile(testFile);
-        try (final FileObject fileObj = fsManager.resolveFile(testDir.toURI().toURL().toString())) {
+        try (final FileObject fileObj = fileSystemManager.resolveFile(testDir.toURI().toURL().toString())) {
             final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
             monitor.setDelay(2000);
             monitor.setRecursive(true);
             monitor.addFile(fileObj);
             monitor.start();
             try {
-                changeStatus = null;
+                status = null;
                 Thread.sleep(DELAY_MILLIS * 5);
                 testFile.delete();
                 Thread.sleep(DELAY_MILLIS * 30);
-                assertTrue("No event occurred", changeStatus != null);
-                assertEquals("Incorrect event " + changeStatus, Status.DELETED, changeStatus);
-                changeStatus = null;
+                assertTrue("No event occurred", status != null);
+                assertEquals("Incorrect event " + status, Status.DELETED, status);
+                status = null;
                 Thread.sleep(DELAY_MILLIS * 5);
                 writeToFile(testFile);
                 Thread.sleep(DELAY_MILLIS * 30);
-                assertTrue("No event occurred", changeStatus != null);
-                assertEquals("Incorrect event " + changeStatus, Status.CREATED, changeStatus);
+                assertTrue("No event occurred", status != null);
+                assertEquals("Incorrect event " + status, Status.CREATED, status);
             } finally {
                 monitor.stop();
             }
@@ -249,17 +248,17 @@ public class DefaultFileMonitorTest {
 
     @Test
     public void testFileCreated() throws Exception {
-        try (final FileObject fileObject = fsManager.resolveFile(testFile.toURI().toURL().toString())) {
+        try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toURL().toString())) {
             final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
-            // TestFileListener manipulates changeStatus
+            // TestFileListener manipulates status
             monitor.setDelay(DELAY_MILLIS);
             monitor.addFile(fileObject);
             monitor.start();
             try {
                 writeToFile(testFile);
                 Thread.sleep(DELAY_MILLIS * 5);
-                assertTrue("No event occurred", changeStatus != null);
-                assertEquals("Incorrect event", Status.CREATED, changeStatus);
+                assertTrue("No event occurred", status != null);
+                assertEquals("Incorrect event", Status.CREATED, status);
             } finally {
                 monitor.stop();
             }
@@ -269,17 +268,17 @@ public class DefaultFileMonitorTest {
     @Test
     public void testFileDeleted() throws Exception {
         writeToFile(testFile);
-        try (final FileObject fileObject = fsManager.resolveFile(testFile.toURI().toString())) {
+        try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
             final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
-            // TestFileListener manipulates changeStatus
+            // TestFileListener manipulates status
             monitor.setDelay(DELAY_MILLIS);
             monitor.addFile(fileObject);
             monitor.start();
             try {
                 testFile.delete();
                 Thread.sleep(500);
-                assertTrue("No event occurred", changeStatus != null);
-                assertEquals("Incorrect event", Status.DELETED, changeStatus);
+                assertTrue("No event occurred", status != null);
+                assertEquals("Incorrect event", Status.DELETED, status);
             } finally {
                 monitor.stop();
             }
@@ -289,9 +288,9 @@ public class DefaultFileMonitorTest {
     @Test
     public void testFileModified() throws Exception {
         writeToFile(testFile);
-        try (final FileObject fileObject = fsManager.resolveFile(testFile.toURI().toURL().toString())) {
+        try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toURL().toString())) {
             final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
-            // TestFileListener manipulates changeStatus
+            // TestFileListener manipulates status
             monitor.setDelay(DELAY_MILLIS);
             monitor.addFile(fileObject);
             monitor.start();
@@ -303,8 +302,8 @@ public class DefaultFileMonitorTest {
                 final boolean rcMillis = testFile.setLastModified(valueMillis);
                 assertTrue("setLastModified succeeded", rcMillis);
                 Thread.sleep(DELAY_MILLIS * 5);
-                assertTrue("No event occurred", changeStatus != null);
-                assertEquals("Incorrect event", Status.CHANGED, changeStatus);
+                assertTrue("No event occurred", status != null);
+                assertEquals("Incorrect event", Status.CHANGED, status);
             } finally {
                 monitor.stop();
             }
@@ -313,9 +312,9 @@ public class DefaultFileMonitorTest {
 
     @Test
     public void testFileMonitorRestarted() throws Exception {
-        try (final FileObject fileObject = fsManager.resolveFile(testFile.toURI().toString())) {
+        try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
             final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
-            // TestFileListener manipulates changeStatus
+            // TestFileListener manipulates status
             monitor.setDelay(DELAY_MILLIS);
             monitor.addFile(fileObject);
 
@@ -331,8 +330,8 @@ public class DefaultFileMonitorTest {
             try {
                 testFile.delete();
                 Thread.sleep(DELAY_MILLIS * 5);
-                assertTrue("No event occurred", changeStatus != null);
-                assertEquals("Incorrect event", Status.DELETED, changeStatus);
+                assertTrue("No event occurred", status != null);
+                assertEquals("Incorrect event", Status.DELETED, status);
             } finally {
                 monitor.stop();
             }
@@ -341,29 +340,29 @@ public class DefaultFileMonitorTest {
 
     @Test
     public void testFileRecreated() throws Exception {
-        try (final FileObject fileObject = fsManager.resolveFile(testFile.toURI().toURL().toString())) {
+        try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI())) {
             final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
-            // TestFileListener manipulates changeStatus
+            // TestFileListener manipulates status
             monitor.setDelay(DELAY_MILLIS);
             monitor.addFile(fileObject);
             monitor.start();
             try {
                 writeToFile(testFile);
                 Thread.sleep(DELAY_MILLIS * 5);
-                assertTrue("No event occurred", changeStatus != null);
-                assertEquals("Incorrect event " + changeStatus, Status.CREATED, changeStatus);
-                changeStatus = null;
+                assertTrue("No event occurred", status != null);
+                assertEquals("Incorrect event " + status, Status.CREATED, status);
+                status = null;
                 testFile.delete();
                 Thread.sleep(DELAY_MILLIS * 5);
-                assertTrue("No event occurred", changeStatus != null);
-                assertEquals("Incorrect event " + changeStatus, Status.DELETED, changeStatus);
-                changeStatus = null;
+                assertTrue("No event occurred", status != null);
+                assertEquals("Incorrect event " + status, Status.DELETED, status);
+                status = null;
                 Thread.sleep(DELAY_MILLIS * 5);
                 monitor.addFile(fileObject);
                 writeToFile(testFile);
                 Thread.sleep(DELAY_MILLIS * 10);
-                assertTrue("No event occurred", changeStatus != null);
-                assertEquals("Incorrect event " + changeStatus, Status.CREATED, changeStatus);
+                assertTrue("No event occurred", status != null);
+                assertEquals("Incorrect event " + status, Status.CREATED, status);
             } finally {
                 monitor.stop();
             }
