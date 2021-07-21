@@ -57,7 +57,7 @@
                     such as a VFS-aware ClassLoader and URLStreamHandlerFactory.
                 </li>
                 <li>
-                    A set of VFS-enabled<a href="anttasks.html">Ant tasks</a>.
+                    A set of VFS-enabled <a href="anttasks.html">Ant tasks</a>.
                 </li>
             </ul>
 
