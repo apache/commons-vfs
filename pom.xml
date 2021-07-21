@@ -292,6 +292,24 @@
             <propertyExpansion>basedir=${basedir}</propertyExpansion>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.apache.rat</groupId>
+          <artifactId>apache-rat-plugin</artifactId>
+          <!-- Should agree with config in reporting section -->
+          <configuration>
+            <excludes combine.children="append">
+              <!--  trivial test data text files -->
+              <exclude>src/test/resources/test-data/**/*.bin</exclude>
+              <exclude>src/test/resources/test-data/**/*.txt</exclude>
+              <exclude>src/test/resources/test-data/**/*.tgz</exclude>
+              <exclude>src/test/resources/test-data/**/*.tbz2</exclude>
+              <exclude>src/test/resources/test-data/test.mf</exclude>
+              <!--  implicite exclude does not work if sandbox profile is not activated -->
+              <exclude>commons-vfs2-sandbox/**</exclude>
+              <exclude>dist/target/**</exclude>
+            </excludes>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -357,20 +375,6 @@
       <plugin>
         <groupId>org.apache.rat</groupId>
         <artifactId>apache-rat-plugin</artifactId>
-        <!-- Should agree with config in reporting section -->
-        <configuration>
-          <excludes combine.children="append">
-            <!--  trivial test data text files -->
-            <exclude>src/test/resources/test-data/**/*.bin</exclude>
-            <exclude>src/test/resources/test-data/**/*.txt</exclude>
-            <exclude>src/test/resources/test-data/**/*.tgz</exclude>
-            <exclude>src/test/resources/test-data/**/*.tbz2</exclude>
-            <exclude>src/test/resources/test-data/test.mf</exclude>
-            <!--  implicite exclude does not work if sandbox profile is not activated -->
-            <exclude>commons-vfs2-sandbox/**</exclude>
-            <exclude>dist/target/**</exclude>
-          </excludes>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>com.github.siom79.japicmp</groupId>
@@ -409,20 +413,6 @@
       <plugin>
         <groupId>org.apache.rat</groupId>
         <artifactId>apache-rat-plugin</artifactId>
-        <version>${commons.rat.version}</version>
-        <!-- Should agree with config in build section -->
-        <configuration>
-          <excludes combine.children="append">
-            <!--  trivial test data text files -->
-            <exclude>src/test/resources/test-data/**/*.txt</exclude>
-            <exclude>src/test/resources/test-data/**/*.tgz</exclude>
-            <exclude>src/test/resources/test-data/**/*.tbz2</exclude>
-            <exclude>src/test/resources/test-data/test.mf</exclude>
-            <!--  implicit exclude does not work if sandbox profile is not activated -->
-            <exclude>commons-vfs2-sandbox/**</exclude>
-            <exclude>dist/target/**</exclude>
-          </excludes>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
