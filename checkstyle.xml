@@ -25,11 +25,9 @@
 <module name="Checker">
   <property name="localeLanguage" value="en" />
 
-  <!-- Checks that a package.html file exists for each package. -->
+  <!-- Checks that a package-info.java file exists for each package. -->
   <!-- See http://checkstyle.sourceforge.net/config_javadoc.html -->
-  <module name="JavadocPackage">
-    <property name="allowLegacy" value="true" />
-  </module>
+  <module name="JavadocPackage" />
 
   <!-- Checks whether files end with a new line. -->
   <!-- See http://checkstyle.sf.net/config_misc.html#NewlineAtEndOfFile -->
@@ -88,7 +86,7 @@
       <property name="accessModifiers" value="public" />
     </module>
     <module name="MissingJavadocMethod"/>
-    
+
     <!-- http://checkstyle.sourceforge.net/config_javadoc.html#JavadocType -->
     <module name="JavadocType">
       <!-- It is unfortunate to have to do this but checkstyle doesn't allow custom tags -->
