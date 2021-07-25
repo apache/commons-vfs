@@ -20,7 +20,7 @@
  *
  * <p>
  *  This package contains common interfaces for Version Control Systems such as
- *  SVN, CVS, etc.
+ *  Git, SVN, CVS, etc.
  * </p>
  *
  * <p>
