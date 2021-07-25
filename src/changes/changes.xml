@@ -46,10 +46,14 @@ The <action> type attribute can be add,update,fix,remove.
 
   <body>
     <release version="2.9.1" date="2021-MM-DD" description="Maintenance release. Requires Java 8.">
+      <!-- FIX -->
+      <action type="update" dev="ggregory" due-to="Seth Falco">
+        Replace package.html with package-info.java #206. 
+      </action>
       <!-- UDPATE -->
       <action type="update" dev="ggregory" due-to="Dependabot">
          Bump jakarta.mail from 1.6.7 to 2.0.1 #200.
-      </action>      
+      </action>
     </release>
     <release version="2.9.0" date="2021-06-16" description="Maintenance release. Requires Java 8.">
       <!-- ADDS -->
