@@ -25,6 +25,7 @@ import org.junit.Test;
  * File system test that check that a file system can be modified.
  */
 public class ProviderWriteAppendTests extends AbstractProviderTestCase {
+
     /**
      * Sets up a scratch folder for the test to use.
      */
@@ -43,8 +44,8 @@ public class ProviderWriteAppendTests extends AbstractProviderTestCase {
      */
     @Override
     protected Capability[] getRequiredCapabilities() {
-        return new Capability[] { Capability.CREATE, Capability.DELETE, Capability.GET_TYPE, Capability.LIST_CHILDREN,
-                Capability.READ_CONTENT, Capability.WRITE_CONTENT, Capability.APPEND_CONTENT };
+        return new Capability[] {Capability.CREATE, Capability.DELETE, Capability.GET_TYPE, Capability.LIST_CHILDREN, Capability.READ_CONTENT,
+            Capability.WRITE_CONTENT, Capability.APPEND_CONTENT};
     }
 
     /**
@@ -52,36 +53,61 @@ public class ProviderWriteAppendTests extends AbstractProviderTestCase {
      */
     @Test
     public void testAppendContent() throws Exception {
-        final FileObject scratchFolder = createScratchFolder();
+        try (final FileObject scratchFolder = createScratchFolder();
 
-        // Create direct child of the test folder
-        final FileObject file = scratchFolder.resolveFile("file1.txt");
-        assertFalse(file.exists());
+            // Create direct child of the test folder
+            final FileObject file = scratchFolder.resolveFile("file1.txt")) {
+            assertFalse(file.exists());
 
-        // Create the source file
-        final String content = "Here is some sample content for the file.  Blah Blah Blah.";
-        final String contentAppend = content + content;
+            // Create the source file
+            final String content = "Here is some sample content for the file.  Blah Blah Blah.";
+            final String contentAppend = content + content;
 
-        try (OutputStream os = file.getContent().getOutputStream()) {
-            os.write(content.getBytes(StandardCharsets.UTF_8));
+            try (FileContent fileContent = file.getContent(); OutputStream os = fileContent.getOutputStream()) {
+                os.write(content.getBytes(StandardCharsets.UTF_8));
+            }
+            assertSameContent(content, file);
+
+            // Append to the new file
+            try (FileContent fileContent = file.getContent(); OutputStream os2 = fileContent.getOutputStream(true)) {
+                os2.write(content.getBytes(StandardCharsets.UTF_8));
+            }
+            assertSameContent(contentAppend, file);
+
+            // Make sure we can copy the new file to another file on the same filesystem
+            try (final FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt")) {
+                assertFalse(fileCopy.exists());
+                fileCopy.copyFrom(file, Selectors.SELECT_SELF);
+
+                assertSameContent(contentAppend, fileCopy);
+
+                // Delete the file.
+                assertTrue(fileCopy.exists());
+                assertTrue(fileCopy.delete());
+            }
         }
-        assertSameContent(content, file);
+    }
 
-        // Append to the new file
-        try (OutputStream os2 = file.getContent().getOutputStream(true)) {
-            os2.write(content.getBytes(StandardCharsets.UTF_8));
+    /**
+     * Tests append-write into a non-existing file.
+     *
+     * See [VFS-807].
+     */
+    @Test
+    public void testAppendToNonExsiting() throws Exception {
+        try (final FileObject scratchFolder = createScratchFolder();
+
+            // Create direct child of the test folder
+            final FileObject file = scratchFolder.resolveFile("file2.txt")) {
+            assertFalse(file.exists());
+
+            // Create the source file
+            final String content1 = "Here is some sample content for the file. Blah Blah Blah.";
+
+            try (FileContent fileContent = file.getContent(); OutputStream os = fileContent.getOutputStream()) {
+                os.write(content1.getBytes(StandardCharsets.UTF_8));
+            }
+            assertSameContent(content1, file);
         }
-        assertSameContent(contentAppend, file);
-
-        // Make sure we can copy the new file to another file on the same filesystem
-        final FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
-        assertFalse(fileCopy.exists());
-        fileCopy.copyFrom(file, Selectors.SELECT_SELF);
-
-        assertSameContent(contentAppend, fileCopy);
-
-        // Delete the file.
-        assertTrue(fileCopy.exists());
-        assertTrue(fileCopy.delete());
     }
 }

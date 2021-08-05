@@ -636,6 +636,37 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
     }
 
     /**
+     * Tests overwriting the file.
+     *
+     * See [VFS-807].
+     */
+    @Test
+    public void testOverwriteContent() throws Exception {
+        final FileObject scratchFolder = createScratchFolder();
+
+        // Create direct child of the test folder
+        final FileObject file = scratchFolder.resolveFile("file1.txt");
+        assertFalse(file.exists());
+
+        // Create the source file
+        final String content1 = "Here is some sample content for the file. Blah Blah Blah.";
+
+        try (OutputStream os = file.getContent().getOutputStream()) {
+            os.write(content1.getBytes(StandardCharsets.UTF_8));
+        }
+        assertSameContent(content1, file);
+
+        // VFS-807, part 1: verify that writing to the existing file overwrites its content!
+        // content2 must be shorter than content1
+        final String content2 = "0123456789 ABCD";
+
+        try (OutputStream os = file.getContent().getOutputStream()) {
+            os.write(content2.getBytes(StandardCharsets.UTF_8));
+        }
+        assertSameContent(content2, file);
+    }
+
+    /**
      * Tests overwriting a file on the same file system.
      */
     @Test
@@ -741,5 +772,4 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         }
         assertSameContent(expectedString, fileTarget);
     }
-
 }
