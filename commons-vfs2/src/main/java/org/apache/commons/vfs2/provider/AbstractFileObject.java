@@ -1327,11 +1327,10 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @throws FileSystemException if an error occurs.
      */
     public RandomAccessContent getRandomAccessContent(final RandomAccessMode mode) throws FileSystemException {
-        /*
-         * VFS-210 if (!getType().hasContent()) { throw new FileSystemException("vfs.provider/read-not-file.error",
-         * name); }
-         */
-
+        //
+        // VFS-210 if (!getType().hasContent()) { throw new FileSystemException("vfs.provider/read-not-file.error",
+        // name); }
+        //
         if (mode.requestRead()) {
             if (!fileSystem.hasCapability(Capability.RANDOM_ACCESS_READ)) {
                 throw new FileSystemException("vfs.provider/random-access-read-not-supported.error");
