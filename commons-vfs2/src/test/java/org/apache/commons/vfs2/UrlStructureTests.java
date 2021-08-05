@@ -25,6 +25,7 @@ import org.junit.Test;
  * URL Test cases for providers that supply structural info.
  */
 public class UrlStructureTests extends AbstractProviderTestCase {
+
     /**
      * Returns the capabilities required by the tests of this test case.
      */
