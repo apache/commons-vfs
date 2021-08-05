@@ -17,7 +17,7 @@
 package org.apache.commons.vfs2;
 
 /**
- * delivers a file-not-folder exception which happens when trying to issue
+ * A file-not-folder exception which happens when trying to issue
  * {@link org.apache.commons.vfs2.FileObject#getChildren()} on a file.
  *
  * @since 2.0

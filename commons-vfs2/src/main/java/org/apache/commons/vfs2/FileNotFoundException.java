@@ -17,7 +17,7 @@
 package org.apache.commons.vfs2;
 
 /**
- * delivers a file-not-found exception.
+ * A file-not-found exception.
  *
  * @since 2.0
  */
