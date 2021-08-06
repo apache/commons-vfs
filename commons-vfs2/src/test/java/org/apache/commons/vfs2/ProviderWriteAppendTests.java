@@ -104,7 +104,7 @@ public class ProviderWriteAppendTests extends AbstractProviderTestCase {
             // Create the source file
             final String content1 = "Here is some sample content for the file. Blah Blah Blah.";
 
-            try (FileContent fileContent = file.getContent(); OutputStream os = fileContent.getOutputStream()) {
+            try (FileContent fileContent = file.getContent(); OutputStream os = fileContent.getOutputStream(true)) {
                 os.write(content1.getBytes(StandardCharsets.UTF_8));
             }
             assertSameContent(content1, file);
