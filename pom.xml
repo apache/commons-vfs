@@ -281,7 +281,7 @@
             <dependency>
               <groupId>com.puppycrawl.tools</groupId>
               <artifactId>checkstyle</artifactId>
-              <version>8.44</version>
+              <version>9.0</version>
             </dependency>
           </dependencies>
           <!-- Keep build/reporting in sync -->
