@@ -23,7 +23,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileChangeEvent;
@@ -33,35 +32,19 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.never;
 
 /**
  * Tests {@link DefaultFileMonitor}.
  */
 public class DefaultFileMonitorTest {
-
-    private static class CountingListener implements FileListener {
-        private final AtomicLong created = new AtomicLong();
-        private final AtomicLong changed = new AtomicLong();
-        private final AtomicLong deleted = new AtomicLong();
-
-        @Override
-        public void fileChanged(final FileChangeEvent event) {
-            changed.incrementAndGet();
-        }
-
-        @Override
-        public void fileCreated(final FileChangeEvent event) {
-            created.incrementAndGet();
-        }
-
-        @Override
-        public void fileDeleted(final FileChangeEvent event) {
-            deleted.incrementAndGet();
-        }
-    }
 
     private enum Status {
         CHANGED, DELETED, CREATED
@@ -110,7 +93,8 @@ public class DefaultFileMonitorTest {
     @Test
     public void ignore_testAddRemove() throws Exception {
         try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
-            final CountingListener listener = new CountingListener();
+            // Construct mock object
+            final FileListener listener = mock(FileListener.class);
             final DefaultFileMonitor monitor = new DefaultFileMonitor(listener);
             monitor.setDelay(DELAY_MILLIS);
             try {
@@ -120,7 +104,7 @@ public class DefaultFileMonitorTest {
                 monitor.start();
                 writeToFile(testFile);
                 Thread.sleep(DELAY_MILLIS * 3);
-                assertEquals("Created event is only fired once", 1, listener.created.get());
+                verify(listener, times(1)).fileCreated(any(FileChangeEvent.class));
             } finally {
                 monitor.stop();
             }
@@ -136,7 +120,8 @@ public class DefaultFileMonitorTest {
     @Test
     public void ignore_testStartStop() throws Exception {
         try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
-            final CountingListener stoppedListener = new CountingListener();
+            // Construct mock object
+            final FileListener stoppedListener = mock(FileListener.class);
             final DefaultFileMonitor stoppedMonitor = new DefaultFileMonitor(stoppedListener);
             stoppedMonitor.start();
             try {
@@ -159,7 +144,8 @@ public class DefaultFileMonitorTest {
             // Variant 3: introduce new method DefaultFileMonitor#close which definitely removes all resources held by
             // DefaultFileMonitor.
 
-            final CountingListener activeListener = new CountingListener();
+            // Construct mock object
+            final FileListener activeListener = mock(FileListener.class);
             final DefaultFileMonitor activeMonitor = new DefaultFileMonitor(activeListener);
             activeMonitor.setDelay(DELAY_MILLIS);
             activeMonitor.addFile(fileObject);
@@ -168,8 +154,8 @@ public class DefaultFileMonitorTest {
                 writeToFile(testFile);
                 Thread.sleep(DELAY_MILLIS * 10);
 
-                assertEquals("The listener of the active monitor received one created event", 1, activeListener.created.get());
-                assertEquals("The listener of the stopped monitor received no events", 0, stoppedListener.created.get());
+                verify(activeListener, times(1)).fileCreated(any(FileChangeEvent.class));
+                verify(stoppedListener, never()).fileCreated(any(FileChangeEvent.class));
             } finally {
                 activeMonitor.stop();
             }
