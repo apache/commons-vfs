@@ -217,7 +217,15 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
          */
 
         final ChannelSftp channel = getAbstractFileSystem().getChannel();
-        return new SftpOutputStream(channel, channel.put(relPath, bAppend ? ChannelSftp.APPEND : ChannelSftp.OVERWRITE));
+        try {
+            return new SftpOutputStream(channel, channel.put(relPath, bAppend ? ChannelSftp.APPEND : ChannelSftp.OVERWRITE));
+        } catch (Exception ex) {
+            // when channel.put throw exception eg. com.jcraft.jsch.SftpException: Permission denied
+            //   returns the channel to the pool
+            getAbstractFileSystem().putChannel(channel);
+            throw ex;
+        }
+
     }
 
     @Override
