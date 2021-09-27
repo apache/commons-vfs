@@ -420,7 +420,7 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
 
     protected static String ConnectionUri;
 
-    private static SshServer Server;
+    protected static SshServer Server;
 
     private static final String TEST_URI = "test.sftp.uri";
 
