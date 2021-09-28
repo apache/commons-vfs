@@ -197,7 +197,7 @@
     <commons.japicmp.version>0.15.3</commons.japicmp.version>
     <commons.jacoco.version>0.8.7</commons.jacoco.version>
     <commons.spotbugs.version>4.3.0</commons.spotbugs.version>
-    <commons.spotbugs.impl.version>4.3.0</commons.spotbugs.impl.version>
+    <commons.spotbugs.impl.version>4.4.1</commons.spotbugs.impl.version>
     <commons.asm.version>9.2</commons.asm.version>
     <commons.pmd.version>6.37.0</commons.pmd.version>
     <commons.javadoc.version>3.3.0</commons.javadoc.version>
