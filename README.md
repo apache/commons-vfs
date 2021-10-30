@@ -55,7 +55,7 @@ Documentation
 -------------
 
 More information can be found on the [Apache Commons VFS Project homepage](https://commons.apache.org/proper/commons-vfs).
-The [Javadoc](https://commons.apache.org/proper/commons-vfs/apidocs) can be browsed.
+The [Javadoc](https://commons.apache.org/proper/commons-vfs/commons-vfs2/apidocs/index.html) can be browsed.
 Questions related to the usage of Apache Commons VFS Project should be posted to the [user mailing list][ml].
 
 Where can I get the latest release?
