@@ -70,6 +70,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Bump checkstyle from 8.44 to 9.0 #211.
       </action>
+      <action type="update" dev="ggregory" due-to="Dependabot">
+        Bump actions/checkout from 2.3.4 to 2.3.5 (#217).
+      </action>
     </release>
     <release version="2.9.0" date="2021-06-16" description="Maintenance release. Requires Java 8.">
       <!-- ADDS -->
