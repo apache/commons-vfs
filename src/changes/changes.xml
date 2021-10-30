@@ -53,6 +53,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" issue="VFS-807" dev="ggregory" due-to="Gary Gregory, L">
         LocalFile.doGetOutputStream(boolean) for an existing file no longer truncates the file.
       </action>
+      <action type="fix" dev="ggregory" due-to="wodencafe">
+        (doc) Update the Javadoc link to not lead to 404. #218.
+      </action>
       <!-- ADD -->
       <action type="add" dev="ggregory" due-to="Seth Falco">
         Add vscode files to gitignore #205.
