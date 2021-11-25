@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.CacheStrategy;
@@ -646,7 +647,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
         final List<String> schemes = new ArrayList<>(providers.size() + virtualFileSystemSchemes.size());
         schemes.addAll(providers.keySet());
         schemes.addAll(virtualFileSystemSchemes);
-        return schemes.toArray(new String[]{});
+        return schemes.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
     /**
