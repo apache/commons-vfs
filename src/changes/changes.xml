@@ -85,6 +85,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="update" dev="ggregory" due-to="Dependabot">
         Bump jackrabbit2.version from 2.21.7 to 2.21.8 #219.
       </action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">
+        Bump org.apache.httpcomponents.client5:httpclient5 from 5.1 to 5.1.2.
+      </action>
     </release>
     <release version="2.9.0" date="2021-06-16" description="Maintenance release. Requires Java 8.">
       <!-- ADDS -->
