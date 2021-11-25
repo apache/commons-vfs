@@ -69,12 +69,8 @@ public class Http4FileSystem extends AbstractFileSystem {
         final char lastCharOfScheme = offset > 0 ? rootURI.charAt(offset - 1) : 0;
 
         // if scheme is 'http*s' or 'HTTP*S', then the internal base URI should be 'https'. 'http' otherwise.
-        if (lastCharOfScheme == 's' || lastCharOfScheme == 'S') {
-            this.internalBaseURI = URI.create("https" + rootURI.substring(offset));
-        } else {
-            this.internalBaseURI = URI.create("http" + rootURI.substring(offset));
-        }
-
+        final String scheme  = lastCharOfScheme == 's' || lastCharOfScheme == 'S' ? "https" : "http";
+        this.internalBaseURI = URI.create(scheme + rootURI.substring(offset));
         this.httpClient = httpClient;
         this.httpClientContext = httpClientContext;
     }
