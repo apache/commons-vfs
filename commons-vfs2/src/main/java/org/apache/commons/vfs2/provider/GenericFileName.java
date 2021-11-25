@@ -25,8 +25,7 @@ import org.apache.commons.vfs2.FileType;
  * password), hostname, port, and path.
  */
 public class GenericFileName extends AbstractFileName {
-    private static final char[] USERNAME_RESERVED = { ':', '@', '/' };
-    private static final char[] PASSWORD_RESERVED = { '@', '/', '?' };
+
     private final String userName;
     private final String hostName;
     private final int defaultPort;
@@ -126,11 +125,11 @@ public class GenericFileName extends AbstractFileName {
      */
     protected void appendCredentials(final StringBuilder buffer, final boolean addPassword) {
         if (!StringUtils.isEmpty(userName)) {
-            UriParser.appendEncoded(buffer, userName, USERNAME_RESERVED);
+            UriParser.appendEncodedRfc2396(buffer, userName, RFC2396.USERINFO_UNESCAPED);
             if (password != null && !password.isEmpty()) {
                 buffer.append(':');
                 if (addPassword) {
-                    UriParser.appendEncoded(buffer, password, PASSWORD_RESERVED);
+                    UriParser.appendEncodedRfc2396(buffer, password, RFC2396.USERINFO_UNESCAPED);
                 } else {
                     buffer.append("***");
                 }

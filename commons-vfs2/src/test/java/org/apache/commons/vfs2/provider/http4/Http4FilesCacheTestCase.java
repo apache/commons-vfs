@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.http4;
 
+import java.util.Locale;
+
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -26,28 +28,100 @@ import org.junit.Test;
 import junit.framework.TestCase;
 
 /**
- * Tests https://issues.apache.org/jira/browse/VFS-426.
+ * Tests https://issues.apache.org/jira/browse/VFS-426 and https://issues.apache.org/jira/browse/VFS-810.
  */
 public class Http4FilesCacheTestCase extends TestCase {
 
-    /**
-     * Tests https://issues.apache.org/jira/browse/VFS-426
-     */
     @Test
-    public void testQueryStringUrls() throws FileSystemException {
-        final String noQueryStringUrl = "http4://commons.apache.org/vfs";
-        final String queryStringUrl = "http4://commons.apache.org/vfs?query=string";
-        final String queryStringUrl2 = "http4://commons.apache.org/vfs?query=string&more=stuff";
-
+    public void testQueryStringUrl0() throws FileSystemException {
+        @SuppressWarnings("resource")
         final FileSystemManager fileSystemManager = VFS.getManager();
 
-        final FileObject noQueryFile = fileSystemManager.resolveFile(noQueryStringUrl);
-        Assert.assertEquals(noQueryStringUrl, noQueryFile.getURL().toExternalForm());
+        final String noQueryStringUrl = "http4://commons.apache.org/";
+        try (final FileObject noQueryFile = fileSystemManager.resolveFile(noQueryStringUrl)) {
+            Assert.assertEquals(noQueryStringUrl, noQueryFile.getURL().toExternalForm());
+        }
+    }
 
-        final FileObject queryFile = fileSystemManager.resolveFile(queryStringUrl);
-        Assert.assertEquals(queryStringUrl, queryFile.getURL().toExternalForm()); // failed for VFS-426
+    @Test
+    public void testQueryStringUrl1() throws FileSystemException {
+        @SuppressWarnings("resource")
+        final FileSystemManager fileSystemManager = VFS.getManager();
 
-        final FileObject queryFile2 = fileSystemManager.resolveFile(queryStringUrl2);
-        Assert.assertEquals(queryStringUrl2, queryFile2.getURL().toExternalForm()); // failed for VFS-426
+        final String noQueryStringUrl = "http4://commons.apache.org/vfs";
+        try (final FileObject noQueryFile = fileSystemManager.resolveFile(noQueryStringUrl)) {
+            Assert.assertEquals(noQueryStringUrl, noQueryFile.getURL().toExternalForm());
+        }
+    }
+
+    @Test
+    public void testQueryStringUrl2() throws FileSystemException {
+        @SuppressWarnings("resource")
+        final FileSystemManager fileSystemManager = VFS.getManager();
+
+        final String queryStringUrl = "http4://commons.apache.org/vfs?query=string";
+        try (final FileObject queryFile = fileSystemManager.resolveFile(queryStringUrl)) {
+            Assert.assertEquals(queryStringUrl, queryFile.getURL().toExternalForm()); // failed for VFS-426
+        }
+    }
+
+    @Test
+    public void testQueryStringUrl3() throws FileSystemException {
+        @SuppressWarnings("resource")
+        final FileSystemManager fileSystemManager = VFS.getManager();
+
+        final String queryStringUrl2 = "http4://commons.apache.org/vfs?query=string&more=stuff";
+        try (final FileObject queryFile2 = fileSystemManager.resolveFile(queryStringUrl2)) {
+            Assert.assertEquals(queryStringUrl2, queryFile2.getURL().toExternalForm()); // failed for VFS-426
+        }
+    }
+
+    @Test
+    public void testQueryStringUrl4() throws FileSystemException {
+        @SuppressWarnings("resource")
+        final FileSystemManager fileSystemManager = VFS.getManager();
+
+        // TODO All lowercase input except the percent encoded '\' (%5C);
+        // We end up converting back to lowercase, but OK per RFC.
+        final String queryStringUrl3 = "http4://alice%5C1234:secret@localhost:8080/";
+        try (final FileObject queryFile3 = fileSystemManager.resolveFile(queryStringUrl3)) {
+            Assert.assertEquals(queryStringUrl3.toLowerCase(Locale.ROOT), queryFile3.getURL().toExternalForm());
+        }
+    }
+
+    @Test
+    public void testQueryStringUrl5() throws FileSystemException {
+        @SuppressWarnings("resource")
+        final FileSystemManager fileSystemManager = VFS.getManager();
+
+        // Like testQueryStringUrl4() but with all LC input.
+        final String queryStringUrl4 = "http4://alice%5c1234:secret@localhost:8080/";
+        try (final FileObject queryFile4 = fileSystemManager.resolveFile(queryStringUrl4)) {
+            Assert.assertEquals(queryStringUrl4, queryFile4.getURL().toExternalForm());
+        }
+    }
+
+    @Test
+    public void testQueryStringUrl6() throws FileSystemException {
+        @SuppressWarnings("resource")
+        final FileSystemManager fileSystemManager = VFS.getManager();
+
+        // Like testQueryStringUrl4() but with all LC input and NO percent encoding.
+        final String queryStringUrl4 = "http4://alice:secret@localhost:8080/";
+        try (final FileObject queryFile4 = fileSystemManager.resolveFile(queryStringUrl4)) {
+            Assert.assertEquals(queryStringUrl4, queryFile4.getURL().toExternalForm());
+        }
+    }
+
+    @Test
+    public void testQueryStringUrl7() throws FileSystemException {
+        @SuppressWarnings("resource")
+        final FileSystemManager fileSystemManager = VFS.getManager();
+
+        // Like testQueryStringUrl4() but with all LC input and NO percent encoding.
+        final String queryStringUrl4 = "http4://localhost:8080/";
+        try (final FileObject queryFile4 = fileSystemManager.resolveFile(queryStringUrl4)) {
+            Assert.assertEquals(queryStringUrl4, queryFile4.getURL().toExternalForm());
+        }
     }
 }

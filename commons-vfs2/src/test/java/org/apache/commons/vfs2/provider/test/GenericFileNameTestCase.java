@@ -134,7 +134,10 @@ public class GenericFileNameTestCase extends AbstractVfsTestCase {
         assertEquals("hostname", name.getHostName());
         assertEquals(21, name.getPort());
         assertEquals("/", name.getPath());
-        assertEquals("ftp://user%3a:%40@hostname/", name.getRootURI());
-        assertEquals("ftp://user%3a:%40@hostname/", name.getURI());
+        // RFC 2396: The ':' character in a userinfo does not have to be escaped/percent-encoded, it is NOT RECOMMENDED for use.
+        // RFC 3986: The ':' character in a userinfo is deprecated.
+        // See also https://issues.apache.org/jira/browse/VFS-810
+        assertEquals("ftp://user::%40@hostname/", name.getRootURI());
+        assertEquals("ftp://user::%40@hostname/", name.getURI());
     }
 }

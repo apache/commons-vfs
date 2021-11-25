@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import java.util.Arrays;
+
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
@@ -56,6 +58,12 @@ public final class UriParser {
         final int offset = buffer.length();
         buffer.append(unencodedValue);
         encode(buffer, offset, unencodedValue.length(), reserved);
+    }
+
+    static void appendEncodedRfc2396(final StringBuilder buffer, final String unencodedValue, final char[] allowed) {
+        final int offset = buffer.length();
+        buffer.append(unencodedValue);
+        encodeRfc2396(buffer, offset, unencodedValue.length(), allowed);
     }
 
     public static void canonicalizePath(final StringBuilder buffer, final int offset, final int length,
@@ -238,6 +246,21 @@ public final class UriParser {
                 // Encode
                 final char[] digits = { Character.forDigit((ch >> BITS_IN_HALF_BYTE) & LOW_MASK, HEX_BASE),
                         Character.forDigit(ch & LOW_MASK, HEX_BASE) };
+                buffer.setCharAt(index, '%');
+                buffer.insert(index + 1, digits);
+                index += 2;
+            }
+        }
+    }
+
+    static void encodeRfc2396(final StringBuilder buffer, final int offset, final int length, final char[] allowed) {
+        int index = offset;
+        int count = length;
+        for (; count > 0; index++, count--) {
+            final char ch = buffer.charAt(index);
+            if (Arrays.binarySearch(allowed, ch) < 0) {
+                // Encode
+                final char[] digits = {Character.forDigit((ch >> BITS_IN_HALF_BYTE) & LOW_MASK, HEX_BASE), Character.forDigit(ch & LOW_MASK, HEX_BASE)};
                 buffer.setCharAt(index, '%');
                 buffer.insert(index + 1, digits);
                 index += 2;
