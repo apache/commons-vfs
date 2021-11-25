@@ -66,7 +66,7 @@ public class Http5FileSystem extends AbstractFileSystem {
 
         final String rootURI = getRootURI();
         final int offset = rootURI.indexOf(':');
-        final char lastCharOfScheme = (offset > 0) ? rootURI.charAt(offset - 1) : 0;
+        final char lastCharOfScheme = offset > 0 ? rootURI.charAt(offset - 1) : 0;
 
         // if scheme is 'http*s' or 'HTTP*S', then the internal base URI should be 'https'. 'http' otherwise.
         if (lastCharOfScheme == 's' || lastCharOfScheme == 'S') {
