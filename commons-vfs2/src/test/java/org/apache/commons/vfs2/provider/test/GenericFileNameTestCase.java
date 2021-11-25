@@ -126,7 +126,7 @@ public class GenericFileNameTestCase extends AbstractVfsTestCase {
         assertEquals("ftp://user:password@hostname/", name.getRootURI());
         assertEquals("ftp://user:password@hostname/file", name.getURI());
 
-        // Encoded username and password
+        // Encoded username and password: %75 -> 'u', %40 -> '@'
         name = (GenericFileName) urlParser.parseUri(null, null, "ftp://%75ser%3A:%40@hostname");
         assertEquals("ftp", name.getScheme());
         assertEquals("user:", name.getUserName());
