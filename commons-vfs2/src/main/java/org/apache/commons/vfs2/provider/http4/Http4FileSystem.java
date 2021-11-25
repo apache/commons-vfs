@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider.http4;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Collection;
+import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
@@ -70,9 +71,10 @@ public class Http4FileSystem extends AbstractFileSystem {
 
         // if scheme is 'http*s' or 'HTTP*S', then the internal base URI should be 'https'. 'http' otherwise.
         if (lastCharOfScheme == 's' || lastCharOfScheme == 'S') {
-            this.internalBaseURI = URI.create("https" + rootURI.substring(offset));
+            // UriBuilder::fromPath will try to parse it using URI::create, if it fails, it reconstructs the url part by part
+            this.internalBaseURI = UriBuilder.fromPath("https" + rootURI.substring(offset)).build();
         } else {
-            this.internalBaseURI = URI.create("http" + rootURI.substring(offset));
+            this.internalBaseURI = UriBuilder.fromPath("http" + rootURI.substring(offset)).build();
         }
 
         this.httpClient = httpClient;

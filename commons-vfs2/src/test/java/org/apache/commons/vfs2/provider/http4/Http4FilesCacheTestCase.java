@@ -50,4 +50,18 @@ public class Http4FilesCacheTestCase extends TestCase {
         final FileObject queryFile2 = fileSystemManager.resolveFile(queryStringUrl2);
         Assert.assertEquals(queryStringUrl2, queryFile2.getURL().toExternalForm()); // failed for VFS-426
     }
+
+
+    /**
+     * Tests https://issues.apache.org/jira/browse/VFS-810
+     */
+    @Test
+    public void testUrlWithAuthority() throws FileSystemException {
+        final String urlWithAuthority = "http4://alice\\1234:secret@localhost:80";
+
+        final FileSystemManager fileSystemManager = VFS.getManager();
+
+        final FileObject file = fileSystemManager.resolveFile(urlWithAuthority);
+        Assert.assertEquals("http4://alice\\1234:secret@localhost/", file.getURL().toExternalForm());
+    }
 }
