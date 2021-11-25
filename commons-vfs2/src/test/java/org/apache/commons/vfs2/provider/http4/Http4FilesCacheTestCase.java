@@ -57,7 +57,7 @@ public class Http4FilesCacheTestCase extends TestCase {
      */
     @Test
     public void testUrlWithAuthority() throws FileSystemException {
-        final String urlWithAuthority = "http4://alice\\1234:secret@localhost:80";
+        final String urlWithAuthority = "http4://alice%5C1234:secret@localhost:80";
 
         final FileSystemManager fileSystemManager = VFS.getManager();
 
