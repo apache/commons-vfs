@@ -43,7 +43,7 @@ public class FtpFileProvider extends AbstractOriginatingFileProvider {
     /**
      * Authenticator types.
      */
-    public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[] {
+    public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = {
             UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD };
 
     static final Collection<Capability> CAPABILITIES = Collections

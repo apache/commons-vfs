@@ -234,7 +234,7 @@ public abstract class FileSystemConfigBuilder {
      */
     protected double getDouble(final FileSystemOptions fileSystemOptions, final String name,
         final double defaultValue) {
-        return getDouble(fileSystemOptions, name, new Double(defaultValue)).doubleValue();
+        return getDouble(fileSystemOptions, name, Double.valueOf(defaultValue)).doubleValue();
     }
 
     /**
@@ -383,7 +383,7 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.0
      */
     protected float getFloat(final FileSystemOptions fileSystemOptions, final String name, final float defaultValue) {
-        return getFloat(fileSystemOptions, name, new Float(defaultValue)).floatValue();
+        return getFloat(fileSystemOptions, name, Float.valueOf(defaultValue)).floatValue();
     }
 
     /**

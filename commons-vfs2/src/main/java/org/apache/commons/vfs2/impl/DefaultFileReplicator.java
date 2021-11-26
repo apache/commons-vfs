@@ -41,7 +41,7 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
 
     private static final Random random = new Random();
 
-    private static final char[] TMP_RESERVED_CHARS = new char[] { '?', '/', '\\', ' ', '&', '"', '\'', '*', '#', ';',
+    private static final char[] TMP_RESERVED_CHARS = { '?', '/', '\\', ' ', '&', '"', '\'', '*', '#', ';',
             ':', '<', '>', '|' };
 
     private final ArrayList<Object> copies = new ArrayList<>();

@@ -42,7 +42,7 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider {
     public static final String ATTR_USER_INFO = "UI";
 
     /** Authentication types. */
-    public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[] {
+    public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = {
             UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD };
 
     /** The provider's capabilities. */

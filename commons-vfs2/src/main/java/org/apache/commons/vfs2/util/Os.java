@@ -87,7 +87,7 @@ public final class Os {
     private static final OsFamily OS_FAMILY;
     private static final OsFamily[] OS_ALL_FAMILIES;
 
-    private static final OsFamily[] ALL_FAMILIES = new OsFamily[] { OS_FAMILY_DOS, OS_FAMILY_MAC, OS_FAMILY_NETWARE,
+    private static final OsFamily[] ALL_FAMILIES = { OS_FAMILY_DOS, OS_FAMILY_MAC, OS_FAMILY_NETWARE,
             OS_FAMILY_OS2, OS_FAMILY_OSX, OS_FAMILY_UNIX, OS_FAMILY_WINDOWS, OS_FAMILY_WINNT, OS_FAMILY_WIN9X };
 
     static {

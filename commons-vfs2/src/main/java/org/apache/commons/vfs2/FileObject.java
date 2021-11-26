@@ -100,7 +100,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
      *
      * @since 2.8.0
      */
-    FileObject[] EMPTY_ARRAY = new FileObject[0];
+    FileObject[] EMPTY_ARRAY = {};
 
     /**
      * Queries the file if it is possible to rename it to newfile.

@@ -49,7 +49,7 @@ import org.junit.Test;
  * Custom tests for RamProvider.
  */
 public class CustomRamProviderTest {
-    private static final byte[] NON_EMPTY_FILE_CONTENT = new byte[] { 1, 2, 3 };
+    private static final byte[] NON_EMPTY_FILE_CONTENT = { 1, 2, 3 };
 
     /** List of URL special characters encoded for AbstractFileObject#getChild */
     final char[] ENC = { /*'#',*/ '!', '?'};

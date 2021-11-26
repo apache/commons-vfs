@@ -89,10 +89,10 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
 
     /** Authenticator information. */
     static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES =
-            new UserAuthenticationData.Type[] {
-                    UserAuthenticationData.USERNAME,
-                    UserAuthenticationData.PASSWORD
-                    };
+            {
+            UserAuthenticationData.USERNAME,
+            UserAuthenticationData.PASSWORD
+            };
 
     /** FileProvider capabilities */
     static final Collection<Capability> CAPABILITIES =
@@ -311,7 +311,7 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
 
             if (keystoreFileObject != null && keystoreFileObject.exists()) {
                 final String keystorePass = builder.getKeyStorePass(fileSystemOptions);
-                final char[] keystorePassChars = (keystorePass != null) ? keystorePass.toCharArray() : null;
+                final char[] keystorePassChars = keystorePass != null ? keystorePass.toCharArray() : null;
                 sslContextBuilder.loadTrustMaterial(keystoreFileObject, keystorePassChars, TrustAllStrategy.INSTANCE);
             } else {
                 sslContextBuilder.loadTrustMaterial(TrustAllStrategy.INSTANCE);

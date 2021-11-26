@@ -29,7 +29,7 @@ public class Tbz2FileProvider extends CompositeFileProvider {
     /** The provider's capabilities */
     protected static final Collection<Capability> capabilities = TarFileProvider.capabilities;
 
-    private static final String[] SCHEMES = new String[] { "bz2", "tar" };
+    private static final String[] SCHEMES = { "bz2", "tar" };
 
     public Tbz2FileProvider() {
     }

@@ -26,7 +26,7 @@ import org.apache.commons.lang3.ArrayUtils;
  * The RFC 2396 Collected BNF for URI from <a href="https://datatracker.ietf.org/doc/html/rfc2396#appendix-A">Appendix
  * A</a>:
  * </p>
- * 
+ *
  * <pre>
       URI-reference = [ absoluteURI | relativeURI ] [ "#" fragment ]
       absoluteURI   = scheme ":" ( hier_part | opaque_part )

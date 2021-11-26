@@ -39,7 +39,7 @@ import org.junit.Test;
  * Some tests for the DelegatingFileSystemOptionsBuilder
  */
 public class DelegatingFileSystemOptionsBuilderTest {
-    private static final String[] schemes = new String[] { "http", "ftp", "file", "zip", "tar", "tgz", "bz2", "gz",
+    private static final String[] schemes = { "http", "ftp", "file", "zip", "tar", "tgz", "bz2", "gz",
             "jar", "tmp", "ram" };
 
     private StandardFileSystemManager fsm;
@@ -90,7 +90,7 @@ public class DelegatingFileSystemOptionsBuilderTest {
 
     @Test
     public void testDelegatingGood() throws Throwable {
-        final String[] identityPaths = new String[] { "/file1", "/file2", };
+        final String[] identityPaths = { "/file1", "/file2", };
 
         final FileSystemOptions opts = new FileSystemOptions();
         final DelegatingFileSystemOptionsBuilder delgate = new DelegatingFileSystemOptionsBuilder(fsm);

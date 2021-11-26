@@ -778,8 +778,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public void setStrictHostKeyChecking(final FileSystemOptions options, final String hostKeyChecking)
             throws FileSystemException {
-        if (hostKeyChecking == null || (!hostKeyChecking.equals(HOST_KEY_CHECK_ASK)
-                && !hostKeyChecking.equals(HOST_KEY_CHECK_NO) && !hostKeyChecking.equals(HOST_KEY_CHECK_YES))) {
+        if (hostKeyChecking == null || !hostKeyChecking.equals(HOST_KEY_CHECK_ASK)
+                && !hostKeyChecking.equals(HOST_KEY_CHECK_NO) && !hostKeyChecking.equals(HOST_KEY_CHECK_YES)) {
             throw new FileSystemException("vfs.provider.sftp/StrictHostKeyChecking-arg.error", hostKeyChecking);
         }
 

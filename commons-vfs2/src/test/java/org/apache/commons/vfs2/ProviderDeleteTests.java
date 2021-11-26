@@ -23,7 +23,7 @@ import org.junit.Test;
  */
 public class ProviderDeleteTests extends AbstractProviderTestCase {
 
-    private class FileNameSelector implements FileSelector {
+    private static class FileNameSelector implements FileSelector {
         final String basename;
 
         private FileNameSelector(final String basename) {

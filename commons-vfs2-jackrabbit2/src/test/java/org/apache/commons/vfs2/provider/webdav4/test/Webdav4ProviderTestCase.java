@@ -114,11 +114,7 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
         // First output the node path
         message(node.getPath());
         // Skip the virtual (and large!) jcr:system subtree
-        if (node.getName().equals("jcr:system")) {
-            return;
-        }
-
-        if (node.getName().equals("jcr:content")) {
+        if (node.getName().equals("jcr:system") || node.getName().equals("jcr:content")) {
             return;
         }
 

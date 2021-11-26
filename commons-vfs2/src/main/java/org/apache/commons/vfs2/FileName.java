@@ -43,7 +43,7 @@ public interface FileName extends Comparable<FileName> {
      *
      * @since 2.8.0
      */
-    FileName[] EMPTY_ARRAY = new FileName[0];
+    FileName[] EMPTY_ARRAY = {};
 
     /**
      * Gets the base name of this file. The base name is the last element of the file name. For example the base name

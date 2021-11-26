@@ -65,7 +65,7 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
     @Test
     public void testWindowsRoots() throws Exception {
         // valid URI forms of the filesystem root
-        final String[] tests = new String[] { "file:///C:/", "file://C:/", "file:/C:/", "file:C:/" };
+        final String[] tests = { "file:///C:/", "file://C:/", "file:/C:/", "file:C:/" };
 
         for (final String name : tests) {
             final DefaultFileSystemManager manager = getManager();
@@ -91,7 +91,7 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
 
     @Test
     public void testWindowsWrongRoots() throws Exception {
-        final String[] tests = new String[] { "file:///C:", "file://C:", "file:/C:", "file:C:" };
+        final String[] tests = { "file:///C:", "file://C:", "file:/C:", "file:C:" };
 
         for (final String name : tests) {
             try {

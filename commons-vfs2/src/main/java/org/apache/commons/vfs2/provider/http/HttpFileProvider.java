@@ -38,7 +38,7 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 public class HttpFileProvider extends AbstractOriginatingFileProvider {
 
     /** Authenticator information. */
-    public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[] {
+    public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = {
             UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD };
 
     static final Collection<Capability> CAPABILITIES = Collections
@@ -68,7 +68,7 @@ public class HttpFileProvider extends AbstractOriginatingFileProvider {
 
             final String fileScheme = rootName.getScheme();
             final char lastChar = fileScheme.charAt(fileScheme.length() - 1);
-            final String internalScheme = (lastChar == 's' || lastChar == 'S') ? "https" : "http";
+            final String internalScheme = lastChar == 's' || lastChar == 'S' ? "https" : "http";
 
             httpClient = HttpClientFactory.createConnection(internalScheme, rootName.getHostName(),
                     rootName.getPort(),

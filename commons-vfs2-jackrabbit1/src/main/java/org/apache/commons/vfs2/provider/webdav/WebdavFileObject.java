@@ -82,7 +82,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
     /**
      * An empty immutable {@code WebdavFileObject} array.
      */
-    private static final WebdavFileObject[] EMPTY_ARRAY = new WebdavFileObject[0];
+    private static final WebdavFileObject[] EMPTY_ARRAY = {};
 
     /**
      * An OutputStream that writes to a Webdav resource.
@@ -230,7 +230,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
         builder = (WebdavFileSystemConfigBuilder) WebdavFileSystemConfigBuilder.getInstance();
     }
 
-    void log(Exception ex) {
+    void log(final Exception ex) {
         // TODO Consider logging.
     }
 

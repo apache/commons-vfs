@@ -50,17 +50,17 @@ public class FileObjectEscapeCharacterInPathTest {
     /**
      * Test file paths.
      */
-    public static final String[] TEST_FILE_PATHS = new String[] {REL_PATH_SPACE, REL_PATH_GREAT};
+    public static final String[] TEST_FILE_PATHS = {REL_PATH_SPACE, REL_PATH_GREAT};
 
     private static StandardFileSystemManager loadFileSystemManager() throws FileSystemException {
-        StandardFileSystemManager fileSystemManager = new StandardFileSystemManager();
+        final StandardFileSystemManager fileSystemManager = new StandardFileSystemManager();
         fileSystemManager.setLogger(null);
         fileSystemManager.init();
         fileSystemManager.setBaseFile(SystemUtils.getUserDir());
         return fileSystemManager;
     }
 
-    private static File toFile2(FileObject fileObject) throws FileSystemException {
+    private static File toFile2(final FileObject fileObject) throws FileSystemException {
         if (fileObject == null || !"file".equals(fileObject.getURL().getProtocol())) {
             return null;
         }
@@ -68,7 +68,7 @@ public class FileObjectEscapeCharacterInPathTest {
     }
 
     @SuppressWarnings("resource")
-    private void testProviderGetPath(String relPathStr) throws URISyntaxException {
+    private void testProviderGetPath(final String relPathStr) throws URISyntaxException {
         FileSystems.getDefault().provider().getPath(new URI(Paths.get(relPathStr).toAbsolutePath().toUri().toString()));
     }
 
@@ -93,8 +93,8 @@ public class FileObjectEscapeCharacterInPathTest {
         testToFile(fileObject -> fileObject.getPath().toFile());
     }
 
-    private void testToFile(FailableFunction<FileObject, File, IOException> function) throws IOException {
-        for (String testFilePath : TEST_FILE_PATHS) {
+    private void testToFile(final FailableFunction<FileObject, File, IOException> function) throws IOException {
+        for (final String testFilePath : TEST_FILE_PATHS) {
             try (FileSystemManager fileSystemManager = loadFileSystemManager();
                 FileObject fileObject = fileSystemManager.resolveFile(testFilePath)) {
                 assertNotNull(fileObject);
@@ -102,7 +102,7 @@ public class FileObjectEscapeCharacterInPathTest {
                     InputStream inputStream = content.getInputStream()) {
                     assertEquals(TEST_FILE_CONTENT, IOUtils.toString(inputStream, StandardCharsets.UTF_8));
                 }
-                File file = function.apply(fileObject);
+                final File file = function.apply(fileObject);
                 assertNotNull(file);
                 assertEquals(TEST_FILE_CONTENT, FileUtils.readFileToString(file, StandardCharsets.UTF_8));
             }

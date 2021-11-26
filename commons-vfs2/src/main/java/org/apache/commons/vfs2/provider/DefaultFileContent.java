@@ -48,7 +48,7 @@ public final class DefaultFileContent implements FileContent {
      * final int STATE_RANDOM_ACCESS = 3;
      */
 
-    private static final Certificate[] EMPTY_CERTIFICATE_ARRAY = new Certificate[0];
+    private static final Certificate[] EMPTY_CERTIFICATE_ARRAY = {};
     static final int STATE_CLOSED = 0;
     static final int STATE_OPENED = 1;
 

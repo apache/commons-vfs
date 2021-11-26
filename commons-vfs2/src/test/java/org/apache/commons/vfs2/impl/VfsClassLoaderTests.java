@@ -113,7 +113,7 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
         // to returning resources for META-INF/MANIFEST.MF (see VFS-500)
         // so we use our own which is guaranteed to not return any hit
         final ClassLoader mockClassloader = new MockClassloader();
-        final FileObject[] search = new FileObject[] { nestedJar, testJar };
+        final FileObject[] search = { nestedJar, testJar };
         final VFSClassLoader loader = new VFSClassLoader(search, getManager(), mockClassloader);
 
         final Enumeration<URL> urls = loader.getResources("META-INF/MANIFEST.MF");
@@ -150,7 +150,7 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
         assertFalse(manager.canCreateFileSystem(dir));
 
         // prepare classloader
-        final FileObject[] search = new FileObject[] { dir };
+        final FileObject[] search = { dir };
         final ClassLoader mockClassloader = new MockClassloader();
         final VFSClassLoader loader = new VFSClassLoader(search, getManager(), mockClassloader);
 

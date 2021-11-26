@@ -61,12 +61,10 @@ public abstract class AbstractFileName implements FileName {
         this.type = type;
         if (StringUtils.isEmpty(absPath)) {
             this.absPath = ROOT_PATH;
+        } else if (absPath.length() > 1 && absPath.endsWith("/")) {
+            this.absPath = absPath.substring(0, absPath.length() - 1);
         } else {
-            if (absPath.length() > 1 && absPath.endsWith("/")) {
-                this.absPath = absPath.substring(0, absPath.length() - 1);
-            } else {
-                this.absPath = absPath;
-            }
+            this.absPath = absPath;
         }
     }
 

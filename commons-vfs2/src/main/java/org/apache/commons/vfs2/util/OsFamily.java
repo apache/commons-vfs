@@ -28,7 +28,7 @@ public final class OsFamily {
 
     private final String name;
     private final OsFamily[] families;
-    static final OsFamily[] EMPTY_OS_FAMILY_ARRAY = new OsFamily[0];
+    static final OsFamily[] EMPTY_OS_FAMILY_ARRAY = {};
 
     OsFamily(final String name) {
         this.name = name;

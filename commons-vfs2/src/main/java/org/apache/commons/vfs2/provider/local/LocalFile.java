@@ -128,7 +128,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
         // TODO Reuse Apache Commons IO
         // @formatter:off
         return Files.newOutputStream(file.toPath(), append ?
-            new OpenOption[] {StandardOpenOption.CREATE, StandardOpenOption.APPEND} : 
+            new OpenOption[] {StandardOpenOption.CREATE, StandardOpenOption.APPEND} :
             new OpenOption[] {StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING});
         // @formatter:on
     }
@@ -196,7 +196,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
 
     /**
      * Determines if this file is a symbolic link.
-     * 
+     *
      * @since 2.4
      */
     @Override

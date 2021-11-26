@@ -82,7 +82,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
     /**
      * An empty immutable {@code Webdav4FileObject} array.
      */
-    private static final Webdav4FileObject[] EMPTY_ARRAY = new Webdav4FileObject[0];
+    private static final Webdav4FileObject[] EMPTY_ARRAY = {};
 
     /**
      * An OutputStream that writes to a Webdav resource.
@@ -228,7 +228,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
         this(name, fileSystem, Webdav4FileSystemConfigBuilder.getInstance());
     }
 
-    void log(Exception ex) {
+    void log(final Exception ex) {
         // TODO Consider logging
     }
 

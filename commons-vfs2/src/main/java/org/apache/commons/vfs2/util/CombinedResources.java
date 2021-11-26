@@ -83,7 +83,7 @@ public class CombinedResources extends ResourceBundle {
         if (locale == null) {
             return;
         }
-        final String[] parts = new String[] {locale.getLanguage(), locale.getCountry(), locale.getVariant()};
+        final String[] parts = {locale.getLanguage(), locale.getCountry(), locale.getVariant()};
         final StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 3; i++) {
             sb.append(getResourceName());

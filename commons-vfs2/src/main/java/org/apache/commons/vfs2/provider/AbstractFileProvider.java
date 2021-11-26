@@ -33,7 +33,7 @@ import org.apache.commons.vfs2.provider.local.GenericFileNameParser;
  */
 public abstract class AbstractFileProvider extends AbstractVfsContainer implements FileProvider {
 
-    private static final AbstractFileSystem[] EMPTY_ABSTRACT_FILE_SYSTEMS = new AbstractFileSystem[0];
+    private static final AbstractFileSystem[] EMPTY_ABSTRACT_FILE_SYSTEMS = {};
 
     /**
      * The cached file systems.

@@ -45,7 +45,7 @@ import junit.framework.TestSuite;
  */
 public abstract class AbstractTestSuite extends TestSetup {
 
-    private static final Thread[] EMPTY_THREAD_ARRAY = new Thread[0];
+    private static final Thread[] EMPTY_THREAD_ARRAY = {};
     public static final String WRITE_TESTS_FOLDER = "write-tests";
     public static final String READ_TESTS_FOLDER = "read-tests";
 
@@ -163,7 +163,7 @@ public abstract class AbstractTestSuite extends TestSetup {
         if (ArrayUtils.isEmpty(threadSnapshot)) {
             return StringUtils.EMPTY;
         }
-        final StringBuffer sb = new StringBuffer(256);
+        final StringBuilder sb = new StringBuilder(256);
         sb.append("Threads still running (" + threadSnapshot.length + ") at " + Instant.now() + ", live threads:");
         sb.append(System.lineSeparator());
 

@@ -60,7 +60,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
         this(null, null, null);
     }
 
-    private static final FileListener[] EMPTY_FILE_LISTENER_ARRAY = new FileListener[0];
+    private static final FileListener[] EMPTY_FILE_LISTENER_ARRAY = {};
 
     private static final Log LOG = LogFactory.getLog(AbstractFileSystem.class);
 

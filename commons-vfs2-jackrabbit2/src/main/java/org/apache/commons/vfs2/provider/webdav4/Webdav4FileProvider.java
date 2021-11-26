@@ -47,7 +47,7 @@ public class Webdav4FileProvider extends Http4FileProvider {
      * @deprecated Might be removed in the next major version.
      */
     @Deprecated
-    public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[] {
+    public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = {
             UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD };
 
     /** The capabilities of the WebDAV provider */

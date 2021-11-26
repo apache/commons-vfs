@@ -56,7 +56,7 @@ public final class Shell {
 
     private Shell() throws IOException {
         final String providers = System.getProperty("providers");
-        final URL providersUrl = (providers != null) ? Shell.class.getResource("/" + providers) : null;
+        final URL providersUrl = providers != null ? Shell.class.getResource("/" + providers) : null;
 
         if (providersUrl != null) {
             mgr = new StandardFileSystemManager();

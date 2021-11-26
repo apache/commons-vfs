@@ -88,8 +88,8 @@ public class DefaultFileSystemManagerTest {
         testCreateFileSystem("src/test/resources/test-data/bla.txt.bz2", Bzip2FileObject.class);
     }
 
-    private void testCreateFileSystem(final String path, Class<?> clazz) throws FileSystemException {
-        FileSystemManager manager = VFS.getManager();
+    private void testCreateFileSystem(final String path, final Class<?> clazz) throws FileSystemException {
+        final FileSystemManager manager = VFS.getManager();
         try (FileObject localFileObject = manager.resolveFile(new File(path).getAbsolutePath());
                 FileObject fileObject = manager.createFileSystem(localFileObject)) {
             Assert.assertEquals(clazz, fileObject.getClass());
