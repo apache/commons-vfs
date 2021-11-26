@@ -116,7 +116,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
         try {
             return Files.getLastModifiedTime(file.toPath()).toMillis();
         } catch (final IOException e) {
-            throw new FileSystemException(file.toString(), e);
+            throw new FileSystemException("vfs.provider/get-last-modified.error", file, e);
         }
     }
 
