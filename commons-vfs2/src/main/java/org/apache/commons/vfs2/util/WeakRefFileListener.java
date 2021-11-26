@@ -79,10 +79,9 @@ public class WeakRefFileListener implements FileListener {
     @Override
     public void fileCreated(final FileChangeEvent event) throws Exception {
         final FileListener listener = getListener();
-        if (listener == null) {
-            return;
+        if (listener != null) {
+            listener.fileCreated(event);
         }
-        listener.fileCreated(event);
     }
 
     /**
@@ -94,10 +93,9 @@ public class WeakRefFileListener implements FileListener {
     @Override
     public void fileDeleted(final FileChangeEvent event) throws Exception {
         final FileListener listener = getListener();
-        if (listener == null) {
-            return;
+        if (listener != null) {
+            listener.fileDeleted(event);
         }
-        listener.fileDeleted(event);
     }
 
     /**
@@ -112,9 +110,8 @@ public class WeakRefFileListener implements FileListener {
     @Override
     public void fileChanged(final FileChangeEvent event) throws Exception {
         final FileListener listener = getListener();
-        if (listener == null) {
-            return;
+        if (listener != null) {
+            listener.fileChanged(event);
         }
-        listener.fileChanged(event);
     }
 }
