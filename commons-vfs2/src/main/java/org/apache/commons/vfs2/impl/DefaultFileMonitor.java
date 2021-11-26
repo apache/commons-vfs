@@ -294,7 +294,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
     /**
      * A flag used to determine if the monitor thread should be running.
      */
-    private volatile boolean shouldRun = true; // used for inter-thread communication
+    private volatile boolean runFlag = true; // used for inter-thread communication
 
     /**
      * A flag used to determine if adding files to be monitored should be recursive.
@@ -456,7 +456,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
      */
     @Override
     public void run() {
-        mainloop: while (!monitorThread.isInterrupted() && this.shouldRun) {
+        mainloop: while (!monitorThread.isInterrupted() && this.runFlag) {
             // For each entry in the map
             final Object[] fileNames;
             synchronized (this.monitorMap) {
@@ -480,7 +480,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
                     }
                 }
 
-                if (monitorThread.isInterrupted() || !this.shouldRun) {
+                if (monitorThread.isInterrupted() || !this.runFlag) {
                     continue mainloop;
                 }
             }
@@ -500,7 +500,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
             }
         }
 
-        this.shouldRun = true;
+        this.runFlag = true;
     }
 
     /**
@@ -558,7 +558,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
      * Stops monitoring the files that have been added.
      */
     public void stop() {
-        this.shouldRun = false;
+        this.runFlag = false;
         if (this.monitorThread != null) {
             this.monitorThread.interrupt();
             try {
