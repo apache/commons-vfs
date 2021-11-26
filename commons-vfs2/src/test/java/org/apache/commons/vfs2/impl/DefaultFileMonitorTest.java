@@ -187,7 +187,6 @@ public class DefaultFileMonitorTest {
 
     @After
     public void tearDown() {
-        // fileSystemManager.close();
         deleteTestFileIfPresent();
     }
 
