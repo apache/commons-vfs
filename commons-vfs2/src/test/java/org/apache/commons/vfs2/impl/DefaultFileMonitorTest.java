@@ -42,8 +42,8 @@ import org.junit.Test;
 public class DefaultFileMonitorTest {
 
     private static class CountingListener implements FileListener {
-        private final AtomicLong created = new AtomicLong();
         private final AtomicLong changed = new AtomicLong();
+        private final AtomicLong created = new AtomicLong();
         private final AtomicLong deleted = new AtomicLong();
 
         @Override
@@ -63,10 +63,11 @@ public class DefaultFileMonitorTest {
     }
 
     private enum Status {
-        CHANGED, DELETED, CREATED
+        CHANGED, CREATED, DELETED
     }
 
     private class TestFileListener implements FileListener {
+
         @Override
         public void fileChanged(final FileChangeEvent event) throws Exception {
             status = Status.CHANGED;
@@ -87,9 +88,9 @@ public class DefaultFileMonitorTest {
 
     private FileSystemManager fileSystemManager;
 
-    private File testDir;
-
     private volatile Status status;
+
+    private File testDir;
 
     private File testFile;
 
