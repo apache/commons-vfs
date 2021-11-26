@@ -33,26 +33,31 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
  * A polling {@link FileMonitor} implementation.
  * <p>
  * The DefaultFileMonitor is a Thread based polling file system monitor with a 1 second delay.
+ * </p>
  *
  * <h2>Design:</h2>
- *
+ * <p>
  * There is a Map of monitors known as FileMonitorAgents. With the thread running, each FileMonitorAgent object is asked
  * to "check" on the file it is responsible for. To do this check, the cache is cleared.
+ * </p>
  * <ul>
  * <li>If the file existed before the refresh and it no longer exists, a delete event is fired.</li>
  * <li>If the file existed before the refresh and it still exists, check the last modified timestamp to see if that has
  * changed.</li>
  * <li>If it has, fire a change event.</li>
  * </ul>
+ * <p>
  * With each file delete, the FileMonitorAgent of the parent is asked to re-build its list of children, so that they can
  * be accurately checked when there are new children.
+ * </p>
  * <p>
  * New files are detected during each "check" as each file does a check for new children. If new children are found,
  * create events are fired recursively if recursive descent is enabled.
+ * </p>
  * <p>
  * For performance reasons, added a delay that increases as the number of files monitored increases. The default is a
  * delay of 1 second for every 1000 files processed.
- *
+ * </p>
  * <h2>Example usage:</h2>
  *
  * <pre>
@@ -68,6 +73,7 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
  * <i>(where CustomFileListener is a class that implements the FileListener interface.)</i>
  */
 public class DefaultFileMonitor implements Runnable, FileMonitor {
+
     private static final Log LOG = LogFactory.getLog(DefaultFileMonitor.class);
 
     private static final long DEFAULT_DELAY = 1000;
@@ -120,7 +126,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
     private final FileListener listener;
 
     /**
-     * Creates a new instance with the given listener.
+     * Constructs a new instance with the given listener.
      *
      * @param listener the listener.
      */
@@ -129,7 +135,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
     }
 
     /**
-     * Access method to get the recursive setting when adding files for monitoring.
+     * Tests the recursive setting when adding files for monitoring.
      *
      * @return true if monitoring is enabled for children.
      */
@@ -138,7 +144,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
     }
 
     /**
-     * Access method to set the recursive setting when adding files for monitoring.
+     * Sets the recursive setting when adding files for monitoring.
      *
      * @param newRecursive true if monitoring should be enabled for children.
      */
@@ -147,7 +153,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
     }
 
     /**
-     * Access method to get the current FileListener object notified when there are changes with the files added.
+     * Gets the current FileListener object notified when there are changes with the files added.
      *
      * @return The FileListener.
      */
@@ -226,7 +232,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
     }
 
     /**
-     * Get the delay between runs.
+     * Gets the delay between runs.
      *
      * @return The delay period.
      */
@@ -235,7 +241,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
     }
 
     /**
-     * Set the delay between runs.
+     * Sets the delay between runs.
      *
      * @param delay The delay period.
      */
@@ -244,7 +250,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
     }
 
     /**
-     * get the number of files to check per run.
+     * Gets the number of files to check per run.
      *
      * @return The number of files to check per iteration.
      */
@@ -253,7 +259,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
     }
 
     /**
-     * set the number of files to check per run. a additional delay will be added if there are more files to check
+     * Sets the number of files to check per run. a additional delay will be added if there are more files to check
      *
      * @param checksPerRun a value less than 1 will disable this feature
      */
@@ -399,7 +405,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
         }
 
         /**
-         * Clear the cache and re-request the file object
+         * Clear the cache and re-request the file object.
          */
         private void refresh() {
             try {
