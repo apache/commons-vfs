@@ -145,15 +145,6 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         // start the server
         Server = serverFactory.createServer();
         Server.start();
-        // While starting this server seems synchronous, we are seeing failures on GitHub builds under Windows ONLY.
-        // Try:
-        if (SystemUtils.IS_OS_WINDOWS) {
-            try {
-                Thread.sleep(1000);
-            } catch (final InterruptedException e) {
-                // Ignore
-            }
-        }
         SocketPort = ((org.apache.ftpserver.impl.DefaultFtpServer) Server).getListener("default").getPort();
         ConnectionUri = "ftps://test:test@localhost:" + SocketPort;
     }
@@ -202,7 +193,7 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
     }
 
     protected void setupOptions(final FtpsFileSystemConfigBuilder builder) {
-        builder.setConnectTimeout(fileSystemOptions, Duration.ofSeconds(1));
-        builder.setDataTimeout(fileSystemOptions, Duration.ofSeconds(2));
+        builder.setConnectTimeout(fileSystemOptions, Duration.ofSeconds(10));
+        builder.setDataTimeout(fileSystemOptions, Duration.ofSeconds(10));
     }
 }
