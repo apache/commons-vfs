@@ -545,7 +545,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
     /**
      * Starts monitoring the files that have been added.
      */
-    public void start() {
+    public synchronized void start() {
         if (this.monitorThread == null) {
             this.monitorThread = new Thread(this);
             this.monitorThread.setDaemon(true);
@@ -557,7 +557,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
     /**
      * Stops monitoring the files that have been added.
      */
-    public void stop() {
+    public synchronized void stop() {
         this.runFlag = false;
         if (this.monitorThread != null) {
             this.monitorThread.interrupt();
