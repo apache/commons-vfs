@@ -25,8 +25,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileChangeEvent;
@@ -65,6 +67,10 @@ public class DefaultFileMonitorTest {
         }
     }
 
+    private enum PeekLocation {
+        FIRST, LAST
+    }
+
     private enum Status {
         CHANGED, CREATED, DELETED
     }
@@ -73,17 +79,17 @@ public class DefaultFileMonitorTest {
 
         @Override
         public void fileChanged(final FileChangeEvent event) throws Exception {
-            status.set(Status.CHANGED);
+            status.add(Status.CHANGED);
         }
 
         @Override
         public void fileCreated(final FileChangeEvent event) throws Exception {
-            status.set(Status.CREATED);
+            status.add(Status.CREATED);
         }
 
         @Override
         public void fileDeleted(final FileChangeEvent event) throws Exception {
-            status.set(Status.DELETED);
+            status.add(Status.DELETED);
         }
     }
 
@@ -91,7 +97,7 @@ public class DefaultFileMonitorTest {
 
     private FileSystemManager fileSystemManager;
 
-    private final AtomicReference<Status> status = new AtomicReference<>();
+    private final Deque<Status> status = new ArrayDeque<>();
 
     private File testDir;
 
@@ -104,8 +110,14 @@ public class DefaultFileMonitorTest {
         }
     }
 
-    private Status getStatus() {
-        return status.get();
+    private Status getStatus(final PeekLocation peekLocation) {
+        switch (Objects.requireNonNull(peekLocation, "peekLocation")) {
+        case FIRST:
+            return status.peekFirst();
+        case LAST:
+            return status.peekLast();
+        }
+        throw new IllegalStateException();
     }
 
     /**
@@ -175,7 +187,7 @@ public class DefaultFileMonitorTest {
     }
 
     private void resetStatus() {
-        status.set(null);
+        status.clear();
     }
 
     @Before
@@ -205,7 +217,7 @@ public class DefaultFileMonitorTest {
                 Thread.sleep(DELAY_MILLIS * 5);
                 testFile.delete();
                 Thread.sleep(DELAY_MILLIS * 30);
-                assertNull("Event should not have occurred", getStatus());
+                assertNull("Event should not have occurred", getStatus(PeekLocation.LAST));
             }
         }
     }
@@ -222,11 +234,11 @@ public class DefaultFileMonitorTest {
                 resetStatus();
                 Thread.sleep(DELAY_MILLIS * 5);
                 testFile.delete();
-                waitFor(Status.DELETED, DELAY_MILLIS * 30);
+                waitFor(Status.DELETED, DELAY_MILLIS * 30, PeekLocation.LAST);
                 resetStatus();
                 Thread.sleep(DELAY_MILLIS * 5);
                 writeToFile(testFile);
-                waitFor(Status.CREATED, DELAY_MILLIS * 30);
+                waitFor(Status.CREATED, DELAY_MILLIS * 30, PeekLocation.LAST);
             }
         }
     }
@@ -241,7 +253,7 @@ public class DefaultFileMonitorTest {
                 monitor.start();
                 writeToFile(testFile);
                 Thread.sleep(DELAY_MILLIS * 5);
-                waitFor(Status.CREATED, DELAY_MILLIS * 5);
+                waitFor(Status.CREATED, DELAY_MILLIS * 5, PeekLocation.FIRST);
             }
         }
     }
@@ -256,7 +268,7 @@ public class DefaultFileMonitorTest {
                 monitor.addFile(fileObject);
                 monitor.start();
                 testFile.delete();
-                waitFor(Status.DELETED, DELAY_MILLIS * 5);
+                waitFor(Status.DELETED, DELAY_MILLIS * 5, PeekLocation.LAST);
             }
         }
     }
@@ -276,7 +288,7 @@ public class DefaultFileMonitorTest {
                 final long valueMillis = System.currentTimeMillis();
                 final boolean rcMillis = testFile.setLastModified(valueMillis);
                 assertTrue("setLastModified succeeded", rcMillis);
-                waitFor(Status.CHANGED, DELAY_MILLIS * 5);
+                waitFor(Status.CHANGED, DELAY_MILLIS * 5, PeekLocation.LAST);
             }
         }
     }
@@ -300,7 +312,7 @@ public class DefaultFileMonitorTest {
             monitor.start();
             try {
                 testFile.delete();
-                waitFor(Status.DELETED, DELAY_MILLIS * 5);
+                waitFor(Status.DELETED, DELAY_MILLIS * 5, PeekLocation.LAST);
             } finally {
                 monitor.stop();
             }
@@ -316,21 +328,21 @@ public class DefaultFileMonitorTest {
                 monitor.addFile(fileObject);
                 monitor.start();
                 writeToFile(testFile);
-                waitFor(Status.CREATED, DELAY_MILLIS * 10);
+                waitFor(Status.CREATED, DELAY_MILLIS * 10, PeekLocation.LAST);
                 resetStatus();
                 testFile.delete();
-                waitFor(Status.DELETED, DELAY_MILLIS * 10);
+                waitFor(Status.DELETED, DELAY_MILLIS * 10, PeekLocation.LAST);
                 resetStatus();
                 Thread.sleep(DELAY_MILLIS * 5);
                 monitor.addFile(fileObject);
                 writeToFile(testFile);
-                waitFor(Status.CREATED, DELAY_MILLIS * 10);
+                waitFor(Status.CREATED, DELAY_MILLIS * 10, PeekLocation.LAST);
             }
         }
     }
 
-    private void waitFor(final Status expected, final long timeoutMillis) throws InterruptedException {
-        if (expected == getStatus()) {
+    private void waitFor(final Status expected, final long timeoutMillis, final PeekLocation peekLocation) throws InterruptedException {
+        if (expected == getStatus(peekLocation)) {
             return;
         }
         long remaining = timeoutMillis;
@@ -338,12 +350,12 @@ public class DefaultFileMonitorTest {
         while (remaining > 0) {
             Thread.sleep(interval);
             remaining -= interval;
-            if (expected == getStatus()) {
+            if (expected == getStatus(peekLocation)) {
                 return;
             }
         }
-        assertNotNull("No event occurred", getStatus());
-        assertEquals("Incorrect event " + getStatus(), expected, getStatus());
+        assertNotNull("No event occurred", getStatus(peekLocation));
+        assertEquals("Incorrect event " + getStatus(peekLocation), expected, getStatus(peekLocation));
     }
 
     private void writeToFile(final File file) throws IOException {
