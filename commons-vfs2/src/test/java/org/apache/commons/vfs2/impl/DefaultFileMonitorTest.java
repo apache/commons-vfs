@@ -21,9 +21,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
@@ -104,6 +104,10 @@ public class DefaultFileMonitorTest {
         }
     }
 
+    private Status getStatus() {
+        return status.get();
+    }
+
     /**
      * VFS-299: Handlers are not removed. One instance is {@link DefaultFileMonitor#removeFile(FileObject)}.
      *
@@ -170,11 +174,15 @@ public class DefaultFileMonitorTest {
         }
     }
 
+    private void resetStatus() {
+        status.set(null);
+    }
+
     @Before
     public void setUp() throws Exception {
         fileSystemManager = VFS.getManager();
         testDir = AbstractVfsTestCase.getTestDirectoryFile();
-        status.set(null);
+        resetStatus();
         testFile = new File(testDir, "testReload.properties");
         deleteTestFileIfPresent();
     }
@@ -193,11 +201,11 @@ public class DefaultFileMonitorTest {
                 monitor.setRecursive(false);
                 monitor.addFile(fileObject);
                 monitor.start();
-                status.set(null);
+                resetStatus();
                 Thread.sleep(DELAY_MILLIS * 5);
                 testFile.delete();
                 Thread.sleep(DELAY_MILLIS * 30);
-                assertNull("Event should not have occurred", status.get());
+                assertNull("Event should not have occurred", getStatus());
             }
         }
     }
@@ -211,11 +219,11 @@ public class DefaultFileMonitorTest {
                 monitor.setRecursive(true);
                 monitor.addFile(fileObj);
                 monitor.start();
-                status.set(null);
+                resetStatus();
                 Thread.sleep(DELAY_MILLIS * 5);
                 testFile.delete();
                 waitFor(Status.DELETED, DELAY_MILLIS * 30);
-                status.set(null);
+                resetStatus();
                 Thread.sleep(DELAY_MILLIS * 5);
                 writeToFile(testFile);
                 waitFor(Status.CREATED, DELAY_MILLIS * 30);
@@ -309,10 +317,10 @@ public class DefaultFileMonitorTest {
                 monitor.start();
                 writeToFile(testFile);
                 waitFor(Status.CREATED, DELAY_MILLIS * 10);
-                status.set(null);
+                resetStatus();
                 testFile.delete();
                 waitFor(Status.DELETED, DELAY_MILLIS * 10);
-                status.set(null);
+                resetStatus();
                 Thread.sleep(DELAY_MILLIS * 5);
                 monitor.addFile(fileObject);
                 writeToFile(testFile);
@@ -322,7 +330,7 @@ public class DefaultFileMonitorTest {
     }
 
     private void waitFor(final Status expected, final long timeoutMillis) throws InterruptedException {
-        if (expected == status.get()) {
+        if (expected == getStatus()) {
             return;
         }
         long remaining = timeoutMillis;
@@ -330,19 +338,16 @@ public class DefaultFileMonitorTest {
         while (remaining > 0) {
             Thread.sleep(interval);
             remaining -= interval;
-            if (expected == status.get()) {
+            if (expected == getStatus()) {
                 return;
             }
         }
-        assertNotNull("No event occurred", status.get());
-        assertEquals("Incorrect event " + status, expected, status.get());
+        assertNotNull("No event occurred", getStatus());
+        assertEquals("Incorrect event " + getStatus(), expected, getStatus());
     }
 
     private void writeToFile(final File file) throws IOException {
-        // assertTrue(file.delete());
-        try (final BufferedWriter out = Files.newBufferedWriter(file.toPath())) {
-            out.write("string=value1");
-        }
+        Files.write(file.toPath(), "string=value1".getBytes(StandardCharsets.UTF_8));
     }
 
 }
