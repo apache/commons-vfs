@@ -508,7 +508,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
             }
 
             try {
-                Thread.sleep(getDelay());
+                Thread.sleep(getDelayDuration().toMillis());
             } catch (final InterruptedException e) {
                 continue;
             }
