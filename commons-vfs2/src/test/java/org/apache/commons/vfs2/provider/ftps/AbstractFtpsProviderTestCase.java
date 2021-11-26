@@ -22,6 +22,7 @@ import java.net.URL;
 import java.time.Duration;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -144,6 +145,15 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         // start the server
         Server = serverFactory.createServer();
         Server.start();
+        // While starting this server seems synchronous, we are seeing failures on GitHub builds under Windows ONLY.
+        // Try:
+        if (SystemUtils.IS_OS_WINDOWS) {
+            try {
+                Thread.sleep(1000);
+            } catch (final InterruptedException e) {
+                // Ignore
+            }
+        }
         SocketPort = ((org.apache.ftpserver.impl.DefaultFtpServer) Server).getListener("default").getPort();
         ConnectionUri = "ftps://test:test@localhost:" + SocketPort;
     }
