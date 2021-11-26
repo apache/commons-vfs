@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.impl;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -266,7 +267,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
 
     private static final Log LOG = LogFactory.getLog(DefaultFileMonitor.class);
 
-    private static final long DEFAULT_DELAY = 1000;
+    private static final Duration DEFAULT_DELAY = Duration.ofSeconds(1);
 
     private static final int DEFAULT_MAX_FILES = 1000;
 
@@ -303,7 +304,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
     /**
      * Set the delay between checks
      */
-    private long delay = DEFAULT_DELAY;
+    private Duration delay = DEFAULT_DELAY;
 
     /**
      * Set the number of files to check until a delay will be inserted
@@ -368,9 +369,20 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
     /**
      * Gets the delay between runs.
      *
+     * @return The delay period in milliseconds.
+     * @deprecated Use {@link #getDelayDuration()}.
+     */
+    @Deprecated
+    public long getDelay() {
+        return delay.toMillis();
+    }
+
+    /**
+     * Gets the delay between runs.
+     *
      * @return The delay period.
      */
-    public long getDelay() {
+    public Duration getDelayDuration() {
         return delay;
     }
 
@@ -462,7 +474,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
 
                 if (getChecksPerRun() > 0 && (iterFileNames + 1) % getChecksPerRun() == 0) {
                     try {
-                        Thread.sleep(getDelay());
+                        Thread.sleep(getDelayDuration().toMillis());
                     } catch (final InterruptedException e) {
                         // Woke up.
                     }
@@ -504,9 +516,21 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
      * Sets the delay between runs.
      *
      * @param delay The delay period.
+     * @since 2.10.0
      */
+    public void setDelay(final Duration delay) {
+        this.delay = delay == null || delay.isNegative() ? DEFAULT_DELAY : delay;
+    }
+
+    /**
+     * Sets the delay between runs.
+     *
+     * @param delay The delay period in milliseconds.
+     * @deprecated Use {@link #setDelay(Duration)}.
+     */
+    @Deprecated
     public void setDelay(final long delay) {
-        this.delay = delay > 0 ? delay : DEFAULT_DELAY;
+        setDelay(delay > 0 ? Duration.ofMillis(delay) : DEFAULT_DELAY);
     }
 
     /**
