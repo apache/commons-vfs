@@ -17,6 +17,8 @@
 package org.apache.commons.vfs2.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedWriter;
@@ -24,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileChangeEvent;
@@ -70,17 +73,17 @@ public class DefaultFileMonitorTest {
 
         @Override
         public void fileChanged(final FileChangeEvent event) throws Exception {
-            status = Status.CHANGED;
+            status.set(Status.CHANGED);
         }
 
         @Override
         public void fileCreated(final FileChangeEvent event) throws Exception {
-            status = Status.CREATED;
+            status.set(Status.CREATED);
         }
 
         @Override
         public void fileDeleted(final FileChangeEvent event) throws Exception {
-            status = Status.DELETED;
+            status.set(Status.DELETED);
         }
     }
 
@@ -88,7 +91,7 @@ public class DefaultFileMonitorTest {
 
     private FileSystemManager fileSystemManager;
 
-    private volatile Status status;
+    private final AtomicReference<Status> status = new AtomicReference<>();
 
     private File testDir;
 
@@ -171,7 +174,7 @@ public class DefaultFileMonitorTest {
     public void setUp() throws Exception {
         fileSystemManager = VFS.getManager();
         testDir = AbstractVfsTestCase.getTestDirectoryFile();
-        status = null;
+        status.set(null);
         testFile = new File(testDir, "testReload.properties");
         deleteTestFileIfPresent();
     }
@@ -190,11 +193,11 @@ public class DefaultFileMonitorTest {
                 monitor.setRecursive(false);
                 monitor.addFile(fileObject);
                 monitor.start();
-                status = null;
+                status.set(null);
                 Thread.sleep(DELAY_MILLIS * 5);
                 testFile.delete();
                 Thread.sleep(DELAY_MILLIS * 30);
-                assertEquals("Event should not have occurred", null, status);
+                assertNull("Event should not have occurred", status.get());
             }
         }
     }
@@ -208,11 +211,11 @@ public class DefaultFileMonitorTest {
                 monitor.setRecursive(true);
                 monitor.addFile(fileObj);
                 monitor.start();
-                status = null;
+                status.set(null);
                 Thread.sleep(DELAY_MILLIS * 5);
                 testFile.delete();
                 waitFor(Status.DELETED, DELAY_MILLIS * 30);
-                status = null;
+                status.set(null);
                 Thread.sleep(DELAY_MILLIS * 5);
                 writeToFile(testFile);
                 waitFor(Status.CREATED, DELAY_MILLIS * 30);
@@ -306,10 +309,10 @@ public class DefaultFileMonitorTest {
                 monitor.start();
                 writeToFile(testFile);
                 waitFor(Status.CREATED, DELAY_MILLIS * 10);
-                status = null;
+                status.set(null);
                 testFile.delete();
                 waitFor(Status.DELETED, DELAY_MILLIS * 10);
-                status = null;
+                status.set(null);
                 Thread.sleep(DELAY_MILLIS * 5);
                 monitor.addFile(fileObject);
                 writeToFile(testFile);
@@ -319,7 +322,7 @@ public class DefaultFileMonitorTest {
     }
 
     private void waitFor(final Status expected, final long timeoutMillis) throws InterruptedException {
-        if (expected == status) {
+        if (expected == status.get()) {
             return;
         }
         long remaining = timeoutMillis;
@@ -327,12 +330,12 @@ public class DefaultFileMonitorTest {
         while (remaining > 0) {
             Thread.sleep(interval);
             remaining -= interval;
-            if (expected == status) {
+            if (expected == status.get()) {
                 return;
             }
         }
-        assertTrue("No event occurred", status != null);
-        assertEquals("Incorrect event " + status, expected, status);
+        assertNotNull("No event occurred", status.get());
+        assertEquals("Incorrect event " + status, expected, status.get());
     }
 
     private void writeToFile(final File file) throws IOException {
