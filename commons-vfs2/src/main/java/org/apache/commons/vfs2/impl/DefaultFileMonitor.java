@@ -73,7 +73,8 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
  *
  * <i>(where CustomFileListener is a class that implements the FileListener interface.)</i>
  */
-public class DefaultFileMonitor implements Runnable, FileMonitor {
+// TODO Add a Builder so we can construct and start.
+public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable {
 
     /**
      * File monitor agent.
@@ -186,8 +187,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
                         if (!missingChildren.empty()) {
 
                             while (!missingChildren.empty()) {
-                                final FileObject child = missingChildren.pop();
-                                this.fireAllCreate(child);
+                                this.fireAllCreate(missingChildren.pop());
                             }
                         }
 
@@ -206,8 +206,8 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
         }
 
         /**
-         * Recursively fires create events for all children if recursive descent is enabled. Otherwise the create event
-         * is only fired for the initial FileObject.
+         * Recursively fires create events for all children if recursive descent is enabled. Otherwise the create event is only
+         * fired for the initial FileObject.
          *
          * @param child The child to add.
          */
@@ -354,6 +354,20 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
                 }
 
             }
+        }
+    }
+
+    @Override
+    public void close() {
+        this.runFlag = false;
+        if (this.monitorThread != null) {
+            this.monitorThread.interrupt();
+            try {
+                this.monitorThread.join();
+            } catch (final InterruptedException e) {
+                // ignore
+            }
+            this.monitorThread = null;
         }
     }
 
@@ -558,15 +572,6 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
      * Stops monitoring the files that have been added.
      */
     public synchronized void stop() {
-        this.runFlag = false;
-        if (this.monitorThread != null) {
-            this.monitorThread.interrupt();
-            try {
-                this.monitorThread.join();
-            } catch (final InterruptedException e) {
-                // ignore
-            }
-            this.monitorThread = null;
-        }
+        close();
     }
 }

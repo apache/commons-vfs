@@ -111,9 +111,8 @@ public class DefaultFileMonitorTest {
     public void ignore_testAddRemove() throws Exception {
         try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
             final CountingListener listener = new CountingListener();
-            final DefaultFileMonitor monitor = new DefaultFileMonitor(listener);
-            monitor.setDelay(DELAY_MILLIS);
-            try {
+            try (final DefaultFileMonitor monitor = new DefaultFileMonitor(listener)) {
+                monitor.setDelay(DELAY_MILLIS);
                 monitor.addFile(fileObject);
                 monitor.removeFile(fileObject);
                 monitor.addFile(fileObject);
@@ -121,8 +120,6 @@ public class DefaultFileMonitorTest {
                 writeToFile(testFile);
                 Thread.sleep(DELAY_MILLIS * 3);
                 assertEquals("Created event is only fired once", 1, listener.created.get());
-            } finally {
-                monitor.stop();
             }
         }
     }
@@ -137,12 +134,9 @@ public class DefaultFileMonitorTest {
     public void ignore_testStartStop() throws Exception {
         try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
             final CountingListener stoppedListener = new CountingListener();
-            final DefaultFileMonitor stoppedMonitor = new DefaultFileMonitor(stoppedListener);
-            stoppedMonitor.start();
-            try {
+            try (final DefaultFileMonitor stoppedMonitor = new DefaultFileMonitor(stoppedListener)) {
+                stoppedMonitor.start();
                 stoppedMonitor.addFile(fileObject);
-            } finally {
-                stoppedMonitor.stop();
             }
 
             // Variant 1: it becomes documented behavior to manually remove all files after stop() such that all
@@ -160,18 +154,15 @@ public class DefaultFileMonitorTest {
             // DefaultFileMonitor.
 
             final CountingListener activeListener = new CountingListener();
-            final DefaultFileMonitor activeMonitor = new DefaultFileMonitor(activeListener);
-            activeMonitor.setDelay(DELAY_MILLIS);
-            activeMonitor.addFile(fileObject);
-            activeMonitor.start();
-            try {
+            try (final DefaultFileMonitor activeMonitor = new DefaultFileMonitor(activeListener)) {
+                activeMonitor.setDelay(DELAY_MILLIS);
+                activeMonitor.addFile(fileObject);
+                activeMonitor.start();
                 writeToFile(testFile);
                 Thread.sleep(DELAY_MILLIS * 10);
 
                 assertEquals("The listener of the active monitor received one created event", 1, activeListener.created.get());
                 assertEquals("The listener of the stopped monitor received no events", 0, stoppedListener.created.get());
-            } finally {
-                activeMonitor.stop();
             }
         }
     }
@@ -194,19 +185,16 @@ public class DefaultFileMonitorTest {
     public void testChildFileDeletedWithoutRecursiveChecking() throws Exception {
         writeToFile(testFile);
         try (final FileObject fileObject = fileSystemManager.resolveFile(testDir.toURI().toURL().toString())) {
-            final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
-            monitor.setDelay(2000);
-            monitor.setRecursive(false);
-            monitor.addFile(fileObject);
-            monitor.start();
-            try {
+            try (final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener())) {
+                monitor.setDelay(2000);
+                monitor.setRecursive(false);
+                monitor.addFile(fileObject);
+                monitor.start();
                 status = null;
                 Thread.sleep(DELAY_MILLIS * 5);
                 testFile.delete();
                 Thread.sleep(DELAY_MILLIS * 30);
                 assertEquals("Event should not have occurred", null, status);
-            } finally {
-                monitor.stop();
             }
         }
     }
@@ -215,12 +203,11 @@ public class DefaultFileMonitorTest {
     public void testChildFileRecreated() throws Exception {
         writeToFile(testFile);
         try (final FileObject fileObj = fileSystemManager.resolveFile(testDir.toURI().toURL().toString())) {
-            final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
-            monitor.setDelay(2000);
-            monitor.setRecursive(true);
-            monitor.addFile(fileObj);
-            monitor.start();
-            try {
+            try (final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener())) {
+                monitor.setDelay(2000);
+                monitor.setRecursive(true);
+                monitor.addFile(fileObj);
+                monitor.start();
                 status = null;
                 Thread.sleep(DELAY_MILLIS * 5);
                 testFile.delete();
@@ -229,8 +216,6 @@ public class DefaultFileMonitorTest {
                 Thread.sleep(DELAY_MILLIS * 5);
                 writeToFile(testFile);
                 waitFor(Status.CREATED, DELAY_MILLIS * 30);
-            } finally {
-                monitor.stop();
             }
         }
     }
@@ -238,17 +223,14 @@ public class DefaultFileMonitorTest {
     @Test
     public void testFileCreated() throws Exception {
         try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toURL().toString())) {
-            final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
-            // TestFileListener manipulates status
-            monitor.setDelay(DELAY_MILLIS);
-            monitor.addFile(fileObject);
-            monitor.start();
-            try {
+            try (final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener())) {
+                // TestFileListener manipulates status
+                monitor.setDelay(DELAY_MILLIS);
+                monitor.addFile(fileObject);
+                monitor.start();
                 writeToFile(testFile);
                 Thread.sleep(DELAY_MILLIS * 5);
                 waitFor(Status.CREATED, DELAY_MILLIS * 5);
-            } finally {
-                monitor.stop();
             }
         }
     }
@@ -257,16 +239,13 @@ public class DefaultFileMonitorTest {
     public void testFileDeleted() throws Exception {
         writeToFile(testFile);
         try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
-            final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
-            // TestFileListener manipulates status
-            monitor.setDelay(DELAY_MILLIS);
-            monitor.addFile(fileObject);
-            monitor.start();
-            try {
+            try (final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener())) {
+                // TestFileListener manipulates status
+                monitor.setDelay(DELAY_MILLIS);
+                monitor.addFile(fileObject);
+                monitor.start();
                 testFile.delete();
                 waitFor(Status.DELETED, DELAY_MILLIS * 5);
-            } finally {
-                monitor.stop();
             }
         }
     }
@@ -275,12 +254,11 @@ public class DefaultFileMonitorTest {
     public void testFileModified() throws Exception {
         writeToFile(testFile);
         try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toURL().toString())) {
-            final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
-            // TestFileListener manipulates status
-            monitor.setDelay(DELAY_MILLIS);
-            monitor.addFile(fileObject);
-            monitor.start();
-            try {
+            try (final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener())) {
+                // TestFileListener manipulates status
+                monitor.setDelay(DELAY_MILLIS);
+                monitor.addFile(fileObject);
+                monitor.start();
                 // Need a long delay to insure the new timestamp doesn't truncate to be the same as
                 // the current timestammp. Java only guarantees the timestamp will be to 1 second.
                 Thread.sleep(DELAY_MILLIS * 10);
@@ -288,8 +266,6 @@ public class DefaultFileMonitorTest {
                 final boolean rcMillis = testFile.setLastModified(valueMillis);
                 assertTrue("setLastModified succeeded", rcMillis);
                 waitFor(Status.CHANGED, DELAY_MILLIS * 5);
-            } finally {
-                monitor.stop();
             }
         }
     }
@@ -298,12 +274,12 @@ public class DefaultFileMonitorTest {
     public void testFileMonitorRestarted() throws Exception {
         try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
             final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
-            // TestFileListener manipulates status
-            monitor.setDelay(DELAY_MILLIS);
-            monitor.addFile(fileObject);
-
-            monitor.start();
             try {
+                // TestFileListener manipulates status
+                monitor.setDelay(DELAY_MILLIS);
+                monitor.addFile(fileObject);
+
+                monitor.start();
                 writeToFile(testFile);
                 Thread.sleep(DELAY_MILLIS * 5);
             } finally {
@@ -323,12 +299,11 @@ public class DefaultFileMonitorTest {
     @Test
     public void testFileRecreated() throws Exception {
         try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI())) {
-            final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
-            // TestFileListener manipulates status
-            monitor.setDelay(DELAY_MILLIS);
-            monitor.addFile(fileObject);
-            monitor.start();
-            try {
+            try (final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener())) {
+                // TestFileListener manipulates status
+                monitor.setDelay(DELAY_MILLIS);
+                monitor.addFile(fileObject);
+                monitor.start();
                 writeToFile(testFile);
                 waitFor(Status.CREATED, DELAY_MILLIS * 10);
                 status = null;
@@ -339,8 +314,6 @@ public class DefaultFileMonitorTest {
                 monitor.addFile(fileObject);
                 writeToFile(testFile);
                 waitFor(Status.CREATED, DELAY_MILLIS * 10);
-            } finally {
-                monitor.stop();
             }
         }
     }

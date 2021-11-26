@@ -72,8 +72,11 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="add" dev="ggregory" due-to="Seth Falco">
         Add vscode files to gitignore #205.
       </action>
-      <action type="add" dev="ggregory" due-to="Seth Falco">
+      <action type="add" dev="ggregory" due-to="Gary Gregory">
         Add DefaultFileMonitor.setDelay(Duration), getDelayDuration() and deprecate setDelay(long), getDelay().
+      </action>
+      <action type="add" dev="ggregory" due-to="Gary Gregory">
+        DefaultFileMonitor implements AutoCloseable.
       </action>
       <!-- UDPATE -->
       <action type="update" dev="ggregory" due-to="Dependabot">
