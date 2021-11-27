@@ -31,10 +31,17 @@ public class FileFilterSelector extends FileDepthSelector {
      */
     private final FileFilter fileFilter;
 
+    /**
+     * Constructs a new instance without a FileFilter.
+     */
     public FileFilterSelector() {
         this(null);
     }
 
+    /**
+     * Constructs a new instance with a FileFilter.
+     * @param fileFilter the FileFilter.
+     */
     public FileFilterSelector(final FileFilter fileFilter) {
         super(1, 1);
         this.fileFilter = fileFilter;

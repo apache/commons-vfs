@@ -37,9 +37,16 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
     /** The password */
     private final String password;
 
-    /** The user's domain */
+    /** The user domain */
     private final String domain;
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param domain The user domain.
+     * @param username The user name.
+     * @param password The user password.
+     */
     public StaticUserAuthenticator(final String domain, final String username, final String password) {
         this.username = username;
         this.password = password;
