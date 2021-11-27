@@ -41,30 +41,6 @@ public class OrFileFilterTest extends BaseFilterTest {
 
     }
 
-    /**
-     * Always FALSE.
-     */
-    private static class False implements FileFilter {
-
-        @Override
-        public boolean accept(final FileSelectInfo fileInfo) {
-            return false;
-        }
-
-    }
-
-    /**
-     * Always TRUE.
-     */
-    private static class True implements FileFilter {
-
-        @Override
-        public boolean accept(final FileSelectInfo fileInfo) {
-            return true;
-        }
-
-    }
-
     @Test
     public void testAccept() throws FileSystemException {
 
@@ -74,14 +50,14 @@ public class OrFileFilterTest extends BaseFilterTest {
         Assert.assertFalse(new OrFileFilter().accept(any));
 
         // True
-        Assert.assertTrue(new OrFileFilter(new True()).accept(any));
-        Assert.assertTrue(new OrFileFilter(new True(), new True()).accept(any));
-        Assert.assertTrue(new OrFileFilter(new False(), new True()).accept(any));
-        Assert.assertTrue(new OrFileFilter(new True(), new False()).accept(any));
+        Assert.assertTrue(new OrFileFilter(new TestTrueFileFilter()).accept(any));
+        Assert.assertTrue(new OrFileFilter(new TestTrueFileFilter(), new TestTrueFileFilter()).accept(any));
+        Assert.assertTrue(new OrFileFilter(new TestFalseFileFilter(), new TestTrueFileFilter()).accept(any));
+        Assert.assertTrue(new OrFileFilter(new TestTrueFileFilter(), new TestFalseFileFilter()).accept(any));
 
         // False
-        Assert.assertFalse(new OrFileFilter(new False()).accept(any));
-        Assert.assertFalse(new OrFileFilter(new False(), new False()).accept(any));
+        Assert.assertFalse(new OrFileFilter(new TestFalseFileFilter()).accept(any));
+        Assert.assertFalse(new OrFileFilter(new TestFalseFileFilter(), new TestFalseFileFilter()).accept(any));
 
     }
 
