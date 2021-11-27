@@ -50,7 +50,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 public class DelegatingFileSystemOptionsBuilder {
 
     @SuppressWarnings("unchecked") // OK, it is a String
-    private static final Class<String>[] STRING_PARAM = new Class[] { String.class };
+    private static final Class<String>[] STRING_PARAM = new Class[] {String.class};
     private static final Map<String, Class<?>> PRIMATIVE_TO_OBJECT = new TreeMap<>();
     private static final Log log = LogFactory.getLog(DelegatingFileSystemOptionsBuilder.class);
 
@@ -116,7 +116,7 @@ public class DelegatingFileSystemOptionsBuilder {
      */
     public void setConfigString(final FileSystemOptions fso, final String scheme, final String name, final String value)
             throws FileSystemException {
-        setConfigStrings(fso, scheme, name, new String[] { value });
+        setConfigStrings(fso, scheme, name, new String[] {value});
     }
 
     /**
@@ -151,7 +151,7 @@ public class DelegatingFileSystemOptionsBuilder {
      */
     public void setConfigClass(final FileSystemOptions fso, final String scheme, final String name,
             final Class<?> className) throws FileSystemException, IllegalAccessException, InstantiationException {
-        setConfigClasses(fso, scheme, name, new Class[] { className });
+        setConfigClasses(fso, scheme, name, new Class[] {className});
     }
 
     /**
@@ -242,8 +242,7 @@ public class DelegatingFileSystemOptionsBuilder {
             return true;
         }
         if (valueClass != String.class) {
-            log.warn(Messages.getString("vfs.provider/config-unexpected-value-class.error", valueClass.getName(),
-                    ctx.scheme, ctx.name));
+            log.warn(Messages.getString("vfs.provider/config-unexpected-value-class.error", valueClass.getName(), ctx.scheme, ctx.name));
             return false;
         }
 
@@ -283,8 +282,7 @@ public class DelegatingFileSystemOptionsBuilder {
             // can convert using factory method (valueOf)
             for (int iterValues = 0; iterValues < ctx.values.length; iterValues++) {
                 try {
-                    Array.set(convertedValues, iterValues,
-                            valueFactory.invoke(null, ctx.values[iterValues]));
+                    Array.set(convertedValues, iterValues, valueFactory.invoke(null, ctx.values[iterValues]));
                 } catch (final IllegalAccessException | InvocationTargetException e) {
                     throw new FileSystemException(e);
                 }
@@ -300,13 +298,12 @@ public class DelegatingFileSystemOptionsBuilder {
     /**
      * Invokes the method with the converted values
      */
-    private void invokeSetter(final Class<?> valueParameter, final Context ctx, final Method configSetter,
-            final Object values) throws FileSystemException {
+    private void invokeSetter(final Class<?> valueParameter, final Context ctx, final Method configSetter, final Object values) throws FileSystemException {
         final Object[] args;
         if (valueParameter.isArray()) {
-            args = new Object[] { ctx.fso, values };
+            args = new Object[] {ctx.fso, values};
         } else {
-            args = new Object[] { ctx.fso, Array.get(values, 0) };
+            args = new Object[] {ctx.fso, Array.get(values, 0)};
         }
         try {
             configSetter.invoke(ctx.fileSystemConfigBuilder, args);

@@ -60,7 +60,7 @@ public class VFSClassLoader extends SecureClassLoader {
      * @throws FileSystemException if an error occurs.
      */
     public VFSClassLoader(final FileObject file, final FileSystemManager manager) throws FileSystemException {
-        this(new FileObject[] { file }, manager, null);
+        this(new FileObject[] {file}, manager, null);
     }
 
     /**
@@ -73,7 +73,7 @@ public class VFSClassLoader extends SecureClassLoader {
      */
     public VFSClassLoader(final FileObject file, final FileSystemManager manager, final ClassLoader parent)
             throws FileSystemException {
-        this(new FileObject[] { file }, manager, parent);
+        this(new FileObject[] {file}, manager, parent);
     }
 
     /**

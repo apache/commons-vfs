@@ -255,8 +255,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
 
             if (proxyAuth != null) {
                 final UserAuthenticationData proxyAuthData = UserAuthenticatorUtils.authenticate(proxyAuth,
-                        new UserAuthenticationData.Type[] { UserAuthenticationData.USERNAME,
-                                UserAuthenticationData.PASSWORD });
+                    new UserAuthenticationData.Type[] {UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD});
 
                 if (proxyAuthData != null) {
                     final UsernamePasswordCredentials proxyCreds = new UsernamePasswordCredentials(

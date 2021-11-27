@@ -173,7 +173,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
         // package level so a unit test may run on this
 
         if (text.indexOf('?') == -1 && text.indexOf('*') == -1) {
-            return new String[] { text };
+            return new String[] {text};
         }
 
         final char[] array = text.toCharArray();
@@ -274,7 +274,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
                         }
                         final int repeat = caseSensitivity.checkIndexOf(fileName, textIdx + 1, wcs[wcsIdx]);
                         if (repeat >= 0) {
-                            backtrack.push(new int[] { wcsIdx, repeat });
+                            backtrack.push(new int[] {wcsIdx, repeat});
                         }
                     } else if (!caseSensitivity.checkRegionMatches(fileName, textIdx, wcs[wcsIdx])) {
                         // matching from current position

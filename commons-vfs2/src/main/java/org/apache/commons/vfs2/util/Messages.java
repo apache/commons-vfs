@@ -64,7 +64,7 @@ public final class Messages {
      */
     @Deprecated
     public static String getString(final String code, final Object param) {
-        return getString(code, new Object[] { param });
+        return getString(code, new Object[] {param});
     }
 
     /**

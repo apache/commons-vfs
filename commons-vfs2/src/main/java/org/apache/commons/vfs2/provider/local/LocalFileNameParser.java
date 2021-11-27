@@ -44,7 +44,7 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser {
 
     private String[] getSchemes(final VfsComponentContext context, final FileName base, final String uri) {
         if (context == null) {
-            return new String[] { base != null ? base.getScheme() : URI.create(uri).getScheme() };
+            return new String[] {base != null ? base.getScheme() : URI.create(uri).getScheme()};
         }
         return context.getFileSystemManager().getSchemes();
     }

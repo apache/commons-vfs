@@ -102,8 +102,7 @@ public final class UriParser {
                 count -= 2;
             } else if (fileNameParser.encodeCharacter(ch)) {
                 // Encode
-                final char[] digits = { Character.forDigit(ch >> BITS_IN_HALF_BYTE & LOW_MASK, HEX_BASE),
-                        Character.forDigit(ch & LOW_MASK, HEX_BASE) };
+                final char[] digits = {Character.forDigit(ch >> BITS_IN_HALF_BYTE & LOW_MASK, HEX_BASE), Character.forDigit(ch & LOW_MASK, HEX_BASE)};
                 buffer.setCharAt(index, '%');
                 buffer.insert(index + 1, digits);
                 index += 2;
@@ -244,8 +243,7 @@ public final class UriParser {
             }
             if (match) {
                 // Encode
-                final char[] digits = { Character.forDigit(ch >> BITS_IN_HALF_BYTE & LOW_MASK, HEX_BASE),
-                        Character.forDigit(ch & LOW_MASK, HEX_BASE) };
+                final char[] digits = {Character.forDigit(ch >> BITS_IN_HALF_BYTE & LOW_MASK, HEX_BASE), Character.forDigit(ch & LOW_MASK, HEX_BASE)};
                 buffer.setCharAt(index, '%');
                 buffer.insert(index + 1, digits);
                 index += 2;

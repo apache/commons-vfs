@@ -224,7 +224,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     @Override
     public void addOperationProvider(final String scheme, final FileOperationProvider operationProvider)
             throws FileSystemException {
-        addOperationProvider(new String[] { scheme }, operationProvider);
+        addOperationProvider(new String[] {scheme}, operationProvider);
     }
 
     /**
@@ -267,7 +267,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * @throws FileSystemException if an error occurs adding the provider.
      */
     public void addProvider(final String urlScheme, final FileProvider provider) throws FileSystemException {
-        addProvider(new String[] { urlScheme }, provider);
+        addProvider(new String[] {urlScheme}, provider);
     }
 
     /**

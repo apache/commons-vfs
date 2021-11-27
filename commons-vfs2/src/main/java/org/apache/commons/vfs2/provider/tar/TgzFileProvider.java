@@ -29,7 +29,7 @@ public class TgzFileProvider extends CompositeFileProvider {
     /** The provider's capabilities */
     protected static final Collection<Capability> capabilities = TarFileProvider.capabilities;
 
-    private static final String[] SCHEMES = { "gz", "tar" };
+    private static final String[] SCHEMES = {"gz", "tar"};
 
     public TgzFileProvider() {
     }

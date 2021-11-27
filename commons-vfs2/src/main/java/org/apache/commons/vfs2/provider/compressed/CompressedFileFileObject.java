@@ -53,7 +53,7 @@ public abstract class CompressedFileFileObject<FS extends CompressedFileFileSyst
         if (pos > 0) {
             basename = basename.substring(0, pos);
         }
-        children = new String[] { basename };
+        children = new String[] {basename};
     }
 
     /**

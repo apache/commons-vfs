@@ -47,18 +47,17 @@ public final class Os {
     /**
      * All Windows NT based OSes.
      */
-    public static final OsFamily OS_FAMILY_WINNT = new OsFamily("nt", new OsFamily[] { OS_FAMILY_WINDOWS });
+    public static final OsFamily OS_FAMILY_WINNT = new OsFamily("nt", new OsFamily[] {OS_FAMILY_WINDOWS});
 
     /**
      * All Windows 9x based OSes.
      */
-    public static final OsFamily OS_FAMILY_WIN9X = new OsFamily("win9x",
-            new OsFamily[] { OS_FAMILY_WINDOWS, OS_FAMILY_DOS });
+    public static final OsFamily OS_FAMILY_WIN9X = new OsFamily("win9x", new OsFamily[] {OS_FAMILY_WINDOWS, OS_FAMILY_DOS});
 
     /**
      * OS/2.
      */
-    public static final OsFamily OS_FAMILY_OS2 = new OsFamily("os/2", new OsFamily[] { OS_FAMILY_DOS });
+    public static final OsFamily OS_FAMILY_OS2 = new OsFamily("os/2", new OsFamily[] {OS_FAMILY_DOS});
 
     /**
      * Netware.
@@ -78,7 +77,7 @@ public final class Os {
     /**
      * OSX.
      */
-    public static final OsFamily OS_FAMILY_OSX = new OsFamily("osx", new OsFamily[] { OS_FAMILY_UNIX, OS_FAMILY_MAC });
+    public static final OsFamily OS_FAMILY_OSX = new OsFamily("osx", new OsFamily[] {OS_FAMILY_UNIX, OS_FAMILY_MAC});
 
     private static final String OS_NAME = System.getProperty("os.name").toLowerCase(Locale.US);
     private static final String OS_ARCH = System.getProperty("os.arch").toLowerCase(Locale.US);
@@ -87,8 +86,8 @@ public final class Os {
     private static final OsFamily OS_FAMILY;
     private static final OsFamily[] OS_ALL_FAMILIES;
 
-    private static final OsFamily[] ALL_FAMILIES = { OS_FAMILY_DOS, OS_FAMILY_MAC, OS_FAMILY_NETWARE,
-            OS_FAMILY_OS2, OS_FAMILY_OSX, OS_FAMILY_UNIX, OS_FAMILY_WINDOWS, OS_FAMILY_WINNT, OS_FAMILY_WIN9X };
+    private static final OsFamily[] ALL_FAMILIES = {OS_FAMILY_DOS, OS_FAMILY_MAC, OS_FAMILY_NETWARE, OS_FAMILY_OS2, OS_FAMILY_OSX, OS_FAMILY_UNIX,
+        OS_FAMILY_WINDOWS, OS_FAMILY_WINNT, OS_FAMILY_WIN9X};
 
     static {
         OS_FAMILY = determineOsFamily();

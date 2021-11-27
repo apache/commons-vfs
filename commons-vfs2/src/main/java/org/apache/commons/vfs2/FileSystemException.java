@@ -106,7 +106,7 @@ public class FileSystemException extends IOException {
      * @param info one context information.
      */
     public FileSystemException(final String code, final Object info) {
-        this(code, null, new Object[] { info });
+        this(code, null, new Object[] {info});
     }
 
     /**
@@ -117,7 +117,7 @@ public class FileSystemException extends IOException {
      * @param cause the cause.
      */
     public FileSystemException(final String code, final Object info, final Throwable cause) {
-        this(code, cause, new Object[] { info });
+        this(code, cause, new Object[] {info});
     }
 
     /**
