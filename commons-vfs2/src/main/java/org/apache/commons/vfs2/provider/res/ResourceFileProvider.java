@@ -39,8 +39,6 @@ public class ResourceFileProvider extends AbstractFileProvider {
     protected static final Collection<Capability> capabilities = Collections
             .unmodifiableCollection(Arrays.asList(Capability.DISPATCHER));
 
-    private static final int BUFFER_SIZE = 80;
-
     public ResourceFileProvider() {
         setFileNameParser(ResourceFileNameParser.getInstance());
     }
