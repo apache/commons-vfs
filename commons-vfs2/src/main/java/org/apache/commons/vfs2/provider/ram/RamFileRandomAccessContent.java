@@ -23,6 +23,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.Objects;
 
 import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.util.RandomAccessMode;
@@ -76,6 +77,8 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
      * @param mode The access mode.
      */
     public RamFileRandomAccessContent(final RamFileObject file, final RandomAccessMode mode) {
+        Objects.requireNonNull(file, "file");
+        Objects.requireNonNull(mode, "mode");
         this.buf = file.getData().getContent();
         this.file = file;
 

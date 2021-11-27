@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.util.RandomAccessMode;
@@ -29,6 +30,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 public abstract class AbstractRandomAccessContent implements RandomAccessContent {
 
     protected AbstractRandomAccessContent(final RandomAccessMode mode) {
+        Objects.requireNonNull(mode, "mode");
     }
 
     /**
@@ -40,7 +42,7 @@ public abstract class AbstractRandomAccessContent implements RandomAccessContent
     @Override
     @Deprecated
     public String readLine() throws IOException {
-        throw new UnsupportedOperationException("deprecated");
+        throw new UnsupportedOperationException("Deprecated");
     }
 
     @Override

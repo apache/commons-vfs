@@ -31,50 +31,51 @@ public class PosixPermissions {
      * Permission types.
      */
     public enum Type {
+
         /**
          * User right readable.
          */
-        UserReadable(00400),
+        UserReadable(0x100),
 
         /**
          * User right writable.
          */
-        UserWritable(00200),
+        UserWritable(0x080),
 
         /**
          * User right executable.
          */
-        UserExecutable(00100),
+        UserExecutable(0x040),
 
         /**
          * Group right readable.
          */
-        GroupReadable(00040),
+        GroupReadable(0x020),
 
         /**
          * Group right writable.
          */
-        GroupWritable(00020),
+        GroupWritable(0x010),
 
         /**
          * Group right executable.
          */
-        GroupExecutable(00010),
+        GroupExecutable(0x008),
 
         /**
          * Other right readable.
          */
-        OtherReadable(00004),
+        OtherReadable(0x004),
 
         /**
          * Other right writable.
          */
-        OtherWritable(00002),
+        OtherWritable(0x002),
 
         /**
          * Other right executable.
          */
-        OtherExecutable(00001);
+        OtherExecutable(0x001);
 
         private final int mask;
 

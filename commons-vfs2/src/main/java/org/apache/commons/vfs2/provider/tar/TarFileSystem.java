@@ -23,14 +23,17 @@ import java.nio.file.Files;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.zip.GZIPInputStream;
 
+import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
+import org.apache.commons.vfs2.FileNotFoundException;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
@@ -133,11 +136,16 @@ public class TarFileSystem extends AbstractFileSystem {
     }
 
     public InputStream getInputStream(final TarArchiveEntry entry) throws FileSystemException {
+        Objects.requireNonNull(entry, "entry");
         resetTarFile();
         try {
-            while (!tarFile.getNextEntry().equals(entry)) {
+            ArchiveEntry next;
+            while ((next = tarFile.getNextEntry()) != null) {
+                if (next.equals(entry)) {
+                    return tarFile;
+                }
             }
-            return tarFile;
+            throw new FileNotFoundException(entry.toString());
         } catch (final IOException e) {
             throw new FileSystemException(e);
         }
@@ -147,7 +155,6 @@ public class TarFileSystem extends AbstractFileSystem {
         if (tarFile == null && this.file.exists()) {
             recreateTarFile();
         }
-
         return tarFile;
     }
 
