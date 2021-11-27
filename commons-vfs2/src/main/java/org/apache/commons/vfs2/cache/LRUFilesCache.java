@@ -49,7 +49,7 @@ public class LRUFilesCache extends AbstractFilesCache {
     private static final Log log = LogFactory.getLog(LRUFilesCache.class);
 
     /** The FileSystem cache */
-    private final ConcurrentMap<FileSystem, Map<FileName, FileObject>> filesystemCache = new ConcurrentHashMap<>();
+    private final ConcurrentMap<FileSystem, Map<FileName, FileObject>> fileSystemCache = new ConcurrentHashMap<>();
 
     /** The size of the cache */
     private final int lruSize;
@@ -100,9 +100,9 @@ public class LRUFilesCache extends AbstractFilesCache {
                         VfsLog.warn(getLogger(), log, Messages.getString("vfs.impl/LRUFilesCache-remove-ex.warn"), e);
                     }
 
-                    final Map<?, ?> files = filesystemCache.get(filesystem);
+                    final Map<?, ?> files = fileSystemCache.get(filesystem);
                     if (files.isEmpty()) {
-                        filesystemCache.remove(filesystem);
+                        fileSystemCache.remove(filesystem);
                     }
 
                     return true;
@@ -180,25 +180,20 @@ public class LRUFilesCache extends AbstractFilesCache {
         try {
             files.clear();
 
-            filesystemCache.remove(filesystem);
+            fileSystemCache.remove(filesystem);
         } finally {
             writeLock.unlock();
         }
     }
 
-    protected Map<FileName, FileObject> getOrCreateFilesystemCache(final FileSystem filesystem) {
-        Map<FileName, FileObject> files = filesystemCache.get(filesystem);
-        if (files == null) {
-            files = new MyLRUMap(filesystem, lruSize);
-            filesystemCache.putIfAbsent(filesystem, files);
-        }
-        return files;
+    protected Map<FileName, FileObject> getOrCreateFilesystemCache(final FileSystem fileSystem) {
+        return fileSystemCache.computeIfAbsent(fileSystem, k -> new MyLRUMap(k, lruSize));
     }
 
     @Override
     public void close() {
         super.close();
-        filesystemCache.clear();
+        fileSystemCache.clear();
     }
 
     @Override
@@ -210,7 +205,7 @@ public class LRUFilesCache extends AbstractFilesCache {
             files.remove(name);
 
             if (files.isEmpty()) {
-                filesystemCache.remove(filesystem);
+                fileSystemCache.remove(filesystem);
             }
         } finally {
             writeLock.unlock();
