@@ -35,7 +35,7 @@ public interface LocalFileProvider extends FileProvider {
      * @param name The name to test.
      * @return true if the name is absolute.
      */
-    boolean isAbsoluteLocalName(final String name);
+    boolean isAbsoluteLocalName(String name);
 
     /**
      * Finds a local file, from its local name.
@@ -44,7 +44,7 @@ public interface LocalFileProvider extends FileProvider {
      * @return The FileObject for the file.
      * @throws FileSystemException if an error occurs.
      */
-    FileObject findLocalFile(final String name) throws FileSystemException;
+    FileObject findLocalFile(String name) throws FileSystemException;
 
     /**
      * Converts from java.io.File to FileObject.
@@ -53,5 +53,5 @@ public interface LocalFileProvider extends FileProvider {
      * @return The FileObject for the file.
      * @throws FileSystemException if an error occurs.
      */
-    FileObject findLocalFile(final File file) throws FileSystemException;
+    FileObject findLocalFile(File file) throws FileSystemException;
 }

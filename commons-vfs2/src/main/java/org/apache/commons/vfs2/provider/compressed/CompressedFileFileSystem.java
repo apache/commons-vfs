@@ -40,11 +40,11 @@ public abstract class CompressedFileFileSystem extends AbstractFileSystem {
      * Returns the capabilities of this file system.
      */
     @Override
-    protected abstract void addCapabilities(final Collection<Capability> caps);
+    protected abstract void addCapabilities(Collection<Capability> caps);
 
     /**
      * Creates a file object.
      */
     @Override
-    protected abstract FileObject createFile(final AbstractFileName name) throws FileSystemException;
+    protected abstract FileObject createFile(AbstractFileName name) throws FileSystemException;
 }

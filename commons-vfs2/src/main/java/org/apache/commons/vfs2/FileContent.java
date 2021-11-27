@@ -263,7 +263,7 @@ public interface FileContent extends Closeable {
      * @throws FileSystemException If the file is read-only, or is being read, or is being written, or on error opening
      *         the stream.
      */
-    RandomAccessContent getRandomAccessContent(final RandomAccessMode mode) throws FileSystemException;
+    RandomAccessContent getRandomAccessContent(RandomAccessMode mode) throws FileSystemException;
 
     /**
      * Gets the size of the file, in bytes.

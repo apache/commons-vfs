@@ -40,5 +40,5 @@ public abstract class AbstractFileChangeEvent extends FileChangeEvent {
      * @param fileListener The file listener to notify.
      * @throws Exception Anything can happen.
      */
-    public abstract void notify(final FileListener fileListener) throws Exception;
+    public abstract void notify(FileListener fileListener) throws Exception;
 }

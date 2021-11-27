@@ -26,12 +26,12 @@ public interface FileMonitor {
      *
      * @param file The FileObject to monitor.
      */
-    void addFile(final FileObject file);
+    void addFile(FileObject file);
 
     /**
      * Removes a file from being monitored.
      *
      * @param file The FileObject to stop monitoring.
      */
-    void removeFile(final FileObject file);
+    void removeFile(FileObject file);
 }

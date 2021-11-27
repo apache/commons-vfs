@@ -42,8 +42,7 @@ public interface FileProvider {
      * @return The FileObject.
      * @throws FileSystemException if an error occurs locating the file.
      */
-    FileObject findFile(final FileObject baseFile, final String uri, final FileSystemOptions fileSystemOptions)
-            throws FileSystemException;
+    FileObject findFile(FileObject baseFile, String uri, FileSystemOptions fileSystemOptions) throws FileSystemException;
 
     /**
      * Creates a layered file system.
@@ -54,8 +53,7 @@ public interface FileProvider {
      * @return A FileObject in the file system.
      * @throws FileSystemException if an error occurs.
      */
-    FileObject createFileSystem(String scheme, FileObject file, FileSystemOptions fileSystemOptions)
-            throws FileSystemException;
+    FileObject createFileSystem(String scheme, FileObject file, FileSystemOptions fileSystemOptions) throws FileSystemException;
 
     /**
      * Gets the configbuilder useable to collect the needed fileSystemOptions.

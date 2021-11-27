@@ -32,17 +32,17 @@ public interface VcsRevert extends FileOperation {
      *
      * @param recursive true if children should be processed.
      */
-    void setRecursive(final boolean recursive);
+    void setRecursive(boolean recursive);
 
     /**
      *
      * @param listener The Listener to add.
      */
-    void addModifyListener(final VcsModifyListener listener);
+    void addModifyListener(VcsModifyListener listener);
 
     /**
      *
      * @param listener The Listener to remove.
      */
-    void removeModifyListener(final VcsModifyListener listener);
+    void removeModifyListener(VcsModifyListener listener);
 }

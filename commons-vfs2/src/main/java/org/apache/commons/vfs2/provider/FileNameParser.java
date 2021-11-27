@@ -41,6 +41,5 @@ public interface FileNameParser {
      * @return A FileName that represents the taret file.
      * @throws FileSystemException if an error occurs parsing the URI.
      */
-    FileName parseUri(final VfsComponentContext context, final FileName base, final String uri)
-            throws FileSystemException;
+    FileName parseUri(VfsComponentContext context, FileName base, String uri) throws FileSystemException;
 }

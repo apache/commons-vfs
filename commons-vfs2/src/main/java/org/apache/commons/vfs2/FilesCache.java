@@ -26,7 +26,7 @@ public interface FilesCache {
      *
      * @param fileSystem The FileSystem.
      */
-    void clear(final FileSystem fileSystem);
+    void clear(FileSystem fileSystem);
 
     /**
      * Purges the whole cache.
@@ -40,14 +40,14 @@ public interface FilesCache {
      * @param fileName the name
      * @return the file object or null if file is not cached
      */
-    FileObject getFile(final FileSystem fileSystem, final FileName fileName);
+    FileObject getFile(FileSystem fileSystem, FileName fileName);
 
     /**
      * Adds a FileObject to the cache.
      *
      * @param file the file
      */
-    void putFile(final FileObject file);
+    void putFile(FileObject file);
 
     /**
      * Adds a FileObject to the cache if it isn't already present.
@@ -55,7 +55,7 @@ public interface FilesCache {
      * @param file the file
      * @return true if the file was stored, false otherwise.
      */
-    boolean putFileIfAbsent(final FileObject file);
+    boolean putFileIfAbsent(FileObject file);
 
     /**
      * Removes a file from cache.
@@ -63,7 +63,7 @@ public interface FilesCache {
      * @param fileSystem file system
      * @param name file name
      */
-    void removeFile(final FileSystem fileSystem, final FileName name);
+    void removeFile(FileSystem fileSystem, FileName name);
 
     /*
       If the cache uses timestamps it could use this method to handle updates of them.

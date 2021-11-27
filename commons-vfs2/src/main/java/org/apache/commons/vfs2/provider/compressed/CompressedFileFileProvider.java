@@ -50,8 +50,7 @@ public abstract class CompressedFileFileProvider extends AbstractLayeredFileProv
         return createFileSystem(name, file, fileSystemOptions);
     }
 
-    protected abstract FileSystem createFileSystem(final FileName name, final FileObject file,
-            final FileSystemOptions fileSystemOptions) throws FileSystemException;
+    protected abstract FileSystem createFileSystem(FileName name, FileObject file, FileSystemOptions fileSystemOptions) throws FileSystemException;
 
     @Override
     public abstract Collection<Capability> getCapabilities();

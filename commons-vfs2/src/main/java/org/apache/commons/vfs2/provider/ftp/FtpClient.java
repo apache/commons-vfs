@@ -56,7 +56,7 @@ public interface FtpClient {
      * @throws IOException on error
      * @since 2.8.0
      */
-    boolean hasFeature(final String feature) throws IOException;
+    boolean hasFeature(String feature) throws IOException;
 
     boolean isConnected() throws FileSystemException;
 

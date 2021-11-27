@@ -44,8 +44,7 @@ public interface FileOperationProvider {
      *
      * @throws FileSystemException if list of operations cannot be retrieved.
      */
-    void collectOperations(final Collection<Class<? extends FileOperation>> operationsList, final FileObject file)
-            throws FileSystemException;
+    void collectOperations(Collection<Class<? extends FileOperation>> operationsList, FileObject file) throws FileSystemException;
 
     /**
      * Get implementation for a given FileObject and FileOperation interface.
@@ -56,6 +55,5 @@ public interface FileOperationProvider {
      *
      * @throws FileSystemException if operation cannot be retrieved.
      */
-    FileOperation getOperation(final FileObject file, final Class<? extends FileOperation> operationClass)
-            throws FileSystemException;
+    FileOperation getOperation(FileObject file, Class<? extends FileOperation> operationClass) throws FileSystemException;
 }

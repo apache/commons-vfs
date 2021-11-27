@@ -29,5 +29,5 @@ public interface VcsLogEntryHandler {
      * @param entry The log entry.
      * @throws FileSystemException if an error occurs.
      */
-    void handleLogEntry(final VcsLogEntry entry) throws FileSystemException;
+    void handleLogEntry(VcsLogEntry entry) throws FileSystemException;
 }

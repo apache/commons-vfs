@@ -103,6 +103,5 @@ public abstract class AbstractOriginatingFileProvider extends AbstractFileProvid
      * @return The FileSystem.
      * @throws FileSystemException if an error occurs.
      */
-    protected abstract FileSystem doCreateFileSystem(final FileName rootFileName, final FileSystemOptions fileSystemOptions)
-            throws FileSystemException;
+    protected abstract FileSystem doCreateFileSystem(FileName rootFileName, FileSystemOptions fileSystemOptions) throws FileSystemException;
 }

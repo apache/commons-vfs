@@ -28,5 +28,5 @@ public interface VcsDelete extends FileOperation {
      *
      * @param force true if the delete should be unconditional.
      */
-    void setForce(final boolean force);
+    void setForce(boolean force);
 }

@@ -28,5 +28,5 @@ public interface FileFilter {
      * @return true if the file should be selected.
      * @throws FileSystemException Thrown for file system errors (since 2.4.)
      */
-    boolean accept(final FileSelectInfo fileSelectInfo) throws FileSystemException;
+    boolean accept(FileSelectInfo fileSelectInfo) throws FileSystemException;
 }

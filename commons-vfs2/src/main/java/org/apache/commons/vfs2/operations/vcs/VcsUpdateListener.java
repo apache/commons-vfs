@@ -28,5 +28,5 @@ public interface VcsUpdateListener {
      * @param revision The revision number.
      * @param contentStatus The status.
      */
-    void updated(final String path, final long revision, final VcsStatus contentStatus);
+    void updated(String path, long revision, VcsStatus contentStatus);
 }

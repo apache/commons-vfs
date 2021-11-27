@@ -94,7 +94,6 @@ public abstract class AbstractLayeredFileProvider extends AbstractFileProvider {
      * @return The file system, never null. Might implement {@link VfsComponent}.
      * @throws FileSystemException if the file system cannot be created.
      */
-    protected abstract FileSystem doCreateFileSystem(final String scheme, final FileObject file,
-            final FileSystemOptions fileSystemOptions) throws FileSystemException;
+    protected abstract FileSystem doCreateFileSystem(String scheme, FileObject file, FileSystemOptions fileSystemOptions) throws FileSystemException;
 
 }

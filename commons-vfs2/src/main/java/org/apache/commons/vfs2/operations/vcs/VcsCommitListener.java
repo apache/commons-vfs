@@ -27,5 +27,5 @@ public interface VcsCommitListener {
      * @param path The path.
      * @param contentStatus The status;
      */
-    void commited(final String path, final VcsStatus contentStatus);
+    void commited(String path, VcsStatus contentStatus);
 }

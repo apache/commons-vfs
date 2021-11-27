@@ -158,7 +158,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      * @return new created FileObject.
      * @throws Exception might throw an Exception, which is then wrapped in FileSystemException.
      */
-    protected abstract FileObject createFile(final AbstractFileName name) throws Exception;
+    protected abstract FileObject createFile(AbstractFileName name) throws Exception;
 
     /**
      * Adds the capabilities of this file system.
