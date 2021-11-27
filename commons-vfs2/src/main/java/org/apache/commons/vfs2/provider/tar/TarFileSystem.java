@@ -50,7 +50,7 @@ import org.apache.commons.vfs2.provider.bzip2.Bzip2FileObject;
 public class TarFileSystem extends AbstractFileSystem {
     private static final Log LOG = LogFactory.getLog(TarFileSystem.class);
 
-    private final char[] ENC = {'!'};
+    private static final char[] ENC = {'!'};
 
     private final File file;
 
