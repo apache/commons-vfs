@@ -28,11 +28,22 @@ public class FileNotFolderException extends FileSystemException {
      */
     private static final long serialVersionUID = 20101208L;
 
-    public FileNotFolderException(final Object info0) {
-        super("vfs.provider/list-children-not-folder.error", info0);
+    /**
+     * Constructs exception with the specified detail message.
+     *
+     * @param info one context information.
+     */
+    public FileNotFolderException(final Object info) {
+        super("vfs.provider/list-children-not-folder.error", info);
     }
 
-    public FileNotFolderException(final Object info0, final Throwable throwable) {
-        super("vfs.provider/list-children-not-folder.error", info0, throwable);
+    /**
+     * Constructs exception with the specified detail message.
+     *
+     * @param info one context information.
+     * @param cause the cause.
+     */
+    public FileNotFolderException(final Object info, final Throwable cause) {
+        super("vfs.provider/list-children-not-folder.error", info, cause);
     }
 }

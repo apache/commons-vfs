@@ -114,10 +114,10 @@ public class FileSystemException extends IOException {
      *
      * @param code the error code of the message.
      * @param info one context information.
-     * @param throwable the cause.
+     * @param cause the cause.
      */
-    public FileSystemException(final String code, final Object info, final Throwable throwable) {
-        this(code, throwable, new Object[] { info });
+    public FileSystemException(final String code, final Object info, final Throwable cause) {
+        this(code, cause, new Object[] { info });
     }
 
     /**

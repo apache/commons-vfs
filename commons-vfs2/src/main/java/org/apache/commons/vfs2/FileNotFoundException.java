@@ -28,11 +28,22 @@ public class FileNotFoundException extends FileSystemException {
      */
     private static final long serialVersionUID = 20101208L;
 
-    public FileNotFoundException(final Object info0) {
-        super("vfs.provider/read-not-file.error", info0);
+    /**
+     * Constructs exception with the specified detail message.
+     *
+     * @param info one context information.
+     */
+    public FileNotFoundException(final Object info) {
+        super("vfs.provider/read-not-file.error", info);
     }
 
-    public FileNotFoundException(final Object info0, final Throwable throwable) {
-        super("vfs.provider/read-not-file.error", info0, throwable);
+    /**
+     * Constructs exception with the specified detail message and cause.
+     *
+     * @param info one context information.
+     * @param cause the cause.
+     */
+    public FileNotFoundException(final Object info, final Throwable cause) {
+        super("vfs.provider/read-not-file.error", info, cause);
     }
 }
