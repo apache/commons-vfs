@@ -122,22 +122,22 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
     private HttpClientConnectionManager createConnectionManager(final Http4FileSystemConfigBuilder builder,
         final FileSystemOptions fileSystemOptions, final SSLContext sslContext, final HostnameVerifier verifier) {
         final SSLConnectionSocketFactory sslFactory = new SSLConnectionSocketFactory(sslContext, verifier);
-        final Registry<ConnectionSocketFactory> socketFactoryRegistry =
-                RegistryBuilder.<ConnectionSocketFactory> create()
-                        .register("https", sslFactory)
-                        .register("http", new PlainConnectionSocketFactory())
-                        .build();
+        // @formatter:off
+        final Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
+            .register("https", sslFactory)
+            .register("http", new PlainConnectionSocketFactory())
+            .build();
+        // @formatter:on
 
         final PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
         connManager.setMaxTotal(builder.getMaxTotalConnections(fileSystemOptions));
         connManager.setDefaultMaxPerRoute(builder.getMaxConnectionsPerHost(fileSystemOptions));
 
         // @formatter:off
-        final SocketConfig socketConfig =
-                SocketConfig
-                .custom()
-                .setSoTimeout(DurationUtils.toMillisInt(builder.getSoTimeoutDuration(fileSystemOptions)))
-                .build();
+        final SocketConfig socketConfig = SocketConfig
+            .custom()
+            .setSoTimeout(DurationUtils.toMillisInt(builder.getSoTimeoutDuration(fileSystemOptions)))
+            .build();
         // @formatter:on
 
         connManager.setDefaultSocketConfig(socketConfig);
