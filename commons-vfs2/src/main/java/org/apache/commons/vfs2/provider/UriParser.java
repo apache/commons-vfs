@@ -102,7 +102,7 @@ public final class UriParser {
                 count -= 2;
             } else if (fileNameParser.encodeCharacter(ch)) {
                 // Encode
-                final char[] digits = { Character.forDigit((ch >> BITS_IN_HALF_BYTE) & LOW_MASK, HEX_BASE),
+                final char[] digits = { Character.forDigit(ch >> BITS_IN_HALF_BYTE & LOW_MASK, HEX_BASE),
                         Character.forDigit(ch & LOW_MASK, HEX_BASE) };
                 buffer.setCharAt(index, '%');
                 buffer.insert(index + 1, digits);
@@ -244,7 +244,7 @@ public final class UriParser {
             }
             if (match) {
                 // Encode
-                final char[] digits = { Character.forDigit((ch >> BITS_IN_HALF_BYTE) & LOW_MASK, HEX_BASE),
+                final char[] digits = { Character.forDigit(ch >> BITS_IN_HALF_BYTE & LOW_MASK, HEX_BASE),
                         Character.forDigit(ch & LOW_MASK, HEX_BASE) };
                 buffer.setCharAt(index, '%');
                 buffer.insert(index + 1, digits);
@@ -260,7 +260,7 @@ public final class UriParser {
             final char ch = buffer.charAt(index);
             if (Arrays.binarySearch(allowed, ch) < 0) {
                 // Encode
-                final char[] digits = {Character.forDigit((ch >> BITS_IN_HALF_BYTE) & LOW_MASK, HEX_BASE), Character.forDigit(ch & LOW_MASK, HEX_BASE)};
+                final char[] digits = {Character.forDigit(ch >> BITS_IN_HALF_BYTE & LOW_MASK, HEX_BASE), Character.forDigit(ch & LOW_MASK, HEX_BASE)};
                 buffer.setCharAt(index, '%');
                 buffer.insert(index + 1, digits);
                 index += 2;
@@ -411,11 +411,11 @@ public final class UriParser {
                 return scheme.intern();
             }
 
-            if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
+            if (ch >= 'a' && ch <= 'z' || ch >= 'A' && ch <= 'Z') {
                 // A scheme character
                 continue;
             }
-            if (pos > 0 && ((ch >= '0' && ch <= '9') || ch == '+' || ch == '-' || ch == '.')) {
+            if (pos > 0 && (ch >= '0' && ch <= '9' || ch == '+' || ch == '-' || ch == '.')) {
                 // A scheme character (these are not allowed as the first
                 // character of the scheme, but can be used as subsequent
                 // characters.

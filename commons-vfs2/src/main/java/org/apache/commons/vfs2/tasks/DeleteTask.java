@@ -67,7 +67,7 @@ public class DeleteTask extends VfsTask {
      */
     @Override
     public void execute() throws BuildException {
-        if ((srcDirUrl == null ? file == null : filesList == null)) {
+        if (srcDirUrl == null ? file == null : filesList == null) {
             final String message = Messages.getString("vfs.tasks/delete.no-source-files.error");
             throw new BuildException(message);
         }

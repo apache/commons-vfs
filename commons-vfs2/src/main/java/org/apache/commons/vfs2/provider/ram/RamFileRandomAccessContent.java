@@ -383,9 +383,9 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
      * @return A long.
      */
     public static long toLong(final byte[] b) {
-        return ((((long) b[7]) & BYTE_VALUE_MASK) + ((((long) b[6]) & BYTE_VALUE_MASK) << 8) + ((((long) b[5]) & BYTE_VALUE_MASK) << 16)
+        return (((long) b[7]) & BYTE_VALUE_MASK) + ((((long) b[6]) & BYTE_VALUE_MASK) << 8) + ((((long) b[5]) & BYTE_VALUE_MASK) << 16)
                 + ((((long) b[4]) & BYTE_VALUE_MASK) << 24) + ((((long) b[3]) & BYTE_VALUE_MASK) << 32) + ((((long) b[2]) & BYTE_VALUE_MASK) << 40)
-                + ((((long) b[1]) & BYTE_VALUE_MASK) << 48) + ((((long) b[0]) & BYTE_VALUE_MASK) << 56));
+                + ((((long) b[1]) & BYTE_VALUE_MASK) << 48) + ((((long) b[0]) & BYTE_VALUE_MASK) << 56);
     }
 
     /**
@@ -431,7 +431,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
      * @return A short.
      */
     public static int toUnsignedShort(final byte[] b) {
-        return ((b[1] & BYTE_VALUE_MASK) + ((b[0] & BYTE_VALUE_MASK) << 8));
+        return (b[1] & BYTE_VALUE_MASK) + ((b[0] & BYTE_VALUE_MASK) << 8);
     }
 
     /*
