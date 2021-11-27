@@ -31,6 +31,11 @@ import org.apache.commons.vfs2.impl.DecoratedFileObject;
  */
 public class OnCallRefreshFileObject extends DecoratedFileObject {
 
+    /**
+     * Constructs a new instance to decorate the given file object.
+     *
+     * @param fileObject The decorated.
+     */
     public OnCallRefreshFileObject(final FileObject fileObject) {
         super(fileObject);
     }
