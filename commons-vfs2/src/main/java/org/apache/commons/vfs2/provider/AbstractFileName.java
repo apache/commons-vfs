@@ -279,7 +279,8 @@ public abstract class AbstractFileName implements FileName {
 
                 return UriParser.encode(uri, RESERVED_URI_CHARS);
             } catch (final FileSystemException e) {
-                // Default to base URI value
+                // Default to base URI value?
+                return uri;
             }
         }
 

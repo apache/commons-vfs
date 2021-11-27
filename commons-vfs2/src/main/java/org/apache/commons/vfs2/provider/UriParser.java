@@ -415,15 +415,13 @@ public final class UriParser {
                 // A scheme character
                 continue;
             }
-            if (pos > 0 && (ch >= '0' && ch <= '9' || ch == '+' || ch == '-' || ch == '.')) {
-                // A scheme character (these are not allowed as the first
-                // character of the scheme, but can be used as subsequent
-                // characters.
-                continue;
+            if (!(pos > 0 && (ch >= '0' && ch <= '9' || ch == '+' || ch == '-' || ch == '.'))) {
+                // Not a scheme character
+                break;
             }
-
-            // Not a scheme character
-            break;
+            // A scheme character (these are not allowed as the first
+            // character of the scheme, but can be used as subsequent
+            // characters.
         }
 
         // No scheme in URI
