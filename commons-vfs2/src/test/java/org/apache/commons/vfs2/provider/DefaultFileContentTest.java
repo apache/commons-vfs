@@ -48,7 +48,7 @@ public class DefaultFileContentTest {
     @Test
     public void testGetZeroContents() throws IOException {
         final FileSystemManager fsManager = VFS.getManager();
-        try (final FileObject fo = fsManager.resolveFile(new File("."), "src/test/resources/test-data/size-0-file.bin");
+        try (FileObject fo = fsManager.resolveFile(new File("."), "src/test/resources/test-data/size-0-file.bin");
                 final FileContent content = fo.getContent()) {
             Assert.assertEquals(0, content.getSize());
             Assert.assertTrue(content.isEmpty());

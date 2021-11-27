@@ -98,7 +98,7 @@ public class FileObjectEscapeCharacterInPathTest {
             try (FileSystemManager fileSystemManager = loadFileSystemManager();
                 FileObject fileObject = fileSystemManager.resolveFile(testFilePath)) {
                 assertNotNull(fileObject);
-                try (final FileContent content = fileObject.getContent();
+                try (FileContent content = fileObject.getContent();
                     InputStream inputStream = content.getInputStream()) {
                     assertEquals(TEST_FILE_CONTENT, IOUtils.toString(inputStream, StandardCharsets.UTF_8));
                 }

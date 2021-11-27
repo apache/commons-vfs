@@ -38,7 +38,7 @@ public class Http4FilesCacheTestCase extends TestCase {
         final FileSystemManager fileSystemManager = VFS.getManager();
 
         final String noQueryStringUrl = "http4://commons.apache.org/";
-        try (final FileObject noQueryFile = fileSystemManager.resolveFile(noQueryStringUrl)) {
+        try (FileObject noQueryFile = fileSystemManager.resolveFile(noQueryStringUrl)) {
             Assert.assertEquals(noQueryStringUrl, noQueryFile.getURL().toExternalForm());
         }
     }
@@ -49,7 +49,7 @@ public class Http4FilesCacheTestCase extends TestCase {
         final FileSystemManager fileSystemManager = VFS.getManager();
 
         final String noQueryStringUrl = "http4://commons.apache.org/vfs";
-        try (final FileObject noQueryFile = fileSystemManager.resolveFile(noQueryStringUrl)) {
+        try (FileObject noQueryFile = fileSystemManager.resolveFile(noQueryStringUrl)) {
             Assert.assertEquals(noQueryStringUrl, noQueryFile.getURL().toExternalForm());
         }
     }
@@ -60,7 +60,7 @@ public class Http4FilesCacheTestCase extends TestCase {
         final FileSystemManager fileSystemManager = VFS.getManager();
 
         final String queryStringUrl = "http4://commons.apache.org/vfs?query=string";
-        try (final FileObject queryFile = fileSystemManager.resolveFile(queryStringUrl)) {
+        try (FileObject queryFile = fileSystemManager.resolveFile(queryStringUrl)) {
             Assert.assertEquals(queryStringUrl, queryFile.getURL().toExternalForm()); // failed for VFS-426
         }
     }
@@ -71,7 +71,7 @@ public class Http4FilesCacheTestCase extends TestCase {
         final FileSystemManager fileSystemManager = VFS.getManager();
 
         final String queryStringUrl2 = "http4://commons.apache.org/vfs?query=string&more=stuff";
-        try (final FileObject queryFile2 = fileSystemManager.resolveFile(queryStringUrl2)) {
+        try (FileObject queryFile2 = fileSystemManager.resolveFile(queryStringUrl2)) {
             Assert.assertEquals(queryStringUrl2, queryFile2.getURL().toExternalForm()); // failed for VFS-426
         }
     }
@@ -84,7 +84,7 @@ public class Http4FilesCacheTestCase extends TestCase {
         // TODO All lowercase input except the percent encoded '\' (%5C);
         // We end up converting back to lowercase, but OK per RFC.
         final String queryStringUrl3 = "http4://alice%5C1234:secret@localhost:8080/";
-        try (final FileObject queryFile3 = fileSystemManager.resolveFile(queryStringUrl3)) {
+        try (FileObject queryFile3 = fileSystemManager.resolveFile(queryStringUrl3)) {
             Assert.assertEquals(queryStringUrl3.toLowerCase(Locale.ROOT), queryFile3.getURL().toExternalForm());
         }
     }
@@ -96,7 +96,7 @@ public class Http4FilesCacheTestCase extends TestCase {
 
         // Like testQueryStringUrl4() but with all LC input.
         final String queryStringUrl4 = "http4://alice%5c1234:secret@localhost:8080/";
-        try (final FileObject queryFile4 = fileSystemManager.resolveFile(queryStringUrl4)) {
+        try (FileObject queryFile4 = fileSystemManager.resolveFile(queryStringUrl4)) {
             Assert.assertEquals(queryStringUrl4, queryFile4.getURL().toExternalForm());
         }
     }
@@ -108,7 +108,7 @@ public class Http4FilesCacheTestCase extends TestCase {
 
         // Like testQueryStringUrl4() but with all LC input and NO percent encoding.
         final String queryStringUrl4 = "http4://alice:secret@localhost:8080/";
-        try (final FileObject queryFile4 = fileSystemManager.resolveFile(queryStringUrl4)) {
+        try (FileObject queryFile4 = fileSystemManager.resolveFile(queryStringUrl4)) {
             Assert.assertEquals(queryStringUrl4, queryFile4.getURL().toExternalForm());
         }
     }
@@ -120,7 +120,7 @@ public class Http4FilesCacheTestCase extends TestCase {
 
         // Like testQueryStringUrl4() but with all LC input and NO percent encoding.
         final String queryStringUrl4 = "http4://localhost:8080/";
-        try (final FileObject queryFile4 = fileSystemManager.resolveFile(queryStringUrl4)) {
+        try (FileObject queryFile4 = fileSystemManager.resolveFile(queryStringUrl4)) {
             Assert.assertEquals(queryStringUrl4, queryFile4.getURL().toExternalForm());
         }
     }

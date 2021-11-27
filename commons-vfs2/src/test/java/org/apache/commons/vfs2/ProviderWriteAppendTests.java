@@ -53,7 +53,7 @@ public class ProviderWriteAppendTests extends AbstractProviderTestCase {
      */
     @Test
     public void testAppendContent() throws Exception {
-        try (final FileObject scratchFolder = createScratchFolder();
+        try (FileObject scratchFolder = createScratchFolder();
 
             // Create direct child of the test folder
             final FileObject file = scratchFolder.resolveFile("file1.txt")) {
@@ -75,7 +75,7 @@ public class ProviderWriteAppendTests extends AbstractProviderTestCase {
             assertSameContent(contentAppend, file);
 
             // Make sure we can copy the new file to another file on the same filesystem
-            try (final FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt")) {
+            try (FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt")) {
                 assertFalse(fileCopy.exists());
                 fileCopy.copyFrom(file, Selectors.SELECT_SELF);
 
@@ -95,7 +95,7 @@ public class ProviderWriteAppendTests extends AbstractProviderTestCase {
      */
     @Test
     public void testAppendToNonExsiting() throws Exception {
-        try (final FileObject scratchFolder = createScratchFolder();
+        try (FileObject scratchFolder = createScratchFolder();
 
             // Create direct child of the test folder
             final FileObject file = scratchFolder.resolveFile("file2.txt")) {

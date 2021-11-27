@@ -67,8 +67,8 @@ public class ZipFileObjectTestCase {
 
     private void resolveReadAssert(final FileObject zipFileObject, final String path)
             throws IOException, FileSystemException {
-        try (final FileObject zipFileObject2 = zipFileObject.resolveFile(path)) {
-            try (final InputStream inputStream = zipFileObject2.getContent().getInputStream()) {
+        try (FileObject zipFileObject2 = zipFileObject.resolveFile(path)) {
+            try (InputStream inputStream = zipFileObject2.getContent().getInputStream()) {
                 readAndAssert(zipFileObject2, inputStream, "2");
             }
         }
@@ -85,7 +85,7 @@ public class ZipFileObjectTestCase {
     public void testLeaveNestedFileOpen() throws IOException {
         final File newZipFile = createTempFile();
         final FileSystemManager manager = VFS.getManager();
-        try (final FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
+        try (FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
             @SuppressWarnings({ "resource" })
             final FileObject zipFileObject1 = zipFileObject.resolveFile(NESTED_FILE_1);
             getInputStreamAndAssert(zipFileObject1, "1");
@@ -102,9 +102,9 @@ public class ZipFileObjectTestCase {
     public void testReadingFilesInZipFile() throws IOException {
         final File newZipFile = createTempFile();
         final FileSystemManager manager = VFS.getManager();
-        try (final FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
-            try (final FileObject zipFileObject1 = zipFileObject.resolveFile(NESTED_FILE_1)) {
-                try (final InputStream inputStream = zipFileObject1.getContent().getInputStream()) {
+        try (FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
+            try (FileObject zipFileObject1 = zipFileObject.resolveFile(NESTED_FILE_1)) {
+                try (InputStream inputStream = zipFileObject1.getContent().getInputStream()) {
                     readAndAssert(zipFileObject1, inputStream, "1");
                 }
             }
@@ -125,7 +125,7 @@ public class ZipFileObjectTestCase {
         final FileSystemManager manager = VFS.getManager();
         final FileObject zipFileObject1;
         final InputStream inputStream1;
-        try (final FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
+        try (FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
             // leave resources open
             zipFileObject1 = zipFileObject.resolveFile(NESTED_FILE_1);
             inputStream1 = zipFileObject1.getContent().getInputStream();
@@ -149,7 +149,7 @@ public class ZipFileObjectTestCase {
         final FileSystemManager manager = VFS.getManager();
         final FileObject zipFileObject1;
         final InputStream inputStream1;
-        try (final FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
+        try (FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
             // leave resources open (note that internal counters are updated)
             zipFileObject1 = zipFileObject.resolveFile(NESTED_FILE_1);
             inputStream1 = zipFileObject1.getContent().getInputStream();
@@ -176,7 +176,7 @@ public class ZipFileObjectTestCase {
         final String baseUrl = "zip:file:"+testFile.getAbsolutePath();
 
         // test
-        try (final FileObject fileObject = manager.resolveFile(baseUrl)) {
+        try (FileObject fileObject = manager.resolveFile(baseUrl)) {
             // test getChildren() number equal
             Assert.assertEquals(fileObject.getChildren().length, fileNames.length);
 
@@ -197,7 +197,7 @@ public class ZipFileObjectTestCase {
     public void testResolveNestedFileWithoutCleanup() throws IOException {
         final File newZipFile = createTempFile();
         final FileSystemManager manager = VFS.getManager();
-        try (final FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
+        try (FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
             @SuppressWarnings({ "unused", "resource" })
             // We resolve a nested file and do nothing else.
             final FileObject zipFileObject1 = zipFileObject.resolveFile(NESTED_FILE_1);

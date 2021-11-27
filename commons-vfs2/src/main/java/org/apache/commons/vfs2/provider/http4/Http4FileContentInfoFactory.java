@@ -42,7 +42,7 @@ public class Http4FileContentInfoFactory implements FileContentInfoFactory {
         String contentMimeType = null;
         String contentCharset = null;
 
-        try (final Http4FileObject<Http4FileSystem> http4File = (Http4FileObject<Http4FileSystem>) FileObjectUtils
+        try (Http4FileObject<Http4FileSystem> http4File = (Http4FileObject<Http4FileSystem>) FileObjectUtils
                 .getAbstractFileObject(fileContent.getFile())) {
             final HttpResponse lastHeadResponse = http4File.getLastHeadResponse();
 

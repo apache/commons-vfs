@@ -71,7 +71,7 @@ public class ShowFileTask extends VfsTask {
     @Override
     public void execute() throws BuildException {
         try {
-            try (final FileObject file = resolveFile(url)) {
+            try (FileObject file = resolveFile(url)) {
                 log("Details of " + file.getPublicURIString());
                 showFile(file, INDENT);
             }
@@ -99,7 +99,7 @@ public class ShowFileTask extends VfsTask {
         if (file.exists()) {
             final String newPrefix = prefix + INDENT;
             if (file.getType().hasContent()) {
-                try (final FileContent content = file.getContent()) {
+                try (FileContent content = file.getContent()) {
                     log(newPrefix + "Content-Length: " + content.getSize());
                     log(newPrefix + "Last-Modified" + new Date(content.getLastModifiedTime()));
                 }
@@ -125,9 +125,9 @@ public class ShowFileTask extends VfsTask {
      * Writes the content of the file to Ant log.
      */
     private void logContent(final FileObject file, final String prefix) throws Exception {
-        try (final FileContent content = file.getContent();
-            final InputStream instr = content.getInputStream();
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(instr, Charset.defaultCharset()))) {
+        try (FileContent content = file.getContent();
+            InputStream instr = content.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(instr, Charset.defaultCharset()))) {
             while (true) {
                 final String line = reader.readLine();
                 if (line == null) {

@@ -234,7 +234,7 @@ public abstract class BaseFilterTest {
             throw new IllegalArgumentException("destFile cannot be null");
         }
 
-        try (final ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(Files.newOutputStream(destFile.toPath())))) {
+        try (ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(Files.newOutputStream(destFile.toPath())))) {
             zipDir(srcDir, filter, destPath, out);
         }
 
@@ -297,7 +297,7 @@ public abstract class BaseFilterTest {
             throws IOException {
 
         final byte[] buf = new byte[1024];
-        try (final InputStream in = new BufferedInputStream(Files.newInputStream(srcFile.toPath()))) {
+        try (InputStream in = new BufferedInputStream(Files.newInputStream(srcFile.toPath()))) {
             final ZipEntry zipEntry = new ZipEntry(concatPathAndFilename(destPath, srcFile.getName(), File.separator));
             zipEntry.setTime(srcFile.lastModified());
             out.putNextEntry(zipEntry);

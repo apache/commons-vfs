@@ -72,7 +72,7 @@ public class TarFileSystemTestCase {
         final String fileUri = scheme + ":file:" + new File(filePath).getAbsolutePath();
         FileObject fileObject = null;
 
-        try (final StandardFileSystemManager manager = new StandardFileSystemManager()) {
+        try (StandardFileSystemManager manager = new StandardFileSystemManager()) {
             if (filesCache != null) {
                 manager.setFilesCache(filesCache);
             }

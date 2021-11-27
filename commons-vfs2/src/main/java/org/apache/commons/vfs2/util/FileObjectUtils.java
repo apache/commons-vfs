@@ -78,7 +78,7 @@ public final class FileObjectUtils {
      * @since 2.6.0
      */
     public static byte[] getContentAsByteArray(final FileObject file) throws IOException {
-        try (final FileContent content = file.getContent()) {
+        try (FileContent content = file.getContent()) {
             return content.getByteArray();
         }
     }
@@ -93,7 +93,7 @@ public final class FileObjectUtils {
      * @since 2.4
      */
     public static String getContentAsString(final FileObject file, final Charset charset) throws IOException {
-        try (final FileContent content = file.getContent()) {
+        try (FileContent content = file.getContent()) {
             return content.getString(charset);
         }
     }
@@ -108,7 +108,7 @@ public final class FileObjectUtils {
      * @since 2.4
      */
     public static String getContentAsString(final FileObject file, final String charset) throws IOException {
-        try (final FileContent content = file.getContent()) {
+        try (FileContent content = file.getContent()) {
             return content.getString(charset);
         }
     }
@@ -180,7 +180,7 @@ public final class FileObjectUtils {
      * @since 2.6.0
      */
     public static void writeContent(final FileObject srcFile, final FileObject destFile) throws IOException {
-        try (final FileContent content = srcFile.getContent()) {
+        try (FileContent content = srcFile.getContent()) {
             content.write(destFile);
         }
     }
@@ -195,7 +195,7 @@ public final class FileObjectUtils {
      * @since 2.6.0
      */
     public static void writeContent(final FileObject file, final OutputStream output) throws IOException {
-        try (final FileContent content = file.getContent()) {
+        try (FileContent content = file.getContent()) {
             content.write(output);
         }
     }

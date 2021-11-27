@@ -90,7 +90,7 @@ public class CanWriteFileFilter implements FileFilter, Serializable {
      */
     @Override
     public boolean accept(final FileSelectInfo fileSelectInfo) throws FileSystemException {
-        try (final FileObject file = fileSelectInfo.getFile()) {
+        try (FileObject file = fileSelectInfo.getFile()) {
             final FileSystem fileSystem = file.getFileSystem();
             if (file.exists()) {
                 if (!fileSystem.hasCapability(Capability.WRITE_CONTENT)) {

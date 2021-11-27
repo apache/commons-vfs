@@ -162,7 +162,7 @@ public class SftpFileSystem extends AbstractFileSystem {
         try {
             channel.setCommand(command);
             channel.setInputStream(null);
-            try (final InputStreamReader stream = new InputStreamReader(channel.getInputStream(), StandardCharsets.UTF_8)) {
+            try (InputStreamReader stream = new InputStreamReader(channel.getInputStream(), StandardCharsets.UTF_8)) {
                 channel.setErrStream(System.err, true);
                 channel.connect(DurationUtils.toMillisInt(connectTimeout));
 

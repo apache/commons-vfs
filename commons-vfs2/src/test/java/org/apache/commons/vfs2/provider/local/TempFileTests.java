@@ -39,9 +39,9 @@ public class TempFileTests extends AbstractProviderTestCase {
         final File file = File.createTempFile(prefix + "-", "-" + prefix);
         assertTrue(file.exists());
         final URI uri = file.toURI();
-        try (final FileSystemManager manager = getManager()) {
-            try (final FileObject fileObject = manager.resolveFile(uri)) {
-                try (final FileContent sourceContent = fileObject.getContent()) {
+        try (FileSystemManager manager = getManager()) {
+            try (FileObject fileObject = manager.resolveFile(uri)) {
+                try (FileContent sourceContent = fileObject.getContent()) {
                     assertEquals(sourceContent.getSize(), file.length());
                 }
             }

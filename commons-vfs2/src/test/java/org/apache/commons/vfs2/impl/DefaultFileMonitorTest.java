@@ -128,9 +128,9 @@ public class DefaultFileMonitorTest {
     @Ignore("VFS-299")
     @Test
     public void ignore_testAddRemove() throws Exception {
-        try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
+        try (FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
             final CountingListener listener = new CountingListener();
-            try (final DefaultFileMonitor monitor = new DefaultFileMonitor(listener)) {
+            try (DefaultFileMonitor monitor = new DefaultFileMonitor(listener)) {
                 monitor.setDelay(DELAY_MILLIS);
                 monitor.addFile(fileObject);
                 monitor.removeFile(fileObject);
@@ -151,9 +151,9 @@ public class DefaultFileMonitorTest {
     @Ignore("VFS-299")
     @Test
     public void ignore_testStartStop() throws Exception {
-        try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
+        try (FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
             final CountingListener stoppedListener = new CountingListener();
-            try (final DefaultFileMonitor stoppedMonitor = new DefaultFileMonitor(stoppedListener)) {
+            try (DefaultFileMonitor stoppedMonitor = new DefaultFileMonitor(stoppedListener)) {
                 stoppedMonitor.start();
                 stoppedMonitor.addFile(fileObject);
             }
@@ -173,7 +173,7 @@ public class DefaultFileMonitorTest {
             // DefaultFileMonitor.
 
             final CountingListener activeListener = new CountingListener();
-            try (final DefaultFileMonitor activeMonitor = new DefaultFileMonitor(activeListener)) {
+            try (DefaultFileMonitor activeMonitor = new DefaultFileMonitor(activeListener)) {
                 activeMonitor.setDelay(DELAY_MILLIS);
                 activeMonitor.addFile(fileObject);
                 activeMonitor.start();
@@ -207,8 +207,8 @@ public class DefaultFileMonitorTest {
     @Test
     public void testChildFileDeletedWithoutRecursiveChecking() throws Exception {
         writeToFile(testFile);
-        try (final FileObject fileObject = fileSystemManager.resolveFile(testDir.toURI().toURL().toString())) {
-            try (final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener())) {
+        try (FileObject fileObject = fileSystemManager.resolveFile(testDir.toURI().toURL().toString())) {
+            try (DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener())) {
                 monitor.setDelay(2000);
                 monitor.setRecursive(false);
                 monitor.addFile(fileObject);
@@ -225,8 +225,8 @@ public class DefaultFileMonitorTest {
     @Test
     public void testChildFileRecreated() throws Exception {
         writeToFile(testFile);
-        try (final FileObject fileObj = fileSystemManager.resolveFile(testDir.toURI().toURL().toString())) {
-            try (final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener())) {
+        try (FileObject fileObj = fileSystemManager.resolveFile(testDir.toURI().toURL().toString())) {
+            try (DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener())) {
                 monitor.setDelay(2000);
                 monitor.setRecursive(true);
                 monitor.addFile(fileObj);
@@ -245,8 +245,8 @@ public class DefaultFileMonitorTest {
 
     @Test
     public void testFileCreated() throws Exception {
-        try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toURL().toString())) {
-            try (final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener())) {
+        try (FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toURL().toString())) {
+            try (DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener())) {
                 // TestFileListener manipulates status
                 monitor.setDelay(DELAY_MILLIS);
                 monitor.addFile(fileObject);
@@ -261,8 +261,8 @@ public class DefaultFileMonitorTest {
     @Test
     public void testFileDeleted() throws Exception {
         writeToFile(testFile);
-        try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
-            try (final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener())) {
+        try (FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
+            try (DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener())) {
                 // TestFileListener manipulates status
                 monitor.setDelay(DELAY_MILLIS);
                 monitor.addFile(fileObject);
@@ -276,8 +276,8 @@ public class DefaultFileMonitorTest {
     @Test
     public void testFileModified() throws Exception {
         writeToFile(testFile);
-        try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toURL().toString())) {
-            try (final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener())) {
+        try (FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toURL().toString())) {
+            try (DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener())) {
                 // TestFileListener manipulates status
                 monitor.setDelay(DELAY_MILLIS);
                 monitor.addFile(fileObject);
@@ -295,7 +295,7 @@ public class DefaultFileMonitorTest {
 
     @Test
     public void testFileMonitorRestarted() throws Exception {
-        try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
+        try (FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
             final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
             try {
                 // TestFileListener manipulates status
@@ -321,8 +321,8 @@ public class DefaultFileMonitorTest {
 
     @Test
     public void testFileRecreated() throws Exception {
-        try (final FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI())) {
-            try (final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener())) {
+        try (FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI())) {
+            try (DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener())) {
                 // TestFileListener manipulates status
                 monitor.setDelay(DELAY_MILLIS);
                 monitor.addFile(fileObject);

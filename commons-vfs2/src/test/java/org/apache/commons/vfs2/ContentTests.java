@@ -68,7 +68,7 @@ public class ContentTests extends AbstractProviderTestCase {
     @Test
     public void testByteArrayReadAll() throws Exception {
         // Get the test file
-        try (final FileObject file = getReadFolder().resolveFile("file1.txt")) {
+        try (FileObject file = getReadFolder().resolveFile("file1.txt")) {
             assertEquals(FileType.FILE, file.getType());
             assertTrue(file.isFile());
 
@@ -154,7 +154,7 @@ public class ContentTests extends AbstractProviderTestCase {
     @Test
     public void testGetString_Charset() throws Exception {
         // Get the test file
-        try (final FileObject file = getReadFolder().resolveFile("file1.txt")) {
+        try (FileObject file = getReadFolder().resolveFile("file1.txt")) {
             assertEquals(FileType.FILE, file.getType());
             assertTrue(file.isFile());
 
@@ -165,7 +165,7 @@ public class ContentTests extends AbstractProviderTestCase {
     @Test
     public void testGetString_String() throws Exception {
         // Get the test file
-        try (final FileObject file = getReadFolder().resolveFile("file1.txt")) {
+        try (FileObject file = getReadFolder().resolveFile("file1.txt")) {
             assertEquals(FileType.FILE, file.getType());
             assertTrue(file.isFile());
 
@@ -203,7 +203,7 @@ public class ContentTests extends AbstractProviderTestCase {
     @Test
     public void testInputStreamReadAll() throws Exception {
         // Get the test file
-        try (final FileObject file = getReadFolder().resolveFile("file1.txt")) {
+        try (FileObject file = getReadFolder().resolveFile("file1.txt")) {
             assertEquals(FileType.FILE, file.getType());
             assertTrue(file.isFile());
 

@@ -210,7 +210,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
             }
         } else if (fo.isFile()) {
             // Copy bytes
-            try (final FileContent content = fo.getContent()) {
+            try (FileContent content = fo.getContent()) {
                 content.write(memFo);
             } catch (final IOException e) {
                 throw new FileSystemException(e.getClass().getName() + " " + e.getMessage());

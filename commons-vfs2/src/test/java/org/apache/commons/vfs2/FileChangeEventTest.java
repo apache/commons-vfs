@@ -26,7 +26,7 @@ public class FileChangeEventTest {
 
     @Test
     public void testFileObject() throws FileSystemException {
-        try (final FileObject baseFile = VFS.getManager().toFileObject(new File("."))) {
+        try (FileObject baseFile = VFS.getManager().toFileObject(new File("."))) {
             Assert.assertNotNull(baseFile);
             final FileChangeEvent fileChangeEvent = new FileChangeEvent(baseFile);
             Assert.assertEquals(fileChangeEvent.getFile(), fileChangeEvent.getFileObject());

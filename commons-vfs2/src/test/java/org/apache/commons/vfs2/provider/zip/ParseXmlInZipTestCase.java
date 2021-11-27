@@ -103,8 +103,8 @@ public class ParseXmlInZipTestCase {
         final File newZipFile = createTempFile();
         final String xmlFilePath = "zip:file:" + newZipFile.getAbsolutePath() + "!/read-xml-tests/file1.xml";
         final FileSystemManager manager = VFS.getManager();
-        try (final FileObject zipFileObject = manager.resolveFile(xmlFilePath)) {
-            try (final InputStream inputStream = zipFileObject.getContent().getInputStream()) {
+        try (FileObject zipFileObject = manager.resolveFile(xmlFilePath)) {
+            try (InputStream inputStream = zipFileObject.getContent().getInputStream()) {
                 final Document document = newDocumentBuilder(zipFileObject, zipFileObject, null).parse(inputStream);
                 Assert.assertNotNull(document);
             }
@@ -152,9 +152,9 @@ public class ParseXmlInZipTestCase {
         final File newZipFile = createTempFile();
         final String zipFilePath = "zip:file:" + newZipFile.getAbsolutePath();
         final FileSystemManager manager = VFS.getManager();
-        try (final FileObject zipFileObject = manager.resolveFile(zipFilePath)) {
-            try (final FileObject xmlFileObject = zipFileObject.resolveFile(xmlPathInZip)) {
-                try (final InputStream inputStream = xmlFileObject.getContent().getInputStream()) {
+        try (FileObject zipFileObject = manager.resolveFile(zipFilePath)) {
+            try (FileObject xmlFileObject = zipFileObject.resolveFile(xmlPathInZip)) {
+                try (InputStream inputStream = xmlFileObject.getContent().getInputStream()) {
                     final Document document = newDocumentBuilder(zipFileObject, xmlFileObject, xsdPathInZip)
                             .parse(inputStream);
                     Assert.assertNotNull(document);

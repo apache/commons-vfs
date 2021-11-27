@@ -70,12 +70,12 @@ public class UriTests extends AbstractProviderTestCase {
 
     @Test
     public void testReservedCharacterSpace() throws FileSystemException {
-        try (final FileObject fileObject = getReadFolder().resolveFile("file with spaces.txt")) {
+        try (FileObject fileObject = getReadFolder().resolveFile("file with spaces.txt")) {
             final URI url = fileObject.getURI();
             final String string = url.toString();
             assertTrue(string, string.contains("file%20with%20spaces.txt"));
         }
-        try (final FileObject fileObject = getReadFolder().resolveFile("file%20with%20spaces.txt")) {
+        try (FileObject fileObject = getReadFolder().resolveFile("file%20with%20spaces.txt")) {
             final URI url = fileObject.getURI();
             final String string = url.toString();
             assertTrue(string, string.contains("file%20with%20spaces.txt"));

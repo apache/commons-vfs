@@ -86,7 +86,7 @@ public class EmptyFileFilter implements FileFilter, Serializable {
      */
     @Override
     public boolean accept(final FileSelectInfo fileSelectInfo) throws FileSystemException {
-        try (final FileObject file = fileSelectInfo.getFile()) {
+        try (FileObject file = fileSelectInfo.getFile()) {
             if (!file.exists()) {
                 return true;
             }
@@ -94,7 +94,7 @@ public class EmptyFileFilter implements FileFilter, Serializable {
                 final FileObject[] files = file.getChildren();
                 return files == null || files.length == 0;
             }
-            try (final FileContent content = file.getContent()) {
+            try (FileContent content = file.getContent()) {
                 return content.isEmpty();
             }
         }

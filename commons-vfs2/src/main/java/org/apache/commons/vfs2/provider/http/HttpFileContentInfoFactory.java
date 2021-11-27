@@ -40,7 +40,7 @@ public class HttpFileContentInfoFactory implements FileContentInfoFactory {
         String contentType = null;
 
         final HeadMethod headMethod;
-        try (final HttpFileObject<HttpFileSystem> httpFile = (HttpFileObject<HttpFileSystem>) FileObjectUtils
+        try (HttpFileObject<HttpFileSystem> httpFile = (HttpFileObject<HttpFileSystem>) FileObjectUtils
                 .getAbstractFileObject(fileContent.getFile())) {
             headMethod = httpFile.getHeadMethod();
         } catch (final IOException e) {

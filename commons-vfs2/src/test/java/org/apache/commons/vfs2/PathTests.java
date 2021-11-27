@@ -62,7 +62,7 @@ public class PathTests extends AbstractProviderTestCase {
 
     @Test
     public void testGetPath() throws Exception {
-        try (final FileObject fileObject = getReadFolder().resolveFile("some-dir/")) {
+        try (FileObject fileObject = getReadFolder().resolveFile("some-dir/")) {
             final Path path = fileObject.getPath();
 
             // FileName#getURI() returns a String, not a URI.
@@ -75,12 +75,12 @@ public class PathTests extends AbstractProviderTestCase {
 
     @Test
     public void testReservedCharacterSpace() throws FileSystemException {
-        try (final FileObject fileObject = getReadFolder().resolveFile("file with spaces.txt")) {
+        try (FileObject fileObject = getReadFolder().resolveFile("file with spaces.txt")) {
             final Path path = fileObject.getPath();
             final String string = path.toString();
             assertTrue(string, string.contains("file%20with%20spaces.txt"));
         }
-        try (final FileObject fileObject = getReadFolder().resolveFile("file%20with%20spaces.txt")) {
+        try (FileObject fileObject = getReadFolder().resolveFile("file%20with%20spaces.txt")) {
             final Path path = fileObject.getPath();
             final String string = path.toString();
             assertTrue(string, string.contains("file%20with%20spaces.txt"));
@@ -93,14 +93,14 @@ public class PathTests extends AbstractProviderTestCase {
     @Test
     public void testURIContentProvider() throws Exception {
         // Test non-empty file
-        try (final FileObject fileObject = getReadFolder().resolveFile("file1.txt")) {
+        try (FileObject fileObject = getReadFolder().resolveFile("file1.txt")) {
             assertTrue(fileObject.exists());
 
             final Path path = fileObject.getPath();
             final String pathStr = path.toString();
             final FileSystemOptions options = getReadFolder().getFileSystem().getFileSystemOptions();
 
-            try (final FileObject f1 = getManager().resolveFile(pathStr, options);
+            try (FileObject f1 = getManager().resolveFile(pathStr, options);
                 final FileObject f2 = getManager().resolveFile(pathStr, options)) {
 
                 assertEquals("Two files resolved by URI must be equals on " + pathStr, f1, f2);

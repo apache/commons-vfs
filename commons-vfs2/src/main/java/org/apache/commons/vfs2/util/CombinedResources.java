@@ -109,7 +109,7 @@ public class CombinedResources extends ResourceBundle {
                 final Enumeration<URL> resources = loader.getResources(resourceName);
                 while (resources.hasMoreElements()) {
                     final URL resource = resources.nextElement();
-                    try (final InputStream inputStream = resource.openConnection().getInputStream()) {
+                    try (InputStream inputStream = resource.openConnection().getInputStream()) {
                         properties.load(inputStream);
                     } catch (final IOException ignored) {
                         // Ignore

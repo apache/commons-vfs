@@ -37,7 +37,7 @@ public class TarFileObjectTestCase {
         final String baseUrl = scheme + ":file:" + testFile.getAbsolutePath();
 
         // test
-        try (final FileObject fileObject = manager.resolveFile(baseUrl)) {
+        try (FileObject fileObject = manager.resolveFile(baseUrl)) {
             // test getChildren() number equal
             Assert.assertEquals(fileObject.getChildren().length, fileNames.length);
 

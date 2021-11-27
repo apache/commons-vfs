@@ -98,7 +98,7 @@ public interface FileContent extends Closeable {
         final int size = sizeUndefined ? AbstractFileObject.DEFAULT_BUFFER_SIZE : (int) sizeL;
         final byte[] buf = new byte[size];
         int pos;
-        try (final InputStream in = getInputStream(size)) {
+        try (InputStream in = getInputStream(size)) {
             int read = 0;
             for (pos = 0; pos < size && read >= 0; pos += read) {
                 read = in.read(buf, pos, size - pos);

@@ -116,7 +116,7 @@ public class DefaultFileSystemManagerTest {
     public void testFileCacheEmptyAfterManagerClose() throws FileSystemException {
         final FileSystemManager manager = VFS.getManager();
         Assert.assertNotNull(manager);
-        try (final FileObject fileObject = manager
+        try (FileObject fileObject = manager
                 .resolveFile(Paths.get("src/test/resources/test-data/read-tests/file1.txt").toUri())) {
             Assert.assertTrue(fileObject.exists());
             final FilesCache filesCache = manager.getFilesCache();
@@ -136,7 +136,7 @@ public class DefaultFileSystemManagerTest {
     public void testFileCacheEmptyAfterVFSClose() throws FileSystemException {
         final FileSystemManager manager = VFS.getManager();
         Assert.assertNotNull(manager);
-        try (final FileObject fileObject = manager
+        try (FileObject fileObject = manager
                 .resolveFile(Paths.get("src/test/resources/test-data/read-tests/file1.txt").toUri())) {
             Assert.assertTrue(fileObject.exists());
             final FilesCache filesCache = manager.getFilesCache();

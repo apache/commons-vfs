@@ -78,7 +78,7 @@ public class AgeFileFilter implements FileFilter, Serializable {
         if (!fileObject.exists()) {
             return false;
         }
-        try (final FileContent content = fileObject.getContent()) {
+        try (FileContent content = fileObject.getContent()) {
             return content.getLastModifiedTime() > timeMillis;
         }
     }

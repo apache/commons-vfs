@@ -100,11 +100,11 @@ public class SizeFileFilter implements FileFilter, Serializable {
      */
     @Override
     public boolean accept(final FileSelectInfo fileSelectInfo) throws FileSystemException {
-        try (final FileObject file = fileSelectInfo.getFile()) {
+        try (FileObject file = fileSelectInfo.getFile()) {
             if (!file.exists()) {
                 return false;
             }
-            try (final FileContent content = file.getContent()) {
+            try (FileContent content = file.getContent()) {
                 final long length = content.getSize();
                 final boolean smaller = length < size;
                 return acceptLarger != smaller;

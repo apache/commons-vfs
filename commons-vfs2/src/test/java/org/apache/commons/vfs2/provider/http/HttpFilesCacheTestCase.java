@@ -44,15 +44,15 @@ public class HttpFilesCacheTestCase extends TestCase {
 
         final FileSystemManager fileSystemManager = VFS.getManager();
 
-        try (final FileObject noQueryFile = fileSystemManager.resolveFile(noQueryStringUrl)) {
+        try (FileObject noQueryFile = fileSystemManager.resolveFile(noQueryStringUrl)) {
             Assert.assertEquals(noQueryStringUrl, noQueryFile.getURL().toExternalForm());
         }
 
-        try (final FileObject queryFile = fileSystemManager.resolveFile(queryStringUrl)) {
+        try (FileObject queryFile = fileSystemManager.resolveFile(queryStringUrl)) {
             Assert.assertEquals(queryStringUrl, queryFile.getURL().toExternalForm()); // failed for VFS-426
         }
 
-        try (final FileObject queryFile2 = fileSystemManager.resolveFile(queryStringUrl2)) {
+        try (FileObject queryFile2 = fileSystemManager.resolveFile(queryStringUrl2)) {
             Assert.assertEquals(queryStringUrl2, queryFile2.getURL().toExternalForm()); // failed for VFS-426
         }
     }

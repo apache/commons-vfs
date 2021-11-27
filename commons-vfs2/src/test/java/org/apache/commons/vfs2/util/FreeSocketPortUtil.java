@@ -29,7 +29,7 @@ public class FreeSocketPortUtil {
      * @throws IOException
      */
     public static int findFreeLocalPort() throws IOException {
-        try (final ServerSocket server = new ServerSocket(0)) {
+        try (ServerSocket server = new ServerSocket(0)) {
             return server.getLocalPort();
         }
     }

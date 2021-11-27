@@ -63,7 +63,7 @@ public class WeakRefFileListener implements FileListener {
     protected FileListener getListener() throws Exception {
         final FileListener listener = this.listener.get();
         if (listener == null) {
-            try (final FileObject fileObject = fs.resolveFile(name)) {
+            try (FileObject fileObject = fs.resolveFile(name)) {
                 fileObject.getFileSystem().removeListener(fileObject, this);
             }
         }

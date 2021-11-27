@@ -49,7 +49,7 @@ public class UrlStructureTests extends AbstractProviderTestCase {
         assertTrue(folder.exists());
 
         // Try getting the content of a folder
-        try (final InputStream inputStream = folder.getURL().openConnection().getInputStream()) {
+        try (InputStream inputStream = folder.getURL().openConnection().getInputStream()) {
             fail();
         } catch (final IOException e) {
             assertSameMessage("vfs.provider/read-not-file.error", folder, e);
