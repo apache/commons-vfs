@@ -29,12 +29,15 @@ import org.junit.Test;
 // CHECKSTYLE:OFF Test code
 public class NotFileFilterTest extends BaseFilterTest {
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testAccept() throws FileSystemException {
 
         final FileSelectInfo any = createFileSelectInfo(new File("test1.txt"));
 
+        Assert.assertFalse(new NotFileFilter(TrueFileFilter.INSTANCE).accept(any));
         Assert.assertFalse(new NotFileFilter(TrueFileFilter.TRUE).accept(any));
+        
         Assert.assertTrue(new NotFileFilter(FalseFileFilter.INSTANCE).accept(any));
         Assert.assertTrue(new NotFileFilter(FalseFileFilter.FALSE).accept(any));
 

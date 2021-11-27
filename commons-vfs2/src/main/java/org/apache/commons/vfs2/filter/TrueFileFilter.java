@@ -34,8 +34,18 @@ public class TrueFileFilter implements FileFilter, Serializable {
 
     /**
      * Singleton instance of true filter.
+     *
+     * @since 2.10.0
      */
-    public static final FileFilter TRUE = new TrueFileFilter();
+    public static final FileFilter INSTANCE = new TrueFileFilter();
+
+    /**
+     * Singleton instance of true filter.
+     *
+     * @deprecated Use {@link #INSTANCE}.
+     */
+    @Deprecated
+    public static final FileFilter TRUE = INSTANCE;
 
     /**
      * Restrictive constructor.
