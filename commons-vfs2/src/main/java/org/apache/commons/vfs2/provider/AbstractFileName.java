@@ -55,16 +55,23 @@ public abstract class AbstractFileName implements FileName {
 
     private String key;
 
-    public AbstractFileName(final String scheme, final String absPath, final FileType type) {
+    /**
+     * Constructs a new instance.
+     *
+     * @param scheme The scheme.
+     * @param absolutePath the absolute path, maybe empty or null.
+     * @param type the file type.
+     */
+    public AbstractFileName(final String scheme, final String absolutePath, final FileType type) {
         this.rootUri = null;
         this.scheme = scheme;
         this.type = type;
-        if (StringUtils.isEmpty(absPath)) {
+        if (StringUtils.isEmpty(absolutePath)) {
             this.absPath = ROOT_PATH;
-        } else if (absPath.length() > 1 && absPath.endsWith("/")) {
-            this.absPath = absPath.substring(0, absPath.length() - 1);
+        } else if (absolutePath.length() > 1 && absolutePath.endsWith("/")) {
+            this.absPath = absolutePath.substring(0, absolutePath.length() - 1);
         } else {
-            this.absPath = absPath;
+            this.absPath = absolutePath;
         }
     }
 

@@ -22,9 +22,110 @@ package org.apache.commons.vfs2.operations.vcs;
  */
 public enum VcsStatus {
 
-    UNKNOWN(-1), NOT_MODIFIED(0), ADDED(1), CONFLICTED(2), DELETED(3), MERGED(4), IGNORED(5), MODIFIED(6), REPLACED(
-            7), UNVERSIONED(8), MISSING(9), OBSTRUCTED(10), REVERTED(11), RESOLVED(12), COPIED(
-                    13), MOVED(14), RESTORED(15), UPDATED(16), EXTERNAL(18), CORRUPTED(19), NOT_REVERTED(20);
+    /**
+     * Unknown.
+     */
+    UNKNOWN(-1),
+
+    /**
+     * Not modified.
+     */
+    NOT_MODIFIED(0),
+
+    /**
+     * Added.
+     */
+    ADDED(1),
+
+    /**
+     * Conflicted.
+     */
+    CONFLICTED(2),
+
+    /**
+     * Deleted.
+     */
+    DELETED(3),
+
+    /**
+     * Merged.
+     */
+    MERGED(4),
+
+    /**
+     * Ignored.
+     */
+    IGNORED(5),
+
+    /**
+     * Modified.
+     */
+    MODIFIED(6),
+
+    /**
+     * Replaced.
+     */
+    REPLACED(7),
+
+    /**
+     * Unversioned.
+     */
+    UNVERSIONED(8),
+
+    /**
+     * Missing.
+     */
+    MISSING(9),
+
+    /**
+     * Obstructed.
+     */
+    OBSTRUCTED(10),
+
+    /**
+     * Reverted.
+     */
+    REVERTED(11),
+
+    /**
+     * Resolved.
+     */
+    RESOLVED(12),
+
+    /**
+     * Copied.
+     */
+    COPIED(13),
+
+    /**
+     * Moved.
+     */
+    MOVED(14),
+
+    /**
+     * Restored.
+     */
+    RESTORED(15),
+
+    /**
+     * Updated.
+     */
+    UPDATED(16),
+
+    /**
+     * External.
+     */
+    EXTERNAL(18),
+
+    /**
+     * Corrupted.
+     */
+    CORRUPTED(19),
+
+    /**
+     * Not reverted.
+     */
+    NOT_REVERTED(20);
 
     private final int status;
 

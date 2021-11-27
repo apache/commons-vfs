@@ -135,13 +135,13 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     private FileOperations operations;
 
     /**
-     *
-     * @param name the file name - muse be an instance of {@link AbstractFileName}
-     * @param fileSystem the file system
-     * @throws ClassCastException if {@code name} is not an instance of {@link AbstractFileName}
+     * Constructs a new instance.
+     * 
+     * @param fileName the file name.
+     * @param fileSystem the file system.
      */
-    protected AbstractFileObject(final AbstractFileName name, final AFS fileSystem) {
-        this.fileName = name;
+    protected AbstractFileObject(final AbstractFileName fileName, final AFS fileSystem) {
+        this.fileName = fileName;
         this.fileSystem = fileSystem;
         fileSystem.fileObjectHanded(this);
     }

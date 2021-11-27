@@ -38,6 +38,11 @@ public class PrivilegedFileReplicator implements FileReplicator, VfsComponent {
     private final FileReplicator replicator;
     private final VfsComponent replicatorComponent;
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param replicator The replicator.
+     */
     public PrivilegedFileReplicator(final FileReplicator replicator) {
         this.replicator = replicator;
         if (replicator instanceof VfsComponent) {

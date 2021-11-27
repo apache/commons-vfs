@@ -45,15 +45,22 @@ import org.apache.commons.vfs2.util.WeakRefFileListener;
  *
  * @param <AFS> A subclass of AbstractFileSystem.
  */
-public class DelegateFileObject<AFS extends AbstractFileSystem> extends AbstractFileObject<AFS>
-        implements FileListener {
+public class DelegateFileObject<AFS extends AbstractFileSystem> extends AbstractFileObject<AFS> implements FileListener {
+    
     private FileObject file;
     private final Set<String> children = new HashSet<>();
     private boolean ignoreEvent;
 
-    public DelegateFileObject(final AbstractFileName name, final AFS fileSystem, final FileObject file)
-            throws FileSystemException {
-        super(name, fileSystem);
+    /**
+     * Constructs a new instance.
+     *
+     * @param fileName the file name.
+     * @param fileSystem the file system.
+     * @param file My file object.
+     * @throws FileSystemException For subclasses to throw.
+     */
+    public DelegateFileObject(final AbstractFileName fileName, final AFS fileSystem, final FileObject file) throws FileSystemException {
+        super(fileName, fileSystem);
         this.file = file;
         if (file != null) {
             WeakRefFileListener.installListener(file, this);

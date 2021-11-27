@@ -49,6 +49,9 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
     private File tempDir;
     private boolean tempDirMessageLogged;
 
+    /**
+     * Constructs a new instance.
+     */
     public DefaultFileReplicator() {
     }
 

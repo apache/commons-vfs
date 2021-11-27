@@ -71,8 +71,14 @@ public final class DefaultFileContent implements FileContent {
      */
     private int openStreams;
 
-    public DefaultFileContent(final AbstractFileObject file, final FileContentInfoFactory fileContentInfoFactory) {
-        this.fileObject = file;
+    /**
+     * Constructs a new instance.
+     *
+     * @param fileObject The file object. 
+     * @param fileContentInfoFactory The info factory.
+     */
+    public DefaultFileContent(final AbstractFileObject fileObject, final FileContentInfoFactory fileContentInfoFactory) {
+        this.fileObject = fileObject;
         this.fileContentInfoFactory = fileContentInfoFactory;
     }
 

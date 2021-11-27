@@ -29,13 +29,25 @@ import org.apache.commons.vfs2.FileSystemOptions;
  * A default URL stream handler that will work for most file systems.
  */
 public class DefaultURLStreamHandler extends URLStreamHandler {
+
     private final VfsComponentContext context;
     private final FileSystemOptions fileSystemOptions;
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param context VFS component context.
+     */
     public DefaultURLStreamHandler(final VfsComponentContext context) {
         this(context, null);
     }
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param context VFS component context.
+     * @param fileSystemOptions FileSystemOptions to resolve files.
+     */
     public DefaultURLStreamHandler(final VfsComponentContext context, final FileSystemOptions fileSystemOptions) {
         this.context = context;
         this.fileSystemOptions = fileSystemOptions;

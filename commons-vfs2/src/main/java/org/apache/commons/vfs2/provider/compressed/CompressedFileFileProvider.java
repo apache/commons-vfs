@@ -33,6 +33,9 @@ import org.apache.commons.vfs2.provider.LayeredFileName;
  */
 public abstract class CompressedFileFileProvider extends AbstractLayeredFileProvider {
 
+    /**
+     * Constructs a new instance.
+     */
     public CompressedFileFileProvider() {
     }
 

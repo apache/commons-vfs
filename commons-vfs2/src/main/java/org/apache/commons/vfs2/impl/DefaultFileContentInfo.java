@@ -22,9 +22,16 @@ import org.apache.commons.vfs2.FileContentInfo;
  * The default file content information.
  */
 public class DefaultFileContentInfo implements FileContentInfo {
+
     private final String contentType;
     private final String contentEncoding;
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param contentType A content type.
+     * @param contentEncoding A content encoding.
+     */
     public DefaultFileContentInfo(final String contentType, final String contentEncoding) {
         this.contentType = contentType;
         this.contentEncoding = contentEncoding;

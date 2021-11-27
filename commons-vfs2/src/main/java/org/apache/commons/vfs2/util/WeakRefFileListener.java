@@ -48,9 +48,7 @@ public class WeakRefFileListener implements FileListener {
      * @param listener The FileListener
      */
     public static void installListener(final FileObject file, final FileListener listener) {
-        final WeakRefFileListener weakListener = new WeakRefFileListener(file, listener);
-
-        file.getFileSystem().addListener(file, new WeakRefFileListener(file, weakListener));
+        file.getFileSystem().addListener(file, new WeakRefFileListener(file, new WeakRefFileListener(file, listener)));
     }
 
     /**

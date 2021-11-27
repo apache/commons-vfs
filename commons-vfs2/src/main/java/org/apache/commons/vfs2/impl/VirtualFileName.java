@@ -25,13 +25,20 @@ import org.apache.commons.vfs2.provider.AbstractFileName;
  */
 public class VirtualFileName extends AbstractFileName {
 
-    public VirtualFileName(final String scheme, final String absPath, final FileType type) {
-        super(scheme, absPath, type);
+    /**
+     * Constructs a new instance.
+     *
+     * @param scheme The scheme.
+     * @param absolutePath the absolute path, maybe empty or null.
+     * @param type the file type.
+     */
+    public VirtualFileName(final String scheme, final String absolutePath, final FileType type) {
+        super(scheme, absolutePath, type);
     }
 
     @Override
-    public FileName createName(final String absPath, final FileType type) {
-        return new VirtualFileName(getScheme(), absPath, type);
+    public FileName createName(final String absolutePath, final FileType type) {
+        return new VirtualFileName(getScheme(), absolutePath, type);
     }
 
     @Override

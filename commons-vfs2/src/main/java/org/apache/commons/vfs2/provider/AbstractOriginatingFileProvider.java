@@ -28,6 +28,9 @@ import org.apache.commons.vfs2.FileSystemOptions;
  */
 public abstract class AbstractOriginatingFileProvider extends AbstractFileProvider {
 
+    /**
+     * Constructs a new instance.
+     */
     public AbstractOriginatingFileProvider() {
     }
 

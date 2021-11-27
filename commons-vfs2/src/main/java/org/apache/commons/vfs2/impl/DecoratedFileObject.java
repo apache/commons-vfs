@@ -31,213 +31,224 @@ import org.apache.commons.vfs2.NameScope;
 import org.apache.commons.vfs2.operations.FileOperations;
 
 /**
- * Base class to build a fileObject decoration.
+ * Base class to build a FileObject decoration.
  */
 public class DecoratedFileObject implements FileObject {
-    private final FileObject decoratedFileObject;
 
-    public DecoratedFileObject(final FileObject decoratedFileObject) {
-        this.decoratedFileObject = decoratedFileObject;
+    private final FileObject fileObject;
+
+    /**
+     * Constructs a new instance to decorate the given FileObject.
+     *
+     * @param fileObject the FileObject to decorate.
+     */
+    public DecoratedFileObject(final FileObject fileObject) {
+        this.fileObject = fileObject;
     }
 
     @Override
     public boolean canRenameTo(final FileObject newfile) {
-        return decoratedFileObject.canRenameTo(newfile);
+        return fileObject.canRenameTo(newfile);
     }
 
     @Override
     public void close() throws FileSystemException {
-        decoratedFileObject.close();
+        fileObject.close();
     }
 
     @Override
     public int compareTo(final FileObject fo) {
-        return decoratedFileObject.compareTo(fo);
+        return fileObject.compareTo(fo);
     }
 
     @Override
     public void copyFrom(final FileObject srcFile, final FileSelector selector) throws FileSystemException {
-        decoratedFileObject.copyFrom(srcFile, selector);
+        fileObject.copyFrom(srcFile, selector);
     }
 
     @Override
     public void createFile() throws FileSystemException {
-        decoratedFileObject.createFile();
+        fileObject.createFile();
     }
 
     @Override
     public void createFolder() throws FileSystemException {
-        decoratedFileObject.createFolder();
+        fileObject.createFolder();
     }
 
     @Override
     public boolean delete() throws FileSystemException {
-        return decoratedFileObject.delete();
+        return fileObject.delete();
     }
 
     @Override
     public int delete(final FileSelector selector) throws FileSystemException {
-        return decoratedFileObject.delete(selector);
+        return fileObject.delete(selector);
     }
 
     @Override
     public int deleteAll() throws FileSystemException {
-        return decoratedFileObject.deleteAll();
+        return fileObject.deleteAll();
     }
 
     @Override
     public boolean exists() throws FileSystemException {
-        return decoratedFileObject.exists();
+        return fileObject.exists();
     }
 
     @Override
     public FileObject[] findFiles(final FileSelector selector) throws FileSystemException {
-        return decoratedFileObject.findFiles(selector);
+        return fileObject.findFiles(selector);
     }
 
     @Override
     public void findFiles(final FileSelector selector, final boolean depthwise, final List<FileObject> selected)
             throws FileSystemException {
-        decoratedFileObject.findFiles(selector, depthwise, selected);
+        fileObject.findFiles(selector, depthwise, selected);
     }
 
     @Override
     public FileObject getChild(final String name) throws FileSystemException {
-        return decoratedFileObject.getChild(name);
+        return fileObject.getChild(name);
     }
 
     @Override
     public FileObject[] getChildren() throws FileSystemException {
-        return decoratedFileObject.getChildren();
+        return fileObject.getChildren();
     }
 
     @Override
     public FileContent getContent() throws FileSystemException {
-        return decoratedFileObject.getContent();
+        return fileObject.getContent();
     }
 
+    /**
+     * Gets the decorated fileObject.
+     *
+     * @return the decorated fileObject.
+     */
     public FileObject getDecoratedFileObject() {
-        return decoratedFileObject;
+        return fileObject;
     }
 
     @Override
     public FileOperations getFileOperations() throws FileSystemException {
-        return decoratedFileObject.getFileOperations();
+        return fileObject.getFileOperations();
     }
 
     @Override
     public FileSystem getFileSystem() {
-        return decoratedFileObject.getFileSystem();
+        return fileObject.getFileSystem();
     }
 
     @Override
     public String getPublicURIString() {
-        return decoratedFileObject.getPublicURIString();
+        return fileObject.getPublicURIString();
     }
 
     @Override
     public FileName getName() {
-        return decoratedFileObject.getName();
+        return fileObject.getName();
     }
 
     @Override
     public FileObject getParent() throws FileSystemException {
-        return decoratedFileObject.getParent();
+        return fileObject.getParent();
     }
 
     @Override
     public FileType getType() throws FileSystemException {
-        return decoratedFileObject.getType();
+        return fileObject.getType();
     }
 
     @Override
     public URL getURL() throws FileSystemException {
-        return decoratedFileObject.getURL();
+        return fileObject.getURL();
     }
 
     @Override
     public boolean isAttached() {
-        return decoratedFileObject.isAttached();
+        return fileObject.isAttached();
     }
 
     @Override
     public boolean isContentOpen() {
-        return decoratedFileObject.isContentOpen();
+        return fileObject.isContentOpen();
     }
 
     @Override
     public boolean isExecutable() throws FileSystemException {
-        return decoratedFileObject.isExecutable();
+        return fileObject.isExecutable();
     }
 
     @Override
     public boolean isFile() throws FileSystemException {
-        return decoratedFileObject.isFile();
+        return fileObject.isFile();
     }
 
     @Override
     public boolean isFolder() throws FileSystemException {
-        return decoratedFileObject.isFolder();
+        return fileObject.isFolder();
     }
 
     @Override
     public boolean isHidden() throws FileSystemException {
-        return decoratedFileObject.isHidden();
+        return fileObject.isHidden();
     }
 
     @Override
     public boolean isReadable() throws FileSystemException {
-        return decoratedFileObject.isReadable();
+        return fileObject.isReadable();
     }
 
     @Override
     public boolean isWriteable() throws FileSystemException {
-        return decoratedFileObject.isWriteable();
+        return fileObject.isWriteable();
     }
 
     @Override
     public Iterator<FileObject> iterator() {
-        return decoratedFileObject.iterator();
+        return fileObject.iterator();
     }
 
     @Override
     public void moveTo(final FileObject destFile) throws FileSystemException {
-        decoratedFileObject.moveTo(destFile);
+        fileObject.moveTo(destFile);
     }
 
     @Override
     public void refresh() throws FileSystemException {
-        decoratedFileObject.refresh();
+        fileObject.refresh();
     }
 
     @Override
     public FileObject resolveFile(final String path) throws FileSystemException {
-        return decoratedFileObject.resolveFile(path);
+        return fileObject.resolveFile(path);
     }
 
     @Override
     public FileObject resolveFile(final String name, final NameScope scope) throws FileSystemException {
-        return decoratedFileObject.resolveFile(name, scope);
+        return fileObject.resolveFile(name, scope);
     }
 
     @Override
     public boolean setExecutable(final boolean executable, final boolean ownerOnly) throws FileSystemException {
-        return decoratedFileObject.setExecutable(executable, ownerOnly);
+        return fileObject.setExecutable(executable, ownerOnly);
     }
 
     @Override
     public boolean setReadable(final boolean readable, final boolean ownerOnly) throws FileSystemException {
-        return decoratedFileObject.setReadable(readable, ownerOnly);
+        return fileObject.setReadable(readable, ownerOnly);
     }
 
     @Override
     public boolean setWritable(final boolean writable, final boolean ownerOnly) throws FileSystemException {
-        return decoratedFileObject.setWritable(writable, ownerOnly);
+        return fileObject.setWritable(writable, ownerOnly);
     }
 
     @Override
     public String toString() {
-        return decoratedFileObject.toString();
+        return fileObject.toString();
     }
 
 }

@@ -45,6 +45,9 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
 
     private FileNameParser parser;
 
+    /**
+     * Constructs a new instance.
+     */
     public AbstractFileProvider() {
         parser = GenericFileNameParser.getInstance();
     }
@@ -120,7 +123,7 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
     }
 
     /**
-     * Returns the FileSystemConfigBuidler.
+     * Gets the FileSystemConfigBuidler.
      *
      * @return the FileSystemConfigBuilder.
      */
@@ -130,7 +133,7 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
     }
 
     /**
-     * Free unused resources.
+     * Frees unused resources.
      */
     public void freeUnusedResources() {
         final AbstractFileSystem[] abstractFileSystems;
@@ -145,7 +148,7 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
     }
 
     /**
-     * Close the FileSystem.
+     * Closes the FileSystem.
      *
      * @param fileSystem The FileSystem to close.
      */

@@ -30,6 +30,11 @@ import org.apache.commons.vfs2.NameScope;
  */
 public class SynchronizedFileObject extends DecoratedFileObject {
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param fileObject The FileObject to decorate.
+     */
     public SynchronizedFileObject(final FileObject fileObject) {
         super(fileObject);
     }

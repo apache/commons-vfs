@@ -40,8 +40,14 @@ import org.apache.commons.vfs2.provider.DelegateFileObject;
 public class VirtualFileSystem extends AbstractFileSystem {
     private final Map<FileName, FileObject> junctions = new HashMap<>();
 
-    public VirtualFileSystem(final AbstractFileName rootName, final FileSystemOptions fileSystemOptions) {
-        super(rootName, null, fileSystemOptions);
+    /**
+     * Constructs a new instance.
+     *
+     * @param rootFileName The root file name of this file system.
+     * @param fileSystemOptions Options to build this file system.
+     */
+    public VirtualFileSystem(final AbstractFileName rootFileName, final FileSystemOptions fileSystemOptions) {
+        super(rootFileName, null, fileSystemOptions);
     }
 
     /**

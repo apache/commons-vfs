@@ -57,6 +57,14 @@ public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem> {
         return wrapInputStream(getName().getURI(), getContainer().getContent().getInputStream(bufferSize));
     }
 
+    /**
+     * Wraps an input stream in a compressor input stream.
+     *
+     * @param name Unused.
+     * @param inputStream The input stream to wrap.
+     * @return a new compressor input stream.
+     * @throws IOException if the stream content is malformed or an I/O error occurs.
+     */
     public static InputStream wrapInputStream(final String name, final InputStream inputStream) throws IOException {
         return new BZip2CompressorInputStream(inputStream);
     }

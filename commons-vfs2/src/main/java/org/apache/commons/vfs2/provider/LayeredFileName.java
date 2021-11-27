@@ -26,6 +26,14 @@ public class LayeredFileName extends AbstractFileName {
 
     private final FileName outerUri;
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param scheme The scheme.
+     * @param outerUri outer Uri.
+     * @param path the absolute path, maybe empty or null.
+     * @param type the file type.
+     */
     public LayeredFileName(final String scheme, final FileName outerUri, final String path, final FileType type) {
         super(scheme, path, type);
         this.outerUri = outerUri;

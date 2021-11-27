@@ -37,8 +37,15 @@ public class LocalFileSystem extends AbstractFileSystem {
 
     private final String rootFile;
 
-    public LocalFileSystem(final FileName rootName, final String rootFile, final FileSystemOptions opts) {
-        super(rootName, null, opts);
+    /**
+     * Constructs a new instance.
+     *
+     * @param rootFileName The root file name of this file system.
+     * @param rootFile The root of this file system. 
+     * @param fileSystemOptions Options to build this file system.
+     */
+    public LocalFileSystem(final FileName rootFileName, final String rootFile, final FileSystemOptions fileSystemOptions) {
+        super(rootFileName, null, fileSystemOptions);
         this.rootFile = rootFile;
     }
 
