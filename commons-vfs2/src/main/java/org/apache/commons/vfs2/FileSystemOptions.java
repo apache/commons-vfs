@@ -44,7 +44,7 @@ import java.util.TreeMap;
  * @see org.apache.commons.vfs2.provider.zip.ZipFileSystemConfigBuilder
  *
  */
-public final class FileSystemOptions implements Cloneable {
+public final class FileSystemOptions implements Cloneable, Comparable<FileSystemOptions> {
 
     /** The options */
     private final Map<FileSystemOptionKey, Object> options;
@@ -134,6 +134,7 @@ public final class FileSystemOptions implements Cloneable {
         return options.containsKey(key);
     }
 
+    @Override
     public int compareTo(final FileSystemOptions other) {
         if (this == other) {
             // the same instance
