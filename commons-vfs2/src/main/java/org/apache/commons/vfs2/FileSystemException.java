@@ -103,21 +103,21 @@ public class FileSystemException extends IOException {
      * Constructs exception with the specified detail message.
      *
      * @param code the error code of the message.
-     * @param info0 one context information.
+     * @param info one context information.
      */
-    public FileSystemException(final String code, final Object info0) {
-        this(code, null, new Object[] { info0 });
+    public FileSystemException(final String code, final Object info) {
+        this(code, null, new Object[] { info });
     }
 
     /**
-     * Constructs exception with the specified detail message.
+     * Constructs exception with the specified detail message and cause.
      *
      * @param code the error code of the message.
-     * @param info0 one context information.
+     * @param info one context information.
      * @param throwable the cause.
      */
-    public FileSystemException(final String code, final Object info0, final Throwable throwable) {
-        this(code, throwable, new Object[] { info0 });
+    public FileSystemException(final String code, final Object info, final Throwable throwable) {
+        this(code, throwable, new Object[] { info });
     }
 
     /**
