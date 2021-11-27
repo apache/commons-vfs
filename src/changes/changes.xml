@@ -98,7 +98,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump actions/checkout from 2.3.4 to 2.4.0 #217, #220.
       </action>
       <action type="update" dev="ggregory" due-to="Dependabot">
-        Bump spotbugs from 4.3.0 to 4.4.2 #216.
+        Bump com.github.spotbugs:spotbugs from 4.3.0 to 4.5.0 #216.
       </action>
       <action type="update" dev="ggregory" due-to="Dependabot">
         Bump actions/cache from 2.1.6 to 2.1.7 #221.
