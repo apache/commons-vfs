@@ -41,13 +41,13 @@ public class JarFileObject extends ZipFileObject {
     private Attributes attributes;
 
     protected JarFileObject(final AbstractFileName name, final ZipEntry entry, final JarFileSystem fs,
-            final boolean zipExists) throws FileSystemException {
+        final boolean zipExists) throws FileSystemException {
         super(name, entry, fs, zipExists);
         if (entry != null) {
-			// For Java 9 and up: Force the certificates to be read and cached now. This avoids an
-			// IllegalStateException in java.util.jar.JarFile.isMultiRelease() when it tries
-			// to read the certificates and the file is closed.
-        	((JarEntry) entry).getCertificates();
+            // For Java 9 and up: Force the certificates to be read and cached now. This avoids an
+            // IllegalStateException in java.util.jar.JarFile.isMultiRelease() when it tries
+            // to read the certificates and the file is closed.
+            ((JarEntry) entry).getCertificates();
         }
         this.fs = fs;
 

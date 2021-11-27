@@ -236,9 +236,9 @@ public class HostFileNameParser extends AbstractFileNameParser {
 
         final FileSystemManager fsm;
         if (context != null) {
-        	fsm = context.getFileSystemManager();
+            fsm = context.getFileSystemManager();
         } else {
-        	fsm = VFS.getManager();
+            fsm = VFS.getManager();
         }
 
         // Extract the scheme

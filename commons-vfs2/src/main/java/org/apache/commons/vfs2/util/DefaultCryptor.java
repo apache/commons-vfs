@@ -102,21 +102,18 @@ public class DefaultCryptor implements Cryptor {
         final char[] chars = str.toCharArray();
         final int length = chars.length / 2;
         final byte[] decoded = new byte[length];
-        if (length * 2 != chars.length)
-        {
-        	throw new IllegalArgumentException("The given string must have even number of hex chars.");
+        if (length * 2 != chars.length) {
+            throw new IllegalArgumentException("The given string must have even number of hex chars.");
         }
         int index = 0;
         for (int i = 0; i < length; i++) {
             final int id1 = indexOf(HEX_CHARS, chars[index++]);
             if (id1 == INDEX_NOT_FOUND) {
-                throw new IllegalArgumentException(
-                        "Character " + chars[index-1] + " at position " + (index-1) + " is not a valid hexidecimal character");
+                throw new IllegalArgumentException("Character " + chars[index - 1] + " at position " + (index - 1) + " is not a valid hexidecimal character");
             }
             final int id2 = indexOf(HEX_CHARS, chars[index++]);
             if (id2 == INDEX_NOT_FOUND) {
-                throw new IllegalArgumentException(
-                        "Character " + chars[index-1] + " at position " + (index-1) + " is not a valid hexidecimal character");
+                throw new IllegalArgumentException("Character " + chars[index - 1] + " at position " + (index - 1) + " is not a valid hexidecimal character");
             }
             decoded[i] = (byte) ((id1 << BITS_IN_HALF_BYTE) | id2);
         }
