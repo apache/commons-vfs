@@ -45,7 +45,7 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="2.9.1" date="2021-MM-DD" description="Maintenance release. Requires Java 8.">
+    <release version="2.10.0" date="2021-MM-DD" description="Maintenance release. Requires Java 8.">
       <!-- FIX -->
       <action type="fix" dev="ggregory" due-to="Seth Falco">
         Replace package.html with package-info.java #206. 
@@ -114,6 +114,9 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action type="update" dev="ggregory" due-to="Dependabot">
         Bump maven-pmd-plugin from 3.14.0 to 3.15.0 #223. 
+      </action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">
+        Bump org.mockito:mockito-core from 3.11.2 to 4.1.0.
       </action>
     </release>
     <release version="2.9.0" date="2021-06-16" description="Maintenance release. Requires Java 8.">
