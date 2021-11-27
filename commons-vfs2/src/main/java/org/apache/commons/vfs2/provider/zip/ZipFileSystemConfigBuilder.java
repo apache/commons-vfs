@@ -25,9 +25,9 @@ import org.apache.commons.vfs2.FileSystemOptions;
 
 public class ZipFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
-    private static final String _PREFIX = ZipFileSystemConfigBuilder.class.getName();
+    private static final String PREFIX = ZipFileSystemConfigBuilder.class.getName();
     private static final ZipFileSystemConfigBuilder INSTANCE = new ZipFileSystemConfigBuilder();
-    private static final String KEY_CHARSET = _PREFIX + ".charset";
+    private static final String KEY_CHARSET = PREFIX + ".charset";
 
     public static final ZipFileSystemConfigBuilder getInstance() {
         return INSTANCE;

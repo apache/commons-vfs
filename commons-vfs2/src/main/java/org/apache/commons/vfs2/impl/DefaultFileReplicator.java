@@ -39,7 +39,7 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
     private static final Log log = LogFactory.getLog(DefaultFileReplicator.class);
     private static final int MASK = 0xffff;
 
-    private static final Random random = new Random();
+    private static final Random RANDOM = new Random();
 
     private static final char[] TMP_RESERVED_CHARS = {'?', '/', '\\', ' ', '&', '"', '\'', '*', '#', ';', ':', '<', '>', '|'};
 
@@ -178,7 +178,7 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
             tempDir = new File(baseTmpDir, "vfs_cache").getAbsoluteFile();
         }
 
-        filecount = random.nextInt() & MASK;
+        filecount = RANDOM.nextInt() & MASK;
 
         if (!tempDirMessageLogged) {
             final String message = Messages.getString("vfs.impl/temp-dir.debug", tempDir);

@@ -79,27 +79,27 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     private static final Duration DEFAULT_SESSION_TIMEOUT = Duration.ZERO;
 
-    private static final String _PREFIX = SftpFileSystemConfigBuilder.class.getName();
+    private static final String PREFIX = SftpFileSystemConfigBuilder.class.getName();
     private static final SftpFileSystemConfigBuilder BUILDER = new SftpFileSystemConfigBuilder();
-    private static final String COMPRESSION = _PREFIX + "COMPRESSION";
-    private static final String CONNECT_TIMEOUT = _PREFIX + ".CONNECT_TIMEOUT";
-    private static final String ENCODING = _PREFIX + ".ENCODING";
+    private static final String COMPRESSION = PREFIX + "COMPRESSION";
+    private static final String CONNECT_TIMEOUT = PREFIX + ".CONNECT_TIMEOUT";
+    private static final String ENCODING = PREFIX + ".ENCODING";
     private static final String HOST_KEY_CHECK_ASK = "ask";
     private static final String HOST_KEY_CHECK_NO = "no";
     private static final String HOST_KEY_CHECK_YES = "yes";
-    private static final String IDENTITIES = _PREFIX + ".IDENTITIES";
-    private static final String IDENTITY_REPOSITORY_FACTORY = _PREFIX + "IDENTITY_REPOSITORY_FACTORY";
-    private static final String CONFIG_REPOSITORY = _PREFIX + "CONFIG_REPOSITORY";
-    private static final String KEY_EXCHANGE_ALGORITHM = _PREFIX + ".KEY_EXCHANGE_ALGORITHM";
-    private static final String LOAD_OPENSSH_CONFIG = _PREFIX + "LOAD_OPENSSH_CONFIG";
-    private static final String KNOWN_HOSTS = _PREFIX + ".KNOWN_HOSTS";
-    private static final String PREFERRED_AUTHENTICATIONS = _PREFIX + ".PREFERRED_AUTHENTICATIONS";
-    private static final String PROXY_COMMAND = _PREFIX + ".PROXY_COMMAND";
-    private static final String PROXY_HOST = _PREFIX + ".PROXY_HOST";
-    private static final String PROXY_OPTIONS = _PREFIX + ".PROXY_OPTIONS";
-    private static final String PROXY_PASSWORD = _PREFIX + ".PROXY_PASSWORD";
-    private static final String PROXY_PORT = _PREFIX + ".PROXY_PORT";
-    private static final String DISABLE_DETECT_EXEC_CHANNEL = _PREFIX + ".DISABLE_DETECT_EXEC_CHANNEL";
+    private static final String IDENTITIES = PREFIX + ".IDENTITIES";
+    private static final String IDENTITY_REPOSITORY_FACTORY = PREFIX + "IDENTITY_REPOSITORY_FACTORY";
+    private static final String CONFIG_REPOSITORY = PREFIX + "CONFIG_REPOSITORY";
+    private static final String KEY_EXCHANGE_ALGORITHM = PREFIX + ".KEY_EXCHANGE_ALGORITHM";
+    private static final String LOAD_OPENSSH_CONFIG = PREFIX + "LOAD_OPENSSH_CONFIG";
+    private static final String KNOWN_HOSTS = PREFIX + ".KNOWN_HOSTS";
+    private static final String PREFERRED_AUTHENTICATIONS = PREFIX + ".PREFERRED_AUTHENTICATIONS";
+    private static final String PROXY_COMMAND = PREFIX + ".PROXY_COMMAND";
+    private static final String PROXY_HOST = PREFIX + ".PROXY_HOST";
+    private static final String PROXY_OPTIONS = PREFIX + ".PROXY_OPTIONS";
+    private static final String PROXY_PASSWORD = PREFIX + ".PROXY_PASSWORD";
+    private static final String PROXY_PORT = PREFIX + ".PROXY_PORT";
+    private static final String DISABLE_DETECT_EXEC_CHANNEL = PREFIX + ".DISABLE_DETECT_EXEC_CHANNEL";
 
     /** HTTP Proxy. */
     public static final ProxyType PROXY_HTTP = new ProxyType("http");
@@ -122,11 +122,11 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public static final ProxyType PROXY_STREAM = new ProxyType("stream");
 
-    private static final String PROXY_TYPE = _PREFIX + ".PROXY_TYPE";
-    private static final String PROXY_USER = _PREFIX + ".PROXY_USER";
-    private static final String SESSION_TIMEOUT = _PREFIX + ".TIMEOUT";
-    private static final String STRICT_HOST_KEY_CHECKING = _PREFIX + ".STRICT_HOST_KEY_CHECKING";
-    private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT";
+    private static final String PROXY_TYPE = PREFIX + ".PROXY_TYPE";
+    private static final String PROXY_USER = PREFIX + ".PROXY_USER";
+    private static final String SESSION_TIMEOUT = PREFIX + ".TIMEOUT";
+    private static final String STRICT_HOST_KEY_CHECKING = PREFIX + ".STRICT_HOST_KEY_CHECKING";
+    private static final String USER_DIR_IS_ROOT = PREFIX + ".USER_DIR_IS_ROOT";
 
     /**
      * Gets the singleton builder.

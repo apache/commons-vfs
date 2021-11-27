@@ -32,7 +32,7 @@ public final class Messages {
     /**
      * Map from message code to MessageFormat object for the message.
      */
-    private static final ConcurrentMap<String, MessageFormat> messageMap = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, MessageFormat> MESSAGE_MAP = new ConcurrentHashMap<>();
     private static final ResourceBundle RESOURCES = new CombinedResources("org.apache.commons.vfs2.Resources");
 
     /**
@@ -40,7 +40,7 @@ public final class Messages {
      */
     private static MessageFormat findMessage(final String code) throws MissingResourceException {
         // Check if the message is cached
-        return messageMap.computeIfAbsent(code, k -> new MessageFormat(RESOURCES.getString(k)));
+        return MESSAGE_MAP.computeIfAbsent(code, k -> new MessageFormat(RESOURCES.getString(k)));
     }
 
     /**

@@ -210,7 +210,7 @@ public class URIUtils {
             throw new IllegalArgumentException("The string to encode may not be null.");
         }
 
-        return encode(unescaped, URIBitSets.allowed_abs_path, charset);
+        return encode(unescaped, URIBitSets.ALLOWED_ABS_PATH, charset);
     }
 
     private URIUtils() {

@@ -34,30 +34,30 @@ import org.apache.commons.vfs2.FileSystemOptions;
  */
 public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
-    private static final String _PREFIX = FtpFileSystemConfigBuilder.class.getName();
+    private static final String PREFIX = FtpFileSystemConfigBuilder.class.getName();
 
     private static final FtpFileSystemConfigBuilder BUILDER = new FtpFileSystemConfigBuilder();
 
-    private static final String AUTODETECT_UTF8 = _PREFIX + ".AUTODETECT_UTF8";
-    private static final String CONNECT_TIMEOUT = _PREFIX + ".CONNECT_TIMEOUT";
-    private static final String DATA_TIMEOUT = _PREFIX + ".DATA_TIMEOUT";
-    private static final String DEFAULT_DATE_FORMAT = _PREFIX + ".DEFAULT_DATE_FORMAT";
-    private static final String ENCODING = _PREFIX + ".ENCODING";
+    private static final String AUTODETECT_UTF8 = PREFIX + ".AUTODETECT_UTF8";
+    private static final String CONNECT_TIMEOUT = PREFIX + ".CONNECT_TIMEOUT";
+    private static final String DATA_TIMEOUT = PREFIX + ".DATA_TIMEOUT";
+    private static final String DEFAULT_DATE_FORMAT = PREFIX + ".DEFAULT_DATE_FORMAT";
+    private static final String ENCODING = PREFIX + ".ENCODING";
     private static final String FACTORY_KEY = FTPFileEntryParserFactory.class.getName() + ".KEY";
-    private static final String FILE_TYPE = _PREFIX + ".FILE_TYPE";
-    private static final String PASSIVE_MODE = _PREFIX + ".PASSIVE";
-    private static final String PROXY = _PREFIX + ".PROXY";
-    private static final String RECENT_DATE_FORMAT = _PREFIX + ".RECENT_DATE_FORMAT";
-    private static final String REMOTE_VERIFICATION = _PREFIX + ".REMOTE_VERIFICATION";
-    private static final String SERVER_LANGUAGE_CODE = _PREFIX + ".SERVER_LANGUAGE_CODE";
-    private static final String SERVER_TIME_ZONE_ID = _PREFIX + ".SERVER_TIME_ZONE_ID";
-    private static final String SHORT_MONTH_NAMES = _PREFIX + ".SHORT_MONTH_NAMES";
-    private static final String SO_TIMEOUT = _PREFIX + ".SO_TIMEOUT";
-    private static final String CONTROL_KEEP_ALIVE_TIMEOUT = _PREFIX + ".CONTROL_KEEP_ALIVE_TIMEOUT";
-    private static final String CONTROL_KEEP_ALIVE_REPLY_TIMEOUT = _PREFIX + ".CONTROL_KEEP_ALIVE_REPLY_TIMEOUT";
-    private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT";
-    private static final String TRANSFER_ABORTED_OK_REPLY_CODES = _PREFIX + ".TRANSFER_ABORTED_OK_REPLY_CODES";
-    private static final String MDTM_LAST_MODIFED_TIME = _PREFIX + ".MDTM_LAST_MODIFED_TIME";
+    private static final String FILE_TYPE = PREFIX + ".FILE_TYPE";
+    private static final String PASSIVE_MODE = PREFIX + ".PASSIVE";
+    private static final String PROXY = PREFIX + ".PROXY";
+    private static final String RECENT_DATE_FORMAT = PREFIX + ".RECENT_DATE_FORMAT";
+    private static final String REMOTE_VERIFICATION = PREFIX + ".REMOTE_VERIFICATION";
+    private static final String SERVER_LANGUAGE_CODE = PREFIX + ".SERVER_LANGUAGE_CODE";
+    private static final String SERVER_TIME_ZONE_ID = PREFIX + ".SERVER_TIME_ZONE_ID";
+    private static final String SHORT_MONTH_NAMES = PREFIX + ".SHORT_MONTH_NAMES";
+    private static final String SO_TIMEOUT = PREFIX + ".SO_TIMEOUT";
+    private static final String CONTROL_KEEP_ALIVE_TIMEOUT = PREFIX + ".CONTROL_KEEP_ALIVE_TIMEOUT";
+    private static final String CONTROL_KEEP_ALIVE_REPLY_TIMEOUT = PREFIX + ".CONTROL_KEEP_ALIVE_REPLY_TIMEOUT";
+    private static final String USER_DIR_IS_ROOT = PREFIX + ".USER_DIR_IS_ROOT";
+    private static final String TRANSFER_ABORTED_OK_REPLY_CODES = PREFIX + ".TRANSFER_ABORTED_OK_REPLY_CODES";
+    private static final String MDTM_LAST_MODIFED_TIME = PREFIX + ".MDTM_LAST_MODIFED_TIME";
 
     /**
      * Gets the singleton instance.

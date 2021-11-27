@@ -29,14 +29,15 @@ import org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder;
  * @since 2.0
  */
 public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilder {
-    private static final String _PREFIX = FtpsFileSystemConfigBuilder.class.getName();
+
+    private static final String PREFIX = FtpsFileSystemConfigBuilder.class.getName();
 
     private static final FtpsFileSystemConfigBuilder BUILDER = new FtpsFileSystemConfigBuilder();
 
-    private static final String FTPS_MODE = _PREFIX + ".FTPS_MODE";
-    private static final String PROT = _PREFIX + ".PROT";
-    private static final String KEY_MANAGER = _PREFIX + ".KEY_MANAGER";
-    private static final String TRUST_MANAGER = _PREFIX + ".TRUST_MANAGER";
+    private static final String FTPS_MODE = PREFIX + ".FTPS_MODE";
+    private static final String PROT = PREFIX + ".PROT";
+    private static final String KEY_MANAGER = PREFIX + ".KEY_MANAGER";
+    private static final String TRUST_MANAGER = PREFIX + ".TRUST_MANAGER";
 
     private FtpsFileSystemConfigBuilder() {
         super("ftps.");
