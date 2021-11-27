@@ -30,6 +30,8 @@ import org.apache.commons.vfs2.provider.GenericURLFileName;
  */
 final class URIBitSets {
 
+    private static final int NBITS = 256;
+
     // ---------------------- Generous characters for each component validation
 
     /**
@@ -878,7 +880,7 @@ final class URIBitSets {
     }
 
     private static BitSet createBitSet() {
-        return new BitSet(256);
+        return new BitSet(NBITS);
     }
 
     private URIBitSets() {
