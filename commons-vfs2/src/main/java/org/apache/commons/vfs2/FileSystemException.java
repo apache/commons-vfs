@@ -134,10 +134,10 @@ public class FileSystemException extends IOException {
      * Constructs exception with the specified detail message.
      *
      * @param code the error code of the message.
-     * @param throwable the original cause
+     * @param cause the original cause
      */
-    public FileSystemException(final String code, final Throwable throwable) {
-        this(code, throwable, (Object[]) null);
+    public FileSystemException(final String code, final Throwable cause) {
+        this(code, cause, (Object[]) null);
     }
 
     /**
@@ -145,12 +145,12 @@ public class FileSystemException extends IOException {
      *
      * @param code the error code of the message.
      * @param info array of complementary info (context).
-     * @param throwable the cause.
+     * @param cause the cause.
      * @deprecated Use instead {@link #FileSystemException(String, Throwable, Object[])}. Will be removed in 3.0.
      */
     @Deprecated
-    public FileSystemException(final String code, final Object[] info, final Throwable throwable) {
-        this(code, throwable, info);
+    public FileSystemException(final String code, final Object[] info, final Throwable cause) {
+        this(code, cause, info);
     }
 
     /**
@@ -158,10 +158,10 @@ public class FileSystemException extends IOException {
      *
      * @param code the error code of the message.
      * @param info array of complementary info (context).
-     * @param throwable the cause.
+     * @param cause the cause.
      */
-    public FileSystemException(final String code, final Throwable throwable, final Object... info) {
-        super(code, throwable);
+    public FileSystemException(final String code, final Throwable cause, final Object... info) {
+        super(code, cause);
 
         if (info == null) {
             this.info = ArrayUtils.EMPTY_STRING_ARRAY;
@@ -182,10 +182,10 @@ public class FileSystemException extends IOException {
     /**
      * Constructs wrapper exception.
      *
-     * @param throwable the root cause to wrap.
+     * @param cause the root cause to wrap.
      */
-    public FileSystemException(final Throwable throwable) {
-        this(throwable.getMessage(), throwable, (Object[]) null);
+    public FileSystemException(final Throwable cause) {
+        this(cause.getMessage(), cause, (Object[]) null);
     }
 
     /**
