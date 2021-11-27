@@ -132,7 +132,7 @@ public final class SftpClientFactory {
      * @throws FileSystemException if an error occurs.
      */
     public static Session createConnection(final String hostname, final int port, final char[] username,
-            final char[] password, final FileSystemOptions fileSystemOptions) throws FileSystemException {
+        final char[] password, final FileSystemOptions fileSystemOptions) throws FileSystemException {
         final JSch jsch = new JSch();
 
         // new style - user passed
@@ -200,15 +200,15 @@ public final class SftpClientFactory {
             if (proxyHost != null) {
                 final int proxyPort = builder.getProxyPort(fileSystemOptions);
                 final SftpFileSystemConfigBuilder.ProxyType proxyType = builder.getProxyType(fileSystemOptions);
-                final String proxyUser =  builder.getProxyUser(fileSystemOptions);
+                final String proxyUser = builder.getProxyUser(fileSystemOptions);
                 final String proxyPassword = builder.getProxyPassword(fileSystemOptions);
                 Proxy proxy = null;
                 if (SftpFileSystemConfigBuilder.PROXY_HTTP.equals(proxyType)) {
                     proxy = createProxyHTTP(proxyHost, proxyPort);
-                    ((ProxyHTTP)proxy).setUserPasswd(proxyUser, proxyPassword);
+                    ((ProxyHTTP) proxy).setUserPasswd(proxyUser, proxyPassword);
                 } else if (SftpFileSystemConfigBuilder.PROXY_SOCKS5.equals(proxyType)) {
                     proxy = createProxySOCKS5(proxyHost, proxyPort);
-                    ((ProxySOCKS5)proxy).setUserPasswd(proxyUser, proxyPassword);
+                    ((ProxySOCKS5) proxy).setUserPasswd(proxyUser, proxyPassword);
                 } else if (SftpFileSystemConfigBuilder.PROXY_STREAM.equals(proxyType)) {
                     proxy = createStreamProxy(proxyHost, proxyPort, fileSystemOptions, builder);
                 }
