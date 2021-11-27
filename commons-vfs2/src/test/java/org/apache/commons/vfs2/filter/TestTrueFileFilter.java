@@ -22,7 +22,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
 /**
  * Always TRUE.
  */
-class TestTrueFileFilter implements FileFilter {
+final class TestTrueFileFilter implements FileFilter {
 
     @Override
     public boolean accept(final FileSelectInfo fileSelectInfo) {

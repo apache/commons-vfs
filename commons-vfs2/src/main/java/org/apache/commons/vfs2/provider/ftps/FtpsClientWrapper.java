@@ -34,7 +34,7 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
  *
  * @since 2.0
  */
-class FtpsClientWrapper extends FTPClientWrapper {
+final class FtpsClientWrapper extends FTPClientWrapper {
 
     FtpsClientWrapper(final GenericFileName root, final FileSystemOptions fileSystemOptions)
             throws FileSystemException {

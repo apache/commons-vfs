@@ -28,7 +28,7 @@ import org.apache.commons.vfs2.provider.GenericURLFileName;
  * but it should work with any different HTTP backend provider implementations.
  * </p>
  */
-class URIBitSets {
+final class URIBitSets {
 
     // ---------------------- Generous characters for each component validation
 

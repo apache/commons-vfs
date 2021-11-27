@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.FileType;
 /**
  * RAM File Object Data.
  */
-class RamFileData implements Serializable {
+final class RamFileData implements Serializable {
 
     /**
      * serialVersionUID format is YYYYMMDD for the date of the last binary change.

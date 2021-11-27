@@ -99,7 +99,7 @@ import org.apache.commons.lang3.ArrayUtils;
                  "8" | "9"
  * </pre>
  */
-class RFC2396 {
+final class RFC2396 {
 
     // RFC 2396 mark
     static final char[] MARK = {'-', '_', '.', '!', '~', '*', '\'', '(', ')'};
