@@ -92,7 +92,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump commons.animal-sniffer.version from 1.19 to 1.20.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">
-        Bump checkstyle from 8.44 to 9.0 #211.
+        Bump com.puppycrawl.tools:checkstyle from 8.44 to 9.1 #211.
       </action>
       <action type="update" dev="ggregory" due-to="Dependabot">
         Bump actions/checkout from 2.3.4 to 2.4.0 #217, #220.
