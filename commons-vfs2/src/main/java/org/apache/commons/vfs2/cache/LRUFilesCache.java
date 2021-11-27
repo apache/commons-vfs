@@ -49,7 +49,7 @@ public class LRUFilesCache extends AbstractFilesCache {
     private static final Log log = LogFactory.getLog(LRUFilesCache.class);
 
     /** The FileSystem cache */
-    private final ConcurrentMap<FileSystem, Map<FileName, FileObject>> filesystemCache = new ConcurrentHashMap<>(10);
+    private final ConcurrentMap<FileSystem, Map<FileName, FileObject>> filesystemCache = new ConcurrentHashMap<>();
 
     /** The size of the cache */
     private final int lruSize;
