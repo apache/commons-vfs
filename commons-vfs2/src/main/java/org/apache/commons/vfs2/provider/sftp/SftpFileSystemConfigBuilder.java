@@ -602,7 +602,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * Configures Key exchange algorithm explicitly e.g diffie-hellman-group14-sha1,
-     * diffie-hellman-group-exchange-sha256, diffie-hellman-group-exchange-sha1, diffie-hellman-group1-sha1
+     * diffie-hellman-group-exchange-sha256, diffie-hellman-group-exchange-sha1, diffie-hellman-group1-sha1.
      *
      * @param options                The FileSystem options.
      * @param keyExchangeAlgoritm The key exchange algorithm picked.

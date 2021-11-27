@@ -52,7 +52,7 @@ public class RawMonitorInputStream extends FilterInputStream {
 //    }
 
     /**
-     * Constructs a MonitorInputStream from the passed InputStream
+     * Constructs a MonitorInputStream from the passed InputStream.
      *
      * @param inputStream The input stream to wrap.
      */

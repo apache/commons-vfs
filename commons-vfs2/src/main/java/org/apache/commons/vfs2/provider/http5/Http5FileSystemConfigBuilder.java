@@ -408,7 +408,7 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Gets the user agent string
+     * Gets the user agent string.
      *
      * @param opts the file system options to modify
      * @return User provided User-Agent string, otherwise default of: Commons-VFS
@@ -664,7 +664,7 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Sets the user agent to attach to the outgoing http methods
+     * Sets the user agent to attach to the outgoing http methods.
      *
      * @param opts the file system options to modify
      * @param userAgent User Agent String

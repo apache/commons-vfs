@@ -31,7 +31,7 @@ public class MonitorOutputStream extends BufferedOutputStream {
     private final AtomicBoolean finished = new AtomicBoolean(false);
 
     /**
-     * Constructs a MonitorOutputStream from the passed OutputStream
+     * Constructs a MonitorOutputStream from the passed OutputStream.
      *
      * @param out The output stream to wrap.
      */
@@ -40,7 +40,7 @@ public class MonitorOutputStream extends BufferedOutputStream {
     }
 
     /**
-     * Constructs a MonitorOutputStream from the passed OutputStream and with the specified buffer size
+     * Constructs a MonitorOutputStream from the passed OutputStream and with the specified buffer size.
      *
      * @param out The output stream to wrap.
      * @param bufferSize The buffer size to use.

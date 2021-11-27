@@ -53,7 +53,7 @@ public final class DefaultFileContent implements FileContent {
     static final int STATE_OPENED = 1;
 
     /**
-     * The default buffer size for {@link #write(OutputStream)}
+     * The default buffer size for {@link #write(OutputStream)}.
      */
     private static final int WRITE_BUFFER_SIZE = 4096;
 
@@ -785,7 +785,7 @@ public final class DefaultFileContent implements FileContent {
     }
 
     /**
-     * Gets the FileContentInfo which describes the content-type, content-encoding
+     * Gets the FileContentInfo which describes the content-type, content-encoding.
      *
      * @return The FileContentInfo.
      * @throws FileSystemException if an error occurs.

@@ -32,7 +32,7 @@ public class MonitorInputStream extends BufferedInputStream {
     private final AtomicBoolean finished = new AtomicBoolean(false);
 
     /**
-     * Constructs a MonitorInputStream from the passed InputStream
+     * Constructs a MonitorInputStream from the passed InputStream.
      *
      * @param in The input stream to wrap.
      */
@@ -41,7 +41,7 @@ public class MonitorInputStream extends BufferedInputStream {
     }
 
     /**
-     * Constructs a MonitorInputStream from the passed InputStream and with the specified buffer size
+     * Constructs a MonitorInputStream from the passed InputStream and with the specified buffer size.
      *
      * @param in The input stream to wrap.
      * @param bufferSize The buffer size to use.
