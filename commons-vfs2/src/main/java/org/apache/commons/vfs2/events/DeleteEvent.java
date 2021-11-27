@@ -24,8 +24,13 @@ import org.apache.commons.vfs2.FileObject;
  */
 public class DeleteEvent extends AbstractFileChangeEvent {
 
-    public DeleteEvent(final FileObject file) {
-        super(file);
+    /**
+     * Constructs a new instance.
+     *
+     * @param fileObject the file object.
+     */
+    public DeleteEvent(final FileObject fileObject) {
+        super(fileObject);
     }
 
     @Override

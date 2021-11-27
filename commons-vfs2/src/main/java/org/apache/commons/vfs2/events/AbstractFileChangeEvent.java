@@ -25,9 +25,20 @@ import org.apache.commons.vfs2.FileObject;
  */
 public abstract class AbstractFileChangeEvent extends FileChangeEvent {
 
-    public AbstractFileChangeEvent(final FileObject file) {
-        super(file);
+    /**
+     * Constructs a new instance.
+     *
+     * @param fileObject the file object.
+     */
+    public AbstractFileChangeEvent(final FileObject fileObject) {
+        super(fileObject);
     }
 
-    public abstract void notify(final FileListener listener) throws Exception;
+    /**
+     * Notifies the given file listener of this event.
+     *
+     * @param fileListener The file listener to notify.
+     * @throws Exception Anything can happen.
+     */
+    public abstract void notify(final FileListener fileListener) throws Exception;
 }

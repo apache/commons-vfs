@@ -24,8 +24,13 @@ import org.apache.commons.vfs2.FileObject;
  */
 public class CreateEvent extends AbstractFileChangeEvent {
 
-    public CreateEvent(final FileObject file) {
-        super(file);
+    /**
+     * Constructs a new instance.
+     *
+     * @param fileObject the file object.
+     */
+    public CreateEvent(final FileObject fileObject) {
+        super(fileObject);
     }
 
     @Override
