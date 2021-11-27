@@ -16,6 +16,6 @@
  */
 
 /**
- * VFS Events
+ * VFS Events.
  */
 package org.apache.commons.vfs2.events;

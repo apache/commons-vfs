@@ -16,6 +16,6 @@
  */
 
 /**
- * The HTTP5S File Provider
+ * The HTTP5S File Provider.
  */
 package org.apache.commons.vfs2.provider.http5s;

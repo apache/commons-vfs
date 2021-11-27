@@ -16,6 +16,6 @@
  */
 
 /**
- * The compressed file provider
+ * The compressed file provider.
  */
 package org.apache.commons.vfs2.provider.compressed;

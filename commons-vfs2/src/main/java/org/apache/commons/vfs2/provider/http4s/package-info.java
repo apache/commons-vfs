@@ -16,6 +16,6 @@
  */
 
 /**
- * The HTTP4S File Provider
+ * The HTTP4S File Provider.
  */
 package org.apache.commons.vfs2.provider.http4s;

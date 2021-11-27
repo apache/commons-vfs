@@ -16,6 +16,6 @@
  */
 
 /**
- * VFS File caching
+ * VFS File caching.
  */
 package org.apache.commons.vfs2.cache;

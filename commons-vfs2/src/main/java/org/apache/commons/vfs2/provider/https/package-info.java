@@ -16,6 +16,6 @@
  */
 
 /**
- * The HTTPS File Provider
+ * The HTTPS File Provider.
  */
 package org.apache.commons.vfs2.provider.https;

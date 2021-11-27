@@ -16,6 +16,6 @@
  */
 
 /**
- * The GZIP File Provider
+ * The GZIP File Provider.
  */
 package org.apache.commons.vfs2.provider.gzip;

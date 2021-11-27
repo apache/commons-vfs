@@ -16,6 +16,6 @@
  */
 
 /**
- * The Resource File Provider
+ * The Resource File Provider.
  */
 package org.apache.commons.vfs2.provider.res;

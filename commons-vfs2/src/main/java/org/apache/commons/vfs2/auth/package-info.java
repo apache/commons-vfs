@@ -16,6 +16,6 @@
  */
 
 /**
- * VFS Authentication implementation
+ * VFS Authentication implementation.
  */
 package org.apache.commons.vfs2.auth;

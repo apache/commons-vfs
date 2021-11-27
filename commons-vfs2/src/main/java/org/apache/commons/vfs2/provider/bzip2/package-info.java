@@ -16,6 +16,6 @@
  */
 
 /**
- * The BZIP2 File Provider
+ * The BZIP2 File Provider.
  */
 package org.apache.commons.vfs2.provider.bzip2;
