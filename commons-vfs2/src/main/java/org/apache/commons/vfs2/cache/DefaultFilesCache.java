@@ -45,7 +45,7 @@ import org.apache.commons.vfs2.FileSystem;
 public class DefaultFilesCache extends AbstractFilesCache {
 
     /** The FileSystem cache. Keeps one Map for each FileSystem. */
-    private final ConcurrentMap<FileSystem, ConcurrentMap<FileName, FileObject>> filesystemCache = new ConcurrentHashMap<>(
+    private final ConcurrentMap<FileSystem, ConcurrentMap<FileName, FileObject>> fileSystemCache = new ConcurrentHashMap<>(
             10);
 
     @Override
@@ -63,7 +63,7 @@ public class DefaultFilesCache extends AbstractFilesCache {
     @Override
     public FileObject getFile(final FileSystem filesystem, final FileName name) {
         // avoid creating filesystem entry for empty filesystem cache:
-        final Map<FileName, FileObject> files = filesystemCache.get(filesystem);
+        final Map<FileName, FileObject> files = fileSystemCache.get(filesystem);
         if (files == null) {
             // cache for filesystem is not known => file is not cached:
             return null;
@@ -75,18 +75,18 @@ public class DefaultFilesCache extends AbstractFilesCache {
     @Override
     public void clear(final FileSystem filesystem) {
         // avoid keeping a reference to the FileSystem (key) object
-        final Map<FileName, FileObject> files = filesystemCache.remove(filesystem);
+        final Map<FileName, FileObject> files = fileSystemCache.remove(filesystem);
         if (files != null) {
             files.clear(); // help GC
         }
     }
 
     protected ConcurrentMap<FileName, FileObject> getOrCreateFilesystemCache(final FileSystem filesystem) {
-        ConcurrentMap<FileName, FileObject> files = filesystemCache.get(filesystem);
+        ConcurrentMap<FileName, FileObject> files = fileSystemCache.get(filesystem);
         // we loop to make sure we never return null even when concurrent clean is called
         while (files == null) {
-            filesystemCache.putIfAbsent(filesystem, new ConcurrentHashMap<>(200, 0.75f, 8));
-            files = filesystemCache.get(filesystem);
+            fileSystemCache.putIfAbsent(filesystem, new ConcurrentHashMap<>(200, 0.75f, 8));
+            files = fileSystemCache.get(filesystem);
         }
 
         return files;
@@ -95,13 +95,13 @@ public class DefaultFilesCache extends AbstractFilesCache {
     @Override
     public void close() {
         super.close();
-        filesystemCache.clear();
+        fileSystemCache.clear();
     }
 
     @Override
     public void removeFile(final FileSystem filesystem, final FileName name) {
         // avoid creating filesystem entry for empty filesystem cache:
-        final Map<FileName, FileObject> files = filesystemCache.get(filesystem);
+        final Map<FileName, FileObject> files = fileSystemCache.get(filesystem);
         if (files != null) {
             files.remove(name);
             // This would be too racey:
