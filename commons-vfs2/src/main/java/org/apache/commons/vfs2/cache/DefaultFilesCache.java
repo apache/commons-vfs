@@ -44,9 +44,11 @@ import org.apache.commons.vfs2.FileSystem;
  */
 public class DefaultFilesCache extends AbstractFilesCache {
 
+    private static final float LOAD_FACTOR = 0.75f;
+    private static final int INITIAL_CAPACITY = 200;
+
     /** The FileSystem cache. Keeps one Map for each FileSystem. */
-    private final ConcurrentMap<FileSystem, ConcurrentMap<FileName, FileObject>> fileSystemCache = new ConcurrentHashMap<>(
-            10);
+    private final ConcurrentMap<FileSystem, ConcurrentMap<FileName, FileObject>> fileSystemCache = new ConcurrentHashMap<>(10);
 
     @Override
     public void putFile(final FileObject file) {
@@ -85,7 +87,7 @@ public class DefaultFilesCache extends AbstractFilesCache {
         ConcurrentMap<FileName, FileObject> files = fileSystemCache.get(filesystem);
         // we loop to make sure we never return null even when concurrent clean is called
         while (files == null) {
-            fileSystemCache.putIfAbsent(filesystem, new ConcurrentHashMap<>(200, 0.75f, 8));
+            fileSystemCache.putIfAbsent(filesystem, new ConcurrentHashMap<>(INITIAL_CAPACITY, LOAD_FACTOR, Math.max(2, Runtime.getRuntime().availableProcessors()) / 2));
             files = fileSystemCache.get(filesystem);
         }
 
