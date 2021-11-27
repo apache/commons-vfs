@@ -33,7 +33,7 @@ import org.apache.commons.vfs2.provider.VfsComponentContext;
 final class DefaultVfsComponentContext implements VfsComponentContext {
     private final DefaultFileSystemManager manager;
 
-    public DefaultVfsComponentContext(final DefaultFileSystemManager manager) {
+    DefaultVfsComponentContext(final DefaultFileSystemManager manager) {
         this.manager = manager;
     }
 

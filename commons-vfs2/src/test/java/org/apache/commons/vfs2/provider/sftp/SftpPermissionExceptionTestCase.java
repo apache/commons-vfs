@@ -69,7 +69,7 @@ public class SftpPermissionExceptionTestCase extends AbstractSftpProviderTestCas
 
 
         // try to create local file
-        String fileName = "filecopy.txt";
+        final String fileName = "filecopy.txt";
         FileObject fileObjectCopy = scratchFolder.resolveFile(fileName);
         fileObjectCopy.setWritable(false, false);
         fileObjectCopy.copyFrom(localFileObject, Selectors.SELECT_SELF);
@@ -88,7 +88,7 @@ public class SftpPermissionExceptionTestCase extends AbstractSftpProviderTestCas
         }
 
         // try to get created channel number.
-        int channelId = Server.getActiveSessions().get(0).registerChannel(new ChannelSession());
+        final int channelId = Server.getActiveSessions().get(0).registerChannel(new ChannelSession());
         Assert.assertTrue("create too many sftp channel more", channelId<30);
 
         // try to set the local file to writable

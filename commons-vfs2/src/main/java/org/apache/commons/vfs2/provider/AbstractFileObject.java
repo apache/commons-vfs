@@ -136,7 +136,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Constructs a new instance.
-     * 
+     *
      * @param fileName the file name.
      * @param fileSystem the file system.
      */

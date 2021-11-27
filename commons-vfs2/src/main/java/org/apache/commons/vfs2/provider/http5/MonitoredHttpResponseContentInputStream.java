@@ -29,12 +29,12 @@ final class MonitoredHttpResponseContentInputStream extends MonitorInputStream {
 
     private final ClassicHttpResponse httpResponse;
 
-    public MonitoredHttpResponseContentInputStream(final ClassicHttpResponse httpResponse) throws IOException {
+    MonitoredHttpResponseContentInputStream(final ClassicHttpResponse httpResponse) throws IOException {
         super(httpResponse.getEntity().getContent());
         this.httpResponse = httpResponse;
     }
 
-    public MonitoredHttpResponseContentInputStream(final ClassicHttpResponse httpResponse, final int bufferSize) throws IOException {
+    MonitoredHttpResponseContentInputStream(final ClassicHttpResponse httpResponse, final int bufferSize) throws IOException {
         super(httpResponse.getEntity().getContent(), bufferSize);
         this.httpResponse = httpResponse;
     }

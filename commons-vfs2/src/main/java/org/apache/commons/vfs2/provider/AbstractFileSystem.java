@@ -105,7 +105,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      * Constructs a new instance.
      *
      * @param rootFileName The root file name of this file system.
-     * @param parentLayer The parent layer of this file system. 
+     * @param parentLayer The parent layer of this file system.
      * @param fileSystemOptions Options to build this file system.
      */
     protected AbstractFileSystem(final FileName rootFileName, final FileObject parentLayer, final FileSystemOptions fileSystemOptions) {

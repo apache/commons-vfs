@@ -70,7 +70,7 @@ public class LRUFilesCache extends AbstractFilesCache {
         /** The FileSystem */
         private final FileSystem filesystem;
 
-        public MyLRUMap(final FileSystem filesystem, final int size) {
+        MyLRUMap(final FileSystem filesystem, final int size) {
             super(size, true);
             this.filesystem = filesystem;
         }

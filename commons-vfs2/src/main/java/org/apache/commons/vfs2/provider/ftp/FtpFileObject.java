@@ -59,12 +59,12 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     class FtpInputStream extends MonitorInputStream {
         private final FtpClient client;
 
-        public FtpInputStream(final FtpClient client, final InputStream in) {
+        FtpInputStream(final FtpClient client, final InputStream in) {
             super(in);
             this.client = client;
         }
 
-        public FtpInputStream(final FtpClient client, final InputStream in, final int bufferSize) {
+        FtpInputStream(final FtpClient client, final InputStream in, final int bufferSize) {
             super(in, bufferSize);
             this.client = client;
         }
@@ -104,7 +104,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     private class FtpOutputStream extends MonitorOutputStream {
         private final FtpClient client;
 
-        public FtpOutputStream(final FtpClient client, final OutputStream outstr) {
+        FtpOutputStream(final FtpClient client, final OutputStream outstr) {
             super(outstr);
             this.client = client;
         }
@@ -126,6 +126,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
             }
         }
     }
+
     private static final long DEFAULT_TIMESTAMP = 0L;
     private static final Map<String, FTPFile> EMPTY_FTP_FILE_MAP = Collections
             .unmodifiableMap(new TreeMap<>());

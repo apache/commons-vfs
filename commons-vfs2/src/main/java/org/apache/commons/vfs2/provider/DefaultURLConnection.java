@@ -34,7 +34,7 @@ public final class DefaultURLConnection extends URLConnection {
 
     /**
      * Constructs a new instance.
-     * 
+     *
      * @param url The URL to connect.
      * @param fileContent The URL fileContent.
      */

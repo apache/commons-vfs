@@ -74,7 +74,7 @@ public final class DefaultFileContent implements FileContent {
     /**
      * Constructs a new instance.
      *
-     * @param fileObject The file object. 
+     * @param fileObject The file object.
      * @param fileContentInfoFactory The info factory.
      */
     public DefaultFileContent(final AbstractFileObject fileObject, final FileContentInfoFactory fileContentInfoFactory) {

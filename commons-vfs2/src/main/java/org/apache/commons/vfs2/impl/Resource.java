@@ -42,7 +42,7 @@ final class Resource {
      * @param root The code source FileObject.
      * @param resource The resource of the FileObject.
      */
-    public Resource(final String name, final FileObject root, final FileObject resource) throws FileSystemException {
+    Resource(final String name, final FileObject root, final FileObject resource) throws FileSystemException {
         this.root = root;
         this.resource = resource;
         packageFolder = resource.getParent();

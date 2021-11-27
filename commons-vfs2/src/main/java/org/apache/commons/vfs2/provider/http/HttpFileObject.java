@@ -56,12 +56,12 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
     static class HttpInputStream extends MonitorInputStream {
         private final GetMethod method;
 
-        public HttpInputStream(final GetMethod method) throws IOException {
+        HttpInputStream(final GetMethod method) throws IOException {
             super(method.getResponseBodyAsStream());
             this.method = method;
         }
 
-        public HttpInputStream(final GetMethod method, final int bufferSize) throws IOException {
+        HttpInputStream(final GetMethod method, final int bufferSize) throws IOException {
             super(method.getResponseBodyAsStream(), bufferSize);
             this.method = method;
         }
@@ -78,7 +78,6 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
     private final String urlCharset;
     private final String userAgent;
     private final boolean followRedirect;
-
     private HeadMethod method;
 
     protected HttpFileObject(final AbstractFileName name, final FS fileSystem) {

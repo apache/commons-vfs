@@ -55,12 +55,12 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     private class SftpInputStream extends MonitorInputStream {
         private final ChannelSftp channel;
 
-        public SftpInputStream(final ChannelSftp channel, final InputStream in) {
+        SftpInputStream(final ChannelSftp channel, final InputStream in) {
             super(in);
             this.channel = channel;
         }
 
-        public SftpInputStream(final ChannelSftp channel, final InputStream in, final int bufferSize) {
+        SftpInputStream(final ChannelSftp channel, final InputStream in, final int bufferSize) {
             super(in, bufferSize);
             this.channel = channel;
         }
@@ -80,7 +80,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     private class SftpOutputStream extends MonitorOutputStream {
         private final ChannelSftp channel;
 
-        public SftpOutputStream(final ChannelSftp channel, final OutputStream out) {
+        SftpOutputStream(final ChannelSftp channel, final OutputStream out) {
             super(out);
             this.channel = channel;
         }

@@ -66,7 +66,7 @@ class RamFileData implements Serializable {
      *
      * @param name The file name.
      */
-    public RamFileData(final FileName name) {
+    RamFileData(final FileName name) {
         this.children = Collections.synchronizedCollection(new ArrayList<>());
         this.clear();
         if (name == null) {

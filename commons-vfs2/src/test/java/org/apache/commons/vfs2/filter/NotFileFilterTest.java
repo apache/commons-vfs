@@ -37,7 +37,7 @@ public class NotFileFilterTest extends BaseFilterTest {
 
         Assert.assertFalse(new NotFileFilter(TrueFileFilter.INSTANCE).accept(any));
         Assert.assertFalse(new NotFileFilter(TrueFileFilter.TRUE).accept(any));
-        
+
         Assert.assertTrue(new NotFileFilter(FalseFileFilter.INSTANCE).accept(any));
         Assert.assertTrue(new NotFileFilter(FalseFileFilter.FALSE).accept(any));
 

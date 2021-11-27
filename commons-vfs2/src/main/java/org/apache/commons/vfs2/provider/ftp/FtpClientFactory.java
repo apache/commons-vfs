@@ -119,8 +119,9 @@ public final class FtpClientFactory {
                         public void flush() {
                             final StringBuffer buffer = getBuffer();
                             String message = buffer.toString();
-                            if (message.toUpperCase().startsWith("PASS ") && message.length() > 5) {
-                                message = "PASS ***";
+                            final String prefix = "PASS ";
+                            if (message.toUpperCase().startsWith(prefix) && message.length() > prefix.length()) {
+                                message = prefix + "***";
                             }
                             log.debug(message);
                             buffer.setLength(0);

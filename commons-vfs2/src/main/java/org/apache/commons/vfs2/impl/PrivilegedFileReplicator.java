@@ -141,7 +141,7 @@ public class PrivilegedFileReplicator implements FileReplicator, VfsComponent {
         private final FileObject srcFile;
         private final FileSelector selector;
 
-        public ReplicateAction(final FileObject srcFile, final FileSelector selector) {
+        ReplicateAction(final FileObject srcFile, final FileSelector selector) {
             this.srcFile = srcFile;
             this.selector = selector;
         }
