@@ -639,5 +639,6 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
                 newFileInfo.setType(FTPFile.DIRECTORY_TYPE);
             }
             this.ftpFile = newFileInfo == null ? UNKNOWN : newFileInfo;
-        }}
+        }
+    }
 }
