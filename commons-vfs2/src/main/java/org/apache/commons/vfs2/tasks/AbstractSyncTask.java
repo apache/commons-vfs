@@ -294,10 +294,7 @@ public abstract class AbstractSyncTask extends VfsTask {
     /**
      * Handles a single file, checking for collisions where more than one source file maps to the same destination file.
      */
-    private void handleFile(final Set<FileObject> destFiles, final FileObject srcFile, final FileObject destFile)
-            throws Exception
-
-    {
+    private void handleFile(final Set<FileObject> destFiles, final FileObject srcFile, final FileObject destFile) throws Exception {
         // Check for duplicate source files
         if (destFiles.contains(destFile)) {
             final String message = Messages.getString("vfs.tasks/sync.duplicate-source-files.warn", destFile);

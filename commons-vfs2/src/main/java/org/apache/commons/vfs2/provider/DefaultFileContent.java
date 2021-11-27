@@ -497,8 +497,8 @@ public final class DefaultFileContent implements FileContent {
 
     private InputStream buildInputStream(final int bufferSize) throws FileSystemException {
         /*
-         * if (getThreadData().getState() == STATE_WRITING || getThreadData().getState() == STATE_RANDOM_ACCESS) { throw
-         * new FileSystemException("vfs.provider/read-in-use.error", file); }
+         * if (getThreadData().getState() == STATE_WRITING || getThreadData().getState() == STATE_RANDOM_ACCESS) { throw new
+         * FileSystemException("vfs.provider/read-in-use.error", file); }
          */
         // Get the raw input stream
         // @formatter:off
@@ -515,8 +515,7 @@ public final class DefaultFileContent implements FileContent {
         if (inputStream instanceof BufferedInputStream) {
             // Don't double buffer.
             wrappedInputStream = new RawFileContentInputStream(fileObject, inputStream);
-        } else
-        {
+        } else {
             // @formatter:off
             wrappedInputStream = bufferSize == 0
                     ? new FileContentInputStream(fileObject, inputStream)

@@ -1285,8 +1285,8 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      */
     @Override
     public FileObject getParent() throws FileSystemException {
-        if (this.compareTo(fileSystem.getRoot()) == 0) // equals is not implemented :-/
-        {
+        // equals is not implemented :-/
+        if (this.compareTo(fileSystem.getRoot()) == 0) {
             if (fileSystem.getParentLayer() == null) {
                 // Root file has no parent
                 return null;
