@@ -81,6 +81,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="add" dev="ggregory" due-to="Gary Gregory">
         DefaultFileMonitor implements AutoCloseable.
       </action>
+      <action type="add" dev="ggregory" due-to="Gary Gregory">
+        Add FalseFileFilter.INSTANCE and deprecate FalseFileFilter.FALSE.
+      </action>
       <!-- UDPATE -->
       <action type="update" dev="ggregory" due-to="Dependabot">
         Bump jakarta.mail from 1.6.7 to 2.0.1 #200.

@@ -34,8 +34,17 @@ public class FalseFileFilter implements FileFilter, Serializable {
 
     /**
      * Singleton instance of false filter.
+     *
+     * @since 2.10.0
      */
-    public static final FileFilter FALSE = new FalseFileFilter();
+    public static final FileFilter INSTANCE = new FalseFileFilter();
+
+    /**
+     * Singleton instance of false filter.
+     * @deprecated Use {@link #INSTANCE}.
+     */
+    @Deprecated
+    public static final FileFilter FALSE = INSTANCE;
 
     /**
      * Restrictive constructor.

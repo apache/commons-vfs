@@ -35,6 +35,7 @@ public class NotFileFilterTest extends BaseFilterTest {
         final FileSelectInfo any = createFileSelectInfo(new File("test1.txt"));
 
         Assert.assertFalse(new NotFileFilter(TrueFileFilter.TRUE).accept(any));
+        Assert.assertTrue(new NotFileFilter(FalseFileFilter.INSTANCE).accept(any));
         Assert.assertTrue(new NotFileFilter(FalseFileFilter.FALSE).accept(any));
 
     }
