@@ -43,7 +43,6 @@ final class URIBitSets {
         percent.set('%');
     }
 
-
     /**
      * BitSet for digit.
      * <p><blockquote><pre>
@@ -58,7 +57,6 @@ final class URIBitSets {
             digit.set(i);
         }
     }
-
 
     /**
      * BitSet for alpha.
@@ -77,7 +75,6 @@ final class URIBitSets {
         }
     }
 
-
     /**
      * BitSet for alphanum (join of alpha &amp; digit).
      * <p><blockquote><pre>
@@ -90,7 +87,6 @@ final class URIBitSets {
         alphanum.or(alpha);
         alphanum.or(digit);
     }
-
 
     /**
      * BitSet for hex.
@@ -111,7 +107,6 @@ final class URIBitSets {
         }
     }
 
-
     /**
      * BitSet for escaped.
      * <p><blockquote><pre>
@@ -124,7 +119,6 @@ final class URIBitSets {
         escaped.or(percent);
         escaped.or(hex);
     }
-
 
     /**
      * BitSet for mark.
@@ -147,7 +141,6 @@ final class URIBitSets {
         mark.set(')');
     }
 
-
     /**
      * Data characters that are allowed in a URI but do not have a reserved
      * purpose are called unreserved.
@@ -161,7 +154,6 @@ final class URIBitSets {
         unreserved.or(alphanum);
         unreserved.or(mark);
     }
-
 
     /**
      * BitSet for reserved.
@@ -185,7 +177,6 @@ final class URIBitSets {
         reserved.set(',');
     }
 
-
     /**
      * BitSet for uric.
      * <p><blockquote><pre>
@@ -200,7 +191,6 @@ final class URIBitSets {
         uric.or(escaped);
     }
 
-
     /**
      * BitSet for fragment (alias for uric).
      * <p><blockquote><pre>
@@ -209,7 +199,6 @@ final class URIBitSets {
      */
     protected static final BitSet fragment = uric;
 
-
     /**
      * BitSet for query (alias for uric).
      * <p><blockquote><pre>
@@ -217,7 +206,6 @@ final class URIBitSets {
      * </pre></blockquote></p>
      */
     protected static final BitSet query = uric;
-
 
     /**
      * BitSet for pchar.
@@ -240,7 +228,6 @@ final class URIBitSets {
         pchar.set(',');
     }
 
-
     /**
      * BitSet for param (alias for pchar).
      * <p><blockquote><pre>
@@ -248,7 +235,6 @@ final class URIBitSets {
      * </pre></blockquote></p>
      */
     protected static final BitSet param = pchar;
-
 
     /**
      * BitSet for segment.
@@ -264,7 +250,6 @@ final class URIBitSets {
         segment.or(param);
     }
 
-
     /**
      * BitSet for path segments.
      * <p><blockquote><pre>
@@ -278,7 +263,6 @@ final class URIBitSets {
         path_segments.or(segment);
     }
 
-
     /**
      * URI absolute path.
      * <p><blockquote><pre>
@@ -291,7 +275,6 @@ final class URIBitSets {
         abs_path.set('/');
         abs_path.or(path_segments);
     }
-
 
     /**
      * URI bitset for encoding typical non-slash characters.
@@ -316,7 +299,6 @@ final class URIBitSets {
         uric_no_slash.set(',');
     }
 
-
     /**
      * URI bitset that combines uric_no_slash and uric.
      * <p><blockquote><pre>
@@ -331,7 +313,6 @@ final class URIBitSets {
         opaque_part.or(uric);
     }
 
-
     /**
      * URI bitset that combines absolute path and opaque part.
      * <p><blockquote><pre>
@@ -345,12 +326,10 @@ final class URIBitSets {
         path.or(opaque_part);
     }
 
-
     /**
      * Port, a logical alias for digit.
      */
     protected static final BitSet port = digit;
-
 
     /**
      * Bitset that combines digit and dot fo IPv$address.
@@ -364,7 +343,6 @@ final class URIBitSets {
         IPv4address.or(digit);
         IPv4address.set('.');
     }
-
 
     /**
      * RFC 2373.
@@ -380,7 +358,6 @@ final class URIBitSets {
         IPv6address.or(IPv4address);
     }
 
-
     /**
      * RFC 2732, 2373.
      * <p><blockquote><pre>
@@ -395,7 +372,6 @@ final class URIBitSets {
         IPv6reference.set(']');
     }
 
-
     /**
      * BitSet for toplabel.
      * <p><blockquote><pre>
@@ -409,7 +385,6 @@ final class URIBitSets {
         toplabel.set('-');
     }
 
-
     /**
      * BitSet for domainlabel.
      * <p><blockquote><pre>
@@ -417,7 +392,6 @@ final class URIBitSets {
      * </pre></blockquote></p>
      */
     protected static final BitSet domainlabel = toplabel;
-
 
     /**
      * BitSet for hostname.
@@ -433,7 +407,6 @@ final class URIBitSets {
         hostname.set('.');
     }
 
-
     /**
      * BitSet for host.
      * <p><blockquote><pre>
@@ -448,7 +421,6 @@ final class URIBitSets {
         host.or(IPv6reference); // IPv4address
     }
 
-
     /**
      * BitSet for hostport.
      * <p><blockquote><pre>
@@ -462,7 +434,6 @@ final class URIBitSets {
         hostport.set(':');
         hostport.or(port);
     }
-
 
     /**
      * Bitset for userinfo.
@@ -485,7 +456,6 @@ final class URIBitSets {
         userinfo.set(',');
     }
 
-
     /**
      * BitSet for within the userinfo component like user and password.
      */
@@ -500,7 +470,6 @@ final class URIBitSets {
         within_userinfo.clear('/');
     }
 
-
     /**
      * Bitset for server.
      * <p><blockquote><pre>
@@ -514,7 +483,6 @@ final class URIBitSets {
         server.set('@');
         server.or(hostport);
     }
-
 
     /**
      * BitSet for reg_name.
@@ -538,7 +506,6 @@ final class URIBitSets {
         reg_name.set('+');
     }
 
-
     /**
      * BitSet for authority.
      * <p><blockquote><pre>
@@ -551,7 +518,6 @@ final class URIBitSets {
         authority.or(server);
         authority.or(reg_name);
     }
-
 
     /**
      * BitSet for scheme.
@@ -568,7 +534,6 @@ final class URIBitSets {
         scheme.set('-');
         scheme.set('.');
     }
-
 
     /**
      * BitSet for rel_segment.
@@ -591,7 +556,6 @@ final class URIBitSets {
         rel_segment.set(',');
     }
 
-
     /**
      * BitSet for rel_path.
      * <p><blockquote><pre>
@@ -604,7 +568,6 @@ final class URIBitSets {
         rel_path.or(rel_segment);
         rel_path.or(abs_path);
     }
-
 
     /**
      * BitSet for net_path.
@@ -620,7 +583,6 @@ final class URIBitSets {
         net_path.or(abs_path);
     }
 
-
     /**
      * BitSet for hier_part.
      * <p><blockquote><pre>
@@ -635,7 +597,6 @@ final class URIBitSets {
         // hier_part.set('?'); aleady included
         hier_part.or(query);
     }
-
 
     /**
      * BitSet for relativeURI.
@@ -653,7 +614,6 @@ final class URIBitSets {
         relativeURI.or(query);
     }
 
-
     /**
      * BitSet for absoluteURI.
      * <p><blockquote><pre>
@@ -668,7 +628,6 @@ final class URIBitSets {
         absoluteURI.or(hier_part);
         absoluteURI.or(opaque_part);
     }
-
 
     /**
      * BitSet for URI-reference.
@@ -709,7 +668,6 @@ final class URIBitSets {
         space.set(0x20);
     }
 
-
     /**
      * BitSet for delims.
      */
@@ -722,7 +680,6 @@ final class URIBitSets {
         delims.set('%');
         delims.set('"');
     }
-
 
     /**
      * BitSet for unwise.
@@ -740,7 +697,6 @@ final class URIBitSets {
         unwise.set('`');
     }
 
-
     /**
      * Disallowed rel_path before escaping.
      */
@@ -750,7 +706,6 @@ final class URIBitSets {
         disallowed_rel_path.or(uric);
         disallowed_rel_path.andNot(rel_path);
     }
-
 
     /**
      * Disallowed opaque_part before escaping.
@@ -774,7 +729,6 @@ final class URIBitSets {
         allowed_authority.clear('%');
     }
 
-
     /**
      * Those characters that are allowed for the opaque_part.
      */
@@ -784,7 +738,6 @@ final class URIBitSets {
         allowed_opaque_part.or(opaque_part);
         allowed_opaque_part.clear('%');
     }
-
 
     /**
      * Those characters that are allowed for the reg_name.
@@ -797,7 +750,6 @@ final class URIBitSets {
         allowed_reg_name.clear('%');
     }
 
-
     /**
      * Those characters that are allowed for the userinfo component.
      */
@@ -809,7 +761,6 @@ final class URIBitSets {
         allowed_userinfo.clear('%');
     }
 
-
     /**
      * Those characters that are allowed for within the userinfo component.
      */
@@ -819,7 +770,6 @@ final class URIBitSets {
         allowed_within_userinfo.or(within_userinfo);
         allowed_within_userinfo.clear('%');
     }
-
 
     /**
      * Those characters that are allowed for the IPv6reference component.
@@ -834,7 +784,6 @@ final class URIBitSets {
         allowed_IPv6reference.clear(']');
     }
 
-
     /**
      * Those characters that are allowed for the host component.
      * The characters '[', ']' in IPv6reference should be excluded.
@@ -845,7 +794,6 @@ final class URIBitSets {
         allowed_host.or(hostname);
         allowed_host.or(allowed_IPv6reference);
     }
-
 
     /**
      * Those characters that are allowed for the authority component.
@@ -862,7 +810,6 @@ final class URIBitSets {
         allowed_within_authority.clear('/');
     }
 
-
     /**
      * Those characters that are allowed for the abs_path.
      */
@@ -875,7 +822,6 @@ final class URIBitSets {
         allowed_abs_path.clear('+');
     }
 
-
     /**
      * Those characters that are allowed for the rel_path.
      */
@@ -886,7 +832,6 @@ final class URIBitSets {
         allowed_rel_path.clear('%');
         allowed_rel_path.clear('+');
     }
-
 
     /**
      * Those characters that are allowed within the path.
@@ -901,7 +846,6 @@ final class URIBitSets {
         allowed_within_path.clear('?');
     }
 
-
     /**
      * Those characters that are allowed for the query component.
      */
@@ -912,7 +856,6 @@ final class URIBitSets {
         allowed_query.clear('%');
     }
 
-
     /**
      * Those characters that are allowed within the query component.
      */
@@ -922,7 +865,6 @@ final class URIBitSets {
         allowed_within_query.or(allowed_query);
         allowed_within_query.andNot(reserved); // excluded 'reserved'
     }
-
 
     /**
      * Those characters that are allowed for the fragment component.
