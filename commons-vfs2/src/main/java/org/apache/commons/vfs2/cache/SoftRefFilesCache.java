@@ -164,7 +164,7 @@ public class SoftRefFilesCache extends AbstractFilesCache {
             log.debug("putFile: " + this.getSafeName(fileObject));
         }
 
-        synchronized(this) {
+        synchronized (this) {
             final Map<FileName, Reference<FileObject>> files = getOrCreateFilesystemCache(fileObject.getFileSystem());
 
             final Reference<FileObject> ref = createReference(fileObject, refQueue);
@@ -184,7 +184,7 @@ public class SoftRefFilesCache extends AbstractFilesCache {
             log.debug("putFile: " + this.getSafeName(fileObject));
         }
 
-        synchronized(this) {
+        synchronized (this) {
             final Map<FileName, Reference<FileObject>> files = getOrCreateFilesystemCache(fileObject.getFileSystem());
 
             final Reference<FileObject> ref = createReference(fileObject, refQueue);
