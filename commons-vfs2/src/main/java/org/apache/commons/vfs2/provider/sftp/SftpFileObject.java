@@ -157,43 +157,35 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     @SuppressWarnings("resource")
     @Override
     protected InputStream doGetInputStream(final int bufferSize) throws Exception {
-        // VFS-113: avoid npe
+        // VFS-113: avoid NPE.
         synchronized (getAbstractFileSystem()) {
             final ChannelSftp channel = getAbstractFileSystem().getChannel();
+            // return channel.get(getName().getPath());
+            // hmmm - using the in memory method is soooo much faster ...
+
+            // TODO - Don't read the entire file into memory. Use the
+            // stream-based methods on ChannelSftp once they work properly
+
+            /*
+             * final ByteArrayOutputStream outstr = new ByteArrayOutputStream(); channel.get(relPath, outstr); outstr.close();
+             * return new ByteArrayInputStream(outstr.toByteArray());
+             */
+
+            final InputStream inputStream;
             try {
-                // return channel.get(getName().getPath());
-                // hmmm - using the in memory method is soooo much faster ...
-
-                // TODO - Don't read the entire file into memory. Use the
-                // stream-based methods on ChannelSftp once they work properly
-
-                /*
-                 * final ByteArrayOutputStream outstr = new ByteArrayOutputStream(); channel.get(relPath, outstr);
-                 * outstr.close(); return new ByteArrayInputStream(outstr.toByteArray());
-                 */
-
-                final InputStream inputStream;
-                try {
-                    // VFS-210: sftp allows to gather an input stream even from a directory and will
-                    // fail on first read. So we need to check the type anyway
-                    if (!getType().hasContent()) {
-                        throw new FileSystemException("vfs.provider/read-not-file.error", getName());
-                    }
-
-                    inputStream = channel.get(relPath);
-                } catch (final SftpException e) {
-                    if (e.id == ChannelSftp.SSH_FX_NO_SUCH_FILE) {
-                        throw new FileNotFoundException(getName());
-                    }
-
-                    throw new FileSystemException(e);
+                // VFS-210: sftp allows to gather an input stream even from a directory and will
+                // fail on first read. So we need to check the type anyway
+                if (!getType().hasContent()) {
+                    throw new FileSystemException("vfs.provider/read-not-file.error", getName());
                 }
-
-                return new SftpInputStream(channel, inputStream, bufferSize);
-
-            } finally {
-                // getAbstractFileSystem().putChannel(channel);
+                inputStream = channel.get(relPath);
+            } catch (final SftpException e) {
+                if (e.id == ChannelSftp.SSH_FX_NO_SUCH_FILE) {
+                    throw new FileNotFoundException(getName());
+                }
+                throw new FileSystemException(e);
             }
+            return new SftpInputStream(channel, inputStream, bufferSize);
         }
     }
 

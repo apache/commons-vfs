@@ -118,21 +118,21 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @see #setConfigURL(FileSystemOptions, URL)
      */
     public URL[] getConfigURLs(final FileSystemOptions opts) {
-        try {
-            final String urlNames = this.getString(opts, KEY_CONFIG_URLS);
-            if (StringUtils.isEmpty(urlNames)) {
-                return null;
-            }
-            final String[] urls = urlNames.split(",");
-            final URL[] realURLs = new URL[urls.length];
-            for (int i = 0; i < urls.length; i++) {
-                realURLs[i] = new URL(urls[i]);
-            }
-            return realURLs;
-        } catch (final MalformedURLException mue) {
-            // This should never happen because we save it in the proper form
+        final String urlNames = this.getString(opts, KEY_CONFIG_URLS);
+        if (StringUtils.isEmpty(urlNames)) {
+            return null;
         }
-        return null;
+        final String[] urls = urlNames.split(",");
+        final URL[] realURLs = new URL[urls.length];
+        for (int i = 0; i < urls.length; i++) {
+            try {
+                realURLs[i] = new URL(urls[i]);
+            } catch (MalformedURLException e) {
+                // This should never happen because we save it in the proper form.
+                throw new IllegalArgumentException(urls[i], e);
+            }
+        }
+        return realURLs;
     }
 
     /**
