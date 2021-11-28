@@ -57,12 +57,11 @@ public class ResourceFileProvider extends AbstractFileProvider {
      */
     @Override
     public FileObject findFile(final FileObject baseFile, final String uri, final FileSystemOptions fileSystemOptions)
-            throws FileSystemException {
+        throws FileSystemException {
         final FileName fileName;
         if (baseFile != null) {
             fileName = parseUri(baseFile.getName(), uri);
-        }
-        else {
+        } else {
             fileName = parseUri(null, uri);
         }
         final String resourceName = fileName.getPath();

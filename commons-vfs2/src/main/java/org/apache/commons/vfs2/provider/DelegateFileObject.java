@@ -191,9 +191,8 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
 
             try {
                 children = file.getChildren();
-            }
-            // VFS-210
-            catch (final FileNotFolderException e) {
+            } catch (final FileNotFolderException e) {
+                // VFS-210
                 throw new FileNotFolderException(getName(), e);
             }
 
