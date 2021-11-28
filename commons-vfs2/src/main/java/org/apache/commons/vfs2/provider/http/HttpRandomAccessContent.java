@@ -29,6 +29,8 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
  * RandomAccess content using HTTP.
+ *
+ * @param <FS> Type of HttpFileSystem.
  */
 final class HttpRandomAccessContent<FS extends HttpFileSystem> extends AbstractRandomAccessStreamContent {
 

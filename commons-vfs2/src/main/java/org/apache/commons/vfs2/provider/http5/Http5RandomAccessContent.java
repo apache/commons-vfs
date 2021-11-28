@@ -30,6 +30,8 @@ import org.apache.hc.core5.http.ClassicHttpResponse;
 
 /**
  * RandomAccess content using {@code Http5FileObject}.
+ *
+ * @param <FS> Type of HttpFileSystem.
  */
 final class Http5RandomAccessContent<FS extends Http5FileSystem> extends AbstractRandomAccessStreamContent {
 
