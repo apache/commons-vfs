@@ -29,18 +29,18 @@ public class FtpFileNameParser extends HostFileNameParser {
     private static final int PORT = 21;
 
     /**
+     * Constructs a new instance with the default port.
+     */
+    public FtpFileNameParser() {
+        super(PORT);
+    }
+
+    /**
      * Gets the singleton instance.
      *
      * @return the singleton instance.
      */
     public static FileNameParser getInstance() {
         return INSTANCE;
-    }
-
-    /**
-     * Constructs a new instance with the default port.
-     */
-    public FtpFileNameParser() {
-        super(PORT);
     }
 }

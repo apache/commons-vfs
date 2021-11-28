@@ -73,7 +73,17 @@ public enum IOCase {
     /** The sensitivity flag. */
     private final transient boolean sensitive;
 
-    // -----------------------------------------------------------------------
+    /**
+     * Constructs a new instance.
+     *
+     * @param name      the name
+     * @param sensitive the sensitivity
+     */
+    IOCase(final String name, final boolean sensitive) {
+        this.name = name;
+        this.sensitive = sensitive;
+    }
+
     /**
      * Factory method to create an IOCase from a name.
      *
@@ -90,48 +100,6 @@ public enum IOCase {
         throw new IllegalArgumentException("Invalid IOCase name: " + name);
     }
 
-    // -----------------------------------------------------------------------
-    /**
-     * Constructs a new instance.
-     *
-     * @param name      the name
-     * @param sensitive the sensitivity
-     */
-    IOCase(final String name, final boolean sensitive) {
-        this.name = name;
-        this.sensitive = sensitive;
-    }
-
-    /**
-     * Replaces the enumeration from the stream with a real one. This ensures that
-     * the correct flag is set for SYSTEM.
-     *
-     * @return the resolved object
-     */
-    private Object readResolve() {
-        return forName(name);
-    }
-
-    // -----------------------------------------------------------------------
-    /**
-     * Gets the name of the constant.
-     *
-     * @return the name of the constant
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Does the object represent case sensitive comparison.
-     *
-     * @return true if case sensitive
-     */
-    public boolean isCaseSensitive() {
-        return sensitive;
-    }
-
-    // -----------------------------------------------------------------------
     /**
      * Compares two strings using the case-sensitivity rule.
      * <p>
@@ -151,6 +119,22 @@ public enum IOCase {
     }
 
     /**
+     * Checks if one string ends with another using the case-sensitivity rule.
+     * <p>
+     * This method mimics {@link String#endsWith} but takes case-sensitivity into
+     * account.
+     *
+     * @param str the string to check, not null
+     * @param end the end to compare against, not null
+     * @return true if equal using the case rules
+     * @throws NullPointerException if either string is null
+     */
+    public boolean checkEndsWith(final String str, final String end) {
+        final int endLen = end.length();
+        return str.regionMatches(!sensitive, str.length() - endLen, end, 0, endLen);
+    }
+
+    /**
      * Compares two strings using the case-sensitivity rule.
      * <p>
      * This method mimics {@link String#equals} but takes case-sensitivity into
@@ -166,37 +150,6 @@ public enum IOCase {
             throw new NullPointerException("The strings must not be null");
         }
         return sensitive ? str1.equals(str2) : str1.equalsIgnoreCase(str2);
-    }
-
-    /**
-     * Checks if one string starts with another using the case-sensitivity rule.
-     * <p>
-     * This method mimics {@link String#startsWith(String)} but takes
-     * case-sensitivity into account.
-     *
-     * @param str   the string to check, not null
-     * @param start the start to compare against, not null
-     * @return true if equal using the case rules
-     * @throws NullPointerException if either string is null
-     */
-    public boolean checkStartsWith(final String str, final String start) {
-        return str.regionMatches(!sensitive, 0, start, 0, start.length());
-    }
-
-    /**
-     * Checks if one string ends with another using the case-sensitivity rule.
-     * <p>
-     * This method mimics {@link String#endsWith} but takes case-sensitivity into
-     * account.
-     *
-     * @param str the string to check, not null
-     * @param end the end to compare against, not null
-     * @return true if equal using the case rules
-     * @throws NullPointerException if either string is null
-     */
-    public boolean checkEndsWith(final String str, final String end) {
-        final int endLen = end.length();
-        return str.regionMatches(!sensitive, str.length() - endLen, end, 0, endLen);
     }
 
     /**
@@ -244,7 +197,49 @@ public enum IOCase {
         return str.regionMatches(!sensitive, strStartIndex, search, 0, search.length());
     }
 
-    // -----------------------------------------------------------------------
+    /**
+     * Checks if one string starts with another using the case-sensitivity rule.
+     * <p>
+     * This method mimics {@link String#startsWith(String)} but takes
+     * case-sensitivity into account.
+     *
+     * @param str   the string to check, not null
+     * @param start the start to compare against, not null
+     * @return true if equal using the case rules
+     * @throws NullPointerException if either string is null
+     */
+    public boolean checkStartsWith(final String str, final String start) {
+        return str.regionMatches(!sensitive, 0, start, 0, start.length());
+    }
+
+    /**
+     * Gets the name of the constant.
+     *
+     * @return the name of the constant
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Does the object represent case sensitive comparison.
+     *
+     * @return true if case sensitive
+     */
+    public boolean isCaseSensitive() {
+        return sensitive;
+    }
+
+    /**
+     * Replaces the enumeration from the stream with a real one. This ensures that
+     * the correct flag is set for SYSTEM.
+     *
+     * @return the resolved object
+     */
+    private Object readResolve() {
+        return forName(name);
+    }
+
     /**
      * Gets a string describing the sensitivity.
      *

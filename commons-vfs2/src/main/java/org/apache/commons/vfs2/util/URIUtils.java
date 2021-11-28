@@ -48,6 +48,9 @@ public class URIUtils {
      */
     private static final class EncodingUtils {
 
+        private EncodingUtils() {
+        }
+
         /**
          * Converts the byte array of ASCII characters to a string. This method is
          * to be used when decoding content of HTTP elements (such as response
@@ -89,9 +92,6 @@ public class URIUtils {
 
                 return data.getBytes(Charset.defaultCharset());
             }
-        }
-
-        private EncodingUtils() {
         }
     }
 
@@ -136,7 +136,10 @@ public class URIUtils {
          */
         private static final int RADIX = 16;
 
-        static final byte[] encodeUrl(BitSet urlsafe, final byte[] bytes) {
+        private URLCodecUtils() {
+        }
+
+        static byte[] encodeUrl(BitSet urlsafe, final byte[] bytes) {
             if (bytes == null) {
                 return null;
             }
@@ -169,9 +172,6 @@ public class URIUtils {
         private static char hexDigit(final int b) {
             return Character.toUpperCase(Character.forDigit(b & 0xF, RADIX));
         }
-
-        private URLCodecUtils() {
-        }
     }
 
     private static final Log LOG = LogFactory.getLog(URIUtils.class);
@@ -180,6 +180,9 @@ public class URIUtils {
      * The default charset of the protocol.  RFC 2277, 2396
      */
     private static final String DEFAULT_PROTOCOL_CHARSET = "UTF-8";
+
+    private URIUtils() {
+    }
 
     private static String encode(final String unescaped, final BitSet allowed, final String charset) {
         final byte[] rawdata = URLCodecUtils.encodeUrl(allowed, EncodingUtils.getBytes(unescaped, charset));
@@ -211,9 +214,6 @@ public class URIUtils {
         }
 
         return encode(unescaped, URIBitSets.ALLOWED_ABS_PATH, charset);
-    }
-
-    private URIUtils() {
     }
 
 }

@@ -33,6 +33,10 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
  */
 public final class FileObjectUtils {
 
+    private FileObjectUtils() {
+        // noop
+    }
+
     /**
      * Null-safe call to {@link FileObject#exists()}.
      *
@@ -198,9 +202,5 @@ public final class FileObjectUtils {
         try (FileContent content = file.getContent()) {
             content.write(output);
         }
-    }
-
-    private FileObjectUtils() {
-        // noop
     }
 }

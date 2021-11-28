@@ -31,18 +31,18 @@ public class Http5sFileNameParser extends GenericURLFileNameParser {
     private static final Http5sFileNameParser INSTANCE = new Http5sFileNameParser();
 
     /**
+     * Creates a new instance with the default port 443.
+     */
+    public Http5sFileNameParser() {
+        super(DEFAULT_PORT);
+    }
+
+    /**
      * Gets the singleton instance.
      *
      * @return the singleton instance.
      */
     public static FileNameParser getInstance() {
         return INSTANCE;
-    }
-
-    /**
-     * Creates a new instance with the default port 443.
-     */
-    public Http5sFileNameParser() {
-        super(DEFAULT_PORT);
     }
 }

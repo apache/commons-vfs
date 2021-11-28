@@ -128,6 +128,10 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String STRICT_HOST_KEY_CHECKING = PREFIX + ".STRICT_HOST_KEY_CHECKING";
     private static final String USER_DIR_IS_ROOT = PREFIX + ".USER_DIR_IS_ROOT";
 
+    private SftpFileSystemConfigBuilder() {
+        super("sftp.");
+    }
+
     /**
      * Gets the singleton builder.
      *
@@ -135,10 +139,6 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public static SftpFileSystemConfigBuilder getInstance() {
         return BUILDER;
-    }
-
-    private SftpFileSystemConfigBuilder() {
-        super("sftp.");
     }
 
     /**

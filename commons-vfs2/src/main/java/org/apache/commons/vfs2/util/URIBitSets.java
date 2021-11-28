@@ -879,11 +879,11 @@ final class URIBitSets {
         ALLOWED_FRAGMENT.clear('%');
     }
 
-    static BitSet createBitSet() {
-        return new BitSet(NBITS);
+    private URIBitSets() {
     }
 
-    private URIBitSets() {
+    static BitSet createBitSet() {
+        return new BitSet(NBITS);
     }
 
 }

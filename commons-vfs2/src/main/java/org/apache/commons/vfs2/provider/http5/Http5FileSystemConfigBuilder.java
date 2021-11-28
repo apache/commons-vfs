@@ -196,15 +196,6 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     private static final String DEFAULT_TLS_VERSIONS = "V_1_2";
 
-    /**
-     * Gets the singleton builder.
-     *
-     * @return the singleton builder.
-     */
-    public static Http5FileSystemConfigBuilder getInstance() {
-        return BUILDER;
-    }
-
     private Http5FileSystemConfigBuilder() {
         super("http.");
     }
@@ -216,6 +207,15 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     protected Http5FileSystemConfigBuilder(final String prefix) {
         super(prefix);
+    }
+
+    /**
+     * Gets the singleton builder.
+     *
+     * @return the singleton builder.
+     */
+    public static Http5FileSystemConfigBuilder getInstance() {
+        return BUILDER;
     }
 
     @Override
@@ -453,11 +453,10 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param opts The FileSystem options.
      * @param connectionTimeout The connection timeout.
-     * @deprecated Use {@link #setConnectionTimeout(FileSystemOptions, Duration)}.
+     * @since 2.8.0
      */
-    @Deprecated
-    public void setConnectionTimeout(final FileSystemOptions opts, final int connectionTimeout) {
-        setConnectionTimeout(opts, Duration.ofMillis(connectionTimeout));
+    public void setConnectionTimeout(final FileSystemOptions opts, final Duration connectionTimeout) {
+        setParam(opts, CONNECTION_TIMEOUT, connectionTimeout);
     }
 
     /**
@@ -465,10 +464,11 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param opts The FileSystem options.
      * @param connectionTimeout The connection timeout.
-     * @since 2.8.0
+     * @deprecated Use {@link #setConnectionTimeout(FileSystemOptions, Duration)}.
      */
-    public void setConnectionTimeout(final FileSystemOptions opts, final Duration connectionTimeout) {
-        setParam(opts, CONNECTION_TIMEOUT, connectionTimeout);
+    @Deprecated
+    public void setConnectionTimeout(final FileSystemOptions opts, final int connectionTimeout) {
+        setConnectionTimeout(opts, Duration.ofMillis(connectionTimeout));
     }
 
     /**
@@ -621,6 +621,16 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
+     * The socket timeout.
+     *
+     * @param opts The FileSystem options.
+     * @param soTimeout socket timeout.
+     */
+    public void setSoTimeout(final FileSystemOptions opts, final Duration soTimeout) {
+        setParam(opts, SO_TIMEOUT, soTimeout);
+    }
+
+    /**
      * Sets the socket timeout.
      *
      * @param opts The FileSystem options.
@@ -630,16 +640,6 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
     @Deprecated
     public void setSoTimeout(final FileSystemOptions opts, final int soTimeout) {
         setSoTimeout(opts, Duration.ofMillis(soTimeout));
-    }
-
-    /**
-     * The socket timeout.
-     *
-     * @param opts The FileSystem options.
-     * @param soTimeout socket timeout.
-     */
-    public void setSoTimeout(final FileSystemOptions opts, final Duration soTimeout) {
-        setParam(opts, SO_TIMEOUT, soTimeout);
     }
 
     /**

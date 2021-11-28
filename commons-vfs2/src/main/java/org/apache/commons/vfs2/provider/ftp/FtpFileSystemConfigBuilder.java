@@ -59,6 +59,20 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String TRANSFER_ABORTED_OK_REPLY_CODES = PREFIX + ".TRANSFER_ABORTED_OK_REPLY_CODES";
     private static final String MDTM_LAST_MODIFED_TIME = PREFIX + ".MDTM_LAST_MODIFED_TIME";
 
+    private FtpFileSystemConfigBuilder() {
+        super("ftp.");
+    }
+
+    /**
+     * Create new config builder with specified prefix string.
+     *
+     * @param prefix prefix string to use for parameters of this config builder.
+     * @since 2.1
+     */
+    protected FtpFileSystemConfigBuilder(final String prefix) {
+        super(prefix);
+    }
+
     /**
      * Gets the singleton instance.
      *
@@ -78,20 +92,6 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public static List<Integer> getSaneTransferAbortedOkReplyCodes() {
         // See VFS-674, its accompanying PR and https://github.com/apache/commons-vfs/pull/51 as to why 426 and 550 are here
         return new ArrayList<>(Arrays.asList(FTPReply.TRANSFER_ABORTED, FTPReply.FILE_UNAVAILABLE));
-    }
-
-    private FtpFileSystemConfigBuilder() {
-        super("ftp.");
-    }
-
-    /**
-     * Create new config builder with specified prefix string.
-     *
-     * @param prefix prefix string to use for parameters of this config builder.
-     * @since 2.1
-     */
-    protected FtpFileSystemConfigBuilder(final String prefix) {
-        super(prefix);
     }
 
     /**

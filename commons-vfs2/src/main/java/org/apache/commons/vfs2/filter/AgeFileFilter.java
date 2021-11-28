@@ -61,29 +61,6 @@ public class AgeFileFilter implements FileFilter, Serializable {
     private final long cutoff;
 
     /**
-     * Tests if the specified {@code File} is newer than the specified time
-     * reference.
-     *
-     * @param fileObject the {@code File} of which the modification date must
-     *                   be compared, must not be {@code null}
-     * @param timeMillis the time reference measured in milliseconds since the epoch
-     *                   (00:00:00 GMT, January 1, 1970)
-     * @return true if the {@code File} exists and has been modified after the
-     *         given time reference.
-     * @throws FileSystemException Thrown for file system errors.
-     * @throws IllegalArgumentException if the file is {@code null}
-     */
-    private static boolean isFileNewer(final FileObject fileObject, final long timeMillis) throws FileSystemException {
-        Objects.requireNonNull(fileObject, "fileObject");
-        if (!fileObject.exists()) {
-            return false;
-        }
-        try (FileContent content = fileObject.getContent()) {
-            return content.getLastModifiedTime() > timeMillis;
-        }
-    }
-
-    /**
      * Constructs a new age file filter for files older than (at or before) a
      * certain cutoff date.
      *
@@ -156,6 +133,29 @@ public class AgeFileFilter implements FileFilter, Serializable {
     public AgeFileFilter(final long cutoff, final boolean acceptOlder) {
         this.acceptOlder = acceptOlder;
         this.cutoff = cutoff;
+    }
+
+    /**
+     * Tests if the specified {@code File} is newer than the specified time
+     * reference.
+     *
+     * @param fileObject the {@code File} of which the modification date must
+     *                   be compared, must not be {@code null}
+     * @param timeMillis the time reference measured in milliseconds since the epoch
+     *                   (00:00:00 GMT, January 1, 1970)
+     * @return true if the {@code File} exists and has been modified after the
+     *         given time reference.
+     * @throws FileSystemException Thrown for file system errors.
+     * @throws IllegalArgumentException if the file is {@code null}
+     */
+    private static boolean isFileNewer(final FileObject fileObject, final long timeMillis) throws FileSystemException {
+        Objects.requireNonNull(fileObject, "fileObject");
+        if (!fileObject.exists()) {
+            return false;
+        }
+        try (FileContent content = fileObject.getContent()) {
+            return content.getLastModifiedTime() > timeMillis;
+        }
     }
 
     /**

@@ -57,15 +57,6 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     private static final String KEY_PREEMPTIVE_AUTHENTICATION = "preemptiveAuth";
 
-    /**
-     * Gets the singleton builder.
-     *
-     * @return the singleton builder.
-     */
-    public static HttpFileSystemConfigBuilder getInstance() {
-        return BUILDER;
-    }
-
     private HttpFileSystemConfigBuilder() {
         super("http.");
     }
@@ -78,6 +69,15 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     protected HttpFileSystemConfigBuilder(final String prefix) {
         super(prefix);
+    }
+
+    /**
+     * Gets the singleton builder.
+     *
+     * @return the singleton builder.
+     */
+    public static HttpFileSystemConfigBuilder getInstance() {
+        return BUILDER;
     }
 
     @Override

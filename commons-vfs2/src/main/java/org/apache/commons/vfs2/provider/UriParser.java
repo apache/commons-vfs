@@ -47,6 +47,9 @@ public final class UriParser {
 
     private static final char LOW_MASK = 0x0F;
 
+    private UriParser() {
+    }
+
     /**
      * Encodes and appends a string to a StringBuilder.
      *
@@ -324,57 +327,6 @@ public final class UriParser {
     }
 
     /**
-     * Extracts the scheme from a URI. Removes the scheme and ':' delimiter from the front of the URI.
-     * <p>
-     * The scheme is extracted based on the currently supported schemes in the system.  That is to say the schemes
-     * supported by the registered providers.
-     * </p>
-     * <p>
-     * This allows us to handle varying scheme's without making assumptions based on the ':' character.  Specifically
-     * handle scheme extraction calls for URI parameters that are not actually uri's, but may be names with ':' in them.
-     * </p>
-     * @param schemes The schemes to check.
-     * @param uri The potential URI. May also be a name.
-     * @return The scheme name. Returns null if there is no scheme.
-     * @since 2.3
-     */
-    public static String extractScheme(final String[] schemes, final String uri) {
-        return extractScheme(schemes, uri, null);
-    }
-
-    /**
-     * Extracts the scheme from a URI. Removes the scheme and ':' delimiter from the front of the URI.
-     * <p>
-     * The scheme is extracted based on the given set of schemes. Normally, that is to say the schemes
-     * supported by the registered providers.
-     * </p>
-     * <p>
-     * This allows us to handle varying scheme's without making assumptions based on the ':' character. Specifically
-     * handle scheme extraction calls for URI parameters that are not actually URI's, but may be names with ':' in them.
-     * </p>
-     * @param schemes The schemes to check.
-     * @param uri The potential URI. May also just be a name.
-     * @param buffer Returns the remainder of the URI.
-     * @return The scheme name. Returns null if there is no scheme.
-     * @since 2.3
-     */
-    public static String extractScheme(final String[] schemes, final String uri, final StringBuilder buffer) {
-        if (buffer != null) {
-            buffer.setLength(0);
-            buffer.append(uri);
-        }
-        for (final String scheme : schemes) {
-            if (uri.startsWith(scheme + ":")) {
-                if (buffer != null) {
-                    buffer.delete(0, uri.indexOf(':') + 1);
-                }
-                return scheme;
-            }
-        }
-        return null;
-    }
-
-    /**
      * Extracts the scheme from a URI.
      *
      * @param uri The URI.
@@ -432,6 +384,57 @@ public final class UriParser {
         }
 
         // No scheme in URI
+        return null;
+    }
+
+    /**
+     * Extracts the scheme from a URI. Removes the scheme and ':' delimiter from the front of the URI.
+     * <p>
+     * The scheme is extracted based on the currently supported schemes in the system.  That is to say the schemes
+     * supported by the registered providers.
+     * </p>
+     * <p>
+     * This allows us to handle varying scheme's without making assumptions based on the ':' character.  Specifically
+     * handle scheme extraction calls for URI parameters that are not actually uri's, but may be names with ':' in them.
+     * </p>
+     * @param schemes The schemes to check.
+     * @param uri The potential URI. May also be a name.
+     * @return The scheme name. Returns null if there is no scheme.
+     * @since 2.3
+     */
+    public static String extractScheme(final String[] schemes, final String uri) {
+        return extractScheme(schemes, uri, null);
+    }
+
+    /**
+     * Extracts the scheme from a URI. Removes the scheme and ':' delimiter from the front of the URI.
+     * <p>
+     * The scheme is extracted based on the given set of schemes. Normally, that is to say the schemes
+     * supported by the registered providers.
+     * </p>
+     * <p>
+     * This allows us to handle varying scheme's without making assumptions based on the ':' character. Specifically
+     * handle scheme extraction calls for URI parameters that are not actually URI's, but may be names with ':' in them.
+     * </p>
+     * @param schemes The schemes to check.
+     * @param uri The potential URI. May also just be a name.
+     * @param buffer Returns the remainder of the URI.
+     * @return The scheme name. Returns null if there is no scheme.
+     * @since 2.3
+     */
+    public static String extractScheme(final String[] schemes, final String uri, final StringBuilder buffer) {
+        if (buffer != null) {
+            buffer.setLength(0);
+            buffer.append(uri);
+        }
+        for (final String scheme : schemes) {
+            if (uri.startsWith(scheme + ":")) {
+                if (buffer != null) {
+                    buffer.delete(0, uri.indexOf(':') + 1);
+                }
+                return scheme;
+            }
+        }
         return null;
     }
 
@@ -542,8 +545,5 @@ public final class UriParser {
         }
 
         return fileType;
-    }
-
-    private UriParser() {
     }
 }

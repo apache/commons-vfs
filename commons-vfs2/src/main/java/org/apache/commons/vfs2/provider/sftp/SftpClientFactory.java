@@ -61,7 +61,6 @@ public final class SftpClientFactory {
                 return LOG.isInfoEnabled();
             default:
                 return LOG.isDebugEnabled();
-
             }
         }
 
@@ -88,13 +87,16 @@ public final class SftpClientFactory {
             }
         }
     }
+
     private static final String SSH_DIR_NAME = ".ssh";
     private static final String OPENSSH_CONFIG_NAME = "config";
-
     private static final Log LOG = LogFactory.getLog(SftpClientFactory.class);
 
     static {
         JSch.setLogger(new JSchLogger());
+    }
+
+    private SftpClientFactory() {
     }
 
     private static void addIdentities(final JSch jsch, final File sshDir, final IdentityProvider[] identities)
@@ -334,8 +336,5 @@ public final class SftpClientFactory {
             throw new FileSystemException("vfs.provider.sftp/known-hosts.error", knownHostsFile.getAbsolutePath(), e);
         }
 
-    }
-
-    private SftpClientFactory() {
     }
 }
