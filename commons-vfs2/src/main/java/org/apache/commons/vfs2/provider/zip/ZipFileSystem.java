@@ -43,7 +43,7 @@ import org.apache.commons.vfs2.provider.UriParser;
  * A read-only file system for ZIP and JAR files.
  */
 public class ZipFileSystem extends AbstractFileSystem {
-    private final char[] ENC = {'!'};
+    private static final char[] ENC = {'!'};
 
     private static final Log LOG = LogFactory.getLog(ZipFileSystem.class);
 
