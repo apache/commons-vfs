@@ -130,4 +130,6 @@ final class RFC2396 {
     // RFC 2396 userinfo chars which are unescaped, here sorted.
     static final char[] USERINFO_UNESCAPED = ArraySorter.sort(ArrayUtils.addAll(UNRESERVED, ';', ':', '&', '=', '+', '$', ','));
 
+    private RFC2396() {
+    }
 }
