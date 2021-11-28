@@ -208,9 +208,11 @@ public final class DefaultFileContent implements FileContent {
         }
     }
 
-    private static final Certificate[] EMPTY_CERTIFICATE_ARRAY = {};
     static final int STATE_CLOSED = 0;
     static final int STATE_OPENED = 1;
+
+    private static final Certificate[] EMPTY_CERTIFICATE_ARRAY = {};
+
     /**
      * The default buffer size for {@link #write(OutputStream)}.
      */

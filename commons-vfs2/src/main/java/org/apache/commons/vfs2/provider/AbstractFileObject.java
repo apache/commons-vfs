@@ -67,14 +67,14 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  */
 public abstract class AbstractFileObject<AFS extends AbstractFileSystem> implements FileObject {
 
-    private static final String DO_GET_INPUT_STREAM_INT = "doGetInputStream(int)";
-
     /**
      * Same as {@link BufferedInputStream}.
      */
     public static final int DEFAULT_BUFFER_SIZE = 8192;
 
     private static final int INITIAL_LIST_SIZE = 5;
+
+    private static final String DO_GET_INPUT_STREAM_INT = "doGetInputStream(int)";
 
     private final AbstractFileName fileName;
     private final AFS fileSystem;

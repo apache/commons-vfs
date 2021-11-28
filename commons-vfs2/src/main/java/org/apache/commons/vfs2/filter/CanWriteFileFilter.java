@@ -66,13 +66,13 @@ import org.apache.commons.vfs2.FileSystemException;
  */
 public class CanWriteFileFilter implements FileFilter, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     /** Singleton instance of <i>writable</i> filter. */
     public static final FileFilter CAN_WRITE = new CanWriteFileFilter();
 
     /** Singleton instance of not <i>writable</i> filter. */
     public static final FileFilter CANNOT_WRITE = new NotFileFilter(CAN_WRITE);
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Restrictive constructor.

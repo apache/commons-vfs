@@ -58,13 +58,13 @@ import org.apache.commons.vfs2.FileSystemException;
  */
 public class HiddenFileFilter implements FileFilter, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     /** Singleton instance of <i>hidden</i> filter. */
     public static final FileFilter HIDDEN = new HiddenFileFilter();
 
     /** Singleton instance of <i>visible</i> filter. */
     public static final FileFilter VISIBLE = new NotFileFilter(HIDDEN);
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Restrictive constructor.

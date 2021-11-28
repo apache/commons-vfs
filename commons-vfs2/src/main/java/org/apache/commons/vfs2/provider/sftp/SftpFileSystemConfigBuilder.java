@@ -75,6 +75,28 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
             return this.proxyType.hashCode();
         }
     }
+
+    /** HTTP Proxy. */
+    public static final ProxyType PROXY_HTTP = new ProxyType("http");
+
+    /** SOCKS Proxy. */
+    public static final ProxyType PROXY_SOCKS5 = new ProxyType("socks");
+
+    /**
+     * Connects to the SFTP server through a remote host reached by SSH.
+     * <p>
+     * On this proxy host, a command (e.g. {@linkplain SftpStreamProxy#NETCAT_COMMAND} or
+     * {@linkplain SftpStreamProxy#NETCAT_COMMAND}) is run to forward input/output streams between the target host and
+     * the VFS host.
+     * </p>
+     * <p>
+     * When used, the proxy username ({@linkplain #setProxyUser}) and hostname ({@linkplain #setProxyHost}) <b>must</b>
+     * be set. Optionnaly, the command ({@linkplain #setProxyCommand}), password ({@linkplain #setProxyPassword}) and
+     * connection options ({@linkplain #setProxyOptions}) can be set.
+     * </p>
+     */
+    public static final ProxyType PROXY_STREAM = new ProxyType("stream");
+
     private static final Duration DEFAULT_CONNECT_TIMEOUT = Duration.ZERO;
 
     private static final Duration DEFAULT_SESSION_TIMEOUT = Duration.ZERO;
@@ -100,27 +122,6 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String PROXY_PASSWORD = PREFIX + ".PROXY_PASSWORD";
     private static final String PROXY_PORT = PREFIX + ".PROXY_PORT";
     private static final String DISABLE_DETECT_EXEC_CHANNEL = PREFIX + ".DISABLE_DETECT_EXEC_CHANNEL";
-
-    /** HTTP Proxy. */
-    public static final ProxyType PROXY_HTTP = new ProxyType("http");
-
-    /** SOCKS Proxy. */
-    public static final ProxyType PROXY_SOCKS5 = new ProxyType("socks");
-
-    /**
-     * Connects to the SFTP server through a remote host reached by SSH.
-     * <p>
-     * On this proxy host, a command (e.g. {@linkplain SftpStreamProxy#NETCAT_COMMAND} or
-     * {@linkplain SftpStreamProxy#NETCAT_COMMAND}) is run to forward input/output streams between the target host and
-     * the VFS host.
-     * </p>
-     * <p>
-     * When used, the proxy username ({@linkplain #setProxyUser}) and hostname ({@linkplain #setProxyHost}) <b>must</b>
-     * be set. Optionnaly, the command ({@linkplain #setProxyCommand}), password ({@linkplain #setProxyPassword}) and
-     * connection options ({@linkplain #setProxyOptions}) can be set.
-     * </p>
-     */
-    public static final ProxyType PROXY_STREAM = new ProxyType("stream");
 
     private static final String PROXY_TYPE = PREFIX + ".PROXY_TYPE";
     private static final String PROXY_USER = PREFIX + ".PROXY_USER";

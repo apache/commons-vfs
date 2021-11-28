@@ -39,7 +39,7 @@ final class URIBitSets {
      * escape indicator, it must be escaped as "%25" in order to be used as
      * data within a URI.
      */
-    protected static final BitSet PERCENT = createBitSet();
+    static final BitSet PERCENT = createBitSet();
     // Static initializer for percent
     static {
         PERCENT.set('%');
@@ -52,7 +52,7 @@ final class URIBitSets {
      *            "8" | "9"
      * </pre></blockquote></p>
      */
-    protected static final BitSet DIGIT = createBitSet();
+    static final BitSet DIGIT = createBitSet();
     // Static initializer for digit
     static {
         for (int i = '0'; i <= '9'; i++) {
@@ -66,7 +66,7 @@ final class URIBitSets {
      * alpha         = lowalpha | upalpha
      * </pre></blockquote></p>
      */
-    protected static final BitSet ALPHA = createBitSet();
+    static final BitSet ALPHA = createBitSet();
     // Static initializer for alpha
     static {
         for (int i = 'a'; i <= 'z'; i++) {
@@ -83,7 +83,7 @@ final class URIBitSets {
      *  alphanum      = alpha | digit
      * </pre></blockquote></p>
      */
-    protected static final BitSet ALPHANUM = createBitSet();
+    static final BitSet ALPHANUM = createBitSet();
     // Static initializer for alphanum
     static {
         ALPHANUM.or(ALPHA);
@@ -97,7 +97,7 @@ final class URIBitSets {
      *                         "a" | "b" | "c" | "d" | "e" | "f"
      * </pre></blockquote></p>
      */
-    protected static final BitSet HEX = createBitSet();
+    static final BitSet HEX = createBitSet();
     // Static initializer for hex
     static {
         HEX.or(DIGIT);
@@ -115,7 +115,7 @@ final class URIBitSets {
      * escaped       = "%" hex hex
      * </pre></blockquote></p>
      */
-    protected static final BitSet ESCAPED = createBitSet();
+    static final BitSet ESCAPED = createBitSet();
     // Static initializer for escaped
     static {
         ESCAPED.or(PERCENT);
@@ -129,7 +129,7 @@ final class URIBitSets {
      *                 "(" | ")"
      * </pre></blockquote></p>
      */
-    protected static final BitSet MARK = createBitSet();
+    static final BitSet MARK = createBitSet();
     // Static initializer for mark
     static {
         MARK.set('-');
@@ -150,7 +150,7 @@ final class URIBitSets {
      * unreserved    = alphanum | mark
      * </pre></blockquote></p>
      */
-    protected static final BitSet UNRESERVED = createBitSet();
+    static final BitSet UNRESERVED = createBitSet();
     // Static initializer for unreserved
     static {
         UNRESERVED.or(ALPHANUM);
@@ -164,7 +164,7 @@ final class URIBitSets {
      *                 "$" | ","
      * </pre></blockquote></p>
      */
-    protected static final BitSet RESERVED = createBitSet();
+    static final BitSet RESERVED = createBitSet();
     // Static initializer for reserved
     static {
         RESERVED.set(';');
@@ -185,7 +185,7 @@ final class URIBitSets {
      * uric          = reserved | unreserved | escaped
      * </pre></blockquote></p>
      */
-    protected static final BitSet URIC = createBitSet();
+    static final BitSet URIC = createBitSet();
     // Static initializer for uric
     static {
         URIC.or(RESERVED);
@@ -199,7 +199,7 @@ final class URIBitSets {
      * fragment      = *uric
      * </pre></blockquote></p>
      */
-    protected static final BitSet FRAGMENT = URIC;
+    static final BitSet FRAGMENT = URIC;
 
     /**
      * BitSet for query (alias for uric).
@@ -207,7 +207,7 @@ final class URIBitSets {
      * query         = *uric
      * </pre></blockquote></p>
      */
-    protected static final BitSet QUERY = URIC;
+    static final BitSet QUERY = URIC;
 
     /**
      * BitSet for pchar.
@@ -216,7 +216,7 @@ final class URIBitSets {
      *                 ":" | "@" | "&amp;" | "=" | "+" | "$" | ","
      * </pre></blockquote></p>
      */
-    protected static final BitSet PCHAR = createBitSet();
+    static final BitSet PCHAR = createBitSet();
     // Static initializer for pchar
     static {
         PCHAR.or(UNRESERVED);
@@ -236,7 +236,7 @@ final class URIBitSets {
      * param         = *pchar
      * </pre></blockquote></p>
      */
-    protected static final BitSet PARAM = PCHAR;
+    static final BitSet PARAM = PCHAR;
 
     /**
      * BitSet for segment.
@@ -244,7 +244,7 @@ final class URIBitSets {
      * segment       = *pchar *( ";" param )
      * </pre></blockquote></p>
      */
-    protected static final BitSet SEGMENT = createBitSet();
+    static final BitSet SEGMENT = createBitSet();
     // Static initializer for segment
     static {
         SEGMENT.or(PCHAR);
@@ -258,7 +258,7 @@ final class URIBitSets {
      * path_segments = segment *( "/" segment )
      * </pre></blockquote></p>
      */
-    protected static final BitSet PATH_SEGMENTS = createBitSet();
+    static final BitSet PATH_SEGMENTS = createBitSet();
     // Static initializer for path_segments
     static {
         PATH_SEGMENTS.set('/');
@@ -271,7 +271,7 @@ final class URIBitSets {
      * abs_path      = "/"  path_segments
      * </pre></blockquote></p>
      */
-    protected static final BitSet ABS_PATH = createBitSet();
+    static final BitSet ABS_PATH = createBitSet();
     // Static initializer for abs_path
     static {
         ABS_PATH.set('/');
@@ -285,7 +285,7 @@ final class URIBitSets {
      *                 "&amp;" | "=" | "+" | "$" | ","
      * </pre></blockquote></p>
      */
-    protected static final BitSet URIC_NO_SLASH = createBitSet();
+    static final BitSet URIC_NO_SLASH = createBitSet();
     // Static initializer for uric_no_slash
     static {
         URIC_NO_SLASH.or(UNRESERVED);
@@ -307,7 +307,7 @@ final class URIBitSets {
      * opaque_part   = uric_no_slash *uric
      * </pre></blockquote></p>
      */
-    protected static final BitSet OPAQUE_PART = createBitSet();
+    static final BitSet OPAQUE_PART = createBitSet();
     // Static initializer for opaque_part
     static {
         // it's generous. because first character must not include a slash
@@ -321,7 +321,7 @@ final class URIBitSets {
      * path          = [ abs_path | opaque_part ]
      * </pre></blockquote></p>
      */
-    protected static final BitSet PATH = createBitSet();
+    static final BitSet PATH = createBitSet();
 
     // Static initializer for path
     static {
@@ -332,7 +332,7 @@ final class URIBitSets {
     /**
      * Port, a logical alias for digit.
      */
-    protected static final BitSet PORT = DIGIT;
+    static final BitSet PORT = DIGIT;
 
     /**
      * Bitset that combines digit and dot fo IPv$address.
@@ -340,7 +340,7 @@ final class URIBitSets {
      * IPv4address   = 1*digit "." 1*digit "." 1*digit "." 1*digit
      * </pre></blockquote></p>
      */
-    protected static final BitSet IPV4ADDRESS = createBitSet();
+    static final BitSet IPV4ADDRESS = createBitSet();
     // Static initializer for IPv4address
     static {
         IPV4ADDRESS.or(DIGIT);
@@ -353,7 +353,7 @@ final class URIBitSets {
      * IPv6address = hexpart [ ":" IPv4address ]
      * </pre></blockquote></p>
      */
-    protected static final BitSet IPV6ADDRESS = createBitSet();
+    static final BitSet IPV6ADDRESS = createBitSet();
     // Static initializer for IPv6address reference
     static {
         IPV6ADDRESS.or(HEX); // hexpart
@@ -367,7 +367,7 @@ final class URIBitSets {
      * IPv6reference   = "[" IPv6address "]"
      * </pre></blockquote></p>
      */
-    protected static final BitSet IPV6REFERENCE = createBitSet();
+    static final BitSet IPV6REFERENCE = createBitSet();
     // Static initializer for IPv6reference
     static {
         IPV6REFERENCE.set('[');
@@ -381,7 +381,7 @@ final class URIBitSets {
      * toplabel      = alpha | alpha *( alphanum | "-" ) alphanum
      * </pre></blockquote></p>
      */
-    protected static final BitSet TOPLABEL = createBitSet();
+    static final BitSet TOPLABEL = createBitSet();
     // Static initializer for toplabel
     static {
         TOPLABEL.or(ALPHANUM);
@@ -394,7 +394,7 @@ final class URIBitSets {
      * domainlabel   = alphanum | alphanum *( alphanum | "-" ) alphanum
      * </pre></blockquote></p>
      */
-    protected static final BitSet DOMAINLABEL = TOPLABEL;
+    static final BitSet DOMAINLABEL = TOPLABEL;
 
     /**
      * BitSet for hostname.
@@ -402,7 +402,7 @@ final class URIBitSets {
      * hostname      = *( domainlabel "." ) toplabel [ "." ]
      * </pre></blockquote></p>
      */
-    protected static final BitSet HOSTNAME = createBitSet();
+    static final BitSet HOSTNAME = createBitSet();
     // Static initializer for hostname
     static {
         HOSTNAME.or(TOPLABEL);
@@ -416,7 +416,7 @@ final class URIBitSets {
      * host          = hostname | IPv4address | IPv6reference
      * </pre></blockquote></p>
      */
-    protected static final BitSet HOST = createBitSet();
+    static final BitSet HOST = createBitSet();
     // Static initializer for host
     static {
         HOST.or(HOSTNAME);
@@ -430,7 +430,7 @@ final class URIBitSets {
      * hostport      = host [ ":" port ]
      * </pre></blockquote></p>
      */
-    protected static final BitSet HOSTPORT = createBitSet();
+    static final BitSet HOSTPORT = createBitSet();
     // Static initializer for hostport
     static {
         HOSTPORT.or(HOST);
@@ -445,7 +445,7 @@ final class URIBitSets {
      *                    ";" | ":" | "&amp;" | "=" | "+" | "$" | "," )
      * </pre></blockquote></p>
      */
-    protected static final BitSet USERINFO = createBitSet();
+    static final BitSet USERINFO = createBitSet();
     // Static initializer for userinfo
     static {
         USERINFO.or(UNRESERVED);
@@ -462,7 +462,7 @@ final class URIBitSets {
     /**
      * BitSet for within the userinfo component like user and password.
      */
-    public static final BitSet WITHIN_USERRINFO = createBitSet();
+    static final BitSet WITHIN_USERRINFO = createBitSet();
     // Static initializer for within_userinfo
     static {
         WITHIN_USERRINFO.or(USERINFO);
@@ -479,7 +479,7 @@ final class URIBitSets {
      * server        = [ [ userinfo "@" ] hostport ]
      * </pre></blockquote></p>
      */
-    protected static final BitSet SERVER = createBitSet();
+    static final BitSet SERVER = createBitSet();
     // Static initializer for server
     static {
         SERVER.or(USERINFO);
@@ -494,7 +494,7 @@ final class URIBitSets {
      *                     ";" | ":" | "@" | "&amp;" | "=" | "+" )
      * </pre></blockquote></p>
      */
-    protected static final BitSet REG_NAME = createBitSet();
+    static final BitSet REG_NAME = createBitSet();
     // Static initializer for reg_name
     static {
         REG_NAME.or(UNRESERVED);
@@ -515,7 +515,7 @@ final class URIBitSets {
      * authority     = server | reg_name
      * </pre></blockquote></p>
      */
-    protected static final BitSet AUTHORITY = createBitSet();
+    static final BitSet AUTHORITY = createBitSet();
     // Static initializer for authority
     static {
         AUTHORITY.or(SERVER);
@@ -528,7 +528,7 @@ final class URIBitSets {
      * scheme        = alpha *( alpha | digit | "+" | "-" | "." )
      * </pre></blockquote></p>
      */
-    protected static final BitSet SCHEME = createBitSet();
+    static final BitSet SCHEME = createBitSet();
     // Static initializer for scheme
     static {
         SCHEME.or(ALPHA);
@@ -545,7 +545,7 @@ final class URIBitSets {
      *                     ";" | "@" | "&amp;" | "=" | "+" | "$" | "," )
      * </pre></blockquote></p>
      */
-    protected static final BitSet REL_SEGMENT = createBitSet();
+    static final BitSet REL_SEGMENT = createBitSet();
     // Static initializer for rel_segment
     static {
         REL_SEGMENT.or(UNRESERVED);
@@ -565,7 +565,7 @@ final class URIBitSets {
      * rel_path      = rel_segment [ abs_path ]
      * </pre></blockquote></p>
      */
-    protected static final BitSet REL_PATH = createBitSet();
+    static final BitSet REL_PATH = createBitSet();
     // Static initializer for rel_path
     static {
         REL_PATH.or(REL_SEGMENT);
@@ -578,7 +578,7 @@ final class URIBitSets {
      * net_path      = "//" authority [ abs_path ]
      * </pre></blockquote></p>
      */
-    protected static final BitSet NET_PATH = createBitSet();
+    static final BitSet NET_PATH = createBitSet();
     // Static initializer for net_path
     static {
         NET_PATH.set('/');
@@ -592,7 +592,7 @@ final class URIBitSets {
      * hier_part     = ( net_path | abs_path ) [ "?" query ]
      * </pre></blockquote></p>
      */
-    protected static final BitSet HIER_PART = createBitSet();
+    static final BitSet HIER_PART = createBitSet();
     // Static initializer for hier_part
     static {
         HIER_PART.or(NET_PATH);
@@ -607,7 +607,7 @@ final class URIBitSets {
      * relativeURI   = ( net_path | abs_path | rel_path ) [ "?" query ]
      * </pre></blockquote></p>
      */
-    protected static final BitSet RELATIVEURI = createBitSet();
+    static final BitSet RELATIVEURI = createBitSet();
     // Static initializer for relativeURI
     static {
         RELATIVEURI.or(NET_PATH);
@@ -623,7 +623,7 @@ final class URIBitSets {
      * absoluteURI   = scheme ":" ( hier_part | opaque_part )
      * </pre></blockquote></p>
      */
-    protected static final BitSet ABSOLUTEURI = createBitSet();
+    static final BitSet ABSOLUTEURI = createBitSet();
     // Static initializer for absoluteURI
     static {
         ABSOLUTEURI.or(SCHEME);
@@ -638,7 +638,7 @@ final class URIBitSets {
      * URI-reference = [ absoluteURI | relativeURI ] [ "#" fragment ]
      * </pre></blockquote></p>
      */
-    protected static final BitSet URI_REFERENCE = createBitSet();
+    static final BitSet URI_REFERENCE = createBitSet();
     // Static initializer for URI_reference
     static {
         URI_REFERENCE.or(ABSOLUTEURI);
@@ -653,7 +653,7 @@ final class URIBitSets {
     /**
      * BitSet for control.
      */
-    public static final BitSet CONTROL = createBitSet();
+    static final BitSet CONTROL = createBitSet();
     // Static initializer for control
     static {
         for (int i = 0; i <= 0x1F; i++) {
@@ -665,7 +665,7 @@ final class URIBitSets {
     /**
      * BitSet for space.
      */
-    public static final BitSet SPACE = createBitSet();
+    static final BitSet SPACE = createBitSet();
     // Static initializer for space
     static {
         SPACE.set(0x20);
@@ -674,7 +674,7 @@ final class URIBitSets {
     /**
      * BitSet for delims.
      */
-    public static final BitSet DELIMS = createBitSet();
+    static final BitSet DELIMS = createBitSet();
     // Static initializer for delims
     static {
         DELIMS.set('<');
@@ -687,7 +687,7 @@ final class URIBitSets {
     /**
      * BitSet for unwise.
      */
-    public static final BitSet UNWISE = createBitSet();
+    static final BitSet UNWISE = createBitSet();
     // Static initializer for unwise
     static {
         UNWISE.set('{');
@@ -703,7 +703,7 @@ final class URIBitSets {
     /**
      * Disallowed rel_path before escaping.
      */
-    public static final BitSet DISALLOWED_REL_PATH = createBitSet();
+    static final BitSet DISALLOWED_REL_PATH = createBitSet();
     // Static initializer for disallowed_rel_path
     static {
         DISALLOWED_REL_PATH.or(URIC);
@@ -713,7 +713,7 @@ final class URIBitSets {
     /**
      * Disallowed opaque_part before escaping.
      */
-    public static final BitSet DISALLOWED_OPAQUE_PART = createBitSet();
+    static final BitSet DISALLOWED_OPAQUE_PART = createBitSet();
     // Static initializer for disallowed_opaque_part
     static {
         DISALLOWED_OPAQUE_PART.or(URIC);
@@ -725,7 +725,7 @@ final class URIBitSets {
     /**
      * Those characters that are allowed for the authority component.
      */
-    public static final BitSet ALLOWED_AUTHORITY = createBitSet();
+    static final BitSet ALLOWED_AUTHORITY = createBitSet();
     // Static initializer for allowed_authority
     static {
         ALLOWED_AUTHORITY.or(AUTHORITY);
@@ -735,7 +735,7 @@ final class URIBitSets {
     /**
      * Those characters that are allowed for the opaque_part.
      */
-    public static final BitSet ALLOWED_OPAQUE_PART = createBitSet();
+    static final BitSet ALLOWED_OPAQUE_PART = createBitSet();
     // Static initializer for allowed_opaque_part
     static {
         ALLOWED_OPAQUE_PART.or(OPAQUE_PART);
@@ -745,7 +745,7 @@ final class URIBitSets {
     /**
      * Those characters that are allowed for the reg_name.
      */
-    public static final BitSet ALLOWED_REG_NAME = createBitSet();
+    static final BitSet ALLOWED_REG_NAME = createBitSet();
     // Static initializer for allowed_reg_name
     static {
         ALLOWED_REG_NAME.or(REG_NAME);
@@ -756,7 +756,7 @@ final class URIBitSets {
     /**
      * Those characters that are allowed for the userinfo component.
      */
-    public static final BitSet ALLOWED_USER_INFO = createBitSet();
+    static final BitSet ALLOWED_USER_INFO = createBitSet();
     // Static initializer for allowed_userinfo
     static {
         ALLOWED_USER_INFO.or(USERINFO);
@@ -767,7 +767,7 @@ final class URIBitSets {
     /**
      * Those characters that are allowed for within the userinfo component.
      */
-    public static final BitSet ALLOWED_WITHIN_USERINFO = createBitSet();
+    static final BitSet ALLOWED_WITHIN_USERINFO = createBitSet();
     // Static initializer for allowed_within_userinfo
     static {
         ALLOWED_WITHIN_USERINFO.or(WITHIN_USERRINFO);
@@ -778,7 +778,7 @@ final class URIBitSets {
      * Those characters that are allowed for the IPv6reference component.
      * The characters '[', ']' in IPv6reference should be excluded.
      */
-    public static final BitSet ALLOWED_IPV6REFERENCE = createBitSet();
+    static final BitSet ALLOWED_IPV6REFERENCE = createBitSet();
     // Static initializer for allowed_IPv6reference
     static {
         ALLOWED_IPV6REFERENCE.or(IPV6REFERENCE);
@@ -791,7 +791,7 @@ final class URIBitSets {
      * Those characters that are allowed for the host component.
      * The characters '[', ']' in IPv6reference should be excluded.
      */
-    public static final BitSet ALLOWED_HOST = createBitSet();
+    static final BitSet ALLOWED_HOST = createBitSet();
     // Static initializer for allowed_host
     static {
         ALLOWED_HOST.or(HOSTNAME);
@@ -801,7 +801,7 @@ final class URIBitSets {
     /**
      * Those characters that are allowed for the authority component.
      */
-    public static final BitSet ALLOWED_WITHIN_AUTHORITY = createBitSet();
+    static final BitSet ALLOWED_WITHIN_AUTHORITY = createBitSet();
     // Static initializer for allowed_within_authority
     static {
         ALLOWED_WITHIN_AUTHORITY.or(SERVER);
@@ -816,7 +816,7 @@ final class URIBitSets {
     /**
      * Those characters that are allowed for the abs_path.
      */
-    public static final BitSet ALLOWED_ABS_PATH = createBitSet();
+    static final BitSet ALLOWED_ABS_PATH = createBitSet();
     // Static initializer for allowed_abs_path
     static {
         ALLOWED_ABS_PATH.or(ABS_PATH);
@@ -828,7 +828,7 @@ final class URIBitSets {
     /**
      * Those characters that are allowed for the rel_path.
      */
-    public static final BitSet ALLOWED_REL_PATH = createBitSet();
+    static final BitSet ALLOWED_REL_PATH = createBitSet();
     // Static initializer for allowed_rel_path
     static {
         ALLOWED_REL_PATH.or(REL_PATH);
@@ -839,7 +839,7 @@ final class URIBitSets {
     /**
      * Those characters that are allowed within the path.
      */
-    public static final BitSet ALLOWED_WITHIN_PATH = createBitSet();
+    static final BitSet ALLOWED_WITHIN_PATH = createBitSet();
     // Static initializer for allowed_within_path
     static {
         ALLOWED_WITHIN_PATH.or(ABS_PATH);
@@ -852,7 +852,7 @@ final class URIBitSets {
     /**
      * Those characters that are allowed for the query component.
      */
-    public static final BitSet ALLOWED_QUERY = createBitSet();
+    static final BitSet ALLOWED_QUERY = createBitSet();
     // Static initializer for allowed_query
     static {
         ALLOWED_QUERY.or(URIC);
@@ -862,7 +862,7 @@ final class URIBitSets {
     /**
      * Those characters that are allowed within the query component.
      */
-    public static final BitSet ALLOWED_WITHIN_QUERY = createBitSet();
+    static final BitSet ALLOWED_WITHIN_QUERY = createBitSet();
     // Static initializer for allowed_within_query
     static {
         ALLOWED_WITHIN_QUERY.or(ALLOWED_QUERY);
@@ -872,7 +872,7 @@ final class URIBitSets {
     /**
      * Those characters that are allowed for the fragment component.
      */
-    public static final BitSet ALLOWED_FRAGMENT = createBitSet();
+    static final BitSet ALLOWED_FRAGMENT = createBitSet();
     // Static initializer for allowed_fragment
     static {
         ALLOWED_FRAGMENT.or(URIC);

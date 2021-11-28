@@ -30,14 +30,14 @@ import org.apache.commons.vfs2.FileSelectInfo;
  */
 public class TrueFileFilter implements FileFilter, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     /**
      * Singleton instance of true filter.
      *
      * @since 2.10.0
      */
     public static final FileFilter INSTANCE = new TrueFileFilter();
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Singleton instance of true filter.

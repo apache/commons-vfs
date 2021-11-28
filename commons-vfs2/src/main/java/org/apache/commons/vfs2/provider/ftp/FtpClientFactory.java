@@ -48,14 +48,16 @@ public final class FtpClientFactory {
      * @param <B> The type of FtpFileSystemConfigBuilder
      */
     public abstract static class ConnectionFactory<C extends FTPClient, B extends FtpFileSystemConfigBuilder> {
+
         private static final char[] ANON_CHAR_ARRAY = "anonymous".toCharArray();
         private static final int BUFSZ = 40;
-        private final Log log = LogFactory.getLog(getClass());
 
         /**
          * My builder.
          */
         protected B builder;
+
+        private final Log log = LogFactory.getLog(getClass());
 
         /**
          * Constructs a new instance.

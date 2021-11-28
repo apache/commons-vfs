@@ -56,13 +56,13 @@ import org.apache.commons.vfs2.FileSystemException;
  */
 public class SymbolicLinkFileFilter implements FileFilter, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     /** Singleton instance of <i>hidden</i> filter. */
     public static final FileFilter SYMBOLIC = new SymbolicLinkFileFilter();
 
     /** Singleton instance of <i>visible</i> filter. */
     public static final FileFilter ACTUAL = new NotFileFilter(SYMBOLIC);
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Restrictive constructor.

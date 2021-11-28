@@ -33,7 +33,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  */
 public class RamFileRandomAccessContent implements RandomAccessContent {
 
-    private final static int BYTE_VALUE_MASK = 0xFF;
+    private static final int BYTE_VALUE_MASK = 0xFF;
 
     /**
      * File Pointer

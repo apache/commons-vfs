@@ -62,13 +62,13 @@ import org.apache.commons.vfs2.FileType;
  */
 public class EmptyFileFilter implements FileFilter, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     /** Singleton instance of <i>empty</i> filter. */
     public static final FileFilter EMPTY = new EmptyFileFilter();
 
     /** Singleton instance of <i>not-empty</i> filter. */
     public static final FileFilter NOT_EMPTY = new NotFileFilter(EMPTY);
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Restrictive constructor.

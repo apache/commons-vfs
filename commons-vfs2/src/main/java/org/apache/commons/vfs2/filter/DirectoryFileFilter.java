@@ -45,12 +45,12 @@ import org.apache.commons.vfs2.FileType;
  */
 public class DirectoryFileFilter implements FileFilter, Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     /**
      * Singleton instance of directory filter.
      */
     public static final FileFilter DIRECTORY = new DirectoryFileFilter();
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Restrictive constructor.

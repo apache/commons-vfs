@@ -33,6 +33,14 @@ import org.apache.hc.core5.http.HttpHost;
  */
 public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
 
+    /**
+     * Defines whether the HttpClient should follow redirections from the responses.
+     * <p>
+     * This parameter expects a value of type {@link Boolean}.
+     * </p>
+     */
+    protected static final String KEY_FOLLOW_REDIRECT = "followRedirect";
+
     private static final Http5FileSystemConfigBuilder BUILDER = new Http5FileSystemConfigBuilder();
 
     /**
@@ -103,14 +111,6 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * </p>
      */
     private static final String HOSTNAME_VERIFICATION_ENABLED = "http.hostname-verification.enabled";
-
-    /**
-     * Defines whether the HttpClient should follow redirections from the responses.
-     * <p>
-     * This parameter expects a value of type {@link Boolean}.
-     * </p>
-     */
-    protected static final String KEY_FOLLOW_REDIRECT = "followRedirect";
 
     /**
      * Defines the charset of a URL.

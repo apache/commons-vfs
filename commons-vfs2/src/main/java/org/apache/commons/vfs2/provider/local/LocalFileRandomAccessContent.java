@@ -32,8 +32,8 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  */
 final class LocalFileRandomAccessContent extends AbstractRandomAccessContent {
 
-    private final static int BYTE_VALUE_MASK = 0xFF;
-    // private final LocalFile localFile;
+    private static final  int BYTE_VALUE_MASK = 0xFF;
+
     private final RandomAccessFile raf;
 
     private final InputStream rafis;
