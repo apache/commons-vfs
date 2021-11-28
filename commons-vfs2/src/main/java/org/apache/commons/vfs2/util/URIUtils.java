@@ -46,7 +46,7 @@ public class URIUtils {
      * but it should work with any different HTTP backend provider implementations.
      * </p>
      */
-    private static class EncodingUtils {
+    private static final class EncodingUtils {
 
         /**
          * Converts the byte array of ASCII characters to a string. This method is
@@ -103,11 +103,11 @@ public class URIUtils {
      * via Http Client v3 library any more.
      * </p>
      */
-    private static class URLCodecUtils {
+    private static final class URLCodecUtils {
 
         private static final byte ESCAPE_CHAR = '%';
 
-        private static final BitSet WWW_FORM_URL_SAFE = new BitSet(256);
+        private static final BitSet WWW_FORM_URL_SAFE = URIBitSets.createBitSet();
 
         // Static initializer for www_form_url
         static {
