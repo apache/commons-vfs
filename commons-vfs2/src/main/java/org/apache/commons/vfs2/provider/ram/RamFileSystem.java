@@ -168,15 +168,20 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
         this.delete(from);
     }
 
-    public void attach(final RamFileObject fo) {
-        if (fo.getName() == null) {
+    /**
+     * Attaches this instance to the given RamFileObject.
+     *
+     * @param ramFileObject A RAM file object.
+     */
+    public void attach(final RamFileObject ramFileObject) {
+        if (ramFileObject.getName() == null) {
             throw new IllegalArgumentException("Null argument");
         }
-        RamFileData data = this.cache.get(fo.getName());
+        RamFileData data = this.cache.get(ramFileObject.getName());
         if (data == null) {
-            data = new RamFileData(fo.getName());
+            data = new RamFileData(ramFileObject.getName());
         }
-        fo.setData(data);
+        ramFileObject.setData(data);
     }
 
     /**

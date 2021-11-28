@@ -39,21 +39,28 @@ public class JarURLConnectionImpl extends JarURLConnection {
     // This is because JarURLConnection SUCKS
     private static final String HACK_URL = "jar:http://somehost/somejar.jar!/";
 
-    private final FileContent content;
+    private final FileContent fileContent;
     private final URL parentURL;
-    private final JarFileObject file;
+    private final JarFileObject jarFileObject;
     private final String entryName;
 
-    public JarURLConnectionImpl(final JarFileObject file, final FileContent content)
-            throws MalformedURLException, FileSystemException {
+    /**
+     * Constructs a new instance.
+     *
+     * @param jarFileObject The JAR file.
+     * @param fileContent THe JAR file contents.
+     * @throws MalformedURLException Should not happen.
+     * @throws FileSystemException if an error occurs accessing the JAR file.
+     */
+    public JarURLConnectionImpl(final JarFileObject jarFileObject, final FileContent fileContent) throws MalformedURLException, FileSystemException {
         // This is because JarURLConnection SUCKS!!
         super(new URL(HACK_URL));
 
-        this.url = file.getURL();
-        this.content = content;
-        this.parentURL = file.getURL();
-        this.entryName = file.getName().getPath();
-        this.file = file;
+        this.url = jarFileObject.getURL();
+        this.fileContent = fileContent;
+        this.parentURL = jarFileObject.getURL();
+        this.entryName = jarFileObject.getName().getPath();
+        this.jarFileObject = jarFileObject;
     }
 
     @Override
@@ -73,7 +80,7 @@ public class JarURLConnectionImpl extends JarURLConnection {
 
     @Override
     public Manifest getManifest() throws IOException {
-        return file.getManifest();
+        return jarFileObject.getManifest();
     }
 
     @Override
@@ -83,12 +90,12 @@ public class JarURLConnectionImpl extends JarURLConnection {
 
     @Override
     public Attributes getAttributes() throws IOException {
-        return file.getAttributes();
+        return jarFileObject.getAttributes();
     }
 
     @Override
     public Certificate[] getCertificates() {
-        return file.doGetCertificates();
+        return jarFileObject.doGetCertificates();
     }
 
     @Override
@@ -98,18 +105,18 @@ public class JarURLConnectionImpl extends JarURLConnection {
 
     @Override
     public InputStream getInputStream() throws IOException {
-        return content.getInputStream();
+        return fileContent.getInputStream();
     }
 
     @Override
     public OutputStream getOutputStream() throws IOException {
-        return content.getOutputStream();
+        return fileContent.getOutputStream();
     }
 
     @Override
     public int getContentLength() {
         try {
-            return (int) content.getSize();
+            return (int) fileContent.getSize();
         } catch (final FileSystemException ignored) {
             return -1;
         }

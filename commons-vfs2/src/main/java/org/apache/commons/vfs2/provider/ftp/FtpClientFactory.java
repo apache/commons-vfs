@@ -37,25 +37,31 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 
 /**
- * Create a FtpClient instance.
+ * Creates {@link FtpClient} instances.
  */
 public final class FtpClientFactory {
 
     /**
      * Abstract Factory, used to configure different FTPClients.
      *
-     * @param <C>
-     *            The type of FTPClient.
-     * @param <B>
-     *            The type of FtpFileSystemConfigBuilder
+     * @param <C> The type of FTPClient.
+     * @param <B> The type of FtpFileSystemConfigBuilder
      */
     public abstract static class ConnectionFactory<C extends FTPClient, B extends FtpFileSystemConfigBuilder> {
         private static final char[] ANON_CHAR_ARRAY = "anonymous".toCharArray();
         private static final int BUFSZ = 40;
         private final Log log = LogFactory.getLog(getClass());
 
+        /**
+         * My builder.
+         */
         protected B builder;
 
+        /**
+         * Constructs a new instance.
+         *
+         * @param builder How to build.
+         */
         protected ConnectionFactory(final B builder) {
             this.builder = builder;
         }
@@ -99,6 +105,18 @@ public final class FtpClientFactory {
 
         protected abstract C createClient(FileSystemOptions fileSystemOptions) throws FileSystemException;
 
+        /**
+         * Creates a connection.
+         *
+         * @param hostname The host name or IP address.
+         * @param port The host port.
+         * @param username The user name.
+         * @param password The user password.
+         * @param workingDirectory The working directory.
+         * @param fileSystemOptions Options to create the connection.
+         * @return A new connection.
+         * @throws FileSystemException if an error occurs while connecting.
+         */
         public C createConnection(final String hostname, final int port, char[] username, char[] password,
                 final String workingDirectory, final FileSystemOptions fileSystemOptions) throws FileSystemException {
             // Determine the username and password to use
@@ -237,7 +255,9 @@ public final class FtpClientFactory {
         protected abstract void setupOpenConnection(C client, FileSystemOptions fileSystemOptions) throws IOException;
     }
 
-    /** Connection Factory, used to configure the FTPClient. */
+    /**
+     * Connection Factory, used to configure the FTPClient.
+     */
     public static final class FtpConnectionFactory extends ConnectionFactory<FTPClient, FtpFileSystemConfigBuilder> {
         private FtpConnectionFactory(final FtpFileSystemConfigBuilder builder) {
             super(builder);

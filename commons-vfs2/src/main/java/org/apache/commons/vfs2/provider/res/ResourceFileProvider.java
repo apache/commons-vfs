@@ -39,6 +39,9 @@ public class ResourceFileProvider extends AbstractFileProvider {
     protected static final Collection<Capability> capabilities = Collections
             .unmodifiableCollection(Arrays.asList(Capability.DISPATCHER));
 
+    /**
+     * Constructs a new instance.
+     */
     public ResourceFileProvider() {
         setFileNameParser(ResourceFileNameParser.getInstance());
     }

@@ -37,6 +37,11 @@ public class CombinedResources extends ResourceBundle {
     private volatile boolean inited;
     private final Properties properties = new Properties();
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param resourceName A resource name.
+     */
     public CombinedResources(final String resourceName) {
         this.resourceName = resourceName;
         init();
@@ -59,6 +64,11 @@ public class CombinedResources extends ResourceBundle {
         };
     }
 
+    /**
+     * Gets the resource name.
+     *
+     * @return the resource name.
+     */
     public String getResourceName() {
         return resourceName;
     }

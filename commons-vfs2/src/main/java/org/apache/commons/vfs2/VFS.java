@@ -78,7 +78,7 @@ public final class VFS {
     }
 
     /**
-     * Returns the default {@link FileSystemManager} instance.
+     * Gets the default {@link FileSystemManager} instance.
      * <p>
      * Warning, if you close this instance you may affect all current and future users of this manager singleton.
      * </p>
@@ -93,6 +93,11 @@ public final class VFS {
         return instance;
     }
 
+    /**
+     * TODO.
+     *
+     * @return TODO.
+     */
     public static boolean isUriStyle() {
         if (uriStyle == null) {
             uriStyle = Boolean.FALSE;
@@ -122,6 +127,11 @@ public final class VFS {
         VFS.instance = manager;
     }
 
+    /**
+     * TODO.
+     *
+     * @param uriStyle TODO.
+     */
     public static void setUriStyle(final boolean uriStyle) {
         if (VFS.uriStyle != null && VFS.uriStyle.booleanValue() != uriStyle) {
             throw new IllegalStateException("VFS.uriStyle was already set differently.");

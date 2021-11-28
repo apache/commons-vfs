@@ -29,6 +29,11 @@ public class MonitorRandomAccessContent implements RandomAccessContent {
     private final RandomAccessContent content;
     private boolean finished;
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param content The contents.
+     */
     public MonitorRandomAccessContent(final RandomAccessContent content) {
         this.content = content;
     }

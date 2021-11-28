@@ -66,6 +66,15 @@ public final class UriParser {
         encodeRfc2396(buffer, offset, unencodedValue.length(), allowed);
     }
 
+    /**
+     * Canonicalizes a path.
+     *
+     * @param buffer Source data.
+     * @param offset Where to start reading.
+     * @param length How much to read.
+     * @param fileNameParser Now to encode and decode.
+     * @throws FileSystemException If an I/O error occurs.
+     */
     public static void canonicalizePath(final StringBuilder buffer, final int offset, final int length,
             final FileNameParser fileNameParser) throws FileSystemException {
         int index = offset;

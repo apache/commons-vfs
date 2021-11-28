@@ -33,10 +33,12 @@ import org.apache.commons.vfs2.util.CryptorFactory;
  * @see URLFileNameParser URLFileNameParser for the implementation which also handles the query string too.
  */
 public class HostFileNameParser extends AbstractFileNameParser {
+
     /**
      * Parsed authority info (scheme, hostname, username/password, port).
      */
     protected static class Authority {
+
         private String hostName;
         private String password;
         private int port;
@@ -146,7 +148,12 @@ public class HostFileNameParser extends AbstractFileNameParser {
 
     private final int defaultPort;
 
-    public HostFileNameParser(final int defaultPort) {
+    /**
+     * Constructs a new instance.
+     *
+     * @param defaultPort The default port.
+     */
+     public HostFileNameParser(final int defaultPort) {
         this.defaultPort = defaultPort;
     }
 
@@ -323,6 +330,11 @@ public class HostFileNameParser extends AbstractFileNameParser {
         return null;
     }
 
+    /**
+     * Gets the default port.
+     *
+     * @return the default port.
+     */
     public int getDefaultPort() {
         return defaultPort;
     }

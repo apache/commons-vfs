@@ -412,6 +412,11 @@ public abstract class AbstractSyncTask extends VfsTask {
     public static class SourceInfo {
         private String file;
 
+        /**
+         * Sets the file.
+         *
+         * @param file the file.
+         */
         public void setFile(final String file) {
             this.file = file;
         }

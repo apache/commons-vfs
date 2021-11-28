@@ -42,6 +42,9 @@ public class FTPClientWrapper implements FtpClient {
 
     private static final Log LOG = LogFactory.getLog(FTPClientWrapper.class);
 
+    /**
+     * Authentication options.
+     */
     protected final FileSystemOptions fileSystemOptions;
     private FTPClient ftpClient;
     private final GenericFileName root;
@@ -138,6 +141,11 @@ public class FTPClientWrapper implements FtpClient {
         }
     }
 
+    /**
+     * Gets the FileSystemOptions.
+     *
+     * @return the FileSystemOptions.
+     */
     public FileSystemOptions getFileSystemOptions() {
         return fileSystemOptions;
     }
@@ -160,6 +168,11 @@ public class FTPClientWrapper implements FtpClient {
         return getFtpClient().getReplyString();
     }
 
+    /**
+     * Gets the root file name.
+     *
+     * @return  the root file name.
+     */
     public GenericFileName getRoot() {
         return root;
     }

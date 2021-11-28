@@ -39,10 +39,20 @@ public enum RandomAccessMode {
         this.write = write;
     }
 
+    /**
+     * Tests read.
+     *
+     * @return true for read.
+     */
     public boolean requestRead() {
         return read;
     }
 
+    /**
+     * Tests write.
+     *
+     * @return true for write.
+     */
     public boolean requestWrite() {
         return write;
     }

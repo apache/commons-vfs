@@ -39,6 +39,9 @@ public class GzipFileProvider extends CompressedFileFileProvider {
     protected static final Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays.asList(Capability.GET_LAST_MODIFIED,
         Capability.GET_TYPE, Capability.LIST_CHILDREN, Capability.WRITE_CONTENT, Capability.READ_CONTENT, Capability.URI, Capability.COMPRESS));
 
+    /**
+     * Constructs a new instance.
+     */
     public GzipFileProvider() {
     }
 

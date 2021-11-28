@@ -31,6 +31,9 @@ public class Tbz2FileProvider extends CompositeFileProvider {
 
     private static final String[] SCHEMES = {"bz2", "tar"};
 
+    /**
+     * Constructs a new instance.
+     */
     public Tbz2FileProvider() {
     }
 

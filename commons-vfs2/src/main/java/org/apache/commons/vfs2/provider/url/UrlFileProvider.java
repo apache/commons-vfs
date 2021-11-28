@@ -39,6 +39,9 @@ public class UrlFileProvider extends AbstractFileProvider {
     protected static final Collection<Capability> capabilities = Collections.unmodifiableCollection(
             Arrays.asList(Capability.READ_CONTENT, Capability.URI, Capability.GET_LAST_MODIFIED));
 
+    /**
+     * Constructs a new instance.
+     */
     public UrlFileProvider() {
         setFileNameParser(new UrlFileNameParser());
     }

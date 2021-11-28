@@ -50,7 +50,7 @@ public final class FileSystemOptions implements Cloneable, Comparable<FileSystem
     private final Map<FileSystemOptionKey, Object> options;
 
     /**
-     * Creates a new instance.
+     * Constructs a new instance.
      */
     public FileSystemOptions() {
         this(new TreeMap<>());

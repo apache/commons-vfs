@@ -41,6 +41,9 @@ public class ZipFileProvider extends AbstractLayeredFileProvider {
     protected static final Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays.asList(Capability.GET_LAST_MODIFIED,
         Capability.GET_TYPE, Capability.LIST_CHILDREN, Capability.READ_CONTENT, Capability.URI, Capability.COMPRESS, Capability.VIRTUAL));
 
+    /**
+     * Constructs a new instance.
+     */
     public ZipFileProvider() {
     }
 

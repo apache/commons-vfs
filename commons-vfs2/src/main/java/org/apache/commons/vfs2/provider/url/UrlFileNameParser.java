@@ -34,6 +34,9 @@ public class UrlFileNameParser extends AbstractFileNameParser {
     private final URLFileNameParser urlFileNameParser = new URLFileNameParser(80);
     private final GenericFileNameParser genericFileNameParser = new GenericFileNameParser();
 
+    /**
+     * Constructs a new instance.
+     */
     public UrlFileNameParser() {
     }
 

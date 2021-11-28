@@ -47,6 +47,9 @@ public class JarFileProvider extends ZipFileProvider {
         CAPABILITIES = Collections.unmodifiableCollection(combined);
     }
 
+    /**
+     * Constructs a new instance.
+     */
     public JarFileProvider() {
     }
 

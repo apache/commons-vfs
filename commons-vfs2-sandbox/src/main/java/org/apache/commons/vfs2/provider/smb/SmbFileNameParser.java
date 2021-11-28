@@ -28,13 +28,22 @@ import org.apache.commons.vfs2.provider.VfsComponentContext;
  * Implementation for sftp. set default port to 139
  */
 public class SmbFileNameParser extends URLFileNameParser {
+
     private static final SmbFileNameParser INSTANCE = new SmbFileNameParser();
     private static final int SMB_PORT = 139;
 
+    /**
+     * Creates a new instance with the default port 139.
+     */
     public SmbFileNameParser() {
         super(SMB_PORT);
     }
 
+    /**
+     * Gets the singleton instance.
+     *
+     * @return the singleton instance.
+     */
     public static FileNameParser getInstance() {
         return INSTANCE;
     }

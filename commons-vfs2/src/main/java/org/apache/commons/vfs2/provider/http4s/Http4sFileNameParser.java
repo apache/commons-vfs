@@ -30,10 +30,18 @@ public class Http4sFileNameParser extends GenericURLFileNameParser {
 
     private static final Http4sFileNameParser INSTANCE = new Http4sFileNameParser();
 
+    /**
+     * Gets the singleton instance.
+     *
+     * @return the singleton instance.
+     */
     public static FileNameParser getInstance() {
         return INSTANCE;
     }
 
+    /**
+     * Creates a new instance with the default port 443.
+     */
     public Http4sFileNameParser() {
         super(DEFAULT_PORT);
     }

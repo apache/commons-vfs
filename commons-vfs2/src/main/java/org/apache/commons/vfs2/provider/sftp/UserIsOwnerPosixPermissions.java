@@ -23,6 +23,11 @@ import org.apache.commons.vfs2.util.PosixPermissions;
  */
 public class UserIsOwnerPosixPermissions extends PosixPermissions {
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param permissions permission bits.
+     */
     public UserIsOwnerPosixPermissions(final int permissions) {
         super(permissions, true, true);
     }

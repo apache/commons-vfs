@@ -31,6 +31,9 @@ public class TgzFileProvider extends CompositeFileProvider {
 
     private static final String[] SCHEMES = {"gz", "tar"};
 
+    /**
+     * Constructs a new instance.
+     */
     public TgzFileProvider() {
     }
 

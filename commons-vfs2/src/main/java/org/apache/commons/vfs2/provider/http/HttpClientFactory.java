@@ -129,11 +129,21 @@ public final class HttpClientFactory {
         return client;
     }
 
-    public static HttpClient createConnection(final String scheme, final String hostname, final int port,
-            final String username, final String password, final FileSystemOptions fileSystemOptions)
-            throws FileSystemException {
-        return createConnection(HttpFileSystemConfigBuilder.getInstance(), scheme, hostname, port, username, password,
-                fileSystemOptions);
+    /**
+     * Creates an HttpClient.
+     *
+     * @param scheme The host scheme.
+     * @param hostname The host name or IP address.
+     * @param port The host port.
+     * @param username The user name.
+     * @param password The user password.
+     * @param fileSystemOptions The file system options.
+     * @return a new HttpClient connection.
+     * @throws FileSystemException if an error occurs.
+     */
+    public static HttpClient createConnection(final String scheme, final String hostname, final int port, final String username, final String password,
+        final FileSystemOptions fileSystemOptions) throws FileSystemException {
+        return createConnection(HttpFileSystemConfigBuilder.getInstance(), scheme, hostname, port, username, password, fileSystemOptions);
     }
 
     private HttpClientFactory() {

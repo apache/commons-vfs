@@ -135,6 +135,13 @@ public class TarFileSystem extends AbstractFileSystem {
         return cache.get(name);
     }
 
+    /**
+     * Returns the input stream for the given entry.
+     *
+     * @param entry The entry to seek.
+     * @return the input stream for the given entry.
+     * @throws FileSystemException If an I/O error occurs.
+     */
     public InputStream getInputStream(final TarArchiveEntry entry) throws FileSystemException {
         Objects.requireNonNull(entry, "entry");
         resetTarFile();

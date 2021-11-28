@@ -28,6 +28,11 @@ import org.apache.commons.vfs2.FileType;
  */
 public class GenericURLFileNameParser extends HostFileNameParser {
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param defaultPort The default port.
+     */
     public GenericURLFileNameParser(final int defaultPort) {
         super(defaultPort);
     }

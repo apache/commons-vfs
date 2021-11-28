@@ -33,6 +33,10 @@ import org.apache.commons.vfs2.provider.ftp.FtpFileProvider;
  * @since 2.0
  */
 public class FtpsFileProvider extends FtpFileProvider {
+    
+    /**
+     * Constructs a new instance.
+     */
     public FtpsFileProvider() {
     }
 

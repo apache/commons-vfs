@@ -37,7 +37,7 @@ final class Resource {
     private final String packageName;
 
     /**
-     * Creates a new instance.
+     * Constructs a new instance.
      *
      * @param root The code source FileObject.
      * @param resource The resource of the FileObject.

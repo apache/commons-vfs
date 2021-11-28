@@ -29,6 +29,12 @@ import org.apache.commons.vfs2.FileType;
  */
 @Deprecated
 public class URLFileNameParser extends HostFileNameParser {
+
+    /**
+     * Constructs a new instance.
+     *
+     * @param defaultPort The default port.
+     */
     public URLFileNameParser(final int defaultPort) {
         super(defaultPort);
     }

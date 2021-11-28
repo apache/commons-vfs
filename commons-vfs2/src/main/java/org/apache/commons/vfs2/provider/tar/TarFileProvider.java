@@ -41,6 +41,9 @@ public class TarFileProvider extends AbstractLayeredFileProvider {
             .unmodifiableCollection(Arrays.asList(Capability.GET_LAST_MODIFIED, Capability.GET_TYPE, Capability.LIST_CHILDREN,
                     Capability.READ_CONTENT, Capability.URI, Capability.VIRTUAL));
 
+    /**
+     * Constructs a new instance.
+     */
     public TarFileProvider() {
     }
 

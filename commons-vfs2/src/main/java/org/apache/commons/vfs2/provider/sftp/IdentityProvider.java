@@ -27,6 +27,12 @@ import com.jcraft.jsch.JSchException;
  */
 public interface IdentityProvider {
 
+    /**
+     * Add this identity to the given JSch.
+     *
+     * @param jsch Target JSch.
+     * @throws JSchException If I/O error occurs.
+     */
     void addIdentity(JSch jsch) throws JSchException;
 
 }

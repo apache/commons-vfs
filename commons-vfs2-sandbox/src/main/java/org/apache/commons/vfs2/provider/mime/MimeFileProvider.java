@@ -39,6 +39,9 @@ public class MimeFileProvider extends AbstractLayeredFileProvider implements Fil
             .unmodifiableCollection(Arrays.asList(Capability.GET_TYPE, Capability.GET_LAST_MODIFIED, Capability.LIST_CHILDREN,
                     Capability.READ_CONTENT, Capability.URI, Capability.ATTRIBUTES));
 
+    /**
+     * Constructs a new instance.
+     */
     public MimeFileProvider() {
     }
 

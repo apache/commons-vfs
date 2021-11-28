@@ -30,6 +30,19 @@ public class GenericURLFileName extends GenericFileName {
 
     private final String queryString;
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param scheme Host scheme.
+     * @param hostName Host name or IP address.
+     * @param port Host port.
+     * @param defaultPort Default host port.
+     * @param userName user name.
+     * @param password user password.
+     * @param path Path on the host.
+     * @param type File type on the host.
+     * @param queryString Query string for the path.
+     */
     public GenericURLFileName(final String scheme, final String hostName, final int port, final int defaultPort,
             final String userName, final String password, final String path, final FileType type,
             final String queryString) {

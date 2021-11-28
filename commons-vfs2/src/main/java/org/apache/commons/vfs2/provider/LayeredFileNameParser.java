@@ -30,9 +30,9 @@ public class LayeredFileNameParser extends AbstractFileNameParser {
     private static final LayeredFileNameParser INSTANCE = new LayeredFileNameParser();
 
     /**
-     * Returns the Parser.
+     * Gets the singleton instance.
      *
-     * @return The Parser.
+     * @return the singleton instance.
      */
     public static LayeredFileNameParser getInstance() {
         return INSTANCE;
