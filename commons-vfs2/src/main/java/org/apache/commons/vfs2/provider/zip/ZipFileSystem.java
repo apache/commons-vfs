@@ -64,7 +64,8 @@ public class ZipFileSystem extends AbstractFileSystem {
      * @param fileSystemOptions Options to build this file system.
      * @throws FileSystemException If the parent layer does not exist, or on error replicating the file.
      */
-    public ZipFileSystem(final AbstractFileName rootFileName, final FileObject parentLayer, final FileSystemOptions fileSystemOptions) throws FileSystemException {
+    public ZipFileSystem(final AbstractFileName rootFileName, final FileObject parentLayer, final FileSystemOptions fileSystemOptions)
+        throws FileSystemException {
         super(rootFileName, parentLayer, fileSystemOptions);
 
         // Make a local copy of the file

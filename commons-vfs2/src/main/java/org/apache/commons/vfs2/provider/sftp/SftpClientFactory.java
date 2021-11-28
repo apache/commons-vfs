@@ -303,7 +303,8 @@ public final class SftpClientFactory {
         return new File("");
     }
 
-    private static void setConfigRepository(final JSch jsch, final File sshDir, final ConfigRepository configRepository, final boolean loadOpenSSHConfig) throws FileSystemException {
+    private static void setConfigRepository(final JSch jsch, final File sshDir, final ConfigRepository configRepository, final boolean loadOpenSSHConfig)
+        throws FileSystemException {
         if (configRepository != null) {
             jsch.setConfigRepository(configRepository);
         } else if (loadOpenSSHConfig) {
