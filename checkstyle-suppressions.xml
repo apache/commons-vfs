@@ -34,8 +34,6 @@
     <suppress checks=".*" files="Token.java"/>
     <suppress checks=".*" files="TokenMgrError.java"/>
     
-    <suppress checks="MissingSwitchDefault" files="PropertiesConfiguration.java"/>
-
     <suppress checks="LineLength" files=".*\.properties"/>
 
 </suppressions>
