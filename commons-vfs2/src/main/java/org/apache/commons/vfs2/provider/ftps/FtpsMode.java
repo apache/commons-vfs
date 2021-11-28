@@ -20,14 +20,28 @@ package org.apache.commons.vfs2.provider.ftps;
  * Mode of the FTPS connection.
  *
  * <p>
- * Note, that 'implicit' mode is not standardized and considered as deprecated. Some unit tests for VFS fail with
- * 'implicit' mode and it is not yet clear if its a problem with Commons VFS/Commons Net or our test server Apache
- * FTP/SSHD.
+ * Note, that implicit mode is not standardized and considered as deprecated. Some unit tests for VFS fail with implicit
+ * mode and it is not yet clear if its a problem with Commons VFS/Commons Net or our test server Apache FTP/SSHD.
  * </p>
  *
  * @see <a href="http://en.wikipedia.org/wiki/FTPS#Implicit">Wikipedia: FTPS/Implicit</a>
  * @since 2.1
  */
 public enum FtpsMode {
-    IMPLICIT, EXPLICIT
+
+    /**
+     * Implicit mode.
+     * <p>
+     * Note, that implicit mode is not standardized and considered as deprecated. Some unit tests for VFS fail with implicit
+     * mode and it is not yet clear if its a problem with Commons VFS/Commons Net or our test server Apache FTP/SSHD.
+     * </p>
+     *
+     * @see <a href="http://en.wikipedia.org/wiki/FTPS#Implicit">Wikipedia: FTPS/Implicit</a>
+     */
+    IMPLICIT,
+
+    /**
+     * Explicit mode.
+     */
+    EXPLICIT
 }

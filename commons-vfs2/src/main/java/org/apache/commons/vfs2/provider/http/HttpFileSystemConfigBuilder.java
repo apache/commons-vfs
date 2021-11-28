@@ -31,8 +31,14 @@ import org.apache.commons.vfs2.UserAuthenticator;
  */
 public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
+    /**
+     * Keys for FileSystemOptions.
+     */
     protected static final String KEY_FOLLOW_REDIRECT = "followRedirect";
 
+    /**
+     * Keys for FileSystemOptions.
+     */
     protected static final String KEY_USER_AGENT = "userAgent";
 
     private static final HttpFileSystemConfigBuilder BUILDER = new HttpFileSystemConfigBuilder();
