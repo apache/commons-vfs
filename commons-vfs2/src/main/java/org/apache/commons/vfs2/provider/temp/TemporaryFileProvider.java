@@ -46,18 +46,18 @@ public class TemporaryFileProvider extends AbstractFileProvider implements Compa
 
     /**
      * Constructs a new instance.
+     */
+    public TemporaryFileProvider() {
+    }
+
+    /**
+     * Constructs a new instance.
      *
      * @param rootFile The root file.
      */
     public TemporaryFileProvider(final File rootFile) {
         this();
         this.rootFile = rootFile;
-    }
-
-    /**
-     * Constructs a new instance.
-     */
-    public TemporaryFileProvider() {
     }
 
     @Override

@@ -425,6 +425,11 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
     private static final String TEST_URI = "test.sftp.uri";
 
     /**
+     * The underlying file system
+     */
+    protected SftpFileSystem fileSystem;
+
+    /**
      * Creates a pipe thread that connects an input to an output
      *
      * @param name     The name of the thread (for debugging purposes)
@@ -557,11 +562,6 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
             Server = null;
         }
     }
-
-    /**
-     * The underlying file system
-     */
-    protected SftpFileSystem fileSystem;
 
     /**
      * Returns the base folder for tests.

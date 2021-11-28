@@ -68,15 +68,6 @@ public class WildcardFileFilter implements FileFilter, Serializable {
     private final List<String> wildcards;
 
     /**
-     * Construct a new case-sensitive wildcard filter for a list of wildcards.
-     *
-     * @param wildcards the list of wildcards to match, not null
-     */
-    public WildcardFileFilter(final List<String> wildcards) {
-        this((IOCase) null, wildcards);
-    }
-
-    /**
      * Construct a new wildcard filter for a list of wildcards specifying
      * case-sensitivity.
      *
@@ -90,18 +81,6 @@ public class WildcardFileFilter implements FileFilter, Serializable {
         }
         this.wildcards = new ArrayList<>(wildcards);
         this.caseSensitivity = caseSensitivity == null ? IOCase.SENSITIVE : caseSensitivity;
-    }
-
-    /**
-     * Construct a new case-sensitive wildcard filter for an array of wildcards.
-     * <p>
-     * The array is not cloned, so could be changed after constructing the instance.
-     * This would be inadvisable however.
-     *
-     * @param wildcards the array of wildcards to match
-     */
-    public WildcardFileFilter(final String... wildcards) {
-        this((IOCase) null, wildcards);
     }
 
     /**
@@ -121,43 +100,24 @@ public class WildcardFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Checks to see if the file name matches one of the wildcards.
+     * Construct a new case-sensitive wildcard filter for a list of wildcards.
      *
-     * @param fileSelectInfo the file to check
-     *
-     * @return true if the file name matches one of the wildcards
+     * @param wildcards the list of wildcards to match, not null
      */
-    @Override
-    public boolean accept(final FileSelectInfo fileSelectInfo) {
-        final String name = fileSelectInfo.getFile().getName().getBaseName();
-        for (final String wildcard : wildcards) {
-            if (wildcardMatch(name, wildcard, caseSensitivity)) {
-                return true;
-            }
-        }
-        return false;
+    public WildcardFileFilter(final List<String> wildcards) {
+        this((IOCase) null, wildcards);
     }
 
     /**
-     * Provide a String representation of this file filter.
+     * Construct a new case-sensitive wildcard filter for an array of wildcards.
+     * <p>
+     * The array is not cloned, so could be changed after constructing the instance.
+     * This would be inadvisable however.
      *
-     * @return a String representation
+     * @param wildcards the array of wildcards to match
      */
-    @Override
-    public String toString() {
-        final StringBuilder buffer = new StringBuilder();
-        buffer.append(super.toString());
-        buffer.append("(");
-        if (wildcards != null) {
-            for (int i = 0; i < wildcards.size(); i++) {
-                if (i > 0) {
-                    buffer.append(",");
-                }
-                buffer.append(wildcards.get(i));
-            }
-        }
-        buffer.append(")");
-        return buffer.toString();
+    public WildcardFileFilter(final String... wildcards) {
+        this((IOCase) null, wildcards);
     }
 
     /**
@@ -200,8 +160,6 @@ public class WildcardFileFilter implements FileFilter, Serializable {
 
         return list.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
-
-    // CHECKSTYLE:ON
 
     /**
      * Checks a file name to see if it matches the specified wildcard matcher
@@ -301,5 +259,47 @@ public class WildcardFileFilter implements FileFilter, Serializable {
         return false;
     }
     // CHECKSTYLE:ON
+
+    /**
+     * Checks to see if the file name matches one of the wildcards.
+     *
+     * @param fileSelectInfo the file to check
+     *
+     * @return true if the file name matches one of the wildcards
+     */
+    @Override
+    public boolean accept(final FileSelectInfo fileSelectInfo) {
+        final String name = fileSelectInfo.getFile().getName().getBaseName();
+        for (final String wildcard : wildcards) {
+            if (wildcardMatch(name, wildcard, caseSensitivity)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // CHECKSTYLE:ON
+
+    /**
+     * Provide a String representation of this file filter.
+     *
+     * @return a String representation
+     */
+    @Override
+    public String toString() {
+        final StringBuilder buffer = new StringBuilder();
+        buffer.append(super.toString());
+        buffer.append("(");
+        if (wildcards != null) {
+            for (int i = 0; i < wildcards.size(); i++) {
+                if (i > 0) {
+                    buffer.append(",");
+                }
+                buffer.append(wildcards.get(i));
+            }
+        }
+        buffer.append(")");
+        return buffer.toString();
+    }
 
 }

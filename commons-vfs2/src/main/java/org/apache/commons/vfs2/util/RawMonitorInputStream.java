@@ -76,6 +76,62 @@ public class RawMonitorInputStream extends FilterInputStream {
     }
 
     /**
+     * Closes this input stream and releases any system resources associated with the stream.
+     *
+     * @throws IOException if an error occurs.
+     */
+    @Override
+    public void close() throws IOException {
+        final boolean closed = finished.getAndSet(true);
+        if (closed) {
+            return;
+        }
+
+        // Close the stream
+        IOException exc = null;
+        try {
+            super.close();
+        } catch (final IOException ioe) {
+            exc = ioe;
+        }
+
+        // Notify that the stream has been closed
+        try {
+            onClose();
+        } catch (final IOException ioe) {
+            exc = ioe;
+        }
+
+        if (exc != null) {
+            throw exc;
+        }
+    }
+
+    /**
+     * Gets the number of bytes read by this input stream.
+     *
+     * @return The number of bytes read by this input stream.
+     */
+    public long getCount() {
+        return atomicCount.get();
+    }
+
+    @Override
+    public synchronized void mark(final int readlimit) {
+        // TODO Auto-generated method stub
+        super.mark(readlimit);
+    }
+
+    /**
+     * Called after the stream has been closed. This implementation does nothing.
+     *
+     * @throws IOException if an error occurs.
+     */
+    protected void onClose() throws IOException {
+        // noop
+    }
+
+    /**
      * Reads a character.
      *
      * @return The character that was read as an integer.
@@ -115,61 +171,5 @@ public class RawMonitorInputStream extends FilterInputStream {
             atomicCount.addAndGet(nread);
         }
         return nread;
-    }
-
-    /**
-     * Closes this input stream and releases any system resources associated with the stream.
-     *
-     * @throws IOException if an error occurs.
-     */
-    @Override
-    public void close() throws IOException {
-        final boolean closed = finished.getAndSet(true);
-        if (closed) {
-            return;
-        }
-
-        // Close the stream
-        IOException exc = null;
-        try {
-            super.close();
-        } catch (final IOException ioe) {
-            exc = ioe;
-        }
-
-        // Notify that the stream has been closed
-        try {
-            onClose();
-        } catch (final IOException ioe) {
-            exc = ioe;
-        }
-
-        if (exc != null) {
-            throw exc;
-        }
-    }
-
-    /**
-     * Called after the stream has been closed. This implementation does nothing.
-     *
-     * @throws IOException if an error occurs.
-     */
-    protected void onClose() throws IOException {
-        // noop
-    }
-
-    /**
-     * Gets the number of bytes read by this input stream.
-     *
-     * @return The number of bytes read by this input stream.
-     */
-    public long getCount() {
-        return atomicCount.get();
-    }
-
-    @Override
-    public synchronized void mark(final int readlimit) {
-        // TODO Auto-generated method stub
-        super.mark(readlimit);
     }
 }

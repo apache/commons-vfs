@@ -100,141 +100,12 @@ public final class Os {
     private Os() {
     }
 
-    /**
-     * Determines if the OS on which Ant is executing matches the given OS version.
-     *
-     * @param version The version to check.
-     * @return true if the version matches.
-     */
-    public static boolean isVersion(final String version) {
-        return isOs((OsFamily) null, null, null, version);
-    }
-
-    /**
-     * Determines if the OS on which Ant is executing matches the given OS architecture.
-     *
-     * @param arch The architecture to check.
-     * @return true if the architecture mataches.
-     */
-    public static boolean isArch(final String arch) {
-        return isOs((OsFamily) null, null, arch, null);
-    }
-
-    /**
-     * Determines if the OS on which Ant is executing matches the given OS family.
-     *
-     * @param family The family to check.
-     * @return true if the family matches.
-     */
-    public static boolean isFamily(final String family) {
-        return isOs(family, null, null, null);
-    }
-
-    /**
-     * Determines if the OS on which Ant is executing matches the given OS family.
-     *
-     * @param family The family to check.
-     * @return true if the family matches.
-     */
-    public static boolean isFamily(final OsFamily family) {
-        return isOs(family, null, null, null);
-    }
-
-    /**
-     * Determines if the OS on which Ant is executing matches the given OS name.
-     *
-     * @param name Description of Parameter
-     * @return The Name value
-     * @since 1.7
-     */
-    public static boolean isName(final String name) {
-        return isOs((OsFamily) null, name, null, null);
-    }
-
-    /**
-     * Determines if the OS on which Ant is executing matches the given OS family, name, architecture and version.
-     *
-     * @param family The OS family
-     * @param name The OS name
-     * @param arch The OS architecture
-     * @param version The OS version
-     * @return The Os value
-     */
-    public static boolean isOs(final String family, final String name, final String arch, final String version) {
-        return isOs(getFamily(family), name, arch, version);
-    }
-
-    /**
-     * Determines if the OS on which Ant is executing matches the given OS family, name, architecture and version.
-     *
-     * @param family The OS family
-     * @param name The OS name
-     * @param arch The OS architecture
-     * @param version The OS version
-     * @return The Os value
-     */
-    public static boolean isOs(final OsFamily family, final String name, final String arch, final String version) {
-        if (family != null || name != null || arch != null || version != null) {
-            final boolean isFamily = familyMatches(family);
-            final boolean isName = nameMatches(name);
-            final boolean isArch = archMatches(arch);
-            final boolean isVersion = versionMatches(version);
-
-            return isFamily && isName && isArch && isVersion;
-        }
-        return false;
-    }
-
-    /**
-     * Locates an OsFamily by name (case-insensitive).
-     *
-     * @param name The family name to lookup.
-     * @return the OS family, or null if not found.
-     */
-    public static OsFamily getFamily(final String name) {
-        for (final OsFamily osFamily : ALL_FAMILIES) {
-            if (osFamily.getName().equalsIgnoreCase(name)) {
-                return osFamily;
-            }
-        }
-
-        return null;
-    }
-
-    private static boolean versionMatches(final String version) {
-        boolean isVersion = true;
-        if (version != null) {
-            isVersion = version.equalsIgnoreCase(OS_VERSION);
-        }
-        return isVersion;
-    }
-
     private static boolean archMatches(final String arch) {
         boolean isArch = true;
         if (arch != null) {
             isArch = arch.equalsIgnoreCase(OS_ARCH);
         }
         return isArch;
-    }
-
-    private static boolean nameMatches(final String name) {
-        boolean isName = true;
-        if (name != null) {
-            isName = name.equalsIgnoreCase(OS_NAME);
-        }
-        return isName;
-    }
-
-    private static boolean familyMatches(final OsFamily family) {
-        if (family == null) {
-            return false;
-        }
-        for (final OsFamily osFamily : OS_ALL_FAMILIES) {
-            if (family == osFamily) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private static OsFamily[] determineAllFamilies() {
@@ -277,5 +148,134 @@ public final class Os {
             return OS_FAMILY_UNIX;
         }
         return null;
+    }
+
+    private static boolean familyMatches(final OsFamily family) {
+        if (family == null) {
+            return false;
+        }
+        for (final OsFamily osFamily : OS_ALL_FAMILIES) {
+            if (family == osFamily) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Locates an OsFamily by name (case-insensitive).
+     *
+     * @param name The family name to lookup.
+     * @return the OS family, or null if not found.
+     */
+    public static OsFamily getFamily(final String name) {
+        for (final OsFamily osFamily : ALL_FAMILIES) {
+            if (osFamily.getName().equalsIgnoreCase(name)) {
+                return osFamily;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Determines if the OS on which Ant is executing matches the given OS architecture.
+     *
+     * @param arch The architecture to check.
+     * @return true if the architecture mataches.
+     */
+    public static boolean isArch(final String arch) {
+        return isOs((OsFamily) null, null, arch, null);
+    }
+
+    /**
+     * Determines if the OS on which Ant is executing matches the given OS family.
+     *
+     * @param family The family to check.
+     * @return true if the family matches.
+     */
+    public static boolean isFamily(final OsFamily family) {
+        return isOs(family, null, null, null);
+    }
+
+    /**
+     * Determines if the OS on which Ant is executing matches the given OS family.
+     *
+     * @param family The family to check.
+     * @return true if the family matches.
+     */
+    public static boolean isFamily(final String family) {
+        return isOs(family, null, null, null);
+    }
+
+    /**
+     * Determines if the OS on which Ant is executing matches the given OS name.
+     *
+     * @param name Description of Parameter
+     * @return The Name value
+     * @since 1.7
+     */
+    public static boolean isName(final String name) {
+        return isOs((OsFamily) null, name, null, null);
+    }
+
+    /**
+     * Determines if the OS on which Ant is executing matches the given OS family, name, architecture and version.
+     *
+     * @param family The OS family
+     * @param name The OS name
+     * @param arch The OS architecture
+     * @param version The OS version
+     * @return The Os value
+     */
+    public static boolean isOs(final OsFamily family, final String name, final String arch, final String version) {
+        if (family != null || name != null || arch != null || version != null) {
+            final boolean isFamily = familyMatches(family);
+            final boolean isName = nameMatches(name);
+            final boolean isArch = archMatches(arch);
+            final boolean isVersion = versionMatches(version);
+
+            return isFamily && isName && isArch && isVersion;
+        }
+        return false;
+    }
+
+    /**
+     * Determines if the OS on which Ant is executing matches the given OS family, name, architecture and version.
+     *
+     * @param family The OS family
+     * @param name The OS name
+     * @param arch The OS architecture
+     * @param version The OS version
+     * @return The Os value
+     */
+    public static boolean isOs(final String family, final String name, final String arch, final String version) {
+        return isOs(getFamily(family), name, arch, version);
+    }
+
+    /**
+     * Determines if the OS on which Ant is executing matches the given OS version.
+     *
+     * @param version The version to check.
+     * @return true if the version matches.
+     */
+    public static boolean isVersion(final String version) {
+        return isOs((OsFamily) null, null, null, version);
+    }
+
+    private static boolean nameMatches(final String name) {
+        boolean isName = true;
+        if (name != null) {
+            isName = name.equalsIgnoreCase(OS_NAME);
+        }
+        return isName;
+    }
+
+    private static boolean versionMatches(final String version) {
+        boolean isVersion = true;
+        if (version != null) {
+            isVersion = version.equalsIgnoreCase(OS_VERSION);
+        }
+        return isVersion;
     }
 }

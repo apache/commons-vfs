@@ -79,6 +79,70 @@ public class ZipFileSystem extends AbstractFileSystem {
         }
     }
 
+    /**
+     * Returns the capabilities of this file system.
+     */
+    @Override
+    protected void addCapabilities(final Collection<Capability> caps) {
+        caps.addAll(ZipFileProvider.capabilities);
+    }
+
+    /**
+     * Creates a file object.
+     */
+    @Override
+    protected FileObject createFile(final AbstractFileName name) throws FileSystemException {
+        // This is only called for files which do not exist in the Zip file
+        return new ZipFileObject(name, null, this, false);
+    }
+
+    protected ZipFile createZipFile(final File file) throws FileSystemException {
+        try {
+            return charset == null ? new ZipFile(file) : new ZipFile(file, charset);
+        } catch (final IOException ioe) {
+            throw new FileSystemException("vfs.provider.zip/open-zip-file.error", file, ioe);
+        }
+    }
+
+    protected ZipFileObject createZipFileObject(final AbstractFileName name, final ZipEntry entry)
+            throws FileSystemException {
+        return new ZipFileObject(name, entry, this, true);
+    }
+
+    @Override
+    protected void doCloseCommunicationLink() {
+        // Release the zip file
+        try {
+            if (zipFile != null) {
+                zipFile.close();
+                zipFile = null;
+            }
+        } catch (final IOException e) {
+            // getLogger().warn("vfs.provider.zip/close-zip-file.error :" + file, e);
+            VfsLog.warn(getLogger(), LOG, "vfs.provider.zip/close-zip-file.error :" + file, e);
+        }
+    }
+
+    protected Charset getCharset() {
+        return charset;
+    }
+
+    /**
+     * Returns a cached file.
+     */
+    @Override
+    protected FileObject getFileFromCache(final FileName name) {
+        return cache.get(name);
+    }
+
+    protected ZipFile getZipFile() throws FileSystemException {
+        if (zipFile == null && this.file.exists()) {
+            this.zipFile = createZipFile(this.file);
+        }
+
+        return zipFile;
+    }
+
     @Override
     public void init() throws FileSystemException {
         super.init();
@@ -124,76 +188,12 @@ public class ZipFileSystem extends AbstractFileSystem {
         }
     }
 
-    protected ZipFile getZipFile() throws FileSystemException {
-        if (zipFile == null && this.file.exists()) {
-            this.zipFile = createZipFile(this.file);
-        }
-
-        return zipFile;
-    }
-
-    protected ZipFileObject createZipFileObject(final AbstractFileName name, final ZipEntry entry)
-            throws FileSystemException {
-        return new ZipFileObject(name, entry, this, true);
-    }
-
-    protected ZipFile createZipFile(final File file) throws FileSystemException {
-        try {
-            return charset == null ? new ZipFile(file) : new ZipFile(file, charset);
-        } catch (final IOException ioe) {
-            throw new FileSystemException("vfs.provider.zip/open-zip-file.error", file, ioe);
-        }
-    }
-
-    @Override
-    protected void doCloseCommunicationLink() {
-        // Release the zip file
-        try {
-            if (zipFile != null) {
-                zipFile.close();
-                zipFile = null;
-            }
-        } catch (final IOException e) {
-            // getLogger().warn("vfs.provider.zip/close-zip-file.error :" + file, e);
-            VfsLog.warn(getLogger(), LOG, "vfs.provider.zip/close-zip-file.error :" + file, e);
-        }
-    }
-
-    /**
-     * Returns the capabilities of this file system.
-     */
-    @Override
-    protected void addCapabilities(final Collection<Capability> caps) {
-        caps.addAll(ZipFileProvider.capabilities);
-    }
-
-    /**
-     * Creates a file object.
-     */
-    @Override
-    protected FileObject createFile(final AbstractFileName name) throws FileSystemException {
-        // This is only called for files which do not exist in the Zip file
-        return new ZipFileObject(name, null, this, false);
-    }
-
     /**
      * Adds a file object to the cache.
      */
     @Override
     protected void putFileToCache(final FileObject file) {
         cache.put(file.getName(), file);
-    }
-
-    protected Charset getCharset() {
-        return charset;
-    }
-
-    /**
-     * Returns a cached file.
-     */
-    @Override
-    protected FileObject getFileFromCache(final FileName name) {
-        return cache.get(name);
     }
 
     /**

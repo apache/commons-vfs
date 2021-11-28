@@ -142,11 +142,6 @@ public class DecoratedFileObject implements FileObject {
     }
 
     @Override
-    public String getPublicURIString() {
-        return fileObject.getPublicURIString();
-    }
-
-    @Override
     public FileName getName() {
         return fileObject.getName();
     }
@@ -154,6 +149,11 @@ public class DecoratedFileObject implements FileObject {
     @Override
     public FileObject getParent() throws FileSystemException {
         return fileObject.getParent();
+    }
+
+    @Override
+    public String getPublicURIString() {
+        return fileObject.getPublicURIString();
     }
 
     @Override

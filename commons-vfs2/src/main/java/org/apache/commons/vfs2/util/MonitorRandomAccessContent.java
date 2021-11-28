@@ -39,15 +39,6 @@ public class MonitorRandomAccessContent implements RandomAccessContent {
     }
 
     /**
-     * Called after this stream is closed.
-     *
-     * @throws IOException if subclass throws it.
-     */
-    @SuppressWarnings("unused") // IOException is needed because subclasses may need to throw it
-    protected void onClose() throws IOException {
-    }
-
-    /**
      * Closes this content.
      *
      * @throws IOException if an error occurs.
@@ -87,8 +78,8 @@ public class MonitorRandomAccessContent implements RandomAccessContent {
     }
 
     @Override
-    public void seek(final long pos) throws IOException {
-        content.seek(pos);
+    public InputStream getInputStream() throws IOException {
+        return content.getInputStream();
     }
 
     @Override
@@ -96,94 +87,13 @@ public class MonitorRandomAccessContent implements RandomAccessContent {
         return content.length();
     }
 
-    @Override
-    public void write(final int b) throws IOException {
-        content.write(b);
-    }
-
-    @Override
-    public void write(final byte[] b) throws IOException {
-        content.write(b);
-    }
-
-    @Override
-    public void write(final byte[] b, final int off, final int len) throws IOException {
-        content.write(b, off, len);
-    }
-
-    @Override
-    public void writeBoolean(final boolean v) throws IOException {
-        content.writeBoolean(v);
-    }
-
-    @Override
-    public void writeByte(final int v) throws IOException {
-        content.writeByte(v);
-    }
-
-    @Override
-    public void writeShort(final int v) throws IOException {
-        content.writeShort(v);
-    }
-
-    @Override
-    public void writeChar(final int v) throws IOException {
-        content.writeChar(v);
-    }
-
-    @Override
-    public void writeInt(final int v) throws IOException {
-        content.writeInt(v);
-    }
-
-    @Override
-    public void writeLong(final long v) throws IOException {
-        content.writeLong(v);
-    }
-
-    @Override
-    public void writeFloat(final float v) throws IOException {
-        content.writeFloat(v);
-    }
-
-    @Override
-    public void writeDouble(final double v) throws IOException {
-        content.writeDouble(v);
-    }
-
-    @Override
-    public void writeBytes(final String s) throws IOException {
-        content.writeBytes(s);
-    }
-
-    @Override
-    public void writeChars(final String s) throws IOException {
-        content.writeChars(s);
-    }
-
-    @Override
-    public void writeUTF(final String str) throws IOException {
-        content.writeUTF(str);
-    }
-
-    @Override
-    public void readFully(final byte[] b) throws IOException {
-        content.readFully(b);
-    }
-
-    @Override
-    public void readFully(final byte[] b, final int off, final int len) throws IOException {
-        content.readFully(b, off, len);
-    }
-
-    @Override
-    public int skipBytes(final int n) throws IOException {
-        return content.skipBytes(n);
-    }
-
-    @Override
-    public void setLength(final long newLength) throws IOException {
-        content.setLength(newLength);
+    /**
+     * Called after this stream is closed.
+     *
+     * @throws IOException if subclass throws it.
+     */
+    @SuppressWarnings("unused") // IOException is needed because subclasses may need to throw it
+    protected void onClose() throws IOException {
     }
 
     @Override
@@ -197,38 +107,8 @@ public class MonitorRandomAccessContent implements RandomAccessContent {
     }
 
     @Override
-    public int readUnsignedByte() throws IOException {
-        return content.readUnsignedByte();
-    }
-
-    @Override
-    public short readShort() throws IOException {
-        return content.readShort();
-    }
-
-    @Override
-    public int readUnsignedShort() throws IOException {
-        return content.readUnsignedShort();
-    }
-
-    @Override
     public char readChar() throws IOException {
         return content.readChar();
-    }
-
-    @Override
-    public int readInt() throws IOException {
-        return content.readInt();
-    }
-
-    @Override
-    public long readLong() throws IOException {
-        return content.readLong();
-    }
-
-    @Override
-    public float readFloat() throws IOException {
-        return content.readFloat();
     }
 
     @Override
@@ -237,8 +117,48 @@ public class MonitorRandomAccessContent implements RandomAccessContent {
     }
 
     @Override
+    public float readFloat() throws IOException {
+        return content.readFloat();
+    }
+
+    @Override
+    public void readFully(final byte[] b) throws IOException {
+        content.readFully(b);
+    }
+
+    @Override
+    public void readFully(final byte[] b, final int off, final int len) throws IOException {
+        content.readFully(b, off, len);
+    }
+
+    @Override
+    public int readInt() throws IOException {
+        return content.readInt();
+    }
+
+    @Override
     public String readLine() throws IOException {
         return content.readLine();
+    }
+
+    @Override
+    public long readLong() throws IOException {
+        return content.readLong();
+    }
+
+    @Override
+    public short readShort() throws IOException {
+        return content.readShort();
+    }
+
+    @Override
+    public int readUnsignedByte() throws IOException {
+        return content.readUnsignedByte();
+    }
+
+    @Override
+    public int readUnsignedShort() throws IOException {
+        return content.readUnsignedShort();
     }
 
     @Override
@@ -247,8 +167,88 @@ public class MonitorRandomAccessContent implements RandomAccessContent {
     }
 
     @Override
-    public InputStream getInputStream() throws IOException {
-        return content.getInputStream();
+    public void seek(final long pos) throws IOException {
+        content.seek(pos);
+    }
+
+    @Override
+    public void setLength(final long newLength) throws IOException {
+        content.setLength(newLength);
+    }
+
+    @Override
+    public int skipBytes(final int n) throws IOException {
+        return content.skipBytes(n);
+    }
+
+    @Override
+    public void write(final byte[] b) throws IOException {
+        content.write(b);
+    }
+
+    @Override
+    public void write(final byte[] b, final int off, final int len) throws IOException {
+        content.write(b, off, len);
+    }
+
+    @Override
+    public void write(final int b) throws IOException {
+        content.write(b);
+    }
+
+    @Override
+    public void writeBoolean(final boolean v) throws IOException {
+        content.writeBoolean(v);
+    }
+
+    @Override
+    public void writeByte(final int v) throws IOException {
+        content.writeByte(v);
+    }
+
+    @Override
+    public void writeBytes(final String s) throws IOException {
+        content.writeBytes(s);
+    }
+
+    @Override
+    public void writeChar(final int v) throws IOException {
+        content.writeChar(v);
+    }
+
+    @Override
+    public void writeChars(final String s) throws IOException {
+        content.writeChars(s);
+    }
+
+    @Override
+    public void writeDouble(final double v) throws IOException {
+        content.writeDouble(v);
+    }
+
+    @Override
+    public void writeFloat(final float v) throws IOException {
+        content.writeFloat(v);
+    }
+
+    @Override
+    public void writeInt(final int v) throws IOException {
+        content.writeInt(v);
+    }
+
+    @Override
+    public void writeLong(final long v) throws IOException {
+        content.writeLong(v);
+    }
+
+    @Override
+    public void writeShort(final int v) throws IOException {
+        content.writeShort(v);
+    }
+
+    @Override
+    public void writeUTF(final String str) throws IOException {
+        content.writeUTF(str);
     }
 
 }

@@ -78,12 +78,12 @@ public class UrlFileProvider extends AbstractFileProvider {
     }
 
     @Override
-    public FileSystemConfigBuilder getConfigBuilder() {
-        return org.apache.commons.vfs2.provider.res.ResourceFileSystemConfigBuilder.getInstance();
+    public Collection<Capability> getCapabilities() {
+        return capabilities;
     }
 
     @Override
-    public Collection<Capability> getCapabilities() {
-        return capabilities;
+    public FileSystemConfigBuilder getConfigBuilder() {
+        return org.apache.commons.vfs2.provider.res.ResourceFileSystemConfigBuilder.getInstance();
     }
 }

@@ -165,6 +165,17 @@ public class NHttpFileServer {
 
     public static boolean DEBUG = Boolean.getBoolean(NHttpFileServer.class.getSimpleName() + ".debug");
 
+    private final File docRoot;
+
+    private ListenerEndpoint listenerEndpoint;
+
+    private final int port;
+
+    private HttpAsyncServer server;
+    private NHttpFileServer(final int port, final File docRoot) {
+        this.port = port;
+        this.docRoot = docRoot;
+    }
     public static void main(final String[] args) throws Exception {
         if (args.length < 1) {
             System.err.println("Please specify document root directory");
@@ -178,7 +189,6 @@ public class NHttpFileServer {
         }
         new NHttpFileServer(port, docRoot).start().awaitTermination();
     }
-
     static final void println(final String msg) {
         if (DEBUG) {
             System.out.println(HttpDateGenerator.INSTANCE.getCurrentDate() + " | " + msg);
@@ -189,16 +199,6 @@ public class NHttpFileServer {
         throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException,
         CertificateException, IOException, InterruptedException, ExecutionException {
         return new NHttpFileServer(port, docRoot).start();
-    }
-
-    private final File docRoot;
-    private ListenerEndpoint listenerEndpoint;
-    private final int port;
-    private HttpAsyncServer server;
-
-    private NHttpFileServer(final int port, final File docRoot) {
-        this.port = port;
-        this.docRoot = docRoot;
     }
 
     private void awaitTermination() throws InterruptedException {

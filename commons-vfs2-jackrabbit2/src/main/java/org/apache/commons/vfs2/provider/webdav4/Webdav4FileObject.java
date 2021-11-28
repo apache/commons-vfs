@@ -80,11 +80,6 @@ import org.w3c.dom.Node;
 public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
 
     /**
-     * An empty immutable {@code Webdav4FileObject} array.
-     */
-    private static final Webdav4FileObject[] EMPTY_ARRAY = {};
-
-    /**
      * An OutputStream that writes to a Webdav resource.
      * <p>
      * TODO - Use piped stream to avoid temporary file.
@@ -216,6 +211,11 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
         }
     }
 
+    /**
+     * An empty immutable {@code Webdav4FileObject} array.
+     */
+    private static final Webdav4FileObject[] EMPTY_ARRAY = {};
+
     /** The character set property name. */
     public static final DavPropertyName RESPONSE_CHARSET = DavPropertyName.create("response-charset");
 
@@ -226,10 +226,6 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
     protected Webdav4FileObject(final AbstractFileName name, final Webdav4FileSystem fileSystem)
             throws FileSystemException {
         this(name, fileSystem, Webdav4FileSystemConfigBuilder.getInstance());
-    }
-
-    void log(final Exception ex) {
-        // TODO Consider logging
     }
 
     protected Webdav4FileObject(final AbstractFileName name, final Webdav4FileSystem fileSystem,
@@ -575,6 +571,10 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
         } catch (final FileNotFoundException fse) {
             throw new FileNotFolderException(name);
         }
+    }
+
+    void log(final Exception ex) {
+        // TODO Consider logging
     }
 
     /**

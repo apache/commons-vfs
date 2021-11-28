@@ -34,6 +34,20 @@ import org.junit.Test;
 public class SftpPermissionExceptionTestCase extends AbstractSftpProviderTestCase {
 
     /**
+     * Creates the test suite for the sftp file system.
+     */
+    public static junit.framework.Test suite() throws Exception {
+        final SftpProviderTestSuite suite = new SftpProviderTestSuite(new SftpPermissionExceptionTestCase()){
+            @Override
+            protected void addBaseTests() throws Exception {
+                // Just tries to read
+                addTests(SftpPermissionExceptionTestCase.class);
+            }
+        };
+        return suite;
+    }
+
+    /**
      * Sets up a scratch folder for the test to use.
      */
     protected FileObject createScratchFolder() throws Exception {
@@ -46,6 +60,7 @@ public class SftpPermissionExceptionTestCase extends AbstractSftpProviderTestCas
         return scratchFolder;
     }
 
+
     /**
      * Returns the capabilities required by the tests of this test case.
      */
@@ -55,6 +70,10 @@ public class SftpPermissionExceptionTestCase extends AbstractSftpProviderTestCas
             Capability.READ_CONTENT, Capability.WRITE_CONTENT};
     }
 
+    @Override
+    protected boolean isExecChannelClosed() {
+        return false;
+    }
 
     /**
      * Test SftpFileObject.doGetOutputStream return the channel to pool, when there is a exception in channel.put .
@@ -101,24 +120,5 @@ public class SftpPermissionExceptionTestCase extends AbstractSftpProviderTestCas
 
 
 
-    }
-
-    /**
-     * Creates the test suite for the sftp file system.
-     */
-    public static junit.framework.Test suite() throws Exception {
-        final SftpProviderTestSuite suite = new SftpProviderTestSuite(new SftpPermissionExceptionTestCase()){
-            @Override
-            protected void addBaseTests() throws Exception {
-                // Just tries to read
-                addTests(SftpPermissionExceptionTestCase.class);
-            }
-        };
-        return suite;
-    }
-
-    @Override
-    protected boolean isExecChannelClosed() {
-        return false;
     }
 }

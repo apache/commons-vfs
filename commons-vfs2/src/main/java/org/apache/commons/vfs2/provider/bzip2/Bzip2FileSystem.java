@@ -37,12 +37,12 @@ public class Bzip2FileSystem extends CompressedFileFileSystem {
     }
 
     @Override
-    protected FileObject createFile(final AbstractFileName name) throws FileSystemException {
-        return new Bzip2FileObject(name, getParentLayer(), this);
+    protected void addCapabilities(final Collection<Capability> caps) {
+        caps.addAll(Bzip2FileProvider.capabilities);
     }
 
     @Override
-    protected void addCapabilities(final Collection<Capability> caps) {
-        caps.addAll(Bzip2FileProvider.capabilities);
+    protected FileObject createFile(final AbstractFileName name) throws FileSystemException {
+        return new Bzip2FileObject(name, getParentLayer(), this);
     }
 }

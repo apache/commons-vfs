@@ -111,12 +111,12 @@ public class Webdav4FileProvider extends Http4FileProvider {
     }
 
     @Override
-    public FileSystemConfigBuilder getConfigBuilder() {
-        return Webdav4FileSystemConfigBuilder.getInstance();
+    public Collection<Capability> getCapabilities() {
+        return capabilities;
     }
 
     @Override
-    public Collection<Capability> getCapabilities() {
-        return capabilities;
+    public FileSystemConfigBuilder getConfigBuilder() {
+        return Webdav4FileSystemConfigBuilder.getInstance();
     }
 }

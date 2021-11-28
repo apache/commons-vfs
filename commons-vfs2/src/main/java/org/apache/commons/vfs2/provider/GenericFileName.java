@@ -43,78 +43,6 @@ public class GenericFileName extends AbstractFileName {
     }
 
     /**
-     * Returns the user name part of this name.
-     *
-     * @return The user name.
-     */
-    public String getUserName() {
-        return userName;
-    }
-
-    /**
-     * Returns the password part of this name.
-     *
-     * @return The password.
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * Returns the host name part of this name.
-     *
-     * @return The host name.
-     */
-    public String getHostName() {
-        return hostName;
-    }
-
-    /**
-     * Returns the port part of this name.
-     *
-     * @return The port number.
-     */
-    public int getPort() {
-        return port;
-    }
-
-    /**
-     * Returns the default port for this file name.
-     *
-     * @return The default port number.
-     */
-    public int getDefaultPort() {
-        return defaultPort;
-    }
-
-    /**
-     * Create a FileName.
-     *
-     * @param absPath The absolute path.
-     * @param type The FileType.
-     * @return The created FileName.
-     */
-    @Override
-    public FileName createName(final String absPath, final FileType type) {
-        return new GenericFileName(getScheme(), hostName, port, defaultPort, userName, password, absPath, type);
-    }
-
-    /**
-     * Builds the root URI for this file name.
-     */
-    @Override
-    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword) {
-        buffer.append(getScheme());
-        buffer.append("://");
-        appendCredentials(buffer, addPassword);
-        buffer.append(hostName);
-        if (port != getDefaultPort()) {
-            buffer.append(':');
-            buffer.append(port);
-        }
-    }
-
-    /**
      * Append the user credentials.
      * <p>
      * If anything was added, it will be '@' terminated.
@@ -136,5 +64,77 @@ public class GenericFileName extends AbstractFileName {
             }
             buffer.append('@');
         }
+    }
+
+    /**
+     * Builds the root URI for this file name.
+     */
+    @Override
+    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword) {
+        buffer.append(getScheme());
+        buffer.append("://");
+        appendCredentials(buffer, addPassword);
+        buffer.append(hostName);
+        if (port != getDefaultPort()) {
+            buffer.append(':');
+            buffer.append(port);
+        }
+    }
+
+    /**
+     * Create a FileName.
+     *
+     * @param absPath The absolute path.
+     * @param type The FileType.
+     * @return The created FileName.
+     */
+    @Override
+    public FileName createName(final String absPath, final FileType type) {
+        return new GenericFileName(getScheme(), hostName, port, defaultPort, userName, password, absPath, type);
+    }
+
+    /**
+     * Returns the default port for this file name.
+     *
+     * @return The default port number.
+     */
+    public int getDefaultPort() {
+        return defaultPort;
+    }
+
+    /**
+     * Returns the host name part of this name.
+     *
+     * @return The host name.
+     */
+    public String getHostName() {
+        return hostName;
+    }
+
+    /**
+     * Returns the password part of this name.
+     *
+     * @return The password.
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * Returns the port part of this name.
+     *
+     * @return The port number.
+     */
+    public int getPort() {
+        return port;
+    }
+
+    /**
+     * Returns the user name part of this name.
+     *
+     * @return The user name.
+     */
+    public String getUserName() {
+        return userName;
     }
 }

@@ -33,6 +33,38 @@ import org.apache.commons.vfs2.FileSystemOptions;
 public interface VfsComponentContext {
 
     /**
+     * Gets the file system manager for the current context.
+     *
+     * @return the file system manager
+     */
+    FileSystemManager getFileSystemManager();
+
+    /**
+     * Gets a file replicator for the provider to use.
+     *
+     * @return The FileReplicator.
+     * @throws FileSystemException if an error occurs.
+     */
+    FileReplicator getReplicator() throws FileSystemException;
+
+    /**
+     * Gets a temporary file store for the provider to use.
+     *
+     * @return The TemporaryFileStore.
+     * @throws FileSystemException if an error occurs.
+     */
+    TemporaryFileStore getTemporaryFileStore() throws FileSystemException;
+
+    /**
+     * Parses a URI into a FileName.
+     *
+     * @param uri The URI String.
+     * @return The FileName.
+     * @throws FileSystemException if an error occurs.
+     */
+    FileName parseURI(String uri) throws FileSystemException;
+
+    /**
      * Resolves a file by name. See {@link FileSystemManager#resolveFile(FileObject, String)} for a description of how
      * this works.
      *
@@ -56,31 +88,6 @@ public interface VfsComponentContext {
     FileObject resolveFile(String name, FileSystemOptions fileSystemOptions) throws FileSystemException;
 
     /**
-     * Parses a URI into a FileName.
-     *
-     * @param uri The URI String.
-     * @return The FileName.
-     * @throws FileSystemException if an error occurs.
-     */
-    FileName parseURI(String uri) throws FileSystemException;
-
-    /**
-     * Gets a file replicator for the provider to use.
-     *
-     * @return The FileReplicator.
-     * @throws FileSystemException if an error occurs.
-     */
-    FileReplicator getReplicator() throws FileSystemException;
-
-    /**
-     * Gets a temporary file store for the provider to use.
-     *
-     * @return The TemporaryFileStore.
-     * @throws FileSystemException if an error occurs.
-     */
-    TemporaryFileStore getTemporaryFileStore() throws FileSystemException;
-
-    /**
      * Returns a {@link FileObject} for a local file.
      *
      * @param file The File to convert to a FileObject.
@@ -88,11 +95,4 @@ public interface VfsComponentContext {
      * @throws FileSystemException if an error occurs.
      */
     FileObject toFileObject(File file) throws FileSystemException;
-
-    /**
-     * Gets the file system manager for the current context.
-     *
-     * @return the file system manager
-     */
-    FileSystemManager getFileSystemManager();
 }

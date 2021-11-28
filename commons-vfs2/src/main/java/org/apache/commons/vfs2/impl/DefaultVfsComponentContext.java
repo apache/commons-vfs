@@ -38,34 +38,13 @@ final class DefaultVfsComponentContext implements VfsComponentContext {
     }
 
     /**
-     * Locate a file by name.
+     * Returns the file system manager for the current context
+     *
+     * @return the file system manager
      */
     @Override
-    public FileObject resolveFile(final FileObject baseFile, final String name,
-            final FileSystemOptions fileSystemOptions) throws FileSystemException {
-        return manager.resolveFile(baseFile, name, fileSystemOptions);
-    }
-
-    /**
-     * Locate a file by name.
-     */
-    @Override
-    public FileObject resolveFile(final String name, final FileSystemOptions fileSystemOptions)
-            throws FileSystemException {
-        return manager.resolveFile(name, fileSystemOptions);
-    }
-
-    @Override
-    public FileName parseURI(final String uri) throws FileSystemException {
-        return manager.resolveURI(uri);
-    }
-
-    /**
-     * Returns a {@link FileObject} for a local file.
-     */
-    @Override
-    public FileObject toFileObject(final File file) throws FileSystemException {
-        return manager.toFileObject(file);
+    public FileSystemManager getFileSystemManager() {
+        return manager;
     }
 
     /**
@@ -84,13 +63,34 @@ final class DefaultVfsComponentContext implements VfsComponentContext {
         return manager.getTemporaryFileStore();
     }
 
+    @Override
+    public FileName parseURI(final String uri) throws FileSystemException {
+        return manager.resolveURI(uri);
+    }
+
     /**
-     * Returns the file system manager for the current context
-     *
-     * @return the file system manager
+     * Locate a file by name.
      */
     @Override
-    public FileSystemManager getFileSystemManager() {
-        return manager;
+    public FileObject resolveFile(final FileObject baseFile, final String name,
+            final FileSystemOptions fileSystemOptions) throws FileSystemException {
+        return manager.resolveFile(baseFile, name, fileSystemOptions);
+    }
+
+    /**
+     * Locate a file by name.
+     */
+    @Override
+    public FileObject resolveFile(final String name, final FileSystemOptions fileSystemOptions)
+            throws FileSystemException {
+        return manager.resolveFile(name, fileSystemOptions);
+    }
+
+    /**
+     * Returns a {@link FileObject} for a local file.
+     */
+    @Override
+    public FileObject toFileObject(final File file) throws FileSystemException {
+        return manager.toFileObject(file);
     }
 }

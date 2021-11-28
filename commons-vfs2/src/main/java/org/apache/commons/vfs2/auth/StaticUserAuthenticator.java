@@ -53,23 +53,19 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
         this.domain = domain;
     }
 
-    @Override
-    public UserAuthenticationData requestAuthentication(final UserAuthenticationData.Type[] types) {
-        final UserAuthenticationData data = new UserAuthenticationData();
-        for (final UserAuthenticationData.Type type : types) {
-            if (type == UserAuthenticationData.DOMAIN) {
-                data.setData(UserAuthenticationData.DOMAIN, UserAuthenticatorUtils.toChar(domain));
-            } else if (type == UserAuthenticationData.USERNAME) {
-                data.setData(UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(username));
-            } else if (type == UserAuthenticationData.PASSWORD) {
-                data.setData(UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(password));
-            } else if (LOG.isDebugEnabled()) {
-                LOG.debug(StaticUserAuthenticator.class.getSimpleName()
-                        + " does not support authentication data type '" + type
-                        + "'; authentication request for this type ignored.");
+    private int compareStringOrNull(final String thisString, final String otherString) {
+        if (thisString != null) {
+            if (otherString == null) {
+                return 1;
             }
+
+            return thisString.compareTo(otherString);
         }
-        return data;
+        if (otherString != null) {
+            return -1;
+        }
+
+        return 0;
     }
 
     /**
@@ -78,12 +74,10 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
      * @since 2.0
      */
     @Override
-    public int hashCode() {
-        final int prime = 37;
-        int result = 1;
-        result = prime * result + (domain == null ? 0 : domain.hashCode());
-        result = prime * result + (password == null ? 0 : password.hashCode());
-        result = prime * result + (username == null ? 0 : username.hashCode());
+    public int compareTo(final StaticUserAuthenticator other) {
+        int result = compareStringOrNull(domain, other.domain);
+        result = result == 0 ? compareStringOrNull(username, other.username) : result;
+        result = result == 0 ? compareStringOrNull(password, other.password) : result;
 
         return result;
     }
@@ -118,27 +112,33 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
      * @since 2.0
      */
     @Override
-    public int compareTo(final StaticUserAuthenticator other) {
-        int result = compareStringOrNull(domain, other.domain);
-        result = result == 0 ? compareStringOrNull(username, other.username) : result;
-        result = result == 0 ? compareStringOrNull(password, other.password) : result;
+    public int hashCode() {
+        final int prime = 37;
+        int result = 1;
+        result = prime * result + (domain == null ? 0 : domain.hashCode());
+        result = prime * result + (password == null ? 0 : password.hashCode());
+        result = prime * result + (username == null ? 0 : username.hashCode());
 
         return result;
     }
 
-    private int compareStringOrNull(final String thisString, final String otherString) {
-        if (thisString != null) {
-            if (otherString == null) {
-                return 1;
+    @Override
+    public UserAuthenticationData requestAuthentication(final UserAuthenticationData.Type[] types) {
+        final UserAuthenticationData data = new UserAuthenticationData();
+        for (final UserAuthenticationData.Type type : types) {
+            if (type == UserAuthenticationData.DOMAIN) {
+                data.setData(UserAuthenticationData.DOMAIN, UserAuthenticatorUtils.toChar(domain));
+            } else if (type == UserAuthenticationData.USERNAME) {
+                data.setData(UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(username));
+            } else if (type == UserAuthenticationData.PASSWORD) {
+                data.setData(UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(password));
+            } else if (LOG.isDebugEnabled()) {
+                LOG.debug(StaticUserAuthenticator.class.getSimpleName()
+                        + " does not support authentication data type '" + type
+                        + "'; authentication request for this type ignored.");
             }
-
-            return thisString.compareTo(otherString);
         }
-        if (otherString != null) {
-            return -1;
-        }
-
-        return 0;
+        return data;
     }
 
     /**

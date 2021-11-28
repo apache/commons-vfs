@@ -40,12 +40,6 @@ public class WebdavFileSystem extends HttpFileSystem {
         super(rootName, client, fileSystemOptions);
     }
 
-    @Override
-    protected HttpClient getClient() {
-        // make accessible
-        return super.getClient();
-    }
-
     /**
      * Returns the capabilities of this file system.
      *
@@ -66,6 +60,12 @@ public class WebdavFileSystem extends HttpFileSystem {
     protected FileObject createFile(final AbstractFileName name) {
 
         return new WebdavFileObject(name, this);
+    }
+
+    @Override
+    protected HttpClient getClient() {
+        // make accessible
+        return super.getClient();
     }
 
     /**

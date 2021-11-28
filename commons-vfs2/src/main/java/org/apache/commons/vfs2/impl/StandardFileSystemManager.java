@@ -54,210 +54,6 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
     private ClassLoader classLoader;
 
     /**
-     * Sets the configuration file for this manager.
-     *
-     * @param configUri The URI for this manager.
-     */
-    public void setConfiguration(final String configUri) {
-        try {
-            setConfiguration(new URL(configUri));
-        } catch (final MalformedURLException e) {
-            getLogger().warn(e.getLocalizedMessage(), e);
-        }
-    }
-
-    /**
-     * Sets the configuration file for this manager.
-     *
-     * @param configUri The URI forthis manager.
-     */
-    public void setConfiguration(final URL configUri) {
-        this.configUri = configUri;
-    }
-
-    /**
-     * Sets the ClassLoader to use to load the providers. Default is to use the ClassLoader that loaded this class.
-     *
-     * @param classLoader The ClassLoader.
-     */
-    public void setClassLoader(final ClassLoader classLoader) {
-        this.classLoader = classLoader;
-    }
-
-    /**
-     * Initializes this manager. Adds the providers and replicator.
-     *
-     * @throws FileSystemException if an error occurs.
-     */
-    @Override
-    public void init() throws FileSystemException {
-        // Set the replicator and temporary file store (use the same component)
-        final DefaultFileReplicator replicator = createDefaultFileReplicator();
-        setReplicator(new PrivilegedFileReplicator(replicator));
-        setTemporaryFileStore(replicator);
-
-        if (configUri == null) {
-            // Use default config
-            final URL url = getClass().getResource(CONFIG_RESOURCE);
-            FileSystemException.requireNonNull(url, "vfs.impl/find-config-file.error", CONFIG_RESOURCE);
-            configUri = url;
-        }
-
-        configure(configUri);
-        configurePlugins();
-
-        // Initialize super-class
-        super.init();
-    }
-
-    /**
-     * Scans the classpath to find any droped plugin.
-     * <p>
-     * The plugin-description has to be in {@code /META-INF/vfs-providers.xml}.
-     * </p>
-     *
-     * @throws FileSystemException if an error occurs.
-     */
-    protected void configurePlugins() throws FileSystemException {
-        final Enumeration<URL> enumResources;
-        try {
-            enumResources = enumerateResources(PLUGIN_CONFIG_RESOURCE);
-        } catch (final IOException e) {
-            throw new FileSystemException(e);
-        }
-
-        while (enumResources.hasMoreElements()) {
-            configure(enumResources.nextElement());
-        }
-    }
-
-    /**
-     * Returns a class loader or null since some Java implementation is null for the bootstrap class loader.
-     *
-     * @return A class loader or null since some Java implementation is null for the bootstrap class loader.
-     */
-    private ClassLoader findClassLoader() {
-        if (classLoader != null) {
-            return classLoader;
-        }
-        final ClassLoader cl = Thread.currentThread().getContextClassLoader();
-        if (cl != null) {
-            return cl;
-        }
-        return getValidClassLoader(getClass());
-    }
-
-    protected DefaultFileReplicator createDefaultFileReplicator() {
-        return new DefaultFileReplicator();
-    }
-
-    /**
-     * Configures this manager from an XML configuration file.
-     *
-     * @param configUri The URI of the configuration.
-     * @throws FileSystemException if an error occus.
-     */
-    private void configure(final URL configUri) throws FileSystemException {
-        InputStream configStream = null;
-        try {
-            // Load up the config
-            // TODO - validate
-            final DocumentBuilder builder = createDocumentBuilder();
-            configStream = configUri.openStream();
-            final Element config = builder.parse(configStream).getDocumentElement();
-
-            configure(config);
-        } catch (final Exception e) {
-            throw new FileSystemException("vfs.impl/load-config.error", configUri.toString(), e);
-        } finally {
-            if (configStream != null) {
-                try {
-                    configStream.close();
-                } catch (final IOException e) {
-                    getLogger().warn(e.getLocalizedMessage(), e);
-                }
-            }
-        }
-    }
-
-    /**
-     * Configures this manager from an XML configuration file.
-     *
-     * @param configUri The URI of the configuration.
-     * @param configStream An InputStream containing the configuration.
-     * @throws FileSystemException if an error occurs.
-     */
-    @SuppressWarnings("unused")
-    private void configure(final String configUri, final InputStream configStream) throws FileSystemException {
-        try {
-            // Load up the config
-            // TODO - validate
-            configure(createDocumentBuilder().parse(configStream).getDocumentElement());
-
-        } catch (final Exception e) {
-            throw new FileSystemException("vfs.impl/load-config.error", configUri, e);
-        }
-    }
-
-    /**
-     * Configure and create a DocumentBuilder
-     *
-     * @return A DocumentBuilder for the configuration.
-     * @throws ParserConfigurationException if an error occurs.
-     */
-    private DocumentBuilder createDocumentBuilder() throws ParserConfigurationException {
-        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setIgnoringElementContentWhitespace(true);
-        factory.setIgnoringComments(true);
-        factory.setExpandEntityReferences(true);
-        return factory.newDocumentBuilder();
-    }
-
-    /**
-     * Configures this manager from an parsed XML configuration file
-     *
-     * @param config The configuration Element.
-     * @throws FileSystemException if an error occurs.
-     */
-    private void configure(final Element config) throws FileSystemException {
-        // Add the providers
-        final NodeList providers = config.getElementsByTagName("provider");
-        final int count = providers.getLength();
-        for (int i = 0; i < count; i++) {
-            final Element provider = (Element) providers.item(i);
-            addProvider(provider, false);
-        }
-
-        // Add the operation providers
-        final NodeList operationProviders = config.getElementsByTagName("operationProvider");
-        for (int i = 0; i < operationProviders.getLength(); i++) {
-            final Element operationProvider = (Element) operationProviders.item(i);
-            addOperationProvider(operationProvider);
-        }
-
-        // Add the default provider
-        final NodeList defProviders = config.getElementsByTagName("default-provider");
-        if (defProviders.getLength() > 0) {
-            final Element provider = (Element) defProviders.item(0);
-            addProvider(provider, true);
-        }
-
-        // Add the mime-type maps
-        final NodeList mimeTypes = config.getElementsByTagName("mime-type-map");
-        for (int i = 0; i < mimeTypes.getLength(); i++) {
-            final Element map = (Element) mimeTypes.item(i);
-            addMimeTypeMap(map);
-        }
-
-        // Add the extension maps
-        final NodeList extensions = config.getElementsByTagName("extension-map");
-        for (int i = 0; i < extensions.getLength(); i++) {
-            final Element map = (Element) extensions.item(i);
-            addExtensionMap(map);
-        }
-    }
-
-    /**
      * Adds an extension map.
      *
      * @param map containing the Elements.
@@ -279,6 +75,22 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
         final String mimeType = map.getAttribute("mime-type");
         final String scheme = map.getAttribute("scheme");
         addMimeTypeMap(mimeType, scheme);
+    }
+
+    /**
+     * Adds a operationProvider from a operationProvider definition.
+     */
+    private void addOperationProvider(final Element providerDef) throws FileSystemException {
+        final String classname = providerDef.getAttribute("class-name");
+
+        // Attach only to available schemas
+        final String[] schemas = getSchemas(providerDef);
+        for (final String schema : schemas) {
+            if (hasProvider(schema)) {
+                final FileOperationProvider operationProvider = (FileOperationProvider) createInstance(classname);
+                addOperationProvider(schema, operationProvider);
+            }
+        }
     }
 
     /**
@@ -326,19 +138,159 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
     }
 
     /**
-     * Adds a operationProvider from a operationProvider definition.
+     * Configures this manager from an parsed XML configuration file
+     *
+     * @param config The configuration Element.
+     * @throws FileSystemException if an error occurs.
      */
-    private void addOperationProvider(final Element providerDef) throws FileSystemException {
-        final String classname = providerDef.getAttribute("class-name");
+    private void configure(final Element config) throws FileSystemException {
+        // Add the providers
+        final NodeList providers = config.getElementsByTagName("provider");
+        final int count = providers.getLength();
+        for (int i = 0; i < count; i++) {
+            final Element provider = (Element) providers.item(i);
+            addProvider(provider, false);
+        }
 
-        // Attach only to available schemas
-        final String[] schemas = getSchemas(providerDef);
-        for (final String schema : schemas) {
-            if (hasProvider(schema)) {
-                final FileOperationProvider operationProvider = (FileOperationProvider) createInstance(classname);
-                addOperationProvider(schema, operationProvider);
+        // Add the operation providers
+        final NodeList operationProviders = config.getElementsByTagName("operationProvider");
+        for (int i = 0; i < operationProviders.getLength(); i++) {
+            final Element operationProvider = (Element) operationProviders.item(i);
+            addOperationProvider(operationProvider);
+        }
+
+        // Add the default provider
+        final NodeList defProviders = config.getElementsByTagName("default-provider");
+        if (defProviders.getLength() > 0) {
+            final Element provider = (Element) defProviders.item(0);
+            addProvider(provider, true);
+        }
+
+        // Add the mime-type maps
+        final NodeList mimeTypes = config.getElementsByTagName("mime-type-map");
+        for (int i = 0; i < mimeTypes.getLength(); i++) {
+            final Element map = (Element) mimeTypes.item(i);
+            addMimeTypeMap(map);
+        }
+
+        // Add the extension maps
+        final NodeList extensions = config.getElementsByTagName("extension-map");
+        for (int i = 0; i < extensions.getLength(); i++) {
+            final Element map = (Element) extensions.item(i);
+            addExtensionMap(map);
+        }
+    }
+
+    /**
+     * Configures this manager from an XML configuration file.
+     *
+     * @param configUri The URI of the configuration.
+     * @param configStream An InputStream containing the configuration.
+     * @throws FileSystemException if an error occurs.
+     */
+    @SuppressWarnings("unused")
+    private void configure(final String configUri, final InputStream configStream) throws FileSystemException {
+        try {
+            // Load up the config
+            // TODO - validate
+            configure(createDocumentBuilder().parse(configStream).getDocumentElement());
+
+        } catch (final Exception e) {
+            throw new FileSystemException("vfs.impl/load-config.error", configUri, e);
+        }
+    }
+
+    /**
+     * Configures this manager from an XML configuration file.
+     *
+     * @param configUri The URI of the configuration.
+     * @throws FileSystemException if an error occus.
+     */
+    private void configure(final URL configUri) throws FileSystemException {
+        InputStream configStream = null;
+        try {
+            // Load up the config
+            // TODO - validate
+            final DocumentBuilder builder = createDocumentBuilder();
+            configStream = configUri.openStream();
+            final Element config = builder.parse(configStream).getDocumentElement();
+
+            configure(config);
+        } catch (final Exception e) {
+            throw new FileSystemException("vfs.impl/load-config.error", configUri.toString(), e);
+        } finally {
+            if (configStream != null) {
+                try {
+                    configStream.close();
+                } catch (final IOException e) {
+                    getLogger().warn(e.getLocalizedMessage(), e);
+                }
             }
         }
+    }
+
+    /**
+     * Scans the classpath to find any droped plugin.
+     * <p>
+     * The plugin-description has to be in {@code /META-INF/vfs-providers.xml}.
+     * </p>
+     *
+     * @throws FileSystemException if an error occurs.
+     */
+    protected void configurePlugins() throws FileSystemException {
+        final Enumeration<URL> enumResources;
+        try {
+            enumResources = enumerateResources(PLUGIN_CONFIG_RESOURCE);
+        } catch (final IOException e) {
+            throw new FileSystemException(e);
+        }
+
+        while (enumResources.hasMoreElements()) {
+            configure(enumResources.nextElement());
+        }
+    }
+
+    protected DefaultFileReplicator createDefaultFileReplicator() {
+        return new DefaultFileReplicator();
+    }
+
+    /**
+     * Configure and create a DocumentBuilder
+     *
+     * @return A DocumentBuilder for the configuration.
+     * @throws ParserConfigurationException if an error occurs.
+     */
+    private DocumentBuilder createDocumentBuilder() throws ParserConfigurationException {
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setIgnoringElementContentWhitespace(true);
+        factory.setIgnoringComments(true);
+        factory.setExpandEntityReferences(true);
+        return factory.newDocumentBuilder();
+    }
+
+    /**
+     * Creates a provider.
+     */
+    private Object createInstance(final String className) throws FileSystemException {
+        try {
+            return loadClass(className).newInstance();
+        } catch (final Exception e) {
+            throw new FileSystemException("vfs.impl/create-provider.error", className, e);
+        }
+    }
+
+    /**
+     * Enumerates resources from different class loaders.
+     *
+     * @throws IOException if {@code getResource} failed.
+     * @see #findClassLoader()
+     */
+    private Enumeration<URL> enumerateResources(final String name) throws IOException {
+        Enumeration<URL> enumeration = findClassLoader().getResources(name);
+        if (enumeration == null || !enumeration.hasMoreElements()) {
+            enumeration = getValidClassLoader(getClass()).getResources(name);
+        }
+        return enumeration;
     }
 
     /**
@@ -351,6 +303,22 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
         } catch (final ClassNotFoundException e) {
             return false;
         }
+    }
+
+    /**
+     * Returns a class loader or null since some Java implementation is null for the bootstrap class loader.
+     *
+     * @return A class loader or null since some Java implementation is null for the bootstrap class loader.
+     */
+    private ClassLoader findClassLoader() {
+        if (classLoader != null) {
+            return classLoader;
+        }
+        final ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        if (cl != null) {
+            return cl;
+        }
+        return getValidClassLoader(getClass());
     }
 
     /**
@@ -405,20 +373,30 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
         return validateClassLoader(clazz.getClassLoader(), clazz);
     }
 
-    private ClassLoader validateClassLoader(final ClassLoader clazzLoader, final Class<?> clazz) {
-        return Objects.requireNonNull(clazzLoader, "The class loader for " + clazz
-                + " is null; some Java implementions use null for the bootstrap class loader.");
-    }
-
     /**
-     * Creates a provider.
+     * Initializes this manager. Adds the providers and replicator.
+     *
+     * @throws FileSystemException if an error occurs.
      */
-    private Object createInstance(final String className) throws FileSystemException {
-        try {
-            return loadClass(className).newInstance();
-        } catch (final Exception e) {
-            throw new FileSystemException("vfs.impl/create-provider.error", className, e);
+    @Override
+    public void init() throws FileSystemException {
+        // Set the replicator and temporary file store (use the same component)
+        final DefaultFileReplicator replicator = createDefaultFileReplicator();
+        setReplicator(new PrivilegedFileReplicator(replicator));
+        setTemporaryFileStore(replicator);
+
+        if (configUri == null) {
+            // Use default config
+            final URL url = getClass().getResource(CONFIG_RESOURCE);
+            FileSystemException.requireNonNull(url, "vfs.impl/find-config-file.error", CONFIG_RESOURCE);
+            configUri = url;
         }
+
+        configure(configUri);
+        configurePlugins();
+
+        // Initialize super-class
+        super.init();
     }
 
     /**
@@ -436,17 +414,39 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
     }
 
     /**
-     * Enumerates resources from different class loaders.
+     * Sets the ClassLoader to use to load the providers. Default is to use the ClassLoader that loaded this class.
      *
-     * @throws IOException if {@code getResource} failed.
-     * @see #findClassLoader()
+     * @param classLoader The ClassLoader.
      */
-    private Enumeration<URL> enumerateResources(final String name) throws IOException {
-        Enumeration<URL> enumeration = findClassLoader().getResources(name);
-        if (enumeration == null || !enumeration.hasMoreElements()) {
-            enumeration = getValidClassLoader(getClass()).getResources(name);
+    public void setClassLoader(final ClassLoader classLoader) {
+        this.classLoader = classLoader;
+    }
+
+    /**
+     * Sets the configuration file for this manager.
+     *
+     * @param configUri The URI for this manager.
+     */
+    public void setConfiguration(final String configUri) {
+        try {
+            setConfiguration(new URL(configUri));
+        } catch (final MalformedURLException e) {
+            getLogger().warn(e.getLocalizedMessage(), e);
         }
-        return enumeration;
+    }
+
+    /**
+     * Sets the configuration file for this manager.
+     *
+     * @param configUri The URI forthis manager.
+     */
+    public void setConfiguration(final URL configUri) {
+        this.configUri = configUri;
+    }
+
+    private ClassLoader validateClassLoader(final ClassLoader clazzLoader, final Class<?> clazz) {
+        return Objects.requireNonNull(clazzLoader, "The class loader for " + clazz
+                + " is null; some Java implementions use null for the bootstrap class loader.");
     }
 
 }

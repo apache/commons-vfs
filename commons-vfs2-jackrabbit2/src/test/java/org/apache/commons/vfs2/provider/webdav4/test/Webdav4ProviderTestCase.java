@@ -75,6 +75,14 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
 
     private static final boolean DEBUG = Boolean.getBoolean("Webdav4ProviderTestCase.Debug");
 
+    public Webdav4ProviderTestCase() throws IOException {
+        SocketPort = FreeSocketPortUtil.findFreeLocalPort();
+        message("FreeSocketPortUtil.findFreeLocalPort() = " + SocketPort);
+        // Use %40 for @ in a URL
+        // Any user id and password will do with the default Jackrabbit set up.
+        ConnectionUri = String.format("webdav4://%s:%s@localhost:%d/repository/default", USER_ID, PASSWORD, SocketPort);
+    }
+
     static File createTempDirectory() throws IOException {
         // create base folder
         final File base = new File("./target/test").getCanonicalFile();
@@ -287,14 +295,6 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
                 RepoDirectory.deleteOnExit();
             }
         }
-    }
-
-    public Webdav4ProviderTestCase() throws IOException {
-        SocketPort = FreeSocketPortUtil.findFreeLocalPort();
-        message("FreeSocketPortUtil.findFreeLocalPort() = " + SocketPort);
-        // Use %40 for @ in a URL
-        // Any user id and password will do with the default Jackrabbit set up.
-        ConnectionUri = String.format("webdav4://%s:%s@localhost:%d/repository/default", USER_ID, PASSWORD, SocketPort);
     }
 
     /**

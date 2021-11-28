@@ -54,11 +54,11 @@ final class FileSystemAndNameKey implements Comparable<FileSystemAndNameKey> {
         return fileName.compareTo(other.fileName);
     }
 
-    FileSystem getFileSystem() {
-        return fileSystem;
-    }
-
     FileName getFileName() {
         return fileName;
+    }
+
+    FileSystem getFileSystem() {
+        return fileSystem;
     }
 }

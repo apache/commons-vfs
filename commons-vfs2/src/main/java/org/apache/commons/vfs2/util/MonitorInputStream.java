@@ -100,15 +100,6 @@ public class MonitorInputStream extends BufferedInputStream {
     }
 
     /**
-     * Gets the number of bytes read by this input stream.
-     *
-     * @return The number of bytes read by this input stream.
-     */
-    public long getCount() {
-        return atomicCount.get();
-    }
-
-    /**
      * This method exists in order to allow overriding whether to actually close
      * the underlying stream (VFS-805). There are cases where closing that stream will
      * consume any amount of remaining data. In such cases closing a different
@@ -117,6 +108,15 @@ public class MonitorInputStream extends BufferedInputStream {
      */
     protected void closeSuper() throws IOException {
         super.close();
+    }
+
+    /**
+     * Gets the number of bytes read by this input stream.
+     *
+     * @return The number of bytes read by this input stream.
+     */
+    public long getCount() {
+        return atomicCount.get();
     }
 
     /**

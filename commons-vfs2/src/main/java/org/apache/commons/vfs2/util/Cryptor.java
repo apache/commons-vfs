@@ -22,15 +22,6 @@ package org.apache.commons.vfs2.util;
 public interface Cryptor {
 
     /**
-     * Encrypt the plain text password.
-     *
-     * @param plainKey The password.
-     * @return The encrypted password String.
-     * @throws Exception If an error occurs.
-     */
-    String encrypt(String plainKey) throws Exception;
-
-    /**
      * Decrypts the password.
      *
      * @param encryptedKey the encrypted password.
@@ -38,4 +29,13 @@ public interface Cryptor {
      * @throws Exception If an error occurs.
      */
     String decrypt(String encryptedKey) throws Exception;
+
+    /**
+     * Encrypt the plain text password.
+     *
+     * @param plainKey The password.
+     * @return The encrypted password String.
+     * @throws Exception If an error occurs.
+     */
+    String encrypt(String plainKey) throws Exception;
 }

@@ -50,6 +50,36 @@ public class LayeredFileNameParser extends AbstractFileNameParser {
     }
 
     /**
+     * Pops the root prefix off a URI, which has had the scheme removed.
+     *
+     * @param uri string builder which gets modified.
+     * @return the extracted root name.
+     */
+    protected String extractRootName(final StringBuilder uri) {
+        // Looking for <name>!<abspath> (staring at the end)
+        final int maxlen = uri.length();
+        int pos = maxlen - 1;
+        for (; pos > 0 && uri.charAt(pos) != '!'; pos--) {
+        }
+
+        if (pos == 0 && uri.charAt(pos) != '!') {
+            // not ! found, so take the whole path a root
+            // e.g. zip:/my/zip/file.zip
+            pos = maxlen;
+        }
+
+        // Extract the name
+        final String prefix = uri.substring(0, pos);
+        if (pos < maxlen) {
+            uri.delete(0, pos + 1);
+        } else {
+            uri.setLength(0);
+        }
+
+        return prefix;
+    }
+
+    /**
      * Parses the base and name into a FileName.
      *
      * @param context The component context.
@@ -80,36 +110,6 @@ public class LayeredFileNameParser extends AbstractFileNameParser {
         final String path = name.toString();
 
         return new LayeredFileName(scheme, rootUri, path, fileType);
-    }
-
-    /**
-     * Pops the root prefix off a URI, which has had the scheme removed.
-     *
-     * @param uri string builder which gets modified.
-     * @return the extracted root name.
-     */
-    protected String extractRootName(final StringBuilder uri) {
-        // Looking for <name>!<abspath> (staring at the end)
-        final int maxlen = uri.length();
-        int pos = maxlen - 1;
-        for (; pos > 0 && uri.charAt(pos) != '!'; pos--) {
-        }
-
-        if (pos == 0 && uri.charAt(pos) != '!') {
-            // not ! found, so take the whole path a root
-            // e.g. zip:/my/zip/file.zip
-            pos = maxlen;
-        }
-
-        // Extract the name
-        final String prefix = uri.substring(0, pos);
-        if (pos < maxlen) {
-            uri.delete(0, pos + 1);
-        } else {
-            uri.setLength(0);
-        }
-
-        return prefix;
     }
 
 }

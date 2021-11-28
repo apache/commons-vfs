@@ -35,18 +35,18 @@ public class UrlFileSystem extends AbstractFileSystem {
     }
 
     /**
-     * Creates a file object.
-     */
-    @Override
-    protected FileObject createFile(final AbstractFileName name) {
-        return new UrlFileObject(this, name);
-    }
-
-    /**
      * Returns the capabilities of this file system.
      */
     @Override
     protected void addCapabilities(final Collection<Capability> caps) {
         caps.addAll(UrlFileProvider.capabilities);
+    }
+
+    /**
+     * Creates a file object.
+     */
+    @Override
+    protected FileObject createFile(final AbstractFileName name) {
+        return new UrlFileObject(this, name);
     }
 }

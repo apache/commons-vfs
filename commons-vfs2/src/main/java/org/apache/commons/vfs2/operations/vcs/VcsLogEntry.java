@@ -75,10 +75,10 @@ public class VcsLogEntry {
 
     /**
      *
-     * @return The revision.
+     * @return The date.
      */
-    public long getRevision() {
-        return revision;
+    public Calendar getDate() {
+        return date;
     }
 
     /**
@@ -91,17 +91,17 @@ public class VcsLogEntry {
 
     /**
      *
-     * @return The date.
-     */
-    public Calendar getDate() {
-        return date;
-    }
-
-    /**
-     *
      * @return The path.
      */
     public String getPath() {
         return path;
+    }
+
+    /**
+     *
+     * @return The revision.
+     */
+    public long getRevision() {
+        return revision;
     }
 }

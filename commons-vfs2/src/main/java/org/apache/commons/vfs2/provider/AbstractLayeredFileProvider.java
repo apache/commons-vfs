@@ -35,34 +35,6 @@ public abstract class AbstractLayeredFileProvider extends AbstractFileProvider {
     }
 
     /**
-     * Locates a file object, by absolute URI.
-     *
-     * @param baseFile The base FileObject.
-     * @param uri The name of the file to locate.
-     * @param fileSystemOptions The FileSystemOptions.
-     * @return The FileObject if it is located, null otherwise.
-     * @throws FileSystemException if an error occurs.
-     */
-    @Override
-    public FileObject findFile(final FileObject baseFile, final String uri, final FileSystemOptions fileSystemOptions)
-            throws FileSystemException {
-        // Split the URI up into its parts
-        final LayeredFileName name = (LayeredFileName) parseUri(baseFile != null ? baseFile.getName() : null, uri);
-
-        // Make the URI canonical
-
-        // Resolve the outer file name
-        final FileName fileName = name.getOuterName();
-        final FileObject file = getContext().resolveFile(baseFile, fileName.getURI(), fileSystemOptions);
-
-        // Create the file system
-        final FileObject rootFile = createFileSystem(name.getScheme(), file, fileSystemOptions);
-
-        // Resolve the file
-        return rootFile.resolveFile(name.getPath());
-    }
-
-    /**
      * Creates a layered file system.
      *
      * @param scheme The protocol to use.
@@ -98,5 +70,33 @@ public abstract class AbstractLayeredFileProvider extends AbstractFileProvider {
      * @throws FileSystemException if the file system cannot be created.
      */
     protected abstract FileSystem doCreateFileSystem(String scheme, FileObject file, FileSystemOptions fileSystemOptions) throws FileSystemException;
+
+    /**
+     * Locates a file object, by absolute URI.
+     *
+     * @param baseFile The base FileObject.
+     * @param uri The name of the file to locate.
+     * @param fileSystemOptions The FileSystemOptions.
+     * @return The FileObject if it is located, null otherwise.
+     * @throws FileSystemException if an error occurs.
+     */
+    @Override
+    public FileObject findFile(final FileObject baseFile, final String uri, final FileSystemOptions fileSystemOptions)
+            throws FileSystemException {
+        // Split the URI up into its parts
+        final LayeredFileName name = (LayeredFileName) parseUri(baseFile != null ? baseFile.getName() : null, uri);
+
+        // Make the URI canonical
+
+        // Resolve the outer file name
+        final FileName fileName = name.getOuterName();
+        final FileObject file = getContext().resolveFile(baseFile, fileName.getURI(), fileSystemOptions);
+
+        // Create the file system
+        final FileObject rootFile = createFileSystem(name.getScheme(), file, fileSystemOptions);
+
+        // Resolve the file
+        return rootFile.resolveFile(name.getPath());
+    }
 
 }

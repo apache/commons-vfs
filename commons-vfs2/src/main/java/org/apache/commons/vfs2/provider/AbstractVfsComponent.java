@@ -28,23 +28,29 @@ public abstract class AbstractVfsComponent implements VfsComponent {
     private Log log;
 
     /**
-     * Sets the Logger to use for the component.
-     *
-     * @param log The Log to use.
+     * Closes the provider. This implementation does nothing.
      */
     @Override
-    public final void setLogger(final Log log) {
-        this.log = log;
+    public void close() {
+        // default is noop.
     }
 
     /**
-     * Sets the context for this file system provider.
+     * Returns the context for this provider.
      *
-     * @param context The VfsComponentContext.
+     * @return provider context
      */
-    @Override
-    public final void setContext(final VfsComponentContext context) {
-        this.context = context;
+    protected final VfsComponentContext getContext() {
+        return context;
+    }
+
+    /**
+     * Returns the logger for this file system to use.
+     *
+     * @return logger for this file system
+     */
+    protected final Log getLogger() {
+        return log;
     }
 
     /**
@@ -58,28 +64,22 @@ public abstract class AbstractVfsComponent implements VfsComponent {
     }
 
     /**
-     * Closes the provider. This implementation does nothing.
+     * Sets the context for this file system provider.
+     *
+     * @param context The VfsComponentContext.
      */
     @Override
-    public void close() {
-        // default is noop.
+    public final void setContext(final VfsComponentContext context) {
+        this.context = context;
     }
 
     /**
-     * Returns the logger for this file system to use.
+     * Sets the Logger to use for the component.
      *
-     * @return logger for this file system
+     * @param log The Log to use.
      */
-    protected final Log getLogger() {
-        return log;
-    }
-
-    /**
-     * Returns the context for this provider.
-     *
-     * @return provider context
-     */
-    protected final VfsComponentContext getContext() {
-        return context;
+    @Override
+    public final void setLogger(final Log log) {
+        this.log = log;
     }
 }

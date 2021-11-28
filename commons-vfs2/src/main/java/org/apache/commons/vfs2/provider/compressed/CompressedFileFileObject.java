@@ -56,15 +56,27 @@ public abstract class CompressedFileFileObject<FS extends CompressedFileFileSyst
         children = new String[] {basename};
     }
 
+    @Override
+    public void createFile() throws FileSystemException {
+        container.createFile();
+        injectType(FileType.FILE);
+    }
+
     /**
-     * Determines if this file can be written to.
-     *
-     * @return {@code true} if this file is writable, {@code false} if not.
-     * @throws FileSystemException if an error occurs.
+     * Returns the size of the file content (in bytes). Is only called if {@link #doGetType} returns
+     * {@link FileType#FILE}.
      */
     @Override
-    public boolean isWriteable() throws FileSystemException {
-        return getFileSystem().hasCapability(Capability.WRITE_CONTENT);
+    protected long doGetContentSize() {
+        return SIZE_UNDEFINED;
+    }
+
+    /**
+     * Returns the last modified time of this file.
+     */
+    @Override
+    protected long doGetLastModifiedTime() throws Exception {
+        return container.getContent().getLastModifiedTime();
     }
 
     /**
@@ -86,30 +98,18 @@ public abstract class CompressedFileFileObject<FS extends CompressedFileFileSyst
         return children;
     }
 
-    /**
-     * Returns the size of the file content (in bytes). Is only called if {@link #doGetType} returns
-     * {@link FileType#FILE}.
-     */
-    @Override
-    protected long doGetContentSize() {
-        return SIZE_UNDEFINED;
-    }
-
-    /**
-     * Returns the last modified time of this file.
-     */
-    @Override
-    protected long doGetLastModifiedTime() throws Exception {
-        return container.getContent().getLastModifiedTime();
-    }
-
     protected FileObject getContainer() {
         return container;
     }
 
+    /**
+     * Determines if this file can be written to.
+     *
+     * @return {@code true} if this file is writable, {@code false} if not.
+     * @throws FileSystemException if an error occurs.
+     */
     @Override
-    public void createFile() throws FileSystemException {
-        container.createFile();
-        injectType(FileType.FILE);
+    public boolean isWriteable() throws FileSystemException {
+        return getFileSystem().hasCapability(Capability.WRITE_CONTENT);
     }
 }

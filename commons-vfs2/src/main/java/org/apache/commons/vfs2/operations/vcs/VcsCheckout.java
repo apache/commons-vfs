@@ -26,10 +26,10 @@ import org.apache.commons.vfs2.operations.FileOperation;
 public interface VcsCheckout extends FileOperation {
 
     /**
-     *
-     * @param revision The revision number.
+     * @param export if true, administrative .svn directoies will not be created on the retrieved tree. The checkout
+     *        operation in this case is equivalent to export function.
      */
-    void setRevision(long revision);
+    void setExport(boolean export);
 
     /**
      *
@@ -39,13 +39,13 @@ public interface VcsCheckout extends FileOperation {
 
     /**
      *
+     * @param revision The revision number.
+     */
+    void setRevision(long revision);
+
+    /**
+     *
      * @param targetDir directory under which retrieved files should be placed.
      */
     void setTargetDirectory(FileObject targetDir);
-
-    /**
-     * @param export if true, administrative .svn directoies will not be created on the retrieved tree. The checkout
-     *        operation in this case is equivalent to export function.
-     */
-    void setExport(boolean export);
 }

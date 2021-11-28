@@ -37,12 +37,12 @@ public class GzipFileSystem extends CompressedFileFileSystem {
     }
 
     @Override
-    protected FileObject createFile(final AbstractFileName name) throws FileSystemException {
-        return new GzipFileObject(name, getParentLayer(), this);
+    protected void addCapabilities(final Collection<Capability> caps) {
+        caps.addAll(GzipFileProvider.capabilities);
     }
 
     @Override
-    protected void addCapabilities(final Collection<Capability> caps) {
-        caps.addAll(GzipFileProvider.capabilities);
+    protected FileObject createFile(final AbstractFileName name) throws FileSystemException {
+        return new GzipFileObject(name, getParentLayer(), this);
     }
 }

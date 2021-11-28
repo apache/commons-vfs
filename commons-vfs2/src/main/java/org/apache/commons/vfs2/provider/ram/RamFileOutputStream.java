@@ -48,6 +48,28 @@ public class RamFileOutputStream extends OutputStream {
         this.file = file;
     }
 
+    @Override
+    public void close() throws IOException {
+        if (closed) {
+            return;
+        }
+        // Notify on close that there was an IOException while writing
+        if (exception != null) {
+            throw exception;
+        }
+        try {
+            this.closed = true;
+            // Close the
+            this.file.endOutput();
+        } catch (final Exception e) {
+            throw new FileSystemException(e);
+        }
+    }
+
+    @Override
+    public void flush() throws IOException {
+    }
+
     /*
      * (non-Javadoc)
      *
@@ -77,28 +99,6 @@ public class RamFileOutputStream extends OutputStream {
     public void write(final int b) throws IOException {
         buffer1[0] = (byte) b;
         this.write(buffer1);
-    }
-
-    @Override
-    public void flush() throws IOException {
-    }
-
-    @Override
-    public void close() throws IOException {
-        if (closed) {
-            return;
-        }
-        // Notify on close that there was an IOException while writing
-        if (exception != null) {
-            throw exception;
-        }
-        try {
-            this.closed = true;
-            // Close the
-            this.file.endOutput();
-        } catch (final Exception e) {
-            throw new FileSystemException(e);
-        }
     }
 
 }

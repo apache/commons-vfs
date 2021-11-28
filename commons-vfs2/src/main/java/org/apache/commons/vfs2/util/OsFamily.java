@@ -26,9 +26,9 @@ import org.apache.commons.lang3.SystemUtils;
 @Deprecated
 public final class OsFamily {
 
+    static final OsFamily[] EMPTY_OS_FAMILY_ARRAY = {};
     private final String name;
     private final OsFamily[] families;
-    static final OsFamily[] EMPTY_OS_FAMILY_ARRAY = {};
 
     OsFamily(final String name) {
         this.name = name;
@@ -41,20 +41,20 @@ public final class OsFamily {
     }
 
     /**
-     * Returns the name of this family.
-     *
-     * @return The name of this family.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
      * Returns the OS families that this family belongs to.
      *
      * @return an array of OSFamily objects that this family belongs to.
      */
     public OsFamily[] getFamilies() {
         return families;
+    }
+
+    /**
+     * Returns the name of this family.
+     *
+     * @return The name of this family.
+     */
+    public String getName() {
+        return name;
     }
 }

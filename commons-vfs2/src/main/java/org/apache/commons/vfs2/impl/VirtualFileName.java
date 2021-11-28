@@ -37,12 +37,12 @@ public class VirtualFileName extends AbstractFileName {
     }
 
     @Override
-    public FileName createName(final String absolutePath, final FileType type) {
-        return new VirtualFileName(getScheme(), absolutePath, type);
+    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword) {
+        buffer.append(getScheme());
     }
 
     @Override
-    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword) {
-        buffer.append(getScheme());
+    public FileName createName(final String absolutePath, final FileType type) {
+        return new VirtualFileName(getScheme(), absolutePath, type);
     }
 }

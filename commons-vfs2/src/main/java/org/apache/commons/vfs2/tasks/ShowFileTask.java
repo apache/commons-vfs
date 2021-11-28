@@ -37,33 +37,6 @@ public class ShowFileTask extends VfsTask {
     private boolean recursive;
 
     /**
-     * The URL of the file to display.
-     *
-     * @param url The url of the file.
-     */
-    public void setFile(final String url) {
-        this.url = url;
-    }
-
-    /**
-     * Shows the content. Assumes the content is text, encoded using the platform's default encoding.
-     *
-     * @param showContent true if the content should be shown.
-     */
-    public void setShowContent(final boolean showContent) {
-        this.showContent = showContent;
-    }
-
-    /**
-     * Recursively shows the descendants of the file.
-     *
-     * @param recursive true if descendants should be shown.
-     */
-    public void setRecursive(final boolean recursive) {
-        this.recursive = recursive;
-    }
-
-    /**
      * Executes the task.
      *
      * @throws BuildException if any exception is thrown.
@@ -78,6 +51,50 @@ public class ShowFileTask extends VfsTask {
         } catch (final Exception e) {
             throw new BuildException(e);
         }
+    }
+
+    /**
+     * Writes the content of the file to Ant log.
+     */
+    private void logContent(final FileObject file, final String prefix) throws Exception {
+        try (FileContent content = file.getContent();
+            InputStream instr = content.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(instr, Charset.defaultCharset()))) {
+            while (true) {
+                final String line = reader.readLine();
+                if (line == null) {
+                    break;
+                }
+                log(prefix + line);
+            }
+        }
+    }
+
+    /**
+     * The URL of the file to display.
+     *
+     * @param url The url of the file.
+     */
+    public void setFile(final String url) {
+        this.url = url;
+    }
+
+    /**
+     * Recursively shows the descendants of the file.
+     *
+     * @param recursive true if descendants should be shown.
+     */
+    public void setRecursive(final boolean recursive) {
+        this.recursive = recursive;
+    }
+
+    /**
+     * Shows the content. Assumes the content is text, encoded using the platform's default encoding.
+     *
+     * @param showContent true if the content should be shown.
+     */
+    public void setShowContent(final boolean showContent) {
+        this.showContent = showContent;
     }
 
     /**
@@ -117,23 +134,6 @@ public class ShowFileTask extends VfsTask {
                         log(newPrefix + child.getName().getBaseName());
                     }
                 }
-            }
-        }
-    }
-
-    /**
-     * Writes the content of the file to Ant log.
-     */
-    private void logContent(final FileObject file, final String prefix) throws Exception {
-        try (FileContent content = file.getContent();
-            InputStream instr = content.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(instr, Charset.defaultCharset()))) {
-            while (true) {
-                final String line = reader.readLine();
-                if (line == null) {
-                    break;
-                }
-                log(prefix + line);
             }
         }
     }

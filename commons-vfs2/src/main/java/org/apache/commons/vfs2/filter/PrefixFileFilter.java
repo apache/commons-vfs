@@ -55,15 +55,6 @@ public class PrefixFileFilter implements FileFilter, Serializable {
     private final List<String> prefixes;
 
     /**
-     * Constructs a new Prefix file filter for a list of prefixes.
-     *
-     * @param prefixes the prefixes to allow, must not be null
-     */
-    public PrefixFileFilter(final List<String> prefixes) {
-        this(IOCase.SENSITIVE, prefixes);
-    }
-
-    /**
      * Constructs a new Prefix file filter for a list of prefixes specifying
      * case-sensitivity.
      *
@@ -80,18 +71,6 @@ public class PrefixFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Constructs a new Prefix file filter for any of an array of prefixes.
-     * <p>
-     * The array is not cloned, so could be changed after constructing the instance.
-     * This would be inadvisable however.
-     *
-     * @param prefixes the prefixes to allow, must not be null
-     */
-    public PrefixFileFilter(final String... prefixes) {
-        this(IOCase.SENSITIVE, prefixes);
-    }
-
-    /**
      * Constructs a new Prefix file filter for any of an array of prefixes
      * specifying case-sensitivity.
      *
@@ -105,6 +84,27 @@ public class PrefixFileFilter implements FileFilter, Serializable {
         }
         this.prefixes = new ArrayList<>(Arrays.asList(prefixes));
         this.caseSensitivity = caseSensitivity == null ? IOCase.SENSITIVE : caseSensitivity;
+    }
+
+    /**
+     * Constructs a new Prefix file filter for a list of prefixes.
+     *
+     * @param prefixes the prefixes to allow, must not be null
+     */
+    public PrefixFileFilter(final List<String> prefixes) {
+        this(IOCase.SENSITIVE, prefixes);
+    }
+
+    /**
+     * Constructs a new Prefix file filter for any of an array of prefixes.
+     * <p>
+     * The array is not cloned, so could be changed after constructing the instance.
+     * This would be inadvisable however.
+     *
+     * @param prefixes the prefixes to allow, must not be null
+     */
+    public PrefixFileFilter(final String... prefixes) {
+        this(IOCase.SENSITIVE, prefixes);
     }
 
     /**

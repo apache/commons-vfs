@@ -74,10 +74,6 @@ class FileContentThreadData {
         return hasInputStream() || outputStream != null || hasRandomAccessContent();
     }
 
-    InputStream removeInputStream(final int pos) {
-        return this.inputStreamList.remove(pos);
-    }
-
     void remove(final InputStream inputStream) {
         // this null-check (as well as the one in the other `remove` method) should not
         // be needed because `remove` is called only in `DefaultFileContent.endInput` which
@@ -94,14 +90,18 @@ class FileContentThreadData {
         }
     }
 
-    Object removeRandomAccessContent(final int pos) {
-        return this.randomAccessContentList.remove(pos);
-    }
-
     void remove(final RandomAccessContent randomAccessContent) {
         if (this.randomAccessContentList != null) {
             this.randomAccessContentList.remove(randomAccessContent);
         }
+    }
+
+    InputStream removeInputStream(final int pos) {
+        return this.inputStreamList.remove(pos);
+    }
+
+    Object removeRandomAccessContent(final int pos) {
+        return this.randomAccessContentList.remove(pos);
     }
 
     void setOutputStream(final DefaultFileContent.FileContentOutputStream outputStream) {

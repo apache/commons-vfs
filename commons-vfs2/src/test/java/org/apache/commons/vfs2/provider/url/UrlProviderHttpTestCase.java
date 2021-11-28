@@ -45,6 +45,10 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig {
      */
     private static String ConnectionUri;
 
+    public UrlProviderHttpTestCase() throws IOException {
+        // empty
+    }
+
     private static String getSystemTestUriOverride() {
         return System.getProperty(TEST_URI);
     }
@@ -86,10 +90,6 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig {
         if (Server != null) {
             Server.shutdown(5000, TimeUnit.SECONDS);
         }
-    }
-
-    public UrlProviderHttpTestCase() throws IOException {
-        // empty
     }
 
     /**

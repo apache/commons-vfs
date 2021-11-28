@@ -286,6 +286,16 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     FileObject getParent() throws FileSystemException;
 
     /**
+     * Returns a Path representing this file.
+     *
+     * @return the Path for the file.
+     * @since 2.7.0
+     */
+    default Path getPath() {
+        return Paths.get(getURI());
+    }
+
+    /**
      * Returns the receiver as a URI String for public display, like, without a password.
      *
      * @return A URI String without a password, never {@code null}.
@@ -308,16 +318,6 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
      */
     default URI getURI() {
         return URI.create(URI.create(getName().getURI()).toASCIIString());
-    }
-
-    /**
-     * Returns a Path representing this file.
-     *
-     * @return the Path for the file.
-     * @since 2.7.0
-     */
-    default Path getPath() {
-        return Paths.get(getURI());
     }
 
     /**

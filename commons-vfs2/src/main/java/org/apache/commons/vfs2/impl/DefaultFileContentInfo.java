@@ -38,12 +38,12 @@ public class DefaultFileContentInfo implements FileContentInfo {
     }
 
     @Override
-    public String getContentType() {
-        return contentType;
+    public String getContentEncoding() {
+        return contentEncoding;
     }
 
     @Override
-    public String getContentEncoding() {
-        return contentEncoding;
+    public String getContentType() {
+        return contentType;
     }
 }

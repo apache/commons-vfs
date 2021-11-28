@@ -33,6 +33,15 @@ public class ResourceFileName extends AbstractFileName {
 
 
     /**
+     * Builds the root URI for this file name.
+     */
+    @Override
+    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword) {
+        buffer.append(getScheme());
+        buffer.append(":");
+    }
+
+    /**
      * Factory method for creating name instances.
      *
      * @param path The file path.
@@ -42,6 +51,12 @@ public class ResourceFileName extends AbstractFileName {
     @Override
     public FileName createName(final String path, final FileType type) {
         return new ResourceFileName(getScheme(), path, type);
+    }
+
+    @Override
+    public String getRootURI() {
+        // resource URIs have a blank root.
+        return "";
     }
 
     /**
@@ -56,20 +71,5 @@ public class ResourceFileName extends AbstractFileName {
         } catch (final FileSystemException e) {
             return super.getURI();
         }
-    }
-
-    /**
-     * Builds the root URI for this file name.
-     */
-    @Override
-    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword) {
-        buffer.append(getScheme());
-        buffer.append(":");
-    }
-
-    @Override
-    public String getRootURI() {
-        // resource URIs have a blank root.
-        return "";
     }
 }

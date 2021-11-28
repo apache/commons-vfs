@@ -54,12 +54,35 @@ public class URLFileName extends GenericFileName {
     }
 
     /**
-     * Gets the query string.
+     * Create a FileName.
      *
-     * @return the query string part of the file name
+     * @param absPath The absolute path.
+     * @param type The FileType.
+     * @return The FileName
      */
-    public String getQueryString() {
-        return queryString;
+    @Override
+    public FileName createName(final String absPath, final FileType type) {
+        return new URLFileName(getScheme(), getHostName(), getPort(), getDefaultPort(), getUserName(), getPassword(),
+                absPath, type, getQueryString());
+    }
+
+    /**
+     * Appends query string to the URI.
+     *
+     * @return the URI
+     */
+    @Override
+    protected String createURI() {
+        if (getQueryString() != null) {
+            final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+            sb.append(super.createURI());
+            sb.append("?");
+            sb.append(getQueryString());
+
+            return sb.toString();
+        }
+
+        return super.createURI();
     }
 
     /**
@@ -104,35 +127,12 @@ public class URLFileName extends GenericFileName {
     }
 
     /**
-     * Create a FileName.
+     * Gets the query string.
      *
-     * @param absPath The absolute path.
-     * @param type The FileType.
-     * @return The FileName
+     * @return the query string part of the file name
      */
-    @Override
-    public FileName createName(final String absPath, final FileType type) {
-        return new URLFileName(getScheme(), getHostName(), getPort(), getDefaultPort(), getUserName(), getPassword(),
-                absPath, type, getQueryString());
-    }
-
-    /**
-     * Appends query string to the URI.
-     *
-     * @return the URI
-     */
-    @Override
-    protected String createURI() {
-        if (getQueryString() != null) {
-            final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-            sb.append(super.createURI());
-            sb.append("?");
-            sb.append(getQueryString());
-
-            return sb.toString();
-        }
-
-        return super.createURI();
+    public String getQueryString() {
+        return queryString;
     }
 
     /**

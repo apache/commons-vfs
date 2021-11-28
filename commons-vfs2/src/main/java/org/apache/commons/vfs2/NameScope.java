@@ -68,8 +68,7 @@ public enum NameScope {
      *
      * @return The name of the scope.
      */
-    @Override
-    public String toString() {
+    public String getName() {
         return realName;
     }
 
@@ -78,7 +77,8 @@ public enum NameScope {
      *
      * @return The name of the scope.
      */
-    public String getName() {
+    @Override
+    public String toString() {
         return realName;
     }
 }

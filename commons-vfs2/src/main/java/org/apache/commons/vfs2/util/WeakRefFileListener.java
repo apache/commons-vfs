@@ -52,20 +52,20 @@ public class WeakRefFileListener implements FileListener {
     }
 
     /**
-     * Gets the wrapped listener. If it is gone, the WeakRefFileListener wrapper will remove itself from the list of
-     * listeners.
+     * Called when a file is changed.
+     * <p>
+     * This will only happen if you monitor the file using {@link org.apache.commons.vfs2.FileMonitor}.
+     * </p>
      *
-     * @return The FileListener.
+     * @param event The FileChangeEvent.
      * @throws Exception if an error occurs.
      */
-    protected FileListener getListener() throws Exception {
-        final FileListener listener = this.listener.get();
-        if (listener == null) {
-            try (FileObject fileObject = fs.resolveFile(name)) {
-                fileObject.getFileSystem().removeListener(fileObject, this);
-            }
+    @Override
+    public void fileChanged(final FileChangeEvent event) throws Exception {
+        final FileListener listener = getListener();
+        if (listener != null) {
+            listener.fileChanged(event);
         }
-        return listener;
     }
 
     /**
@@ -97,19 +97,19 @@ public class WeakRefFileListener implements FileListener {
     }
 
     /**
-     * Called when a file is changed.
-     * <p>
-     * This will only happen if you monitor the file using {@link org.apache.commons.vfs2.FileMonitor}.
-     * </p>
+     * Gets the wrapped listener. If it is gone, the WeakRefFileListener wrapper will remove itself from the list of
+     * listeners.
      *
-     * @param event The FileChangeEvent.
+     * @return The FileListener.
      * @throws Exception if an error occurs.
      */
-    @Override
-    public void fileChanged(final FileChangeEvent event) throws Exception {
-        final FileListener listener = getListener();
-        if (listener != null) {
-            listener.fileChanged(event);
+    protected FileListener getListener() throws Exception {
+        final FileListener listener = this.listener.get();
+        if (listener == null) {
+            try (FileObject fileObject = fs.resolveFile(name)) {
+                fileObject.getFileSystem().removeListener(fileObject, this);
+            }
         }
+        return listener;
     }
 }

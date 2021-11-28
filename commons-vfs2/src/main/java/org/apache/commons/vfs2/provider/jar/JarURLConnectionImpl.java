@@ -64,28 +64,8 @@ public class JarURLConnectionImpl extends JarURLConnection {
     }
 
     @Override
-    public URL getJarFileURL() {
-        return parentURL;
-    }
-
-    @Override
-    public String getEntryName() {
-        return entryName;
-    }
-
-    @Override
-    public JarFile getJarFile() throws IOException {
-        throw new FileSystemException("vfs.provider.jar/jar-file-no-access.error");
-    }
-
-    @Override
-    public Manifest getManifest() throws IOException {
-        return jarFileObject.getManifest();
-    }
-
-    @Override
-    public JarEntry getJarEntry() throws IOException {
-        throw new FileSystemException("vfs.provider.jar/jar-entry-no-access.error");
+    public void connect() {
+        connected = true;
     }
 
     @Override
@@ -99,8 +79,17 @@ public class JarURLConnectionImpl extends JarURLConnection {
     }
 
     @Override
-    public void connect() {
-        connected = true;
+    public int getContentLength() {
+        try {
+            return (int) fileContent.getSize();
+        } catch (final FileSystemException ignored) {
+            return -1;
+        }
+    }
+
+    @Override
+    public String getEntryName() {
+        return entryName;
     }
 
     @Override
@@ -109,17 +98,28 @@ public class JarURLConnectionImpl extends JarURLConnection {
     }
 
     @Override
-    public OutputStream getOutputStream() throws IOException {
-        return fileContent.getOutputStream();
+    public JarEntry getJarEntry() throws IOException {
+        throw new FileSystemException("vfs.provider.jar/jar-entry-no-access.error");
     }
 
     @Override
-    public int getContentLength() {
-        try {
-            return (int) fileContent.getSize();
-        } catch (final FileSystemException ignored) {
-            return -1;
-        }
+    public JarFile getJarFile() throws IOException {
+        throw new FileSystemException("vfs.provider.jar/jar-file-no-access.error");
+    }
+
+    @Override
+    public URL getJarFileURL() {
+        return parentURL;
+    }
+
+    @Override
+    public Manifest getManifest() throws IOException {
+        return jarFileObject.getManifest();
+    }
+
+    @Override
+    public OutputStream getOutputStream() throws IOException {
+        return fileContent.getOutputStream();
     }
 
 }

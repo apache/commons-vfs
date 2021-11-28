@@ -34,17 +34,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
 public interface FileProvider {
 
     /**
-     * Locates a file object, by absolute URI.
-     *
-     * @param baseFile The base file to use for resolving the individual parts of a compound URI.
-     * @param uri The absolute URI of the file to find.
-     * @param fileSystemOptions The FileSystemOptions
-     * @return The FileObject.
-     * @throws FileSystemException if an error occurs locating the file.
-     */
-    FileObject findFile(FileObject baseFile, String uri, FileSystemOptions fileSystemOptions) throws FileSystemException;
-
-    /**
      * Creates a layered file system.
      *
      * @param scheme The URI scheme for the layered file system.
@@ -56,11 +45,15 @@ public interface FileProvider {
     FileObject createFileSystem(String scheme, FileObject file, FileSystemOptions fileSystemOptions) throws FileSystemException;
 
     /**
-     * Gets the configbuilder useable to collect the needed fileSystemOptions.
+     * Locates a file object, by absolute URI.
      *
-     * @return a FileSystemConfigBuilder for the particular file system.
+     * @param baseFile The base file to use for resolving the individual parts of a compound URI.
+     * @param uri The absolute URI of the file to find.
+     * @param fileSystemOptions The FileSystemOptions
+     * @return The FileObject.
+     * @throws FileSystemException if an error occurs locating the file.
      */
-    FileSystemConfigBuilder getConfigBuilder();
+    FileObject findFile(FileObject baseFile, String uri, FileSystemOptions fileSystemOptions) throws FileSystemException;
 
     /**
      * Gets the file system capabilities.
@@ -71,6 +64,13 @@ public interface FileProvider {
      * @return a Collection of the file systems Capabilities.
      */
     Collection<Capability> getCapabilities();
+
+    /**
+     * Gets the configbuilder useable to collect the needed fileSystemOptions.
+     *
+     * @return a FileSystemConfigBuilder for the particular file system.
+     */
+    FileSystemConfigBuilder getConfigBuilder();
 
     /**
      * Parses the URI into a FileName.

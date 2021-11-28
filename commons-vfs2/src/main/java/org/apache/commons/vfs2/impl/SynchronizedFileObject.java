@@ -89,17 +89,17 @@ public class SynchronizedFileObject extends DecoratedFileObject {
     }
 
     @Override
-    public void findFiles(final FileSelector selector, final boolean depthwise, final List<FileObject> selected)
-            throws FileSystemException {
+    public FileObject[] findFiles(final FileSelector selector) throws FileSystemException {
         synchronized (this) {
-            super.findFiles(selector, depthwise, selected);
+            return super.findFiles(selector);
         }
     }
 
     @Override
-    public FileObject[] findFiles(final FileSelector selector) throws FileSystemException {
+    public void findFiles(final FileSelector selector, final boolean depthwise, final List<FileObject> selected)
+            throws FileSystemException {
         synchronized (this) {
-            return super.findFiles(selector);
+            super.findFiles(selector, depthwise, selected);
         }
     }
 
@@ -132,6 +132,13 @@ public class SynchronizedFileObject extends DecoratedFileObject {
     }
 
     @Override
+    public boolean isExecutable() throws FileSystemException {
+        synchronized (this) {
+            return super.isExecutable();
+        }
+    }
+
+    @Override
     public boolean isHidden() throws FileSystemException {
         synchronized (this) {
             return super.isHidden();
@@ -153,9 +160,30 @@ public class SynchronizedFileObject extends DecoratedFileObject {
     }
 
     @Override
-    public boolean isExecutable() throws FileSystemException {
+    public void moveTo(final FileObject destFile) throws FileSystemException {
         synchronized (this) {
-            return super.isExecutable();
+            super.moveTo(destFile);
+        }
+    }
+
+    @Override
+    public FileObject resolveFile(final String path) throws FileSystemException {
+        synchronized (this) {
+            return super.resolveFile(path);
+        }
+    }
+
+    @Override
+    public FileObject resolveFile(final String name, final NameScope scope) throws FileSystemException {
+        synchronized (this) {
+            return super.resolveFile(name, scope);
+        }
+    }
+
+    @Override
+    public boolean setExecutable(final boolean executable, final boolean ownerOnly) throws FileSystemException {
+        synchronized (this) {
+            return super.setExecutable(executable, ownerOnly);
         }
     }
 
@@ -170,34 +198,6 @@ public class SynchronizedFileObject extends DecoratedFileObject {
     public boolean setWritable(final boolean writable, final boolean ownerOnly) throws FileSystemException {
         synchronized (this) {
             return super.setWritable(writable, ownerOnly);
-        }
-    }
-
-    @Override
-    public boolean setExecutable(final boolean executable, final boolean ownerOnly) throws FileSystemException {
-        synchronized (this) {
-            return super.setExecutable(executable, ownerOnly);
-        }
-    }
-
-    @Override
-    public void moveTo(final FileObject destFile) throws FileSystemException {
-        synchronized (this) {
-            super.moveTo(destFile);
-        }
-    }
-
-    @Override
-    public FileObject resolveFile(final String name, final NameScope scope) throws FileSystemException {
-        synchronized (this) {
-            return super.resolveFile(name, scope);
-        }
-    }
-
-    @Override
-    public FileObject resolveFile(final String path) throws FileSystemException {
-        synchronized (this) {
-            return super.resolveFile(path);
         }
     }
 }

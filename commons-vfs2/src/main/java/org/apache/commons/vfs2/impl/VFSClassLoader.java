@@ -103,16 +103,6 @@ public class VFSClassLoader extends SecureClassLoader {
     }
 
     /**
-     * Provide access to the file objects this class loader represents.
-     *
-     * @return An array of FileObjects.
-     * @since 2.0
-     */
-    public FileObject[] getFileObjects() {
-        return resources.toArray(FileObject.EMPTY_ARRAY);
-    }
-
-    /**
      * Appends the specified FileObjects to the list of FileObjects to search for classes and resources.
      *
      * @param manager The FileSystemManager.
@@ -137,21 +127,15 @@ public class VFSClassLoader extends SecureClassLoader {
     }
 
     /**
-     * Finds and loads the class with the specified name from the search path.
+     * Copies the permissions from src to dest.
      *
-     * @throws ClassNotFoundException if the class is not found.
+     * @param src The source PermissionCollection.
+     * @param dest The destination PermissionCollection.
      */
-    @Override
-    protected Class<?> findClass(final String name) throws ClassNotFoundException {
-        try {
-            final String path = name.replace('.', '/').concat(".class");
-            final Resource res = loadResource(path);
-            if (res == null) {
-                throw new ClassNotFoundException(name);
-            }
-            return defineClass(name, res);
-        } catch (final IOException ioe) {
-            throw new ClassNotFoundException(name, ioe);
+    protected void copyPermissions(final PermissionCollection src, final PermissionCollection dest) {
+        for (final Enumeration<Permission> elem = src.elements(); elem.hasMoreElements();) {
+            final Permission permission = elem.nextElement();
+            dest.add(permission);
         }
     }
 
@@ -183,14 +167,6 @@ public class VFSClassLoader extends SecureClassLoader {
     }
 
     /**
-     * Returns true if the we should seal the package where res resides.
-     */
-    private boolean isSealed(final Resource res) throws FileSystemException {
-        final String sealed = res.getPackageAttribute(Attributes.Name.SEALED);
-        return "true".equalsIgnoreCase(sealed);
-    }
-
-    /**
      * Reads attributes for the package and defines it.
      */
     private Package definePackage(final String name, final Resource res) throws FileSystemException {
@@ -213,64 +189,22 @@ public class VFSClassLoader extends SecureClassLoader {
     }
 
     /**
-     * Calls super.getPermissions both for the code source and also adds the permissions granted to the parent layers.
+     * Finds and loads the class with the specified name from the search path.
      *
-     * @param cs the CodeSource.
-     * @return The PermissionCollections.
+     * @throws ClassNotFoundException if the class is not found.
      */
     @Override
-    protected PermissionCollection getPermissions(final CodeSource cs) {
+    protected Class<?> findClass(final String name) throws ClassNotFoundException {
         try {
-            final String url = cs.getLocation().toString();
-            final FileObject file = lookupFileObject(url);
-            if (file == null) {
-                return super.getPermissions(cs);
+            final String path = name.replace('.', '/').concat(".class");
+            final Resource res = loadResource(path);
+            if (res == null) {
+                throw new ClassNotFoundException(name);
             }
-
-            final FileObject parentLayer = file.getFileSystem().getParentLayer();
-            if (parentLayer == null) {
-                return super.getPermissions(cs);
-            }
-
-            final Permissions combi = new Permissions();
-            PermissionCollection permCollect = super.getPermissions(cs);
-            copyPermissions(permCollect, combi);
-
-            for (FileObject parent = parentLayer; parent != null; parent = parent.getFileSystem().getParentLayer()) {
-                final CodeSource parentcs = new CodeSource(parent.getURL(), parent.getContent().getCertificates());
-                permCollect = super.getPermissions(parentcs);
-                copyPermissions(permCollect, combi);
-            }
-
-            return combi;
-        } catch (final FileSystemException fse) {
-            throw new SecurityException(fse.getMessage());
+            return defineClass(name, res);
+        } catch (final IOException ioe) {
+            throw new ClassNotFoundException(name, ioe);
         }
-    }
-
-    /**
-     * Copies the permissions from src to dest.
-     *
-     * @param src The source PermissionCollection.
-     * @param dest The destination PermissionCollection.
-     */
-    protected void copyPermissions(final PermissionCollection src, final PermissionCollection dest) {
-        for (final Enumeration<Permission> elem = src.elements(); elem.hasMoreElements();) {
-            final Permission permission = elem.nextElement();
-            dest.add(permission);
-        }
-    }
-
-    /**
-     * Does a reverse lookup to find the FileObject when we only have the URL.
-     */
-    private FileObject lookupFileObject(final String name) {
-        for (final FileObject object : resources) {
-            if (name.equals(object.getName().getURI())) {
-                return object;
-            }
-        }
-        return null;
     }
 
     /**
@@ -317,6 +251,60 @@ public class VFSClassLoader extends SecureClassLoader {
     }
 
     /**
+     * Provide access to the file objects this class loader represents.
+     *
+     * @return An array of FileObjects.
+     * @since 2.0
+     */
+    public FileObject[] getFileObjects() {
+        return resources.toArray(FileObject.EMPTY_ARRAY);
+    }
+
+    /**
+     * Calls super.getPermissions both for the code source and also adds the permissions granted to the parent layers.
+     *
+     * @param cs the CodeSource.
+     * @return The PermissionCollections.
+     */
+    @Override
+    protected PermissionCollection getPermissions(final CodeSource cs) {
+        try {
+            final String url = cs.getLocation().toString();
+            final FileObject file = lookupFileObject(url);
+            if (file == null) {
+                return super.getPermissions(cs);
+            }
+
+            final FileObject parentLayer = file.getFileSystem().getParentLayer();
+            if (parentLayer == null) {
+                return super.getPermissions(cs);
+            }
+
+            final Permissions combi = new Permissions();
+            PermissionCollection permCollect = super.getPermissions(cs);
+            copyPermissions(permCollect, combi);
+
+            for (FileObject parent = parentLayer; parent != null; parent = parent.getFileSystem().getParentLayer()) {
+                final CodeSource parentcs = new CodeSource(parent.getURL(), parent.getContent().getCertificates());
+                permCollect = super.getPermissions(parentcs);
+                copyPermissions(permCollect, combi);
+            }
+
+            return combi;
+        } catch (final FileSystemException fse) {
+            throw new SecurityException(fse.getMessage());
+        }
+    }
+
+    /**
+     * Returns true if the we should seal the package where res resides.
+     */
+    private boolean isSealed(final Resource res) throws FileSystemException {
+        final String sealed = res.getPackageAttribute(Attributes.Name.SEALED);
+        return "true".equalsIgnoreCase(sealed);
+    }
+
+    /**
      * Searches through the search path of for the first class or resource with specified name.
      *
      * @param name The resource to load.
@@ -329,6 +317,18 @@ public class VFSClassLoader extends SecureClassLoader {
                 if (FileObjectUtils.exists(file)) {
                     return new Resource(name, baseFile, file);
                 }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Does a reverse lookup to find the FileObject when we only have the URL.
+     */
+    private FileObject lookupFileObject(final String name) {
+        for (final FileObject object : resources) {
+            if (name.equals(object.getName().getURI())) {
+                return object;
             }
         }
         return null;

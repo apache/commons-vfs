@@ -27,15 +27,13 @@ import org.apache.commons.vfs2.FileSystemException;
 public interface LocalFileProvider extends FileProvider {
 
     /**
-     * Determines if a name is an absolute file name.
-     * <p>
-     * TODO - Move this to a general file name parser interface.
-     * </p>
+     * Converts from java.io.File to FileObject.
      *
-     * @param name The name to test.
-     * @return true if the name is absolute.
+     * @param file The File for the file.
+     * @return The FileObject for the file.
+     * @throws FileSystemException if an error occurs.
      */
-    boolean isAbsoluteLocalName(String name);
+    FileObject findLocalFile(File file) throws FileSystemException;
 
     /**
      * Finds a local file, from its local name.
@@ -47,11 +45,13 @@ public interface LocalFileProvider extends FileProvider {
     FileObject findLocalFile(String name) throws FileSystemException;
 
     /**
-     * Converts from java.io.File to FileObject.
+     * Determines if a name is an absolute file name.
+     * <p>
+     * TODO - Move this to a general file name parser interface.
+     * </p>
      *
-     * @param file The File for the file.
-     * @return The FileObject for the file.
-     * @throws FileSystemException if an error occurs.
+     * @param name The name to test.
+     * @return true if the name is absolute.
      */
-    FileObject findLocalFile(File file) throws FileSystemException;
+    boolean isAbsoluteLocalName(String name);
 }

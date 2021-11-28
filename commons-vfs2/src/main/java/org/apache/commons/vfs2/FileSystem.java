@@ -24,6 +24,77 @@ import java.io.File;
 public interface FileSystem {
 
     /**
+     * Adds a junction to this file system. A junction is a link that attaches the supplied file to a point in this file
+     * system, making it look like part of the file system.
+     *
+     * @param junctionPoint The point in this file system to add the junction.
+     * @param targetFile The file to link to.
+     * @throws FileSystemException If this file system does not support junctions, or the junction point or target file
+     *             is invalid (the file system may not support nested junctions, for example).
+     */
+    void addJunction(String junctionPoint, FileObject targetFile) throws FileSystemException;
+
+    /**
+     * Adds a listener on a file in this file system.
+     *
+     * @param file The file to attach the listener to.
+     * @param listener The listener to add.
+     */
+    void addListener(FileObject file, FileListener listener);
+
+    /**
+     * Gets the value of an attribute of the file system.
+     * <p>
+     * TODO - change to {@code Map getAttributes()} instead?
+     * </p>
+     * <p>
+     * TODO - define the standard attribute names, and define which attrs are guaranteed to be present.
+     * </p>
+     *
+     * @param attrName The name of the attribute.
+     * @return The value of the attribute.
+     * @throws org.apache.commons.vfs2.FileSystemException If the file does not exist, or is being written, or if the
+     *             attribute is unknown.
+     * @see org.apache.commons.vfs2.FileContent#getAttribute
+     */
+    Object getAttribute(String attrName) throws FileSystemException;
+
+    /**
+     * Returns a reference to the FileSytemManager.
+     *
+     * @return The FileSystemManager.
+     */
+    FileSystemManager getFileSystemManager();
+
+    /**
+     * Returns the FileSystemOptions used to instantiate this file system.
+     *
+     * @return The FileSystemOptions.
+     */
+    FileSystemOptions getFileSystemOptions();
+
+    /**
+     * Returns the accuracy of the last modification time in milliseconds.
+     * <p>
+     * The local file provider is not very smart in figuring this out, for remote access to file systems the providers
+     * typically don't know the value of the underlying real file system.
+     * </p>
+     *
+     * @return the accuracy of the last modification time in milliseconds. A value of 0 means perfectly accurate,
+     *         anything {@literal > 0} might be off by this value. For example, sftp has an accuracy of 1000
+     *         milliseconds.
+     */
+    double getLastModTimeAccuracy();
+
+    /**
+     * Returns the parent layer if this is a layered file system.
+     *
+     * @return The parent layer, or null if this is not a layered file system.
+     * @throws FileSystemException if an error occurs.
+     */
+    FileObject getParentLayer() throws FileSystemException;
+
+    /**
      * Returns the root file of this file system.
      *
      * @return The root FileObject.
@@ -58,66 +129,12 @@ public interface FileSystem {
     boolean hasCapability(Capability capability);
 
     /**
-     * Returns the parent layer if this is a layered file system.
+     * Removes a junction from this file system.
      *
-     * @return The parent layer, or null if this is not a layered file system.
-     * @throws FileSystemException if an error occurs.
+     * @param junctionPoint The junction to remove.
+     * @throws FileSystemException On error removing the junction.
      */
-    FileObject getParentLayer() throws FileSystemException;
-
-    /**
-     * Gets the value of an attribute of the file system.
-     * <p>
-     * TODO - change to {@code Map getAttributes()} instead?
-     * </p>
-     * <p>
-     * TODO - define the standard attribute names, and define which attrs are guaranteed to be present.
-     * </p>
-     *
-     * @param attrName The name of the attribute.
-     * @return The value of the attribute.
-     * @throws org.apache.commons.vfs2.FileSystemException If the file does not exist, or is being written, or if the
-     *             attribute is unknown.
-     * @see org.apache.commons.vfs2.FileContent#getAttribute
-     */
-    Object getAttribute(String attrName) throws FileSystemException;
-
-    /**
-     * Sets the value of an attribute of the file's content. Creates the file if it does not exist.
-     *
-     * @param attrName The name of the attribute.
-     * @param value The value of the attribute.
-     * @throws FileSystemException If the file is read-only, or is being read, or if the attribute is not supported, or
-     *             on error setting the attribute.
-     * @see FileContent#setAttribute
-     */
-    void setAttribute(String attrName, Object value) throws FileSystemException;
-
-    /**
-     * Finds a file in this file system.
-     *
-     * @param name The name of the file.
-     * @return The file. Never returns null.
-     * @throws FileSystemException if an error occurs.
-     */
-    FileObject resolveFile(FileName name) throws FileSystemException;
-
-    /**
-     * Finds a file in this file system.
-     *
-     * @param name The name of the file. This must be an absolute path.
-     * @return The file. Never returns null.
-     * @throws FileSystemException if an error occurs.
-     */
-    FileObject resolveFile(String name) throws FileSystemException;
-
-    /**
-     * Adds a listener on a file in this file system.
-     *
-     * @param file The file to attach the listener to.
-     * @param listener The listener to add.
-     */
-    void addListener(FileObject file, FileListener listener);
+    void removeJunction(String junctionPoint) throws FileSystemException;
 
     /**
      * Removes a listener from a file in this file system.
@@ -126,25 +143,6 @@ public interface FileSystem {
      * @param listener The listener to remove.
      */
     void removeListener(FileObject file, FileListener listener);
-
-    /**
-     * Adds a junction to this file system. A junction is a link that attaches the supplied file to a point in this file
-     * system, making it look like part of the file system.
-     *
-     * @param junctionPoint The point in this file system to add the junction.
-     * @param targetFile The file to link to.
-     * @throws FileSystemException If this file system does not support junctions, or the junction point or target file
-     *             is invalid (the file system may not support nested junctions, for example).
-     */
-    void addJunction(String junctionPoint, FileObject targetFile) throws FileSystemException;
-
-    /**
-     * Removes a junction from this file system.
-     *
-     * @param junctionPoint The junction to remove.
-     * @throws FileSystemException On error removing the junction.
-     */
-    void removeJunction(String junctionPoint) throws FileSystemException;
 
     /**
      * Creates a temporary local copy of a file and its descendants. If this file is already a local file, a copy is not
@@ -165,29 +163,31 @@ public interface FileSystem {
     File replicateFile(FileObject file, FileSelector selector) throws FileSystemException;
 
     /**
-     * Returns the FileSystemOptions used to instantiate this file system.
+     * Finds a file in this file system.
      *
-     * @return The FileSystemOptions.
+     * @param name The name of the file.
+     * @return The file. Never returns null.
+     * @throws FileSystemException if an error occurs.
      */
-    FileSystemOptions getFileSystemOptions();
+    FileObject resolveFile(FileName name) throws FileSystemException;
 
     /**
-     * Returns a reference to the FileSytemManager.
+     * Finds a file in this file system.
      *
-     * @return The FileSystemManager.
+     * @param name The name of the file. This must be an absolute path.
+     * @return The file. Never returns null.
+     * @throws FileSystemException if an error occurs.
      */
-    FileSystemManager getFileSystemManager();
+    FileObject resolveFile(String name) throws FileSystemException;
 
     /**
-     * Returns the accuracy of the last modification time in milliseconds.
-     * <p>
-     * The local file provider is not very smart in figuring this out, for remote access to file systems the providers
-     * typically don't know the value of the underlying real file system.
-     * </p>
+     * Sets the value of an attribute of the file's content. Creates the file if it does not exist.
      *
-     * @return the accuracy of the last modification time in milliseconds. A value of 0 means perfectly accurate,
-     *         anything {@literal > 0} might be off by this value. For example, sftp has an accuracy of 1000
-     *         milliseconds.
+     * @param attrName The name of the attribute.
+     * @param value The value of the attribute.
+     * @throws FileSystemException If the file is read-only, or is being read, or if the attribute is not supported, or
+     *             on error setting the attribute.
+     * @see FileContent#setAttribute
      */
-    double getLastModTimeAccuracy();
+    void setAttribute(String attrName, Object value) throws FileSystemException;
 }

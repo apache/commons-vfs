@@ -48,17 +48,6 @@ public class FileFilterSelector extends FileDepthSelector {
     }
 
     /**
-     * Determines if a file or folder should be selected.
-     *
-     * @param fileInfo The file selection information.
-     * @return true if the file or folder should be included, false otherwise.
-     */
-    @Override
-    public boolean includeFile(final FileSelectInfo fileInfo) throws Exception {
-        return super.includeFile(fileInfo) && accept(fileInfo);
-    }
-
-    /**
      * Determines whether the file should be selected.
      *
      * @param fileInfo The file selection information.
@@ -71,5 +60,16 @@ public class FileFilterSelector extends FileDepthSelector {
         }
 
         throw new IllegalArgumentException(Messages.getString("vfs.selectors/filefilter.missing.error"));
+    }
+
+    /**
+     * Determines if a file or folder should be selected.
+     *
+     * @param fileInfo The file selection information.
+     * @return true if the file or folder should be included, false otherwise.
+     */
+    @Override
+    public boolean includeFile(final FileSelectInfo fileInfo) throws Exception {
+        return super.includeFile(fileInfo) && accept(fileInfo);
     }
 }

@@ -59,18 +59,6 @@ public abstract class AbstractVfsContainer extends AbstractVfsComponent {
     }
 
     /**
-     * Removes a sub-component from this component.
-     *
-     * @param component the component to remove.
-     */
-    protected void removeComponent(final Object component) {
-        synchronized (components) {
-            // multiple instances should not happen
-            components.remove(component);
-        }
-    }
-
-    /**
      * Closes the sub-components of this component.
      */
     @Override
@@ -84,5 +72,17 @@ public abstract class AbstractVfsContainer extends AbstractVfsComponent {
         // Close all components
         Stream.of(toclose).filter(component -> component instanceof VfsComponent)
                           .forEach(component -> ((VfsComponent) component).close());
+    }
+
+    /**
+     * Removes a sub-component from this component.
+     *
+     * @param component the component to remove.
+     */
+    protected void removeComponent(final Object component) {
+        synchronized (components) {
+            // multiple instances should not happen
+            components.remove(component);
+        }
     }
 }

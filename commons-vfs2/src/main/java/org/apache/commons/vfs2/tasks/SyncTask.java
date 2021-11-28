@@ -24,19 +24,19 @@ import org.apache.commons.vfs2.FileObject;
 public class SyncTask extends CopyTask {
 
     /**
+     * Check if this task cares about destination files with a missing source file.
+     */
+    @Override
+    protected boolean detectMissingSourceFiles() {
+        return true;
+    }
+
+    /**
      * Handles a destination for which there is no corresponding source file.
      */
     @Override
     protected void handleMissingSourceFile(final FileObject destFile) throws Exception {
         log("deleting " + destFile.getPublicURIString());
         // destFile.delete( Selectors.SELECT_SELF );
-    }
-
-    /**
-     * Check if this task cares about destination files with a missing source file.
-     */
-    @Override
-    protected boolean detectMissingSourceFiles() {
-        return true;
     }
 }

@@ -50,6 +50,13 @@ public class GzipFileObject extends CompressedFileFileObject<GzipFileSystem> {
         super(name, container, fs);
     }
 
+    private static GzipFileSystem cast(final CompressedFileFileSystem fs) {
+        if (fs instanceof GzipFileSystem) {
+            return (GzipFileSystem) fs;
+        }
+        throw new IllegalArgumentException("GzipFileObject expects an instance of GzipFileSystem");
+    }
+
     @Override
     protected InputStream doGetInputStream(final int bufferSize) throws Exception {
         return new GZIPInputStream(getContainer().getContent().getInputStream(), bufferSize);
@@ -58,12 +65,5 @@ public class GzipFileObject extends CompressedFileFileObject<GzipFileSystem> {
     @Override
     protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
         return new GZIPOutputStream(getContainer().getContent().getOutputStream(false));
-    }
-
-    private static GzipFileSystem cast(final CompressedFileFileSystem fs) {
-        if (fs instanceof GzipFileSystem) {
-            return (GzipFileSystem) fs;
-        }
-        throw new IllegalArgumentException("GzipFileObject expects an instance of GzipFileSystem");
     }
 }

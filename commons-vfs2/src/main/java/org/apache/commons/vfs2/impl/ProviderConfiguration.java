@@ -47,21 +47,12 @@ public class ProviderConfiguration {
     }
 
     /**
-     * sets the class name.
+     * Gets the dependency.
      *
-     * @param className the class name.
+     * @return the dependency.
      */
-    public void setClassName(final String className) {
-        this.className = className;
-    }
-
-    /**
-     * Sets the scheme.
-     *
-     * @param scheme the scheme.
-     */
-    public void setScheme(final String scheme) {
-        schemes.add(scheme);
+    public List<String> getDependencies() {
+        return dependenies;
     }
 
     /**
@@ -74,6 +65,24 @@ public class ProviderConfiguration {
     }
 
     /**
+     * Always returns false.
+     *
+     * @return false.
+     */
+    public boolean isDefault() {
+        return false;
+    }
+
+    /**
+     * sets the class name.
+     *
+     * @param className the class name.
+     */
+    public void setClassName(final String className) {
+        this.className = className;
+    }
+
+    /**
      * Sets the dependency.
      *
      * @param dependency the dependency.
@@ -83,20 +92,11 @@ public class ProviderConfiguration {
     }
 
     /**
-     * Gets the dependency.
+     * Sets the scheme.
      *
-     * @return the dependency.
+     * @param scheme the scheme.
      */
-    public List<String> getDependencies() {
-        return dependenies;
-    }
-
-    /**
-     * Always returns false.
-     *
-     * @return false.
-     */
-    public boolean isDefault() {
-        return false;
+    public void setScheme(final String scheme) {
+        schemes.add(scheme);
     }
 }

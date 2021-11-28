@@ -54,13 +54,6 @@ import org.mortbay.jetty.webapp.WebAppContext;
  */
 class JackrabbitMain {
 
-    /**
-     * @param args
-     */
-    public static void main(final String[] args) throws Exception {
-        new JackrabbitMain(args).run();
-    }
-
     private final Options options = new Options();
 
     private final CommandLine command;
@@ -74,8 +67,8 @@ class JackrabbitMain {
     private final Server server = new Server();
 
     private FileAppender jackrabbitAppender;
-    private FileAppender jettyAppender;
 
+    private FileAppender jettyAppender;
     public JackrabbitMain(final String[] args) throws ParseException {
         options.addOption("?", "help", false, "print this message");
         options.addOption("n", "notice", false, "print copyright notices");
@@ -93,10 +86,26 @@ class JackrabbitMain {
         command = new GnuParser().parse(options, args);
     }
 
+    /**
+     * @param args
+     */
+    public static void main(final String[] args) throws Exception {
+        new JackrabbitMain(args).run();
+    }
+
     private void copyToOutput(final String resource) throws IOException {
         try (InputStream stream = JackrabbitMain.class.getResourceAsStream(resource)) {
             IOUtils.copy(stream, System.out);
         }
+    }
+
+    /** Try to load a resource with various classloaders. */
+    private URL getResource(final String name) {
+        URL res = Thread.currentThread().getContextClassLoader().getResource(name);
+        if (res == null) {
+            res = getClass().getResource(name);
+        }
+        return res; // might be null
     }
 
     private void message(final String message) {
@@ -171,15 +180,6 @@ class JackrabbitMain {
             servlet.setInitParameter("repository.config", conf);
         }
         webapp.addServlet(servlet, "/repository.properties");
-    }
-
-    /** Try to load a resource with various classloaders. */
-    private URL getResource(final String name) {
-        URL res = Thread.currentThread().getContextClassLoader().getResource(name);
-        if (res == null) {
-            res = getClass().getResource(name);
-        }
-        return res; // might be null
     }
 
     public void run() throws Exception {

@@ -59,14 +59,43 @@ public class JarFileObject extends ZipFileObject {
     }
 
     /**
-     * Returns the Jar manifest.
+     * Adds the source attributes to the destination map.
      */
-    Manifest getManifest() throws IOException {
-        if (fs.getZipFile() == null) {
+    private void addAll(final Attributes src, final Map<String, Object> dest) {
+        for (final Entry<Object, Object> entry : src.entrySet()) {
+            // final String name = entry.getKey().toString().toLowerCase();
+            final String name = entry.getKey().toString();
+            dest.put(name, entry.getValue());
+        }
+    }
+
+    /**
+     * Returns the value of an attribute.
+     */
+    @Override
+    protected Map<String, Object> doGetAttributes() throws Exception {
+        final Map<String, Object> attrs = new HashMap<>();
+
+        // Add the file system's attributes first
+        final JarFileSystem fs = (JarFileSystem) getFileSystem();
+        addAll(fs.getAttributes(), attrs);
+
+        // Add this file's attributes
+        addAll(getAttributes(), attrs);
+
+        return attrs;
+    }
+
+    /**
+     * Return the certificates of this JarEntry.
+     */
+    @Override
+    protected Certificate[] doGetCertificates() {
+        if (entry == null) {
             return null;
         }
 
-        return ((JarFile) fs.getZipFile()).getManifest();
+        return ((JarEntry) entry).getCertificates();
     }
 
     /**
@@ -88,42 +117,13 @@ public class JarFileObject extends ZipFileObject {
     }
 
     /**
-     * Returns the value of an attribute.
+     * Returns the Jar manifest.
      */
-    @Override
-    protected Map<String, Object> doGetAttributes() throws Exception {
-        final Map<String, Object> attrs = new HashMap<>();
-
-        // Add the file system's attributes first
-        final JarFileSystem fs = (JarFileSystem) getFileSystem();
-        addAll(fs.getAttributes(), attrs);
-
-        // Add this file's attributes
-        addAll(getAttributes(), attrs);
-
-        return attrs;
-    }
-
-    /**
-     * Adds the source attributes to the destination map.
-     */
-    private void addAll(final Attributes src, final Map<String, Object> dest) {
-        for (final Entry<Object, Object> entry : src.entrySet()) {
-            // final String name = entry.getKey().toString().toLowerCase();
-            final String name = entry.getKey().toString();
-            dest.put(name, entry.getValue());
-        }
-    }
-
-    /**
-     * Return the certificates of this JarEntry.
-     */
-    @Override
-    protected Certificate[] doGetCertificates() {
-        if (entry == null) {
+    Manifest getManifest() throws IOException {
+        if (fs.getZipFile() == null) {
             return null;
         }
 
-        return ((JarEntry) entry).getCertificates();
+        return ((JarFile) fs.getZipFile()).getManifest();
     }
 }

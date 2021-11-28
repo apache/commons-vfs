@@ -26,18 +26,6 @@ public interface VcsUpdate extends FileOperation {
 
     /**
      *
-     * @param revision The revision number.
-     */
-    void setRevision(long revision);
-
-    /**
-     *
-     * @param isRecursive true if recursive.
-     */
-    void setRecursive(boolean isRecursive);
-
-    /**
-     *
      * @param listener The UpdateListener.
      */
     void addUpdateListener(VcsUpdateListener listener);
@@ -47,4 +35,16 @@ public interface VcsUpdate extends FileOperation {
      * @param listener The UpdateListener.
      */
     void removeUpdateListener(VcsUpdateListener listener);
+
+    /**
+     *
+     * @param isRecursive true if recursive.
+     */
+    void setRecursive(boolean isRecursive);
+
+    /**
+     *
+     * @param revision The revision number.
+     */
+    void setRevision(long revision);
 }

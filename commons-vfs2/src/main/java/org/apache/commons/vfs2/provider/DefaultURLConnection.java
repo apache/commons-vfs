@@ -49,21 +49,11 @@ public final class DefaultURLConnection extends URLConnection {
     }
 
     @Override
-    public InputStream getInputStream() throws IOException {
-        return fileContent.getInputStream();
-    }
-
-    @Override
-    public OutputStream getOutputStream() throws IOException {
-        return fileContent.getOutputStream();
-    }
-
-    @Override
-    public long getLastModified() {
+    public String getContentEncoding() {
         try {
-            return fileContent.getLastModifiedTime();
-        } catch (final FileSystemException ignored) {
-            return -1; // TODO: report?
+            return fileContent.getContentInfo().getContentEncoding();
+        } catch (final FileSystemException e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -86,12 +76,22 @@ public final class DefaultURLConnection extends URLConnection {
     }
 
     @Override
-    public String getContentEncoding() {
+    public InputStream getInputStream() throws IOException {
+        return fileContent.getInputStream();
+    }
+
+    @Override
+    public long getLastModified() {
         try {
-            return fileContent.getContentInfo().getContentEncoding();
-        } catch (final FileSystemException e) {
-            throw new RuntimeException(e.getMessage());
+            return fileContent.getLastModifiedTime();
+        } catch (final FileSystemException ignored) {
+            return -1; // TODO: report?
         }
+    }
+
+    @Override
+    public OutputStream getOutputStream() throws IOException {
+        return fileContent.getOutputStream();
     }
 
     /*

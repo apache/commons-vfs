@@ -26,18 +26,6 @@ public interface VcsCommit extends FileOperation {
 
     /**
      *
-     * @param isRecursive true if directories should be traversed.
-     */
-    void setRecursive(boolean isRecursive);
-
-    /**
-     *
-     * @param message The message.
-     */
-    void setMessage(String message);
-
-    /**
-     *
      * @param listener Listener that is given control when a commit occurs.
      */
     void addCommitListener(VcsCommitListener listener);
@@ -47,4 +35,16 @@ public interface VcsCommit extends FileOperation {
      * @param listener The Listener.
      */
     void removeCommitListener(VcsCommitListener listener);
+
+    /**
+     *
+     * @param message The message.
+     */
+    void setMessage(String message);
+
+    /**
+     *
+     * @param isRecursive true if directories should be traversed.
+     */
+    void setRecursive(boolean isRecursive);
 }

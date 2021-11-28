@@ -52,41 +52,6 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
         parser = GenericFileNameParser.getInstance();
     }
 
-    protected FileNameParser getFileNameParser() {
-        return parser;
-    }
-
-    protected void setFileNameParser(final FileNameParser parser) {
-        this.parser = parser;
-    }
-
-    /**
-     * Closes the file systems created by this provider.
-     */
-    @Override
-    public void close() {
-        synchronized (fileSystemMap) {
-            fileSystemMap.clear();
-        }
-        super.close();
-    }
-
-    /**
-     * Creates a layered file system. This method throws a 'not supported' exception.
-     *
-     * @param scheme The protocol to use to access the file.
-     * @param file a FileObject.
-     * @param fileSystemOptions Options to the file system.
-     * @return A FileObject associated with the new FileSystem.
-     * @throws FileSystemException if an error occurs.
-     */
-    @Override
-    public FileObject createFileSystem(final String scheme, final FileObject file,
-        final FileSystemOptions fileSystemOptions) throws FileSystemException {
-        // Can't create a layered file system
-        throw new FileSystemException("vfs.provider/not-layered-fs.error", scheme);
-    }
-
     /**
      * Adds a file system to those cached by this provider.
      * <p>
@@ -110,41 +75,14 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
     }
 
     /**
-     * Locates a cached file system.
-     *
-     * @param key The root file of the file system, part of the cache key.
-     * @param fileSystemOptions file system options the file system instance must have, may be null.
-     * @return The file system instance, or null if it is not cached.
-     */
-    protected FileSystem findFileSystem(final Comparable<?> key, final FileSystemOptions fileSystemOptions) {
-        synchronized (fileSystemMap) {
-            return fileSystemMap.get(new FileSystemKey(key, fileSystemOptions));
-        }
-    }
-
-    /**
-     * Gets the FileSystemConfigBuidler.
-     *
-     * @return the FileSystemConfigBuilder.
+     * Closes the file systems created by this provider.
      */
     @Override
-    public FileSystemConfigBuilder getConfigBuilder() {
-        return null;
-    }
-
-    /**
-     * Frees unused resources.
-     */
-    public void freeUnusedResources() {
-        final AbstractFileSystem[] abstractFileSystems;
+    public void close() {
         synchronized (fileSystemMap) {
-            // create snapshot under lock
-            abstractFileSystems = fileSystemMap.values().toArray(EMPTY_ABSTRACT_FILE_SYSTEMS);
+            fileSystemMap.clear();
         }
-
-        // process snapshot outside lock
-        Stream.of(abstractFileSystems).filter(AbstractFileSystem::isReleaseable)
-                                      .forEach(AbstractFileSystem::closeCommunicationLink);
+        super.close();
     }
 
     /**
@@ -167,6 +105,64 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
     }
 
     /**
+     * Creates a layered file system. This method throws a 'not supported' exception.
+     *
+     * @param scheme The protocol to use to access the file.
+     * @param file a FileObject.
+     * @param fileSystemOptions Options to the file system.
+     * @return A FileObject associated with the new FileSystem.
+     * @throws FileSystemException if an error occurs.
+     */
+    @Override
+    public FileObject createFileSystem(final String scheme, final FileObject file,
+        final FileSystemOptions fileSystemOptions) throws FileSystemException {
+        // Can't create a layered file system
+        throw new FileSystemException("vfs.provider/not-layered-fs.error", scheme);
+    }
+
+    /**
+     * Locates a cached file system.
+     *
+     * @param key The root file of the file system, part of the cache key.
+     * @param fileSystemOptions file system options the file system instance must have, may be null.
+     * @return The file system instance, or null if it is not cached.
+     */
+    protected FileSystem findFileSystem(final Comparable<?> key, final FileSystemOptions fileSystemOptions) {
+        synchronized (fileSystemMap) {
+            return fileSystemMap.get(new FileSystemKey(key, fileSystemOptions));
+        }
+    }
+
+    /**
+     * Frees unused resources.
+     */
+    public void freeUnusedResources() {
+        final AbstractFileSystem[] abstractFileSystems;
+        synchronized (fileSystemMap) {
+            // create snapshot under lock
+            abstractFileSystems = fileSystemMap.values().toArray(EMPTY_ABSTRACT_FILE_SYSTEMS);
+        }
+
+        // process snapshot outside lock
+        Stream.of(abstractFileSystems).filter(AbstractFileSystem::isReleaseable)
+                                      .forEach(AbstractFileSystem::closeCommunicationLink);
+    }
+
+    /**
+     * Gets the FileSystemConfigBuidler.
+     *
+     * @return the FileSystemConfigBuilder.
+     */
+    @Override
+    public FileSystemConfigBuilder getConfigBuilder() {
+        return null;
+    }
+
+    protected FileNameParser getFileNameParser() {
+        return parser;
+    }
+
+    /**
      * Parses an absolute URI.
      *
      * @param base The base file - if null the {@code uri} needs to be absolute
@@ -181,5 +177,9 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
         }
 
         throw new FileSystemException("vfs.provider/filename-parser-missing.error");
+    }
+
+    protected void setFileNameParser(final FileNameParser parser) {
+        this.parser = parser;
     }
 }

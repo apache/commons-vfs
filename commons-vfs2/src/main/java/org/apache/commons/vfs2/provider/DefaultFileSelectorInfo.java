@@ -33,8 +33,9 @@ final class DefaultFileSelectorInfo implements FileSelectInfo {
         return baseFolder;
     }
 
-    public void setBaseFolder(final FileObject baseFolder) {
-        this.baseFolder = baseFolder;
+    @Override
+    public int getDepth() {
+        return depth;
     }
 
     @Override
@@ -42,17 +43,16 @@ final class DefaultFileSelectorInfo implements FileSelectInfo {
         return file;
     }
 
-    public void setFile(final FileObject file) {
-        this.file = file;
-    }
-
-    @Override
-    public int getDepth() {
-        return depth;
+    public void setBaseFolder(final FileObject baseFolder) {
+        this.baseFolder = baseFolder;
     }
 
     public void setDepth(final int depth) {
         this.depth = depth;
+    }
+
+    public void setFile(final FileObject file) {
+        this.file = file;
     }
 
     @Override

@@ -25,6 +25,12 @@ import org.apache.commons.vfs2.UserAuthenticator;
  * Default options usable for all file systems.
  */
 public class DefaultFileSystemConfigBuilder extends FileSystemConfigBuilder {
+    /**
+     * Dummy class that implements FileSystem.
+     */
+    abstract static class DefaultFileSystem implements FileSystem {
+    }
+
     /** The default FileSystemConfigBuilder */
     private static final DefaultFileSystemConfigBuilder BUILDER = new DefaultFileSystemConfigBuilder();
 
@@ -37,14 +43,9 @@ public class DefaultFileSystemConfigBuilder extends FileSystemConfigBuilder {
         return BUILDER;
     }
 
-    /**
-     * Sets the user authenticator to get authentication informations.
-     *
-     * @param opts The FileSystemOptions.
-     * @param userAuthenticator The UserAuthenticator.
-     */
-    public void setUserAuthenticator(final FileSystemOptions opts, final UserAuthenticator userAuthenticator) {
-        setParam(opts, "userAuthenticator", userAuthenticator);
+    @Override
+    protected Class<? extends FileSystem> getConfigClass() {
+        return DefaultFileSystem.class;
     }
 
     /**
@@ -57,13 +58,12 @@ public class DefaultFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Dummy class that implements FileSystem.
+     * Sets the user authenticator to get authentication informations.
+     *
+     * @param opts The FileSystemOptions.
+     * @param userAuthenticator The UserAuthenticator.
      */
-    abstract static class DefaultFileSystem implements FileSystem {
-    }
-
-    @Override
-    protected Class<? extends FileSystem> getConfigClass() {
-        return DefaultFileSystem.class;
+    public void setUserAuthenticator(final FileSystemOptions opts, final UserAuthenticator userAuthenticator) {
+        setParam(opts, "userAuthenticator", userAuthenticator);
     }
 }

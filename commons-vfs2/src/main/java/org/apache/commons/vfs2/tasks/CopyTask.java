@@ -33,38 +33,6 @@ public class CopyTask extends AbstractSyncTask {
     private boolean preserveLastModified = true;
 
     /**
-     * Enable/disable overwriting of up-to-date files.
-     *
-     * @param overwrite true if the file should be overwritten.
-     */
-    public void setOverwrite(final boolean overwrite) {
-        this.overwrite = overwrite;
-    }
-
-    /**
-     * Enable/disable preserving last modified time of copied files.
-     *
-     * @param preserveLastModified true if the last modified time should be preserved.
-     */
-    public void setPreserveLastModified(final boolean preserveLastModified) {
-        this.preserveLastModified = preserveLastModified;
-    }
-
-    /**
-     * @return the current value of overwrite
-     */
-    public boolean isOverwrite() {
-        return overwrite;
-    }
-
-    /**
-     * @return the current value of preserveLastModified
-     */
-    public boolean isPreserveLastModified() {
-        return preserveLastModified;
-    }
-
-    /**
      * Handles an out-of-date file.
      *
      * @param srcFile The source FileObject.
@@ -93,5 +61,37 @@ public class CopyTask extends AbstractSyncTask {
             // Copy the file anyway
             handleOutOfDateFile(srcFile, destFile);
         }
+    }
+
+    /**
+     * @return the current value of overwrite
+     */
+    public boolean isOverwrite() {
+        return overwrite;
+    }
+
+    /**
+     * @return the current value of preserveLastModified
+     */
+    public boolean isPreserveLastModified() {
+        return preserveLastModified;
+    }
+
+    /**
+     * Enable/disable overwriting of up-to-date files.
+     *
+     * @param overwrite true if the file should be overwritten.
+     */
+    public void setOverwrite(final boolean overwrite) {
+        this.overwrite = overwrite;
+    }
+
+    /**
+     * Enable/disable preserving last modified time of copied files.
+     *
+     * @param preserveLastModified true if the last modified time should be preserved.
+     */
+    public void setPreserveLastModified(final boolean preserveLastModified) {
+        this.preserveLastModified = preserveLastModified;
     }
 }

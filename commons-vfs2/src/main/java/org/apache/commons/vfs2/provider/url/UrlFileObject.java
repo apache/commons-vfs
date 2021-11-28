@@ -47,6 +47,16 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
         super(fileName, fs);
     }
 
+    protected URL createURL(final FileName name) throws MalformedURLException, FileSystemException, URIException {
+        if (name instanceof URLFileName) {
+            final URLFileName urlName = (URLFileName) getName();
+
+            // TODO: charset
+            return new URL(urlName.getURIEncoded(null));
+        }
+        return new URL(getName().getURI());
+    }
+
     /**
      * Attaches this file object to its file resource. This method is called before any of the doBlah() or onBlah()
      * methods. Sub-classes can use this method to perform lazy initialization.
@@ -59,14 +69,34 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
         }
     }
 
-    protected URL createURL(final FileName name) throws MalformedURLException, FileSystemException, URIException {
-        if (name instanceof URLFileName) {
-            final URLFileName urlName = (URLFileName) getName();
-
-            // TODO: charset
-            return new URL(urlName.getURIEncoded(null));
+    /**
+     * Returns the size of the file content (in bytes).
+     */
+    @Override
+    protected long doGetContentSize() throws Exception {
+        final URLConnection conn = url.openConnection();
+        try (InputStream in = conn.getInputStream()) {
+            return conn.getContentLength();
         }
-        return new URL(getName().getURI());
+    }
+
+    /**
+     * Creates an input stream to read the file content from.
+     */
+    @Override
+    protected InputStream doGetInputStream(final int bufferSize) throws Exception {
+        return url.openStream();
+    }
+
+    /**
+     * Returns the last modified time of this file.
+     */
+    @Override
+    protected long doGetLastModifiedTime() throws Exception {
+        final URLConnection conn = url.openConnection();
+        try (InputStream in = conn.getInputStream()) {
+            return conn.getLastModified();
+        }
     }
 
     /**
@@ -94,40 +124,10 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
     }
 
     /**
-     * Returns the size of the file content (in bytes).
-     */
-    @Override
-    protected long doGetContentSize() throws Exception {
-        final URLConnection conn = url.openConnection();
-        try (InputStream in = conn.getInputStream()) {
-            return conn.getContentLength();
-        }
-    }
-
-    /**
-     * Returns the last modified time of this file.
-     */
-    @Override
-    protected long doGetLastModifiedTime() throws Exception {
-        final URLConnection conn = url.openConnection();
-        try (InputStream in = conn.getInputStream()) {
-            return conn.getLastModified();
-        }
-    }
-
-    /**
      * Lists the children of the file.
      */
     @Override
     protected String[] doListChildren() throws Exception {
         throw new FileSystemException("Not implemented.");
-    }
-
-    /**
-     * Creates an input stream to read the file content from.
-     */
-    @Override
-    protected InputStream doGetInputStream(final int bufferSize) throws Exception {
-        return url.openStream();
     }
 }

@@ -83,16 +83,16 @@ public class OnCallRefreshFileObject extends DecoratedFileObject {
     }
 
     @Override
+    public FileObject[] findFiles(final FileSelector selector) throws FileSystemException {
+        refresh();
+        return super.findFiles(selector);
+    }
+
+    @Override
     public void findFiles(final FileSelector selector, final boolean depthwise, final List<FileObject> selected)
             throws FileSystemException {
         refresh();
         super.findFiles(selector, depthwise, selected);
-    }
-
-    @Override
-    public FileObject[] findFiles(final FileSelector selector) throws FileSystemException {
-        refresh();
-        return super.findFiles(selector);
     }
 
     @Override
@@ -144,6 +144,24 @@ public class OnCallRefreshFileObject extends DecoratedFileObject {
     }
 
     @Override
+    public void moveTo(final FileObject destFile) throws FileSystemException {
+        refresh();
+        super.moveTo(destFile);
+    }
+
+    @Override
+    public FileObject resolveFile(final String path) throws FileSystemException {
+        refresh();
+        return super.resolveFile(path);
+    }
+
+    @Override
+    public FileObject resolveFile(final String name, final NameScope scope) throws FileSystemException {
+        refresh();
+        return super.resolveFile(name, scope);
+    }
+
+    @Override
     public boolean setExecutable(final boolean executable, final boolean ownerOnly) throws FileSystemException {
         refresh();
         return super.setExecutable(executable, ownerOnly);
@@ -159,23 +177,5 @@ public class OnCallRefreshFileObject extends DecoratedFileObject {
     public boolean setWritable(final boolean writable, final boolean ownerOnly) throws FileSystemException {
         refresh();
         return super.setWritable(writable, ownerOnly);
-    }
-
-    @Override
-    public void moveTo(final FileObject destFile) throws FileSystemException {
-        refresh();
-        super.moveTo(destFile);
-    }
-
-    @Override
-    public FileObject resolveFile(final String name, final NameScope scope) throws FileSystemException {
-        refresh();
-        return super.resolveFile(name, scope);
-    }
-
-    @Override
-    public FileObject resolveFile(final String path) throws FileSystemException {
-        refresh();
-        return super.resolveFile(path);
     }
 }

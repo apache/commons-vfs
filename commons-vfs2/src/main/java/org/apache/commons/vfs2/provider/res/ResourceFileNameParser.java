@@ -39,6 +39,12 @@ public class ResourceFileNameParser extends GenericFileNameParser {
     }
 
     @Override
+    protected FileName createFileName(final String scheme, final String rootFile, final String path,
+            final FileType type) {
+        return new ResourceFileName(scheme, path, type);
+    }
+
+    @Override
     protected String extractRootPrefix(final String uri, final StringBuilder name) throws FileSystemException {
         // Resource URI (as used by ClassLoader.getResource()) are assumed to be absolute despite
         // lacking a leading '/'. All leading '/' will be stripped from the name.
@@ -56,11 +62,5 @@ public class ResourceFileNameParser extends GenericFileNameParser {
         }
 
         return "/";
-    }
-
-    @Override
-    protected FileName createFileName(final String scheme, final String rootFile, final String path,
-            final FileType type) {
-        return new ResourceFileName(scheme, path, type);
     }
 }

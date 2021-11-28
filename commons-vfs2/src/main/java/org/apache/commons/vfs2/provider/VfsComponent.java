@@ -34,18 +34,10 @@ import org.apache.commons.vfs2.FileSystemException;
 public interface VfsComponent extends Closeable {
 
     /**
-     * Sets the Logger to use for the component.
-     *
-     * @param logger The Log
+     * Closes the component.
      */
-    void setLogger(Log logger);
-
-    /**
-     * Sets the context for the component.
-     *
-     * @param context The context.
-     */
-    void setContext(VfsComponentContext context);
+    @Override
+    void close();
 
     /**
      * Initializes the component.
@@ -55,8 +47,16 @@ public interface VfsComponent extends Closeable {
     void init() throws FileSystemException;
 
     /**
-     * Closes the component.
+     * Sets the context for the component.
+     *
+     * @param context The context.
      */
-    @Override
-    void close();
+    void setContext(VfsComponentContext context);
+
+    /**
+     * Sets the Logger to use for the component.
+     *
+     * @param logger The Log
+     */
+    void setLogger(Log logger);
 }

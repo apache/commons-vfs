@@ -44,6 +44,11 @@ public class UserAuthenticationData {
         }
 
         @Override
+        public int compareTo(final Type o) {
+            return type.compareTo(o.type);
+        }
+
+        @Override
         public boolean equals(final Object o) {
             if (this == o) {
                 return true;
@@ -52,11 +57,6 @@ public class UserAuthenticationData {
                 return false;
             }
             return Objects.equals(type, ((Type) o).type);
-        }
-
-        @Override
-        public int compareTo(final Type o) {
-            return type.compareTo(o.type);
         }
 
         /**
@@ -98,26 +98,6 @@ public class UserAuthenticationData {
     }
 
     /**
-     * Sets a data to this collection.
-     *
-     * @param type The Type to add
-     * @param data The data associated with the Type
-     */
-    public void setData(final Type type, final char[] data) {
-        authenticationData.put(type, data);
-    }
-
-    /**
-     * Gets a data from the collection.
-     *
-     * @param type The Type to retrieve.
-     * @return a character array containing the data associated with the type.
-     */
-    public char[] getData(final Type type) {
-        return authenticationData.get(type);
-    }
-
-    /**
      * Deletes all data stored within this authenticator.
      */
     public void cleanup() {
@@ -131,5 +111,25 @@ public class UserAuthenticationData {
         }
         // step 2: allow data itself to gc
         authenticationData.clear();
+    }
+
+    /**
+     * Gets a data from the collection.
+     *
+     * @param type The Type to retrieve.
+     * @return a character array containing the data associated with the type.
+     */
+    public char[] getData(final Type type) {
+        return authenticationData.get(type);
+    }
+
+    /**
+     * Sets a data to this collection.
+     *
+     * @param type The Type to add
+     * @param data The data associated with the Type
+     */
+    public void setData(final Type type, final char[] data) {
+        authenticationData.put(type, data);
     }
 }

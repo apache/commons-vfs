@@ -51,6 +51,15 @@ public class JarFileSystem extends ZipFileSystem {
     // return new JarFileObject(name, null, this, false);
     // }
 
+    /**
+     * Returns the capabilities of this file system.
+     */
+    @Override
+    protected void addCapabilities(final Collection<Capability> caps) {
+        // super.addCapabilities(caps);
+        caps.addAll(JarFileProvider.CAPABILITIES);
+    }
+
     @Override
     protected ZipFile createZipFile(final File file) throws FileSystemException {
         try {
@@ -66,13 +75,26 @@ public class JarFileSystem extends ZipFileSystem {
         return new JarFileObject(name, entry, this, true);
     }
 
+    Object getAttribute(final Name attrName) throws FileSystemException {
+        try {
+            final Attributes attr = getAttributes();
+            return attr.getValue(attrName);
+        } catch (final IOException ioe) {
+            throw new FileSystemException(attrName.toString(), ioe);
+        }
+    }
+
     /**
-     * Returns the capabilities of this file system.
+     * Retrives the attribute with the specified name. The default implementation simply throws an exception.
+     *
+     * @param attrName The attiribute's name.
+     * @return The value of the attribute.
+     * @throws FileSystemException if an error occurs.
      */
     @Override
-    protected void addCapabilities(final Collection<Capability> caps) {
-        // super.addCapabilities(caps);
-        caps.addAll(JarFileProvider.CAPABILITIES);
+    public Object getAttribute(final String attrName) throws FileSystemException {
+        final Name name = lookupName(attrName);
+        return getAttribute(name);
     }
 
     Attributes getAttributes() throws IOException {
@@ -91,13 +113,10 @@ public class JarFileSystem extends ZipFileSystem {
         return attributes;
     }
 
-    Object getAttribute(final Name attrName) throws FileSystemException {
-        try {
-            final Attributes attr = getAttributes();
-            return attr.getValue(attrName);
-        } catch (final IOException ioe) {
-            throw new FileSystemException(attrName.toString(), ioe);
-        }
+    @Override
+    protected ZipFile getZipFile() throws FileSystemException {
+        // make accessible
+        return super.getZipFile();
     }
 
     Name lookupName(final String attrName) {
@@ -153,25 +172,6 @@ public class JarFileSystem extends ZipFileSystem {
             return Name.SPECIFICATION_VERSION;
         }
         return new Name(attrName);
-    }
-
-    /**
-     * Retrives the attribute with the specified name. The default implementation simply throws an exception.
-     *
-     * @param attrName The attiribute's name.
-     * @return The value of the attribute.
-     * @throws FileSystemException if an error occurs.
-     */
-    @Override
-    public Object getAttribute(final String attrName) throws FileSystemException {
-        final Name name = lookupName(attrName);
-        return getAttribute(name);
-    }
-
-    @Override
-    protected ZipFile getZipFile() throws FileSystemException {
-        // make accessible
-        return super.getZipFile();
     }
 
 }

@@ -31,15 +31,6 @@ public class MoveTask extends CopyTask {
     private boolean tryRename;
 
     /**
-     * Enable/disable move/rename of file (if possible).
-     *
-     * @param tryRename true if the file should be renamed.
-     */
-    public void setTryRename(final boolean tryRename) {
-        this.tryRename = tryRename;
-    }
-
-    /**
      * Handles a single source file.
      */
     @Override
@@ -57,5 +48,14 @@ public class MoveTask extends CopyTask {
                 destFile.getContent().setLastModifiedTime(System.currentTimeMillis());
             }
         }
+    }
+
+    /**
+     * Enable/disable move/rename of file (if possible).
+     *
+     * @param tryRename true if the file should be renamed.
+     */
+    public void setTryRename(final boolean tryRename) {
+        this.tryRename = tryRename;
     }
 }

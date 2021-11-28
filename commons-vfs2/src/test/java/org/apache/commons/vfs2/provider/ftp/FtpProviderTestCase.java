@@ -58,6 +58,16 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
 
     private static final String USER_PROPS_RES = "org.apache.ftpserver/users.properties";
 
+    private final boolean mdtmLastModifiedTime;
+
+    public FtpProviderTestCase() {
+        this(false);
+    }
+
+    public FtpProviderTestCase(final boolean mdtmLastModifiedTime) {
+        this.mdtmLastModifiedTime = mdtmLastModifiedTime;
+    }
+
     static String getConnectionUri() {
         return ConnectionUri;
     }
@@ -171,16 +181,6 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
             Server.stop();
             Server = null;
         }
-    }
-
-    private final boolean mdtmLastModifiedTime;
-
-    public FtpProviderTestCase() {
-        this(false);
-    }
-
-    public FtpProviderTestCase(final boolean mdtmLastModifiedTime) {
-        this.mdtmLastModifiedTime = mdtmLastModifiedTime;
     }
 
     /**

@@ -26,13 +26,12 @@ public class FileDepthSelector implements FileSelector {
     private final Range<Integer> range;
 
     /**
-     * Creates a selector with the given minimum and maximum depths.
+     * Creates a selector with the same minimum and maximum depths of 0.
      *
-     * @param minDepth minimum depth
-     * @param maxDepth maximum depth
+     * @since 2.1
      */
-    public FileDepthSelector(final int minDepth, final int maxDepth) {
-        this.range = Range.between(minDepth, maxDepth);
+    public FileDepthSelector() {
+        this(0, 0);
     }
 
     /**
@@ -46,12 +45,13 @@ public class FileDepthSelector implements FileSelector {
     }
 
     /**
-     * Creates a selector with the same minimum and maximum depths of 0.
+     * Creates a selector with the given minimum and maximum depths.
      *
-     * @since 2.1
+     * @param minDepth minimum depth
+     * @param maxDepth maximum depth
      */
-    public FileDepthSelector() {
-        this(0, 0);
+    public FileDepthSelector(final int minDepth, final int maxDepth) {
+        this.range = Range.between(minDepth, maxDepth);
     }
 
     /**

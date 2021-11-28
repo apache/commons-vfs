@@ -39,13 +39,12 @@ public class LayeredFileName extends AbstractFileName {
         this.outerUri = outerUri;
     }
 
-    /**
-     * Returns the URI of the outer file.
-     *
-     * @return The FileName.
-     */
-    public FileName getOuterName() {
-        return outerUri;
+    @Override
+    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword) {
+        buffer.append(getScheme());
+        buffer.append(":");
+        buffer.append(getOuterName().getURI());
+        buffer.append("!");
     }
 
     /**
@@ -60,11 +59,12 @@ public class LayeredFileName extends AbstractFileName {
         return new LayeredFileName(getScheme(), getOuterName(), path, type);
     }
 
-    @Override
-    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword) {
-        buffer.append(getScheme());
-        buffer.append(":");
-        buffer.append(getOuterName().getURI());
-        buffer.append("!");
+    /**
+     * Returns the URI of the outer file.
+     *
+     * @return The FileName.
+     */
+    public FileName getOuterName() {
+        return outerUri;
     }
 }

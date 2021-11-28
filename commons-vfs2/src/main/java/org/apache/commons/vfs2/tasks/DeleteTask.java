@@ -34,33 +34,6 @@ public class DeleteTask extends VfsTask {
     private String filesList;
 
     /**
-     * Sets the file/folder to delete.
-     *
-     * @param file The name of the file.
-     */
-    public void setFile(final String file) {
-        this.file = file;
-    }
-
-    /**
-     * Sets the source directory.
-     *
-     * @param srcDir The source directory.
-     */
-    public void setSrcDir(final String srcDir) {
-        this.srcDirUrl = srcDir;
-    }
-
-    /**
-     * Sets the files to include.
-     *
-     * @param filesList The list of files.
-     */
-    public void setIncludes(final String filesList) {
-        this.filesList = filesList;
-    }
-
-    /**
      * Executes this task.
      *
      * @throws BuildException if an error occurs.
@@ -92,5 +65,32 @@ public class DeleteTask extends VfsTask {
         } catch (final Exception e) {
             throw new BuildException(e);
         }
+    }
+
+    /**
+     * Sets the file/folder to delete.
+     *
+     * @param file The name of the file.
+     */
+    public void setFile(final String file) {
+        this.file = file;
+    }
+
+    /**
+     * Sets the files to include.
+     *
+     * @param filesList The list of files.
+     */
+    public void setIncludes(final String filesList) {
+        this.filesList = filesList;
+    }
+
+    /**
+     * Sets the source directory.
+     *
+     * @param srcDir The source directory.
+     */
+    public void setSrcDir(final String srcDir) {
+        this.srcDirUrl = srcDir;
     }
 }

@@ -22,6 +22,17 @@ package org.apache.commons.vfs2;
 public interface FileListener {
 
     /**
+     * Called when a file is changed.
+     * <p>
+     * This will only happen if you monitor the file using {@link FileMonitor}.
+     * </p>
+     *
+     * @param event The FileChangeEvent.
+     * @throws Exception if an error occurs.
+     */
+    void fileChanged(FileChangeEvent event) throws Exception;
+
+    /**
      * Called when a file is created.
      *
      * @param event The FileChangeEvent.
@@ -36,15 +47,4 @@ public interface FileListener {
      * @throws Exception if an error occurs.
      */
     void fileDeleted(FileChangeEvent event) throws Exception;
-
-    /**
-     * Called when a file is changed.
-     * <p>
-     * This will only happen if you monitor the file using {@link FileMonitor}.
-     * </p>
-     *
-     * @param event The FileChangeEvent.
-     * @throws Exception if an error occurs.
-     */
-    void fileChanged(FileChangeEvent event) throws Exception;
 }

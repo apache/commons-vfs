@@ -56,15 +56,6 @@ public class SuffixFileFilter implements FileFilter, Serializable {
     private final List<String> suffixes;
 
     /**
-     * Constructs a new Suffix file filter for a list of suffixes.
-     *
-     * @param suffixes the suffixes to allow, must not be null
-     */
-    public SuffixFileFilter(final List<String> suffixes) {
-        this(IOCase.SENSITIVE, suffixes);
-    }
-
-    /**
      * Constructs a new Suffix file filter for a list of suffixes specifying
      * case-sensitivity.
      *
@@ -81,15 +72,6 @@ public class SuffixFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Constructs a new Suffix file filter for an array of suffixes.
-     *
-     * @param suffixes the suffixes to allow, must not be null
-     */
-    public SuffixFileFilter(final String... suffixes) {
-        this(IOCase.SENSITIVE, suffixes);
-    }
-
-    /**
      * Constructs a new Suffix file filter for an array of suffixs specifying
      * case-sensitivity.
      *
@@ -103,6 +85,24 @@ public class SuffixFileFilter implements FileFilter, Serializable {
         }
         this.suffixes = new ArrayList<>(Arrays.asList(suffixes));
         this.caseSensitivity = caseSensitivity == null ? IOCase.SENSITIVE : caseSensitivity;
+    }
+
+    /**
+     * Constructs a new Suffix file filter for a list of suffixes.
+     *
+     * @param suffixes the suffixes to allow, must not be null
+     */
+    public SuffixFileFilter(final List<String> suffixes) {
+        this(IOCase.SENSITIVE, suffixes);
+    }
+
+    /**
+     * Constructs a new Suffix file filter for an array of suffixes.
+     *
+     * @param suffixes the suffixes to allow, must not be null
+     */
+    public SuffixFileFilter(final String... suffixes) {
+        this(IOCase.SENSITIVE, suffixes);
     }
 
     /**

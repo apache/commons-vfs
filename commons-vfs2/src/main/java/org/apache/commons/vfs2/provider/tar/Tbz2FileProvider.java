@@ -38,12 +38,12 @@ public class Tbz2FileProvider extends CompositeFileProvider {
     }
 
     @Override
-    protected String[] getSchemes() {
-        return SCHEMES;
+    public Collection<Capability> getCapabilities() {
+        return capabilities;
     }
 
     @Override
-    public Collection<Capability> getCapabilities() {
-        return capabilities;
+    protected String[] getSchemes() {
+        return SCHEMES;
     }
 }

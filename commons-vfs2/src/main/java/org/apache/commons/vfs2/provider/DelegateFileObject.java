@@ -68,16 +68,6 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
     }
 
     /**
-     * Get access to the delegated file.
-     *
-     * @return The FileObject.
-     * @since 2.0
-     */
-    public FileObject getDelegateFile() {
-        return file;
-    }
-
-    /**
      * Adds a child to this file.
      *
      * @param baseName The base FileName.
@@ -93,112 +83,17 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
     }
 
     /**
-     * Attaches or detaches the target file.
+     * Close the delegated file.
      *
-     * @param file The FileObject.
-     * @throws Exception if an error occurs.
-     */
-    public void setFile(final FileObject file) throws Exception {
-        final FileType oldType = doGetType();
-
-        if (file != null) {
-            WeakRefFileListener.installListener(file, this);
-        }
-        this.file = file;
-        maybeTypeChanged(oldType);
-    }
-
-    /**
-     * Checks whether the file's type has changed, and fires the appropriate events.
-     *
-     * @param oldType The old FileType.
-     * @throws Exception if an error occurs.
-     */
-    private void maybeTypeChanged(final FileType oldType) throws Exception {
-        final FileType newType = doGetType();
-        if (oldType == FileType.IMAGINARY && newType != FileType.IMAGINARY) {
-            handleCreate(newType);
-        } else if (oldType != FileType.IMAGINARY && newType == FileType.IMAGINARY) {
-            handleDelete();
-        }
-    }
-
-    /**
-     * Determines the type of the file, returns null if the file does not exist.
+     * @throws FileSystemException if an error occurs.
      */
     @Override
-    protected FileType doGetType() throws FileSystemException {
+    public void close() throws FileSystemException {
+        super.close();
+
         if (file != null) {
-            return file.getType();
+            file.close();
         }
-        if (children.isEmpty()) {
-            return FileType.IMAGINARY;
-        }
-        return FileType.FOLDER;
-    }
-
-    /**
-     * Determines if this file can be read.
-     */
-    @Override
-    protected boolean doIsReadable() throws FileSystemException {
-        if (file != null) {
-            return file.isReadable();
-        }
-        return true;
-    }
-
-    /**
-     * Determines if this file can be written to.
-     */
-    @Override
-    protected boolean doIsWriteable() throws FileSystemException {
-        if (file != null) {
-            return file.isWriteable();
-        }
-        return false;
-    }
-
-    /**
-     * Determines if this file is executable.
-     */
-    @Override
-    protected boolean doIsExecutable() throws FileSystemException {
-        if (file != null) {
-            return file.isExecutable();
-        }
-        return false;
-    }
-
-    /**
-     * Determines if this file is hidden.
-     */
-    @Override
-    protected boolean doIsHidden() throws FileSystemException {
-        if (file != null) {
-            return file.isHidden();
-        }
-        return false;
-    }
-
-    /**
-     * Lists the children of the file.
-     */
-    @Override
-    protected String[] doListChildren() throws Exception {
-        if (file != null) {
-            final FileObject[] children;
-
-            try {
-                children = file.getChildren();
-            } catch (final FileNotFolderException e) {
-                // VFS-210
-                throw new FileNotFolderException(getName(), e);
-            }
-
-            return Stream.of(children).map(child -> child.getName().getBaseName()).toArray(String[]::new);
-        }
-        return children.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
     /**
@@ -228,28 +123,11 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
     }
 
     /**
-     * Returns the size of the file content (in bytes). Is only called if {@link #doGetType} returns
-     * {@link FileType#FILE}.
-     */
-    @Override
-    protected long doGetContentSize() throws Exception {
-        return file.getContent().getSize();
-    }
-
-    /**
      * Returns the attributes of this file.
      */
     @Override
     protected Map<String, Object> doGetAttributes() throws Exception {
         return file.getContent().getAttributes();
-    }
-
-    /**
-     * Sets an attribute of this file.
-     */
-    @Override
-    protected void doSetAttribute(final String atttrName, final Object value) throws Exception {
-        file.getContent().setAttribute(atttrName, value);
     }
 
     /**
@@ -261,11 +139,165 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
     }
 
     /**
+     * Return file content info.
+     *
+     * @return the file content info of the delegee.
+     * @throws Exception Any thrown Exception is wrapped in FileSystemException.
+     * @since 2.0
+     */
+    protected FileContentInfo doGetContentInfo() throws Exception {
+        return file.getContent().getContentInfo();
+    }
+
+    /**
+     * Returns the size of the file content (in bytes). Is only called if {@link #doGetType} returns
+     * {@link FileType#FILE}.
+     */
+    @Override
+    protected long doGetContentSize() throws Exception {
+        return file.getContent().getSize();
+    }
+
+    /**
+     * Creates an input stream to read the file content from.
+     */
+    @Override
+    protected InputStream doGetInputStream(final int bufferSize) throws Exception {
+        return file.getContent().getInputStream(bufferSize);
+    }
+
+    /**
      * Returns the last-modified time of this file.
      */
     @Override
     protected long doGetLastModifiedTime() throws Exception {
         return file.getContent().getLastModifiedTime();
+    }
+
+    /**
+     * Creates an output stream to write the file content to.
+     */
+    @Override
+    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
+        return file.getContent().getOutputStream(bAppend);
+    }
+
+    /**
+     * Creates access to the file for random i/o.
+     *
+     * @since 2.0
+     */
+    @Override
+    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception {
+        return file.getContent().getRandomAccessContent(mode);
+    }
+
+    /**
+     * Determines the type of the file, returns null if the file does not exist.
+     */
+    @Override
+    protected FileType doGetType() throws FileSystemException {
+        if (file != null) {
+            return file.getType();
+        }
+        if (children.isEmpty()) {
+            return FileType.IMAGINARY;
+        }
+        return FileType.FOLDER;
+    }
+
+    /**
+     * Determines if this file is executable.
+     */
+    @Override
+    protected boolean doIsExecutable() throws FileSystemException {
+        if (file != null) {
+            return file.isExecutable();
+        }
+        return false;
+    }
+
+    /**
+     * Determines if this file is hidden.
+     */
+    @Override
+    protected boolean doIsHidden() throws FileSystemException {
+        if (file != null) {
+            return file.isHidden();
+        }
+        return false;
+    }
+
+    /**
+     * Determines if this file can be read.
+     */
+    @Override
+    protected boolean doIsReadable() throws FileSystemException {
+        if (file != null) {
+            return file.isReadable();
+        }
+        return true;
+    }
+
+    /**
+     * Determines if this file can be written to.
+     */
+    @Override
+    protected boolean doIsWriteable() throws FileSystemException {
+        if (file != null) {
+            return file.isWriteable();
+        }
+        return false;
+    }
+
+    /**
+     * Lists the children of the file.
+     */
+    @Override
+    protected String[] doListChildren() throws Exception {
+        if (file != null) {
+            final FileObject[] children;
+
+            try {
+                children = file.getChildren();
+            } catch (final FileNotFolderException e) {
+                // VFS-210
+                throw new FileNotFolderException(getName(), e);
+            }
+
+            return Stream.of(children).map(child -> child.getName().getBaseName()).toArray(String[]::new);
+        }
+        return children.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
+    }
+
+    /**
+     * Removes an attribute of this file.
+     *
+     * @since 2.0
+     */
+    @Override
+    protected void doRemoveAttribute(final String atttrName) throws Exception {
+        file.getContent().removeAttribute(atttrName);
+    }
+
+    /**
+     * Renames the file.
+     *
+     * @param newFile the new location/name.
+     * @throws Exception Any thrown Exception is wrapped in FileSystemException.
+     * @since 2.0
+     */
+    @Override
+    protected void doRename(final FileObject newFile) throws Exception {
+        file.moveTo(((DelegateFileObject) newFile).file);
+    }
+
+    /**
+     * Sets an attribute of this file.
+     */
+    @Override
+    protected void doSetAttribute(final String atttrName, final Object value) throws Exception {
+        file.getContent().setAttribute(atttrName, value);
     }
 
     /**
@@ -280,19 +312,22 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
     }
 
     /**
-     * Creates an input stream to read the file content from.
+     * Called when a file is changed.
+     * <p>
+     * This will only happen if you monitor the file using {@link org.apache.commons.vfs2.FileMonitor}.
+     * </p>
+     *
+     * @param event The FileChangeEvent.
+     * @throws Exception if an error occurs.
      */
     @Override
-    protected InputStream doGetInputStream(final int bufferSize) throws Exception {
-        return file.getContent().getInputStream(bufferSize);
-    }
-
-    /**
-     * Creates an output stream to write the file content to.
-     */
-    @Override
-    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
-        return file.getContent().getOutputStream(bAppend);
+    public void fileChanged(final FileChangeEvent event) throws Exception {
+        if (event.getFileObject() != file) {
+            return;
+        }
+        if (!ignoreEvent) {
+            handleChanged();
+        }
     }
 
     /**
@@ -328,35 +363,27 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
     }
 
     /**
-     * Called when a file is changed.
-     * <p>
-     * This will only happen if you monitor the file using {@link org.apache.commons.vfs2.FileMonitor}.
-     * </p>
+     * Get access to the delegated file.
      *
-     * @param event The FileChangeEvent.
-     * @throws Exception if an error occurs.
+     * @return The FileObject.
+     * @since 2.0
      */
-    @Override
-    public void fileChanged(final FileChangeEvent event) throws Exception {
-        if (event.getFileObject() != file) {
-            return;
-        }
-        if (!ignoreEvent) {
-            handleChanged();
-        }
+    public FileObject getDelegateFile() {
+        return file;
     }
 
     /**
-     * Close the delegated file.
+     * Checks whether the file's type has changed, and fires the appropriate events.
      *
-     * @throws FileSystemException if an error occurs.
+     * @param oldType The old FileType.
+     * @throws Exception if an error occurs.
      */
-    @Override
-    public void close() throws FileSystemException {
-        super.close();
-
-        if (file != null) {
-            file.close();
+    private void maybeTypeChanged(final FileType oldType) throws Exception {
+        final FileType newType = doGetType();
+        if (oldType == FileType.IMAGINARY && newType != FileType.IMAGINARY) {
+            handleCreate(newType);
+        } else if (oldType != FileType.IMAGINARY && newType == FileType.IMAGINARY) {
+            handleDelete();
         }
     }
 
@@ -375,45 +402,18 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
     }
 
     /**
-     * Return file content info.
+     * Attaches or detaches the target file.
      *
-     * @return the file content info of the delegee.
-     * @throws Exception Any thrown Exception is wrapped in FileSystemException.
-     * @since 2.0
+     * @param file The FileObject.
+     * @throws Exception if an error occurs.
      */
-    protected FileContentInfo doGetContentInfo() throws Exception {
-        return file.getContent().getContentInfo();
-    }
+    public void setFile(final FileObject file) throws Exception {
+        final FileType oldType = doGetType();
 
-    /**
-     * Renames the file.
-     *
-     * @param newFile the new location/name.
-     * @throws Exception Any thrown Exception is wrapped in FileSystemException.
-     * @since 2.0
-     */
-    @Override
-    protected void doRename(final FileObject newFile) throws Exception {
-        file.moveTo(((DelegateFileObject) newFile).file);
-    }
-
-    /**
-     * Removes an attribute of this file.
-     *
-     * @since 2.0
-     */
-    @Override
-    protected void doRemoveAttribute(final String atttrName) throws Exception {
-        file.getContent().removeAttribute(atttrName);
-    }
-
-    /**
-     * Creates access to the file for random i/o.
-     *
-     * @since 2.0
-     */
-    @Override
-    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception {
-        return file.getContent().getRandomAccessContent(mode);
+        if (file != null) {
+            WeakRefFileListener.installListener(file, this);
+        }
+        this.file = file;
+        maybeTypeChanged(oldType);
     }
 }

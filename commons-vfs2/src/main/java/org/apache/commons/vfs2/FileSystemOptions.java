@@ -46,20 +46,6 @@ import java.util.TreeMap;
  */
 public final class FileSystemOptions implements Cloneable, Comparable<FileSystemOptions> {
 
-    /** The options */
-    private final Map<FileSystemOptionKey, Object> options;
-
-    /**
-     * Constructs a new instance.
-     */
-    public FileSystemOptions() {
-        this(new TreeMap<>());
-    }
-
-    protected FileSystemOptions(final Map<FileSystemOptionKey, Object> options) {
-        this.options = options;
-    }
-
     /**
      * Keys in the options Map.
      */
@@ -120,18 +106,28 @@ public final class FileSystemOptions implements Cloneable, Comparable<FileSystem
         }
     }
 
-    void setOption(final Class<? extends FileSystem> fileSystemClass, final String name, final Object value) {
-        options.put(new FileSystemOptionKey(fileSystemClass, name), value);
+    /** The options */
+    private final Map<FileSystemOptionKey, Object> options;
+
+    /**
+     * Constructs a new instance.
+     */
+    public FileSystemOptions() {
+        this(new TreeMap<>());
     }
 
-    <T> T getOption(final Class<? extends FileSystem> fileSystemClass, final String name) {
-        final FileSystemOptionKey key = new FileSystemOptionKey(fileSystemClass, name);
-        return (T) options.get(key);
+    protected FileSystemOptions(final Map<FileSystemOptionKey, Object> options) {
+        this.options = options;
     }
 
-    boolean hasOption(final Class<? extends FileSystem> fileSystemClass, final String name) {
-        final FileSystemOptionKey key = new FileSystemOptionKey(fileSystemClass, name);
-        return options.containsKey(key);
+    /**
+     * {@inheritDoc}
+     *
+     * @since 2.0
+     */
+    @Override
+    public Object clone() {
+        return new FileSystemOptions(new TreeMap<>(options));
     }
 
     @Override
@@ -178,6 +174,26 @@ public final class FileSystemOptions implements Cloneable, Comparable<FileSystem
     }
 
     @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final FileSystemOptions other = (FileSystemOptions) obj;
+        return compareTo(other) == 0;
+    }
+
+    <T> T getOption(final Class<? extends FileSystem> fileSystemClass, final String name) {
+        final FileSystemOptionKey key = new FileSystemOptionKey(fileSystemClass, name);
+        return (T) options.get(key);
+    }
+
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -193,29 +209,13 @@ public final class FileSystemOptions implements Cloneable, Comparable<FileSystem
         return result;
     }
 
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final FileSystemOptions other = (FileSystemOptions) obj;
-        return compareTo(other) == 0;
+    boolean hasOption(final Class<? extends FileSystem> fileSystemClass, final String name) {
+        final FileSystemOptionKey key = new FileSystemOptionKey(fileSystemClass, name);
+        return options.containsKey(key);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @since 2.0
-     */
-    @Override
-    public Object clone() {
-        return new FileSystemOptions(new TreeMap<>(options));
+    void setOption(final Class<? extends FileSystem> fileSystemClass, final String name, final Object value) {
+        options.put(new FileSystemOptionKey(fileSystemClass, name), value);
     }
 
     @Override

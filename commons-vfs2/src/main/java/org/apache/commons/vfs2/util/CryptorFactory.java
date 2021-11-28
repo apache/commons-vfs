@@ -38,15 +38,6 @@ public final class CryptorFactory {
     }
 
     /**
-     * Allows the Cryptor class to be set programmatically.
-     *
-     * @param cryptor The Cryptor.
-     */
-    public static synchronized void setCryptor(final Cryptor cryptor) {
-        instance = cryptor;
-    }
-
-    /**
      * Return the Cryptor. If one has not been previously set, create it. The Cryptor class can be set by setting the
      * "org.apache.commons.vfs2.cryptor" System property to the name of the Cryptor class.
      *
@@ -69,5 +60,14 @@ public final class CryptorFactory {
         }
         instance = new DefaultCryptor();
         return instance;
+    }
+
+    /**
+     * Allows the Cryptor class to be set programmatically.
+     *
+     * @param cryptor The Cryptor.
+     */
+    public static synchronized void setCryptor(final Cryptor cryptor) {
+        instance = cryptor;
     }
 }

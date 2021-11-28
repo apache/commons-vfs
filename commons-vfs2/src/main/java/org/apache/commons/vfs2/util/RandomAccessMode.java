@@ -40,24 +40,6 @@ public enum RandomAccessMode {
     }
 
     /**
-     * Tests read.
-     *
-     * @return true for read.
-     */
-    public boolean requestRead() {
-        return read;
-    }
-
-    /**
-     * Tests write.
-     *
-     * @return true for write.
-     */
-    public boolean requestWrite() {
-        return write;
-    }
-
-    /**
      * @return The mode String.
      * @since 2.0
      */
@@ -73,5 +55,23 @@ public enum RandomAccessMode {
         }
 
         return "";
+    }
+
+    /**
+     * Tests read.
+     *
+     * @return true for read.
+     */
+    public boolean requestRead() {
+        return read;
+    }
+
+    /**
+     * Tests write.
+     *
+     * @return true for write.
+     */
+    public boolean requestWrite() {
+        return write;
     }
 }

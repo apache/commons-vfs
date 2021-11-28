@@ -47,32 +47,6 @@ public class DefaultFileOperations implements FileOperations {
     }
 
     /**
-     * @return The operation classes.
-     * @throws FileSystemException If an error occurs.
-     */
-    @Override
-    public Class<? extends FileOperation>[] getOperations() throws FileSystemException {
-
-        final String scheme = fileObject.getURL().getProtocol();
-        final FileOperationProvider[] providers = fsmanager.getOperationProviders(scheme);
-
-        if (providers == null) {
-            return null;
-        }
-
-        final List<Class<? extends FileOperation>> operations = new ArrayList<>();
-
-        for (final FileOperationProvider provider : providers) {
-            provider.collectOperations(operations, fileObject);
-        }
-
-        @SuppressWarnings("unchecked")
-        final Class<? extends FileOperation>[] array = (Class<? extends FileOperation>[]) operations
-                .toArray(new Class<?>[] {});
-        return array;
-    }
-
-    /**
      * @param operationClass The Class that performs the operation.
      * @return The FileOperation.
      * @throws FileSystemException if an error occurs.
@@ -96,6 +70,32 @@ public class DefaultFileOperations implements FileOperations {
         }
 
         return FileSystemException.requireNonNull(resultOperation, "vfs.operation/operation-not-supported.error", operationClass);
+    }
+
+    /**
+     * @return The operation classes.
+     * @throws FileSystemException If an error occurs.
+     */
+    @Override
+    public Class<? extends FileOperation>[] getOperations() throws FileSystemException {
+
+        final String scheme = fileObject.getURL().getProtocol();
+        final FileOperationProvider[] providers = fsmanager.getOperationProviders(scheme);
+
+        if (providers == null) {
+            return null;
+        }
+
+        final List<Class<? extends FileOperation>> operations = new ArrayList<>();
+
+        for (final FileOperationProvider provider : providers) {
+            provider.collectOperations(operations, fileObject);
+        }
+
+        @SuppressWarnings("unchecked")
+        final Class<? extends FileOperation>[] array = (Class<? extends FileOperation>[]) operations
+                .toArray(new Class<?>[] {});
+        return array;
     }
 
     /**

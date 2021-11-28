@@ -31,6 +31,21 @@ import org.apache.commons.vfs2.provider.AbstractVfsContainer;
 public class VirtualFileProvider extends AbstractVfsContainer {
 
     /**
+     * Close a VirtualFileSystem by removing it from the {@code #components} list of this provider.
+     * <p>
+     * This gets called from DefaultFileManager#_closeFileSystem.
+     * </p>
+     *
+     * @param fileSystem the file system remembered by this provider.
+     */
+    void closeFileSystem(final FileSystem fileSystem) {
+        final AbstractFileSystem fs = (AbstractFileSystem) fileSystem;
+
+        removeComponent(fs);
+        fs.close();
+    }
+
+    /**
      * Creates a virtual file system, with the supplied file as its root.
      *
      * @param rootFile The root of the file system.
@@ -58,20 +73,5 @@ public class VirtualFileProvider extends AbstractVfsContainer {
         final VirtualFileSystem fs = new VirtualFileSystem(rootName, null);
         addComponent(fs);
         return fs.getRoot();
-    }
-
-    /**
-     * Close a VirtualFileSystem by removing it from the {@code #components} list of this provider.
-     * <p>
-     * This gets called from DefaultFileManager#_closeFileSystem.
-     * </p>
-     *
-     * @param fileSystem the file system remembered by this provider.
-     */
-    void closeFileSystem(final FileSystem fileSystem) {
-        final AbstractFileSystem fs = (AbstractFileSystem) fileSystem;
-
-        removeComponent(fs);
-        fs.close();
     }
 }

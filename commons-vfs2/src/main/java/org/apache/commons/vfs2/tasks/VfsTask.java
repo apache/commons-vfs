@@ -31,79 +31,6 @@ import org.apache.tools.ant.Task;
  */
 public class VfsTask extends Task {
 
-    private static StandardFileSystemManager manager;
-
-    /**
-     * Resolves a URI to a file, relative to the project's base directory.
-     *
-     * @param uri The URI to resolve.
-     * @return resolved file object.
-     * @throws FileSystemException If an error occurred.
-     */
-    protected FileObject resolveFile(final String uri) throws FileSystemException {
-        if (manager == null) {
-            final StandardFileSystemManager mngr = new StandardFileSystemManager();
-            mngr.setLogger(new AntLogger());
-            mngr.init();
-            manager = mngr;
-            getProject().addBuildListener(new CloseListener());
-        }
-        return manager.resolveFile(getProject().getBaseDir(), uri);
-    }
-
-    /**
-     * Close the manager
-     */
-    protected void closeManager() {
-        if (manager != null) {
-            manager.close();
-            manager = null;
-        }
-    }
-
-    /**
-     * Closes the VFS manager when the project finishes.
-     */
-    private class CloseListener implements SubBuildListener {
-        @Override
-        public void subBuildStarted(final BuildEvent buildEvent) {
-        }
-
-        @Override
-        public void subBuildFinished(final BuildEvent buildEvent) {
-            closeManager();
-        }
-
-        @Override
-        public void buildFinished(final BuildEvent event) {
-            closeManager();
-        }
-
-        @Override
-        public void buildStarted(final BuildEvent event) {
-        }
-
-        @Override
-        public void messageLogged(final BuildEvent event) {
-        }
-
-        @Override
-        public void targetFinished(final BuildEvent event) {
-        }
-
-        @Override
-        public void targetStarted(final BuildEvent event) {
-        }
-
-        @Override
-        public void taskFinished(final BuildEvent event) {
-        }
-
-        @Override
-        public void taskStarted(final BuildEvent event) {
-        }
-    }
-
     /**
      * A commons-logging wrapper for Ant logging.
      */
@@ -149,24 +76,6 @@ public class VfsTask extends Task {
         }
 
         @Override
-        public void trace(final Object o) {
-        }
-
-        @Override
-        public void trace(final Object o, final Throwable throwable) {
-        }
-
-        @Override
-        public void warn(final Object o) {
-            log(String.valueOf(o), Project.MSG_WARN);
-        }
-
-        @Override
-        public void warn(final Object o, final Throwable throwable) {
-            warn(o);
-        }
-
-        @Override
         public boolean isDebugEnabled() {
             return true;
         }
@@ -195,5 +104,96 @@ public class VfsTask extends Task {
         public boolean isWarnEnabled() {
             return true;
         }
+
+        @Override
+        public void trace(final Object o) {
+        }
+
+        @Override
+        public void trace(final Object o, final Throwable throwable) {
+        }
+
+        @Override
+        public void warn(final Object o) {
+            log(String.valueOf(o), Project.MSG_WARN);
+        }
+
+        @Override
+        public void warn(final Object o, final Throwable throwable) {
+            warn(o);
+        }
+    }
+
+    /**
+     * Closes the VFS manager when the project finishes.
+     */
+    private class CloseListener implements SubBuildListener {
+        @Override
+        public void buildFinished(final BuildEvent event) {
+            closeManager();
+        }
+
+        @Override
+        public void buildStarted(final BuildEvent event) {
+        }
+
+        @Override
+        public void messageLogged(final BuildEvent event) {
+        }
+
+        @Override
+        public void subBuildFinished(final BuildEvent buildEvent) {
+            closeManager();
+        }
+
+        @Override
+        public void subBuildStarted(final BuildEvent buildEvent) {
+        }
+
+        @Override
+        public void targetFinished(final BuildEvent event) {
+        }
+
+        @Override
+        public void targetStarted(final BuildEvent event) {
+        }
+
+        @Override
+        public void taskFinished(final BuildEvent event) {
+        }
+
+        @Override
+        public void taskStarted(final BuildEvent event) {
+        }
+    }
+
+    private static StandardFileSystemManager manager;
+
+    /**
+     * Close the manager
+     */
+    protected void closeManager() {
+        if (manager != null) {
+            manager.close();
+            manager = null;
+        }
+    }
+
+    /**
+     * Resolves a URI to a file, relative to the project's base directory.
+     *
+     * @param uri The URI to resolve.
+     * @return resolved file object.
+     * @throws FileSystemException If an error occurred.
+     */
+    protected FileObject resolveFile(final String uri) throws FileSystemException {
+        if (manager == null) {
+            final StandardFileSystemManager mngr = new StandardFileSystemManager();
+            mngr.setLogger(new AntLogger());
+            mngr.init();
+            manager = mngr;
+            getProject().addBuildListener(new CloseListener());
+        }
+        return manager.resolveFile(getProject().getBaseDir(), uri);
     }
 }

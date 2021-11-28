@@ -75,24 +75,51 @@ public abstract class AbstractFileName implements FileName {
         }
     }
 
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
+    /**
+     * Checks whether a path fits in a particular scope of another path.
+     *
+     * @param basePath An absolute, normalised path.
+     * @param path An absolute, normalised path.
+     * @param scope The NameScope.
+     * @return true if the path fits in the scope, false otherwise.
+     */
+    public static boolean checkName(final String basePath, final String path, final NameScope scope) {
+        if (scope == NameScope.FILE_SYSTEM) {
+            // All good
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+
+        if (!path.startsWith(basePath)) {
             return false;
         }
 
-        final AbstractFileName that = (AbstractFileName) o;
+        int baseLen = basePath.length();
+        if (VFS.isUriStyle()) {
+            // strip the trailing "/"
+            baseLen--;
+        }
 
-        return getKey().equals(that.getKey());
+        if (scope == NameScope.CHILD) {
+            return path.length() != baseLen && (baseLen <= 1 || path.charAt(baseLen) == SEPARATOR_CHAR)
+                    && path.indexOf(SEPARATOR_CHAR, baseLen + 1) == -1;
+        }
+        if (scope == NameScope.DESCENDENT) {
+            return path.length() != baseLen && (baseLen <= 1 || path.charAt(baseLen) == SEPARATOR_CHAR);
+        }
+        if (scope == NameScope.DESCENDENT_OR_SELF) {
+            return baseLen <= 1 || path.length() <= baseLen || path.charAt(baseLen) == SEPARATOR_CHAR;
+        }
+        throw new IllegalArgumentException();
+
     }
 
-    @Override
-    public int hashCode() {
-        return getKey().hashCode();
-    }
+    /**
+     * Builds the root URI for this file name. Note that the root URI must not end with a separator character.
+     *
+     * @param buffer A StringBuilder to use to construct the URI.
+     * @param addPassword true if the password should be added, false otherwise.
+     */
+    protected abstract void appendRootUri(StringBuilder buffer, boolean addPassword);
 
     /**
      * Implement Comparable.
@@ -107,16 +134,6 @@ public abstract class AbstractFileName implements FileName {
     }
 
     /**
-     * Returns the URI of the file.
-     *
-     * @return the FileName as a URI.
-     */
-    @Override
-    public String toString() {
-        return getURI();
-    }
-
-    /**
      * Factory method for creating name instances.
      *
      * @param absolutePath The absolute path.
@@ -125,13 +142,30 @@ public abstract class AbstractFileName implements FileName {
      */
     public abstract FileName createName(String absolutePath, FileType fileType);
 
-    /**
-     * Builds the root URI for this file name. Note that the root URI must not end with a separator character.
-     *
-     * @param buffer A StringBuilder to use to construct the URI.
-     * @param addPassword true if the password should be added, false otherwise.
-     */
-    protected abstract void appendRootUri(StringBuilder buffer, boolean addPassword);
+    protected String createURI() {
+        return createURI(false, true);
+    }
+
+    private String createURI(final boolean useAbsolutePath, final boolean usePassword) {
+        final StringBuilder buffer = new StringBuilder();
+        appendRootUri(buffer, usePassword);
+        buffer.append(handleURISpecialCharacters(useAbsolutePath ? absPath : getPath()));
+        return buffer.toString();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        final AbstractFileName that = (AbstractFileName) o;
+
+        return getKey().equals(that.getKey());
+    }
 
     /**
      * Returns the base name of the file.
@@ -153,35 +187,68 @@ public abstract class AbstractFileName implements FileName {
     }
 
     /**
-     * Returns the absolute path of the file, relative to the root of the file system that the file belongs to.
+     * Returns the depth of this file name, within its file system.
      *
-     * @return The path String.
+     * @return The depth of the file name.
      */
     @Override
-    public String getPath() {
-        if (VFS.isUriStyle()) {
-            return absPath + getUriTrailer();
+    public int getDepth() {
+        final int len = getPath().length();
+        if (len == 0 || len == 1 && getPath().charAt(0) == SEPARATOR_CHAR) {
+            return 0;
         }
-        return absPath;
-    }
-
-    protected String getUriTrailer() {
-        return getType().hasChildren() ? "/" : "";
+        int depth = 1;
+        for (int pos = 0; pos > -1 && pos < len; depth++) {
+            pos = getPath().indexOf(SEPARATOR_CHAR, pos + 1);
+        }
+        return depth;
     }
 
     /**
-     * Returns the decoded path.
+     * Returns the extension of this file name.
      *
-     * @return The decoded path String.
-     * @throws FileSystemException If an error occurs.
+     * @return The file extension.
      */
     @Override
-    public String getPathDecoded() throws FileSystemException {
-        if (decodedAbsPath == null) {
-            decodedAbsPath = UriParser.decode(getPath());
+    public String getExtension() {
+        if (extension == null) {
+            getBaseName();
+            final int pos = baseName.lastIndexOf('.');
+            // if ((pos == -1) || (pos == baseName.length() - 1))
+            // imario@ops.co.at: Review of patch from adagoubard@chello.nl
+            // do not treat file names like
+            // .bashrc c:\windows\.java c:\windows\.javaws c:\windows\.jedit c:\windows\.appletviewer
+            // as extension
+            if (pos < 1 || pos == baseName.length() - 1) {
+                // No extension
+                extension = "";
+            } else {
+                extension = baseName.substring(pos + 1).intern();
+            }
         }
+        return extension;
+    }
 
-        return decodedAbsPath;
+    /**
+     * Returns the URI without a password.
+     *
+     * @return Returns the URI without a password.
+     */
+    @Override
+    public String getFriendlyURI() {
+        return createURI(false, false);
+    }
+
+    /**
+     * Create a path that does not use the FileType since that field is not immutable.
+     *
+     * @return The key.
+     */
+    private String getKey() {
+        if (key == null) {
+            key = getURI();
+        }
+        return key;
     }
 
     /**
@@ -207,91 +274,31 @@ public abstract class AbstractFileName implements FileName {
     }
 
     /**
-     * find the root of the file system.
+     * Returns the absolute path of the file, relative to the root of the file system that the file belongs to.
      *
-     * @return The root FileName.
+     * @return The path String.
      */
     @Override
-    public FileName getRoot() {
-        FileName root = this;
-        while (root.getParent() != null) {
-            root = root.getParent();
+    public String getPath() {
+        if (VFS.isUriStyle()) {
+            return absPath + getUriTrailer();
         }
-
-        return root;
+        return absPath;
     }
 
     /**
-     * Returns the URI scheme of this file.
+     * Returns the decoded path.
      *
-     * @return The protocol used to access the file.
+     * @return The decoded path String.
+     * @throws FileSystemException If an error occurs.
      */
     @Override
-    public String getScheme() {
-        return scheme;
-    }
-
-    /**
-     * Returns the absolute URI of the file.
-     *
-     * @return The absolute URI of the file.
-     */
-    @Override
-    public String getURI() {
-        if (uriString == null) {
-            uriString = createURI();
-        }
-        return uriString;
-    }
-
-    protected String createURI() {
-        return createURI(false, true);
-    }
-
-    /**
-     * Create a path that does not use the FileType since that field is not immutable.
-     *
-     * @return The key.
-     */
-    private String getKey() {
-        if (key == null) {
-            key = getURI();
-        }
-        return key;
-    }
-
-    /**
-     * Returns the URI without a password.
-     *
-     * @return Returns the URI without a password.
-     */
-    @Override
-    public String getFriendlyURI() {
-        return createURI(false, false);
-    }
-
-    private String createURI(final boolean useAbsolutePath, final boolean usePassword) {
-        final StringBuilder buffer = new StringBuilder();
-        appendRootUri(buffer, usePassword);
-        buffer.append(handleURISpecialCharacters(useAbsolutePath ? absPath : getPath()));
-        return buffer.toString();
-    }
-
-    private String handleURISpecialCharacters(String uri) {
-        if (!StringUtils.isEmpty(uri)) {
-            try {
-                // VFS-325: Handle URI special characters in file name
-                // Decode the base URI and re-encode with URI special characters
-                uri = UriParser.decode(uri);
-
-                return UriParser.encode(uri, RESERVED_URI_CHARS);
-            } catch (final FileSystemException e) {
-                // Default to base URI value?
-                return uri;
-            }
+    public String getPathDecoded() throws FileSystemException {
+        if (decodedAbsPath == null) {
+            decodedAbsPath = UriParser.decode(getPath());
         }
 
-        return uri;
+        return decodedAbsPath;
     }
 
     /**
@@ -353,6 +360,21 @@ public abstract class AbstractFileName implements FileName {
     }
 
     /**
+     * find the root of the file system.
+     *
+     * @return The root FileName.
+     */
+    @Override
+    public FileName getRoot() {
+        FileName root = this;
+        while (root.getParent() != null) {
+            root = root.getParent();
+        }
+
+        return root;
+    }
+
+    /**
      * Returns the root URI of the file system this file belongs to.
      *
      * @return The URI of the root.
@@ -369,46 +391,69 @@ public abstract class AbstractFileName implements FileName {
     }
 
     /**
-     * Returns the depth of this file name, within its file system.
+     * Returns the URI scheme of this file.
      *
-     * @return The depth of the file name.
+     * @return The protocol used to access the file.
      */
     @Override
-    public int getDepth() {
-        final int len = getPath().length();
-        if (len == 0 || len == 1 && getPath().charAt(0) == SEPARATOR_CHAR) {
-            return 0;
-        }
-        int depth = 1;
-        for (int pos = 0; pos > -1 && pos < len; depth++) {
-            pos = getPath().indexOf(SEPARATOR_CHAR, pos + 1);
-        }
-        return depth;
+    public String getScheme() {
+        return scheme;
     }
 
     /**
-     * Returns the extension of this file name.
+     * Returns the requested or current type of this name.
+     * <p>
+     * The "requested" type is the one determined during resolving the name. n this case the name is a
+     * {@link FileType#FOLDER} if it ends with an "/" else it will be a {@link FileType#FILE}.
+     * </p>
+     * <p>
+     * Once attached it will be changed to reflect the real type of this resource.
+     * </p>
      *
-     * @return The file extension.
+     * @return {@link FileType#FOLDER} or {@link FileType#FILE}
      */
     @Override
-    public String getExtension() {
-        if (extension == null) {
-            getBaseName();
-            final int pos = baseName.lastIndexOf('.');
-            // if ((pos == -1) || (pos == baseName.length() - 1))
-            // imario@ops.co.at: Review of patch from adagoubard@chello.nl
-            // do not treat file names like
-            // .bashrc c:\windows\.java c:\windows\.javaws c:\windows\.jedit c:\windows\.appletviewer
-            // as extension
-            if (pos < 1 || pos == baseName.length() - 1) {
-                // No extension
-                extension = "";
-            } else {
-                extension = baseName.substring(pos + 1).intern();
+    public FileType getType() {
+        return type;
+    }
+
+    /**
+     * Returns the absolute URI of the file.
+     *
+     * @return The absolute URI of the file.
+     */
+    @Override
+    public String getURI() {
+        if (uriString == null) {
+            uriString = createURI();
+        }
+        return uriString;
+    }
+
+    protected String getUriTrailer() {
+        return getType().hasChildren() ? "/" : "";
+    }
+
+    private String handleURISpecialCharacters(String uri) {
+        if (!StringUtils.isEmpty(uri)) {
+            try {
+                // VFS-325: Handle URI special characters in file name
+                // Decode the base URI and re-encode with URI special characters
+                uri = UriParser.decode(uri);
+
+                return UriParser.encode(uri, RESERVED_URI_CHARS);
+            } catch (final FileSystemException e) {
+                // Default to base URI value?
+                return uri;
             }
         }
-        return extension;
+
+        return uri;
+    }
+
+    @Override
+    public int hashCode() {
+        return getKey().hashCode();
     }
 
     /**
@@ -466,23 +511,6 @@ public abstract class AbstractFileName implements FileName {
     }
 
     /**
-     * Returns the requested or current type of this name.
-     * <p>
-     * The "requested" type is the one determined during resolving the name. n this case the name is a
-     * {@link FileType#FOLDER} if it ends with an "/" else it will be a {@link FileType#FILE}.
-     * </p>
-     * <p>
-     * Once attached it will be changed to reflect the real type of this resource.
-     * </p>
-     *
-     * @return {@link FileType#FOLDER} or {@link FileType#FILE}
-     */
-    @Override
-    public FileType getType() {
-        return type;
-    }
-
-    /**
      * Sets the type of this file e.g. when it will be attached.
      *
      * @param type {@link FileType#FOLDER} or {@link FileType#FILE}
@@ -497,40 +525,12 @@ public abstract class AbstractFileName implements FileName {
     }
 
     /**
-     * Checks whether a path fits in a particular scope of another path.
+     * Returns the URI of the file.
      *
-     * @param basePath An absolute, normalised path.
-     * @param path An absolute, normalised path.
-     * @param scope The NameScope.
-     * @return true if the path fits in the scope, false otherwise.
+     * @return the FileName as a URI.
      */
-    public static boolean checkName(final String basePath, final String path, final NameScope scope) {
-        if (scope == NameScope.FILE_SYSTEM) {
-            // All good
-            return true;
-        }
-
-        if (!path.startsWith(basePath)) {
-            return false;
-        }
-
-        int baseLen = basePath.length();
-        if (VFS.isUriStyle()) {
-            // strip the trailing "/"
-            baseLen--;
-        }
-
-        if (scope == NameScope.CHILD) {
-            return path.length() != baseLen && (baseLen <= 1 || path.charAt(baseLen) == SEPARATOR_CHAR)
-                    && path.indexOf(SEPARATOR_CHAR, baseLen + 1) == -1;
-        }
-        if (scope == NameScope.DESCENDENT) {
-            return path.length() != baseLen && (baseLen <= 1 || path.charAt(baseLen) == SEPARATOR_CHAR);
-        }
-        if (scope == NameScope.DESCENDENT_OR_SELF) {
-            return baseLen <= 1 || path.length() <= baseLen || path.charAt(baseLen) == SEPARATOR_CHAR;
-        }
-        throw new IllegalArgumentException();
-
+    @Override
+    public String toString() {
+        return getURI();
     }
 }

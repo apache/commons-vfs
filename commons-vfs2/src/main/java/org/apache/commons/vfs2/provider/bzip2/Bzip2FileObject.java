@@ -32,6 +32,10 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
  */
 public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem> {
 
+    protected Bzip2FileObject(final AbstractFileName name, final FileObject container, final Bzip2FileSystem fs) {
+        super(name, container, fs);
+    }
+
     /**
      * Deprecated since 2.1.
      *
@@ -47,14 +51,11 @@ public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem> {
         super(name, container, cast(fs));
     }
 
-    protected Bzip2FileObject(final AbstractFileName name, final FileObject container, final Bzip2FileSystem fs) {
-        super(name, container, fs);
-    }
-
-    @Override
-    protected InputStream doGetInputStream(final int bufferSize) throws Exception {
-        // check file
-        return wrapInputStream(getName().getURI(), getContainer().getContent().getInputStream(bufferSize));
+    private static Bzip2FileSystem cast(final CompressedFileFileSystem fs) {
+        if (fs instanceof Bzip2FileSystem) {
+            return (Bzip2FileSystem) fs;
+        }
+        throw new IllegalArgumentException("Bzip2FileObject requires a Bzip2FileSystem implementation");
     }
 
     /**
@@ -70,14 +71,13 @@ public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem> {
     }
 
     @Override
-    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
-        return new BZip2CompressorOutputStream(getContainer().getContent().getOutputStream(false));
+    protected InputStream doGetInputStream(final int bufferSize) throws Exception {
+        // check file
+        return wrapInputStream(getName().getURI(), getContainer().getContent().getInputStream(bufferSize));
     }
 
-    private static Bzip2FileSystem cast(final CompressedFileFileSystem fs) {
-        if (fs instanceof Bzip2FileSystem) {
-            return (Bzip2FileSystem) fs;
-        }
-        throw new IllegalArgumentException("Bzip2FileObject requires a Bzip2FileSystem implementation");
+    @Override
+    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
+        return new BZip2CompressorOutputStream(getContainer().getContent().getOutputStream(false));
     }
 }

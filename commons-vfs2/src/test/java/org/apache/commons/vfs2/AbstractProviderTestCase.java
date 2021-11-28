@@ -43,9 +43,20 @@ public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
     public static final String FILE1_CONTENT = "This is a test file.";
     // Expected contents of test files
     public static final String TEST_FILE_CONTENT = "A test file.";
+    private FileObject baseFolder;
+    private FileObject readFolder;
+    private FileObject writeFolder;
+    private DefaultFileSystemManager manager;
+    private ProviderTestConfig providerConfig;
+
+    private Method method;
+
+    private boolean addEmptyDir;
+
     protected static Test notConfigured(final Class<?> testClass) {
         return warning(testClass + " is not configured for tests, skipping");
     }
+
     private static Test warning(final String message) {
         return new TestCase("warning") {
             @Override
@@ -54,17 +65,6 @@ public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
             }
         };
     }
-    private FileObject baseFolder;
-    private FileObject readFolder;
-    private FileObject writeFolder;
-
-    private DefaultFileSystemManager manager;
-
-    private ProviderTestConfig providerConfig;
-
-    private Method method;
-
-    private boolean addEmptyDir;
 
     protected void addEmptyDir(final boolean addEmptyDir) {
         this.addEmptyDir = addEmptyDir;

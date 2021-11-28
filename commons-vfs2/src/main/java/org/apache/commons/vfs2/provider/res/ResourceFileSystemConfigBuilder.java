@@ -42,16 +42,6 @@ public final class ResourceFileSystemConfigBuilder extends FileSystemConfigBuild
     }
 
     /**
-     * Sets the class loader in the FileSystemOptions.
-     *
-     * @param fileSystemOptions Target FileSystemOptions.
-     * @param classLoader The data to set.
-     */
-    public void setClassLoader(final FileSystemOptions fileSystemOptions, final ClassLoader classLoader) {
-        setParam(fileSystemOptions, ClassLoader.class.getName(), classLoader);
-    }
-
-    /**
      * Gets the class loader from the FileSystemOptions.
      *
      * @param fileSystemOptions The source FileSystemOptions.
@@ -64,5 +54,15 @@ public final class ResourceFileSystemConfigBuilder extends FileSystemConfigBuild
     @Override
     protected Class<? extends FileSystem> getConfigClass() {
         return UrlFileSystem.class;
+    }
+
+    /**
+     * Sets the class loader in the FileSystemOptions.
+     *
+     * @param fileSystemOptions Target FileSystemOptions.
+     * @param classLoader The data to set.
+     */
+    public void setClassLoader(final FileSystemOptions fileSystemOptions, final ClassLoader classLoader) {
+        setParam(fileSystemOptions, ClassLoader.class.getName(), classLoader);
     }
 }

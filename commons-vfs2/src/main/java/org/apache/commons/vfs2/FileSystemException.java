@@ -64,6 +64,16 @@ public class FileSystemException extends IOException {
     }
 
     /**
+     * Constructs exception with the specified detail message.
+     *
+     * @param code the error code of the message.
+     * @param info array of complementary info (context).
+     */
+    public FileSystemException(final String code, final Object... info) {
+        this(code, null, info);
+    }
+
+    /**
      * Constructs exception with the specified detail message and cause.
      *
      * @param code the error code of the message.
@@ -79,9 +89,12 @@ public class FileSystemException extends IOException {
      *
      * @param code the error code of the message.
      * @param info array of complementary info (context).
+     * @param cause the cause.
+     * @deprecated Use instead {@link #FileSystemException(String, Throwable, Object[])}. Will be removed in 3.0.
      */
-    public FileSystemException(final String code, final Object... info) {
-        this(code, null, info);
+    @Deprecated
+    public FileSystemException(final String code, final Object[] info, final Throwable cause) {
+        this(code, cause, info);
     }
 
     /**
@@ -92,19 +105,6 @@ public class FileSystemException extends IOException {
      */
     public FileSystemException(final String code, final Throwable cause) {
         this(code, cause, (Object[]) null);
-    }
-
-    /**
-     * Constructs exception with the specified detail message.
-     *
-     * @param code the error code of the message.
-     * @param info array of complementary info (context).
-     * @param cause the cause.
-     * @deprecated Use instead {@link #FileSystemException(String, Throwable, Object[])}. Will be removed in 3.0.
-     */
-    @Deprecated
-    public FileSystemException(final String code, final Object[] info, final Throwable cause) {
-        this(code, cause, info);
     }
 
     /**
@@ -189,16 +189,6 @@ public class FileSystemException extends IOException {
     }
 
     /**
-     * Retrieves message from bundle.
-     *
-     * @return The exception message.
-     */
-    @Override
-    public String getMessage() {
-        return Messages.getString(super.getMessage(), (Object[]) getInfo());
-    }
-
-    /**
      * Retrieves error code of the exception. Could be used as key for internationalization.
      *
      * @return the code.
@@ -214,5 +204,15 @@ public class FileSystemException extends IOException {
      */
     public String[] getInfo() {
         return info;
+    }
+
+    /**
+     * Retrieves message from bundle.
+     *
+     * @return The exception message.
+     */
+    @Override
+    public String getMessage() {
+        return Messages.getString(super.getMessage(), (Object[]) getInfo());
     }
 }

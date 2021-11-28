@@ -72,27 +72,6 @@ public class VirtualFileSystem extends AbstractFileSystem {
     }
 
     /**
-     * Creates a file object. This method is called only if the requested file is not cached.
-     */
-    @Override
-    protected FileObject createFile(final AbstractFileName name) throws Exception {
-        // Find the file that the name points to
-        final FileName junctionPoint = getJunctionForFile(name);
-        final FileObject file;
-        if (junctionPoint != null) {
-            // Resolve the real file
-            final FileObject junctionFile = junctions.get(junctionPoint);
-            final String relName = junctionPoint.getRelativeName(name);
-            file = junctionFile.resolveFile(relName, NameScope.DESCENDENT_OR_SELF);
-        } else {
-            file = null;
-        }
-
-        // Return a wrapper around the file
-        return new DelegateFileObject(name, this, file);
-    }
-
-    /**
      * Adds a junction to this file system.
      *
      * @param junctionPoint The location of the junction.
@@ -142,19 +121,31 @@ public class VirtualFileSystem extends AbstractFileSystem {
         }
     }
 
+    @Override
+    public void close() {
+        super.close();
+        junctions.clear();
+    }
+
     /**
-     * Removes a junction from this file system.
-     *
-     * @param junctionPoint The junction to remove.
-     * @throws FileSystemException if an error occurs.
+     * Creates a file object. This method is called only if the requested file is not cached.
      */
     @Override
-    public void removeJunction(final String junctionPoint) throws FileSystemException {
-        final FileName junctionName = getFileSystemManager().resolveName(getRootName(), junctionPoint);
-        junctions.remove(junctionName);
+    protected FileObject createFile(final AbstractFileName name) throws Exception {
+        // Find the file that the name points to
+        final FileName junctionPoint = getJunctionForFile(name);
+        final FileObject file;
+        if (junctionPoint != null) {
+            // Resolve the real file
+            final FileObject junctionFile = junctions.get(junctionPoint);
+            final String relName = junctionPoint.getRelativeName(name);
+            file = junctionFile.resolveFile(relName, NameScope.DESCENDENT_OR_SELF);
+        } else {
+            file = null;
+        }
 
-        // TODO - remove from parents of junction point
-        // TODO - detach all cached children of the junction point from their real file
+        // Return a wrapper around the file
+        return new DelegateFileObject(name, this, file);
     }
 
     /**
@@ -180,9 +171,18 @@ public class VirtualFileSystem extends AbstractFileSystem {
         return null;
     }
 
+    /**
+     * Removes a junction from this file system.
+     *
+     * @param junctionPoint The junction to remove.
+     * @throws FileSystemException if an error occurs.
+     */
     @Override
-    public void close() {
-        super.close();
-        junctions.clear();
+    public void removeJunction(final String junctionPoint) throws FileSystemException {
+        final FileName junctionName = getFileSystemManager().resolveName(getRootName(), junctionPoint);
+        junctions.remove(junctionName);
+
+        // TODO - remove from parents of junction point
+        // TODO - detach all cached children of the junction point from their real file
     }
 }

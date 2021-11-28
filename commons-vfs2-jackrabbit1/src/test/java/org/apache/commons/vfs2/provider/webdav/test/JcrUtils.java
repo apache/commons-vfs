@@ -52,6 +52,12 @@ class JcrUtils {
     private static final String Property_JCR_DATA = "jcr:data";
 
     /**
+     * Private constructor to prevent instantiation of this class.
+     */
+    private JcrUtils() {
+    }
+
+    /**
      * Returns the named child of the given node, creating it as an nt:folder node if it does not already exist. The
      * caller is expected to take care of saving or discarding any transient changes.
      * <p>
@@ -184,11 +190,5 @@ class JcrUtils {
             // JCR 2.0 API:
             // binary.dispose();
         }
-    }
-
-    /**
-     * Private constructor to prevent instantiation of this class.
-     */
-    private JcrUtils() {
     }
 }

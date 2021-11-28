@@ -36,13 +36,6 @@ public abstract class CompositeFileProvider extends AbstractFileProvider {
     }
 
     /**
-     * The schemes known.
-     *
-     * @return Array of supported schemes.
-     */
-    protected abstract String[] getSchemes();
-
-    /**
      * Locates a file object, by absolute URI.
      *
      * @param baseFile The base FileObject.
@@ -61,4 +54,11 @@ public abstract class CompositeFileProvider extends AbstractFileProvider {
 
         return getContext().getFileSystemManager().resolveFile(buf.toString(), fileSystemOptions);
     }
+
+    /**
+     * The schemes known.
+     *
+     * @return Array of supported schemes.
+     */
+    protected abstract String[] getSchemes();
 }

@@ -51,87 +51,29 @@ import org.apache.tools.ant.Project;
  * </ul>
  */
 public abstract class AbstractSyncTask extends VfsTask {
+    /**
+     * Information about a source file.
+     */
+    public static class SourceInfo {
+        private String file;
+
+        /**
+         * Sets the file.
+         *
+         * @param file the file.
+         */
+        public void setFile(final String file) {
+            this.file = file;
+        }
+    }
     private final ArrayList<SourceInfo> srcFiles = new ArrayList<>();
     private String destFileUrl;
     private String destDirUrl;
     private String srcDirUrl;
     private boolean srcDirIsBase;
     private boolean failonerror = true;
+
     private String filesList;
-
-    /**
-     * Sets the destination file.
-     *
-     * @param destFile The destination file name.
-     */
-    public void setDestFile(final String destFile) {
-        this.destFileUrl = destFile;
-    }
-
-    /**
-     * Sets the destination directory.
-     *
-     * @param destDir The destination directory.
-     */
-    public void setDestDir(final String destDir) {
-        this.destDirUrl = destDir;
-    }
-
-    /**
-     * Sets the source file.
-     *
-     * @param srcFile The source file name.
-     */
-    public void setSrc(final String srcFile) {
-        final SourceInfo src = new SourceInfo();
-        src.setFile(srcFile);
-        addConfiguredSrc(src);
-    }
-
-    /**
-     * Sets the source directory.
-     *
-     * @param srcDir The source directory.
-     */
-    public void setSrcDir(final String srcDir) {
-        this.srcDirUrl = srcDir;
-    }
-
-    /**
-     * Sets whether the source directory should be consider as the base directory.
-     *
-     * @param srcDirIsBase true if the source directory is the base directory.
-     */
-    public void setSrcDirIsBase(final boolean srcDirIsBase) {
-        this.srcDirIsBase = srcDirIsBase;
-    }
-
-    /**
-     * Sets whether we should fail if there was an error or not.
-     *
-     * @param failonerror true if the operation should fail if there is an error.
-     */
-    public void setFailonerror(final boolean failonerror) {
-        this.failonerror = failonerror;
-    }
-
-    /**
-     * Sets whether we should fail if there was an error or not.
-     *
-     * @return true if the operation should fail if there was an error.
-     */
-    public boolean isFailonerror() {
-        return failonerror;
-    }
-
-    /**
-     * Sets the files to includes.
-     *
-     * @param filesList The list of files to include.
-     */
-    public void setIncludes(final String filesList) {
-        this.filesList = filesList;
-    }
 
     /**
      * Adds a nested &lt;src&gt; element.
@@ -145,6 +87,18 @@ public abstract class AbstractSyncTask extends VfsTask {
             throw new BuildException(message);
         }
         srcFiles.add(srcInfo);
+    }
+
+    /**
+     * Check if this task cares about destination files with a missing source file.
+     * <p>
+     * This implementation returns false.
+     * </p>
+     *
+     * @return True if missing file is detected.
+     */
+    protected boolean detectMissingSourceFiles() {
+        return false;
     }
 
     /**
@@ -207,12 +161,34 @@ public abstract class AbstractSyncTask extends VfsTask {
         }
     }
 
-    protected void logOrDie(final String message, final int level) {
-        if (!isFailonerror()) {
-            log(message, level);
-            return;
+    /**
+     * Handles a single source file.
+     */
+    private void handleFile(final FileObject srcFile, final FileObject destFile) throws Exception {
+        if (!FileObjectUtils.exists(destFile)
+                || srcFile.getContent().getLastModifiedTime() > destFile.getContent().getLastModifiedTime()) {
+            // Destination file is out-of-date
+            handleOutOfDateFile(srcFile, destFile);
+        } else {
+            // Destination file is up-to-date
+            handleUpToDateFile(srcFile, destFile);
         }
-        throw new BuildException(message);
+    }
+
+    /**
+     * Handles a single file, checking for collisions where more than one source file maps to the same destination file.
+     */
+    private void handleFile(final Set<FileObject> destFiles, final FileObject srcFile, final FileObject destFile) throws Exception {
+        // Check for duplicate source files
+        if (destFiles.contains(destFile)) {
+            final String message = Messages.getString("vfs.tasks/sync.duplicate-source-files.warn", destFile);
+            logOrDie(message, Project.MSG_WARN);
+        } else {
+            destFiles.add(destFile);
+        }
+
+        // Handle the file
+        handleFile(srcFile, destFile);
     }
 
     /**
@@ -292,19 +268,33 @@ public abstract class AbstractSyncTask extends VfsTask {
     }
 
     /**
-     * Handles a single file, checking for collisions where more than one source file maps to the same destination file.
+     * Handles a destination for which there is no corresponding source file.
+     * <p>
+     * This implementation does nothing.
+     * </p>
+     *
+     * @param destFile The existing destination file.
+     * @throws Exception Implementation can throw any Exception.
      */
-    private void handleFile(final Set<FileObject> destFiles, final FileObject srcFile, final FileObject destFile) throws Exception {
-        // Check for duplicate source files
-        if (destFiles.contains(destFile)) {
-            final String message = Messages.getString("vfs.tasks/sync.duplicate-source-files.warn", destFile);
-            logOrDie(message, Project.MSG_WARN);
-        } else {
-            destFiles.add(destFile);
-        }
+    protected void handleMissingSourceFile(final FileObject destFile) throws Exception {
+        // noop
+    }
 
-        // Handle the file
-        handleFile(srcFile, destFile);
+    /**
+     * Handles an out-of-date file.
+     * <p>
+     * This is a file where the destination file either doesn't exist, or is older than the source file.
+     * </p>
+     * <p>
+     * This implementation does nothing.
+     * </p>
+     *
+     * @param srcFile The source file.
+     * @param destFile The destination file.
+     * @throws Exception Implementation can throw any Exception.
+     */
+    protected void handleOutOfDateFile(final FileObject srcFile, final FileObject destFile) throws Exception {
+        // noop
     }
 
     /**
@@ -334,37 +324,6 @@ public abstract class AbstractSyncTask extends VfsTask {
     }
 
     /**
-     * Handles a single source file.
-     */
-    private void handleFile(final FileObject srcFile, final FileObject destFile) throws Exception {
-        if (!FileObjectUtils.exists(destFile)
-                || srcFile.getContent().getLastModifiedTime() > destFile.getContent().getLastModifiedTime()) {
-            // Destination file is out-of-date
-            handleOutOfDateFile(srcFile, destFile);
-        } else {
-            // Destination file is up-to-date
-            handleUpToDateFile(srcFile, destFile);
-        }
-    }
-
-    /**
-     * Handles an out-of-date file.
-     * <p>
-     * This is a file where the destination file either doesn't exist, or is older than the source file.
-     * </p>
-     * <p>
-     * This implementation does nothing.
-     * </p>
-     *
-     * @param srcFile The source file.
-     * @param destFile The destination file.
-     * @throws Exception Implementation can throw any Exception.
-     */
-    protected void handleOutOfDateFile(final FileObject srcFile, final FileObject destFile) throws Exception {
-        // noop
-    }
-
-    /**
      * Handles an up-to-date file.
      * <p>
      * This is where the destination file exists and is newer than the source file.
@@ -382,44 +341,85 @@ public abstract class AbstractSyncTask extends VfsTask {
     }
 
     /**
-     * Handles a destination for which there is no corresponding source file.
-     * <p>
-     * This implementation does nothing.
-     * </p>
+     * Sets whether we should fail if there was an error or not.
      *
-     * @param destFile The existing destination file.
-     * @throws Exception Implementation can throw any Exception.
+     * @return true if the operation should fail if there was an error.
      */
-    protected void handleMissingSourceFile(final FileObject destFile) throws Exception {
-        // noop
+    public boolean isFailonerror() {
+        return failonerror;
     }
 
-    /**
-     * Check if this task cares about destination files with a missing source file.
-     * <p>
-     * This implementation returns false.
-     * </p>
-     *
-     * @return True if missing file is detected.
-     */
-    protected boolean detectMissingSourceFiles() {
-        return false;
-    }
-
-    /**
-     * Information about a source file.
-     */
-    public static class SourceInfo {
-        private String file;
-
-        /**
-         * Sets the file.
-         *
-         * @param file the file.
-         */
-        public void setFile(final String file) {
-            this.file = file;
+    protected void logOrDie(final String message, final int level) {
+        if (!isFailonerror()) {
+            log(message, level);
+            return;
         }
+        throw new BuildException(message);
+    }
+
+    /**
+     * Sets the destination directory.
+     *
+     * @param destDir The destination directory.
+     */
+    public void setDestDir(final String destDir) {
+        this.destDirUrl = destDir;
+    }
+
+    /**
+     * Sets the destination file.
+     *
+     * @param destFile The destination file name.
+     */
+    public void setDestFile(final String destFile) {
+        this.destFileUrl = destFile;
+    }
+
+    /**
+     * Sets whether we should fail if there was an error or not.
+     *
+     * @param failonerror true if the operation should fail if there is an error.
+     */
+    public void setFailonerror(final boolean failonerror) {
+        this.failonerror = failonerror;
+    }
+
+    /**
+     * Sets the files to includes.
+     *
+     * @param filesList The list of files to include.
+     */
+    public void setIncludes(final String filesList) {
+        this.filesList = filesList;
+    }
+
+    /**
+     * Sets the source file.
+     *
+     * @param srcFile The source file name.
+     */
+    public void setSrc(final String srcFile) {
+        final SourceInfo src = new SourceInfo();
+        src.setFile(srcFile);
+        addConfiguredSrc(src);
+    }
+
+    /**
+     * Sets the source directory.
+     *
+     * @param srcDir The source directory.
+     */
+    public void setSrcDir(final String srcDir) {
+        this.srcDirUrl = srcDir;
+    }
+
+    /**
+     * Sets whether the source directory should be consider as the base directory.
+     *
+     * @param srcDirIsBase true if the source directory is the base directory.
+     */
+    public void setSrcDirIsBase(final boolean srcDirIsBase) {
+        this.srcDirIsBase = srcDirIsBase;
     }
 
 }

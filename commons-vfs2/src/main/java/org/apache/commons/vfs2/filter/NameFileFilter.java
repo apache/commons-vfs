@@ -55,15 +55,6 @@ public class NameFileFilter implements FileFilter, Serializable {
     private final List<String> names;
 
     /**
-     * Constructs a new case-sensitive name file filter for a list of names.
-     *
-     * @param names the names to allow, must not be null
-     */
-    public NameFileFilter(final List<String> names) {
-        this((IOCase) null, names);
-    }
-
-    /**
      * Constructs a new name file filter for a list of names specifying
      * case-sensitivity.
      *
@@ -80,19 +71,6 @@ public class NameFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Constructs a new case-sensitive name file filter for an array of names.
-     * <p>
-     * The array is not cloned, so could be changed after constructing the instance.
-     * This would be inadvisable however.
-     * </p>
-     *
-     * @param names the names to allow, must not be null
-     */
-    public NameFileFilter(final String... names) {
-        this((IOCase) null, names);
-    }
-
-    /**
      * Constructs a new name file filter for an array of names specifying
      * case-sensitivity.
      *
@@ -106,6 +84,28 @@ public class NameFileFilter implements FileFilter, Serializable {
         }
         this.names = new ArrayList<>(Arrays.asList(names));
         this.caseSensitivity = caseSensitivity == null ? IOCase.SENSITIVE : caseSensitivity;
+    }
+
+    /**
+     * Constructs a new case-sensitive name file filter for a list of names.
+     *
+     * @param names the names to allow, must not be null
+     */
+    public NameFileFilter(final List<String> names) {
+        this((IOCase) null, names);
+    }
+
+    /**
+     * Constructs a new case-sensitive name file filter for an array of names.
+     * <p>
+     * The array is not cloned, so could be changed after constructing the instance.
+     * This would be inadvisable however.
+     * </p>
+     *
+     * @param names the names to allow, must not be null
+     */
+    public NameFileFilter(final String... names) {
+        this((IOCase) null, names);
     }
 
     /**

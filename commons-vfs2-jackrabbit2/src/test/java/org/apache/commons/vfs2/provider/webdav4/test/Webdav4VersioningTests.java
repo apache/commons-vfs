@@ -38,6 +38,19 @@ import org.junit.Test;
  */
 public class Webdav4VersioningTests extends AbstractProviderTestCase {
 
+    /**
+     * Sets up a scratch folder for the test to use.
+     */
+    protected FileObject createScratchFolder() throws Exception {
+        final FileObject scratchFolder = getWriteFolder();
+
+        // Make sure the test folder is empty
+        scratchFolder.delete(Selectors.EXCLUDE_SELF);
+        scratchFolder.createFolder();
+
+        return scratchFolder;
+    }
+
     @Test
     public void testVersioning() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
@@ -134,19 +147,6 @@ public class Webdav4VersioningTests extends AbstractProviderTestCase {
         assertTrue(map.containsKey(VersionControlledResource.CHECKED_IN.toString()));
         builder.setVersioning(opts, false);
         builder.setCreatorName(opts, null);
-    }
-
-    /**
-     * Sets up a scratch folder for the test to use.
-     */
-    protected FileObject createScratchFolder() throws Exception {
-        final FileObject scratchFolder = getWriteFolder();
-
-        // Make sure the test folder is empty
-        scratchFolder.delete(Selectors.EXCLUDE_SELF);
-        scratchFolder.createFolder();
-
-        return scratchFolder;
     }
 
 }

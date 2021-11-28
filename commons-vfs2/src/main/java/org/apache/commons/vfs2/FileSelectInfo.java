@@ -32,16 +32,16 @@ public interface FileSelectInfo {
     FileObject getBaseFolder();
 
     /**
-     * Returns the file (or folder) to be considered.
-     *
-     * @return The FileObject.
-     */
-    FileObject getFile();
-
-    /**
      * Returns the depth of the file relative to the base folder.
      *
      * @return The depth of the file relative to the base folder.
      */
     int getDepth();
+
+    /**
+     * Returns the file (or folder) to be considered.
+     *
+     * @return The FileObject.
+     */
+    FileObject getFile();
 }

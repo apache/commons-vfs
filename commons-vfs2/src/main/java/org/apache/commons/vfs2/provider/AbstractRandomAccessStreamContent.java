@@ -34,6 +34,16 @@ public abstract class AbstractRandomAccessStreamContent extends AbstractRandomAc
     protected abstract DataInputStream getDataInputStream() throws IOException;
 
     @Override
+    public InputStream getInputStream() throws IOException {
+        return getDataInputStream();
+    }
+
+    @Override
+    public boolean readBoolean() throws IOException {
+        return getDataInputStream().readBoolean();
+    }
+
+    @Override
     public byte readByte() throws IOException {
         return getDataInputStream().readByte();
     }
@@ -54,18 +64,18 @@ public abstract class AbstractRandomAccessStreamContent extends AbstractRandomAc
     }
 
     @Override
+    public void readFully(final byte[] b) throws IOException {
+        getDataInputStream().readFully(b);
+    }
+
+    @Override
+    public void readFully(final byte[] b, final int off, final int len) throws IOException {
+        getDataInputStream().readFully(b, off, len);
+    }
+
+    @Override
     public int readInt() throws IOException {
         return getDataInputStream().readInt();
-    }
-
-    @Override
-    public int readUnsignedByte() throws IOException {
-        return getDataInputStream().readUnsignedByte();
-    }
-
-    @Override
-    public int readUnsignedShort() throws IOException {
-        return getDataInputStream().readUnsignedShort();
     }
 
     @Override
@@ -79,23 +89,13 @@ public abstract class AbstractRandomAccessStreamContent extends AbstractRandomAc
     }
 
     @Override
-    public boolean readBoolean() throws IOException {
-        return getDataInputStream().readBoolean();
+    public int readUnsignedByte() throws IOException {
+        return getDataInputStream().readUnsignedByte();
     }
 
     @Override
-    public int skipBytes(final int n) throws IOException {
-        return getDataInputStream().skipBytes(n);
-    }
-
-    @Override
-    public void readFully(final byte[] b) throws IOException {
-        getDataInputStream().readFully(b);
-    }
-
-    @Override
-    public void readFully(final byte[] b, final int off, final int len) throws IOException {
-        getDataInputStream().readFully(b, off, len);
+    public int readUnsignedShort() throws IOException {
+        return getDataInputStream().readUnsignedShort();
     }
 
     @Override
@@ -104,12 +104,12 @@ public abstract class AbstractRandomAccessStreamContent extends AbstractRandomAc
     }
 
     @Override
-    public InputStream getInputStream() throws IOException {
-        return getDataInputStream();
+    public void setLength(final long newLength) throws IOException {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setLength(final long newLength) throws IOException {
-        throw new UnsupportedOperationException();
+    public int skipBytes(final int n) throws IOException {
+        return getDataInputStream().skipBytes(n);
     }
 }

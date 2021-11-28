@@ -35,91 +35,19 @@ import org.apache.commons.vfs2.provider.VfsComponentContext;
  */
 public class PrivilegedFileReplicator implements FileReplicator, VfsComponent {
 
-    private final FileReplicator replicator;
-    private final VfsComponent replicatorComponent;
-
     /**
-     * Constructs a new instance.
-     *
-     * @param replicator The replicator.
+     * An action that closes the wrapped replicator.
      */
-    public PrivilegedFileReplicator(final FileReplicator replicator) {
-        this.replicator = replicator;
-        if (replicator instanceof VfsComponent) {
-            replicatorComponent = (VfsComponent) replicator;
-        } else {
-            replicatorComponent = null;
+    private class CloseAction implements PrivilegedAction<Object> {
+        /**
+         * Performs the action.
+         */
+        @Override
+        public Object run() {
+            replicatorComponent.close();
+            return null;
         }
     }
-
-    /**
-     * Sets the Logger to use for the component.
-     *
-     * @param logger The logger.
-     */
-    @Override
-    public void setLogger(final Log logger) {
-        if (replicatorComponent != null) {
-            replicatorComponent.setLogger(logger);
-        }
-    }
-
-    /**
-     * Sets the context for the replicator.
-     *
-     * @param context The component context.
-     */
-    @Override
-    public void setContext(final VfsComponentContext context) {
-        if (replicatorComponent != null) {
-            replicatorComponent.setContext(context);
-        }
-    }
-
-    /**
-     * Initializes the component.
-     *
-     * @throws FileSystemException if an error occurs.
-     */
-    @Override
-    public void init() throws FileSystemException {
-        if (replicatorComponent != null) {
-            try {
-                AccessController.doPrivileged(new InitAction());
-            } catch (final PrivilegedActionException e) {
-                throw new FileSystemException("vfs.impl/init-replicator.error", e);
-            }
-        }
-    }
-
-    /**
-     * Closes the replicator.
-     */
-    @Override
-    public void close() {
-        if (replicatorComponent != null) {
-            AccessController.doPrivileged(new CloseAction());
-        }
-    }
-
-    /**
-     * Creates a local copy of the file, and all its descendants.
-     *
-     * @param srcFile The source FileObject.
-     * @param selector The file selector.
-     * @return The replicated file.
-     * @throws FileSystemException if an error occurs.
-     */
-    @Override
-    public File replicateFile(final FileObject srcFile, final FileSelector selector) throws FileSystemException {
-        try {
-            final ReplicateAction action = new ReplicateAction(srcFile, selector);
-            return AccessController.doPrivileged(action);
-        } catch (final PrivilegedActionException e) {
-            throw new FileSystemException("vfs.impl/replicate-file.error", e, srcFile.getName());
-        }
-    }
-
     /**
      * An action that initializes the wrapped replicator.
      */
@@ -159,17 +87,89 @@ public class PrivilegedFileReplicator implements FileReplicator, VfsComponent {
         }
     }
 
+    private final FileReplicator replicator;
+
+    private final VfsComponent replicatorComponent;
+
     /**
-     * An action that closes the wrapped replicator.
+     * Constructs a new instance.
+     *
+     * @param replicator The replicator.
      */
-    private class CloseAction implements PrivilegedAction<Object> {
-        /**
-         * Performs the action.
-         */
-        @Override
-        public Object run() {
-            replicatorComponent.close();
-            return null;
+    public PrivilegedFileReplicator(final FileReplicator replicator) {
+        this.replicator = replicator;
+        if (replicator instanceof VfsComponent) {
+            replicatorComponent = (VfsComponent) replicator;
+        } else {
+            replicatorComponent = null;
+        }
+    }
+
+    /**
+     * Closes the replicator.
+     */
+    @Override
+    public void close() {
+        if (replicatorComponent != null) {
+            AccessController.doPrivileged(new CloseAction());
+        }
+    }
+
+    /**
+     * Initializes the component.
+     *
+     * @throws FileSystemException if an error occurs.
+     */
+    @Override
+    public void init() throws FileSystemException {
+        if (replicatorComponent != null) {
+            try {
+                AccessController.doPrivileged(new InitAction());
+            } catch (final PrivilegedActionException e) {
+                throw new FileSystemException("vfs.impl/init-replicator.error", e);
+            }
+        }
+    }
+
+    /**
+     * Creates a local copy of the file, and all its descendants.
+     *
+     * @param srcFile The source FileObject.
+     * @param selector The file selector.
+     * @return The replicated file.
+     * @throws FileSystemException if an error occurs.
+     */
+    @Override
+    public File replicateFile(final FileObject srcFile, final FileSelector selector) throws FileSystemException {
+        try {
+            final ReplicateAction action = new ReplicateAction(srcFile, selector);
+            return AccessController.doPrivileged(action);
+        } catch (final PrivilegedActionException e) {
+            throw new FileSystemException("vfs.impl/replicate-file.error", e, srcFile.getName());
+        }
+    }
+
+    /**
+     * Sets the context for the replicator.
+     *
+     * @param context The component context.
+     */
+    @Override
+    public void setContext(final VfsComponentContext context) {
+        if (replicatorComponent != null) {
+            replicatorComponent.setContext(context);
+        }
+    }
+
+    /**
+     * Sets the Logger to use for the component.
+     *
+     * @param logger The logger.
+     */
+    @Override
+    public void setLogger(final Log logger) {
+        if (replicatorComponent != null) {
+            replicatorComponent.setLogger(logger);
         }
     }
 }

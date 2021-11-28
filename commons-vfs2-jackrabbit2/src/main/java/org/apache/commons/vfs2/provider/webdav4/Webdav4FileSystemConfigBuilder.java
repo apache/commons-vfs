@@ -45,13 +45,11 @@ public final class Webdav4FileSystemConfigBuilder extends Http4FileSystemConfigB
     }
 
     /**
-     * The user name to be associated with changes to the file.
-     *
-     * @param opts The FileSystem options
-     * @param creatorName The creator name to be associated with the file.
+     * @return The Webdav FileSystem Class object.
      */
-    public void setCreatorName(final FileSystemOptions opts, final String creatorName) {
-        setParam(opts, "creatorName", creatorName);
+    @Override
+    protected Class<? extends FileSystem> getConfigClass() {
+        return Webdav4FileSystem.class;
     }
 
     /**
@@ -77,16 +75,6 @@ public final class Webdav4FileSystemConfigBuilder extends Http4FileSystemConfigB
     }
 
     /**
-     * Whether to use versioning.
-     *
-     * @param opts The FileSystem options.
-     * @param versioning true if versioning should be enabled.
-     */
-    public void setVersioning(final FileSystemOptions opts, final boolean versioning) {
-        setParam(opts, "versioning", Boolean.valueOf(versioning));
-    }
-
-    /**
      * The cookies to add to the request.
      *
      * @param opts The FileSystem options.
@@ -97,10 +85,22 @@ public final class Webdav4FileSystemConfigBuilder extends Http4FileSystemConfigB
     }
 
     /**
-     * @return The Webdav FileSystem Class object.
+     * The user name to be associated with changes to the file.
+     *
+     * @param opts The FileSystem options
+     * @param creatorName The creator name to be associated with the file.
      */
-    @Override
-    protected Class<? extends FileSystem> getConfigClass() {
-        return Webdav4FileSystem.class;
+    public void setCreatorName(final FileSystemOptions opts, final String creatorName) {
+        setParam(opts, "creatorName", creatorName);
+    }
+
+    /**
+     * Whether to use versioning.
+     *
+     * @param opts The FileSystem options.
+     * @param versioning true if versioning should be enabled.
+     */
+    public void setVersioning(final FileSystemOptions opts, final boolean versioning) {
+        setParam(opts, "versioning", Boolean.valueOf(versioning));
     }
 }

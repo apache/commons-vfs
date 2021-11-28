@@ -29,15 +29,6 @@ public class MkdirTask extends VfsTask {
     private String dirName;
 
     /**
-     * Sets the directory to create.
-     *
-     * @param dir The directory name.
-     */
-    public void setDir(final String dir) {
-        dirName = dir;
-    }
-
-    /**
      * Executes the task.
      *
      * @throws BuildException if an exception occurs.
@@ -57,5 +48,14 @@ public class MkdirTask extends VfsTask {
         } catch (final FileSystemException e) {
             throw new BuildException(e);
         }
+    }
+
+    /**
+     * Sets the directory to create.
+     *
+     * @param dir The directory name.
+     */
+    public void setDir(final String dir) {
+        dirName = dir;
     }
 }

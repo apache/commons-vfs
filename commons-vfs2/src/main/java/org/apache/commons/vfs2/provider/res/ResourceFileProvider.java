@@ -46,6 +46,11 @@ public class ResourceFileProvider extends AbstractFileProvider {
         setFileNameParser(ResourceFileNameParser.getInstance());
     }
 
+    @Override
+    public void closeFileSystem(final FileSystem filesystem) {
+        // no filesystem created here - so nothing to do
+    }
+
     /**
      * Locates a file object, by absolute URI.
      *
@@ -79,17 +84,12 @@ public class ResourceFileProvider extends AbstractFileProvider {
     }
 
     @Override
-    public FileSystemConfigBuilder getConfigBuilder() {
-        return org.apache.commons.vfs2.provider.res.ResourceFileSystemConfigBuilder.getInstance();
-    }
-
-    @Override
-    public void closeFileSystem(final FileSystem filesystem) {
-        // no filesystem created here - so nothing to do
-    }
-
-    @Override
     public Collection<Capability> getCapabilities() {
         return capabilities;
+    }
+
+    @Override
+    public FileSystemConfigBuilder getConfigBuilder() {
+        return org.apache.commons.vfs2.provider.res.ResourceFileSystemConfigBuilder.getInstance();
     }
 }

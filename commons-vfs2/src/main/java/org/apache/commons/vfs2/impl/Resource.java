@@ -55,17 +55,24 @@ final class Resource {
     }
 
     /**
-     * Returns the URL of the resource.
+     * Returns the data for this resource as a byte array.
      */
-    public URL getURL() throws FileSystemException {
-        return resource.getURL();
+    public byte[] getBytes() throws IOException {
+        return FileObjectUtils.getContentAsByteArray(resource);
     }
 
     /**
-     * Returns the name of the package containing the resource.
+     * Returns the code source as an URL.
      */
-    public String getPackageName() {
-        return packageName;
+    public URL getCodeSourceURL() throws FileSystemException {
+        return root.getURL();
+    }
+
+    /**
+     * Returns the FileObject of the resource.
+     */
+    public FileObject getFileObject() {
+        return resource;
     }
 
     /**
@@ -83,23 +90,16 @@ final class Resource {
     }
 
     /**
-     * Returns the FileObject of the resource.
+     * Returns the name of the package containing the resource.
      */
-    public FileObject getFileObject() {
-        return resource;
+    public String getPackageName() {
+        return packageName;
     }
 
     /**
-     * Returns the code source as an URL.
+     * Returns the URL of the resource.
      */
-    public URL getCodeSourceURL() throws FileSystemException {
-        return root.getURL();
-    }
-
-    /**
-     * Returns the data for this resource as a byte array.
-     */
-    public byte[] getBytes() throws IOException {
-        return FileObjectUtils.getContentAsByteArray(resource);
+    public URL getURL() throws FileSystemException {
+        return resource.getURL();
     }
 }

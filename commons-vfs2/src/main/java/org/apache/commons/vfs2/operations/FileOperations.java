@@ -27,17 +27,17 @@ import org.apache.commons.vfs2.FileSystemException;
  */
 public interface FileOperations {
     /**
-     * @return all operations associated with the fileObject
-     * @throws FileSystemException if an error occurs.
-     */
-    Class<? extends FileOperation>[] getOperations() throws FileSystemException;
-
-    /**
      * @param operationClass the operation Class.
      * @return a operation implementing the given {@code operationClass}
      * @throws FileSystemException if an error occus.
      */
     FileOperation getOperation(Class<? extends FileOperation> operationClass) throws FileSystemException;
+
+    /**
+     * @return all operations associated with the fileObject
+     * @throws FileSystemException if an error occurs.
+     */
+    Class<? extends FileOperation>[] getOperations() throws FileSystemException;
 
     /**
      * @param operationClass the operation Class.

@@ -87,6 +87,8 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
 
     private static final String SERVER_JKS_RES = "org.apache.ftpsserver/ftpserver.jks";
 
+    protected FileSystemOptions fileSystemOptions;
+
     static String getConnectionUri() {
         return ConnectionUri;
     }
@@ -157,8 +159,6 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
             Server = null;
         }
     }
-
-    protected FileSystemOptions fileSystemOptions;
 
     /**
      * Returns the base folder for tests. You can override the DEFAULT_URI by using the system property name defined by

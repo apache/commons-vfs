@@ -36,6 +36,22 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
     private final Collection<Class<? extends FileOperation>> operations = new ArrayList<>();
 
     /**
+     * Add new FileOperation to list of known operations.
+     *
+     * @param operationClass a class implementing FileOperation.
+     * @throws FileSystemException if instances of the class cannot be assigned to FileOperation.
+     */
+    protected final void addOperation(final Class<? extends FileOperation> operationClass) throws FileSystemException {
+        // check validity of passed class
+        if (!FileOperation.class.isAssignableFrom(operationClass)) {
+            throw new FileSystemException("vfs.operation/cant-register.error", operationClass);
+        }
+
+        // ok, lets add it to the list
+        operations.add(operationClass);
+    }
+
+    /**
      * Gather available operations for the specified FileObject and put them into specified operationsList.
      *
      * @param operationsList the list of available operations for the specified FileObject. The operationList contains
@@ -111,21 +127,5 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
         }
 
         return foundClass;
-    }
-
-    /**
-     * Add new FileOperation to list of known operations.
-     *
-     * @param operationClass a class implementing FileOperation.
-     * @throws FileSystemException if instances of the class cannot be assigned to FileOperation.
-     */
-    protected final void addOperation(final Class<? extends FileOperation> operationClass) throws FileSystemException {
-        // check validity of passed class
-        if (!FileOperation.class.isAssignableFrom(operationClass)) {
-            throw new FileSystemException("vfs.operation/cant-register.error", operationClass);
-        }
-
-        // ok, lets add it to the list
-        operations.add(operationClass);
     }
 }
