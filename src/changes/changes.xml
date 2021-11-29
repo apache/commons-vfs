@@ -136,6 +136,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Bump biz.aQute.bnd:biz.aQute.bndlib 5.3.0 -> 6.1.0.
       </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Update commons.japicmp.version 0.15.3 -> 0.15.4.
+      </action>
     </release>
     <release version="2.9.0" date="2021-06-16" description="Maintenance release. Requires Java 8.">
       <!-- ADDS -->
