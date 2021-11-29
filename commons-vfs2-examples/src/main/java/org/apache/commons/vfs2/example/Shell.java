@@ -75,7 +75,6 @@ public final class Shell {
      * Invokes this example from the command line.
      *
      * @param args Arguments TODO
-     * @throws Exception If anything goes wrong.
      */
     public static void main(final String[] args) {
         try {

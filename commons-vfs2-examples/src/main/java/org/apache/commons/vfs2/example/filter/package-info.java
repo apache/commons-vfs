@@ -18,4 +18,4 @@
 /**
  * Apache Commons VFS Examples.
  */
-package org.apache.commons.vfs2.example;
+package org.apache.commons.vfs2.example.filter;
