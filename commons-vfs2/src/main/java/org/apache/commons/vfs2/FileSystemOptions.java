@@ -218,7 +218,11 @@ public final class FileSystemOptions implements Cloneable, Comparable<FileSystem
         options.put(new FileSystemOptionKey(fileSystemClass, name), value);
     }
 
-    @Override
+    int size() {
+        return options.size();
+    }
+
+     @Override
     public String toString() {
         return options.toString();
     }

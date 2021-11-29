@@ -56,7 +56,9 @@ public class FileSystemOptionsTest {
     public void testClone() throws CloneNotSupportedException {
         final FileSystemOptions fileSystemOptions = new FileSystemOptions();
         assertEquals(fileSystemOptions.getClass(), fileSystemOptions.clone().getClass());
+        assertEquals(0, ((FileSystemOptions) fileSystemOptions.clone()).size());
         fileSystemOptions.setOption(FileSystem.class, "key", "value");
+        assertEquals(1, ((FileSystemOptions) fileSystemOptions.clone()).size());
         final FileSystemOptions clone = (FileSystemOptions) fileSystemOptions.clone();
         assertEquals("value", clone.getOption(FileSystem.class, "key"));
     }
