@@ -28,9 +28,17 @@ public class Webdav4sFileNameParser extends Http4sFileNameParser {
 
     private static final Webdav4sFileNameParser INSTANCE = new Webdav4sFileNameParser();
 
+    /**
+     * Constructs a new instance.
+     */
     public Webdav4sFileNameParser() {
     }
 
+    /**
+     * Gets the singleton instance.
+     *
+     * @return the singleton instance.
+     */
     public static FileNameParser getInstance() {
         return INSTANCE;
     }

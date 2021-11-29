@@ -16,6 +16,6 @@
  */
 
 /**
- * The WebDAV Provider based on HTTP4S File Provider
+ * The WebDAV Provider based on HTTP4S File Provider.
  */
 package org.apache.commons.vfs2.provider.webdav4s;

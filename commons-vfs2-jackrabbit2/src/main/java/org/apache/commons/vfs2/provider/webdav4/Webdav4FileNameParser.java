@@ -27,9 +27,17 @@ import org.apache.commons.vfs2.provider.http4.Http4FileNameParser;
 public class Webdav4FileNameParser extends Http4FileNameParser {
     private static final Webdav4FileNameParser INSTANCE = new Webdav4FileNameParser();
 
+    /**
+     * Constructs a new instance.
+     */
     public Webdav4FileNameParser() {
     }
 
+    /**
+     * Gets the singleton instance.
+     *
+     * @return the singleton instance.
+     */
     public static FileNameParser getInstance() {
         return INSTANCE;
     }

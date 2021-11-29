@@ -50,7 +50,7 @@ public class Webdav4FileProvider extends Http4FileProvider {
     public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = {
             UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD };
 
-    /** The capabilities of the WebDAV provider */
+    /** The capabilities of the WebDAV provider. */
     public static final Collection<Capability> DEFAULT_CAPABILITIES =
             Collections.unmodifiableCollection(
                     Arrays.asList(
@@ -69,9 +69,12 @@ public class Webdav4FileProvider extends Http4FileProvider {
                             )
                     );
 
-    /** The capabilities of the WebDAV provider */
+    /** The capabilities of the WebDAV provider. */
     protected static final Collection<Capability> capabilities = DEFAULT_CAPABILITIES;
 
+    /**
+     * Constructs a new instance.
+     */
     public Webdav4FileProvider() {
         setFileNameParser(Webdav4FileNameParser.getInstance());
     }

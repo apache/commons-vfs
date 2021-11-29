@@ -36,4 +36,19 @@
     
     <suppress checks="LineLength" files=".*\.properties"/>
 
+    <!-- Can't make class final without breaking binary compatibility. -->
+    <suppress checks="FinalClass" files="URIUtils.java"/>
+    <suppress checks="FinalClass" files="ZipFileSystemConfigBuilder.java"/>
+    
+    <!-- Can't change method name without breaking binary compatibility. -->
+    <suppress checks="MethodName" files="DefaultFileSystemManager.java" lines="185"/>
+    
+    <!-- Use of literals here is reasonable. -->
+    <suppress checks="MagicNumber" files="URIUtils.java" lines="142, 151, 161"/>
+
+    <!-- Use of literals here is reasonable. -->
+    <suppress checks="MagicNumber" files="RamFileRandomAccessContent.java"/>
+    
+    <!-- FileSystemOptions is a subclass of Object and uses the copy constructor pattern. -->
+    <suppress checks="SuperClone" files="FileSystemOptions.java"/>
 </suppressions>

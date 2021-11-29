@@ -35,11 +35,18 @@ public final class ExceptionConverter {
     private ExceptionConverter() {
     }
 
-    public static FileSystemException generate(final DavException davExc) throws FileSystemException {
-        String msg = davExc.getMessage();
-        if (davExc.hasErrorCondition()) {
+    /**
+     * Generates a new instance of FileSystemException.
+     *
+     * @param cause The cause of the new exception.
+     * @return A new FileSystemException.
+     * @throws FileSystemException If an Exception is caught while generating a new instance.
+     */
+    public static FileSystemException generate(final DavException cause) throws FileSystemException {
+        String msg = cause.getMessage();
+        if (cause.hasErrorCondition()) {
             try {
-                final Element error = davExc.toXml(DomUtil.createDocument());
+                final Element error = cause.toXml(DomUtil.createDocument());
                 if (DomUtil.matches(error, DavException.XML_ERROR, DavConstants.NAMESPACE) && DomUtil.hasChildElement(error, "exception", null)) {
                     final Element exc = DomUtil.getChildElement(error, "exception", null);
                     if (DomUtil.hasChildElement(exc, "message", null)) {

@@ -42,9 +42,12 @@ import org.apache.http.client.protocol.HttpClientContext;
  */
 public class Webdav4sFileProvider extends Http4sFileProvider {
 
-    /** The capabilities of the WebDAV provider */
+    /** The capabilities of the WebDAV provider. */
     protected static final Collection<Capability> capabilities = Webdav4FileProvider.DEFAULT_CAPABILITIES;
 
+    /**
+     * Constructs a new instance.
+     */
     public Webdav4sFileProvider() {
         setFileNameParser(Webdav4sFileNameParser.getInstance());
     }

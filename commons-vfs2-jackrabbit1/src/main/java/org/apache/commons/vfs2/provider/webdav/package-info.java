@@ -16,6 +16,6 @@
  */
 
 /**
- * The WebDAV File Provider
+ * The WebDAV File Provider.
  */
 package org.apache.commons.vfs2.provider.webdav;

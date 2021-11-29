@@ -87,7 +87,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
     private class WebdavOutputStream extends MonitorOutputStream {
         private final Webdav4FileObject file;
 
-        public WebdavOutputStream(final Webdav4FileObject file) {
+        WebdavOutputStream(final Webdav4FileObject file) {
             super(new ByteArrayOutputStream());
             this.file = file;
         }
@@ -211,13 +211,13 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
         }
     }
 
+    /** The character set property name. */
+    public static final DavPropertyName RESPONSE_CHARSET = DavPropertyName.create("response-charset");
+
     /**
      * An empty immutable {@code Webdav4FileObject} array.
      */
     private static final Webdav4FileObject[] EMPTY_ARRAY = {};
-
-    /** The character set property name. */
-    public static final DavPropertyName RESPONSE_CHARSET = DavPropertyName.create("response-charset");
 
     /** The FileSystemConfigBuilder */
     private final Webdav4FileSystemConfigBuilder builder;

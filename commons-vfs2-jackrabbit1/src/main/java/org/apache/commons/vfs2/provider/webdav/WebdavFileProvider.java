@@ -57,6 +57,9 @@ public class WebdavFileProvider extends HttpFileProvider {
                     Capability.GET_LAST_MODIFIED, Capability.ATTRIBUTES, Capability.RANDOM_ACCESS_READ,
                     Capability.DIRECTORY_READ_CONTENT));
 
+    /**
+     * Constructs a new instance.
+     */
     public WebdavFileProvider() {
         setFileNameParser(WebdavFileNameParser.getInstance());
     }
