@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -51,6 +53,15 @@ public class FileSystemOptionsTest {
     }
 
     @Test
+    public void testClone() throws CloneNotSupportedException {
+        final FileSystemOptions fileSystemOptions = new FileSystemOptions();
+        assertEquals(fileSystemOptions.getClass(), fileSystemOptions.clone().getClass());
+        fileSystemOptions.setOption(FileSystem.class, "key", "value");
+        final FileSystemOptions clone = (FileSystemOptions) fileSystemOptions.clone();
+        assertEquals("value", clone.getOption(FileSystem.class, "key"));
+    }
+
+    @Test
     public void testEqualsHashCodeAndCompareTo() {
         final JUnitConfigBuilder builder = JUnitConfigBuilder.getInstance();
         final FileSystemOptions expected = new FileSystemOptions();
@@ -63,13 +74,13 @@ public class FileSystemOptionsTest {
         Assert.assertEquals(0, actual.compareTo(expected));
         Assert.assertEquals(expected.hashCode(), actual.hashCode());
 
-        builder.setNames(expected, new String[] { "A", "B", "C" });
+        builder.setNames(expected, new String[] {"A", "B", "C"});
 
         Assert.assertNotEquals(expected, actual);
         Assert.assertEquals(-1, actual.compareTo(expected));
         Assert.assertNotEquals(expected.hashCode(), actual.hashCode());
 
-        builder.setNames(actual, new String[] { "A", "B", "C" });
+        builder.setNames(actual, new String[] {"A", "B", "C"});
 
         Assert.assertEquals(expected, actual);
         Assert.assertEquals(0, actual.compareTo(expected));
