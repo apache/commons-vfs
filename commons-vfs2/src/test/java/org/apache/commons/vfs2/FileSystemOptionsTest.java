@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -57,10 +58,12 @@ public class FileSystemOptionsTest {
         final FileSystemOptions fileSystemOptions = new FileSystemOptions();
         assertEquals(fileSystemOptions.getClass(), fileSystemOptions.clone().getClass());
         assertEquals(0, ((FileSystemOptions) fileSystemOptions.clone()).size());
-        fileSystemOptions.setOption(FileSystem.class, "key", "value");
+        fileSystemOptions.setOption(FileSystem.class, "key1", "value1");
         assertEquals(1, ((FileSystemOptions) fileSystemOptions.clone()).size());
         final FileSystemOptions clone = (FileSystemOptions) fileSystemOptions.clone();
-        assertEquals("value", clone.getOption(FileSystem.class, "key"));
+        assertEquals("value1", clone.getOption(FileSystem.class, "key1"));
+        fileSystemOptions.setOption(FileSystem.class, "key2", "value2");
+        assertNull(clone.getOption(FileSystem.class, "key2"));
     }
 
     @Test
