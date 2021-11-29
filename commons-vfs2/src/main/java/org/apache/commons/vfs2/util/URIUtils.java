@@ -20,7 +20,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.BitSet;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -107,29 +106,18 @@ public class URIUtils {
 
         private static final byte ESCAPE_CHAR = '%';
 
-        private static final BitSet WWW_FORM_URL_SAFE = URIBitSets.createBitSet();
-
-        // Static initializer for www_form_url
-        static {
+        // @formatter:off
+        private static final FluentBitSet WWW_FORM_URL_SAFE = URIBitSets.bitSet()
             // alpha characters
-            for (int i = 'a'; i <= 'z'; i++) {
-                WWW_FORM_URL_SAFE.set(i);
-            }
-            for (int i = 'A'; i <= 'Z'; i++) {
-                WWW_FORM_URL_SAFE.set(i);
-            }
+            .setRangeInclusive('a', 'z')
+            .setRangeInclusive('A', 'Z')
             // numeric characters
-            for (int i = '0'; i <= '9'; i++) {
-                WWW_FORM_URL_SAFE.set(i);
-            }
+            .setRangeInclusive('0', '9')
             // special chars
-            WWW_FORM_URL_SAFE.set('-');
-            WWW_FORM_URL_SAFE.set('_');
-            WWW_FORM_URL_SAFE.set('.');
-            WWW_FORM_URL_SAFE.set('*');
+            .set('-', '_', '.', '*')
             // blank to be replaced with +
-            WWW_FORM_URL_SAFE.set(' ');
-        }
+            .set(' ');
+        // @formatter:on
 
         /**
          * Radix used in encoding and decoding.
@@ -139,7 +127,7 @@ public class URIUtils {
         private URLCodecUtils() {
         }
 
-        static byte[] encodeUrl(BitSet urlsafe, final byte[] bytes) {
+        static byte[] encodeUrl(FluentBitSet urlsafe, final byte[] bytes) {
             if (bytes == null) {
                 return null;
             }
@@ -184,7 +172,7 @@ public class URIUtils {
     private URIUtils() {
     }
 
-    private static String encode(final String unescaped, final BitSet allowed, final String charset) {
+    private static String encode(final String unescaped, final FluentBitSet allowed, final String charset) {
         final byte[] rawdata = URLCodecUtils.encodeUrl(allowed, EncodingUtils.getBytes(unescaped, charset));
         return EncodingUtils.getAsciiString(rawdata, 0, rawdata.length);
     }
