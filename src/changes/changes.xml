@@ -223,8 +223,8 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Bump Maven Surefire from 2.19.1 to 3.0.0-M5.
       </action>
-      <action dev="ggregory" type="update">
-        Bump net.sourceforge.pmd:pmd-* from 6.32.0 to 6.33.0.
+      <action dev="ggregory" type="update" due-to="Dependabot, Gary Gregory" >
+        Bump net.sourceforge.pmd:pmd-* from 6.32.0 to 6.36.0 #191.
       </action>
       <action dev="ggregory" due-to="Dependabot, Gary Gregory" type="update">
         Bump checkstyle from 8.41 to 8.44 #175.
@@ -249,9 +249,6 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Bump hadoop.version 3.3.0 to 3.3.1.
-      </action>
-      <action dev="ggregory" due-to="Dependabot" type="update">
-        Bump commons.pmd.version from 6.33.0 to 6.36.0 #191.
       </action>
       <action dev="ggregory" due-to="Dependabot" type="update">
         Bump asm from 9.1 to 9.2 #194.
