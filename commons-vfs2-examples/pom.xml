@@ -57,6 +57,7 @@
 
   <properties>
     <vfs.parent.dir>${basedir}/..</vfs.parent.dir>
+    <japicmp.skip>true</japicmp.skip>
   </properties>
 
   <build>
