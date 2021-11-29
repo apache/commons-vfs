@@ -28,32 +28,34 @@ import org.apache.commons.vfs2.filter.EmptyFileFilter;
  * Example for using {@link EmptyFileFilter}.
  */
 // CHECKSTYLE:OFF Example code
-public class EmptyFileFilterExample {
+public final class EmptyFileFilterExample {
+    private EmptyFileFilterExample() {
+        /* main class not instantiated. */
+    }
 
+    /**
+     * Invokes this example from the command line.
+     *
+     * @param args Arguments TODO
+     * @throws Exception If anything goes wrong.
+     */
     public static void main(final String[] args) throws Exception {
+
+        final FileSystemManager fsManager = VFS.getManager();
+        final FileObject dir = fsManager.toFileObject(new File("."));
 
         // Example, showing how to print out a list of the current directory's
         // empty files/directories
-        {
-            System.out.println("---EMPTY---");
-            final FileSystemManager fsManager = VFS.getManager();
-            final FileObject dir = fsManager.toFileObject(new File("."));
-            final FileObject[] files = dir.findFiles(new FileFilterSelector(EmptyFileFilter.EMPTY));
-            for (final FileObject file : files) {
-                System.out.println(file);
-            }
+        System.out.println("---EMPTY---");
+        for (final FileObject file : dir.findFiles(new FileFilterSelector(EmptyFileFilter.EMPTY))) {
+            System.out.println(file);
         }
 
         // Example, showing how to print out a list of the current directory's
         // non-empty files/directories
-        {
-            System.out.println("---NOT_EMPTY---");
-            final FileSystemManager fsManager = VFS.getManager();
-            final FileObject dir = fsManager.toFileObject(new File("."));
-            final FileObject[] files = dir.findFiles(new FileFilterSelector(EmptyFileFilter.NOT_EMPTY));
-            for (final FileObject file : files) {
-                System.out.println(file);
-            }
+        System.out.println("---NOT_EMPTY---");
+        for (final FileObject file : dir.findFiles(new FileFilterSelector(EmptyFileFilter.NOT_EMPTY))) {
+            System.out.println(file);
         }
 
     }

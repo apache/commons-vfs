@@ -45,9 +45,9 @@
     
     <!-- Use of literals here is reasonable. -->
     <suppress checks="MagicNumber" files="URIUtils.java" lines="142, 151, 161"/>
-
-    <!-- Use of literals here is reasonable. -->
     <suppress checks="MagicNumber" files="RamFileRandomAccessContent.java"/>
+    <suppress checks="MagicNumber" files="FtpCheck.java" lines="48, 28"/>
+    <suppress checks="MagicNumber" files="SftpCheck.java" lines="42, 28"/>
     
     <!-- FileSystemOptions is a subclass of Object and uses the copy constructor pattern. -->
     <suppress checks="SuperClone" files="FileSystemOptions.java"/>

@@ -31,6 +31,12 @@ public final class FtpCheck {
         /* main class not instantiated. */
     }
 
+    /**
+     * Invokes this example from the command line.
+     *
+     * @param args Arguments TODO
+     * @throws Exception If anything goes wrong.
+     */
     public static void main(final String[] args) throws Exception {
         if (args.length < 3) {
             throw new IllegalArgumentException("Usage: FtpCheck user pass host dir");

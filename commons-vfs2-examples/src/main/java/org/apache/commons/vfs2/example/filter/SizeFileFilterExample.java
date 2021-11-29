@@ -28,8 +28,17 @@ import org.apache.commons.vfs2.filter.SizeFileFilter;
  * Example for using {@link SizeFileFilter}.
  */
 // CHECKSTYLE:OFF Example code
-public class SizeFileFilterExample {
+public final class SizeFileFilterExample {
+    private SizeFileFilterExample() {
+        /* main class not instantiated. */
+    }
 
+    /**
+     * Invokes this example from the command line.
+     *
+     * @param args Arguments TODO
+     * @throws Exception If anything goes wrong.
+     */
     public static void main(final String[] args) throws Exception {
 
         // Example, to print all files and directories in the current directory
@@ -46,4 +55,3 @@ public class SizeFileFilterExample {
 
 }
 // CHECKSTYLE:ON
-

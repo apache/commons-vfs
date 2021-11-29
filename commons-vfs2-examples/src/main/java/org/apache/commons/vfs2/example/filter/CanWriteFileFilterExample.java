@@ -28,38 +28,36 @@ import org.apache.commons.vfs2.filter.CanWriteFileFilter;
  * Example for using {@link CanWriteFileFilter}.
  */
 // CHECKSTYLE:OFF Example code
-public class CanWriteFileFilterExample {
+public final class CanWriteFileFilterExample {
+    private CanWriteFileFilterExample() {
+        /* main class not instantiated. */
+    }
 
+    /**
+     * Invokes this example from the command line.
+     *
+     * @param args Arguments TODO
+     * @throws Exception If anything goes wrong.
+     */
     public static void main(final String[] args) throws Exception {
 
+        final FileSystemManager fsManager = VFS.getManager();
+        final FileObject dir = fsManager.toFileObject(new File("."));
         // Example, showing how to print out a list of the current directory's
         // writable files:
-        {
-            System.out.println("---CAN_WRITE---");
-            final FileSystemManager fsManager = VFS.getManager();
-            final FileObject dir = fsManager.toFileObject(new File("."));
-            final FileObject[] files = dir
-                    .findFiles(new FileFilterSelector(CanWriteFileFilter.CAN_WRITE));
-            for (final FileObject file : files) {
-                System.out.println(file);
-            }
+        System.out.println("---CAN_WRITE---");
+        for (final FileObject file : dir.findFiles(new FileFilterSelector(CanWriteFileFilter.CAN_WRITE))) {
+            System.out.println(file);
         }
 
         // Example, showing how to print out a list of the current directory's
         // un-writable files:
-        {
-            System.out.println("---CANNOT_WRITE---");
-            final FileSystemManager fsManager = VFS.getManager();
-            final FileObject dir = fsManager.toFileObject(new File("."));
-            final FileObject[] files = dir.findFiles(new FileFilterSelector(
-                    CanWriteFileFilter.CANNOT_WRITE));
-            for (final FileObject file : files) {
-                System.out.println(file);
-            }
+        System.out.println("---CANNOT_WRITE---");
+        for (final FileObject file : dir.findFiles(new FileFilterSelector(CanWriteFileFilter.CANNOT_WRITE))) {
+            System.out.println(file);
         }
 
     }
 
 }
 // CHECKSTYLE:ON
-

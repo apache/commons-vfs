@@ -19,8 +19,8 @@
  * Sample clients for commons-net.ftp and JSch libraries.
  *
  * <p>
- *  The classes do not use the VFS library, but can be used to test the
- *  underlying libraries, if they can connect to a specified service.
+ * The classes do not use the VFS library, but can be used to test the underlying libraries, if they can connect to a
+ * specified service.
  * </p>
  */
 package org.apache.commons.vfs2.libcheck;

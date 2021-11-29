@@ -28,49 +28,43 @@ import org.apache.commons.vfs2.filter.CanReadFileFilter;
  * Example for using {@link CanReadFileFilter}.
  */
 // CHECKSTYLE:OFF Example code
-public class CanReadFileFilterExample {
+public final class CanReadFileFilterExample {
+    private CanReadFileFilterExample() {
+        /* main class not instantiated. */
+    }
 
+    /**
+     * Invokes this example from the command line.
+     *
+     * @param args Arguments TODO
+     * @throws Exception If anything goes wrong.
+     */
     public static void main(final String[] args) throws Exception {
+        final FileSystemManager fsManager = VFS.getManager();
+        final FileObject dir = fsManager.toFileObject(new File("."));
 
         // Example, showing how to print out a list of the current directory's
         // readable files:
-        {
-            System.out.println("---CAN_READ---");
-            final FileSystemManager fsManager = VFS.getManager();
-            final FileObject dir = fsManager.toFileObject(new File("."));
-            final FileObject[] files = dir.findFiles(new FileFilterSelector(CanReadFileFilter.CAN_READ));
-            for (final FileObject file : files) {
-                System.out.println(file);
-            }
+        System.out.println("---CAN_READ---");
+        for (final FileObject file : dir.findFiles(new FileFilterSelector(CanReadFileFilter.CAN_READ))) {
+            System.out.println(file);
         }
 
         // Example, showing how to print out a list of the current directory's
         // un-readable files:
-        {
-            System.out.println("---CANNOT_READ---");
-            final FileSystemManager fsManager = VFS.getManager();
-            final FileObject dir = fsManager.toFileObject(new File("."));
-            final FileObject[] files = dir
-                    .findFiles(new FileFilterSelector(CanReadFileFilter.CANNOT_READ));
-            for (final FileObject file : files) {
-                System.out.println(file);
-            }
+        System.out.println("---CANNOT_READ---");
+        for (final FileObject file : dir.findFiles(new FileFilterSelector(CanReadFileFilter.CANNOT_READ))) {
+            System.out.println(file);
         }
 
         // Example, showing how to print out a list of the current directory's
         // read-only files:
-        {
-            System.out.println("---READ_ONLY---");
-            final FileSystemManager fsManager = VFS.getManager();
-            final FileObject dir = fsManager.toFileObject(new File("."));
-            final FileObject[] files = dir.findFiles(new FileFilterSelector(CanReadFileFilter.READ_ONLY));
-            for (final FileObject file : files) {
-                System.out.println(file);
-            }
+        System.out.println("---READ_ONLY---");
+        for (final FileObject file : dir.findFiles(new FileFilterSelector(CanReadFileFilter.READ_ONLY))) {
+            System.out.println(file);
         }
 
     }
 
 }
 // CHECKSTYLE:ON
-

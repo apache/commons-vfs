@@ -32,6 +32,12 @@ public final class SftpCheck {
         /* main class not instantiated. */
     }
 
+    /**
+     * Invokes this example from the command line.
+     *
+     * @param args Arguments TODO
+     * @throws Exception If anything goes wrong.
+     */
     public static void main(final String[] args) throws Exception {
         if (args.length != 4) {
             throw new IllegalArgumentException("Usage: SftpCheck user pass host dir");

@@ -28,8 +28,17 @@ import org.apache.commons.vfs2.filter.SuffixFileFilter;
  * Example for using {@link SuffixFileFilter}.
  */
 // CHECKSTYLE:OFF Example code
-public class SuffixFileFilterExample {
+public final class SuffixFileFilterExample {
+    private SuffixFileFilterExample() {
+        /* main class not instantiated. */
+    }
 
+    /**
+     * Invokes this example from the command line.
+     *
+     * @param args Arguments TODO
+     * @throws Exception If anything goes wrong.
+     */
     public static void main(final String[] args) throws Exception {
 
         // Example, to retrieve and print all *.java files in the current

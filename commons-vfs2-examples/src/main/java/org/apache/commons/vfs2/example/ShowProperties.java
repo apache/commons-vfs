@@ -36,6 +36,12 @@ public final class ShowProperties {
         /* main class not instantiated. */
     }
 
+    /**
+     * Invokes this example from the command line.
+     *
+     * @param args Arguments TODO
+     * @throws Exception If anything goes wrong.
+     */
     public static void main(final String[] args) {
         if (args.length == 0) {
             System.err.println("Please pass the name of a file as parameter.");
@@ -75,8 +81,7 @@ public final class ShowProperties {
                             }
                         }
                     }
-                    System.out.println("Last modified: "
-                            + DateFormat.getInstance().format(new Date(file.getContent().getLastModifiedTime())));
+                    System.out.println("Last modified: " + DateFormat.getInstance().format(new Date(file.getContent().getLastModifiedTime())));
                 } else {
                     System.out.println("The file does not exist");
                 }

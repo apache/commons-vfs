@@ -28,16 +28,24 @@ import org.apache.commons.vfs2.filter.WildcardFileFilter;
  * Example for using {@link WildcardFileFilter}.
  */
 // CHECKSTYLE:OFF Example code
-public class WildcardFileFilterExample {
+public final class WildcardFileFilterExample {
+    private WildcardFileFilterExample() {
+        /* main class not instantiated. */
+    }
 
+    /**
+     * Invokes this example from the command line.
+     *
+     * @param args Arguments TODO
+     * @throws Exception If anything goes wrong.
+     */
     public static void main(final String[] args) throws Exception {
 
         // Example, to retrieve and print all java files that have the
         // expression test in the name in the current directory
         final FileSystemManager fsManager = VFS.getManager();
         final FileObject dir = fsManager.toFileObject(new File("."));
-        final FileObject[] files = dir.findFiles(new FileFilterSelector(new WildcardFileFilter(
-                "*test*.java")));
+        final FileObject[] files = dir.findFiles(new FileFilterSelector(new WildcardFileFilter("*test*.java")));
         for (final FileObject file : files) {
             System.out.println(file);
         }

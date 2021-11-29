@@ -28,8 +28,17 @@ import org.apache.commons.vfs2.filter.DirectoryFileFilter;
  * Example for using {@link DirectoryFileFilter}.
  */
 // CHECKSTYLE:OFF Example code
-public class DirectoryFileFilterExample {
+public final class DirectoryFileFilterExample {
+    private DirectoryFileFilterExample() {
+        /* main class not instantiated. */
+    }
 
+    /**
+     * Invokes this example from the command line.
+     *
+     * @param args Arguments TODO
+     * @throws Exception If anything goes wrong.
+     */
     public static void main(final String[] args) throws Exception {
 
         // Example, how to print out a list of the current directory's

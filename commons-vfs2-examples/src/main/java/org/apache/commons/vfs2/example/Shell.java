@@ -71,6 +71,12 @@ public final class Shell {
         reader = new BufferedReader(new InputStreamReader(System.in, Charset.defaultCharset()));
     }
 
+    /**
+     * Invokes this example from the command line.
+     *
+     * @param args Arguments TODO
+     * @throws Exception If anything goes wrong.
+     */
     public static void main(final String[] args) {
         try {
             new Shell().go();
@@ -138,16 +144,14 @@ public final class Shell {
         if (cmd.length > 1) {
             info(cmd[1]);
         } else {
-            System.out.println(
-                    "Default manager: \"" + mgr.getClass().getName() + "\" " + "version " + getVersion(mgr.getClass()));
+            System.out.println("Default manager: \"" + mgr.getClass().getName() + "\" " + "version " + getVersion(mgr.getClass()));
             final String[] schemes = mgr.getSchemes();
             final List<String> virtual = new ArrayList<>();
             final List<String> physical = new ArrayList<>();
             for (final String scheme : schemes) {
                 final Collection<Capability> caps = mgr.getProviderCapabilities(scheme);
                 if (caps != null) {
-                    if (caps.contains(Capability.VIRTUAL) || caps.contains(Capability.COMPRESS)
-                            || caps.contains(Capability.DISPATCHER)) {
+                    if (caps.contains(Capability.VIRTUAL) || caps.contains(Capability.COMPRESS) || caps.contains(Capability.DISPATCHER)) {
                         virtual.add(scheme);
                     } else {
                         physical.add(scheme);
@@ -250,8 +254,7 @@ public final class Shell {
      * Does a 'pwfs' command.
      */
     private void pwfs() {
-        System.out.println("FileSystem of current folder is " + cwd.getFileSystem() + " (root: "
-                + cwd.getFileSystem().getRootURI() + ")");
+        System.out.println("FileSystem of current folder is " + cwd.getFileSystem() + " (root: " + cwd.getFileSystem().getRootURI() + ")");
     }
 
     /**
@@ -327,8 +330,7 @@ public final class Shell {
     /**
      * Lists the children of a folder.
      */
-    private void listChildren(final FileObject dir, final boolean recursive, final String prefix)
-            throws FileSystemException {
+    private void listChildren(final FileObject dir, final boolean recursive, final String prefix) throws FileSystemException {
         final FileObject[] children = dir.getChildren();
         for (final FileObject child : children) {
             System.out.print(prefix);

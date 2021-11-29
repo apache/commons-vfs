@@ -28,16 +28,24 @@ import org.apache.commons.vfs2.filter.RegexFileFilter;
  * Example for using {@link RegexFileFilter}.
  */
 // CHECKSTYLE:OFF Example code
-public class RegexFileFilterExample {
+public final class RegexFileFilterExample {
+    private RegexFileFilterExample() {
+        /* main class not instantiated. */
+    }
 
+    /**
+     * Invokes this example from the command line.
+     *
+     * @param args Arguments TODO
+     * @throws Exception If anything goes wrong.
+     */
     public static void main(final String[] args) throws Exception {
 
         // Example, to retrieve and print all java files where the name matched
         // the regular expression in the current directory
         final FileSystemManager fsManager = VFS.getManager();
         final FileObject dir = fsManager.toFileObject(new File("."));
-        final FileObject[] files = dir.findFiles(new FileFilterSelector(new RegexFileFilter(
-                "Ë†.*[tT]est(-\\d+)?\\.java$")));
+        final FileObject[] files = dir.findFiles(new FileFilterSelector(new RegexFileFilter("Ë†.*[tT]est(-\\d+)?\\.java$")));
         for (final FileObject file : files) {
             System.out.println(file);
         }

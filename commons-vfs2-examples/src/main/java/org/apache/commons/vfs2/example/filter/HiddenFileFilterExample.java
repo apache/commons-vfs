@@ -28,32 +28,34 @@ import org.apache.commons.vfs2.filter.HiddenFileFilter;
  * Example for using {@link HiddenFileFilter}.
  */
 // CHECKSTYLE:OFF Example code
-public class HiddenFileFilterExample {
+public final class HiddenFileFilterExample {
+    private HiddenFileFilterExample() {
+        /* main class not instantiated. */
+    }
 
+    /**
+     * Invokes this example from the command line.
+     *
+     * @param args Arguments TODO
+     * @throws Exception If anything goes wrong.
+     */
     public static void main(final String[] args) throws Exception {
+
+        final FileSystemManager fsManager = VFS.getManager();
+        final FileObject dir = fsManager.toFileObject(new File("."));
 
         // Example, showing how to print out a list of the current directory's
         // hidden files
-        {
-            System.out.println("---HIDDEN---");
-            final FileSystemManager fsManager = VFS.getManager();
-            final FileObject dir = fsManager.toFileObject(new File("."));
-            final FileObject[] files = dir.findFiles(new FileFilterSelector(HiddenFileFilter.HIDDEN));
-            for (final FileObject file : files) {
-                System.out.println(file);
-            }
+        System.out.println("---HIDDEN---");
+        for (final FileObject file : dir.findFiles(new FileFilterSelector(HiddenFileFilter.HIDDEN))) {
+            System.out.println(file);
         }
 
         // Example, showing how to print out a list of the current directory's
         // visible (i.e. not hidden) files
-        {
-            System.out.println("---VISIBLE---");
-            final FileSystemManager fsManager = VFS.getManager();
-            final FileObject dir = fsManager.toFileObject(new File("."));
-            final FileObject[] files = dir.findFiles(new FileFilterSelector(HiddenFileFilter.VISIBLE));
-            for (final FileObject file : files) {
-                System.out.println(file);
-            }
+        System.out.println("---VISIBLE---");
+        for (final FileObject file : dir.findFiles(new FileFilterSelector(HiddenFileFilter.VISIBLE))) {
+            System.out.println(file);
         }
 
     }

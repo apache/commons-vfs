@@ -28,8 +28,17 @@ import org.apache.commons.vfs2.filter.PrefixFileFilter;
  * Example for using {@link PrefixFileFilter}.
  */
 // CHECKSTYLE:OFF Example code
-public class PrefixFileFilterExample {
+public final class PrefixFileFilterExample {
+    private PrefixFileFilterExample() {
+        /* main class not instantiated. */
+    }
 
+    /**
+     * Invokes this example from the command line.
+     *
+     * @param args Arguments TODO
+     * @throws Exception If anything goes wrong.
+     */
     public static void main(final String[] args) throws Exception {
 
         // Example, to print all files and directories in the current directory
