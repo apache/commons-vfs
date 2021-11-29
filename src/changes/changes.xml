@@ -227,7 +227,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump net.sourceforge.pmd:pmd-* from 6.32.0 to 6.36.0 #191.
       </action>
       <action dev="ggregory" due-to="Dependabot, Gary Gregory" type="update">
-        Bump checkstyle from 8.41 to 8.44 #175.
+        Bump checkstyle from 8.41 to 9.2 #175.
       </action>
       <action dev="ggregory" due-to="Boris Petrov" type="update">
         Bump actions/setup-java to v2 #177.
@@ -235,8 +235,8 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="Dependabot, Gary GRegory" type="update">
         Bump mockito-core from 3.8.0 to 3.11.2 #178.
       </action>
-      <action dev="ggregory" due-to="Gary Gregory" type="update">
-        Bump commons-io from 2.8.0 to 2.10.0.
+      <action dev="ggregory" due-to="Gary Gregory, Dependabot" type="update">
+        Bump commons-io from 2.8.0 to 2.11.0 #197.
       </action>
       <action dev="ggregory" due-to="Dependabot" type="update">
         Bump actions/cache from 2.1.4 to 2.1.6 #183.
@@ -261,9 +261,6 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Bump commons.spotbugs.version from 4.2.2 to 4.3.0.
-      </action>
-      <action dev="ggregory" due-to="Gary Gregory" type="update">
-        Bump commons-io from 2.10.0 to 2.11.0 #197.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Bump commons.spotbugs.impl.version from 4.2.2 to 4.3.0.
