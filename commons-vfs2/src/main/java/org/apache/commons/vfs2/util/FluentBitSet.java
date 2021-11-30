@@ -75,7 +75,7 @@ final class FluentBitSet {
         return this;
     }
 
-    FluentBitSet setRangeInclusive(final int startIncl, final int endIncl) {
+    FluentBitSet setInclusive(final int startIncl, final int endIncl) {
         bitSet.set(startIncl, endIncl + 1);
         return this;
     }

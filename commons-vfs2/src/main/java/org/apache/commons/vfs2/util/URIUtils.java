@@ -109,10 +109,10 @@ public class URIUtils {
         // @formatter:off
         private static final FluentBitSet WWW_FORM_URL_SAFE = URIBitSets.bitSet()
             // alpha characters
-            .setRangeInclusive('a', 'z')
-            .setRangeInclusive('A', 'Z')
+            .setInclusive('a', 'z')
+            .setInclusive('A', 'Z')
             // numeric characters
-            .setRangeInclusive('0', '9')
+            .setInclusive('0', '9')
             // special chars
             .set('-', '_', '.', '*')
             // blank to be replaced with +

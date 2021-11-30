@@ -50,7 +50,7 @@ final class URIBitSets {
      * </blockquote>
      * </p>
      */
-    static final FluentBitSet DIGIT = bitSet().setRangeInclusive('0', '9');
+    static final FluentBitSet DIGIT = bitSet().setInclusive('0', '9');
 
     /**
      * BitSet for alpha.
@@ -64,7 +64,7 @@ final class URIBitSets {
      * </blockquote>
      * </p>
      */
-    static final FluentBitSet ALPHA = bitSet().setRangeInclusive('a', 'z').setRangeInclusive('A', 'Z');
+    static final FluentBitSet ALPHA = bitSet().setInclusive('a', 'z').setInclusive('A', 'Z');
 
     /**
      * BitSet for alphanum (join of alpha &amp; digit).
@@ -92,7 +92,7 @@ final class URIBitSets {
      * </blockquote>
      * </p>
      */
-    static final FluentBitSet HEX = bitSet().or(DIGIT).setRangeInclusive('a', 'f').setRangeInclusive('A', 'F');
+    static final FluentBitSet HEX = bitSet().or(DIGIT).setInclusive('a', 'f').setInclusive('A', 'F');
 
     /**
      * BitSet for escaped.
@@ -715,7 +715,7 @@ final class URIBitSets {
      */
     private static final int CHARACTER_DEL = 0x7F;
     private static final int CHARCTER_US = 0x1F;
-    static final FluentBitSet CONTROL = bitSet().setRangeInclusive(0, CHARCTER_US).set(CHARACTER_DEL);
+    static final FluentBitSet CONTROL = bitSet().setInclusive(0, CHARCTER_US).set(CHARACTER_DEL);
 
     private static final int NBITS = 256;
 
