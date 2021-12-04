@@ -133,6 +133,9 @@ public abstract class AbstractTestSuite extends TestSetup {
 
     private Thread[] createThreadSnapshot() {
         ThreadGroup tg = Thread.currentThread().getThreadGroup();
+        if (tg == null) {
+            return EMPTY_THREAD_ARRAY;
+        }
         while (tg.getParent() != null) {
             tg = tg.getParent();
         }
