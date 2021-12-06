@@ -34,6 +34,10 @@ public enum RandomAccessMode {
      * Read access mode.
      */
     READ(true, false) {
+
+        /**
+         * Returns a defensive copy of an internal constant array.
+         */
         @Override
         public AccessMode[] toAccessModes() {
             return ACCESS_MODE_READ.clone();
@@ -44,6 +48,10 @@ public enum RandomAccessMode {
      * Read-write access mode.
      */
     READWRITE(true, true) {
+
+        /**
+         * Returns a defensive copy of an internal constant array.
+         */
         @Override
         public AccessMode[] toAccessModes() {
             return ACCESS_MODE_READ_WRITE.clone();
