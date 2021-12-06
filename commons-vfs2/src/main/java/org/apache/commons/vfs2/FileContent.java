@@ -307,7 +307,7 @@ public interface FileContent extends Closeable {
     boolean hasAttribute(String attrName) throws FileSystemException;
 
     /**
-     * Checks if the receiver is empty.
+     * Tests if the receiver is empty.
      *
      * @return true if the receiver is empty, false otherwise.
      * @throws FileSystemException If the file does not exist, or is being written to, or on error determining the size.
@@ -318,7 +318,7 @@ public interface FileContent extends Closeable {
     }
 
     /**
-     * Checks if this file has open streams.
+     * Tests if this file has open streams.
      *
      * @return true if the file is open, false otherwise.
      */
