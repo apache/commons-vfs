@@ -27,12 +27,12 @@ import java.nio.file.AccessMode;
 public enum RandomAccessMode {
 
     /**
-     * read.
+     * Read access mode.
      */
     READ(true, false),
 
     /**
-     * read/write.
+     * Read-write access mode.
      */
     READWRITE(true, true);
 
