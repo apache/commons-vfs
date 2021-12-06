@@ -56,7 +56,11 @@ public enum RandomAccessMode {
      * @since 2.10.0
      */
     public static RandomAccessMode from(final AccessMode... accessModes) {
-        final AccessMode[] modes = sort(accessModes);
+        Objects.requireNonNull(accessModes, "accessModes");
+        if (accessModes.length == 0) {
+            throw new IllegalArgumentException("Empty AccessMode[].");
+        }
+        final AccessMode[] modes = ArraySorter.sort(accessModes.clone());
         if (Arrays.binarySearch(modes, AccessMode.WRITE) >= 0) {
             return READWRITE;
         }
@@ -66,16 +70,11 @@ public enum RandomAccessMode {
         throw new IllegalArgumentException(Arrays.toString(accessModes));
     }
 
-    private static AccessMode[] sort(final AccessMode... accessModes) {
-        Objects.requireNonNull(accessModes, "accessModes");
-        if (accessModes.length == 0) {
-            throw new IllegalArgumentException("Empty AccessMode[].");
-        }
-        return ArraySorter.sort(accessModes.clone());
-    }
-
     /**
-     * @return The mode String.
+     * Gets this instance as an access mode string suitable for other APIs, like {@code "r"} for {@link #READ} and
+     * {@code "rw"} for {@link #READWRITE}.
+     * 
+     * @return An access mode String, {@code "r"} for {@link #READ} and {@code "rw"} for {@link #READWRITE}.
      * @since 2.0
      */
     public String getModeString() {
@@ -93,7 +92,7 @@ public enum RandomAccessMode {
     }
 
     /**
-     * Tests read.
+     * Tests the read flag.
      *
      * @return true for read.
      */
@@ -102,7 +101,7 @@ public enum RandomAccessMode {
     }
 
     /**
-     * Tests write.
+     * Tests the write flag.
      *
      * @return true for write.
      */
