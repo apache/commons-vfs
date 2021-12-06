@@ -183,7 +183,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
     }
 
     /**
-     * Creates access to the file for random i/o.
+     * Creates access to the file for random I/O.
      *
      * @since 2.0
      */
