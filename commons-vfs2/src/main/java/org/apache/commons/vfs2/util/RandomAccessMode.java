@@ -20,6 +20,8 @@ import java.nio.file.AccessMode;
 import java.util.Arrays;
 import java.util.Objects;
 
+import org.apache.commons.lang3.ArraySorter;
+
 /**
  * An enumerated type representing the modes of a random access content.
  * <p>
@@ -54,12 +56,7 @@ public enum RandomAccessMode {
      * @since 2.10.0
      */
     public static RandomAccessMode from(final AccessMode... accessModes) {
-        Objects.requireNonNull(accessModes, "accessModes");
-        if (accessModes.length == 0) {
-            throw new IllegalArgumentException("Empty AccessMode[].");
-        }
-        final AccessMode modes[] = accessModes.clone();
-        Arrays.sort(modes);
+        final AccessMode[] modes = sort(accessModes);
         if (Arrays.binarySearch(modes, AccessMode.WRITE) >= 0) {
             return READWRITE;
         }
@@ -67,6 +64,14 @@ public enum RandomAccessMode {
             return READ;
         }
         throw new IllegalArgumentException(Arrays.toString(accessModes));
+    }
+
+    private static AccessMode[] sort(final AccessMode... accessModes) {
+        Objects.requireNonNull(accessModes, "accessModes");
+        if (accessModes.length == 0) {
+            throw new IllegalArgumentException("Empty AccessMode[].");
+        }
+        return ArraySorter.sort(accessModes.clone());
     }
 
     /**
