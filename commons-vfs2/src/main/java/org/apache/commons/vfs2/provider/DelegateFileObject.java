@@ -26,6 +26,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.vfs2.FileChangeEvent;
+import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileContentInfo;
 import org.apache.commons.vfs2.FileListener;
 import org.apache.commons.vfs2.FileName;
@@ -47,7 +48,7 @@ import org.apache.commons.vfs2.util.WeakRefFileListener;
  */
 public class DelegateFileObject<AFS extends AbstractFileSystem> extends AbstractFileObject<AFS> implements FileListener {
 
-    private FileObject file;
+    private FileObject fileObject;
     private final Set<String> children = new HashSet<>();
     private boolean ignoreEvent;
 
@@ -61,7 +62,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     public DelegateFileObject(final AbstractFileName fileName, final AFS fileSystem, final FileObject file) throws FileSystemException {
         super(fileName, fileSystem);
-        this.file = file;
+        this.fileObject = file;
         if (file != null) {
             WeakRefFileListener.installListener(file, this);
         }
@@ -91,8 +92,8 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
     public void close() throws FileSystemException {
         super.close();
 
-        if (file != null) {
-            file.close();
+        if (fileObject != null) {
+            fileObject.close();
         }
     }
 
@@ -103,7 +104,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
     protected void doCreateFolder() throws Exception {
         ignoreEvent = true;
         try {
-            file.createFolder();
+            fileObject.createFolder();
         } finally {
             ignoreEvent = false;
         }
@@ -116,7 +117,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
     protected void doDelete() throws Exception {
         ignoreEvent = true;
         try {
-            file.delete();
+            fileObject.delete();
         } finally {
             ignoreEvent = false;
         }
@@ -127,7 +128,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     protected Map<String, Object> doGetAttributes() throws Exception {
-        return file.getContent().getAttributes();
+        return getFileContent().getAttributes();
     }
 
     /**
@@ -135,7 +136,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     protected Certificate[] doGetCertificates() throws Exception {
-        return file.getContent().getCertificates();
+        return getFileContent().getCertificates();
     }
 
     /**
@@ -146,7 +147,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      * @since 2.0
      */
     protected FileContentInfo doGetContentInfo() throws Exception {
-        return file.getContent().getContentInfo();
+        return getFileContent().getContentInfo();
     }
 
     /**
@@ -155,7 +156,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     protected long doGetContentSize() throws Exception {
-        return file.getContent().getSize();
+        return getFileContent().getSize();
     }
 
     /**
@@ -163,7 +164,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     protected InputStream doGetInputStream(final int bufferSize) throws Exception {
-        return file.getContent().getInputStream(bufferSize);
+        return getFileContent().getInputStream(bufferSize);
     }
 
     /**
@@ -171,7 +172,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     protected long doGetLastModifiedTime() throws Exception {
-        return file.getContent().getLastModifiedTime();
+        return getFileContent().getLastModifiedTime();
     }
 
     /**
@@ -179,7 +180,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
-        return file.getContent().getOutputStream(bAppend);
+        return getFileContent().getOutputStream(bAppend);
     }
 
     /**
@@ -189,7 +190,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception {
-        return file.getContent().getRandomAccessContent(mode);
+        return getFileContent().getRandomAccessContent(mode);
     }
 
     /**
@@ -197,8 +198,8 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     protected FileType doGetType() throws FileSystemException {
-        if (file != null) {
-            return file.getType();
+        if (fileObject != null) {
+            return fileObject.getType();
         }
         if (children.isEmpty()) {
             return FileType.IMAGINARY;
@@ -211,8 +212,8 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     protected boolean doIsExecutable() throws FileSystemException {
-        if (file != null) {
-            return file.isExecutable();
+        if (fileObject != null) {
+            return fileObject.isExecutable();
         }
         return false;
     }
@@ -222,8 +223,8 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     protected boolean doIsHidden() throws FileSystemException {
-        if (file != null) {
-            return file.isHidden();
+        if (fileObject != null) {
+            return fileObject.isHidden();
         }
         return false;
     }
@@ -233,8 +234,8 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     protected boolean doIsReadable() throws FileSystemException {
-        if (file != null) {
-            return file.isReadable();
+        if (fileObject != null) {
+            return fileObject.isReadable();
         }
         return true;
     }
@@ -244,8 +245,8 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     protected boolean doIsWriteable() throws FileSystemException {
-        if (file != null) {
-            return file.isWriteable();
+        if (fileObject != null) {
+            return fileObject.isWriteable();
         }
         return false;
     }
@@ -255,11 +256,11 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     protected String[] doListChildren() throws Exception {
-        if (file != null) {
+        if (fileObject != null) {
             final FileObject[] children;
 
             try {
-                children = file.getChildren();
+                children = fileObject.getChildren();
             } catch (final FileNotFolderException e) {
                 // VFS-210
                 throw new FileNotFolderException(getName(), e);
@@ -277,7 +278,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     protected void doRemoveAttribute(final String atttrName) throws Exception {
-        file.getContent().removeAttribute(atttrName);
+        getFileContent().removeAttribute(atttrName);
     }
 
     /**
@@ -289,7 +290,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     protected void doRename(final FileObject newFile) throws Exception {
-        file.moveTo(((DelegateFileObject) newFile).file);
+        fileObject.moveTo(((DelegateFileObject) newFile).fileObject);
     }
 
     /**
@@ -297,7 +298,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     protected void doSetAttribute(final String atttrName, final Object value) throws Exception {
-        file.getContent().setAttribute(atttrName, value);
+        getFileContent().setAttribute(atttrName, value);
     }
 
     /**
@@ -307,7 +308,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     protected boolean doSetLastModifiedTime(final long modtime) throws Exception {
-        file.getContent().setLastModifiedTime(modtime);
+        getFileContent().setLastModifiedTime(modtime);
         return true;
     }
 
@@ -322,7 +323,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     public void fileChanged(final FileChangeEvent event) throws Exception {
-        if (event.getFileObject() != file) {
+        if (event.getFileObject() != fileObject) {
             return;
         }
         if (!ignoreEvent) {
@@ -338,11 +339,11 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     public void fileCreated(final FileChangeEvent event) throws Exception {
-        if (event.getFileObject() != file) {
+        if (event.getFileObject() != fileObject) {
             return;
         }
         if (!ignoreEvent) {
-            handleCreate(file.getType());
+            handleCreate(fileObject.getType());
         }
     }
 
@@ -354,7 +355,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      */
     @Override
     public void fileDeleted(final FileChangeEvent event) throws Exception {
-        if (event.getFileObject() != file) {
+        if (event.getFileObject() != fileObject) {
             return;
         }
         if (!ignoreEvent) {
@@ -369,7 +370,11 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      * @since 2.0
      */
     public FileObject getDelegateFile() {
-        return file;
+        return fileObject;
+    }
+
+    FileContent getFileContent() throws FileSystemException {
+        return fileObject.getContent();
     }
 
     /**
@@ -396,8 +401,8 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
     @Override
     public void refresh() throws FileSystemException {
         super.refresh();
-        if (file != null) {
-            file.refresh();
+        if (fileObject != null) {
+            fileObject.refresh();
         }
     }
 
@@ -413,7 +418,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
         if (file != null) {
             WeakRefFileListener.installListener(file, this);
         }
-        this.file = file;
+        this.fileObject = file;
         maybeTypeChanged(oldType);
     }
 }
