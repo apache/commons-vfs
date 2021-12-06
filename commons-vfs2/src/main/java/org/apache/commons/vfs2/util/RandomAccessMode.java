@@ -73,7 +73,7 @@ public enum RandomAccessMode {
     /**
      * Gets this instance as an access mode string suitable for other APIs, like {@code "r"} for {@link #READ} and
      * {@code "rw"} for {@link #READWRITE}.
-     * 
+     *
      * @return An access mode String, {@code "r"} for {@link #READ} and {@code "rw"} for {@link #READWRITE}.
      * @since 2.0
      */
