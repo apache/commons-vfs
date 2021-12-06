@@ -17,6 +17,8 @@
 package org.apache.commons.vfs2.util;
 
 import java.nio.file.AccessMode;
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * An enumerated type representing the modes of a random access content.
@@ -42,6 +44,29 @@ public enum RandomAccessMode {
     RandomAccessMode(final boolean read, final boolean write) {
         this.read = read;
         this.write = write;
+    }
+
+    /**
+     * Converts an array of {@link AccessMode} into a RandomAccessMode.
+     *
+     * @param accessModes AccessMode array, only {@link AccessMode#READ} and {@link AccessMode#WRITE} are supported.
+     * @return A RandomAccessMode.
+     * @since 2.10.0
+     */
+    public static RandomAccessMode from(final AccessMode... accessModes) {
+        Objects.requireNonNull(accessModes, "accessModes");
+        if (accessModes.length == 0) {
+            throw new IllegalArgumentException("Empty AccessMode[].");
+        }
+        final AccessMode modes[] = accessModes.clone();
+        Arrays.sort(modes);
+        if (Arrays.binarySearch(modes, AccessMode.WRITE) >= 0) {
+            return READWRITE;
+        }
+        if (Arrays.binarySearch(modes, AccessMode.READ) >= 0) {
+            return READ;
+        }
+        throw new IllegalArgumentException(Arrays.toString(accessModes));
     }
 
     /**

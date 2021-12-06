@@ -18,7 +18,10 @@ package org.apache.commons.vfs2.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+
+import java.nio.file.AccessMode;
 
 import org.junit.Test;
 
@@ -26,6 +29,19 @@ import org.junit.Test;
  * Tests {@link RandomAccessMode}.
  */
 public class RandomAccessModeTest {
+
+    @Test
+    public void test_fromAccessMode() {
+        assertEquals(RandomAccessMode.READ, RandomAccessMode.from(AccessMode.READ));
+        assertEquals(RandomAccessMode.READ, RandomAccessMode.from(AccessMode.READ, AccessMode.READ));
+        assertEquals(RandomAccessMode.READ, RandomAccessMode.from(AccessMode.READ, AccessMode.READ, AccessMode.EXECUTE));
+        assertEquals(RandomAccessMode.READWRITE, RandomAccessMode.from(AccessMode.WRITE));
+        assertEquals(RandomAccessMode.READWRITE, RandomAccessMode.from(AccessMode.WRITE, AccessMode.WRITE));
+        assertEquals(RandomAccessMode.READWRITE, RandomAccessMode.from(AccessMode.WRITE, AccessMode.READ));
+        assertEquals(RandomAccessMode.READWRITE, RandomAccessMode.from(AccessMode.READ, AccessMode.WRITE));
+        assertEquals(RandomAccessMode.READWRITE, RandomAccessMode.from(AccessMode.WRITE, AccessMode.WRITE, AccessMode.EXECUTE));
+        assertThrows(IllegalArgumentException.class, () -> RandomAccessMode.from(AccessMode.EXECUTE));
+    }
 
     @Test
     public void test_getModeStringRead() {
