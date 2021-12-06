@@ -91,7 +91,7 @@ The <action> type attribute can be add,update,fix,remove.
         FileSystemOptions implements Comparable.
       </action>
       <action type="add" dev="ggregory" due-to="Gary Gregory">
-        Add RandomAccessMode.from(AccessMode).
+        Add RandomAccessMode.from(AccessMode) and toAccessModes().
       </action>
       <!-- UDPATE -->
       <action type="update" dev="ggregory" due-to="Dependabot">

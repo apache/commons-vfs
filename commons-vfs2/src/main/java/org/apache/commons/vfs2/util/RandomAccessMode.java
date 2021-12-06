@@ -33,12 +33,25 @@ public enum RandomAccessMode {
     /**
      * Read access mode.
      */
-    READ(true, false),
+    READ(true, false) {
+        @Override
+        public AccessMode[] toAccessModes() {
+            return ACCESS_MODE_READ.clone();
+        }
+    },
 
     /**
      * Read-write access mode.
      */
-    READWRITE(true, true);
+    READWRITE(true, true) {
+        @Override
+        public AccessMode[] toAccessModes() {
+            return ACCESS_MODE_READ_WRITE.clone();
+        }
+    };
+
+    private static final AccessMode[] ACCESS_MODE_READ = {AccessMode.READ};
+    private static final AccessMode[] ACCESS_MODE_READ_WRITE = {AccessMode.READ, AccessMode.WRITE};
 
     private final boolean read;
     private final boolean write;
@@ -108,4 +121,13 @@ public enum RandomAccessMode {
     public boolean requestWrite() {
         return write;
     }
+
+    /**
+     * Converts this instance to an array of {@link AccessMode}.
+     *
+     * @return an array of {@link AccessMode}.
+     * @since 2.10.0
+     */
+    public abstract AccessMode[] toAccessModes();
+
 }
