@@ -16,8 +16,13 @@
  */
 package org.apache.commons.vfs2.util;
 
+import java.nio.file.AccessMode;
+
 /**
  * An enumerated type representing the modes of a random access content.
+ * <p>
+ * TODO Replace with {@link AccessMode}.
+ * </p>
  */
 public enum RandomAccessMode {
 
