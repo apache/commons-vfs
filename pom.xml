@@ -389,6 +389,13 @@
                 <sourceCompatible>true</sourceCompatible>
                 <semanticVersionLevel>PATCH</semanticVersionLevel>
               </overrideCompatibilityChangeParameter>
+              <overrideCompatibilityChangeParameter>
+                <!-- BC is maintained, but no SC. -->
+                <compatibilityChange>METHOD_NO_LONGER_THROWS_CHECKED_EXCEPTION</compatibilityChange>
+                <binaryCompatible>true</binaryCompatible>
+                <sourceCompatible>true</sourceCompatible>
+                <semanticVersionLevel>PATCH</semanticVersionLevel>
+              </overrideCompatibilityChangeParameter>
             </overrideCompatibilityChangeParameters>
             <excludes>
               <!--  Package moved to new module -->
