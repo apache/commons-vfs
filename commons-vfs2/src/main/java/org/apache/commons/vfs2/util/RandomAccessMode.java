@@ -138,7 +138,7 @@ public enum RandomAccessMode {
      */
     public AccessMode[] toAccessModes() {
         // TODO If this method is abstract, JApiCmp reports:
-        // org.apache.commons.vfs2.util.RandomAccessMode.toAccessModes():METHOD_ABSTRACT_ADDED_TO_CLASS,org.apache.commons.vfs2.util.RandomAccessMode:CLASS_NOW_ABSTRACT
+        // METHOD_ABSTRACT_ADDED_TO_CLASS,org.apache.commons.vfs2.util.RandomAccessMode:CLASS_NOW_ABSTRACT
         return null;
     }
 
