@@ -154,6 +154,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Bump org.apache.httpcomponents:httpcore-nio 4.4.14 -> 4.4.15.
       </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Bump Apache Log4j 2.14.1 to 2.15.0 [Tests].
+      </action>
     </release>
     <release version="2.9.0" date="2021-06-16" description="Maintenance release. Requires Java 8.">
       <!-- ADDS -->
