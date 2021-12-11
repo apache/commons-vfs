@@ -148,6 +148,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Update commons.japicmp.version 0.15.3 -> 0.15.4.
       </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Replace JUnit 4.13.2 with 5.8.2 Vintage.
+      </action>
     </release>
     <release version="2.9.0" date="2021-06-16" description="Maintenance release. Requires Java 8.">
       <!-- ADDS -->
