@@ -71,6 +71,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" issue="VFS-778" dev="ggregory" due-to="zhouwenqing, Gary Gregory">
         SFTP channel isn't returned to the pool when SftpFileObject.doGetOutputStream throws an exception. #215.
       </action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">
+        Fix OSGi "Unused Import-Package instructions".
+      </action>
       <!-- ADD -->
       <action type="add" dev="ggregory" due-to="Seth Falco">
         Add vscode files to gitignore #205.

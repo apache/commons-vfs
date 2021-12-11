@@ -58,6 +58,9 @@
   <properties>
     <vfs.parent.dir>${basedir}/..</vfs.parent.dir>
     <japicmp.skip>true</japicmp.skip>
+    <commons.osgi.import>
+        *
+    </commons.osgi.import>
   </properties>
 
   <build>

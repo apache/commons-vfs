@@ -182,6 +182,12 @@
 
   <properties>
     <vfs.parent.dir>${basedir}/..</vfs.parent.dir>
+    <commons.osgi.import>
+        org.apache.hadoop.*;resolution:=optional,
+        org.apache.tools.ant.*;resolution:=optional,
+        org.apache.commons.httpclient.*;resolution:=optional,
+        *
+    </commons.osgi.import>
   </properties>
 
   <build>

@@ -120,6 +120,11 @@
     <commons.componentid>vfs2-jackrabbit1</commons.componentid>
     <commons.packageId>vfs2-jackrabbit1</commons.packageId>
     <commons.module.name>org.apache.commons.vfs2.jackrabbit1</commons.module.name>
+    <commons.osgi.import>
+        org.apache.jackrabbit.*;resolution:=optional,
+        org.apache.commons.httpclient.*;resolution:=optional,
+        *
+    </commons.osgi.import>
   </properties>
 
   <build>
