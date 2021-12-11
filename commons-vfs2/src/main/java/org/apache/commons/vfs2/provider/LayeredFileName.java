@@ -32,7 +32,7 @@ public class LayeredFileName extends AbstractFileName {
     public static final char LAYER_SEPARATOR = '!';
 
     static final char SCHEME_SEPARATOR = ':';
-    
+
     private final FileName outerUri;
 
     /**
