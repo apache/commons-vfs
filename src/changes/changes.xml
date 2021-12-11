@@ -151,6 +151,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Replace JUnit 4.13.2 with 5.8.2 Vintage.
       </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Bump org.apache.httpcomponents:httpcore-nio 4.4.14 -> 4.4.15.
+      </action>
     </release>
     <release version="2.9.0" date="2021-06-16" description="Maintenance release. Requires Java 8.">
       <!-- ADDS -->
