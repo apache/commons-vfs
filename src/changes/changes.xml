@@ -93,6 +93,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="add" dev="ggregory" due-to="Gary Gregory">
         Add RandomAccessMode.from(AccessMode) and toAccessModes().
       </action>
+      <action type="add" dev="ggregory" due-to="Gary Gregory">
+        Extract the layer separator character constant into LayeredFileName.LAYER_SEPARATOR.
+      </action>
       <!-- UDPATE -->
       <action type="update" dev="ggregory" due-to="Dependabot">
         Bump jakarta.mail from 1.6.7 to 2.0.1 #200.

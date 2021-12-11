@@ -27,6 +27,7 @@ import org.apache.commons.vfs2.FileType;
  * </p>
  */
 public class LayeredFileNameParser extends AbstractFileNameParser {
+
     private static final LayeredFileNameParser INSTANCE = new LayeredFileNameParser();
 
     /**
@@ -46,7 +47,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser {
      */
     @Override
     public boolean encodeCharacter(final char ch) {
-        return super.encodeCharacter(ch) || ch == '!';
+        return super.encodeCharacter(ch) || ch == LayeredFileName.LAYER_SEPARATOR;
     }
 
     /**
@@ -59,10 +60,10 @@ public class LayeredFileNameParser extends AbstractFileNameParser {
         // Looking for <name>!<abspath> (staring at the end)
         final int maxlen = uri.length();
         int pos = maxlen - 1;
-        for (; pos > 0 && uri.charAt(pos) != '!'; pos--) {
+        for (; pos > 0 && uri.charAt(pos) != LayeredFileName.LAYER_SEPARATOR; pos--) {
         }
 
-        if (pos == 0 && uri.charAt(pos) != '!') {
+        if (pos == 0 && uri.charAt(pos) != LayeredFileName.LAYER_SEPARATOR) {
             // not ! found, so take the whole path a root
             // e.g. zip:/my/zip/file.zip
             pos = maxlen;

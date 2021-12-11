@@ -24,13 +24,22 @@ import org.apache.commons.vfs2.FileType;
  */
 public class LayeredFileName extends AbstractFileName {
 
+    /**
+     * The layer separator character '{@value #LAYER_SEPARATOR}'.
+     *
+     * @since 2.10.0
+     */
+    public static final char LAYER_SEPARATOR = '!';
+
+    static final char SCHEME_SEPARATOR = ':';
+    
     private final FileName outerUri;
 
     /**
      * Constructs a new instance.
      *
      * @param scheme The scheme.
-     * @param outerUri outer Uri.
+     * @param outerUri outer file name.
      * @param path the absolute path, maybe empty or null.
      * @param type the file type.
      */
@@ -42,9 +51,9 @@ public class LayeredFileName extends AbstractFileName {
     @Override
     protected void appendRootUri(final StringBuilder buffer, final boolean addPassword) {
         buffer.append(getScheme());
-        buffer.append(":");
+        buffer.append(SCHEME_SEPARATOR);
         buffer.append(getOuterName().getURI());
-        buffer.append("!");
+        buffer.append(LAYER_SEPARATOR);
     }
 
     /**
