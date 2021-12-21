@@ -24,7 +24,7 @@
     <body>
         <section name="Supported File Systems">
             <p>Commons VFS directly supports the following file systems with the listed
-               <a href="apidocs/org/apache/commons/vfs2/Capability.html">capabilities</a>:</p>
+               <a href="commons-vfs2/apidocs/org/apache/commons/vfs2/Capability.html">capabilities</a>:</p>
           <table>
             <tr>
               <th>File System</th>

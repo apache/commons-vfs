@@ -24,7 +24,7 @@
         <section name="Using The API">
             <p>
                 The
-                <a href="apidocs/org/apache/commons/vfs2/FileSystemManager.html">FileSystemManager</a>
+                <a href="commons-vfs2/apidocs/org/apache/commons/vfs2/FileSystemManager.html">FileSystemManager</a>
                 interface provides access to Commons VFS.  Using this interface
                 you can locate files and create file systems.
                 There are a
@@ -32,7 +32,7 @@
                 to obtain a
                 <code>FileSystemManager</code> instance.
                 The simplest is to use the static
-                <a href="apidocs/org/apache/commons/vfs2/VFS.html#getManager()">VFS.getManager()</a>
+                <a href="commons-vfs2/apidocs/org/apache/commons/vfs2/VFS.html#getManager()">VFS.getManager()</a>
                 method, which returns the default Commons VFS implementation.
             </p>
 
@@ -49,7 +49,7 @@ FileObject jarFile = fsManager.resolveFile("jar:lib/aJarFile.jar");]]></source>
 
             <p>
                 Each file is represented by a
-                <a href="apidocs/org/apache/commons/vfs2/FileObject.html">FileObject</a>
+                <a href="commons-vfs2/apidocs/org/apache/commons/vfs2/FileObject.html">FileObject</a>
                 instance.  Using this interface you can create or delete the
                 file, list its children, read or write its content, and so on.
                 For example:
@@ -70,7 +70,7 @@ for (int i = 0; i < children.length; i++) {
             <p>
                 In some cases you might want to explicitely free resources allocated by the filesystem.
                 You can do this by calling
-                <a href="apidocs/org/apache/commons/vfs2/FileSystemManager.html#closeFileSystem">VFS.getManager().closeFileSystem(fs)</a>.
+                <a href="commons-vfs2/apidocs/org/apache/commons/vfs2/FileSystemManager.html#closeFileSystem">VFS.getManager().closeFileSystem(fs)</a>.
                 If you use VFS as singleton (as described above) you should take care that this will close the filesystem for
                 all threads.<br />
                 In other words, do not close any globally used filesystem like the one for local files.  
@@ -78,13 +78,13 @@ for (int i = 0; i < children.length; i++) {
 
             <p>
                 See the
-                <a href="apidocs/org/apache/commons/vfs2/FileObject.html">FileObject</a>
+                <a href="commons-vfs2/apidocs/org/apache/commons/vfs2/FileObject.html">FileObject</a>
                 Javadocs for more detail.
             </p>
 
             <subsection name="Cache">
                 <p>
-                    Commons VFS uses a <a href="apidocs/org/apache/commons/vfs2/cache/SoftRefFilesCache.html">SoftRefFilesCache</a> to release memory if a file is no longer used by the application.
+                    Commons VFS uses a <a href="commons-vfs2/apidocs/org/apache/commons/vfs2/cache/SoftRefFilesCache.html">SoftRefFilesCache</a> to release memory if a file is no longer used by the application.
                 </p>
                 <p>
                     This cache will return the same instance for a file as long as it is "strongly reachable" e.g. you
@@ -93,7 +93,7 @@ for (int i = 0; i < children.length; i++) {
                 </p>
                 <p>
                     There is also a internal cache of each file object avoid the need to access the network layer. Now its possible
-                    to configure this behviour through the use of <a href="apidocs/org/apache/commons/vfs2/CacheStrategy.html">CacheStrategy</a>.
+                    to configure this behviour through the use of <a href="commons-vfs2/apidocs/org/apache/commons/vfs2/CacheStrategy.html">CacheStrategy</a>.
                     <br />
                     Do this on the DefaultFileSystemManager. For example:
                     <code>
@@ -109,7 +109,7 @@ for (int i = 0; i < children.length; i++) {
                 </p>
                 <p>
                     To solve you can use the
-                    <a href="apidocs/org/apache/commons/vfs2/UserAuthenticator.html">UserAuthenticator</a>
+                    <a href="commons-vfs2/apidocs/org/apache/commons/vfs2/UserAuthenticator.html">UserAuthenticator</a>
                 </p>
                 <p>
                     For example:
@@ -139,7 +139,7 @@ FileObject fo = VFS.getManager().resolveFile("smb://host/anyshare/dir", opts);]]
                 <p>
                     For an example of using the API, take a look at the classes
                     in the
-                    <a href="apidocs/org/apache/commons/vfs2/example/package-summary.html">example</a>
+                    <a href="commons-vfs2/apidocs/org/apache/commons/vfs2/example/package-summary.html">example</a>
                     package.
                 </p>
             </subsection>
@@ -149,13 +149,13 @@ FileObject fo = VFS.getManager().resolveFile("smb://host/anyshare/dir", opts);]]
         <section name="Configuring Commons VFS">
             <p>
                 Commons VFS is represented using the
-                <a href="apidocs/org/apache/commons/vfs2/FileSystemManager.html">FileSystemManager</a>
+                <a href="commons-vfs2/apidocs/org/apache/commons/vfs2/FileSystemManager.html">FileSystemManager</a>
                 interface.  There are a number of ways to create and configure a
                 <code>FileSystemManager</code> instance.
             </p>
             <p>
                 The simplest method is to use the static
-                <a href="apidocs/org/apache/commons/vfs2/VFS.html#getManager()">VFS.getManager()</a>
+                <a href="commons-vfs2/apidocs/org/apache/commons/vfs2/VFS.html#getManager()">VFS.getManager()</a>
                 method, which returns the default Commons VFS implementation.
             </p>
             <p>
@@ -171,7 +171,7 @@ FileObject fo = VFS.getManager().resolveFile("smb://host/anyshare/dir", opts);]]
             <p>
                 To configure Commons VFS programatically, you can create an
                 instance of
-                <a href="apidocs/org/apache/commons/vfs2/impl/DefaultFileSystemManager.html">DefaultFileSystemManager</a>
+                <a href="commons-vfs2/apidocs/org/apache/commons/vfs2/impl/DefaultFileSystemManager.html">DefaultFileSystemManager</a>
                 and configure it manually.  The default constructor
                 <code>DefaultFileSystemManager</code> creates a manager that
                 is completely empty.  You will have to add file providers to it
@@ -198,7 +198,7 @@ FileObject fo = VFS.getManager().resolveFile("smb://host/anyshare/dir", opts);]]
                     Set the default provider, using
                     <code>setDefaultProvider()</code>.  This step is optional.
                     See
-                    <a href="apidocs/org/apache/commons/vfs2/provider/url/UrlFileProvider.html">UrlFileProvider</a>
+                    <a href="commons-vfs2/apidocs/org/apache/commons/vfs2/provider/url/UrlFileProvider.html">UrlFileProvider</a>
                     for a useful default provider.
                 </li>
                 <li>
@@ -231,7 +231,7 @@ FileObject fo = VFS.getManager().resolveFile("smb://host/anyshare/dir", opts);]]
             <p>
                 The third method for configuring Commons VFS, is to configure
                 it from a file.  Create an instance of
-                <a href="apidocs/org/apache/commons/vfs2/impl/StandardFileSystemManager.html">StandardFileSystemManager</a>,
+                <a href="commons-vfs2/apidocs/org/apache/commons/vfs2/impl/StandardFileSystemManager.html">StandardFileSystemManager</a>,
                 and use its
                 <code>setConfiguration()</code> method to set the
                 location of the configuration file to use.  The configuration
