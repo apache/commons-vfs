@@ -121,7 +121,9 @@ public class MonitorOutputStream extends BufferedOutputStream {
      */
     @Override
     public synchronized void flush() throws IOException {
-        assertOpen();
+        if (finished.get()) {
+            return;
+        }
         super.flush();
     }
 
