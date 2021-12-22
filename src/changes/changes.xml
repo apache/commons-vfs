@@ -77,6 +77,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" issue="VFS-813" dev="ggregory" due-to="Andrey Turbanov, Gary Gregory">
         NullPointerException needs a better message in SftpClientFactory when connect with private key.
       </action>
+      <action type="fix" issue="VFS-811" dev="ggregory" due-to="Woonsan Ko, Gary Gregory">
+        Javadoc API links are broken in the commons-vfs project site #227.
+      </action>
       <!-- ADD -->
       <action type="add" dev="ggregory" due-to="Seth Falco">
         Add vscode files to gitignore #205.
