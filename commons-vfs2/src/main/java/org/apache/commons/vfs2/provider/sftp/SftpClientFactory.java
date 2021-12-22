@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider.sftp;
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.Objects;
 import java.util.Properties;
 
 import org.apache.commons.lang3.SystemUtils;
@@ -135,6 +136,7 @@ public final class SftpClientFactory {
      */
     public static Session createConnection(final String hostname, final int port, final char[] username,
         final char[] password, final FileSystemOptions fileSystemOptions) throws FileSystemException {
+        Objects.requireNonNull(username, "username");
         final JSch jsch = new JSch();
 
         // new style - user passed
