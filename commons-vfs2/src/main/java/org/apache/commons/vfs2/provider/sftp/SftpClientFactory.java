@@ -45,6 +45,11 @@ import com.jcraft.jsch.UserInfo;
  */
 public final class SftpClientFactory {
 
+    private static final String KEY_COMPRESSION_C2S = "compression.c2s";
+    private static final String KEY_COMPRESSION_S2C = "compression.s2c";
+    private static final String KEY_PREFERRED_AUTHENTICATIONS = "PreferredAuthentications";
+    private static final String KEY_STRICT_HOST_KEY_CHECKING = "StrictHostKeyChecking";
+
     /** Interface JSchLogger with JCL. */
     private static class JSchLogger implements Logger {
         @Override
@@ -180,19 +185,19 @@ public final class SftpClientFactory {
             // set StrictHostKeyChecking property
             final String strictHostKeyChecking = builder.getStrictHostKeyChecking(fileSystemOptions);
             if (strictHostKeyChecking != null) {
-                config.setProperty("StrictHostKeyChecking", strictHostKeyChecking);
+                config.setProperty(KEY_STRICT_HOST_KEY_CHECKING, strictHostKeyChecking);
             }
             // set PreferredAuthentications property
             final String preferredAuthentications = builder.getPreferredAuthentications(fileSystemOptions);
             if (preferredAuthentications != null) {
-                config.setProperty("PreferredAuthentications", preferredAuthentications);
+                config.setProperty(KEY_PREFERRED_AUTHENTICATIONS, preferredAuthentications);
             }
 
             // set compression property
             final String compression = builder.getCompression(fileSystemOptions);
             if (compression != null) {
-                config.setProperty("compression.s2c", compression);
-                config.setProperty("compression.c2s", compression);
+                config.setProperty(KEY_COMPRESSION_S2C, compression);
+                config.setProperty(KEY_COMPRESSION_C2S, compression);
             }
 
             final String keyExchangeAlgorithm = builder.getKeyExchangeAlgorithm(fileSystemOptions);
