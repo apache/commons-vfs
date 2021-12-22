@@ -28,7 +28,7 @@ import org.apache.commons.vfs2.FileSystemException;
  */
 public class MonitorOutputStream extends BufferedOutputStream {
 
-    private final AtomicBoolean finished = new AtomicBoolean(false);
+    private final AtomicBoolean closed = new AtomicBoolean(false);
 
     /**
      * Constructs a MonitorOutputStream from the passed OutputStream.
@@ -61,7 +61,7 @@ public class MonitorOutputStream extends BufferedOutputStream {
      * @since 2.0
      */
     protected void assertOpen() throws FileSystemException {
-        if (finished.get()) {
+        if (isClosed()) {
             throw new FileSystemException("vfs.provider/closed.error");
         }
     }
@@ -83,7 +83,7 @@ public class MonitorOutputStream extends BufferedOutputStream {
         // do not use super.close()
         // on Java 8 it might throw self suppression, see JDK-8042377
         // in older Java it silently ignores flush() errors
-        if (finished.getAndSet(true)) {
+        if (closed.getAndSet(true)) {
             return;
         }
 
@@ -121,8 +121,14 @@ public class MonitorOutputStream extends BufferedOutputStream {
      */
     @Override
     public synchronized void flush() throws IOException {
-        assertOpen();
+        if (isClosed()) {
+            return;
+        }
         super.flush();
+    }
+
+    private boolean isClosed() {
+        return closed.get();
     }
 
     /**
