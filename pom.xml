@@ -202,6 +202,7 @@
     <biz.aQute.bndlib.version>6.1.0</biz.aQute.bndlib.version>
     <slf4j.version>1.7.26</slf4j.version>
     <log4j2.version>2.17.1</log4j2.version>
+    <sshd.version>2.8.0</sshd.version>
     <clirr.skip>true</clirr.skip>
     <japicmp.skip>false</japicmp.skip>
     <jacoco.skip>false</jacoco.skip>
@@ -646,7 +647,17 @@
       <dependency>
         <groupId>org.apache.sshd</groupId>
         <artifactId>sshd-core</artifactId>
-        <version>0.8.0</version>
+        <version>${sshd.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sshd</groupId>
+        <artifactId>sshd-scp</artifactId>
+        <version>${sshd.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sshd</groupId>
+        <artifactId>sshd-sftp</artifactId>
+        <version>${sshd.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.mina</groupId>

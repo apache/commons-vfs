@@ -24,6 +24,7 @@ import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.VFS;
+import org.apache.sshd.common.session.ConnectionService;
 import org.apache.sshd.server.channel.ChannelSession;
 import org.junit.Assert;
 import org.junit.Test;
@@ -107,7 +108,7 @@ public class SftpPermissionExceptionTestCase extends AbstractSftpProviderTestCas
         }
 
         // try to get created channel number.
-        final int channelId = Server.getActiveSessions().get(0).registerChannel(new ChannelSession());
+        final int channelId = Server.getActiveSessions().get(0).getService(ConnectionService.class).registerChannel(new ChannelSession());
         Assert.assertTrue("create too many sftp channel more", channelId<30);
 
         // try to set the local file to writable
