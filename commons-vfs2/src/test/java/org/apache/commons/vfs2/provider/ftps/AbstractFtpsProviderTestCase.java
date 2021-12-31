@@ -33,6 +33,7 @@ import org.apache.ftpserver.FtpServerFactory;
 import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.ftpserver.ftplet.UserManager;
 import org.apache.ftpserver.listener.ListenerFactory;
+import org.apache.ftpserver.ssl.SslConfiguration;
 import org.apache.ftpserver.ssl.SslConfigurationFactory;
 import org.apache.ftpserver.usermanager.PropertiesUserManagerFactory;
 import org.apache.ftpserver.usermanager.impl.BaseUser;
@@ -137,7 +138,9 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         ssl.setKeystorePassword("password");
 
         // set the SSL configuration for the listener
-        factory.setSslConfiguration(ssl.createSslConfiguration());
+        SslConfiguration sslConfiguration = ssl.createSslConfiguration();
+        NoProtocolSslConfigurationProxy noProtocolSslConfigurationProxy = new NoProtocolSslConfigurationProxy(sslConfiguration);
+        factory.setSslConfiguration(noProtocolSslConfigurationProxy);
         factory.setImplicitSsl(implicit);
 
         // replace the default listener
