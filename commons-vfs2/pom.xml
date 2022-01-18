@@ -232,6 +232,13 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Automatic-Module-Name>org.apache.commons.vfs2</Automatic-Module-Name>
+            </manifestEntries>
+          </archive>
+        </configuration>
       </plugin>
 
       <plugin>
