@@ -222,6 +222,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         synchronized (getFileSystem()) {
             this.ftpFile = null;
             this.childMap = null;
+            this.mdtmSet = false;
         }
     }
 
