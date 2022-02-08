@@ -48,6 +48,7 @@ Apache Commons VFS Project
 [![Coverage Status](https://coveralls.io/repos/apache/commons-vfs/badge.svg)](https://coveralls.io/r/apache/commons-vfs)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-vfs2/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-vfs2/)
 [![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-vfs2/2.9.0.svg)](https://javadoc.io/doc/org.apache.commons/commons-vfs2/2.9.0)
+[![CodeQL](https://github.com/apache/commons-vfs/workflows/CodeQL/badge.svg)](https://github.com/apache/commons-vfs/actions?query=workflow%3ACodeQL)
 
 Apache Commons VFS is a Virtual File System library.
 
