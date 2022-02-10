@@ -43,7 +43,6 @@
 Apache Commons VFS Examples
 ===================
 
-[![Travis-CI Status](https://travis-ci.org/apache/commons-vfs.svg)](https://travis-ci.org/apache/commons-vfs)
 [![GitHub Actions Status](https://github.com/apache/commons-vfs/workflows/Java%20CI/badge.svg)](https://github.com/apache/commons-vfs/actions)
 [![Coverage Status](https://coveralls.io/repos/apache/commons-vfs/badge.svg)](https://coveralls.io/r/apache/commons-vfs)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-vfs2-examples/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-vfs2-examples/)
