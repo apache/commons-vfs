@@ -17,7 +17,6 @@
 package org.apache.commons.vfs2.provider.test;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.vfs2.FileObject;
@@ -117,7 +116,7 @@ public class FileObjectSortTestCase {
         final List<FileObject> actualList = Arrays.asList(UnSortedArray);
         final List<FileObject> expectedSortedList = Arrays.asList(SortedArray);
         Assert.assertNotEquals(actualList, expectedSortedList);
-        Collections.sort(actualList);
+        actualList.sort(null);
         Assert.assertEquals(actualList, expectedSortedList);
     }
 
@@ -130,7 +129,7 @@ public class FileObjectSortTestCase {
     public void testSortListMoveNone() throws FileSystemException {
         final List<FileObject> actualList = Arrays.asList(SortedArray);
         final List<FileObject> expectedSortedList = Arrays.asList(SortedArray);
-        Collections.sort(actualList);
+        actualList.sort(null);
         Assert.assertEquals(actualList, expectedSortedList);
     }
 
