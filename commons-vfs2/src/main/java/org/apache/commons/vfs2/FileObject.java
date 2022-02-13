@@ -21,6 +21,7 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.vfs2.operations.FileOperations;
@@ -86,7 +87,7 @@ import org.apache.commons.vfs2.operations.FileOperations;
  *
  * <p>
  * Files may be sorted using {@link java.util.Arrays#sort(Object[]) Arrays.sort()} and
- * {@link java.util.Collections#sort(List) Collections.sort()}.
+ * {@link List#sort(Comparator) List.sort()}.
  * </p>
  *
  * @see FileSystemManager
