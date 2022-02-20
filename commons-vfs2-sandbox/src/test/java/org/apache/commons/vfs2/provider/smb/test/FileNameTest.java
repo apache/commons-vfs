@@ -16,16 +16,20 @@
  */
 package org.apache.commons.vfs2.provider.smb.test;
 
-import junit.framework.TestCase;
+import static org.apache.commons.vfs2.VfsTestUtils.assertSameMessage;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.provider.smb.SmbFileName;
 import org.apache.commons.vfs2.provider.smb.SmbFileNameParser;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Some additional SMB file name test cases.
  */
-public class FileNameTestCase extends TestCase {
+public class FileNameTest {
 
     /**
      * Tests parsing a URI into its parts.
