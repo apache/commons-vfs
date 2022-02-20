@@ -16,14 +16,14 @@
  */
 package org.apache.commons.vfs2;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -91,7 +91,7 @@ public class PatternFileSelectorTest {
     @Test
     public void testFileExtensions() throws Exception {
         final FileObject[] foArray = BaseFolder.findFiles(Selectors.SELECT_FILES);
-        Assert.assertTrue(foArray.length > 0);
+        assertTrue(foArray.length > 0);
         final String regExPrefix = ".*\\.";
         // gather file extensions.
         final Set<String> extensionSet = new HashSet<>();
@@ -100,7 +100,7 @@ public class PatternFileSelectorTest {
         }
         final String message = String.format("Extensions: %s; files: %s", extensionSet.toString(),
                 Arrays.asList(foArray).toString());
-        assertEquals(message, ExtensionCount, extensionSet.size());
+        assertEquals(ExtensionCount, extensionSet.size(), message);
         // check each extension
         for (final String extension : extensionSet) {
             final FileSelector selector = new PatternFileSelector(extension);
@@ -152,11 +152,9 @@ public class PatternFileSelectorTest {
 
     /**
      * Tests a null selector.
-     *
-     * @throws Exception
      */
     @Test
-    public void testNullString() throws Exception {
+    public void testNullString() {
         // Yep, this will blow up.
         assertThrows(NullPointerException.class, () -> new PatternFileSelector((String) null));
     }
