@@ -23,14 +23,12 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
 import org.junit.Assert;
-import org.junit.Test;
-
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests https://issues.apache.org/jira/browse/VFS-426 and https://issues.apache.org/jira/browse/VFS-810.
  */
-public class Http4FilesCacheTestCase extends TestCase {
+public class Http4FilesCacheTest {
 
     @Test
     public void testQueryStringUrl0() throws FileSystemException {
