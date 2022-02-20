@@ -17,16 +17,18 @@
 package org.apache.commons.vfs2;
 
 import static org.apache.commons.vfs2.VfsTestUtils.getTestResource;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
-import junit.framework.TestCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test cases for the VFS factory.
  */
-public class FileSystemManagerFactoryTestCase extends TestCase {
+public class FileSystemManagerFactoryTest {
 
     private void check(final FileSystemManager manager, FileObject file) throws FileSystemException {
         assertNotNull(file);
