@@ -19,7 +19,6 @@ package org.apache.commons.vfs2.provider.test;
 import java.io.File;
 
 import org.apache.commons.vfs2.AbstractProviderTestCase;
-import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
@@ -31,7 +30,7 @@ import org.junit.Test;
 public class JunctionTests extends AbstractProviderTestCase {
 
     private FileObject getBaseDir() throws FileSystemException {
-        final File file = AbstractVfsTestCase.getTestDirectoryFile();
+        final File file = getTestDirectoryFile();
         assertTrue(file.exists());
         return getManager().toFileObject(file);
     }

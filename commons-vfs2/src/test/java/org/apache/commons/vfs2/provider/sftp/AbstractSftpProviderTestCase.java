@@ -33,7 +33,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
@@ -356,7 +355,7 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
             if (!DEFAULT_USER.equals(userName)) {
                 return null;
             }
-            return new TestFileSystemView(AbstractVfsTestCase.getTestDirectory(), userName);
+            return new TestFileSystemView(getTestDirectory(), userName);
         }
     }
 

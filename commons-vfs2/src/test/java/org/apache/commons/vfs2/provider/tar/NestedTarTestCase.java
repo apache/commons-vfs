@@ -17,7 +17,6 @@
 package org.apache.commons.vfs2.provider.tar;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
@@ -50,7 +49,7 @@ public class NestedTarTestCase extends AbstractProviderTestConfig {
                 new StaticUserAuthenticator("domain", null, null));
 
         // Locate the base Tar file
-        final String tarFilePath = AbstractVfsTestCase.getTestResource("nested.tar").getAbsolutePath();
+        final String tarFilePath = getTestResource("nested.tar").getAbsolutePath();
 
         // Now build the nested file system
         final String uri = "tar:file:" + tarFilePath + "!/test.tar";

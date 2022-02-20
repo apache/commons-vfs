@@ -16,11 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.local;
 
-import java.io.File;
-
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.PermissionsTests;
@@ -56,7 +53,6 @@ public class LocalProviderTestCase extends AbstractProviderTestConfig {
      */
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-        final File testDir = AbstractVfsTestCase.getTestDirectoryFile();
-        return manager.toFileObject(testDir);
+        return manager.toFileObject(getTestDirectoryFile());
     }
 }

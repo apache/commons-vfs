@@ -19,7 +19,6 @@ package org.apache.commons.vfs2.provider.temp;
 import java.io.File;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.ProviderTestSuite;
@@ -51,7 +50,7 @@ public class TemporaryProviderTestCase extends AbstractProviderTestConfig {
      */
     @Override
     public void prepare(final DefaultFileSystemManager manager) throws Exception {
-        final File baseDir = AbstractVfsTestCase.getTestDirectoryFile();
+        final File baseDir = getTestDirectoryFile();
         manager.addProvider("tmp", new TemporaryFileProvider(baseDir));
     }
 }

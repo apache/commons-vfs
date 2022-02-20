@@ -17,7 +17,6 @@
 package org.apache.commons.vfs2.provider.tar;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.ProviderTestSuite;
@@ -42,7 +41,7 @@ public class NestedTbz2TestCase extends AbstractProviderTestConfig {
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         // Locate the base Tar file
-        final String tarFilePath = AbstractVfsTestCase.getTestResource("nested.tbz2").getAbsolutePath();
+        final String tarFilePath = getTestResource("nested.tbz2").getAbsolutePath();
         final String uri = "tbz2:file:" + tarFilePath + "!/test.tbz2";
         final FileObject tarFile = manager.resolveFile(uri);
 

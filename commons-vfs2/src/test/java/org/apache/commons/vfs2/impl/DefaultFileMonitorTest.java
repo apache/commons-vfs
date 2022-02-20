@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.impl;
 
+import static org.apache.commons.vfs2.AbstractVfsTestCase.getTestDirectoryFile;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -30,7 +31,6 @@ import java.util.Deque;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileChangeEvent;
 import org.apache.commons.vfs2.FileListener;
 import org.apache.commons.vfs2.FileObject;
@@ -193,7 +193,7 @@ public class DefaultFileMonitorTest {
     @BeforeEach
     public void setUp() throws Exception {
         fileSystemManager = VFS.getManager();
-        testDir = AbstractVfsTestCase.getTestDirectoryFile();
+        testDir = getTestDirectoryFile();
         resetStatus();
         testFile = new File(testDir, "testReload.properties");
         deleteTestFileIfPresent();

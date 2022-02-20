@@ -18,7 +18,6 @@
 package org.apache.commons.vfs2.provider.res;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.ProviderTestSuite;
@@ -41,7 +40,7 @@ public class ResourceProviderTestCase extends AbstractProviderTestConfig {
      */
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-        final String baseDir = AbstractVfsTestCase.getResourceTestDirectory();
+        final String baseDir = getResourceTestDirectory();
         return manager.resolveFile("res:" + baseDir);
     }
 

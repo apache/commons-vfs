@@ -19,7 +19,6 @@ package org.apache.commons.vfs2.provider.sftp;
 import java.io.File;
 import java.nio.file.Paths;
 
-import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.Selectors;
@@ -94,7 +93,7 @@ public class SftpPermissionExceptionTestCase extends AbstractSftpProviderTestCas
         fileObjectCopy.copyFrom(localFileObject, Selectors.SELECT_SELF);
 
         // try to set the local file to readonly
-        Paths.get(AbstractVfsTestCase.getTestDirectory(),scratchFolder.getName().getBaseName(), fileName).toFile().setWritable(false);
+        Paths.get(getTestDirectory(), scratchFolder.getName().getBaseName(), fileName).toFile().setWritable(false);
         for (int i = 0; i < 30; i++) {
             try{
                 fileObjectCopy = scratchFolder.resolveFile(fileName);
@@ -111,7 +110,7 @@ public class SftpPermissionExceptionTestCase extends AbstractSftpProviderTestCas
         Assert.assertTrue("create too many sftp channel more", channelId<30);
 
         // try to set the local file to writable
-        Paths.get(AbstractVfsTestCase.getTestDirectory(),scratchFolder.getName().getBaseName(), fileName).toFile().setWritable(true);
+        Paths.get(getTestDirectory(), scratchFolder.getName().getBaseName(), fileName).toFile().setWritable(true);
 
 
         fileObjectCopy = scratchFolder.resolveFile(fileName);

@@ -24,7 +24,6 @@ import java.util.Collections;
 import java.util.Enumeration;
 
 import org.apache.commons.vfs2.AbstractProviderTestCase;
-import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -95,7 +94,7 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
 
         // build search path without using #getBaseFolder()
         // because NestedJarTestCase redefines it
-        final File baseDir = AbstractVfsTestCase.getTestDirectoryFile();
+        final File baseDir = getTestDirectoryFile();
         final FileObject nestedJar = manager.resolveFile(baseDir, "nested.jar");
         final FileObject testJar = manager.resolveFile(baseDir, "test.jar");
 
@@ -142,7 +141,7 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
             System.out.println("VfsClassLoaderTests no local file provider, skipping.");
             return;
         }
-        final File baseDir = AbstractVfsTestCase.getTestDirectoryFile();
+        final File baseDir = getTestDirectoryFile();
 
         // setup test folder
         final FileObject dir = manager.resolveFile(baseDir, "read-tests/dir1/subdir4.jar");

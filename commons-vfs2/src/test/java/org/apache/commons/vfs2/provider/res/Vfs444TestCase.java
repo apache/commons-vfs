@@ -19,7 +19,6 @@ package org.apache.commons.vfs2.provider.res;
 
 import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -101,7 +100,7 @@ public class Vfs444TestCase extends AbstractProviderTestConfig {
      */
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-        final String baseDir = AbstractVfsTestCase.getResourceTestDirectory();
+        final String baseDir = getResourceTestDirectory();
         return manager.resolveFile("zip:res:" + baseDir + "/test.zip");
     }
 

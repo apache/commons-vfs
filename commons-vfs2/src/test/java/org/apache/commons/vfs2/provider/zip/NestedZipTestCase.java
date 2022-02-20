@@ -17,7 +17,6 @@
 package org.apache.commons.vfs2.provider.zip;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.ProviderTestSuite;
@@ -42,7 +41,7 @@ public class NestedZipTestCase extends AbstractProviderTestConfig {
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         // Locate the base Zip file
-        final String zipFilePath = AbstractVfsTestCase.getTestResource("nested.zip").getAbsolutePath();
+        final String zipFilePath = getTestResource("nested.zip").getAbsolutePath();
         final String uri = "zip:file:" + zipFilePath + "!/test.zip";
         final FileObject zipFile = manager.resolveFile(uri);
 

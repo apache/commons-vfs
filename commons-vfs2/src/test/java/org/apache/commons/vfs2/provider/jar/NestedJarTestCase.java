@@ -19,7 +19,6 @@ package org.apache.commons.vfs2.provider.jar;
 import java.io.File;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.ProviderTestSuite;
@@ -44,7 +43,7 @@ public class NestedJarTestCase extends AbstractProviderTestConfig {
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         // Locate the Jar file
-        final File outerFile = AbstractVfsTestCase.getTestResource("nested.jar");
+        final File outerFile = getTestResource("nested.jar");
         final String uri = "jar:file:" + outerFile.getAbsolutePath() + "!/test.jar";
         final FileObject jarFile = manager.resolveFile(uri);
 

@@ -19,7 +19,6 @@ package org.apache.commons.vfs2.provider.jar;
 import java.io.File;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.ProviderTestSuite;
@@ -32,7 +31,7 @@ import junit.framework.Test;
  */
 public class JarProviderTestCase extends AbstractProviderTestConfig {
     static FileObject getTestJar(final FileSystemManager manager, final String name) throws Exception {
-        final File jarFile = AbstractVfsTestCase.getTestResource(name);
+        final File jarFile = getTestResource(name);
         final String uri = "jar:file:" + jarFile.getAbsolutePath() + "!/";
         return manager.resolveFile(uri);
     }

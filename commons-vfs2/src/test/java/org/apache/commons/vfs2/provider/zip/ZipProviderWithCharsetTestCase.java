@@ -20,7 +20,6 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -52,7 +51,7 @@ public class ZipProviderWithCharsetTestCase extends AbstractProviderTestConfig {
         // Tests the same charset as the default but we exercise having a Charset set.
         builder.setCharset(opts, StandardCharsets.UTF_8);
 
-        final File zipFile = AbstractVfsTestCase.getTestResource("test.zip");
+        final File zipFile = getTestResource("test.zip");
         final String uri = "zip:file:" + zipFile.getAbsolutePath() + "!/";
         final FileObject resolvedFile = manager.resolveFile(uri, opts);
         final FileSystem fileSystem = resolvedFile.getFileSystem();
