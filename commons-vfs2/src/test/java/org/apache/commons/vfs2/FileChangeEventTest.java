@@ -20,7 +20,7 @@ package org.apache.commons.vfs2;
 import java.io.File;
 
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class FileChangeEventTest {
 
