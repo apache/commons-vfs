@@ -23,7 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import org.apache.commons.vfs2.AbstractVfsTestCase;
+import junit.framework.TestCase;
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.VFS;
@@ -31,7 +31,7 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileObject;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class Bzip2TestCase extends AbstractVfsTestCase {
+public class Bzip2TestCase extends TestCase {
 
     @Test
     public void testBZip2() throws IOException {

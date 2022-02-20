@@ -20,12 +20,13 @@ import static org.apache.commons.vfs2.VfsTestUtils.getTestResource;
 
 import java.io.File;
 
+import junit.framework.TestCase;
 import org.junit.Test;
 
 /**
  * Test cases for the VFS factory.
  */
-public class FileSystemManagerFactoryTestCase extends AbstractVfsTestCase {
+public class FileSystemManagerFactoryTestCase extends TestCase {
 
     private void check(final FileSystemManager manager, FileObject file) throws FileSystemException {
         assertNotNull(file);

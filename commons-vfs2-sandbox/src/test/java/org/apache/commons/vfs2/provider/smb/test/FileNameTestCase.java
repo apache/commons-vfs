@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.smb.test;
 
+import junit.framework.TestCase;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.provider.smb.SmbFileName;
 import org.apache.commons.vfs2.provider.smb.SmbFileNameParser;
@@ -24,7 +25,7 @@ import org.junit.Test;
 /**
  * Some additional SMB file name test cases.
  */
-public class FileNameTestCase extends AbstractVfsTestCase {
+public class FileNameTestCase extends TestCase {
 
     /**
      * Tests parsing a URI into its parts.
