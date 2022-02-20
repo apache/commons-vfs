@@ -16,7 +16,8 @@
  */
 package org.apache.commons.vfs2;
 
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -37,14 +38,14 @@ public class InvertIncludeFileSelectorTest {
     public void testInvertMatchAll() throws Exception {
         final FileObject[] list = PatternFileSelectorTest.getBaseFolder()
                 .findFiles(new InvertIncludeFileSelector(new PatternFileSelector(".*")));
-        Assert.assertEquals(0, list.length);
+        assertEquals(0, list.length);
     }
 
     @Test
     public void testInvertMatchSome() throws Exception {
         final FileObject[] list = PatternFileSelectorTest.getBaseFolder()
                 .findFiles(new InvertIncludeFileSelector(new PatternFileSelector(".*\\.html")));
-        Assert.assertEquals(7, list.length);
+        assertEquals(7, list.length);
     }
 
 }
