@@ -24,9 +24,9 @@ import org.apache.commons.vfs2.FilesCache;
 import org.apache.commons.vfs2.cache.WeakRefFilesCache;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class TarFileSystemTestCase {
+public class TarFileSystemTest {
 
     @Test
     public void testTarFileUseDefaultFilesCache() throws FileSystemException {
