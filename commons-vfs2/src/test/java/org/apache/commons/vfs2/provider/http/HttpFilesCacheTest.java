@@ -21,9 +21,7 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
 import org.junit.Assert;
-import org.junit.Test;
-
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests https://issues.apache.org/jira/browse/VFS-426
@@ -31,7 +29,7 @@ import junit.framework.TestCase;
  *          ggregory $
  * @since 2.1
  */
-public class HttpFilesCacheTestCase extends TestCase {
+public class HttpFilesCacheTest {
 
     /**
      * Tests https://issues.apache.org/jira/browse/VFS-426
