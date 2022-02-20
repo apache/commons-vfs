@@ -16,6 +16,11 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
@@ -31,10 +36,7 @@ import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * {@code DefaultFileContentTest} tests for bug-VFS-614. This bug involves the stream implementation closing the stream
@@ -53,11 +55,11 @@ public class DefaultFileContentTest {
         final FileSystemManager fsManager = VFS.getManager();
         try (FileObject fo = fsManager.resolveFile(new File("."), "src/test/resources/test-data/size-0-file.bin");
                 final FileContent content = fo.getContent()) {
-            Assert.assertEquals(0, content.getSize());
-            Assert.assertTrue(content.isEmpty());
-            Assert.assertEquals(StringUtils.EMPTY, content.getString(StandardCharsets.UTF_8));
-            Assert.assertEquals(StringUtils.EMPTY, content.getString(StandardCharsets.UTF_8.name()));
-            Assert.assertArrayEquals(ArrayUtils.EMPTY_BYTE_ARRAY, content.getByteArray());
+            assertEquals(0, content.getSize());
+            assertTrue(content.isEmpty());
+            assertEquals(StringUtils.EMPTY, content.getString(StandardCharsets.UTF_8));
+            assertEquals(StringUtils.EMPTY, content.getString(StandardCharsets.UTF_8.name()));
+            assertArrayEquals(ArrayUtils.EMPTY_BYTE_ARRAY, content.getByteArray());
         }
     }
 
@@ -108,10 +110,10 @@ public class DefaultFileContentTest {
                         final byte[] data = new byte[100];
                         readCount = stream.read(data, 0, 7);
                         stream.read();
-                        Assert.assertEquals(7, readCount);
-                        Assert.assertEquals(expected, new String(data).trim());
+                        assertEquals(7, readCount);
+                        assertEquals(expected, new String(data).trim());
                         readCount = stream.read(data, 8, 10);
-                        Assert.assertEquals(-1, readCount);
+                        assertEquals(-1, readCount);
                         stream.reset();
                     }
                 }
@@ -136,7 +138,7 @@ public class DefaultFileContentTest {
                         final byte[] data = new byte[100];
                         stream.read(data, 0, 7);
                         stream.read();
-                        Assert.assertEquals(expected, new String(data).trim());
+                        assertEquals(expected, new String(data).trim());
                         stream.reset();
                     }
                 }
@@ -200,7 +202,7 @@ public class DefaultFileContentTest {
             });
             thread.start();
             thread.join();
-            Assert.assertTrue(check.get());
+            assertTrue(check.get());
         }
     }
 
