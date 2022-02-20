@@ -16,6 +16,11 @@
  */
 package org.apache.commons.vfs2.provider.test;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,7 +28,6 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.VFS;
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -78,59 +82,51 @@ public class FileObjectSortTest {
         final FileObject[] actualArray = { file3, file1, file2, file1, file2 };
         final FileObject[] expectedArray = { file1, file1, file2, file2, file3 };
         Arrays.sort(actualArray);
-        Assert.assertArrayEquals(expectedArray, actualArray);
+        assertArrayEquals(expectedArray, actualArray);
     }
 
     /**
      * Tests sorting an array
-     *
-     * @throws FileSystemException
      */
     @Test
-    public void testSortArrayMoveAll() throws FileSystemException {
+    public void testSortArrayMoveAll() {
         final FileObject[] actualArray = UnSortedArray.clone();
-        Assert.assertFalse(Arrays.equals(UnSortedArray, SortedArray));
+        assertFalse(Arrays.equals(UnSortedArray, SortedArray));
         Arrays.sort(actualArray);
-        Assert.assertArrayEquals(SortedArray, actualArray);
+        assertArrayEquals(SortedArray, actualArray);
     }
 
     /**
      * Tests that sorting an array already in oder does not mess it up.
-     *
-     * @throws FileSystemException
      */
     @Test
-    public void testSortArrayMoveNone() throws FileSystemException {
+    public void testSortArrayMoveNone() {
         final FileObject[] actualArray = SortedArray.clone();
         Arrays.sort(actualArray);
-        Assert.assertArrayEquals(SortedArray, actualArray);
+        assertArrayEquals(SortedArray, actualArray);
     }
 
     /**
      * Tests sorting a list
-     *
-     * @throws FileSystemException
      */
     @Test
-    public void testSortListMoveAll() throws FileSystemException {
+    public void testSortListMoveAll() {
         final List<FileObject> actualList = Arrays.asList(UnSortedArray);
         final List<FileObject> expectedSortedList = Arrays.asList(SortedArray);
-        Assert.assertNotEquals(actualList, expectedSortedList);
+        assertNotEquals(actualList, expectedSortedList);
         actualList.sort(null);
-        Assert.assertEquals(actualList, expectedSortedList);
+        assertEquals(actualList, expectedSortedList);
     }
 
     /**
      * Tests that sorting a list already in oder does not mess it up.
-     *
-     * @throws FileSystemException
      */
     @Test
-    public void testSortListMoveNone() throws FileSystemException {
+    public void testSortListMoveNone() {
         final List<FileObject> actualList = Arrays.asList(SortedArray);
         final List<FileObject> expectedSortedList = Arrays.asList(SortedArray);
         actualList.sort(null);
-        Assert.assertEquals(actualList, expectedSortedList);
+        assertEquals(actualList, expectedSortedList);
     }
 
 }
