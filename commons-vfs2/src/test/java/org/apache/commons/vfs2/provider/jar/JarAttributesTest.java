@@ -16,11 +16,12 @@
  */
 package org.apache.commons.vfs2.provider.jar;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Map;
 
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.VFS;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -39,7 +40,7 @@ public class JarAttributesTest {
         final FileObject file = JarProviderTestCase.getTestJar(VFS.getManager(), "test.jar");
 
         final Map<String, Object> attributes = file.getContent().getAttributes();
-        Assert.assertEquals("1.0", attributes.get("Manifest-Version"));
+        assertEquals("1.0", attributes.get("Manifest-Version"));
         // Debugging:
         // this.printAttributes(attributes);
     }
@@ -50,7 +51,7 @@ public class JarAttributesTest {
         final FileObject file = nested.resolveFile("test.jar");
 
         final Map<String, Object> attributes = file.getContent().getAttributes();
-        Assert.assertEquals("1.0", attributes.get("Manifest-Version"));
+        assertEquals("1.0", attributes.get("Manifest-Version"));
         // Debugging:
         // this.printAttributes(attributes);
     }
