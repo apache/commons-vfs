@@ -34,7 +34,6 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.provider.http5.Http5FileSystemConfigBuilder;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -92,7 +91,7 @@ public class Http5sGetContentInfoTest {
         final String uri = "http5://www.apache.org/licenses/LICENSE-2.0.txt";
         final FileObject fo = fsManager.resolveFile(uri, getOptionsWithProxy());
         final FileContent content = fo.getContent();
-        Assert.assertNotNull(content);
+        assertNotNull(content);
         // Used to NPE before fix:
         content.getContentInfo();
     }
