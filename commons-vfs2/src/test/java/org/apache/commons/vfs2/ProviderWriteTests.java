@@ -23,7 +23,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
 
 /**
@@ -504,7 +504,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
     @Test
     public void testFolderIsHidden() throws Exception {
         final FileObject folder = getReadFolderDir1();
-        Assert.assertFalse(folder.isHidden());
+        Assertions.assertFalse(folder.isHidden());
     }
 
     /**
@@ -513,7 +513,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
     @Test
     public void testFolderIsReadable() throws Exception {
         final FileObject folder = getReadFolderDir1();
-        Assert.assertTrue(folder.isReadable());
+        Assertions.assertTrue(folder.isReadable());
     }
 
     /**
@@ -522,7 +522,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
     @Test
     public void testFolderIsWritable() throws Exception {
         final FileObject folder = getWriteFolder().resolveFile("dir1");
-        Assert.assertTrue(folder.isWriteable());
+        Assertions.assertTrue(folder.isWriteable());
     }
 
     /**
