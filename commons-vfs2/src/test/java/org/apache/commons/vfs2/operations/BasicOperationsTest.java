@@ -33,14 +33,15 @@ import org.apache.commons.vfs2.provider.FileProvider;
 import org.apache.commons.vfs2.provider.VfsComponent;
 import org.apache.commons.vfs2.provider.VfsComponentContext;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Basic Tests for the FileOperations and FileOperationsProvider API.
  */
-public class BasicOperationsTestCase {
+public class BasicOperationsTest {
+
     /** This FileOperationsProvider is a VfsComponent and records invocations. */
     static class MyFileOperationProviderComp extends MyFileOprationProviderBase implements VfsComponent {
         @Override
@@ -102,7 +103,7 @@ public class BasicOperationsTestCase {
      *
      * @throws FileSystemException for runtime problems
      */
-    @Before
+    @BeforeEach
     public void setUp() throws FileSystemException {
         manager = new DefaultFileSystemManager();
         final FileProvider fp = new DefaultLocalFileProvider();
@@ -115,7 +116,7 @@ public class BasicOperationsTestCase {
      *
      * @throws FileSystemException for runtime problems
      */
-    @After
+    @AfterEach
     public void tearDown() throws FileSystemException {
         if (manager != null) {
             manager.close();
