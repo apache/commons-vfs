@@ -18,10 +18,10 @@ package org.apache.commons.vfs2;
 
 import java.util.Iterator;
 
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link FileObject}s with iterators its implementation the {@link Iterable} interface to allow a FileObject to
@@ -38,7 +38,7 @@ public class FileIteratorTest {
      *
      * @throws Exception
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUpClass() throws Exception {
         BaseFolder = VFS.getManager().resolveFile("ram://" + FileIteratorTest.class.getName());
         BaseFolder.deleteAll();
@@ -62,7 +62,7 @@ public class FileIteratorTest {
      *
      * @throws Exception
      */
-    @AfterClass
+    @AfterAll
     public static void tearDownClass() throws Exception {
         if (BaseFolder != null) {
             BaseFolder.deleteAll();
