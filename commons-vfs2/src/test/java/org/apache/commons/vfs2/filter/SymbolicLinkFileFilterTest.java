@@ -26,11 +26,11 @@ import org.apache.commons.vfs2.FileFilterSelector;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSystemException;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Assume;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for {@link SymbolicLinkFileFilter}.
@@ -69,7 +69,7 @@ public class SymbolicLinkFileFilterTest extends BaseFilterTest {
 
     private static FileObject zipFileObject;
 
-    @AfterClass
+    @AfterAll
     public static void afterClass() throws IOException {
         targetFile = null;
         targetFileInfo = null;
@@ -90,7 +90,7 @@ public class SymbolicLinkFileFilterTest extends BaseFilterTest {
         }
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() throws IOException {
         Assume.assumeTrue(Boolean.getBoolean(SymbolicLinkFileFilterTest.class.getSimpleName() + ".Enable"));
 

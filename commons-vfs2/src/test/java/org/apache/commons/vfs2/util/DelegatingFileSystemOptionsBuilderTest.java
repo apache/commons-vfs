@@ -31,9 +31,9 @@ import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.apache.commons.vfs2.provider.http.HttpFileSystemConfigBuilder;
 import org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder;
 import org.apache.commons.vfs2.provider.sftp.TrustEveryoneUserInfo;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Some tests for the DelegatingFileSystemOptionsBuilder
@@ -44,7 +44,7 @@ public class DelegatingFileSystemOptionsBuilderTest {
 
     private StandardFileSystemManager fsm;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
 
         // get a full blown, fully functional manager
@@ -52,7 +52,7 @@ public class DelegatingFileSystemOptionsBuilderTest {
         fsm.init();
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         if (fsm != null) {
             fsm.close();

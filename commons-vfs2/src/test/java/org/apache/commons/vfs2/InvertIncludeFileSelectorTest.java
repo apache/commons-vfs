@@ -16,19 +16,19 @@
  */
 package org.apache.commons.vfs2;
 
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class InvertIncludeFileSelectorTest {
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpClass() throws Exception {
         PatternFileSelectorTest.setUpClass();
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDownClass() throws Exception {
         PatternFileSelectorTest.tearDownClass();
     }

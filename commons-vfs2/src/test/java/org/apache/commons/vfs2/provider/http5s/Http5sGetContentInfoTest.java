@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.http5s;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,14 +35,12 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.provider.http5.Http5FileSystemConfigBuilder;
 import org.junit.Assert;
-import org.junit.Test;
-
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests VFS-427 NPE on Http5FileObject.getContent().getContentInfo()
  */
-public class Http5sGetContentInfoTest extends TestCase {
+public class Http5sGetContentInfoTest {
 
     private static final String SERVER_JCEKS_RES = "org.apache.httpserver/star_apache_cert.ts";
 

@@ -23,17 +23,17 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSystemException;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for {@link CanExecuteFileFilter}.
  */
 // CHECKSTYLE:OFF Test code
-@Ignore
+@Disabled("Disabled pre junit v5")
 public class CanExecuteFileFilterTest extends BaseFilterTest {
 
     private static final String EXECUTABLE = "executable.txt";
@@ -58,7 +58,7 @@ public class CanExecuteFileFilterTest extends BaseFilterTest {
 
     private static FileObject zipFileObj;
 
-    @AfterClass
+    @AfterAll
     public static void afterClass() throws IOException {
 
         executableFileInfo = null;
@@ -81,7 +81,7 @@ public class CanExecuteFileFilterTest extends BaseFilterTest {
 
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() throws IOException {
 
         testDir = getTestDir(CanExecuteFileFilterTest.class.getName());

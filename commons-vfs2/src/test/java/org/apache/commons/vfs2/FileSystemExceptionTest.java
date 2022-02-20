@@ -18,12 +18,13 @@ package org.apache.commons.vfs2;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the {@link FileSystemException}.
  */
 public class FileSystemExceptionTest {
+
     /**
      * Tests a {@link FileSystemException} containing info with a URL containing only the user information.
      */

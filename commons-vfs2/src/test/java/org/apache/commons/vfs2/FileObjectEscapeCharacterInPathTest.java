@@ -34,7 +34,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.function.FailableFunction;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class FileObjectEscapeCharacterInPathTest {
 

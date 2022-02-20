@@ -32,13 +32,16 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * {@code DefaultFileContentTest} tests for bug-VFS-614. This bug involves the stream implementation closing the stream
  * after reading to the end of the buffer, which broke marking.
  */
 public class DefaultFileContentTest {
+
     private static final String expected = "testing";
 
     /**
@@ -77,9 +80,9 @@ public class DefaultFileContentTest {
         testInputStreamBufferSize(1);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testInputStreamBufferSizeNegative() throws Exception {
-        testInputStreamBufferSize(-2);
+    @Test
+    public void testInputStreamBufferSizeNegative() {
+        assertThrows(IllegalArgumentException.class, () -> testInputStreamBufferSize(-2));
     }
 
     @Test
@@ -160,18 +163,18 @@ public class DefaultFileContentTest {
         testOutputStreamBufferSize(1);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testOutputStreamBufferSizeNegative() throws Exception {
-        testOutputStreamBufferSize(-1);
+    @Test
+    public void testOutputStreamBufferSizeNegative() {
+        assertThrows(IllegalArgumentException.class, () -> testOutputStreamBufferSize(-1));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testOutputStreamBufferSizeNegativeWithAppendFlag() throws Exception {
         final File temp = File.createTempFile("temp-file-name", ".tmp");
         final FileSystemManager fileSystemManager = VFS.getManager();
 
         try (FileObject file = fileSystemManager.resolveFile(temp.getAbsolutePath())) {
-            file.getContent().getOutputStream(true, -1);
+            assertThrows(IllegalArgumentException.class, () -> file.getContent().getOutputStream(true, -1));
         }
     }
 

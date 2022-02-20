@@ -24,7 +24,7 @@ import org.apache.commons.vfs2.FileFilter;
 import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSystemException;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 // CHECKSTYLE:OFF Test code
 public class AndFileFilterTest extends BaseFilterTest {
@@ -51,14 +51,14 @@ public class AndFileFilterTest extends BaseFilterTest {
         Assert.assertFalse(new AndFileFilter().accept(any));
 
         // True
-        Assert.assertTrue(new AndFileFilter(new TestTrueFileFilter()).accept(any));
-        Assert.assertTrue(new AndFileFilter(new TestTrueFileFilter(), new TestTrueFileFilter()).accept(any));
+        Assert.assertTrue(new AndFileFilter(new AlwaysTrueFileFilter()).accept(any));
+        Assert.assertTrue(new AndFileFilter(new AlwaysTrueFileFilter(), new AlwaysTrueFileFilter()).accept(any));
 
         // False
-        Assert.assertFalse(new AndFileFilter(new TestFalseFileFilter()).accept(any));
-        Assert.assertFalse(new AndFileFilter(new TestFalseFileFilter(), new TestFalseFileFilter()).accept(any));
-        Assert.assertFalse(new AndFileFilter(new TestFalseFileFilter(), new TestTrueFileFilter()).accept(any));
-        Assert.assertFalse(new AndFileFilter(new TestTrueFileFilter(), new TestFalseFileFilter()).accept(any));
+        Assert.assertFalse(new AndFileFilter(new AlwaysFalseFileFilter()).accept(any));
+        Assert.assertFalse(new AndFileFilter(new AlwaysFalseFileFilter(), new AlwaysFalseFileFilter()).accept(any));
+        Assert.assertFalse(new AndFileFilter(new AlwaysFalseFileFilter(), new AlwaysTrueFileFilter()).accept(any));
+        Assert.assertFalse(new AndFileFilter(new AlwaysTrueFileFilter(), new AlwaysFalseFileFilter()).accept(any));
 
     }
 
@@ -71,14 +71,14 @@ public class AndFileFilterTest extends BaseFilterTest {
         Assert.assertFalse(new AndFileFilter().accept(any));
 
         // True
-        Assert.assertTrue(new AndFileFilter(new TestTrueFileFilter()).accept(any));
-        Assert.assertTrue(new AndFileFilter(new TestTrueFileFilter(), new TestTrueFileFilter()).accept(any));
+        Assert.assertTrue(new AndFileFilter(new AlwaysTrueFileFilter()).accept(any));
+        Assert.assertTrue(new AndFileFilter(new AlwaysTrueFileFilter(), new AlwaysTrueFileFilter()).accept(any));
 
         // False
-        Assert.assertFalse(new AndFileFilter(new TestFalseFileFilter()).accept(any));
-        Assert.assertFalse(new AndFileFilter(new TestFalseFileFilter(), new TestFalseFileFilter()).accept(any));
-        Assert.assertFalse(new AndFileFilter(new TestFalseFileFilter(), new TestTrueFileFilter()).accept(any));
-        Assert.assertFalse(new AndFileFilter(new TestTrueFileFilter(), new TestFalseFileFilter()).accept(any));
+        Assert.assertFalse(new AndFileFilter(new AlwaysFalseFileFilter()).accept(any));
+        Assert.assertFalse(new AndFileFilter(new AlwaysFalseFileFilter(), new AlwaysFalseFileFilter()).accept(any));
+        Assert.assertFalse(new AndFileFilter(new AlwaysFalseFileFilter(), new AlwaysTrueFileFilter()).accept(any));
+        Assert.assertFalse(new AndFileFilter(new AlwaysTrueFileFilter(), new AlwaysFalseFileFilter()).accept(any));
 
     }
 

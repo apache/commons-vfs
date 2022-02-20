@@ -21,7 +21,7 @@ import java.net.URI;
 
 import org.apache.commons.vfs2.FileName;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class UrlFileNameParserTest {
 

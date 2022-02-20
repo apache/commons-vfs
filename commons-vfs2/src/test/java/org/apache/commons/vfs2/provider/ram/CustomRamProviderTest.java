@@ -40,15 +40,16 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.UriParser;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Custom tests for RamProvider.
  */
 public class CustomRamProviderTest {
+
     private static final byte[] NON_EMPTY_FILE_CONTENT = { 1, 2, 3 };
 
     /** List of URL special characters encoded for AbstractFileObject#getChild */
@@ -110,7 +111,7 @@ public class CustomRamProviderTest {
     }
 
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         manager = new DefaultFileSystemManager();
         manager.addProvider("ram", new RamFileProvider());
@@ -121,7 +122,7 @@ public class CustomRamProviderTest {
         RamFileSystemConfigBuilder.getInstance().setMaxSize(smallSizedFso, 10L);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         for (final Closeable closeable : this.closeables) {
             try {
