@@ -16,7 +16,9 @@
  */
 package org.apache.commons.vfs2.provider;
 
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import org.junit.jupiter.api.Test;
 
 public class UriParserTest {
@@ -25,46 +27,46 @@ public class UriParserTest {
 
     @Test
     public void testColonInFileName() {
-        Assert.assertNull(UriParser.extractScheme("some/path/some:file"));
+        assertNull(UriParser.extractScheme("some/path/some:file"));
     }
 
     @Test
     public void testColonInFileNameAndNotSupportedScheme() {
-        Assert.assertNull(UriParser.extractScheme(schemes, "some:file"));
+        assertNull(UriParser.extractScheme(schemes, "some:file"));
     }
 
     @Test
     public void testColonInFileNameWithPath() {
-        Assert.assertNull(UriParser.extractScheme(schemes, "some/path/some:file"));
+        assertNull(UriParser.extractScheme(schemes, "some/path/some:file"));
     }
 
     @Test
     public void testColonNotFollowedBySlash() {
-        Assert.assertEquals("file", UriParser.extractScheme(schemes, "file:user/subdir/some/path/some:file"));
+        assertEquals("file", UriParser.extractScheme(schemes, "file:user/subdir/some/path/some:file"));
     }
 
     @Test
     public void testNormalScheme() {
-        Assert.assertEquals("ftp", UriParser.extractScheme(schemes, "ftp://user:pass@host/some/path/some:file"));
+        assertEquals("ftp", UriParser.extractScheme(schemes, "ftp://user:pass@host/some/path/some:file"));
     }
 
     @Test
     public void testNormalSchemeWithBuffer() {
         final StringBuilder buffer = new StringBuilder();
         UriParser.extractScheme(schemes, "ftp://user:pass@host/some/path/some:file", buffer);
-        Assert.assertEquals("//user:pass@host/some/path/some:file", buffer.toString());
+        assertEquals("//user:pass@host/some/path/some:file", buffer.toString());
     }
 
     @Test
     public void testOneSlashScheme() {
-        Assert.assertEquals("file", UriParser.extractScheme(schemes, "file:/user:pass@host/some/path/some:file"));
+        assertEquals("file", UriParser.extractScheme(schemes, "file:/user:pass@host/some/path/some:file"));
     }
 
     @Test
     public void testOneSlashSchemeWithBuffer() {
         final StringBuilder buffer = new StringBuilder();
         UriParser.extractScheme(schemes, "file:/user:pass@host/some/path/some:file", buffer);
-        Assert.assertEquals("/user:pass@host/some/path/some:file", buffer.toString());
+        assertEquals("/user:pass@host/some/path/some:file", buffer.toString());
     }
 
 }
