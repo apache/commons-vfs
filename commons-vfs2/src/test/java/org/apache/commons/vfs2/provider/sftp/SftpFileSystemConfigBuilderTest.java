@@ -22,12 +22,12 @@ import static org.junit.Assert.assertEquals;
 import java.time.Duration;
 
 import org.apache.commons.vfs2.FileSystemOptions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link SftpFileSystemConfigBuilder}.
  */
-public class SftpFileSystemConfigBuilderTestCase {
+public class SftpFileSystemConfigBuilderTest {
 
     private static final Duration ONE_MINUTE = Duration.ofMinutes(1);
 
