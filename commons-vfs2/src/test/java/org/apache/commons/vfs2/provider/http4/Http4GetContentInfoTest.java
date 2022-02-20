@@ -27,14 +27,12 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.auth.StaticUserAuthenticator;
 import org.junit.Assert;
-import org.junit.Test;
-
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests VFS-427 NPE on Http4FileObject.getContent().getContentInfo().
  */
-public class Http4GetContentInfoTest extends TestCase {
+public class Http4GetContentInfoTest {
 
     FileSystemOptions getOptionsWithProxy() throws MalformedURLException {
         // get proxy host and port from env var "https_proxy"
