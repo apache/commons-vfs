@@ -36,11 +36,13 @@ import org.apache.hadoop.hdfs.DFSConfigKeys;
 import org.apache.hadoop.hdfs.MiniDFSCluster;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * This test class uses the Hadoop MiniDFSCluster class to create an embedded Hadoop cluster.
@@ -97,7 +99,7 @@ public class HdfsFileProviderTest {
         }
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws Exception {
         Logger.getRootLogger().setLevel(Level.ERROR);
 
@@ -125,7 +127,7 @@ public class HdfsFileProviderTest {
         hdfs = cluster.getFileSystem();
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws Exception {
         if (null != hdfs) {
             hdfs.close();
@@ -133,7 +135,7 @@ public class HdfsFileProviderTest {
         manager.close();
     }
 
-    @After
+    @AfterEach
     public void after() throws Exception {
         if (null != hdfs) {
             hdfs.delete(DIR1_PATH, true);
@@ -299,7 +301,7 @@ public class HdfsFileProviderTest {
         Assert.assertNotEquals(-1, file.getContent().getLastModifiedTime());
     }
 
-    @Test(expected = FileSystemException.class)
+    @Test
     public void testRandomAccessContent() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(fo);
@@ -308,7 +310,7 @@ public class HdfsFileProviderTest {
         // Create the test file
         final FileObject file = createTestFile(hdfs);
         Assert.assertTrue(fo.exists());
-        file.getContent().getRandomAccessContent(RandomAccessMode.READWRITE).close();
+        assertThrows(FileSystemException.class, () -> file.getContent().getRandomAccessContent(RandomAccessMode.READWRITE).close());
     }
 
     @Test
