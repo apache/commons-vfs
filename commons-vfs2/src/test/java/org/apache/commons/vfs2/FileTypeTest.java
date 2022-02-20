@@ -16,10 +16,11 @@
  */
 package org.apache.commons.vfs2;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.Serializable;
 
 import org.apache.commons.lang3.SerializationUtils;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -39,17 +40,17 @@ public class FileTypeTest {
 
     }
 
-    private void assertEquals(final FileType expected, final FileType actualFileType) {
-        Assert.assertEquals(expected.getName(), actualFileType.getName());
-        Assert.assertEquals(expected.hasAttributes(), actualFileType.hasAttributes());
-        Assert.assertEquals(expected.hasChildren(), actualFileType.hasChildren());
-        Assert.assertEquals(expected.hasContent(), actualFileType.hasContent());
+    private void assertFileTypeEquals(final FileType expected, final FileType actualFileType) {
+        assertEquals(expected.getName(), actualFileType.getName());
+        assertEquals(expected.hasAttributes(), actualFileType.hasAttributes());
+        assertEquals(expected.hasChildren(), actualFileType.hasChildren());
+        assertEquals(expected.hasContent(), actualFileType.hasContent());
     }
 
     private void test(final FileType expected) {
         final byte[] serialized = SerializationUtils.serialize(expected);
         final FileType actualFileType = (FileType) SerializationUtils.deserialize(serialized);
-        assertEquals(expected, actualFileType);
+        assertFileTypeEquals(expected, actualFileType);
     }
 
     @Test
@@ -57,7 +58,7 @@ public class FileTypeTest {
         final Fixture expectedFixture = new Fixture();
         final byte[] serialized = SerializationUtils.serialize(expectedFixture);
         final Fixture actualFixture = (Fixture) SerializationUtils.deserialize(serialized);
-        assertEquals(expectedFixture.getFileType(), actualFixture.getFileType());
+        assertFileTypeEquals(expectedFixture.getFileType(), actualFixture.getFileType());
     }
 
     @Test
