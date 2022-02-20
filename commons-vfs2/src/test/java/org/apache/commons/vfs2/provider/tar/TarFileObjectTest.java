@@ -16,13 +16,15 @@
  */
 package org.apache.commons.vfs2.provider.tar;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.io.File;
 
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 public class TarFileObjectTest {
@@ -38,11 +40,11 @@ public class TarFileObjectTest {
         // test
         try (FileObject fileObject = manager.resolveFile(baseUrl)) {
             // test getChildren() number equal
-            Assert.assertEquals(fileObject.getChildren().length, fileNames.length);
+            assertEquals(fileObject.getChildren().length, fileNames.length);
 
             // test getChild(String)
             for (final String fileName : fileNames) {
-                Assert.assertNotNull("can't read file " + fileName, fileObject.getChild(fileName));
+                assertNotNull(fileObject.getChild(fileName), "can't read file " + fileName);
             }
         }
     }
