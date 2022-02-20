@@ -17,15 +17,16 @@
 package org.apache.commons.vfs2;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests FileExtensionSelector.
@@ -33,6 +34,7 @@ import org.junit.Test;
  * @since 2.1
  */
 public class PatternFileSelectorTest {
+
     private static FileObject BaseFolder;
 
     /**
@@ -53,7 +55,7 @@ public class PatternFileSelectorTest {
      *
      * @throws Exception
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUpClass() throws Exception {
         BaseFolder = VFS.getManager().resolveFile("ram://" + PatternFileSelectorTest.class.getName());
         BaseFolder.deleteAll();
@@ -74,7 +76,7 @@ public class PatternFileSelectorTest {
      *
      * @throws Exception
      */
-    @AfterClass
+    @AfterAll
     public static void tearDownClass() throws Exception {
         if (BaseFolder != null) {
             BaseFolder.deleteAll();
@@ -153,10 +155,10 @@ public class PatternFileSelectorTest {
      *
      * @throws Exception
      */
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testNullString() throws Exception {
         // Yep, this will blow up.
-        new PatternFileSelector((String) null);
+        assertThrows(NullPointerException.class, () -> new PatternFileSelector((String) null));
     }
 
 }
