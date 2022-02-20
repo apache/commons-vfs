@@ -160,8 +160,8 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Bump commons.japicmp.version 0.15.3 -> 0.15.6.
       </action>
-      <action dev="ggregory" due-to="Gary Gregory" type="update">
-        Replace JUnit 4.13.2 with 5.8.2 Vintage.
+      <action dev="ggregory" due-to="Gary Gregory, John Patrick" type="update">
+        Replace JUnit 4.13.2 with 5.8.2.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Bump org.apache.httpcomponents:httpcore-nio 4.4.14 -> 4.4.15.
