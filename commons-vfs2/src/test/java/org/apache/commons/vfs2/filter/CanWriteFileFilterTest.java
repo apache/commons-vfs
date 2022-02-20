@@ -24,10 +24,10 @@ import org.apache.commons.vfs2.FileFilterSelector;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSystemException;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for {@link CanWriteFileFilter}.
@@ -57,7 +57,7 @@ public class CanWriteFileFilterTest extends BaseFilterTest {
 
     private static FileObject zipFileObj;
 
-    @AfterClass
+    @AfterAll
     public static void afterClass() throws IOException {
 
         writableFileInfo = null;
@@ -80,7 +80,7 @@ public class CanWriteFileFilterTest extends BaseFilterTest {
 
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() throws IOException {
 
         testDir = getTestDir(CanWriteFileFilterTest.class.getName());
