@@ -26,7 +26,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.VFS;
 import org.apache.sshd.server.channel.ChannelSession;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
 
 /**
@@ -97,9 +97,9 @@ public class SftpPermissionExceptionTestCase extends AbstractSftpProviderTestCas
         for (int i = 0; i < 30; i++) {
             try{
                 fileObjectCopy = scratchFolder.resolveFile(fileName);
-                Assert.assertFalse(fileObjectCopy.isWriteable());
+                Assertions.assertFalse(fileObjectCopy.isWriteable());
                 fileObjectCopy.copyFrom(localFileObject, Selectors.SELECT_SELF);
-                Assert.fail("permission fail");
+                Assertions.fail("permission fail");
             } catch (Exception ex) {
                 // ignore no perminison
             }
@@ -107,13 +107,13 @@ public class SftpPermissionExceptionTestCase extends AbstractSftpProviderTestCas
 
         // try to get created channel number.
         final int channelId = Server.getActiveSessions().get(0).registerChannel(new ChannelSession());
-        Assert.assertTrue("create too many sftp channel more", channelId<30);
+        Assertions.assertTrue(channelId < 30, "create too many sftp channel more");
 
         // try to set the local file to writable
         Paths.get(getTestDirectory(), scratchFolder.getName().getBaseName(), fileName).toFile().setWritable(true);
 
         fileObjectCopy = scratchFolder.resolveFile(fileName);
-        Assert.assertTrue(fileObjectCopy.isWriteable());
+        Assertions.assertTrue(fileObjectCopy.isWriteable());
         fileObjectCopy.copyFrom(localFileObject, Selectors.SELECT_SELF);
     }
 
