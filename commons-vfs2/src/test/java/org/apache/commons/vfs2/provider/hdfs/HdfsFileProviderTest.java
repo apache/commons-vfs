@@ -16,6 +16,13 @@
  */
 package org.apache.commons.vfs2.provider.hdfs;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -36,13 +43,10 @@ import org.apache.hadoop.hdfs.DFSConfigKeys;
 import org.apache.hadoop.hdfs.MiniDFSCluster;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * This test class uses the Hadoop MiniDFSCluster class to create an embedded Hadoop cluster.
@@ -146,181 +150,181 @@ public class HdfsFileProviderTest {
         // Create the directory
         hdfs.mkdirs(DIR1_PATH);
         final FileObject dir = manager.resolveFile(TEST_DIR1);
-        Assert.assertNotNull(dir);
-        Assert.assertTrue(dir.exists());
-        Assert.assertEquals(dir.getType(), FileType.FOLDER);
+        assertNotNull(dir);
+        assertTrue(dir.exists());
+        assertEquals(dir.getType(), FileType.FOLDER);
 
         // Create the file in the directory
         hdfs.create(FILE1_PATH).close();
         final FileObject f = manager.resolveFile(TEST_FILE1);
-        Assert.assertNotNull(f);
-        Assert.assertTrue(f.exists());
-        Assert.assertEquals(f.getType(), FileType.FILE);
+        assertNotNull(f);
+        assertTrue(f.exists());
+        assertEquals(f.getType(), FileType.FILE);
         return f;
     }
 
     @Test
     public void testCanRenameTo() throws Exception {
         final FileObject fo = createTestFile(hdfs);
-        Assert.assertNotNull(fo);
+        assertNotNull(fo);
         fo.canRenameTo(fo);
     }
 
     @Test
     public void testDoListChildren() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
-        Assert.assertNotNull(fo);
-        Assert.assertFalse(fo.exists());
+        assertNotNull(fo);
+        assertFalse(fo.exists());
 
         // Create the test file
         final FileObject file = createTestFile(hdfs);
-        Assert.assertTrue(fo.exists());
+        assertTrue(fo.exists());
         final FileObject dir = file.getParent();
 
         final FileObject[] children = dir.getChildren();
-        Assert.assertEquals(1, children.length);
-        Assert.assertEquals(children[0].getName(), file.getName());
+        assertEquals(1, children.length);
+        assertEquals(children[0].getName(), file.getName());
     }
 
     @Test
     public void testEquals() throws Exception {
         // Create test file (and check parent was created)
         final FileObject dir = manager.resolveFile(TEST_DIR1);
-        Assert.assertNotNull(dir);
-        Assert.assertFalse(dir.exists());
+        assertNotNull(dir);
+        assertFalse(dir.exists());
         final FileObject file1 = createTestFile(hdfs);
-        Assert.assertTrue(file1.exists());
-        Assert.assertTrue(dir.exists());
+        assertTrue(file1.exists());
+        assertTrue(dir.exists());
 
         // Get a handle to the same file and ensure it is equal
         final FileObject file2 = manager.resolveFile(TEST_FILE1);
-        Assert.assertEquals(file1, file2);
+        assertEquals(file1, file2);
 
         // Ensure different files on same filesystem are not equal
-        Assert.assertNotEquals(dir, file1);
-        Assert.assertNotEquals(dir, file2);
+        assertNotEquals(dir, file1);
+        assertNotEquals(dir, file2);
     }
 
     @Test
     public void testGetAttributes() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
-        Assert.assertNotNull(fo);
-        Assert.assertFalse(fo.exists());
+        assertNotNull(fo);
+        assertFalse(fo.exists());
 
         // Create the test file
         final FileObject file = createTestFile(hdfs);
-        Assert.assertTrue(fo.exists());
+        assertTrue(fo.exists());
         final Map<String, Object> attributes = file.getContent().getAttributes();
-        Assert.assertTrue(attributes.containsKey(HdfsFileAttributes.BLOCK_SIZE.toString()));
-        Assert.assertTrue(attributes.containsKey(HdfsFileAttributes.GROUP.toString()));
-        Assert.assertTrue(attributes.containsKey(HdfsFileAttributes.LAST_ACCESS_TIME.toString()));
-        Assert.assertTrue(attributes.containsKey(HdfsFileAttributes.LENGTH.toString()));
-        Assert.assertTrue(attributes.containsKey(HdfsFileAttributes.MODIFICATION_TIME.toString()));
-        Assert.assertTrue(attributes.containsKey(HdfsFileAttributes.OWNER.toString()));
-        Assert.assertTrue(attributes.containsKey(HdfsFileAttributes.PERMISSIONS.toString()));
+        assertTrue(attributes.containsKey(HdfsFileAttributes.BLOCK_SIZE.toString()));
+        assertTrue(attributes.containsKey(HdfsFileAttributes.GROUP.toString()));
+        assertTrue(attributes.containsKey(HdfsFileAttributes.LAST_ACCESS_TIME.toString()));
+        assertTrue(attributes.containsKey(HdfsFileAttributes.LENGTH.toString()));
+        assertTrue(attributes.containsKey(HdfsFileAttributes.MODIFICATION_TIME.toString()));
+        assertTrue(attributes.containsKey(HdfsFileAttributes.OWNER.toString()));
+        assertTrue(attributes.containsKey(HdfsFileAttributes.PERMISSIONS.toString()));
     }
 
     @Test
     public void testGetContentSize() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
-        Assert.assertNotNull(fo);
-        Assert.assertFalse(fo.exists());
+        assertNotNull(fo);
+        assertFalse(fo.exists());
 
         // Create the test file
         final FileObject file = createTestFile(hdfs);
-        Assert.assertTrue(fo.exists());
-        Assert.assertEquals(0, file.getContent().getSize());
-        Assert.assertTrue(file.getContent().isEmpty());
+        assertTrue(fo.exists());
+        assertEquals(0, file.getContent().getSize());
+        assertTrue(file.getContent().isEmpty());
     }
 
     @Test
     public void testGetInputStream() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
-        Assert.assertNotNull(fo);
-        Assert.assertFalse(fo.exists());
+        assertNotNull(fo);
+        assertFalse(fo.exists());
 
         // Create the test file
         final FileObject file = createTestFile(hdfs);
-        Assert.assertTrue(fo.exists());
+        assertTrue(fo.exists());
         file.getContent().getInputStream().close();
     }
 
     @Test
     public void testInit() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_FILE1);
-        Assert.assertNotNull(fo);
-        Assert.assertFalse(fo.exists());
+        assertNotNull(fo);
+        assertFalse(fo.exists());
     }
 
     @Test
     public void testIsHidden() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
-        Assert.assertNotNull(fo);
-        Assert.assertFalse(fo.exists());
+        assertNotNull(fo);
+        assertFalse(fo.exists());
 
         // Create the test file
         final FileObject file = createTestFile(hdfs);
-        Assert.assertTrue(fo.exists());
-        Assert.assertFalse(file.isHidden());
+        assertTrue(fo.exists());
+        assertFalse(file.isHidden());
     }
 
     @Test
     public void testIsReadable() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
-        Assert.assertNotNull(fo);
-        Assert.assertFalse(fo.exists());
+        assertNotNull(fo);
+        assertFalse(fo.exists());
 
         // Create the test file
         final FileObject file = createTestFile(hdfs);
-        Assert.assertTrue(fo.exists());
-        Assert.assertTrue(file.isReadable());
+        assertTrue(fo.exists());
+        assertTrue(file.isReadable());
     }
 
     @Test
     public void testIsWritable() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
-        Assert.assertNotNull(fo);
-        Assert.assertFalse(fo.exists());
+        assertNotNull(fo);
+        assertFalse(fo.exists());
 
         // Create the test file
         final FileObject file = createTestFile(hdfs);
-        Assert.assertTrue(fo.exists());
-        Assert.assertTrue(file.isWriteable());
+        assertTrue(fo.exists());
+        assertTrue(file.isWriteable());
     }
 
     @Test
     public void testLastModificationTime() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
-        Assert.assertNotNull(fo);
-        Assert.assertFalse(fo.exists());
+        assertNotNull(fo);
+        assertFalse(fo.exists());
 
         // Create the test file
         final FileObject file = createTestFile(hdfs);
-        Assert.assertTrue(fo.exists());
-        Assert.assertNotEquals(-1, file.getContent().getLastModifiedTime());
+        assertTrue(fo.exists());
+        assertNotEquals(-1, file.getContent().getLastModifiedTime());
     }
 
     @Test
     public void testRandomAccessContent() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
-        Assert.assertNotNull(fo);
-        Assert.assertFalse(fo.exists());
+        assertNotNull(fo);
+        assertFalse(fo.exists());
 
         // Create the test file
         final FileObject file = createTestFile(hdfs);
-        Assert.assertTrue(fo.exists());
+        assertTrue(fo.exists());
         assertThrows(FileSystemException.class, () -> file.getContent().getRandomAccessContent(RandomAccessMode.READWRITE).close());
     }
 
     @Test
     public void testRandomAccessContent2() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
-        Assert.assertNotNull(fo);
-        Assert.assertFalse(fo.exists());
+        assertNotNull(fo);
+        assertFalse(fo.exists());
 
         // Create the test file
         final FileObject file = createTestFile(hdfs);
-        Assert.assertTrue(fo.exists());
+        assertTrue(fo.exists());
         file.getContent().getRandomAccessContent(RandomAccessMode.READ).close();
     }
 
