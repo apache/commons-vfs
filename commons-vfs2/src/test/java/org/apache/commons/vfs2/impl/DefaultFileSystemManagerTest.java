@@ -34,9 +34,11 @@ import org.apache.commons.vfs2.provider.jar.JarFileObject;
 import org.apache.commons.vfs2.provider.ram.RamFileProvider;
 import org.apache.commons.vfs2.provider.zip.ZipFileObject;
 import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Tests {@link DefaultFileSystemManager}.
@@ -97,7 +99,7 @@ public class DefaultFileSystemManagerTest {
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void testCreateGzipFileSystem() throws FileSystemException {
         testCreateFileSystem("src/test/resources/test-data/好.txt.gz", GzipFileObject.class);
     }
@@ -155,10 +157,10 @@ public class DefaultFileSystemManagerTest {
      *
      * @see "VFS-519"
      */
-    @Test(expected = NullPointerException.class)
-    public void testResolveFileAbsoluteThrows() throws FileSystemException {
+    @Test
+    public void testResolveFileAbsoluteThrows() {
         final String absolute = new File("/").getAbsoluteFile().toURI().toString();
-        VFS.getManager().resolveFile((File) null, absolute);
+        assertThrows(NullPointerException.class, () -> VFS.getManager().resolveFile((File) null, absolute));
     }
 
     /**
@@ -166,9 +168,9 @@ public class DefaultFileSystemManagerTest {
      *
      * @see VFS-189
      */
-    @Test(expected = FileSystemException.class)
-    public void testResolveFileNameNull() throws FileSystemException {
-        VFS.getManager().resolveName((FileName) null, "../");
+    @Test
+    public void testResolveFileNameNull() {
+        assertThrows(FileSystemException.class, () -> VFS.getManager().resolveName((FileName) null, "../"));
     }
 
     @Test
@@ -177,13 +179,13 @@ public class DefaultFileSystemManagerTest {
         VFS.getManager().resolveFile((FileObject) null, absolute);
     }
 
-    @Test(expected = FileSystemException.class)
-    public void testResolveFileObjectRelativeThrows() throws FileSystemException {
-        VFS.getManager().resolveFile((FileObject) null, "relativePath");
+    @Test
+    public void testResolveFileObjectRelativeThrows() {
+        assertThrows(FileSystemException.class, () -> VFS.getManager().resolveFile((FileObject) null, "relativePath"));
     }
 
-    @Test(expected = NullPointerException.class)
-    public void testResolveFileRelativeThrows() throws FileSystemException {
-        VFS.getManager().resolveFile((File) null, "relativePath");
+    @Test
+    public void testResolveFileRelativeThrows() {
+        assertThrows(NullPointerException.class, () -> VFS.getManager().resolveFile((File) null, "relativePath"));
     }
 }
