@@ -17,10 +17,10 @@
 package org.apache.commons.vfs2.impl;
 
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -106,7 +106,7 @@ public class DefaultFileMonitorTest {
     private void deleteTestFileIfPresent() {
         if (testFile != null && testFile.exists()) {
             final boolean deleted = testFile.delete();
-            assertTrue(testFile.toString(), deleted);
+            assertTrue(deleted, testFile.toString());
         }
     }
 
@@ -138,7 +138,7 @@ public class DefaultFileMonitorTest {
                 monitor.start();
                 writeToFile(testFile);
                 Thread.sleep(DELAY_MILLIS * 3);
-                assertEquals("Created event is only fired once", 1, listener.created.get());
+                assertEquals(1, listener.created.get(), "Created event is only fired once");
             }
         }
     }
@@ -180,8 +180,8 @@ public class DefaultFileMonitorTest {
                 writeToFile(testFile);
                 Thread.sleep(DELAY_MILLIS * 10);
 
-                assertEquals("The listener of the active monitor received one created event", 1, activeListener.created.get());
-                assertEquals("The listener of the stopped monitor received no events", 0, stoppedListener.created.get());
+                assertEquals(1, activeListener.created.get(), "The listener of the active monitor received one created event");
+                assertEquals(0, stoppedListener.created.get(), "The listener of the stopped monitor received no events");
             }
         }
     }
@@ -217,7 +217,7 @@ public class DefaultFileMonitorTest {
                 Thread.sleep(DELAY_MILLIS * 5);
                 testFile.delete();
                 Thread.sleep(DELAY_MILLIS * 30);
-                assertNull("Event should not have occurred", getStatus(PeekLocation.LAST));
+                assertNull(getStatus(PeekLocation.LAST), "Event should not have occurred");
             }
         }
     }
@@ -287,7 +287,7 @@ public class DefaultFileMonitorTest {
                 Thread.sleep(DELAY_MILLIS * 10);
                 final long valueMillis = System.currentTimeMillis();
                 final boolean rcMillis = testFile.setLastModified(valueMillis);
-                assertTrue("setLastModified succeeded", rcMillis);
+                assertTrue(rcMillis, "setLastModified succeeded");
                 waitFor(Status.CHANGED, DELAY_MILLIS * 5, PeekLocation.LAST);
             }
         }
@@ -354,8 +354,8 @@ public class DefaultFileMonitorTest {
                 return;
             }
         }
-        assertNotNull("No event occurred", getStatus(peekLocation));
-        assertEquals("Incorrect event " + getStatus(peekLocation), expected, getStatus(peekLocation));
+        assertNotNull(getStatus(peekLocation), "No event occurred");
+        assertEquals(expected, getStatus(peekLocation), "Incorrect event " + getStatus(peekLocation));
     }
 
     private void writeToFile(final File file) throws IOException {
