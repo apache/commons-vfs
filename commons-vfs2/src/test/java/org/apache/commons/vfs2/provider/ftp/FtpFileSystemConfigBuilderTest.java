@@ -16,7 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.ftp;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Duration;
 
