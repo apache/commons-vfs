@@ -22,12 +22,12 @@ import java.io.InputStream;
 
 import org.apache.commons.vfs2.util.RandomAccessMode;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @since 2.7.0
  */
-public class LocalFileRandomAccessContentTestCase {
+public class LocalFileRandomAccessContentTest {
 
     private final int EOF = -1;
 
