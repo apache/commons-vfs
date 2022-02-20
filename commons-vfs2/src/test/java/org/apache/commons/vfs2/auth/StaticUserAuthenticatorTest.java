@@ -16,17 +16,18 @@
  */
 package org.apache.commons.vfs2.auth;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.UserAuthenticator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class StaticUserAuthenticatorTestCase {
+public class StaticUserAuthenticatorTest {
+
     @Test
     public void testAuthenticationRequest() {
         final UserAuthenticator userAuthenticator = new StaticUserAuthenticator("DOMAIN", "USER", "PWD");
