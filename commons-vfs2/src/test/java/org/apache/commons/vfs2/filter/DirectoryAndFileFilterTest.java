@@ -26,10 +26,10 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSelector;
 import org.apache.commons.vfs2.FileSystemException;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for {@link DirectoryFileFilter} and {@link FileFileFilter}.
@@ -59,7 +59,7 @@ public class DirectoryAndFileFilterTest extends BaseFilterTest {
 
     private static FileObject zipFileObj;
 
-    @AfterClass
+    @AfterAll
     public static void afterClass() throws IOException {
 
         file = null;
@@ -81,7 +81,7 @@ public class DirectoryAndFileFilterTest extends BaseFilterTest {
 
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() throws IOException {
 
         testDir = getTestDir(DirectoryAndFileFilterTest.class.getName());
