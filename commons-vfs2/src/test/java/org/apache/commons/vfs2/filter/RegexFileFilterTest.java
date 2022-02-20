@@ -23,13 +23,13 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.vfs2.FileFilter;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for {@link RegexFileFilter}.
  */
 // CHECKSTYLE:OFF Test code
-public class RegexFileFilterTestCase extends BaseFilterTest {
+public class RegexFileFilterTest extends BaseFilterTest {
 
     @Test
     public void testPatternNullArgConstruction() {
