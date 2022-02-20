@@ -31,13 +31,13 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
 import org.junit.Assert;
 import org.junit.Assume;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests https://issues.apache.org/jira/browse/VFS-291
  */
-public class FileLockTestCase {
+public class FileLockTest {
 
     private FileSystemManager manager;
     private File newZipFile;
@@ -75,7 +75,7 @@ public class FileLockTestCase {
         }
     }
 
-    @Before
+    @BeforeEach
     public void setup() throws IOException {
         final File zipFile = new File("src/test/resources/test-data/test.zip");
         newZipFile = File.createTempFile(getClass().getSimpleName(), ".zip");
