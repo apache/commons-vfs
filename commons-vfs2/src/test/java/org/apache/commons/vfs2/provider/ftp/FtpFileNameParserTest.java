@@ -22,14 +22,14 @@ import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.provider.GenericFileName;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests https://issues.apache.org/jira/browse/VFS-793.
  *
  * See also https://issues.apache.org/jira/browse/VFS-810.
  */
-public class FtpFileNameParserTestCase {
+public class FtpFileNameParserTest {
 
     @Test
     public void testGenericFileName1() throws Exception {
