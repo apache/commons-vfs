@@ -21,13 +21,13 @@ import java.util.Map;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.VFS;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests JAR attributes.
  *
  */
-public class JarAttributesTestCase {
+public class JarAttributesTest {
 
     private void printAttributes(final Map<String, Object> attributes) {
         for (final Map.Entry<String, Object> e : attributes.entrySet()) {
