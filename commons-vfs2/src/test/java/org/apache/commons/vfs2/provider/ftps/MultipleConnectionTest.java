@@ -24,18 +24,18 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.VFS;
 import org.apache.ftpserver.ftplet.FtpException;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-public class MultipleConnectionTestCase {
+public class MultipleConnectionTest {
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpClass() throws FtpException, IOException {
         AbstractFtpsProviderTestCase.setUpClass(true);
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDownClass() {
         AbstractFtpsProviderTestCase.tearDownClass();
     }
