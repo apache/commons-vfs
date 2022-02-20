@@ -24,12 +24,12 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @since 2.7.0
  */
-public class RamFileRandomAccessContentTestCase {
+public class RamFileRandomAccessContentTest {
 
     private final int EOF = -1;
 
