@@ -16,10 +16,10 @@
  */
 package org.apache.commons.vfs2;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -54,7 +54,7 @@ public class FileSystemOptionsTest {
     }
 
     @Test
-    public void testClone() throws CloneNotSupportedException {
+    public void testClone() {
         final FileSystemOptions fileSystemOptions = new FileSystemOptions();
         assertEquals(fileSystemOptions.getClass(), fileSystemOptions.clone().getClass());
         assertEquals(0, ((FileSystemOptions) fileSystemOptions.clone()).size());
@@ -75,21 +75,21 @@ public class FileSystemOptionsTest {
         final FileSystemOptions actual = new FileSystemOptions();
         builder.setId(actual, "Test");
 
-        Assert.assertEquals(expected, actual);
-        Assert.assertEquals(0, actual.compareTo(expected));
-        Assert.assertEquals(expected.hashCode(), actual.hashCode());
+        assertEquals(expected, actual);
+        assertEquals(0, actual.compareTo(expected));
+        assertEquals(expected.hashCode(), actual.hashCode());
 
         builder.setNames(expected, new String[] {"A", "B", "C"});
 
-        Assert.assertNotEquals(expected, actual);
-        Assert.assertEquals(-1, actual.compareTo(expected));
-        Assert.assertNotEquals(expected.hashCode(), actual.hashCode());
+        assertNotEquals(expected, actual);
+        assertEquals(-1, actual.compareTo(expected));
+        assertNotEquals(expected.hashCode(), actual.hashCode());
 
         builder.setNames(actual, new String[] {"A", "B", "C"});
 
-        Assert.assertEquals(expected, actual);
-        Assert.assertEquals(0, actual.compareTo(expected));
-        Assert.assertEquals(expected.hashCode(), actual.hashCode());
+        assertEquals(expected, actual);
+        assertEquals(0, actual.compareTo(expected));
+        assertEquals(expected.hashCode(), actual.hashCode());
     }
 
 }
