@@ -23,9 +23,9 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.cache.WeakRefFilesCache;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ZipFileSystemTestCase {
+public class ZipFileSystemTest {
 
     /**
      * Sets a file system's file cache to use WeakReference, and test resolve file after GC.
