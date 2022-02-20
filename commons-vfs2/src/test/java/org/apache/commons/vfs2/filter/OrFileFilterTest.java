@@ -16,6 +16,9 @@
  */
 package org.apache.commons.vfs2.filter;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +26,6 @@ import java.util.List;
 import org.apache.commons.vfs2.FileFilter;
 import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSystemException;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 // CHECKSTYLE:OFF Test code
@@ -47,17 +49,17 @@ public class OrFileFilterTest extends BaseFilterTest {
         final FileSelectInfo any = createFileSelectInfo(new File("anyfile"));
 
         // Empty
-        Assert.assertFalse(new OrFileFilter().accept(any));
+        assertFalse(new OrFileFilter().accept(any));
 
         // True
-        Assert.assertTrue(new OrFileFilter(new AlwaysTrueFileFilter()).accept(any));
-        Assert.assertTrue(new OrFileFilter(new AlwaysTrueFileFilter(), new AlwaysTrueFileFilter()).accept(any));
-        Assert.assertTrue(new OrFileFilter(new AlwaysFalseFileFilter(), new AlwaysTrueFileFilter()).accept(any));
-        Assert.assertTrue(new OrFileFilter(new AlwaysTrueFileFilter(), new AlwaysFalseFileFilter()).accept(any));
+        assertTrue(new OrFileFilter(new AlwaysTrueFileFilter()).accept(any));
+        assertTrue(new OrFileFilter(new AlwaysTrueFileFilter(), new AlwaysTrueFileFilter()).accept(any));
+        assertTrue(new OrFileFilter(new AlwaysFalseFileFilter(), new AlwaysTrueFileFilter()).accept(any));
+        assertTrue(new OrFileFilter(new AlwaysTrueFileFilter(), new AlwaysFalseFileFilter()).accept(any));
 
         // False
-        Assert.assertFalse(new OrFileFilter(new AlwaysFalseFileFilter()).accept(any));
-        Assert.assertFalse(new OrFileFilter(new AlwaysFalseFileFilter(), new AlwaysFalseFileFilter()).accept(any));
+        assertFalse(new OrFileFilter(new AlwaysFalseFileFilter()).accept(any));
+        assertFalse(new OrFileFilter(new AlwaysFalseFileFilter(), new AlwaysFalseFileFilter()).accept(any));
     }
 
     @Test
