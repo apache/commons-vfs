@@ -16,12 +16,13 @@
  */
 package org.apache.commons.vfs2.provider.res;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.VFS;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -30,22 +31,22 @@ public class ResSchemeTest {
 
     @Test
     public void test_resolveFile_String() throws FileSystemException {
-        Assert.assertTrue(VFS.getManager().resolveFile("res:test.properties").exists());
+        assertTrue(VFS.getManager().resolveFile("res:test.properties").exists());
     }
 
     @Test
     public void test_resolveFile_String_S() throws FileSystemException {
-        Assert.assertTrue(VFS.getManager().resolveFile("res:/test.properties").exists());
+        assertTrue(VFS.getManager().resolveFile("res:/test.properties").exists());
     }
 
     @Test
     public void test_resolveFile_String_SS() throws FileSystemException {
-        Assert.assertTrue(VFS.getManager().resolveFile("res://test.properties").exists());
+        assertTrue(VFS.getManager().resolveFile("res://test.properties").exists());
     }
 
     @Test
     public void test_resolveFile_String_SSS() throws FileSystemException {
-        Assert.assertTrue(VFS.getManager().resolveFile("res://test.properties").exists());
+        assertTrue(VFS.getManager().resolveFile("res://test.properties").exists());
     }
 
     @Test
@@ -56,42 +57,42 @@ public class ResSchemeTest {
 
     @Test
     public void test_resolveFile_URI() throws FileSystemException, URISyntaxException {
-        Assert.assertTrue(VFS.getManager().resolveFile(new URI("res:test.properties")).exists());
+        assertTrue(VFS.getManager().resolveFile(new URI("res:test.properties")).exists());
     }
 
     @Test
     public void test_resolveFile_URI_S() throws FileSystemException, URISyntaxException {
-        Assert.assertTrue(VFS.getManager().resolveFile(new URI("res:/test.properties")).exists());
+        assertTrue(VFS.getManager().resolveFile(new URI("res:/test.properties")).exists());
     }
 
     @Test
     public void test_resolveFile_URI_SS() throws FileSystemException, URISyntaxException {
-        Assert.assertTrue(VFS.getManager().resolveFile(new URI("res://test.properties")).exists());
+        assertTrue(VFS.getManager().resolveFile(new URI("res://test.properties")).exists());
     }
 
     @Test
     public void test_resolveFile_URI_SSS() throws FileSystemException, URISyntaxException {
-        Assert.assertTrue(VFS.getManager().resolveFile(new URI("res://test.properties")).exists());
+        assertTrue(VFS.getManager().resolveFile(new URI("res://test.properties")).exists());
     }
 
     @Test
     public void test_resolveURI_String() throws FileSystemException {
-        Assert.assertTrue(VFS.getManager().resolveURI("res:test.properties").isFile());
+        assertTrue(VFS.getManager().resolveURI("res:test.properties").isFile());
     }
 
     @Test
     public void test_resolveURI_String_S() throws FileSystemException {
-        Assert.assertTrue(VFS.getManager().resolveURI("res:/test.properties").isFile());
+        assertTrue(VFS.getManager().resolveURI("res:/test.properties").isFile());
     }
 
     @Test
     public void test_resolveURI_String_SS() throws FileSystemException {
-        Assert.assertTrue(VFS.getManager().resolveURI("res://test.properties").isFile());
+        assertTrue(VFS.getManager().resolveURI("res://test.properties").isFile());
     }
 
     @Test
     public void test_resolveURI_String_SSS() throws FileSystemException {
-        Assert.assertTrue(VFS.getManager().resolveURI("res:///test.properties").isFile());
+        assertTrue(VFS.getManager().resolveURI("res:///test.properties").isFile());
     }
 
     @Test
