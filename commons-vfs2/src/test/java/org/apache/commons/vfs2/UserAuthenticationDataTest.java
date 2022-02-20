@@ -20,9 +20,10 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class UserAuthenticationDataTestCase {
+public class UserAuthenticationDataTest {
+
     @Test
     public void testCharacterBasedData() {
         final UserAuthenticationData data = new UserAuthenticationData();
