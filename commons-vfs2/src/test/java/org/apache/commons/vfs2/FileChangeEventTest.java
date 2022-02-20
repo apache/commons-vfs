@@ -16,9 +16,11 @@
  */
 package org.apache.commons.vfs2;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.io.File;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 public class FileChangeEventTest {
@@ -26,9 +28,9 @@ public class FileChangeEventTest {
     @Test
     public void testFileObject() throws FileSystemException {
         try (FileObject baseFile = VFS.getManager().toFileObject(new File("."))) {
-            Assert.assertNotNull(baseFile);
+            assertNotNull(baseFile);
             final FileChangeEvent fileChangeEvent = new FileChangeEvent(baseFile);
-            Assert.assertEquals(fileChangeEvent.getFile(), fileChangeEvent.getFileObject());
+            assertEquals(fileChangeEvent.getFile(), fileChangeEvent.getFileObject());
         }
     }
 
