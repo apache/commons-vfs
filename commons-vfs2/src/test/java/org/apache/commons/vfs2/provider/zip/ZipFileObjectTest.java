@@ -29,10 +29,10 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
 import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-public class ZipFileObjectTestCase {
+public class ZipFileObjectTest {
 
     private static final String NESTED_FILE_1 = "/read-xml-tests/file1.xml";
     private static final String NESTED_FILE_2 = "/read-xml-tests/file2.xml";
@@ -81,7 +81,7 @@ public class ZipFileObjectTestCase {
      * @throws IOException
      */
     @Test
-    @Ignore("Shows that leaving a stream open and not closing any resource leaves the container file locked")
+    @Disabled("Shows that leaving a stream open and not closing any resource leaves the container file locked")
     public void testLeaveNestedFileOpen() throws IOException {
         final File newZipFile = createTempFile();
         final FileSystemManager manager = VFS.getManager();
