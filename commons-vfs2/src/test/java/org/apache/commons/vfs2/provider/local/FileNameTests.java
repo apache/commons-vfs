@@ -21,7 +21,7 @@ import java.io.File;
 import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
 
 /**
@@ -37,7 +37,7 @@ public class FileNameTests extends AbstractProviderTestCase {
         // Locate file by absolute file name
         final String fileName = new File("testdir").getAbsolutePath();
         final DefaultFileSystemManager manager = getManager();
-        Assert.assertNotNull("Unexpected null manager for test " + this, manager);
+        Assertions.assertNotNull(manager, "Unexpected null manager for test " + this);
         try (FileObject absFile = manager.resolveFile(fileName)) {
 
             // Locate file by URI
