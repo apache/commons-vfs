@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.temp;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
+
 import java.io.File;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;

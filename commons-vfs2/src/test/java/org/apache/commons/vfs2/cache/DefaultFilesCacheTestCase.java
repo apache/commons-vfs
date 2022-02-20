@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.cache;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
+
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.CacheTestSuite;
 import org.apache.commons.vfs2.FileObject;

@@ -16,7 +16,7 @@
  */
 package org.apache.commons.vfs2;
 
-import static org.apache.commons.vfs2.AbstractVfsTestCase.getTestDirectory;
+import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 
 import java.io.File;
 import java.lang.reflect.Field;

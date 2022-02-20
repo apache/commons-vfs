@@ -16,7 +16,7 @@
  */
 package org.apache.commons.vfs2.impl;
 
-import static org.apache.commons.vfs2.AbstractVfsTestCase.getTestDirectoryFile;
+import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;

@@ -16,7 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.ftp;
 
-import static org.apache.commons.vfs2.AbstractVfsTestCase.getTestDirectory;
+import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 
 import java.io.IOException;
 import java.net.SocketException;

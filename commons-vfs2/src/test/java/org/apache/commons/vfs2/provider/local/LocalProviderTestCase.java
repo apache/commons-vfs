@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.local;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
+
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;

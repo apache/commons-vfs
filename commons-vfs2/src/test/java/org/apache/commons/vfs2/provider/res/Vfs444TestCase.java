@@ -17,6 +17,8 @@
 
 package org.apache.commons.vfs2.provider.res;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getResourceTestDirectory;
+
 import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileName;

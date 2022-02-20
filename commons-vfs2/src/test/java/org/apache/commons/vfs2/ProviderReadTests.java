@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2;
 
+import static org.apache.commons.vfs2.VfsTestUtils.assertSameMessage;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;

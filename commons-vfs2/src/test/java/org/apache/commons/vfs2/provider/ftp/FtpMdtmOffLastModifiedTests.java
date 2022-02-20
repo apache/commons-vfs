@@ -17,6 +17,8 @@
 
 package org.apache.commons.vfs2.provider.ftp;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;

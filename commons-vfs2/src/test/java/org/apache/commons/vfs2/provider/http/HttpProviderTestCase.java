@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.http;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
+
 import java.io.File;
 import java.time.Duration;
 

@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.ram;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;

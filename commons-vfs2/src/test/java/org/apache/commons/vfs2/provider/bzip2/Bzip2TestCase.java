@@ -17,6 +17,8 @@
 
 package org.apache.commons.vfs2.provider.bzip2;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getTestResource;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

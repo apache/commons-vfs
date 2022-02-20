@@ -16,6 +16,9 @@
  */
 package org.apache.commons.vfs2.provider.test;
 
+import static org.apache.commons.vfs2.VfsTestUtils.assertSameMessage;
+import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
+
 import java.io.File;
 
 import org.apache.commons.vfs2.AbstractProviderTestCase;

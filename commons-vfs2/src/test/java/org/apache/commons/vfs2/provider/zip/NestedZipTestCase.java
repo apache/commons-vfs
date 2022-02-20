@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.zip;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getTestResource;
+
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
