@@ -28,18 +28,18 @@ import java.nio.file.Files;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests conversion from VFS to File.
  * <p>
  * VFS-443 Need an easy way to convert from a FileObject to a File.
  */
-public class ConversionTestCase {
+public class ConversionTest {
 
     @Test
-    @Ignore
+    @Disabled("Ignored pre JUnit v5")
     public void testFileNameWithCharacters() throws URISyntaxException, IOException {
         final File file = new File("target", "+# %&.txt");
         final String fileURL = file.toURI().toURL().toExternalForm();
@@ -59,7 +59,7 @@ public class ConversionTestCase {
     }
 
     @Test
-    @Ignore
+    @Disabled("Ignored pre JUnit v5")
     public void testFileNameWithSpaces() throws URISyntaxException, IOException {
         final File file = new File("target", "a name.txt");
         final String fileURL = file.toURI().toURL().toExternalForm();
