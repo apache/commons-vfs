@@ -16,11 +16,12 @@
  */
 package org.apache.commons.vfs2.provider.webdav4.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -37,7 +38,7 @@ public class WebDav4FilesTest {
         // We end up converting back to lowercase, but OK per RFC.
         final String urlWithAuthority = "webdav4://alice%5C1234:secret@localhost:80";
         try (final FileObject file = fileSystemManager.resolveFile(urlWithAuthority)) {
-            Assert.assertEquals("webdav4://alice%5c1234:secret@localhost/", file.getURL().toExternalForm());
+            assertEquals("webdav4://alice%5c1234:secret@localhost/", file.getURL().toExternalForm());
         }
     }
 }
