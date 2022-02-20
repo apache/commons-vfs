@@ -26,7 +26,7 @@ import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.provider.compressed.CompressedFileFileObject;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class Bzip2Test {
@@ -35,21 +35,21 @@ public class Bzip2Test {
     public void testBZip2() throws IOException {
         final File testResource = getTestResource("bla.txt.bz2");
         try (FileObject bz2FileObject = VFS.getManager().resolveFile("bz2://" + testResource)) {
-            Assert.assertTrue(bz2FileObject.exists());
-            Assert.assertTrue(bz2FileObject.isFolder());
+            Assertions.assertTrue(bz2FileObject.exists());
+            Assertions.assertTrue(bz2FileObject.isFolder());
             try (FileObject fileObjectDir = bz2FileObject.resolveFile("bla.txt")) {
-                Assert.assertTrue(fileObjectDir.exists());
-                Assert.assertTrue(bz2FileObject.isFolder());
+                Assertions.assertTrue(fileObjectDir.exists());
+                Assertions.assertTrue(bz2FileObject.isFolder());
                 try (FileObject fileObject = fileObjectDir.resolveFile("bla.txt")) {
-                    Assert.assertTrue(fileObject.exists());
-                    Assert.assertFalse(fileObject.isFolder());
-                    Assert.assertTrue(fileObject.isFile());
+                    Assertions.assertTrue(fileObject.exists());
+                    Assertions.assertFalse(fileObject.isFolder());
+                    Assertions.assertTrue(fileObject.isFile());
                     try (FileContent content = fileObject.getContent()) {
-                        Assert.assertEquals(CompressedFileFileObject.SIZE_UNDEFINED, content.getSize());
+                        Assertions.assertEquals(CompressedFileFileObject.SIZE_UNDEFINED, content.getSize());
                         // blows up, Commons Compress?
                         final String string = content.getString(StandardCharsets.UTF_8);
-                        Assert.assertEquals(26, string.length());
-                        Assert.assertEquals("Hallo, dies ist ein Test.\n", string);
+                        Assertions.assertEquals(26, string.length());
+                        Assertions.assertEquals("Hallo, dies ist ein Test.\n", string);
                     }
                 }
             }
