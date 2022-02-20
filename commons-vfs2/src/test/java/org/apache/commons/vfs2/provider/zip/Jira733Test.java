@@ -24,15 +24,15 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.cache.OnCallRefreshFileObject;
 import org.apache.commons.vfs2.function.VfsConsumer;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class Jira733TestCase {
+public class Jira733Test {
 
-    @After
-    @Before
+    @AfterEach
+    @BeforeEach
     public void reset() throws FileSystemException {
         VFS.reset();
     }
