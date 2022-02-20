@@ -36,10 +36,10 @@ import org.apache.commons.vfs2.FileListener;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link DefaultFileMonitor}.
@@ -125,7 +125,7 @@ public class DefaultFileMonitorTest {
      *
      * As a result, the file monitor will fire two created events.
      */
-    @Ignore("VFS-299")
+    @Disabled("VFS-299")
     @Test
     public void ignore_testAddRemove() throws Exception {
         try (FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
@@ -148,7 +148,7 @@ public class DefaultFileMonitorTest {
      *
      * As a result, listeners of stopped monitors still receive events.
      */
-    @Ignore("VFS-299")
+    @Disabled("VFS-299")
     @Test
     public void ignore_testStartStop() throws Exception {
         try (FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
@@ -190,7 +190,7 @@ public class DefaultFileMonitorTest {
         status.clear();
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         fileSystemManager = VFS.getManager();
         testDir = AbstractVfsTestCase.getTestDirectoryFile();
@@ -199,7 +199,7 @@ public class DefaultFileMonitorTest {
         deleteTestFileIfPresent();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         deleteTestFileIfPresent();
     }
