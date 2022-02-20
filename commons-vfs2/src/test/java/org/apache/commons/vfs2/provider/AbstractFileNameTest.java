@@ -19,9 +19,10 @@ package org.apache.commons.vfs2.provider;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileType;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AbstractFileNameTest {
+
     @Test
     public void testHashSignEncoded() {
         final AbstractFileName fileName = new AbstractFileName("file", "/foo/bar/file#name.txt", FileType.FILE) {
