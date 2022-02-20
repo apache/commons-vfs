@@ -20,7 +20,7 @@ import java.io.Serializable;
 
 import org.apache.commons.lang3.SerializationUtils;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Sanity check that a custom enum can be properly serialized and deserialized on a give JRE.
