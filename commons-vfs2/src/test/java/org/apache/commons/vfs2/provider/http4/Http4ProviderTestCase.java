@@ -33,12 +33,10 @@ import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.util.NHttpFileServer;
 import org.junit.Assert;
-
-import junit.framework.Test;
+import org.junit.Test;
 
 /**
  * Test cases for the HTTP4 provider.
- *
  */
 public class Http4ProviderTestCase extends AbstractProviderTestConfig {
 
@@ -74,7 +72,7 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
      * @return a new test suite.
      * @throws Exception Thrown when the suite cannot be constructed.
      */
-    public static Test suite() throws Exception {
+    public static junit.framework.Test suite() throws Exception {
         return new ProviderTestSuite(new Http4ProviderTestCase()) {
             /**
              * Adds base tests - excludes the nested test cases.
@@ -148,6 +146,7 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
 
     /** Ensure VFS-453 options are present. */
     @SuppressWarnings("deprecation")
+    @Test
     public void testHttpTimeoutConfig() {
         final FileSystemOptions opts = new FileSystemOptions();
         final Http4FileSystemConfigBuilder builder = Http4FileSystemConfigBuilder.getInstance();
@@ -197,19 +196,24 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
         }
     }
 
+    @Test
     public void testResloveFolderSlashNoRedirectOff() throws FileSystemException {
         testResloveFolderSlash(ConnectionUri + "/read-tests", false);
     }
 
+    @Test
     public void testResloveFolderSlashNoRedirectOn() throws FileSystemException {
         testResloveFolderSlash(ConnectionUri + "/read-tests", true);
     }
 
+    @Test
     public void testResloveFolderSlashYesRedirectOff() throws FileSystemException {
         testResloveFolderSlash(ConnectionUri + "/read-tests/", false);
     }
 
+    @Test
     public void testResloveFolderSlashYesRedirectOn() throws FileSystemException {
         testResloveFolderSlash(ConnectionUri + "/read-tests/", true);
     }
+
 }
