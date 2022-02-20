@@ -16,6 +16,9 @@
  */
 package org.apache.commons.vfs2.provider.zip;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
 
 import org.apache.commons.vfs2.FileObject;
@@ -23,7 +26,6 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.cache.OnCallRefreshFileObject;
 import org.apache.commons.vfs2.function.VfsConsumer;
-import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,26 +45,26 @@ public class Jira733Test {
         try (FileObject fileObject = VFS.getManager().resolveFile(nestedPath);
                 final FileObject wrappedFileObject = new OnCallRefreshFileObject(fileObject)) {
             // VFS.getManager().getFilesCache().close();
-            Assert.assertNotNull("getParentLayer() 1", wrappedFileObject.getFileSystem().getParentLayer());
+            assertNotNull(wrappedFileObject.getFileSystem().getParentLayer(), "getParentLayer() 1");
             wrappedFileObject.exists();
             wrappedFileObject.getContent();
-            Assert.assertNotNull("getParentLayer() 2", wrappedFileObject.getFileSystem().getParentLayer());
+            assertNotNull(wrappedFileObject.getFileSystem().getParentLayer(), "getParentLayer() 2");
         }
     }
 
     private void testZipParentLayer(final VfsConsumer<FileObject> consumer) throws Exception {
         final File file = new File("src/test/resources/test-data/test.zip");
-        Assert.assertTrue(file.exists());
+        assertTrue(file.exists());
         final String nestedPath = "zip:" + file.getAbsolutePath() + "!/read-tests/file1.txt";
         try (FileObject fileObject = VFS.getManager().resolveFile(nestedPath);
                 final FileObject wrappedFileObject = new OnCallRefreshFileObject(fileObject)) {
-            Assert.assertTrue(fileObject instanceof ZipFileObject);
+            assertTrue(fileObject instanceof ZipFileObject);
             @SuppressWarnings({ "unused", "resource" })
             final
             ZipFileObject zipFileObject = (ZipFileObject) fileObject;
-            Assert.assertNotNull("getParentLayer() 1", wrappedFileObject.getFileSystem().getParentLayer());
+            assertNotNull(wrappedFileObject.getFileSystem().getParentLayer(), "getParentLayer() 1");
             consumer.accept(wrappedFileObject);
-            Assert.assertNotNull("getParentLayer() 2", wrappedFileObject.getFileSystem().getParentLayer());
+            assertNotNull(wrappedFileObject.getFileSystem().getParentLayer(), "getParentLayer() 2");
         }
     }
 
