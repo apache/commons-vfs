@@ -50,14 +50,14 @@ public class OrFileFilterTest extends BaseFilterTest {
         Assert.assertFalse(new OrFileFilter().accept(any));
 
         // True
-        Assert.assertTrue(new OrFileFilter(new TestTrueFileFilter()).accept(any));
-        Assert.assertTrue(new OrFileFilter(new TestTrueFileFilter(), new TestTrueFileFilter()).accept(any));
-        Assert.assertTrue(new OrFileFilter(new TestFalseFileFilter(), new TestTrueFileFilter()).accept(any));
-        Assert.assertTrue(new OrFileFilter(new TestTrueFileFilter(), new TestFalseFileFilter()).accept(any));
+        Assert.assertTrue(new OrFileFilter(new AlwaysTrueFileFilter()).accept(any));
+        Assert.assertTrue(new OrFileFilter(new AlwaysTrueFileFilter(), new AlwaysTrueFileFilter()).accept(any));
+        Assert.assertTrue(new OrFileFilter(new AlwaysFalseFileFilter(), new AlwaysTrueFileFilter()).accept(any));
+        Assert.assertTrue(new OrFileFilter(new AlwaysTrueFileFilter(), new AlwaysFalseFileFilter()).accept(any));
 
         // False
-        Assert.assertFalse(new OrFileFilter(new TestFalseFileFilter()).accept(any));
-        Assert.assertFalse(new OrFileFilter(new TestFalseFileFilter(), new TestFalseFileFilter()).accept(any));
+        Assert.assertFalse(new OrFileFilter(new AlwaysFalseFileFilter()).accept(any));
+        Assert.assertFalse(new OrFileFilter(new AlwaysFalseFileFilter(), new AlwaysFalseFileFilter()).accept(any));
 
     }
 

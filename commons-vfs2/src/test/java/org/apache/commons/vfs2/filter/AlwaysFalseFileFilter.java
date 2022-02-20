@@ -20,13 +20,13 @@ import org.apache.commons.vfs2.FileFilter;
 import org.apache.commons.vfs2.FileSelectInfo;
 
 /**
- * Always TRUE.
+ * Always FALSE.
  */
-final class TestTrueFileFilter implements FileFilter {
+final class AlwaysFalseFileFilter implements FileFilter {
 
     @Override
     public boolean accept(final FileSelectInfo fileSelectInfo) {
-        return true;
+        return false;
     }
 
 }
