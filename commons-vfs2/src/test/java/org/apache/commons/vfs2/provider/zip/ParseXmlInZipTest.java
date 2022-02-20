@@ -33,21 +33,21 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 /**
  * Tests that we can use JAXP to parse an input stream living inside a Zip file.
  */
-public class ParseXmlInZipTestCase {
+public class ParseXmlInZipTest {
 
     private Locale defaultLocale;
 
-    @Before
+    @BeforeEach
     public void changeDefaultLocale() {
         // save origin default Locale
         defaultLocale = Locale.getDefault();
@@ -93,7 +93,7 @@ public class ParseXmlInZipTestCase {
         return documentBuilder;
     }
 
-    @After
+    @AfterEach
     public void resetDefaultLocale() {
         Locale.setDefault(defaultLocale);
     }
