@@ -22,12 +22,12 @@ import static org.junit.Assert.assertEquals;
 import java.time.Duration;
 
 import org.apache.commons.vfs2.FileSystemOptions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link FtpFileSystemConfigBuilder}.
  */
-public class FtpFileSystemConfigBuilderTestCase {
+public class FtpFileSystemConfigBuilderTest {
 
     @Test
     public void testControlKeepAliveReplyTimeout() {
