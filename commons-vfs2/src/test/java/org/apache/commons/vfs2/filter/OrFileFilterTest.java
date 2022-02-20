@@ -24,7 +24,7 @@ import org.apache.commons.vfs2.FileFilter;
 import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSystemException;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 // CHECKSTYLE:OFF Test code
 public class OrFileFilterTest extends BaseFilterTest {
