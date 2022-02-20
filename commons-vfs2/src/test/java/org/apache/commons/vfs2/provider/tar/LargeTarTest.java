@@ -39,11 +39,12 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.cache.SoftRefFilesCache;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 //@SuppressWarnings("nls")
-public class LargeTarTestCase {
+public class LargeTarTest {
+
     private final static String baseDir = "target/test-classes/test-data/";
 
     private final static String largeFilePath = baseDir;
@@ -160,7 +161,7 @@ public class LargeTarTestCase {
         return false;
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         manager = new DefaultFileSystemManager();
 
