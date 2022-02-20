@@ -21,10 +21,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests FileExtensionSelector.
@@ -32,6 +32,7 @@ import org.junit.Test;
  * @since 2.1
  */
 public class FileExtensionSelectorTest {
+
     private static FileObject BaseFolder;
 
     private static final int FileCount = 9;
@@ -45,7 +46,7 @@ public class FileExtensionSelectorTest {
      *
      * @throws Exception
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUpClass() throws Exception {
         BaseFolder = VFS.getManager().resolveFile("ram://" + FileExtensionSelectorTest.class.getName());
         BaseFolder.deleteAll();
@@ -66,7 +67,7 @@ public class FileExtensionSelectorTest {
      *
      * @throws Exception
      */
-    @AfterClass
+    @AfterAll
     public static void tearDownClass() throws Exception {
         if (BaseFolder != null) {
             BaseFolder.deleteAll();
