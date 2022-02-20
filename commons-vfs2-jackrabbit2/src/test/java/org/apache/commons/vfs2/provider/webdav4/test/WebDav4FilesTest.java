@@ -21,14 +21,12 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
 import org.junit.Assert;
-import org.junit.Test;
-
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests https://issues.apache.org/jira/browse/VFS-810.
  */
-public class WebDav4FilesTestCase extends TestCase {
+public class WebDav4FilesTest {
 
     @Test
     public void testUrlWithAuthority() throws FileSystemException {
