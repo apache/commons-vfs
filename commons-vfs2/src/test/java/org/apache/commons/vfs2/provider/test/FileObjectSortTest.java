@@ -24,15 +24,15 @@ import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.VFS;
 import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests FileObject sorting.
  *
  * $Id$
  */
-public class FileObjectSortTestCase {
+public class FileObjectSortTest {
 
     /**
      * The size of arrays to sort.
@@ -52,16 +52,16 @@ public class FileObjectSortTestCase {
         return fs.resolveFile(String.format("%010d", i));
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpClass() throws FileSystemException {
         VfsFileSystem = VFS.getManager().createVirtualFileSystem("vfs://").getFileSystem();
         SortedArray = new FileObject[SIZE];
         for (int i = 0; i < SIZE; i++) {
-            SortedArray[i] = FileObjectSortTestCase.resolveFile(VfsFileSystem, i);
+            SortedArray[i] = FileObjectSortTest.resolveFile(VfsFileSystem, i);
         }
         UnSortedArray = new FileObject[SIZE];
         for (int i = 0; i < SIZE; i++) {
-            UnSortedArray[i] = FileObjectSortTestCase.resolveFile(VfsFileSystem, SIZE - i - 1);
+            UnSortedArray[i] = FileObjectSortTest.resolveFile(VfsFileSystem, SIZE - i - 1);
         }
     }
 
