@@ -23,14 +23,14 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * test use DefaultFileSystemManager.createFileSystem method to create tar,tgz,tbz2 file system
  *
  * @since 2.7.0
  **/
-public class CreateFileSystemTestCase {
+public class CreateFileSystemTest {
 
     private FileObject createFileSystem(final String testFilePath) throws IOException {
 
