@@ -25,6 +25,8 @@ import org.apache.commons.vfs2.VFS;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public class ResSchemeTest {
 
     @Test
@@ -47,10 +49,10 @@ public class ResSchemeTest {
         Assert.assertTrue(VFS.getManager().resolveFile("res://test.properties").exists());
     }
 
-    @Test(expected = FileSystemException.class)
-    public void test_resolveFile_String_SSSnull() throws FileSystemException {
+    @Test
+    public void test_resolveFile_String_SSSnull() {
         // Resulting path is empty
-        Assert.assertTrue(VFS.getManager().resolveFile("res:///").exists());
+        assertThrows(FileSystemException.class, () -> VFS.getManager().resolveFile("res:///").exists());
     }
 
     @Test
@@ -93,9 +95,9 @@ public class ResSchemeTest {
         Assert.assertTrue(VFS.getManager().resolveURI("res:///test.properties").isFile());
     }
 
-    @Test(expected = FileSystemException.class)
-    public void test_resolveURI_String_SSSnull() throws FileSystemException {
+    @Test
+    public void test_resolveURI_String_SSSnull() {
         // Resulting path is empty
-        Assert.assertTrue(VFS.getManager().resolveURI("res:///").isFile());
+        assertThrows(FileSystemException.class, () -> VFS.getManager().resolveURI("res:///").isFile());
     }
 }
