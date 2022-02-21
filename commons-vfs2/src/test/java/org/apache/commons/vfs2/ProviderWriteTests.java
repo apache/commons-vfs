@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -442,26 +444,14 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         assertTrue(folder.isFolder());
 
         // Attempt to create a file that already exists as a folder
-        try {
-            folder.createFile();
-            fail();
-        } catch (final FileSystemException exc) {
-        }
+        assertThrows(FileSystemException.class, () -> folder.createFile());
 
         // Attempt to create a folder that already exists as a file
-        try {
-            file.createFolder();
-            fail();
-        } catch (final FileSystemException exc) {
-        }
+        assertThrows(FileSystemException.class, () -> file.createFolder());
 
         // Attempt to create a folder as a child of a file
         final FileObject folder2 = file.resolveFile("some-child");
-        try {
-            folder2.createFolder();
-            fail();
-        } catch (final FileSystemException exc) {
-        }
+        assertThrows(FileSystemException.class, () -> folder2.createFolder());
     }
 
     /**
