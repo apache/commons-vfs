@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.Test;
 
 /**
@@ -368,25 +370,13 @@ public class NamingTests extends AbstractProviderTestCase {
         assertEquals(path + "/dir/child", file.getName().getPathDecoded());
 
         // §6 Use "%" literal
-        try {
-            getManager().resolveFile("%");
-            fail();
-        } catch (final FileSystemException e) {
-        }
+        assertThrows(FileSystemException.class, () -> getManager().resolveFile("%"));
 
         // §7 Not enough digits in encoded char
-        try {
-            getManager().resolveFile("%5");
-            fail();
-        } catch (final FileSystemException e) {
-        }
+        assertThrows(FileSystemException.class, () -> getManager().resolveFile("%5"));
 
         // §8 Invalid digit in encoded char
-        try {
-            getManager().resolveFile("%q");
-            fail();
-        } catch (final FileSystemException e) {
-        }
+        assertThrows(FileSystemException.class, () -> getManager().resolveFile("%q"));
 
         // free basefile
         getManager().setBaseFile((FileObject) null);
