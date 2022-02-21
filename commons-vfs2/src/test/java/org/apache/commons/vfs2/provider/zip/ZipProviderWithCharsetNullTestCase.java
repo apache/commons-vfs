@@ -27,7 +27,7 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import junit.framework.Test;
 
@@ -57,9 +57,9 @@ public class ZipProviderWithCharsetNullTestCase extends AbstractProviderTestConf
         final String uri = "zip:file:" + zipFile.getAbsolutePath() + "!/";
         final FileObject resolvedFile = manager.resolveFile(uri, opts);
         final FileSystem fileSystem = resolvedFile.getFileSystem();
-        Assert.assertTrue(fileSystem instanceof ZipFileSystem);
+        Assertions.assertTrue(fileSystem instanceof ZipFileSystem);
         final ZipFileSystem zipFileSystem = (ZipFileSystem) fileSystem;
-        Assert.assertNull(zipFileSystem.getCharset());
+        Assertions.assertNull(zipFileSystem.getCharset());
         return resolvedFile;
     }
 
