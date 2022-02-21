@@ -20,15 +20,16 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.junit.jupiter.api.Assertions;
 
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.util.FileObjectUtils;
-import org.junit.Assert;
 
 /**
  * A file selector that asserts that all files are visited, in the correct order.
  */
-public class VerifyingFileSelector extends Assert implements FileSelector {
+public class VerifyingFileSelector extends Assertions implements FileSelector {
+
     private final FileInfo rootFile;
     private final List<FileObject> files = new ArrayList<>();
 
@@ -62,7 +63,7 @@ public class VerifyingFileSelector extends Assert implements FileSelector {
             return rootFile;
         }
         final FileInfo child = currentFolderInfo.children.get(baseName);
-        assertNotNull("Could not locate child " + baseName, child);
+        assertNotNull(child, "Could not locate child " + baseName);
         return child;
     }
 
@@ -123,4 +124,5 @@ public class VerifyingFileSelector extends Assert implements FileSelector {
 
         return true;
     }
+
 }
