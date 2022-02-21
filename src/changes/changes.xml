@@ -172,6 +172,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="XenoAmess" type="update">
         Upgrade ftpserver-core from 1.1.1 to 1.1.2 #235.
       </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Bump org.apache.jackrabbit:jackrabbit-standalone-components from 2.21.9 to 2.21.10.
+      </action>
     </release>
     <release version="2.9.0" date="2021-06-16" description="Maintenance release. Requires Java 8.">
       <!-- ADDS -->
