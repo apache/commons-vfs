@@ -16,12 +16,13 @@
  */
 package org.apache.commons.vfs2.provider.hdfs;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
+
 import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.ProviderTestConfig;
@@ -104,8 +105,7 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
             // Copy the test directory into HDFS
             final Path base = new Path("/test-data");
             assertTrue("Unable to create base directory", hdfs.mkdirs(base));
-            final File testDir = AbstractVfsTestCase.getTestDirectoryFile();
-            copyTestResources(testDir, base);
+            copyTestResources(getTestDirectoryFile(), base);
 
             super.setUp();
         }

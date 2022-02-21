@@ -14,22 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.commons.vfs2.provider.bzip2;
+
+import static org.apache.commons.vfs2.VfsTestUtils.getTestResource;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.provider.compressed.CompressedFileFileObject;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class Bzip2TestCase extends AbstractVfsTestCase {
+public class Bzip2Test {
 
     @Test
     public void testBZip2() throws IOException {

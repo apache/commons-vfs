@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.http;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
+
 import java.io.File;
 import java.time.Duration;
 
@@ -30,14 +32,13 @@ import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.util.NHttpFileServer;
 import org.junit.Assert;
-
-import junit.framework.Test;
+import org.junit.Test;
 
 /**
  * Test cases for the HTTP provider.
- *
  */
 public class HttpProviderTestCase extends AbstractProviderTestConfig {
+
     private static final Duration ONE_MINUTE = Duration.ofMinutes(1);
 
     private static NHttpFileServer Server;
@@ -72,7 +73,7 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
      * @return a new test suite.
      * @throws Exception Thrown when the suite cannot be constructed.
      */
-    public static Test suite() throws Exception {
+    public static junit.framework.Test suite() throws Exception {
         return new ProviderTestSuite(new HttpProviderTestCase()) {
             /**
              * Adds base tests - excludes the nested test cases.
@@ -144,6 +145,7 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
     }
 
     /** Ensure VFS-453 options are present. */
+    @Test
     public void testHttpTimeoutConfig() {
         final FileSystemOptions options = new FileSystemOptions();
         final HttpFileSystemConfigBuilder builder = HttpFileSystemConfigBuilder.getInstance();
@@ -190,19 +192,24 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
         }
     }
 
+    @Test
     public void testResloveFolderSlashNoRedirectOff() throws FileSystemException {
         testResloveFolderSlash(ConnectionUri + "/read-tests", false);
     }
 
+    @Test
     public void testResloveFolderSlashNoRedirectOn() throws FileSystemException {
         testResloveFolderSlash(ConnectionUri + "/read-tests", true);
     }
 
+    @Test
     public void testResloveFolderSlashYesRedirectOff() throws FileSystemException {
         testResloveFolderSlash(ConnectionUri + "/read-tests/", false);
     }
 
+    @Test
     public void testResloveFolderSlashYesRedirectOn() throws FileSystemException {
         testResloveFolderSlash(ConnectionUri + "/read-tests/", true);
     }
+
 }

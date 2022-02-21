@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.url;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;

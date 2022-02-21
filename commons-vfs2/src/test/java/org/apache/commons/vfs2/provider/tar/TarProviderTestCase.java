@@ -16,10 +16,11 @@
  */
 package org.apache.commons.vfs2.provider.tar;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getTestResource;
+
 import java.io.File;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.ProviderTestSuite;
@@ -43,7 +44,7 @@ public class TarProviderTestCase extends AbstractProviderTestConfig {
      */
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-        final File tarFile = AbstractVfsTestCase.getTestResource("test.tar");
+        final File tarFile = getTestResource("test.tar");
         final String uri = "tar:file:" + tarFile.getAbsolutePath() + "!/";
         return manager.resolveFile(uri);
     }

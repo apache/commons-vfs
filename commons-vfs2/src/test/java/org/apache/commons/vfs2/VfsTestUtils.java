@@ -16,6 +16,10 @@
  */
 package org.apache.commons.vfs2;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -25,12 +29,10 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.vfs2.util.Messages;
 
-import junit.framework.TestCase;
-
 /**
- * A base class for VFS tests. Provides utility methods for locating test resources.
+ * Provides utility methods for locating test resources.
  */
-public abstract class AbstractVfsTestCase extends TestCase {
+public abstract class VfsTestUtils {
 
     private static File baseDir;
 
@@ -174,4 +176,5 @@ public abstract class AbstractVfsTestCase extends TestCase {
 
         return file;
     }
+
 }

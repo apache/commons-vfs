@@ -16,8 +16,9 @@
  */
 package org.apache.commons.vfs2.cache;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
+
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.CacheTestSuite;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -43,6 +44,6 @@ public class LRUFilesCacheTestCase extends AbstractProviderTestConfig {
 
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-        return manager.toFileObject(AbstractVfsTestCase.getTestDirectoryFile());
+        return manager.toFileObject(getTestDirectoryFile());
     }
 }

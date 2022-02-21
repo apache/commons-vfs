@@ -38,7 +38,8 @@ import junit.framework.TestCase;
  * <p>
  * Works from a base folder, and assumes a particular structure under that base folder.
  */
-public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
+public abstract class AbstractProviderTestCase extends TestCase {
+
     // Expected contents of "file1.txt"
     public static final String FILE1_CONTENT = "This is a test file.";
     // Expected contents of test files

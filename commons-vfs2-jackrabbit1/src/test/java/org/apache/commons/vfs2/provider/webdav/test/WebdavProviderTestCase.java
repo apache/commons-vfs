@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.webdav.test;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;

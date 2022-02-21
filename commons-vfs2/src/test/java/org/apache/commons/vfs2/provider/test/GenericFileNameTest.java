@@ -16,16 +16,20 @@
  */
 package org.apache.commons.vfs2.provider.test;
 
-import org.apache.commons.vfs2.AbstractVfsTestCase;
+import static org.apache.commons.vfs2.VfsTestUtils.assertSameMessage;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.provider.GenericFileName;
 import org.apache.commons.vfs2.provider.URLFileNameParser;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Some GenericFileName test cases.
  */
-public class GenericFileNameTestCase extends AbstractVfsTestCase {
+public class GenericFileNameTest {
 
     /**
      * Tests error handling in URI parser.

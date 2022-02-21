@@ -14,8 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.commons.vfs2.provider.ftp;
+
+import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 
 import java.io.IOException;
 import java.nio.file.Files;

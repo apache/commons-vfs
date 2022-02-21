@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
+
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -242,7 +244,7 @@ public abstract class AbstractTestSuite extends TestSetup {
         startThreadSnapshot = createThreadSnapshot();
 
         // Locate the temp directory, and clean it up
-        tempDir = AbstractVfsTestCase.getTestDirectory("temp");
+        tempDir = getTestDirectory("temp");
         FileUtils.cleanDirectory(tempDir);
         checkTempDir("Temp dir not empty before test");
 

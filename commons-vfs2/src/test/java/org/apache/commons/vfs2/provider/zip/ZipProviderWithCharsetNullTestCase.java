@@ -16,10 +16,11 @@
  */
 package org.apache.commons.vfs2.provider.zip;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getTestResource;
+
 import java.io.File;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -51,7 +52,7 @@ public class ZipProviderWithCharsetNullTestCase extends AbstractProviderTestConf
         // Tests null as the default.
         builder.setCharset(opts, null);
 
-        final File zipFile = AbstractVfsTestCase.getTestResource("test.zip");
+        final File zipFile = getTestResource("test.zip");
         final String uri = "zip:file:" + zipFile.getAbsolutePath() + "!/";
         final FileObject resolvedFile = manager.resolveFile(uri, opts);
         final FileSystem fileSystem = resolvedFile.getFileSystem();

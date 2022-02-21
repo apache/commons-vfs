@@ -16,7 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.http5s;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -16,10 +16,11 @@
  */
 package org.apache.commons.vfs2.provider.zip;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getTestResource;
+
 import java.io.File;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.ProviderTestSuite;
@@ -43,7 +44,7 @@ public class ZipProviderTestCase extends AbstractProviderTestConfig {
      */
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-        final File zipFile = AbstractVfsTestCase.getTestResource("test.zip");
+        final File zipFile = getTestResource("test.zip");
         final String uri = "zip:file:" + zipFile.getAbsolutePath() + "!/";
         return manager.resolveFile(uri);
     }
