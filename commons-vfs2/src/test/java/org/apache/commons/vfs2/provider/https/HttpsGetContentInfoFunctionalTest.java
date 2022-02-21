@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
  *
  * @since 2.1
  */
-public class GetContentInfoFunctionalTest {
+public class HttpsGetContentInfoFunctionalTest {
 
     FileSystemOptions getOptionsWithProxy() throws MalformedURLException {
         // get proxy host and port from env var "https_proxy"
