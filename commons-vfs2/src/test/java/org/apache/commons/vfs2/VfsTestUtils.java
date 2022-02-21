@@ -16,9 +16,9 @@
  */
 package org.apache.commons.vfs2;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -126,8 +126,8 @@ public abstract class VfsTestUtils {
     public static File getTestDirectory(final String name) {
         File file = new File(getTestDirectoryFile(), name);
         file = getCanonicalFile(file);
-        assertTrue("Test directory \"" + file + "\" does not exist or is not a directory.",
-                file.isDirectory() || file.mkdirs());
+        assertTrue(file.isDirectory() || file.mkdirs(),
+                "Test directory \"" + file + "\" does not exist or is not a directory.");
         return file;
     }
 
@@ -169,9 +169,9 @@ public abstract class VfsTestUtils {
         File file = new File(getTestDirectoryFile(), name);
         file = getCanonicalFile(file);
         if (mustExist) {
-            assertTrue("Test file \"" + file + "\" does not exist.", file.exists());
+            assertTrue(file.exists(), "Test file \"" + file + "\" does not exist.");
         } else {
-            assertFalse("Test file \"" + file + "\" should not exist.", file.exists());
+            assertFalse(file.exists(), "Test file \"" + file + "\" should not exist.");
         }
 
         return file;
