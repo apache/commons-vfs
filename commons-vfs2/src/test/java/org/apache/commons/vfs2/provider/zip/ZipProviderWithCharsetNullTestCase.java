@@ -35,6 +35,7 @@ import junit.framework.Test;
  * Tests for the Zip file system.
  */
 public class ZipProviderWithCharsetNullTestCase extends AbstractProviderTestConfig {
+
     /**
      * Creates the test suite for the zip file system.
      */
@@ -71,4 +72,5 @@ public class ZipProviderWithCharsetNullTestCase extends AbstractProviderTestConf
         manager.addExtensionMap("zip", "zip");
         manager.addMimeTypeMap("application/zip", "zip");
     }
+
 }

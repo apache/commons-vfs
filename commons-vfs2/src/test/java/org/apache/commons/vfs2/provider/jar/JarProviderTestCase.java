@@ -32,6 +32,7 @@ import junit.framework.Test;
  * Tests for the Jar file system.
  */
 public class JarProviderTestCase extends AbstractProviderTestConfig {
+
     static FileObject getTestJar(final FileSystemManager manager, final String name) throws Exception {
         final File jarFile = getTestResource(name);
         final String uri = "jar:file:" + jarFile.getAbsolutePath() + "!/";
@@ -60,4 +61,5 @@ public class JarProviderTestCase extends AbstractProviderTestConfig {
     public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("jar", new JarFileProvider());
     }
+
 }

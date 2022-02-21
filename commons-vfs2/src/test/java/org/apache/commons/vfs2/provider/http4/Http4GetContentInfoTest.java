@@ -126,4 +126,5 @@ public class Http4GetContentInfoTest {
             content.getContentInfo();
         }
     }
+
 }

@@ -87,4 +87,5 @@ public abstract class AbstractFilesCacheTestsBase extends AbstractProviderTestCa
 
         assertNotSame("Objects after cache clear should be different", fo1, fo2);
     }
+
 }

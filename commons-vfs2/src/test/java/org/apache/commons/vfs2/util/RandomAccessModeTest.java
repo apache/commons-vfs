@@ -71,4 +71,5 @@ public class RandomAccessModeTest {
         assertArrayEquals(new AccessMode[] {AccessMode.READ}, RandomAccessMode.READ.toAccessModes());
         assertArrayEquals(new AccessMode[] {AccessMode.READ, AccessMode.WRITE}, RandomAccessMode.READWRITE.toAccessModes());
     }
+
 }

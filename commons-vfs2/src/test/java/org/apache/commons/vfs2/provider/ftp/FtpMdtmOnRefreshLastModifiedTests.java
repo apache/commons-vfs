@@ -67,4 +67,5 @@ public class FtpMdtmOnRefreshLastModifiedTests extends LastModifiedTests {
         fileSystem.putClient(ftpClientSpy);
         return ftpClientSpy;
     }
+
 }

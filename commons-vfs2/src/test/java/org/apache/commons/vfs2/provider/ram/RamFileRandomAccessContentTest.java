@@ -56,4 +56,5 @@ public class RamFileRandomAccessContentTest {
             Assert.assertEquals(EOF, in.read());
         }
     }
+
 }

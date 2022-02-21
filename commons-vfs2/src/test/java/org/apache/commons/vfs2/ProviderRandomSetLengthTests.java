@@ -24,9 +24,9 @@ import org.junit.Test;
 
 /**
  * Random set length test cases for file providers.
- *
  */
 public class ProviderRandomSetLengthTests extends AbstractProviderTestCase {
+
     private static final String TEST_DATA = "This is a test file.";
 
     /**
@@ -88,4 +88,5 @@ public class ProviderRandomSetLengthTests extends AbstractProviderTestCase {
 
         }
     }
+
 }

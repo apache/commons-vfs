@@ -77,7 +77,6 @@ public class CanReadFileFilterTest extends BaseFilterTest {
 
         FileUtils.deleteDirectory(testDir);
         testDir = null;
-
     }
 
     @BeforeAll
@@ -101,7 +100,6 @@ public class CanReadFileFilterTest extends BaseFilterTest {
         zipFile = new File(getTempDir(), CanReadFileFilterTest.class.getName() + ".zip");
         zipDir(testDir, "", zipFile);
         zipFileObj = getZipFileObject(zipFile);
-
     }
 
     @Test
@@ -110,7 +108,6 @@ public class CanReadFileFilterTest extends BaseFilterTest {
         Assert.assertFalse(CanReadFileFilter.CANNOT_READ.accept(writableFileInfo));
         Assert.assertFalse(CanReadFileFilter.CANNOT_READ.accept(readOnlyFileInfo));
         Assert.assertTrue(CanReadFileFilter.CANNOT_READ.accept(notExistingFileInfo));
-
     }
 
     @Test
@@ -119,7 +116,6 @@ public class CanReadFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(CanReadFileFilter.CAN_READ.accept(writableFileInfo));
         Assert.assertTrue(CanReadFileFilter.CAN_READ.accept(readOnlyFileInfo));
         Assert.assertFalse(CanReadFileFilter.CAN_READ.accept(notExistingFileInfo));
-
     }
 
     @Test
@@ -128,7 +124,6 @@ public class CanReadFileFilterTest extends BaseFilterTest {
         Assert.assertFalse(CanReadFileFilter.READ_ONLY.accept(writableFileInfo));
         Assert.assertTrue(CanReadFileFilter.READ_ONLY.accept(readOnlyFileInfo));
         Assert.assertFalse(CanReadFileFilter.READ_ONLY.accept(notExistingFileInfo));
-
     }
 
     @Test
@@ -149,7 +144,6 @@ public class CanReadFileFilterTest extends BaseFilterTest {
         files = zipFileObj.findFiles(new FileFilterSelector(CanReadFileFilter.READ_ONLY));
         assertContains(files, READONLY, WRITABLE);
         Assert.assertEquals(2, files.length);
-
     }
 
 }

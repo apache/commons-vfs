@@ -772,4 +772,5 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         }
         assertSameContent(expectedString, fileTarget);
     }
+
 }

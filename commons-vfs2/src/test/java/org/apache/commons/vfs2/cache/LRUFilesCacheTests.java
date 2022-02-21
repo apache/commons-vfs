@@ -82,4 +82,5 @@ public class LRUFilesCacheTests extends AbstractFilesCacheTestsBase {
         final FileObject dir1_2 = scratchFolder.resolveFile("dir1");
         assertNotSame(dir1, dir1_2);
     }
+
 }

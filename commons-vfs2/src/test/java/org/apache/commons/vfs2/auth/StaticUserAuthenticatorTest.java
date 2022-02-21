@@ -52,4 +52,5 @@ public class StaticUserAuthenticatorTest {
         assertNotEquals(new StaticUserAuthenticator(null, "USER", "PWD"), userAuthenticator);
         assertEquals(new StaticUserAuthenticator("DOMAIN", "USER", "PWD").hashCode(), userAuthenticator.hashCode());
     }
+
 }

@@ -34,6 +34,7 @@ import junit.framework.Test;
  * Tests for FTP file systems (with homeDirIsRoot=true).
  */
 public class FtpProviderUserDirTestCase extends FtpProviderTestCase {
+
     /**
      * Creates the test suite for the ftp file system.
      */

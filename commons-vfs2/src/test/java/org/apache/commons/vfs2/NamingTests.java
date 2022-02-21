@@ -420,4 +420,5 @@ public class NamingTests extends AbstractProviderTestCase {
         // Test that the root name has no parent
         assertNull("root parent", rootName.getParent());
     }
+
 }

@@ -73,4 +73,5 @@ public class TarFileObjectTest {
 
         testReadSpecialNameFileInFile("src/test/resources/test-data/special_fileName.tgz", "tgz");
     }
+
 }

@@ -23,6 +23,7 @@ import junit.framework.Test;
 import junit.framework.TestResult;
 
 public class RunTest {
+
     public static void main(final String[] args) throws Exception {
         final String ip = "192.168.0.128";
 
@@ -101,4 +102,5 @@ public class RunTest {
             // break;
         }
     }
+
 }

@@ -81,4 +81,5 @@ public class FileTypeSelectorTest {
         final FileObject[] foList = BaseFolder.findFiles(selector);
         Assert.assertEquals(8, foList.length);
     }
+
 }

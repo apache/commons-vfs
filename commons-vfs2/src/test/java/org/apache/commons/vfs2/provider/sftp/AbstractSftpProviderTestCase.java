@@ -596,4 +596,5 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
     public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("sftp", new SftpFileProvider());
     }
+
 }

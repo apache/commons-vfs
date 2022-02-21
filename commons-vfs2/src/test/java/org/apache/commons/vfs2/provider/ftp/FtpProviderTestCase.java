@@ -251,4 +251,5 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
     public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("ftp", new FtpFileProvider());
     }
+
 }

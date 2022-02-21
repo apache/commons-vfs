@@ -58,7 +58,6 @@ public class OrFileFilterTest extends BaseFilterTest {
         // False
         Assert.assertFalse(new OrFileFilter(new AlwaysFalseFileFilter()).accept(any));
         Assert.assertFalse(new OrFileFilter(new AlwaysFalseFileFilter(), new AlwaysFalseFileFilter()).accept(any));
-
     }
 
     @Test
@@ -77,7 +76,6 @@ public class OrFileFilterTest extends BaseFilterTest {
 
         // VERIFY
         assertContainsOnly(testee.getFileFilters(), filter1, filter2, filter3);
-
     }
 
     @Test
@@ -93,7 +91,6 @@ public class OrFileFilterTest extends BaseFilterTest {
 
         // VERIFY
         assertContainsOnly(testee.getFileFilters(), filter1, filter2, filter3);
-
     }
 
     @Test
@@ -113,7 +110,6 @@ public class OrFileFilterTest extends BaseFilterTest {
 
         // VERIFY
         assertContainsOnly(testee.getFileFilters(), filter1, filter2, filter3);
-
     }
 
     @Test
@@ -130,7 +126,6 @@ public class OrFileFilterTest extends BaseFilterTest {
 
         // VERIFY
         assertContainsOnly(testee.getFileFilters(), filter1, filter3);
-
     }
 
     @Test
@@ -151,7 +146,6 @@ public class OrFileFilterTest extends BaseFilterTest {
 
         // VERIFY
         assertContainsOnly(testee.getFileFilters(), filter1, filter2, filter3);
-
     }
 
 }

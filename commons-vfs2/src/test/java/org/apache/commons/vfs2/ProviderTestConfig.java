@@ -20,9 +20,9 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 
 /**
  * Test configuration for a file system.
- *
  */
 public interface ProviderTestConfig {
+
     /**
      * Returns the base folder for tests. This folder must exist, and contain the following structure:
      * <ul>
@@ -55,4 +55,5 @@ public interface ProviderTestConfig {
      * Prepares the file system manager.
      */
     void prepare(DefaultFileSystemManager manager) throws Exception;
+
 }

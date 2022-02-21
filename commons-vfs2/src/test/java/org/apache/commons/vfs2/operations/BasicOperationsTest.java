@@ -197,4 +197,5 @@ public class BasicOperationsTest {
         }
         assertSame(32, myop.ops); // getOperation was called
     }
+
 }

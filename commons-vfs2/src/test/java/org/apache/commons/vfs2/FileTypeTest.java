@@ -79,4 +79,5 @@ public class FileTypeTest {
     public void testSerializationImaginary() {
         test(FileType.IMAGINARY);
     }
+
 }

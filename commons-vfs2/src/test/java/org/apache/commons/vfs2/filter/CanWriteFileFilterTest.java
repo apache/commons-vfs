@@ -77,7 +77,6 @@ public class CanWriteFileFilterTest extends BaseFilterTest {
 
         FileUtils.deleteDirectory(testDir);
         testDir = null;
-
     }
 
     @BeforeAll
@@ -101,7 +100,6 @@ public class CanWriteFileFilterTest extends BaseFilterTest {
         zipFile = new File(getTempDir(), CanWriteFileFilterTest.class.getName() + ".zip");
         zipDir(testDir, "", zipFile);
         zipFileObj = getZipFileObject(zipFile);
-
     }
 
     @Test
@@ -110,7 +108,6 @@ public class CanWriteFileFilterTest extends BaseFilterTest {
         Assert.assertFalse(CanWriteFileFilter.CANNOT_WRITE.accept(writableFileInfo));
         Assert.assertTrue(CanWriteFileFilter.CANNOT_WRITE.accept(readOnlyFileInfo));
         Assert.assertFalse(CanWriteFileFilter.CANNOT_WRITE.accept(notExistingFileInfo));
-
     }
 
     @Test
@@ -119,7 +116,6 @@ public class CanWriteFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(CanWriteFileFilter.CAN_WRITE.accept(writableFileInfo));
         Assert.assertFalse(CanWriteFileFilter.CAN_WRITE.accept(readOnlyFileInfo));
         Assert.assertTrue(CanWriteFileFilter.CAN_WRITE.accept(notExistingFileInfo));
-
     }
 
     @Test
@@ -135,7 +131,6 @@ public class CanWriteFileFilterTest extends BaseFilterTest {
         files = zipFileObj.findFiles(new FileFilterSelector(CanWriteFileFilter.CANNOT_WRITE));
         assertContains(files, READONLY, WRITABLE);
         Assert.assertEquals(2, files.length);
-
     }
 
 }

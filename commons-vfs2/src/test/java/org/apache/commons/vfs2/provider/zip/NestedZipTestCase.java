@@ -30,6 +30,7 @@ import junit.framework.Test;
  * Tests for the Zip file system, using a zip file nested inside another zip file.
  */
 public class NestedZipTestCase extends AbstractProviderTestConfig {
+
     /**
      * Creates the test suite for nested zip files.
      */
@@ -61,4 +62,5 @@ public class NestedZipTestCase extends AbstractProviderTestConfig {
         manager.addExtensionMap("zip", "zip");
         manager.addMimeTypeMap("application/zip", "zip");
     }
+
 }

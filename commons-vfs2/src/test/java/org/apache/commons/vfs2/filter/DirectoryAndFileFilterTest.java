@@ -78,7 +78,6 @@ public class DirectoryAndFileFilterTest extends BaseFilterTest {
         FileUtils.deleteDirectory(testDir);
 
         testDir = null;
-
     }
 
     @BeforeAll
@@ -101,7 +100,6 @@ public class DirectoryAndFileFilterTest extends BaseFilterTest {
         zipFile = new File(getTempDir(), DirectoryAndFileFilterTest.class.getName() + ".zip");
         zipDir(testDir, "", zipFile);
         zipFileObj = getZipFileObject(zipFile);
-
     }
 
     @Test
@@ -128,7 +126,6 @@ public class DirectoryAndFileFilterTest extends BaseFilterTest {
         files = zipFileObj.findFiles(new FileFilterSelector(DirectoryFileFilter.DIRECTORY));
         assertContains(files, DIR);
         Assert.assertEquals(1, files.length);
-
     }
 
     @Test
@@ -139,7 +136,6 @@ public class DirectoryAndFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(testee.accept(dirInfo));
         Assert.assertFalse(testee.accept(fileInfo));
         Assert.assertFalse(testee.accept(notExistingFileInfo));
-
     }
 
     @Test
@@ -150,7 +146,6 @@ public class DirectoryAndFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(testee.accept(fileInfo));
         Assert.assertFalse(testee.accept(dirInfo));
         Assert.assertFalse(testee.accept(notExistingFileInfo));
-
     }
 
 }

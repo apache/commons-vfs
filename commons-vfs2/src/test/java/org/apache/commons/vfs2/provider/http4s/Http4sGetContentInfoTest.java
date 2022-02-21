@@ -75,4 +75,5 @@ public class Http4sGetContentInfoTest {
             content.getContentInfo();
         }
     }
+
 }

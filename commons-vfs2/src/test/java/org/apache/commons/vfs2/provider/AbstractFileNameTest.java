@@ -42,4 +42,5 @@ public class AbstractFileNameTest {
         Assert.assertEquals("pass/foo/bar/file%23name.txt", fileName.getURI());
         Assert.assertEquals("/foo/bar/file%23name.txt", fileName.getFriendlyURI());
     }
+
 }

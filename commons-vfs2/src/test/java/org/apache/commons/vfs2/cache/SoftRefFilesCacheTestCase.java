@@ -30,6 +30,7 @@ import junit.framework.Test;
  * Tests the {@link SoftRefFilesCache} using {@link SoftRefFilesCacheTests}.
  */
 public class SoftRefFilesCacheTestCase extends AbstractProviderTestConfig {
+
     public static Test suite() throws Exception {
         final CacheTestSuite suite = new CacheTestSuite(new SoftRefFilesCacheTestCase());
         suite.addTests(SoftRefFilesCacheTests.class);
@@ -45,4 +46,5 @@ public class SoftRefFilesCacheTestCase extends AbstractProviderTestConfig {
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         return manager.toFileObject(getTestDirectoryFile());
     }
+
 }

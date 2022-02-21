@@ -187,4 +187,5 @@ public class DefaultFileSystemManagerTest {
     public void testResolveFileRelativeThrows() {
         assertThrows(NullPointerException.class, () -> VFS.getManager().resolveFile((File) null, "relativePath"));
     }
+
 }

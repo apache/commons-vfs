@@ -44,7 +44,6 @@ public class SuffixFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test2.bin"))));
         Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test2.BIN"))));
         Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
-
     }
 
     @Test
@@ -61,7 +60,6 @@ public class SuffixFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test2.bin"))));
         Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test2.TXT"))));
         Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
-
     }
 
     @Test
@@ -78,7 +76,6 @@ public class SuffixFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
         Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test2.BIN"))));
         Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
-
     }
 
     @Test
@@ -92,7 +89,6 @@ public class SuffixFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
         Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test2.TXT"))));
         Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test.xxx"))));
-
     }
 
     @Test
@@ -106,7 +102,6 @@ public class SuffixFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
         Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test2.TXT"))));
         Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test.xxx"))));
-
     }
 
     @Test
@@ -120,7 +115,6 @@ public class SuffixFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
         Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test2.TXT"))));
         Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test.xxx"))));
-
     }
 
 }

@@ -226,4 +226,5 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
             assertFalse(pack.isSealed());
         }
     }
+
 }

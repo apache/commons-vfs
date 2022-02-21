@@ -36,4 +36,5 @@ public class FreeSocketPortUtil {
     public static void main(final String[] args) throws IOException {
         System.out.println(FreeSocketPortUtil.findFreeLocalPort());
     }
+
 }

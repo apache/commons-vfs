@@ -51,7 +51,6 @@ public class WildcardFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test.aAA"))));
         Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.abcd"))));
         Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
-
     }
 
     @Test
@@ -75,7 +74,6 @@ public class WildcardFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test.aAA"))));
         Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.abcd"))));
         Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
-
     }
 
     @Test
@@ -99,7 +97,6 @@ public class WildcardFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test.aAA"))));
         Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.abcd"))));
         Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
-
     }
 
     @Test
@@ -120,7 +117,6 @@ public class WildcardFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test.aAA"))));
         Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.abcd"))));
         Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
-
     }
 
     @Test
@@ -141,7 +137,6 @@ public class WildcardFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test.aAA"))));
         Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.abcd"))));
         Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
-
     }
 
     @Test
@@ -162,7 +157,6 @@ public class WildcardFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test.aAA"))));
         Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.abcd"))));
         Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
-
     }
 
 }

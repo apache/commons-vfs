@@ -38,4 +38,5 @@ public class DefaultFilesCacheTests extends AbstractFilesCacheTestsBase {
         final int hc2 = getFileHashCode();
         assertEquals("Hashcode of file changed, so most likely new instance", hc1, hc2);
     }
+
 }

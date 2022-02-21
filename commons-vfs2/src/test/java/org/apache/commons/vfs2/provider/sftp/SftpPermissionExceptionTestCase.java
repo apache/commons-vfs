@@ -61,7 +61,6 @@ public class SftpPermissionExceptionTestCase extends AbstractSftpProviderTestCas
         return scratchFolder;
     }
 
-
     /**
      * Returns the capabilities required by the tests of this test case.
      */
@@ -86,7 +85,6 @@ public class SftpPermissionExceptionTestCase extends AbstractSftpProviderTestCas
         final FileObject localFileObject = VFS.getManager().toFileObject(localFile);
 
         final FileObject scratchFolder = createScratchFolder();
-
 
         // try to create local file
         final String fileName = "filecopy.txt";
@@ -114,12 +112,9 @@ public class SftpPermissionExceptionTestCase extends AbstractSftpProviderTestCas
         // try to set the local file to writable
         Paths.get(getTestDirectory(), scratchFolder.getName().getBaseName(), fileName).toFile().setWritable(true);
 
-
         fileObjectCopy = scratchFolder.resolveFile(fileName);
         Assert.assertTrue(fileObjectCopy.isWriteable());
         fileObjectCopy.copyFrom(localFileObject, Selectors.SELECT_SELF);
-
-
-
     }
+
 }

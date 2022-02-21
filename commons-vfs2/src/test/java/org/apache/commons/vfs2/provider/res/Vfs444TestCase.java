@@ -113,4 +113,5 @@ public class Vfs444TestCase extends AbstractProviderTestConfig {
         manager.addProvider("res", new ResourceFileProvider());
         manager.addProvider("zip", new ZipFileProvider());
     }
+
 }

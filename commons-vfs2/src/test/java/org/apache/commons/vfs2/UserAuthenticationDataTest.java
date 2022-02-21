@@ -51,4 +51,5 @@ public class UserAuthenticationDataTest {
         data.setData(type, array);
         assertSame(array, data.getData(type));
     }
+
 }

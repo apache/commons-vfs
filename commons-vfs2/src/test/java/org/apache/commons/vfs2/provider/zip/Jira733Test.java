@@ -133,4 +133,5 @@ public class Jira733Test {
     public void testZipParentLayer_isWriteable() throws Exception {
         testZipParentLayer(FileObject::isWriteable);
     }
+
 }

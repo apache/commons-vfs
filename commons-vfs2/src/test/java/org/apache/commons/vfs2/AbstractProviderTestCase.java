@@ -359,4 +359,5 @@ public abstract class AbstractProviderTestCase extends TestCase {
                 + writeFolder + ", manager=" + manager + ", providerConfig=" + providerConfig + ", method=" + method
                 + ", addEmptyDir=" + addEmptyDir + "]";
     }
+
 }

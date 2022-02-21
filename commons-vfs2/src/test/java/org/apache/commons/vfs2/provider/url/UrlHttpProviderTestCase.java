@@ -32,6 +32,7 @@ import junit.framework.Test;
  * Test cases for the generic provider.
  */
 public class UrlHttpProviderTestCase extends AbstractProviderTestConfig {
+
     public static Test suite() throws Exception {
         return new ProviderTestSuite(new UrlHttpProviderTestCase());
     }
@@ -52,4 +53,5 @@ public class UrlHttpProviderTestCase extends AbstractProviderTestConfig {
     public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("http", new UrlFileProvider());
     }
+
 }

@@ -26,6 +26,7 @@ import org.apache.commons.vfs2.ProviderWriteTests;
 import junit.framework.Test;
 
 public class SftpProviderClosedExecChannelTestCase extends AbstractSftpProviderTestCase {
+
     /**
      * Creates the test suite for the sftp file system.
      */
@@ -49,4 +50,5 @@ public class SftpProviderClosedExecChannelTestCase extends AbstractSftpProviderT
     protected boolean isExecChannelClosed() {
         return true;
     }
+
 }

@@ -37,6 +37,7 @@ import org.apache.commons.vfs2.UrlTests;
  * The suite of tests for a file system.
  */
 public class WebdavProviderTestSuite extends ProviderTestSuite {
+
     /**
      * Adds the tests for a file system to this suite.
      */
@@ -79,4 +80,5 @@ public class WebdavProviderTestSuite extends ProviderTestSuite {
         // The class loader test requires the classes be uploaded to the webdav repo.
         // addTests(VfsClassLoaderTests.class);
     }
+
 }

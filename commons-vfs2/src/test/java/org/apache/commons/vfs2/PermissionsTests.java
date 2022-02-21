@@ -32,6 +32,7 @@ import org.junit.Test;
  * @since 2.1
  */
 public class PermissionsTests extends AbstractProviderTestCase {
+
     public static final String FILENAME = "permission.txt";
 
     private FileObject createTestFile() throws Exception {
@@ -155,4 +156,5 @@ public class PermissionsTests extends AbstractProviderTestCase {
         Assert.assertTrue("Setting write permission failed: " + file, file.setWritable(false, true));
         Assert.assertFalse("File expected to be not writable: " + file, file.isWriteable());
     }
+
 }

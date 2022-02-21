@@ -101,4 +101,5 @@ public class FileObjectUtilsTest {
             .readProperties(VFS.getManager().toFileObject(new File("src/test/resources/test.properties")), p));
         Assert.assertEquals("extraValue", p.getProperty("extraKey"));
     }
+
 }

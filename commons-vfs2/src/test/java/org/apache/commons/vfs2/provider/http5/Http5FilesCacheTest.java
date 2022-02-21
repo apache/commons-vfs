@@ -48,4 +48,5 @@ public class Http5FilesCacheTest {
         final FileObject queryFile2 = fileSystemManager.resolveFile(queryStringUrl2);
         Assert.assertEquals(queryStringUrl2, queryFile2.getURL().toExternalForm()); // failed for VFS-426
     }
+
 }

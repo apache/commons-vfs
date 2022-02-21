@@ -113,7 +113,6 @@ public class EmptyFileFilterTest extends BaseFilterTest {
         zipFile = new File(getTempDir(), EmptyFileFilterTest.class.getName() + ".zip");
         zipDir(testDir, "", zipFile);
         zipFileObj = getZipFileObject(zipFile);
-
     }
 
     @Test
@@ -126,7 +125,6 @@ public class EmptyFileFilterTest extends BaseFilterTest {
         Assert.assertFalse(testee.accept(notEmptyDirInfo));
         Assert.assertTrue(testee.accept(emptyDirInfo));
         Assert.assertTrue(testee.accept(notExistingFileInfo));
-
     }
 
     @Test
@@ -139,7 +137,6 @@ public class EmptyFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(testee.accept(notEmptyDirInfo));
         Assert.assertFalse(testee.accept(emptyDirInfo));
         Assert.assertFalse(testee.accept(notExistingFileInfo));
-
     }
 
     @Test
@@ -155,7 +152,6 @@ public class EmptyFileFilterTest extends BaseFilterTest {
         files = zipFileObj.findFiles(new FileFilterSelector(EmptyFileFilter.NOT_EMPTY));
         assertContains(files, notEmptyFile.getName(), notEmptyDir.getName());
         Assert.assertEquals(2, files.length);
-
     }
 
 }

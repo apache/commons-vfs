@@ -99,4 +99,5 @@ public class ResSchemeTest {
         // Resulting path is empty
         assertThrows(FileSystemException.class, () -> VFS.getManager().resolveURI("res:///").isFile());
     }
+
 }

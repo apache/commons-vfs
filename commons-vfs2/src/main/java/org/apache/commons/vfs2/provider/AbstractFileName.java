@@ -110,7 +110,6 @@ public abstract class AbstractFileName implements FileName {
             return baseLen <= 1 || path.length() <= baseLen || path.charAt(baseLen) == SEPARATOR_CHAR;
         }
         throw new IllegalArgumentException();
-
     }
 
     /**

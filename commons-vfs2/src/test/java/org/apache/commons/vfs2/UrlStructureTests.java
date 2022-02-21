@@ -57,4 +57,5 @@ public class UrlStructureTests extends AbstractProviderTestCase {
             assertSameMessage("vfs.provider/read-not-file.error", folder, e);
         }
     }
+
 }

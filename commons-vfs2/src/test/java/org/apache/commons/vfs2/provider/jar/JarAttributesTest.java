@@ -25,7 +25,6 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests JAR attributes.
- *
  */
 public class JarAttributesTest {
 
@@ -55,4 +54,5 @@ public class JarAttributesTest {
         // Debugging:
         // this.printAttributes(attributes);
     }
+
 }

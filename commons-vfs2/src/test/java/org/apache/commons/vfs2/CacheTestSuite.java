@@ -20,6 +20,7 @@ package org.apache.commons.vfs2;
  * The suite of tests for a file cache.
  */
 public class CacheTestSuite extends AbstractTestSuite {
+
     public CacheTestSuite(final ProviderTestConfig providerConfig) throws Exception {
         this(providerConfig, "", false);
     }
@@ -28,4 +29,5 @@ public class CacheTestSuite extends AbstractTestSuite {
             throws Exception {
         super(providerConfig, prefix, nested);
     }
+
 }

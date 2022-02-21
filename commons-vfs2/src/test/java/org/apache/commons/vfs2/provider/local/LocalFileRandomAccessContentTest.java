@@ -50,4 +50,5 @@ public class LocalFileRandomAccessContentTest {
             Assert.assertEquals(EOF, in.read());
         }
     }
+
 }

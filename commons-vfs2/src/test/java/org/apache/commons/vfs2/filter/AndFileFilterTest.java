@@ -59,7 +59,6 @@ public class AndFileFilterTest extends BaseFilterTest {
         Assert.assertFalse(new AndFileFilter(new AlwaysFalseFileFilter(), new AlwaysFalseFileFilter()).accept(any));
         Assert.assertFalse(new AndFileFilter(new AlwaysFalseFileFilter(), new AlwaysTrueFileFilter()).accept(any));
         Assert.assertFalse(new AndFileFilter(new AlwaysTrueFileFilter(), new AlwaysFalseFileFilter()).accept(any));
-
     }
 
     @Test
@@ -79,7 +78,6 @@ public class AndFileFilterTest extends BaseFilterTest {
         Assert.assertFalse(new AndFileFilter(new AlwaysFalseFileFilter(), new AlwaysFalseFileFilter()).accept(any));
         Assert.assertFalse(new AndFileFilter(new AlwaysFalseFileFilter(), new AlwaysTrueFileFilter()).accept(any));
         Assert.assertFalse(new AndFileFilter(new AlwaysTrueFileFilter(), new AlwaysFalseFileFilter()).accept(any));
-
     }
 
     @Test
@@ -98,7 +96,6 @@ public class AndFileFilterTest extends BaseFilterTest {
 
         // VERIFY
         assertContainsOnly(testee.getFileFilters(), filter1, filter2, filter3);
-
     }
 
     @Test
@@ -114,7 +111,6 @@ public class AndFileFilterTest extends BaseFilterTest {
 
         // VERIFY
         assertContainsOnly(testee.getFileFilters(), filter1, filter2, filter3);
-
     }
 
     @Test
@@ -134,7 +130,6 @@ public class AndFileFilterTest extends BaseFilterTest {
 
         // VERIFY
         assertContainsOnly(testee.getFileFilters(), filter1, filter2, filter3);
-
     }
 
     @Test
@@ -151,7 +146,6 @@ public class AndFileFilterTest extends BaseFilterTest {
 
         // VERIFY
         assertContainsOnly(testee.getFileFilters(), filter1, filter3);
-
     }
 
     @Test
@@ -172,7 +166,6 @@ public class AndFileFilterTest extends BaseFilterTest {
 
         // VERIFY
         assertContainsOnly(testee.getFileFilters(), filter1, filter2, filter3);
-
     }
 
 }

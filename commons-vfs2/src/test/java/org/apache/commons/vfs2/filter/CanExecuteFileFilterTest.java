@@ -78,7 +78,6 @@ public class CanExecuteFileFilterTest extends BaseFilterTest {
 
         FileUtils.deleteDirectory(testDir);
         testDir = null;
-
     }
 
     @BeforeAll
@@ -102,7 +101,6 @@ public class CanExecuteFileFilterTest extends BaseFilterTest {
         zipFile = new File(getTempDir(), CanExecuteFileFilterTest.class.getName() + ".zip");
         zipDir(testDir, "", zipFile);
         zipFileObj = getZipFileObject(zipFile);
-
     }
 
     @Test

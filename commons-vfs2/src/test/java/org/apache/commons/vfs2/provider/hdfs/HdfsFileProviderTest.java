@@ -180,7 +180,6 @@ public class HdfsFileProviderTest {
         final FileObject[] children = dir.getChildren();
         Assert.assertEquals(1, children.length);
         Assert.assertEquals(children[0].getName(), file.getName());
-
     }
 
     @Test

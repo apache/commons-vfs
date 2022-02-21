@@ -45,4 +45,5 @@ public class EncryptDecryptTest {
         final Cryptor cryptor = CryptorFactory.getCryptor();
         assertThrows(IllegalArgumentException.class, () -> cryptor.decrypt(broken));
     }
+
 }

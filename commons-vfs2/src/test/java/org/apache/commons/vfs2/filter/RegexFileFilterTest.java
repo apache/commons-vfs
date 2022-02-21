@@ -70,7 +70,6 @@ public class RegexFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(filter.accept(createFileSelectInfo(new File("Test.java"))));
         Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test.java"))));
         Assert.assertTrue(filter.accept(createFileSelectInfo(new File("tEST.java"))));
-
     }
 
     @Test

@@ -19,9 +19,6 @@ package org.apache.commons.vfs2.provider;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-/**
- *
- */
 public class UriParserTest {
 
     private static final String[] schemes = {"ftp", "file"};

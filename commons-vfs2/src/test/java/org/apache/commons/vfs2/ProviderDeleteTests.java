@@ -130,4 +130,5 @@ public class ProviderDeleteTests extends AbstractProviderTestCase {
 
         assertEquals(1, scratchFolder.delete(new FileNameSelector("a.txt")));
     }
+
 }

@@ -356,4 +356,5 @@ public class ProviderReadTests extends AbstractProviderTestCase {
         file = getReadFolder().resolveFile("unknown-child");
         assertSame(FileType.IMAGINARY, file.getType());
     }
+
 }

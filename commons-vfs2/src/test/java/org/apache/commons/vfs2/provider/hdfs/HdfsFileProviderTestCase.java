@@ -44,6 +44,7 @@ import junit.framework.Test;
  * This will only work on systems that Hadoop supports.
  */
 public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
+
     public static class HdfsProviderTestSuite extends ProviderTestSuite {
 
         // Turn off the MiniDFSCluster logging

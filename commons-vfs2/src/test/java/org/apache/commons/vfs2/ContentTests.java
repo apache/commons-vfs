@@ -393,4 +393,5 @@ public class ContentTests extends AbstractProviderTestCase {
             assertSameMessage("vfs.provider/get-size-not-file.error", unknownFile, e);
         }
     }
+
 }

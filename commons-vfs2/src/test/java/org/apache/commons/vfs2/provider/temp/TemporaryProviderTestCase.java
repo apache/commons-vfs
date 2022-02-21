@@ -32,6 +32,7 @@ import junit.framework.Test;
  * Test cases for the tmp: file provider.
  */
 public class TemporaryProviderTestCase extends AbstractProviderTestConfig {
+
     /**
      * Creates the test suite for the tmp file system.
      */
@@ -55,4 +56,5 @@ public class TemporaryProviderTestCase extends AbstractProviderTestConfig {
         final File baseDir = getTestDirectoryFile();
         manager.addProvider("tmp", new TemporaryFileProvider(baseDir));
     }
+
 }

@@ -105,4 +105,5 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
             }
         }
     }
+
 }

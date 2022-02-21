@@ -102,4 +102,5 @@ public class UriTests extends AbstractProviderTestCase {
         assertSame("Resolving two times should not produce new filesystem on " + uriStr, f1.getFileSystem(),
             f2.getFileSystem());
     }
+
 }

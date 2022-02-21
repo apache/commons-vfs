@@ -79,4 +79,5 @@ public class GetContentInfoFunctionalTest {
             content.getContentInfo();
         }
     }
+
 }

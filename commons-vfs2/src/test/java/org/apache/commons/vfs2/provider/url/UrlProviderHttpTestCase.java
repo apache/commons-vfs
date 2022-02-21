@@ -33,9 +33,9 @@ import junit.framework.Test;
 
 /**
  * Test cases for HTTP with the default provider.
- *
  */
 public class UrlProviderHttpTestCase extends AbstractProviderTestConfig {
+
     private static NHttpFileServer Server;
 
     private static int SocketPort;
@@ -113,4 +113,5 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig {
     public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("http", new UrlFileProvider());
     }
+
 }

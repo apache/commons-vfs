@@ -110,4 +110,5 @@ public class ProviderWriteAppendTests extends AbstractProviderTestCase {
             assertSameContent(content1, file);
         }
     }
+
 }

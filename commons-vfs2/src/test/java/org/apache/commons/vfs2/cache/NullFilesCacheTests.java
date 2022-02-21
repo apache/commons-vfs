@@ -24,7 +24,6 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.junit.Assert;
 import org.junit.Test;
 
-
 /**
  * Tests for {@link NullFilesCache} used by {@link NullFilesCacheTestCase}.
  */
@@ -71,4 +70,5 @@ public class NullFilesCacheTests extends AbstractFilesCacheTestsBase {
 
         assertNotSame("Should always be new instance with NullCache", dir1, dir1_2);
     }
+
 }

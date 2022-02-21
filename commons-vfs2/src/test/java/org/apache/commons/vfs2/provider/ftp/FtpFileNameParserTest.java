@@ -47,4 +47,5 @@ public class FtpFileNameParserTest {
         final String genericUri = n.getURI();
         assertEquals(genericUri, uri.toString());
     }
+
 }

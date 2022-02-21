@@ -122,4 +122,5 @@ public class Http4FilesCacheTest {
             Assert.assertEquals(queryStringUrl4, queryFile4.getURL().toExternalForm());
         }
     }
+
 }

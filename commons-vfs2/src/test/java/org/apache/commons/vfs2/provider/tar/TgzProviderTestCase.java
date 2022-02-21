@@ -32,6 +32,7 @@ import junit.framework.Test;
  * Tests for the Tar file system.
  */
 public class TgzProviderTestCase extends AbstractProviderTestConfig {
+
     /**
      * Creates the test suite for the tar file system.
      */
@@ -58,4 +59,5 @@ public class TgzProviderTestCase extends AbstractProviderTestConfig {
         manager.addProvider("tgz", new TarFileProvider());
         manager.addProvider("tar", new TarFileProvider());
     }
+
 }

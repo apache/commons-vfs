@@ -47,4 +47,5 @@ public class UrlFileNameParserTest {
     public void testJira739_scheme_ram() throws Exception {
         testJira739("ram:///");
     }
+
 }

@@ -54,4 +54,5 @@ public class HttpFilesCacheTest {
             Assert.assertEquals(queryStringUrl2, queryFile2.getURL().toExternalForm()); // failed for VFS-426
         }
     }
+
 }

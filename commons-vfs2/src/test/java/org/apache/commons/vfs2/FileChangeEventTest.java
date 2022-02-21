@@ -31,4 +31,5 @@ public class FileChangeEventTest {
             Assert.assertEquals(fileChangeEvent.getFile(), fileChangeEvent.getFileObject());
         }
     }
+
 }

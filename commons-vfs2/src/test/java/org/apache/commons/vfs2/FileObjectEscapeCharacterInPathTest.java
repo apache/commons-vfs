@@ -112,4 +112,5 @@ public class FileObjectEscapeCharacterInPathTest {
     public void testToFile2() throws IOException {
         testToFile(FileObjectEscapeCharacterInPathTest::toFile2);
     }
+
 }
