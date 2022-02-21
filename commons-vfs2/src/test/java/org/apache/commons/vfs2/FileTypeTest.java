@@ -49,7 +49,7 @@ public class FileTypeTest {
 
     private void test(final FileType expected) {
         final byte[] serialized = SerializationUtils.serialize(expected);
-        final FileType actualFileType = (FileType) SerializationUtils.deserialize(serialized);
+        final FileType actualFileType = SerializationUtils.deserialize(serialized);
         assertFileTypeEquals(expected, actualFileType);
     }
 
@@ -57,7 +57,7 @@ public class FileTypeTest {
     public void testSerializationContainer() {
         final Fixture expectedFixture = new Fixture();
         final byte[] serialized = SerializationUtils.serialize(expectedFixture);
-        final Fixture actualFixture = (Fixture) SerializationUtils.deserialize(serialized);
+        final Fixture actualFixture = SerializationUtils.deserialize(serialized);
         assertFileTypeEquals(expectedFixture.getFileType(), actualFixture.getFileType());
     }
 
