@@ -16,6 +16,11 @@
  */
 package org.apache.commons.vfs2.filter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -26,8 +31,6 @@ import org.apache.commons.vfs2.FileFilterSelector;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSystemException;
-import org.junit.Assert;
-import org.junit.Assume;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -92,7 +95,7 @@ public class SymbolicLinkFileFilterTest extends BaseFilterTest {
 
     @BeforeAll
     public static void beforeClass() throws IOException {
-        Assume.assumeTrue(Boolean.getBoolean(SymbolicLinkFileFilterTest.class.getSimpleName() + ".Enable"));
+        assumeTrue(Boolean.getBoolean(SymbolicLinkFileFilterTest.class.getSimpleName() + ".Enable"));
 
         testDir = getTestDir(SymbolicLinkFileFilterTest.class.getName());
         testDir.mkdir();
@@ -118,23 +121,23 @@ public class SymbolicLinkFileFilterTest extends BaseFilterTest {
     @Test
     public void testAcceptActual() throws FileSystemException {
         final FileFilter testee = SymbolicLinkFileFilter.ACTUAL;
-        Assert.assertTrue(targetFileInfo.getBaseFolder().exists());
-        Assert.assertTrue(targetFileInfo.getFile().exists());
-        Assert.assertTrue(targetFileInfo.toString(), testee.accept(targetFileInfo));
-        Assert.assertTrue(notExistingFileInfo.toString(), testee.accept(notExistingFileInfo));
+        assertTrue(targetFileInfo.getBaseFolder().exists());
+        assertTrue(targetFileInfo.getFile().exists());
+        assertTrue(testee.accept(targetFileInfo), targetFileInfo.toString());
+        assertTrue(testee.accept(notExistingFileInfo), notExistingFileInfo.toString());
     }
 
     @Test
     public void testAcceptSymbolic() throws FileSystemException {
         final FileFilter testee = SymbolicLinkFileFilter.SYMBOLIC;
-        Assert.assertTrue(linkFileInfo.toString(), testee.accept(linkFileInfo));
-        Assert.assertFalse(notExistingFileInfo.toString(), testee.accept(notExistingFileInfo));
+        assertTrue(testee.accept(linkFileInfo), linkFileInfo.toString());
+        assertFalse(testee.accept(notExistingFileInfo), notExistingFileInfo.toString());
     }
 
     @Test
     public void testZipFile() throws FileSystemException {
         final FileObject[] files = zipFileObject.findFiles(new FileFilterSelector(SymbolicLinkFileFilter.SYMBOLIC));
-        Assert.assertEquals(0, files.length);
+        assertEquals(0, files.length);
     }
 
 }

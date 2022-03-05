@@ -24,7 +24,7 @@ import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.LastModifiedTests;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
 
 import static org.mockito.Mockito.spy;
@@ -56,7 +56,7 @@ public class FtpMdtmOnRefreshLastModifiedTests extends LastModifiedTests {
         final long lastModTIme = fileObject.getContent().getLastModifiedTime();
 
         if (expected != lastModTIme) {
-            Assert.fail(String.format("%s returned epoch %s not expected: %s.",
+            Assertions.fail(String.format("%s returned epoch %s not expected: %s.",
                     FtpFileObject.class.getSimpleName(), lastModTIme, expected));
         }
     }
@@ -67,4 +67,5 @@ public class FtpMdtmOnRefreshLastModifiedTests extends LastModifiedTests {
         fileSystem.putClient(ftpClientSpy);
         return ftpClientSpy;
     }
+
 }

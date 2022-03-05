@@ -30,6 +30,7 @@ import junit.framework.Test;
  * Tests the {@link DefaultFilesCache} using {@link DefaultFilesCacheTests}.
  */
 public class DefaultFilesCacheTestCase extends AbstractProviderTestConfig {
+
     public static Test suite() throws Exception {
         final CacheTestSuite suite = new CacheTestSuite(new DefaultFilesCacheTestCase());
         suite.addTests(DefaultFilesCacheTests.class);
@@ -45,4 +46,5 @@ public class DefaultFilesCacheTestCase extends AbstractProviderTestConfig {
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         return manager.toFileObject(getTestDirectoryFile());
     }
+
 }

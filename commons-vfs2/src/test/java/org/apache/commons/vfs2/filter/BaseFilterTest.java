@@ -106,7 +106,6 @@ public abstract class BaseFilterTest {
             return trimmedPath + trimmedFilename;
         }
         return trimmedPath + separator + trimmedFilename;
-
     }
 
     /**
@@ -201,7 +200,6 @@ public abstract class BaseFilterTest {
             files = srcDir.listFiles(filter);
         }
         return files;
-
     }
 
     /**
@@ -281,7 +279,6 @@ public abstract class BaseFilterTest {
     public static void zipDir(final File srcDir, final String destPath, final File destFile) throws IOException {
 
         zipDir(srcDir, null, destPath, destFile);
-
     }
 
     /**

@@ -46,7 +46,6 @@ public class TestErrorHandler implements ErrorHandler {
     public void warning(final SAXParseException exception) throws SAXException {
         System.err.println(header);
         exception.printStackTrace(System.err);
-
     }
 
 }

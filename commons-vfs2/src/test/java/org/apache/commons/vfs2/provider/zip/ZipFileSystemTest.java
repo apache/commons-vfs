@@ -16,13 +16,14 @@
  */
 package org.apache.commons.vfs2.provider.zip;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
 
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.cache.WeakRefFilesCache;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 public class ZipFileSystemTest {
@@ -51,7 +52,7 @@ public class ZipFileSystemTest {
                 // resolve file, assert fileObject exist. clear fileObject to null and wait GC.
                 try {
                     fileObject = manager.resolveFile(fileUri);
-                    Assert.assertTrue(fileObject.exists());
+                    assertTrue(fileObject.exists());
                 } finally {
                     if (fileObject != null) {
                         fileObject.close();
@@ -65,4 +66,5 @@ public class ZipFileSystemTest {
             }
         }
     }
+
 }

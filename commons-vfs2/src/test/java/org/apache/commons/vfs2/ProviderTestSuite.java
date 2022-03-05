@@ -22,6 +22,7 @@ import org.apache.commons.vfs2.impl.VfsClassLoaderTests;
  * The suite of tests for a file system.
  */
 public class ProviderTestSuite extends AbstractTestSuite {
+
     /**
      * Adds the tests for a file system to this suite.
      */

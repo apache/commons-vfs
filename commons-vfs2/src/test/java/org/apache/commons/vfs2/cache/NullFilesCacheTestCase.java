@@ -30,6 +30,7 @@ import junit.framework.Test;
  * Tests the {@link NullFilesCache} using {@link NullFilesCacheTests}.
  */
 public class NullFilesCacheTestCase extends AbstractProviderTestConfig {
+
     public static Test suite() throws Exception {
         final CacheTestSuite suite = new CacheTestSuite(new NullFilesCacheTestCase());
         suite.addTests(NullFilesCacheTests.class);
@@ -45,4 +46,5 @@ public class NullFilesCacheTestCase extends AbstractProviderTestConfig {
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         return manager.toFileObject(getTestDirectoryFile());
     }
+
 }

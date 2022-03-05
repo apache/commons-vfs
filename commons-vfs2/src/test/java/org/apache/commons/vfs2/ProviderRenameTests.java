@@ -27,6 +27,7 @@ import org.junit.Test;
  * File system test that check that a file system can be renamed.
  */
 public class ProviderRenameTests extends AbstractProviderTestCase {
+
     /**
      * Sets up a scratch folder for the test to use.
      */
@@ -138,4 +139,5 @@ public class ProviderRenameTests extends AbstractProviderTestCase {
 
         moveFile(destFolder, file, content);
     }
+
 }

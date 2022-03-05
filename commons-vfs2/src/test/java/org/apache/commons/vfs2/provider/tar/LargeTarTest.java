@@ -71,32 +71,27 @@ public class LargeTarTest {
             final PipedOutputStream outTarFileStream = new PipedOutputStream();
             final PipedInputStream inTarFileStream = new PipedInputStream(outTarFileStream);
 
-            final Thread source = new Thread() {
+            final Thread source = new Thread(() -> {
+                final byte[] ba_1k = new byte[(int) _1K];
+                Arrays.fill(ba_1k, (byte) 'a');
+                try {
+                    final TarArchiveOutputStream outTarStream = (TarArchiveOutputStream) new ArchiveStreamFactory()
+                            .createArchiveOutputStream(ArchiveStreamFactory.TAR, outTarFileStream);
+                    // Create archive contents
+                    final TarArchiveEntry tarArchiveEntry = new TarArchiveEntry(name + ".txt");
+                    tarArchiveEntry.setSize(fileSize);
 
-                @Override
-                public void run() {
-                    final byte[] ba_1k = new byte[(int) _1K];
-                    Arrays.fill(ba_1k, (byte) 'a');
-                    try {
-                        final TarArchiveOutputStream outTarStream = (TarArchiveOutputStream) new ArchiveStreamFactory()
-                                .createArchiveOutputStream(ArchiveStreamFactory.TAR, outTarFileStream);
-                        // Create archive contents
-                        final TarArchiveEntry tarArchiveEntry = new TarArchiveEntry(name + ".txt");
-                        tarArchiveEntry.setSize(fileSize);
-
-                        outTarStream.putArchiveEntry(tarArchiveEntry);
-                        for (long i = 0; i < fileSize; i += ba_1k.length) {
-                            outTarStream.write(ba_1k);
-                        }
-                        outTarStream.closeArchiveEntry();
-                        outTarStream.close();
-                        outTarFileStream.close();
-                    } catch (final Exception e) {
-                        e.printStackTrace();
+                    outTarStream.putArchiveEntry(tarArchiveEntry);
+                    for (long i = 0; i < fileSize; i += ba_1k.length) {
+                        outTarStream.write(ba_1k);
                     }
+                    outTarStream.closeArchiveEntry();
+                    outTarStream.close();
+                    outTarFileStream.close();
+                } catch (final Exception e) {
+                    e.printStackTrace();
                 }
-
-            };
+            });
             source.start();
 
             final File gzFile = new File(path + name + ".tar.gz");
@@ -191,4 +186,5 @@ public class LargeTarTest {
 
         assertEquals("Expected file not found: " + largeFileName + ".txt", f.getName().getBaseName(), largeFileName + ".txt");
     }
+
 }

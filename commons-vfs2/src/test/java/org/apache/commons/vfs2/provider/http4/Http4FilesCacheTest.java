@@ -16,13 +16,14 @@
  */
 package org.apache.commons.vfs2.provider.http4;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Locale;
 
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -37,7 +38,7 @@ public class Http4FilesCacheTest {
 
         final String noQueryStringUrl = "http4://commons.apache.org/";
         try (FileObject noQueryFile = fileSystemManager.resolveFile(noQueryStringUrl)) {
-            Assert.assertEquals(noQueryStringUrl, noQueryFile.getURL().toExternalForm());
+            assertEquals(noQueryStringUrl, noQueryFile.getURL().toExternalForm());
         }
     }
 
@@ -48,7 +49,7 @@ public class Http4FilesCacheTest {
 
         final String noQueryStringUrl = "http4://commons.apache.org/vfs";
         try (FileObject noQueryFile = fileSystemManager.resolveFile(noQueryStringUrl)) {
-            Assert.assertEquals(noQueryStringUrl, noQueryFile.getURL().toExternalForm());
+            assertEquals(noQueryStringUrl, noQueryFile.getURL().toExternalForm());
         }
     }
 
@@ -59,7 +60,7 @@ public class Http4FilesCacheTest {
 
         final String queryStringUrl = "http4://commons.apache.org/vfs?query=string";
         try (FileObject queryFile = fileSystemManager.resolveFile(queryStringUrl)) {
-            Assert.assertEquals(queryStringUrl, queryFile.getURL().toExternalForm()); // failed for VFS-426
+            assertEquals(queryStringUrl, queryFile.getURL().toExternalForm()); // failed for VFS-426
         }
     }
 
@@ -70,7 +71,7 @@ public class Http4FilesCacheTest {
 
         final String queryStringUrl2 = "http4://commons.apache.org/vfs?query=string&more=stuff";
         try (FileObject queryFile2 = fileSystemManager.resolveFile(queryStringUrl2)) {
-            Assert.assertEquals(queryStringUrl2, queryFile2.getURL().toExternalForm()); // failed for VFS-426
+            assertEquals(queryStringUrl2, queryFile2.getURL().toExternalForm()); // failed for VFS-426
         }
     }
 
@@ -83,7 +84,7 @@ public class Http4FilesCacheTest {
         // We end up converting back to lowercase, but OK per RFC.
         final String queryStringUrl3 = "http4://alice%5C1234:secret@localhost:8080/";
         try (FileObject queryFile3 = fileSystemManager.resolveFile(queryStringUrl3)) {
-            Assert.assertEquals(queryStringUrl3.toLowerCase(Locale.ROOT), queryFile3.getURL().toExternalForm());
+            assertEquals(queryStringUrl3.toLowerCase(Locale.ROOT), queryFile3.getURL().toExternalForm());
         }
     }
 
@@ -95,7 +96,7 @@ public class Http4FilesCacheTest {
         // Like testQueryStringUrl4() but with all LC input.
         final String queryStringUrl4 = "http4://alice%5c1234:secret@localhost:8080/";
         try (FileObject queryFile4 = fileSystemManager.resolveFile(queryStringUrl4)) {
-            Assert.assertEquals(queryStringUrl4, queryFile4.getURL().toExternalForm());
+            assertEquals(queryStringUrl4, queryFile4.getURL().toExternalForm());
         }
     }
 
@@ -107,7 +108,7 @@ public class Http4FilesCacheTest {
         // Like testQueryStringUrl4() but with all LC input and NO percent encoding.
         final String queryStringUrl4 = "http4://alice:secret@localhost:8080/";
         try (FileObject queryFile4 = fileSystemManager.resolveFile(queryStringUrl4)) {
-            Assert.assertEquals(queryStringUrl4, queryFile4.getURL().toExternalForm());
+            assertEquals(queryStringUrl4, queryFile4.getURL().toExternalForm());
         }
     }
 
@@ -119,7 +120,8 @@ public class Http4FilesCacheTest {
         // Like testQueryStringUrl4() but with all LC input and NO percent encoding.
         final String queryStringUrl4 = "http4://localhost:8080/";
         try (FileObject queryFile4 = fileSystemManager.resolveFile(queryStringUrl4)) {
-            Assert.assertEquals(queryStringUrl4, queryFile4.getURL().toExternalForm());
+            assertEquals(queryStringUrl4, queryFile4.getURL().toExternalForm());
         }
     }
+
 }

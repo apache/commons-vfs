@@ -26,6 +26,7 @@ import org.junit.Test;
  * Test the cache stragey
  */
 public class ProviderCacheStrategyTests extends AbstractProviderTestCase {
+
     public void assertContains(final FileObject[] fos, final String string) {
         for (final FileObject fo : fos) {
             if (string.equals(fo.getName().getBaseName())) {
@@ -149,4 +150,5 @@ public class ProviderCacheStrategyTests extends AbstractProviderTestCase {
         fos = cachedFolder.getChildren();
         assertContains(fos, "file1.txt");
     }
+
 }

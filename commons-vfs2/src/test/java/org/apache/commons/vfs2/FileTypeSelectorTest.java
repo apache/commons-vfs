@@ -16,7 +16,8 @@
  */
 package org.apache.commons.vfs2;
 
-import org.junit.Assert;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -65,20 +66,21 @@ public class FileTypeSelectorTest {
         final FileSelector selector = new FileTypeSelector(FileType.FILE_OR_FOLDER);
         final FileObject[] foList = BaseFolder.findFiles(selector);
         // Why 0?
-        Assert.assertEquals(0, foList.length);
+        assertEquals(0, foList.length);
     }
 
     @Test
     public void testFiles() throws Exception {
         final FileSelector selector = new FileTypeSelector(FileType.FILE);
         final FileObject[] foList = BaseFolder.findFiles(selector);
-        Assert.assertEquals(5, foList.length);
+        assertEquals(5, foList.length);
     }
 
     @Test
     public void testFolders() throws Exception {
         final FileSelector selector = new FileTypeSelector(FileType.FOLDER);
         final FileObject[] foList = BaseFolder.findFiles(selector);
-        Assert.assertEquals(8, foList.length);
+        assertEquals(8, foList.length);
     }
+
 }

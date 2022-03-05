@@ -19,14 +19,14 @@ package org.apache.commons.vfs2;
 import java.io.IOException;
 
 import org.apache.commons.vfs2.util.RandomAccessMode;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
 
 /**
  * Random set length test cases for file providers.
- *
  */
 public class ProviderRandomSetLengthTests extends AbstractProviderTestCase {
+
     private static final String TEST_DATA = "This is a test file.";
 
     /**
@@ -63,29 +63,30 @@ public class ProviderRandomSetLengthTests extends AbstractProviderTestCase {
 
             // Write long string
             ra.writeBytes(TEST_DATA);
-            Assert.assertEquals(fileString, TEST_DATA.length(), ra.length());
+            Assertions.assertEquals( TEST_DATA.length(), ra.length(),fileString);
 
             // Shrink to length 1
             ra.setLength(1);
-            Assert.assertEquals(fileString, 1, ra.length());
+            Assertions.assertEquals(1, ra.length(), fileString);
             // now read 1
             ra.seek(0);
-            Assert.assertEquals(fileString, TEST_DATA.charAt(0), ra.readByte());
+            Assertions.assertEquals(TEST_DATA.charAt(0), ra.readByte(), fileString);
 
             try {
                 ra.readByte();
-                Assert.fail("Expected " + Exception.class.getName());
+                Assertions.fail("Expected " + Exception.class.getName());
             } catch (final IOException e) {
                 // Expected
             }
 
             // Grow to length 2
             ra.setLength(2);
-            Assert.assertEquals(fileString, 2, ra.length());
+            Assertions.assertEquals(2, ra.length(), fileString);
             // We have an undefined extra byte
             ra.seek(1);
             ra.readByte();
 
         }
     }
+
 }

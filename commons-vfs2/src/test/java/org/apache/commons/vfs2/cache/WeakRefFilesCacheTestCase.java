@@ -30,6 +30,7 @@ import junit.framework.Test;
  * Tests the {@link WeakRefFilesCache} using {@link WeakRefFilesCacheTests}.
  */
 public class WeakRefFilesCacheTestCase extends AbstractProviderTestConfig {
+
     public static Test suite() throws Exception {
         final CacheTestSuite suite = new CacheTestSuite(new WeakRefFilesCacheTestCase());
         suite.addTests(WeakRefFilesCacheTests.class);
@@ -45,4 +46,5 @@ public class WeakRefFilesCacheTestCase extends AbstractProviderTestConfig {
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         return manager.toFileObject(getTestDirectoryFile());
     }
+
 }

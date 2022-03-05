@@ -51,9 +51,9 @@ import junit.framework.Test;
 
 /**
  * Test cases for the WebDAV provider.
- *
  */
 public class WebdavProviderTestCase extends AbstractProviderTestConfig {
+
     private static final char[] PASSWORD = {};
 
     private static final String USER_ID = "admin";

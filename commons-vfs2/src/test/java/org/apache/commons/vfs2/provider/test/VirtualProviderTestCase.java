@@ -31,6 +31,7 @@ import junit.framework.Test;
  * Test cases for the virtual file system provider.
  */
 public class VirtualProviderTestCase extends AbstractProviderTestConfig {
+
     public static Test suite() throws Exception {
         final ProviderTestSuite testSuite = new ProviderTestSuite(new VirtualProviderTestCase());
         testSuite.addTests(JunctionTests.class);
@@ -46,4 +47,5 @@ public class VirtualProviderTestCase extends AbstractProviderTestConfig {
         final FileObject baseFile = manager.toFileObject(baseDir);
         return manager.createVirtualFileSystem(baseFile);
     }
+
 }

@@ -30,6 +30,7 @@ import junit.framework.Test;
  * Tests for the SMB file system.
  */
 public class SmbProviderTestCase extends AbstractProviderTestConfig implements ProviderTestConfig {
+
     private static final String TEST_URI = "test.smb.uri";
 
     public static Test suite() throws Exception {
@@ -55,4 +56,5 @@ public class SmbProviderTestCase extends AbstractProviderTestConfig implements P
         final String uri = System.getProperty(TEST_URI);
         return manager.resolveFile(uri);
     }
+
 }

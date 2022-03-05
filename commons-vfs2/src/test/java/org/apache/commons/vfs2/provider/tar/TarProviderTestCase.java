@@ -32,6 +32,7 @@ import junit.framework.Test;
  * Tests for the Tar file system.
  */
 public class TarProviderTestCase extends AbstractProviderTestConfig {
+
     /**
      * Creates the test suite for the tar file system.
      */
@@ -57,4 +58,5 @@ public class TarProviderTestCase extends AbstractProviderTestConfig {
         manager.addProvider("tar", new TarFileProvider());
         manager.addMimeTypeMap("application/x-tar", "tar");
     }
+
 }

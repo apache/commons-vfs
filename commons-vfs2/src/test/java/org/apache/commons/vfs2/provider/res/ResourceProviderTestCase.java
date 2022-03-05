@@ -32,6 +32,7 @@ import junit.framework.Test;
  * Test cases for the resource provider.
  */
 public class ResourceProviderTestCase extends AbstractProviderTestConfig {
+
     public static Test suite() throws Exception {
         return new ProviderTestSuite(new ResourceProviderTestCase());
     }
@@ -54,4 +55,5 @@ public class ResourceProviderTestCase extends AbstractProviderTestConfig {
         manager.addProvider("file", new UrlFileProvider());
         manager.addProvider("jar", new JarFileProvider());
     }
+
 }

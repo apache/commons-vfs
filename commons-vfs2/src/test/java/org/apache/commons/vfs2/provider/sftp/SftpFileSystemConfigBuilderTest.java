@@ -16,7 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.sftp;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Duration;
 
@@ -55,4 +55,5 @@ public class SftpFileSystemConfigBuilderTest {
         assertEquals(ONE_MINUTE, builder.getSessionTimeout(options));
         assertEquals(ONE_MINUTE.toMillis(), (long) builder.getSessionTimeoutMillis(options));
     }
+
 }

@@ -46,4 +46,5 @@ public class LRUFilesCacheTestCase extends AbstractProviderTestConfig {
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         return manager.toFileObject(getTestDirectoryFile());
     }
+
 }

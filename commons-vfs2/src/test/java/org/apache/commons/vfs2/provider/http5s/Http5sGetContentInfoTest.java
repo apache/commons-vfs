@@ -34,7 +34,6 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.provider.http5.Http5FileSystemConfigBuilder;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -59,7 +58,6 @@ public class Http5sGetContentInfoTest {
         if (proxyHost == null || proxyPort == -1) {
             return null;
         }
-
 
         // return options with proxy
         final Http5FileSystemConfigBuilder builder = Http5FileSystemConfigBuilder.getInstance();
@@ -93,27 +91,27 @@ public class Http5sGetContentInfoTest {
         final String uri = "http5://www.apache.org/licenses/LICENSE-2.0.txt";
         final FileObject fo = fsManager.resolveFile(uri, getOptionsWithProxy());
         final FileContent content = fo.getContent();
-        Assert.assertNotNull(content);
+        assertNotNull(content);
         // Used to NPE before fix:
         content.getContentInfo();
     }
 
-   /**
- * Tests VFS-786 set keystore type.
- *
- * @throws FileSystemException thrown when the getContentInfo API fails.
- * @throws MalformedURLException thrown when the System environment contains an invalid URL for an HTTPS proxy.
- */
-@Test
-public void testSSLGetContentInfo() throws IOException {
-    final FileSystemManager fsManager = VFS.getManager();
-    final String uri = "http5s://www.apache.org/licenses/LICENSE-2.0.txt";
-    final FileObject fo = fsManager.resolveFile(uri, getOptionsWithSSL());
-    final FileContent content = fo.getContent();
-    try(InputStream is = content.getInputStream()){
-        final String text = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
-        assertNotNull(text);
+    /**
+     * Tests VFS-786 set keystore type.
+     *
+     * @throws FileSystemException   thrown when the getContentInfo API fails.
+     * @throws MalformedURLException thrown when the System environment contains an invalid URL for an HTTPS proxy.
+     */
+    @Test
+    public void testSSLGetContentInfo() throws IOException {
+        final FileSystemManager fsManager = VFS.getManager();
+        final String uri = "http5s://www.apache.org/licenses/LICENSE-2.0.txt";
+        final FileObject fo = fsManager.resolveFile(uri, getOptionsWithSSL());
+        final FileContent content = fo.getContent();
+        try (InputStream is = content.getInputStream()) {
+            final String text = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
+            assertNotNull(text);
+        }
     }
-}
 
 }

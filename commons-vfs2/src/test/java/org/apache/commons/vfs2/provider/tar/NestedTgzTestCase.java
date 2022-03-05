@@ -30,6 +30,7 @@ import junit.framework.Test;
  * Tests for the Tar file system, using a tar file nested inside another tar file.
  */
 public class NestedTgzTestCase extends AbstractProviderTestConfig {
+
     /**
      * Creates the test suite for nested tar files.
      */
@@ -61,4 +62,5 @@ public class NestedTgzTestCase extends AbstractProviderTestConfig {
         manager.addExtensionMap("tgz", "tgz");
         manager.addProvider("tar", new TarFileProvider());
     }
+
 }

@@ -16,13 +16,13 @@
  */
 package org.apache.commons.vfs2;
 
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
 
 /**
@@ -39,7 +39,7 @@ public class LastModifiedTests extends AbstractProviderTestCase {
         // getLastModTimeAccuracy() is not accurate
         final long actualDelta = Math.abs(expected - actual);
         if (actualDelta > Math.max(delta, 1000)) {
-            Assert.fail(String.format("%s expected=%,d (%s), actual=%,d (%s), expected delta=%,d, actual delta=%,d",
+            Assertions.fail(String.format("%s expected=%,d (%s), actual=%,d (%s), expected delta=%,d, actual delta=%,d",
                 message, Long.valueOf(expected), new Date(expected).toString(), Long.valueOf(actual),
                 new Date(actual).toString(), Long.valueOf(delta), Long.valueOf(actualDelta)));
         }
@@ -48,8 +48,7 @@ public class LastModifiedTests extends AbstractProviderTestCase {
     protected void assertEqualMillis(final String message, final long expected, final long actual) {
         if (expected != actual) {
             final long delta = Math.abs(expected - actual);
-            Assert
-                .fail(String.format("%s expected=%,d (%s), actual=%,d (%s), delta=%,d", message, Long.valueOf(expected),
+            Assertions.fail(String.format("%s expected=%,d (%s), actual=%,d (%s), delta=%,d", message, Long.valueOf(expected),
                     new Date(expected).toString(), Long.valueOf(actual), new Date(actual).toString(), delta));
         }
     }
@@ -141,4 +140,5 @@ public class LastModifiedTests extends AbstractProviderTestCase {
                 lastModTimeAccuracyMillis);
         }
     }
+
 }

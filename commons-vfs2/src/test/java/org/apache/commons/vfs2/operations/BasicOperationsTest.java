@@ -16,10 +16,10 @@
  */
 package org.apache.commons.vfs2.operations;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.File;
 import java.util.Collection;
@@ -56,13 +56,13 @@ public class BasicOperationsTest {
 
         @Override
         public void setContext(final VfsComponentContext context) {
-            assertNotNull("setContext", context);
+            assertNotNull(context, "setContext");
             ops |= 2;
         }
 
         @Override
         public void setLogger(final Log logger) {
-            assertNotNull("setLogger", logger);
+            assertNotNull(logger, "setLogger");
             ops |= 1;
         }
     }
@@ -80,16 +80,16 @@ public class BasicOperationsTest {
         @Override
         public void collectOperations(final Collection<Class<? extends FileOperation>> operationsList,
                 final FileObject file) throws FileSystemException {
-            assertNotNull("collect operationsList", operationsList);
-            assertNotNull("collect file", file);
+            assertNotNull(operationsList, "collect operationsList");
+            assertNotNull(file, "collect file");
             ops |= 16;
         }
 
         @Override
         public FileOperation getOperation(final FileObject file, final Class<? extends FileOperation> operationClass)
                 throws FileSystemException {
-            assertNotNull("file object", file);
-            assertNotNull("operationclass", operationClass);
+            assertNotNull(file, "file object");
+            assertNotNull(operationClass, "operationclass");
             ops |= 32;
             return null;
         }
@@ -136,7 +136,7 @@ public class BasicOperationsTest {
         manager.addOperationProvider("file", myop);
         assertEquals(7, myop.ops);
         manager.close();
-        assertEquals("close() not called", 15, myop.ops); // VFS-577
+        assertEquals(15, myop.ops, "close() not called"); // VFS-577
 
         // fixture will close again
     }
@@ -151,7 +151,7 @@ public class BasicOperationsTest {
         final MyFileOprationProviderBase myop = new MyFileOperationProviderNoncomp();
         manager.addOperationProvider("file", myop);
         final FileOperationProvider[] ops = manager.getOperationProviders("file");
-        assertSame("exactly one provider registered", 1, ops.length);
+        assertSame(1, ops.length, "exactly one provider registered");
         assertSame(myop, ops[0]);
         assertEquals(0, myop.ops); // collect not invoked
     }
@@ -171,7 +171,7 @@ public class BasicOperationsTest {
         assertNotNull(ops);
 
         final Class<? extends FileOperation>[] oparray = ops.getOperations();
-        assertSame("no ops should be found", 0, oparray.length);
+        assertSame(0, oparray.length, "no ops should be found");
         assertSame(16, myop.ops); // collect
     }
 
@@ -189,12 +189,9 @@ public class BasicOperationsTest {
         final FileOperations ops = fo.getFileOperations();
         assertNotNull(ops);
 
-        try {
-            final FileOperation logop = ops.getOperation(VcsLog.class);
-            fail("Must throw but returned " + logop);
-        } catch (final FileSystemException e) {
-            assertEquals("vfs.operation/operation-not-supported.error", e.getCode());
-        }
+        FileSystemException thrown = assertThrows(FileSystemException.class, () -> ops.getOperation(VcsLog.class));
+        assertEquals("vfs.operation/operation-not-supported.error", thrown.getCode());
         assertSame(32, myop.ops); // getOperation was called
     }
+
 }

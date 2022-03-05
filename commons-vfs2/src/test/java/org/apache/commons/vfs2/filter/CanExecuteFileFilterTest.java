@@ -16,6 +16,9 @@
  */
 package org.apache.commons.vfs2.filter;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -23,7 +26,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSystemException;
-import org.junit.Assert;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
@@ -78,7 +80,6 @@ public class CanExecuteFileFilterTest extends BaseFilterTest {
 
         FileUtils.deleteDirectory(testDir);
         testDir = null;
-
     }
 
     @BeforeAll
@@ -102,21 +103,20 @@ public class CanExecuteFileFilterTest extends BaseFilterTest {
         zipFile = new File(getTempDir(), CanExecuteFileFilterTest.class.getName() + ".zip");
         zipDir(testDir, "", zipFile);
         zipFileObj = getZipFileObject(zipFile);
-
     }
 
     @Test
     public void testAcceptCanExecute() throws FileSystemException {
-        Assert.assertTrue(CanExecuteFileFilter.CAN_EXECUTE.accept(executableFileInfo));
-        Assert.assertTrue(CanExecuteFileFilter.CAN_EXECUTE.accept(notExecutableFileInfo));
-        Assert.assertFalse(CanExecuteFileFilter.CAN_EXECUTE.accept(notExistingFileInfo));
+        assertTrue(CanExecuteFileFilter.CAN_EXECUTE.accept(executableFileInfo));
+        assertTrue(CanExecuteFileFilter.CAN_EXECUTE.accept(notExecutableFileInfo));
+        assertFalse(CanExecuteFileFilter.CAN_EXECUTE.accept(notExistingFileInfo));
     }
 
     @Test
     public void testAcceptCannotExecute() throws FileSystemException {
-        Assert.assertFalse(CanExecuteFileFilter.CANNOT_EXECUTE.accept(executableFileInfo));
-        Assert.assertFalse(CanExecuteFileFilter.CANNOT_EXECUTE.accept(notExecutableFileInfo));
-        Assert.assertTrue(CanExecuteFileFilter.CANNOT_EXECUTE.accept(notExistingFileInfo));
+        assertFalse(CanExecuteFileFilter.CANNOT_EXECUTE.accept(executableFileInfo));
+        assertFalse(CanExecuteFileFilter.CANNOT_EXECUTE.accept(notExecutableFileInfo));
+        assertTrue(CanExecuteFileFilter.CANNOT_EXECUTE.accept(notExistingFileInfo));
     }
 
 }

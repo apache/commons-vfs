@@ -16,6 +16,12 @@
  */
 package org.apache.commons.vfs2.provider.zip;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,8 +34,6 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
-import org.junit.Assert;
-import org.junit.Assume;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -45,13 +49,13 @@ public class FileLockTest {
 
     private void assertDelete() {
         // We do not use newZipFile in the Assert message to avoid touching it before calling delete().
-        Assert.assertTrue("Could not delete file", newZipFile.delete());
+        assertTrue(newZipFile.delete(), "Could not delete file");
     }
 
     private void readAndAssert(final InputStream inputStream) throws IOException {
         final String string = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
-        Assert.assertNotNull(string);
-        Assert.assertEquals("This is a test file.", string);
+        assertNotNull(string);
+        assertEquals("This is a test file.", string);
     }
 
     private void resolveAndOpenCloseContent() throws FileSystemException {
@@ -90,7 +94,7 @@ public class FileLockTest {
             try (InputStream inputStream = zipFileObject.getContent().getInputStream()) {
                 if (SystemUtils.IS_OS_WINDOWS) {
                     // We do not use newZipFile in the Assert message to avoid touching it before calling delete().
-                    Assert.assertFalse("Could not delete file", newZipFile.delete());
+                    assertFalse(newZipFile.delete(), "Could not delete file");
                 }
             }
         }
@@ -99,11 +103,11 @@ public class FileLockTest {
 
     @Test
     public void testCannotDeleteWhileStreaming2() throws Exception {
-        Assume.assumeTrue(SystemUtils.IS_OS_WINDOWS);
+        assumeTrue(SystemUtils.IS_OS_WINDOWS);
         try (FileObject zipFileObject = manager.resolveFile(zipFileUri)) {
             try (InputStream inputStream = zipFileObject.getContent().getInputStream()) {
                 // We do not use newZipFile in the Assert message to avoid touching it before calling delete().
-                Assert.assertFalse("Could not delete file", newZipFile.delete());
+                assertFalse(newZipFile.delete(), "Could not delete file");
             }
         }
     }

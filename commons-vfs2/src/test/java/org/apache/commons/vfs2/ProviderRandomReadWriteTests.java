@@ -21,9 +21,9 @@ import org.junit.Test;
 
 /**
  * Random read and write test case for file providers.
- *
  */
 public class ProviderRandomReadWriteTests extends AbstractProviderTestCase {
+
     private static final String TEST_DATA = "This is a test file.";
 
     /**
@@ -88,4 +88,5 @@ public class ProviderRandomReadWriteTests extends AbstractProviderTestCase {
             assertEquals(ra.readByte(), TEST_DATA.charAt(11));
         }
     }
+
 }

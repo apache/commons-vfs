@@ -38,7 +38,7 @@ import org.apache.ftpserver.ftplet.UserManager;
 import org.apache.ftpserver.listener.ListenerFactory;
 import org.apache.ftpserver.usermanager.PropertiesUserManagerFactory;
 import org.apache.ftpserver.usermanager.impl.BaseUser;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import junit.framework.Test;
 
@@ -98,7 +98,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         final FtpServerFactory serverFactory = new FtpServerFactory();
         final PropertiesUserManagerFactory propertiesUserManagerFactory = new PropertiesUserManagerFactory();
         final URL userPropsResource = ClassLoader.getSystemClassLoader().getResource(USER_PROPS_RES);
-        Assert.assertNotNull(USER_PROPS_RES, userPropsResource);
+        Assertions.assertNotNull(userPropsResource, USER_PROPS_RES);
         propertiesUserManagerFactory.setUrl(userPropsResource);
         final UserManager userManager = propertiesUserManagerFactory.createUserManager();
         final BaseUser user = (BaseUser) userManager.getUserByName("test");
@@ -251,4 +251,5 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
     public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("ftp", new FtpFileProvider());
     }
+
 }

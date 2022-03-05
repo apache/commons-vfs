@@ -33,6 +33,7 @@ import junit.framework.Test;
  * Tests for the RAM file system.
  */
 public class RamProviderTestCase extends AbstractProviderTestConfig {
+
     /** logger */
     private static final Log log = LogFactory.getLog(RamProviderTestCase.class);
 
@@ -81,4 +82,5 @@ public class RamProviderTestCase extends AbstractProviderTestConfig {
             throw e;
         }
     }
+
 }

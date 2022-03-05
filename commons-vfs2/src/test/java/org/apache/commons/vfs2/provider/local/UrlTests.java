@@ -26,7 +26,6 @@ import org.junit.Test;
 
 /**
  * Additional URL tests for local file system.
- *
  */
 public class UrlTests extends AbstractProviderTestCase {
 
@@ -62,4 +61,5 @@ public class UrlTests extends AbstractProviderTestCase {
 
         assertEquals(file.toString(), UriParser.decode(file.getURL().toString()));
     }
+
 }

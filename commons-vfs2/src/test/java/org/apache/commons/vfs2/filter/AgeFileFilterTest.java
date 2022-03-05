@@ -107,7 +107,6 @@ public class AgeFileFilterTest extends BaseFilterTest {
         zipFile = new File(getTempDir(), AgeFileFilterTest.class.getName() + ".zip");
         zipDir(testDir, "", zipFile);
         zipFileObj = getZipFileObject(zipFile);
-
     }
 
     @Test
@@ -117,7 +116,6 @@ public class AgeFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(testee.accept(oldFileInfo));
         Assert.assertTrue(testee.accept(currentFileInfo));
         Assert.assertFalse(testee.accept(newFileInfo));
-
     }
 
     @Test
@@ -134,7 +132,6 @@ public class AgeFileFilterTest extends BaseFilterTest {
         Assert.assertFalse(testee.accept(oldFileInfo));
         Assert.assertFalse(testee.accept(currentFileInfo));
         Assert.assertTrue(testee.accept(newFileInfo));
-
     }
 
     @Test
@@ -144,7 +141,6 @@ public class AgeFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(testee.accept(oldFileInfo));
         Assert.assertTrue(testee.accept(currentFileInfo));
         Assert.assertFalse(testee.accept(newFileInfo));
-
     }
 
     @Test
@@ -161,7 +157,6 @@ public class AgeFileFilterTest extends BaseFilterTest {
         Assert.assertFalse(testee.accept(oldFileInfo));
         Assert.assertFalse(testee.accept(currentFileInfo));
         Assert.assertTrue(testee.accept(newFileInfo));
-
     }
 
     @Test
@@ -171,7 +166,6 @@ public class AgeFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(testee.accept(oldFileInfo));
         Assert.assertTrue(testee.accept(currentFileInfo));
         Assert.assertFalse(testee.accept(newFileInfo));
-
     }
 
     @Test
@@ -199,7 +193,6 @@ public class AgeFileFilterTest extends BaseFilterTest {
         files = zipFileObj.findFiles(new FileFilterSelector(new AgeFileFilter(NOW_MILLIS, false)));
         assertContains(files, newFile.getName());
         Assert.assertEquals(1, files.length);
-
     }
 
 }

@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
 
 /**
@@ -442,26 +444,14 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         assertTrue(folder.isFolder());
 
         // Attempt to create a file that already exists as a folder
-        try {
-            folder.createFile();
-            fail();
-        } catch (final FileSystemException exc) {
-        }
+        assertThrows(FileSystemException.class, () -> folder.createFile());
 
         // Attempt to create a folder that already exists as a file
-        try {
-            file.createFolder();
-            fail();
-        } catch (final FileSystemException exc) {
-        }
+        assertThrows(FileSystemException.class, () -> file.createFolder());
 
         // Attempt to create a folder as a child of a file
         final FileObject folder2 = file.resolveFile("some-child");
-        try {
-            folder2.createFolder();
-            fail();
-        } catch (final FileSystemException exc) {
-        }
+        assertThrows(FileSystemException.class, () -> folder2.createFolder());
     }
 
     /**
@@ -504,7 +494,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
     @Test
     public void testFolderIsHidden() throws Exception {
         final FileObject folder = getReadFolderDir1();
-        Assert.assertFalse(folder.isHidden());
+        Assertions.assertFalse(folder.isHidden());
     }
 
     /**
@@ -513,7 +503,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
     @Test
     public void testFolderIsReadable() throws Exception {
         final FileObject folder = getReadFolderDir1();
-        Assert.assertTrue(folder.isReadable());
+        Assertions.assertTrue(folder.isReadable());
     }
 
     /**
@@ -522,7 +512,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
     @Test
     public void testFolderIsWritable() throws Exception {
         final FileObject folder = getWriteFolder().resolveFile("dir1");
-        Assert.assertTrue(folder.isWriteable());
+        Assertions.assertTrue(folder.isWriteable());
     }
 
     /**
@@ -772,4 +762,5 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         }
         assertSameContent(expectedString, fileTarget);
     }
+
 }

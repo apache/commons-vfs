@@ -43,4 +43,5 @@ public class VfsConsumerTest {
             consumer.accept(fileObject);
         }
     }
+
 }

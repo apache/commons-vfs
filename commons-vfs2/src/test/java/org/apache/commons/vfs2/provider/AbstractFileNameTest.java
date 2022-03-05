@@ -16,9 +16,10 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileType;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 public class AbstractFileNameTest {
@@ -39,7 +40,8 @@ public class AbstractFileNameTest {
             }
         };
 
-        Assert.assertEquals("pass/foo/bar/file%23name.txt", fileName.getURI());
-        Assert.assertEquals("/foo/bar/file%23name.txt", fileName.getFriendlyURI());
+        assertEquals("pass/foo/bar/file%23name.txt", fileName.getURI());
+        assertEquals("/foo/bar/file%23name.txt", fileName.getFriendlyURI());
     }
+
 }

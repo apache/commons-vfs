@@ -106,4 +106,5 @@ public class FileInfo {
     public FileType getType() {
         return type;
     }
+
 }

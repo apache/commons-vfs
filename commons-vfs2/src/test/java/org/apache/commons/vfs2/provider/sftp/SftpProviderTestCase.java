@@ -37,4 +37,5 @@ public class SftpProviderTestCase extends AbstractSftpProviderTestCase {
     protected boolean isExecChannelClosed() {
         return false;
     }
+
 }

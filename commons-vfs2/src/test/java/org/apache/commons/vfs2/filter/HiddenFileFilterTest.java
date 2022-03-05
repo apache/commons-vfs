@@ -93,7 +93,6 @@ public class HiddenFileFilterTest extends BaseFilterTest {
         zipFile = new File(getTempDir(), HiddenFileFilterTest.class.getName() + ".zip");
         zipDir(testDir, "", zipFile);
         zipFileObj = getZipFileObject(zipFile);
-
     }
 
     @Test
@@ -105,7 +104,6 @@ public class HiddenFileFilterTest extends BaseFilterTest {
         // TODO xxx In Java 6 there is no way to hide a file
         // assertThat(testee.accept(hiddenFileInfo));
         Assert.assertFalse(testee.accept(notExistingFileInfo));
-
     }
 
     @Test
@@ -117,7 +115,6 @@ public class HiddenFileFilterTest extends BaseFilterTest {
         // TODO xxx In Java 6 there is no way to hide a file
         // assertThat(testee.accept(hiddenFileInfo));
         Assert.assertTrue(testee.accept(notExistingFileInfo));
-
     }
 
     @Test
@@ -135,7 +132,6 @@ public class HiddenFileFilterTest extends BaseFilterTest {
         files = zipFileObj.findFiles(new FileFilterSelector(HiddenFileFilter.VISIBLE));
         assertContains(files, visibleFile.getName());
         Assert.assertEquals(1, files.length);
-
     }
 
 }

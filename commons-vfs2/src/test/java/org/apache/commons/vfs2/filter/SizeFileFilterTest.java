@@ -96,7 +96,6 @@ public class SizeFileFilterTest extends BaseFilterTest {
         zipFile = new File(getTempDir(), SizeFileFilterTest.class.getName() + ".zip");
         zipDir(testDir, "", zipFile);
         zipFileObj = getZipFileObject(zipFile);
-
     }
 
     @Test
@@ -106,7 +105,6 @@ public class SizeFileFilterTest extends BaseFilterTest {
         Assert.assertFalse(testee.accept(minFileInfo));
         Assert.assertTrue(testee.accept(optFileInfo));
         Assert.assertTrue(testee.accept(maxFileInfo));
-
     }
 
     @Test
@@ -123,7 +121,6 @@ public class SizeFileFilterTest extends BaseFilterTest {
         Assert.assertTrue(testee.accept(minFileInfo));
         Assert.assertFalse(testee.accept(optFileInfo));
         Assert.assertFalse(testee.accept(maxFileInfo));
-
     }
 
     @Test
@@ -159,7 +156,6 @@ public class SizeFileFilterTest extends BaseFilterTest {
         files = zipFileObj.findFiles(new FileFilterSelector(new SizeRangeFileFilter(4, 4)));
         assertContains(files, optFile.getName());
         Assert.assertEquals(1, files.length);
-
     }
 
     @Test
@@ -191,7 +187,6 @@ public class SizeFileFilterTest extends BaseFilterTest {
         Assert.assertFalse(testee.accept(minFileInfo));
         Assert.assertTrue(testee.accept(optFileInfo));
         Assert.assertFalse(testee.accept(maxFileInfo));
-
     }
 
 }

@@ -23,6 +23,7 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
 
 public class FileNamePerformance {
+
     private final static int NUOF_RESOLVES = 100000;
 
     public static void main(final String[] args) throws FileSystemException {
@@ -84,4 +85,5 @@ public class FileNamePerformance {
 
         System.err.println("time to resolve " + NUOF_RESOLVES + " names: " + (endMillis - startMillis) + " milliseconds");
     }
+
 }

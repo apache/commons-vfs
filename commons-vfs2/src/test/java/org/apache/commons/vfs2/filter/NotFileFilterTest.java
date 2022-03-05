@@ -16,11 +16,13 @@
  */
 package org.apache.commons.vfs2.filter;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
 
 import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSystemException;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -35,12 +37,11 @@ public class NotFileFilterTest extends BaseFilterTest {
 
         final FileSelectInfo any = createFileSelectInfo(new File("test1.txt"));
 
-        Assert.assertFalse(new NotFileFilter(TrueFileFilter.INSTANCE).accept(any));
-        Assert.assertFalse(new NotFileFilter(TrueFileFilter.TRUE).accept(any));
+        assertFalse(new NotFileFilter(TrueFileFilter.INSTANCE).accept(any));
+        assertFalse(new NotFileFilter(TrueFileFilter.TRUE).accept(any));
 
-        Assert.assertTrue(new NotFileFilter(FalseFileFilter.INSTANCE).accept(any));
-        Assert.assertTrue(new NotFileFilter(FalseFileFilter.FALSE).accept(any));
-
+        assertTrue(new NotFileFilter(FalseFileFilter.INSTANCE).accept(any));
+        assertTrue(new NotFileFilter(FalseFileFilter.FALSE).accept(any));
     }
 
 }

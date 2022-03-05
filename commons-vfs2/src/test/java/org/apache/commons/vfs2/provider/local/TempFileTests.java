@@ -47,4 +47,5 @@ public class TempFileTests extends AbstractProviderTestCase {
             }
         }
     }
+
 }

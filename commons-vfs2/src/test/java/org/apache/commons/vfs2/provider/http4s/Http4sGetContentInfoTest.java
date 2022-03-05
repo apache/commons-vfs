@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.http4s;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -26,7 +28,6 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.provider.http4.Http4FileSystemConfigBuilder;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -70,9 +71,10 @@ public class Http4sGetContentInfoTest {
         final String uri = "http4://www.apache.org/licenses/LICENSE-2.0.txt";
         try (FileObject fo = fsManager.resolveFile(uri, getOptionsWithProxy())) {
             final FileContent content = fo.getContent();
-            Assert.assertNotNull(content);
+            assertNotNull(content);
             // Used to NPE before fix:
             content.getContentInfo();
         }
     }
+
 }

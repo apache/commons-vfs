@@ -144,4 +144,5 @@ public class GenericFileNameTest {
         assertEquals("ftp://user::%40@hostname/", name.getRootURI());
         assertEquals("ftp://user::%40@hostname/", name.getURI());
     }
+
 }

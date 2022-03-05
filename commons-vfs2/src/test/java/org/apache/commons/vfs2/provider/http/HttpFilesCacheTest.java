@@ -16,11 +16,12 @@
  */
 package org.apache.commons.vfs2.provider.http;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -43,15 +44,16 @@ public class HttpFilesCacheTest {
         final FileSystemManager fileSystemManager = VFS.getManager();
 
         try (FileObject noQueryFile = fileSystemManager.resolveFile(noQueryStringUrl)) {
-            Assert.assertEquals(noQueryStringUrl, noQueryFile.getURL().toExternalForm());
+            assertEquals(noQueryStringUrl, noQueryFile.getURL().toExternalForm());
         }
 
         try (FileObject queryFile = fileSystemManager.resolveFile(queryStringUrl)) {
-            Assert.assertEquals(queryStringUrl, queryFile.getURL().toExternalForm()); // failed for VFS-426
+            assertEquals(queryStringUrl, queryFile.getURL().toExternalForm()); // failed for VFS-426
         }
 
         try (FileObject queryFile2 = fileSystemManager.resolveFile(queryStringUrl2)) {
-            Assert.assertEquals(queryStringUrl2, queryFile2.getURL().toExternalForm()); // failed for VFS-426
+            assertEquals(queryStringUrl2, queryFile2.getURL().toExternalForm()); // failed for VFS-426
         }
     }
+
 }

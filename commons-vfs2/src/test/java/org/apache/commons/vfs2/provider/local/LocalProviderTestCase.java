@@ -31,6 +31,7 @@ import junit.framework.Test;
  * Tests for the local file system.
  */
 public class LocalProviderTestCase extends AbstractProviderTestConfig {
+
     /**
      * Creates the test suite for the local file system.
      */
@@ -57,4 +58,5 @@ public class LocalProviderTestCase extends AbstractProviderTestConfig {
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         return manager.toFileObject(getTestDirectoryFile());
     }
+
 }

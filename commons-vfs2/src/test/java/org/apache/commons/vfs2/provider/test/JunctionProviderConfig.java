@@ -27,6 +27,7 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
  * A provider config that wraps another provider, to run the tests via junctions.
  */
 public class JunctionProviderConfig implements ProviderTestConfig {
+
     private final ProviderTestConfig config;
 
     public JunctionProviderConfig(final ProviderTestConfig config) {
@@ -73,4 +74,5 @@ public class JunctionProviderConfig implements ProviderTestConfig {
     public void prepare(final DefaultFileSystemManager manager) throws Exception {
         config.prepare(manager);
     }
+
 }

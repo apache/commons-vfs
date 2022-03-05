@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
 
 /**
@@ -138,9 +138,9 @@ public class ProviderReadTests extends AbstractProviderTestCase {
     @Test
     public void testDotJarFolderName() throws Exception {
         final FileObject folder = getReadFolderDir1().resolveFile("subdir4.jar");
-        Assert.assertTrue(folder.exists());
+        Assertions.assertTrue(folder.exists());
         final FileObject file = folder.resolveFile("file1.txt");
-        Assert.assertTrue(file.exists());
+        Assertions.assertTrue(file.exists());
     }
 
     /**
@@ -149,8 +149,8 @@ public class ProviderReadTests extends AbstractProviderTestCase {
     @Test
     public void testDotJarFolderNameLayer() throws Exception {
         final FileObject folder = getReadFolderDir1().resolveFile("subdir4.jar");
-        Assert.assertTrue("subdir4.jar/ must exist as folder, check test setup.", folder.isFolder());
-        Assert.assertFalse("subdir4.jar/ must not be layerable", getManager().canCreateFileSystem(folder));
+        Assertions.assertTrue(folder.isFolder(), "subdir4.jar/ must exist as folder, check test setup.");
+        Assertions.assertFalse(getManager().canCreateFileSystem(folder), "subdir4.jar/ must not be layerable");
         try {
             final FileObject ignored = getManager().createFileSystem(folder);
             fail("Should not be able to create a layered filesystem on a directory. " + ignored);
@@ -208,7 +208,7 @@ public class ProviderReadTests extends AbstractProviderTestCase {
     @Test
     public void testFolderIsHidden() throws Exception {
         final FileObject folder = getReadFolderDir1();
-        Assert.assertFalse(folder.isHidden());
+        Assertions.assertFalse(folder.isHidden());
     }
 
     /**
@@ -217,7 +217,7 @@ public class ProviderReadTests extends AbstractProviderTestCase {
     @Test
     public void testFolderIsReadable() throws Exception {
         final FileObject folder = getReadFolderDir1();
-        Assert.assertTrue(folder.isReadable());
+        Assertions.assertTrue(folder.isReadable());
     }
 
     /**
@@ -226,7 +226,7 @@ public class ProviderReadTests extends AbstractProviderTestCase {
     @Test
     public void testFolderIsSymbolicLink() throws Exception {
         final FileObject folder = getReadFolderDir1();
-        Assert.assertFalse(folder.isSymbolicLink());
+        Assertions.assertFalse(folder.isSymbolicLink());
     }
 
     @Test
@@ -356,4 +356,5 @@ public class ProviderReadTests extends AbstractProviderTestCase {
         file = getReadFolder().resolveFile("unknown-child");
         assertSame(FileType.IMAGINARY, file.getType());
     }
+
 }

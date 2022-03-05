@@ -16,10 +16,11 @@
  */
 package org.apache.commons.vfs2.provider.url;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.net.URI;
 
 import org.apache.commons.vfs2.FileName;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 public class UrlFileNameParserTest {
@@ -29,8 +30,8 @@ public class UrlFileNameParserTest {
         final URI uri = new URI(uriStr);
         // VFS-739 shows that parseUri throws an NPE:
         final FileName fileName = new UrlFileNameParser().parseUri(null, null, uriStr);
-        Assert.assertEquals(uriStr, fileName.getURI());
-        Assert.assertEquals(uri.getScheme(), fileName.getScheme());
+        assertEquals(uriStr, fileName.getURI());
+        assertEquals(uri.getScheme(), fileName.getScheme());
     }
 
     @Test
@@ -47,4 +48,5 @@ public class UrlFileNameParserTest {
     public void testJira739_scheme_ram() throws Exception {
         testJira739("ram:///");
     }
+
 }

@@ -16,11 +16,11 @@
  */
 package org.apache.commons.vfs2.util;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.AccessMode;
 
@@ -71,4 +71,5 @@ public class RandomAccessModeTest {
         assertArrayEquals(new AccessMode[] {AccessMode.READ}, RandomAccessMode.READ.toAccessModes());
         assertArrayEquals(new AccessMode[] {AccessMode.READ, AccessMode.WRITE}, RandomAccessMode.READWRITE.toAccessModes());
     }
+
 }

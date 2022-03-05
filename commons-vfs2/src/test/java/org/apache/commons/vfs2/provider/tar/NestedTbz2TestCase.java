@@ -30,6 +30,7 @@ import junit.framework.Test;
  * Tests for the Tar file system, using a tar file nested inside another tar file.
  */
 public class NestedTbz2TestCase extends AbstractProviderTestConfig {
+
     /**
      * Creates the test suite for nested tar files.
      */
@@ -61,4 +62,5 @@ public class NestedTbz2TestCase extends AbstractProviderTestConfig {
         manager.addExtensionMap("tbz2", "tbz2");
         manager.addProvider("tar", new TarFileProvider());
     }
+
 }

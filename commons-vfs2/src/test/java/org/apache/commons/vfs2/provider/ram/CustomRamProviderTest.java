@@ -110,7 +110,6 @@ public class CustomRamProviderTest {
         return dir;
     }
 
-
     @BeforeEach
     public void setUp() throws Exception {
         manager = new DefaultFileSystemManager();
@@ -278,7 +277,6 @@ public class CustomRamProviderTest {
 
         final FileObject dir = prepareSpecialFile(testDir, testFileName);
 
-
         // verify we can list dir
 
         // if not it throws:
@@ -335,7 +333,6 @@ public class CustomRamProviderTest {
         }
     }
 
-
     /**
      * Test some special file name symbols.
      * <p>
@@ -353,12 +350,10 @@ public class CustomRamProviderTest {
 
         final FileObject dir = prepareSpecialFile(testDir, testFileName);
 
-
         // DO: verify you can list it:
         final FileObject[] findFilesResult = dir.findFiles(new AllFileSelector()); // includes dir
         final FileObject[] getChildrenResult = dir.getChildren();
         final FileObject getChildResult = dir.getChild(UriParser.encode(testFileName, ENC));
-
 
         // validate findFiles returns expected result
         assertEquals("Unexpected result findFiles: " + Arrays.toString(findFilesResult), 2, findFilesResult.length);
@@ -378,4 +373,5 @@ public class CustomRamProviderTest {
         assertEquals("getChild name does not match", expectedName, resultName);
         assertEquals("getChild was no file", FileType.FILE, getChildResult.getType());
     }
+
 }

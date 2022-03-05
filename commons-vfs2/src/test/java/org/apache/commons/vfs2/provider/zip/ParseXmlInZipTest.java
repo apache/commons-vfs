@@ -16,6 +16,9 @@
  */
 package org.apache.commons.vfs2.provider.zip;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -32,7 +35,6 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
-import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -105,7 +107,7 @@ public class ParseXmlInZipTest {
         try (FileObject zipFileObject = manager.resolveFile(xmlFilePath)) {
             try (InputStream inputStream = zipFileObject.getContent().getInputStream()) {
                 final Document document = newDocumentBuilder(zipFileObject, zipFileObject, null).parse(inputStream);
-                Assert.assertNotNull(document);
+                assertNotNull(document);
             }
         }
     }
@@ -124,7 +126,7 @@ public class ParseXmlInZipTest {
             testResolveAndParseXmlInZip("read-xml-tests/name-invalid.xml", "/read-xml-tests/name.xsd");
         } catch (final SAXException e) {
             final Pattern p = Pattern.compile("Invalid content was found starting with element.+FOO");
-            Assert.assertTrue(p.matcher(e.toString()).find());
+            assertTrue(p.matcher(e.toString()).find());
         }
     }
 
@@ -133,7 +135,7 @@ public class ParseXmlInZipTest {
         try {
             testResolveAndParseXmlInZip("read-xml-tests/name-not-well-formed.xml", "/read-xml-tests/name.xsd");
         } catch (final SAXException e) {
-            Assert.assertTrue(
+            assertTrue(
                     e.toString().contains("XML document structures must start and end within the same entity."));
         }
     }
@@ -156,7 +158,7 @@ public class ParseXmlInZipTest {
                 try (InputStream inputStream = xmlFileObject.getContent().getInputStream()) {
                     final Document document = newDocumentBuilder(zipFileObject, xmlFileObject, xsdPathInZip)
                             .parse(inputStream);
-                    Assert.assertNotNull(document);
+                    assertNotNull(document);
                 }
             }
         }

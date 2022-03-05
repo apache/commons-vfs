@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.http;
+package org.apache.commons.vfs2.provider.https;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -25,7 +27,7 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.VFS;
-import org.junit.Assert;
+import org.apache.commons.vfs2.provider.http.HttpFileSystemConfigBuilder;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -33,7 +35,7 @@ import org.junit.jupiter.api.Test;
  *
  * @since 2.1
  */
-public class GetContentInfoFunctionalTest {
+public class HttpsGetContentInfoFunctionalTest {
 
     FileSystemOptions getOptionsWithProxy() throws MalformedURLException {
         // get proxy host and port from env var "https_proxy"
@@ -62,17 +64,21 @@ public class GetContentInfoFunctionalTest {
     /**
      * Tests VFS-427 NPE on HttpFileObject.getContent().getContentInfo().
      *
-     * @throws FileSystemException thrown when the getContentInfo API fails.
+     * @throws FileSystemException   thrown when the getContentInfo API fails.
+     * @throws MalformedURLException thrown when the System environment contains an
+     *                               invalid URL for an HTTPS proxy.
      */
     @Test
     public void testGetContentInfo() throws FileSystemException, MalformedURLException {
+        @SuppressWarnings("resource") // getManager() returns a global.
         final FileSystemManager fsManager = VFS.getManager();
         final String uri = "http://www.apache.org/licenses/LICENSE-2.0.txt";
         try (FileObject fo = fsManager.resolveFile(uri, getOptionsWithProxy());
-                final FileContent content = fo.getContent()) {
-            Assert.assertNotNull(content);
+             final FileContent content = fo.getContent()) {
+            assertNotNull(content);
             // Used to NPE before fix:
             content.getContentInfo();
         }
     }
+
 }

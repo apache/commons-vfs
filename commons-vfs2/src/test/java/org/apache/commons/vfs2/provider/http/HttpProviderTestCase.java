@@ -31,8 +31,8 @@ import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.util.NHttpFileServer;
-import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * Test cases for the HTTP provider.
@@ -110,8 +110,8 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
     }
 
     private void checkReadTestsFolder(final FileObject file) throws FileSystemException {
-        Assert.assertNotNull(file.getChildren());
-        Assert.assertTrue(file.getChildren().length > 0);
+        Assertions.assertNotNull(file.getChildren());
+        Assertions.assertTrue(file.getChildren().length > 0);
     }
 
     /**

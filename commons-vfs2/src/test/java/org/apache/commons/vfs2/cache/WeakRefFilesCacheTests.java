@@ -39,4 +39,5 @@ public class WeakRefFilesCacheTests extends AbstractFilesCacheTestsBase {
         // since both are still referenced they are not purged
         assertSame(dir1, dir1_2);
     }
+
 }

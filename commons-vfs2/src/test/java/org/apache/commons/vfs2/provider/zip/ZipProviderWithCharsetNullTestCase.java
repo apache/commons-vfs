@@ -27,7 +27,7 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import junit.framework.Test;
 
@@ -35,6 +35,7 @@ import junit.framework.Test;
  * Tests for the Zip file system.
  */
 public class ZipProviderWithCharsetNullTestCase extends AbstractProviderTestConfig {
+
     /**
      * Creates the test suite for the zip file system.
      */
@@ -56,9 +57,9 @@ public class ZipProviderWithCharsetNullTestCase extends AbstractProviderTestConf
         final String uri = "zip:file:" + zipFile.getAbsolutePath() + "!/";
         final FileObject resolvedFile = manager.resolveFile(uri, opts);
         final FileSystem fileSystem = resolvedFile.getFileSystem();
-        Assert.assertTrue(fileSystem instanceof ZipFileSystem);
+        Assertions.assertTrue(fileSystem instanceof ZipFileSystem);
         final ZipFileSystem zipFileSystem = (ZipFileSystem) fileSystem;
-        Assert.assertNull(zipFileSystem.getCharset());
+        Assertions.assertNull(zipFileSystem.getCharset());
         return resolvedFile;
     }
 
@@ -71,4 +72,5 @@ public class ZipProviderWithCharsetNullTestCase extends AbstractProviderTestConf
         manager.addExtensionMap("zip", "zip");
         manager.addMimeTypeMap("application/zip", "zip");
     }
+
 }

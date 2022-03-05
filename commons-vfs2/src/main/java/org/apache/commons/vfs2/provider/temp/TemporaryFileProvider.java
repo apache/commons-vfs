@@ -65,7 +65,6 @@ public class TemporaryFileProvider extends AbstractFileProvider implements Compa
         final int h1 = hashCode();
         final int h2 = o.hashCode();
         return Integer.compare(h1, h2);
-
     }
 
     /**

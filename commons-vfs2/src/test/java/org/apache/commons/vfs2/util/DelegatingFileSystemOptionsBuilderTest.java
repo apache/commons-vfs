@@ -39,6 +39,7 @@ import org.junit.jupiter.api.Test;
  * Some tests for the DelegatingFileSystemOptionsBuilder
  */
 public class DelegatingFileSystemOptionsBuilderTest {
+
     private static final String[] schemes = { "http", "ftp", "file", "zip", "tar", "tgz", "bz2", "gz",
             "jar", "tmp", "ram" };
 
@@ -113,4 +114,5 @@ public class DelegatingFileSystemOptionsBuilderTest {
                     new File(identityPaths[iterIdentities]).getAbsolutePath());
         }
     }
+
 }

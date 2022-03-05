@@ -33,6 +33,7 @@ import junit.framework.Test;
  * Tests for the Tar file system, using a tar file nested inside another tar file.
  */
 public class NestedTarTestCase extends AbstractProviderTestConfig {
+
     /**
      * Creates the test suite for nested tar files.
      */
@@ -69,4 +70,5 @@ public class NestedTarTestCase extends AbstractProviderTestConfig {
         manager.addExtensionMap("tar", "tar");
         manager.addMimeTypeMap("application/x-tar", "tar");
     }
+
 }

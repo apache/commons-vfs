@@ -21,7 +21,6 @@ import org.junit.Test;
 
 /**
  * Random read-only test case for file providers.
- *
  */
 public class ProviderRandomReadTests extends AbstractProviderTestCase {
 
@@ -79,4 +78,5 @@ public class ProviderRandomReadTests extends AbstractProviderTestCase {
             assertEquals("fp", 12, ra.getFilePointer());
         }
     }
+
 }

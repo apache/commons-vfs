@@ -19,7 +19,6 @@ package org.apache.commons.vfs2.impl;
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Collections;
@@ -56,8 +55,8 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
          * This method will not return any hit to VFSClassLoader#testGetResourcesJARs.
          */
         @Override
-        public Enumeration<URL> getResources(final String name) throws IOException {
-            return Collections.enumeration(Collections.<URL>emptyList());
+        public Enumeration<URL> getResources(final String name) {
+            return Collections.enumeration(Collections.emptyList());
         }
     }
 
@@ -226,4 +225,5 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
             assertFalse(pack.isSealed());
         }
     }
+
 }

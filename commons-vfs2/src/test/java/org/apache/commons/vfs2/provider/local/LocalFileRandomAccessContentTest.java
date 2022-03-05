@@ -16,12 +16,14 @@
  */
 package org.apache.commons.vfs2.provider.local;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.commons.vfs2.util.RandomAccessMode;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -43,11 +45,12 @@ public class LocalFileRandomAccessContentTest {
         try (InputStream in = new LocalFileRandomAccessContent(file, RandomAccessMode.READ).getInputStream()) {
             // read first data
             final int read = in.read();
-            Assert.assertNotEquals(EOF, read);
-            Assert.assertEquals(0xFF, read);
+            assertNotEquals(EOF, read);
+            assertEquals(0xFF, read);
 
             // read EOF
-            Assert.assertEquals(EOF, in.read());
+            assertEquals(EOF, in.read());
         }
     }
+
 }

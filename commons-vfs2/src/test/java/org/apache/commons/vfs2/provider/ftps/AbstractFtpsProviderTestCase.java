@@ -19,7 +19,6 @@ package org.apache.commons.vfs2.provider.ftps;
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 
@@ -39,12 +38,13 @@ import org.apache.ftpserver.ssl.SslConfiguration;
 import org.apache.ftpserver.ssl.SslConfigurationFactory;
 import org.apache.ftpserver.usermanager.PropertiesUserManagerFactory;
 import org.apache.ftpserver.usermanager.impl.BaseUser;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * Abstract tests for FTP file systems.
  */
 abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
+
     static final class FtpProviderTestSuite extends ProviderTestSuite {
         private final boolean implicit;
 
@@ -109,16 +109,15 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
      *
      * @param implicit FTPS connection mode
      * @throws FtpException
-     * @throws IOException
      */
-    static void setUpClass(final boolean implicit) throws FtpException, IOException {
+    static void setUpClass(final boolean implicit) throws FtpException {
         if (Server != null) {
             return;
         }
         final FtpServerFactory serverFactory = new FtpServerFactory();
         final PropertiesUserManagerFactory propertiesUserManagerFactory = new PropertiesUserManagerFactory();
         final URL userPropsResource = ClassLoader.getSystemClassLoader().getResource(USER_PROPS_RES);
-        Assert.assertNotNull(USER_PROPS_RES, userPropsResource);
+        Assertions.assertNotNull(userPropsResource, USER_PROPS_RES);
         propertiesUserManagerFactory.setUrl(userPropsResource);
         final UserManager userManager = propertiesUserManagerFactory.createUserManager();
         final BaseUser user = (BaseUser) userManager.getUserByName("test");
@@ -132,10 +131,10 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
 
         // define SSL configuration
         final URL serverJksResource = ClassLoader.getSystemClassLoader().getResource(SERVER_JKS_RES);
-        Assert.assertNotNull(SERVER_JKS_RES, serverJksResource);
+        Assertions.assertNotNull(serverJksResource, SERVER_JKS_RES);
         final SslConfigurationFactory ssl = new SslConfigurationFactory();
         final File keyStoreFile = FileUtils.toFile(serverJksResource);
-        Assert.assertTrue(keyStoreFile.toString(), keyStoreFile.exists());
+        Assertions.assertTrue(keyStoreFile.exists(), keyStoreFile.toString());
         ssl.setKeystoreFile(keyStoreFile);
         ssl.setKeystorePassword("password");
 
@@ -200,4 +199,5 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         builder.setConnectTimeout(fileSystemOptions, Duration.ofSeconds(10));
         builder.setDataTimeout(fileSystemOptions, Duration.ofSeconds(10));
     }
+
 }

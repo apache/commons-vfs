@@ -16,8 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.ftp;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.provider.GenericFileName;
@@ -47,4 +47,5 @@ public class FtpFileNameParserTest {
         final String genericUri = n.getURI();
         assertEquals(genericUri, uri.toString());
     }
+
 }
