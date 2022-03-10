@@ -209,7 +209,7 @@
 
   <build>
     <!-- japicmp:cmp needs package to work from a jar -->
-    <defaultGoal>clean package apache-rat:check japicmp:cmp javadoc:javadoc spotbugs:check pmd:check checkstyle:check</defaultGoal>
+    <defaultGoal>clean verify apache-rat:check japicmp:cmp javadoc:javadoc spotbugs:check pmd:check checkstyle:check</defaultGoal>
     <pluginManagement>
       <plugins>
         <plugin>
