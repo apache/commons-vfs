@@ -73,7 +73,6 @@ public class DefaultFilesCache extends AbstractFilesCache {
             // cache for filesystem is not known => file is not cached:
             return null;
         }
-
         return files.get(name); // or null
     }
 
@@ -84,7 +83,6 @@ public class DefaultFilesCache extends AbstractFilesCache {
             files = fileSystemCache.computeIfAbsent(filesystem,
                 k -> new ConcurrentHashMap<>(INITIAL_CAPACITY, LOAD_FACTOR, Math.max(2, Runtime.getRuntime().availableProcessors()) / 2));
         }
-
         return files;
     }
 
