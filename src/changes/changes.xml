@@ -134,7 +134,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump spotbugs-maven-plugin from 4.3.0 to 4.5.3.0, #229, #236.
       </action>
       <action type="update" dev="ggregory" due-to="Dependabot">
-        Bump actions/cache from 2.1.6 to 2.1.7 #221.
+        Bump actions/cache from 2.1.6 to 3 #221, #249.
       </action>
       <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">
         Bump jackrabbit2.version from 2.21.7 to 2.21.9 #219.
