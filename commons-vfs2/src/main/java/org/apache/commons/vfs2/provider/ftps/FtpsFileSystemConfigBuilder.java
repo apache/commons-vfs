@@ -170,9 +170,6 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
         final FtpsMode mode;
         if (ftpsType != null) {
             mode = FtpsMode.valueOf(ftpsType.toUpperCase());
-            if (mode == null) {
-                throw new IllegalArgumentException("Not a proper FTPS mode: " + ftpsType);
-            }
         } else {
             mode = null;
         }
