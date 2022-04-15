@@ -113,6 +113,15 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <!-- UDPATE -->
       <action type="update" dev="ggregory" due-to="Dependabot">
+        Bump actions/checkout from 2.3.4 to 3 #217, #220, #245.
+      </action>
+      <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">
+        Bump actions/cache from 2.1.6 to 3.0.2 #221, #249.
+      </action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory">
+        Bump actions/setup-java from 2 to 3.
+      </action>
+      <action type="update" dev="ggregory" due-to="Dependabot">
         Bump jakarta.mail from 1.6.7 to 2.0.1 #200.
       </action>
       <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">
@@ -124,17 +133,11 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Bump com.puppycrawl.tools:checkstyle from 8.44 to 9.3 #211.
       </action>
-      <action type="update" dev="ggregory" due-to="Dependabot">
-        Bump actions/checkout from 2.3.4 to 3 #217, #220, #245.
-      </action>
       <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">
         Bump com.github.spotbugs:spotbugs from 4.3.0 to 4.6.0 #216.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">
         Bump spotbugs-maven-plugin from 4.3.0 to 4.5.3.0, #229, #236.
-      </action>
-      <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">
-        Bump actions/cache from 2.1.6 to 3.0.2 #221, #249.
       </action>
       <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">
         Bump jackrabbit2.version from 2.21.7 to 2.21.9 #219.
@@ -170,7 +173,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump Apache Log4j 2.14.1 to 2.17.2 [Tests] #226, #230.
       </action>
       <action dev="ggregory" due-to="XenoAmess" type="update">
-        Upgrade ftpserver-core from 1.1.1 to 1.1.2 #235.
+        Bump ftpserver-core from 1.1.1 to 1.1.2 #235.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Bump org.apache.jackrabbit:jackrabbit-standalone-components from 2.21.9 to 2.21.10.
