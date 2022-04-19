@@ -49,8 +49,6 @@ import com.jcraft.jsch.SftpException;
  */
 public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
 
-    private static final int ROOT_USER_ID = 0;
-
     /**
      * An InputStream that monitors for end-of-file.
      */
@@ -473,10 +471,8 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
                 }
             }
         }
-        boolean sameUser = attrs.getUId() == getAbstractFileSystem().getUId();
-        boolean isRoot = getAbstractFileSystem().getUId() == ROOT_USER_ID;
-        final boolean isOwner = checkIds && sameUser;
-        return new PosixPermissions(attrs.getPermissions(), isOwner, isInGroup, isRoot);
+        final boolean isOwner = checkIds && attrs.getUId() == getAbstractFileSystem().getUId();
+        return new PosixPermissions(attrs.getPermissions(), isOwner, isInGroup);
     }
 
     /**

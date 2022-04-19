@@ -29,6 +29,6 @@ public class UserIsOwnerPosixPermissions extends PosixPermissions {
      * @param permissions permission bits.
      */
     public UserIsOwnerPosixPermissions(final int permissions) {
-        super(permissions, true, true, false);
+        super(permissions, true, true);
     }
 }
