@@ -113,16 +113,23 @@ public class PosixPermissions {
     private final boolean isInGroup;
 
     /**
+     * If the user is root. The user root has always read and write permissions.
+     */
+    private final boolean isRoot;
+
+    /**
      * Creates a new PosixPermissions object.
      *
      * @param permissions The permissions
      * @param isOwner true if the user is the owner of the file
      * @param isInGroup true if the user is a group owner of the file
+     * @param isRoot true if the user is root
      */
-    public PosixPermissions(final int permissions, final boolean isOwner, final boolean isInGroup) {
+    public PosixPermissions(final int permissions, final boolean isOwner, final boolean isInGroup, final boolean isRoot) {
         this.permissions = permissions;
         this.isOwner = isOwner;
         this.isInGroup = isInGroup;
+        this.isRoot = isRoot;
     }
 
     /**
@@ -183,6 +190,9 @@ public class PosixPermissions {
      * @return whether the permissions are readable.
      */
     public boolean isReadable() {
+        if(this.isRoot) {
+            return true;
+        }
         if (this.isOwner) {
             return this.get(Type.UserReadable);
         }
@@ -198,6 +208,9 @@ public class PosixPermissions {
      * @return whether the permissions are writable.
      */
     public boolean isWritable() {
+        if(this.isRoot) {
+            return true;
+        }
         if (this.isOwner) {
             return this.get(Type.UserWritable);
         }
