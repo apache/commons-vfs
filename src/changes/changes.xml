@@ -193,6 +193,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Bump org.ow2.asm:asm from 9.2 to 9.3.
       </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Bump commons.jacoco.version from 0.8.7 to 0.8.8.
+      </action>
     </release>
     <release version="2.9.0" date="2021-06-16" description="Maintenance release. Requires Java 8.">
       <!-- ADDS -->
