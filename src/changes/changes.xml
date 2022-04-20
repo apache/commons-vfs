@@ -124,9 +124,6 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="update" dev="ggregory" due-to="Dependabot">
         Bump jakarta.mail from 1.6.7 to 2.0.1 #200.
       </action>
-      <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">
-        Bump net.sourceforge.pmd:pmd-* from 6.36.0 to 6.43.0 #208, #247.
-      </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Bump commons.animal-sniffer.version from 1.19 to 1.20.
       </action>
@@ -150,6 +147,9 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action type="update" dev="ggregory" due-to="Dependabot">
         Bump maven-pmd-plugin from 3.14.0 to 3.15.0 #223. 
+      </action>
+      <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">
+        Bump net.sourceforge.pmd:pmd-* from 6.36.0 to 6.44.0 #208, #247, #256.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Bump org.mockito:mockito-core from 3.11.2 to 4.4.0.
