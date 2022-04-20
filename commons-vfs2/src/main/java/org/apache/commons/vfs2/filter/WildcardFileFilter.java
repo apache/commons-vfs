@@ -105,7 +105,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
      * @param wildcards the list of wildcards to match, not null
      */
     public WildcardFileFilter(final List<String> wildcards) {
-        this((IOCase) null, wildcards);
+        this(null, wildcards);
     }
 
     /**
@@ -117,7 +117,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
      * @param wildcards the array of wildcards to match
      */
     public WildcardFileFilter(final String... wildcards) {
-        this((IOCase) null, wildcards);
+        this(null, wildcards);
     }
 
     /**

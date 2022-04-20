@@ -92,7 +92,7 @@ public class NameFileFilter implements FileFilter, Serializable {
      * @param names the names to allow, must not be null
      */
     public NameFileFilter(final List<String> names) {
-        this((IOCase) null, names);
+        this(null, names);
     }
 
     /**
@@ -105,7 +105,7 @@ public class NameFileFilter implements FileFilter, Serializable {
      * @param names the names to allow, must not be null
      */
     public NameFileFilter(final String... names) {
-        this((IOCase) null, names);
+        this(null, names);
     }
 
     /**

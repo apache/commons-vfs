@@ -81,7 +81,7 @@ public final class FtpCheck {
                 System.err.println("#" + i + ": " + null);
             } else {
                 System.err.println("#" + i + ": " + file.getRawListing());
-                System.err.println("#" + i + ": " + file.toString());
+                System.err.println("#" + i + ": " + file);
                 System.err.println("\t name:" + file.getName() + " type:" + file.getType());
             }
         }

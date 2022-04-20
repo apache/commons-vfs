@@ -69,7 +69,7 @@ public class NotFileFilter implements FileFilter, Serializable {
      */
     @Override
     public String toString() {
-        return super.toString() + "(" + filter.toString() + ")";
+        return super.toString() + "(" + filter + ")";
     }
 
 }

@@ -237,7 +237,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
             if (StringUtils.isEmpty(previousPathNames)) {
                 this.setParam(opts, KEY_CONFIG_PATHS, path.toString());
             } else {
-                this.setParam(opts, KEY_CONFIG_PATHS, previousPathNames + "," + path.toString());
+                this.setParam(opts, KEY_CONFIG_PATHS, previousPathNames + "," + path);
             }
         }
     }
@@ -267,7 +267,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
             if (StringUtils.isEmpty(previousURLNames)) {
                 this.setParam(opts, KEY_CONFIG_URLS, url.toString());
             } else {
-                this.setParam(opts, KEY_CONFIG_URLS, previousURLNames + "," + url.toString());
+                this.setParam(opts, KEY_CONFIG_URLS, previousURLNames + "," + url);
             }
         }
     }
