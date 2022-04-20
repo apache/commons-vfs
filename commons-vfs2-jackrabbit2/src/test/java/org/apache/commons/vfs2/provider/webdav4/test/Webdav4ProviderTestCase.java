@@ -181,7 +181,7 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
             if (file.isFile()) {
                 try (final InputStream data = Files.newInputStream(file.toPath())) {
                     message("Importing file " + file);
-                    JcrUtils.putFile(parent, file.getName(), "application/octet-stream", data);
+                    JcrUtils.putFile(parent, file.getName(), MIME_TYPE_APPLICATION_OCTET_STREAM, data);
                 }
             } else if (file.isDirectory()) {
                 message("Importing folder " + file);

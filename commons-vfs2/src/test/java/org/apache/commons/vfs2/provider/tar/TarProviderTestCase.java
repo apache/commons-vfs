@@ -56,7 +56,7 @@ public class TarProviderTestCase extends AbstractProviderTestConfig {
     @Override
     public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("tar", new TarFileProvider());
-        manager.addMimeTypeMap("application/x-tar", "tar");
+        manager.addMimeTypeMap(MIME_TYPE_APPLICATION_X_TAR, "tar");
     }
 
 }

@@ -24,6 +24,12 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
  */
 public abstract class AbstractProviderTestConfig extends AbstractProviderTestCase implements ProviderTestConfig {
 
+    public static final String MIME_TYPE_APPLICATION_OCTET_STREAM = "application/octet-stream";
+
+    public static final String MIME_TYPE_APPLICATION_X_TAR = "application/x-tar";
+
+    public static final String MIME_TYPE_APPLICATION_ZIP = "application/zip";
+
     private FilesCache filesCache;
 
     /**

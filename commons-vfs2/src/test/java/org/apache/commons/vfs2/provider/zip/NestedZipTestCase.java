@@ -60,7 +60,7 @@ public class NestedZipTestCase extends AbstractProviderTestConfig {
     public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("zip", new ZipFileProvider());
         manager.addExtensionMap("zip", "zip");
-        manager.addMimeTypeMap("application/zip", "zip");
+        manager.addMimeTypeMap(MIME_TYPE_APPLICATION_ZIP, "zip");
     }
 
 }

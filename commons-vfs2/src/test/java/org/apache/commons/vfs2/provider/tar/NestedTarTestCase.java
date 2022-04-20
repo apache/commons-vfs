@@ -68,7 +68,7 @@ public class NestedTarTestCase extends AbstractProviderTestConfig {
     public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("tar", new TarFileProvider());
         manager.addExtensionMap("tar", "tar");
-        manager.addMimeTypeMap("application/x-tar", "tar");
+        manager.addMimeTypeMap(MIME_TYPE_APPLICATION_X_TAR, "tar");
     }
 
 }
