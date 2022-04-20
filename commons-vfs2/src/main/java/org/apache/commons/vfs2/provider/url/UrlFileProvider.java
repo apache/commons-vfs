@@ -61,7 +61,7 @@ public class UrlFileProvider extends AbstractFileProvider {
         try {
             final URI uri = URI.create(fileUri);
             final URI rootUri = uri.resolve("/");
-            final String key = this.getClass().getName() + rootUri.toString();
+            final String key = this.getClass().getName() + rootUri;
             FileSystem fs = findFileSystem(key, fileSystemOptions);
             if (fs == null) {
                 final String extForm = rootUri.toString();

@@ -325,7 +325,7 @@ public abstract class FileSystemConfigBuilder {
      */
     protected <E extends Enum<E>> E getEnum(final Class<E> enumClass, final FileSystemOptions fileSystemOptions,
         final String name) {
-        return this.<E>getEnum(enumClass, fileSystemOptions, name, null);
+        return this.getEnum(enumClass, fileSystemOptions, name, null);
     }
 
     /**
