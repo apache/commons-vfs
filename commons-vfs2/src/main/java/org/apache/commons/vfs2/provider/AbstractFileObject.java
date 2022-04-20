@@ -319,8 +319,13 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 }
 
                 if (!exists()) {
-                    getOutputStream().close();
-                    endOutput();
+                    try (FileContent content = getContent()) {
+                        if (content != null) {
+                            try (OutputStream outputStream = content.getOutputStream()) {
+                                // Avoids NPE on OutputStream#close()
+                            }
+                        }
+                    }
                 }
             } catch (final RuntimeException re) {
                 throw re;
@@ -1227,6 +1232,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         return fileName;
     }
 
+    // TODO: remove this method for the next major version as it is unused
     /**
      * Prepares this file for writing. Makes sure it is either a file, or its parent folder exists. Returns an output
      * stream to use to write the content of the file to.
@@ -1238,6 +1244,8 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         return getOutputStream(false);
     }
 
+    // TODO: mark this method as `final` and package-private for the next major version because
+    // it shouldn't be used from anywhere other than `DefaultFileContent`
     /**
      * Prepares this file for writing. Makes sure it is either a file, or its parent folder exists. Returns an output
      * stream to use to write the content of the file to.
