@@ -69,7 +69,7 @@ public final class FileObjectUtils {
         }
 
         throw new FileSystemException("vfs.util/find-abstract-file-object.error",
-            fileObject == null ? "null" : fileObject.getClass().getName());
+                fileObject.getClass().getName());
     }
 
     /**
