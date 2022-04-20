@@ -65,11 +65,14 @@ final class FileTypeMap {
      * @throws FileSystemException if an error occurs.
      */
     public String getScheme(final FileObject fileObject) throws FileSystemException {
-        // Check the file's mime type for a match
+        // Check the file's MIME type for a match
         final FileContent content = fileObject.getContent();
         final String mimeType = content.getContentInfo().getContentType();
         if (mimeType != null) {
-            return mimeTypeMap.get(mimeType);
+            final String scheme = mimeTypeMap.get(mimeType);
+            if (scheme != null) {
+                return scheme;
+            }
         }
 
         // no specific mime-type - if it is a file also check the extension
