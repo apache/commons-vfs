@@ -102,7 +102,7 @@ public class FileNameTest {
         assertEquals("smb://user@hostname/share/", name.getRootURI());
         assertEquals("smb://user@hostname/share/file.txt", name.getURI());
 
-        // Name look likes extension, but isnt
+        // Name look likes extension, but isn't
         name = (SmbFileName) SmbFileNameParser.getInstance().parseUri(null, null, "smb://user@hostname/share/.bashrc");
         assertEquals("smb", name.getScheme());
         assertEquals("user", name.getUserName());
