@@ -194,7 +194,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump org.apache.jackrabbit:jackrabbit-standalone-components from 2.21.9 to 2.21.10.
       </action>
       <action dev="ggregory" due-to="Dependabot" type="update">
-        Bump hadoop.version from 3.3.1 to 3.3.2 #246.
+        Bump hadoop.version from 3.3.1 to 3.3.3 #246, #262.
       </action>
       <action dev="ggregory" due-to="Dependabot" type="update">
         Bump slf4j.version from 1.7.26 to 1.7.36 #244.
