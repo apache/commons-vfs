@@ -817,7 +817,7 @@ public final class DefaultFileContent implements FileContent {
     @Override
     public long write(final FileContent fileContent) throws IOException {
         try (OutputStream output = fileContent.getOutputStream()) {
-            return this.write(output);
+            return write(output);
         }
     }
 
@@ -858,7 +858,7 @@ public final class DefaultFileContent implements FileContent {
      */
     @Override
     public long write(final OutputStream output, final int bufferSize) throws IOException {
-        final InputStream input = this.getInputStream();
+        final InputStream input = getInputStream();
         long count = 0;
         try {
             // This read/write code from Apache Commons IO
