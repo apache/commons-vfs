@@ -186,7 +186,7 @@
     </commons.osgi.import>
     <!-- Avoid warnings about being unable to find jars during site building -->
     <dependency.locations.enabled>false</dependency.locations.enabled>
-    <hadoop.version>3.3.2</hadoop.version>
+    <hadoop.version>3.3.3</hadoop.version>
     <jackrabbit1.version>1.6.5</jackrabbit1.version>
     <jackrabbit2.version>2.21.10</jackrabbit2.version>
     <commons.surefire.version>3.0.0-M6</commons.surefire.version>
