@@ -146,7 +146,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump com.puppycrawl.tools:checkstyle from 8.44 to 9.3 #211.
       </action>
       <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">
-        Bump com.github.spotbugs:spotbugs from 4.3.0 to 4.6.0 #216.
+        Bump com.github.spotbugs:spotbugs from 4.3.0 to 4.7.1 #216, #269.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">
         Bump spotbugs-maven-plugin from 4.3.0 to 4.7.0.0, #229, #236. #264.
@@ -161,7 +161,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump org.apache.mina:mina-core from 2.1.4 to 2.1.6.
       </action>
       <action type="update" dev="ggregory" due-to="Dependabot">
-        Bump maven-pmd-plugin from 3.14.0 to 3.15.0 #223. 
+        Bump maven-pmd-plugin from 3.14.0 to 3.15.0 #223.
       </action>
       <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">
         Bump net.sourceforge.pmd:pmd-* from 6.36.0 to 6.46.0 #208, #247, #256, #261, #266.
