@@ -62,7 +62,6 @@ import org.apache.jackrabbit.webdav.client.methods.HttpPropfind;
 import org.apache.jackrabbit.webdav.client.methods.HttpProppatch;
 import org.apache.jackrabbit.webdav.client.methods.HttpVersionControl;
 import org.apache.jackrabbit.webdav.property.DavProperty;
-import org.apache.jackrabbit.webdav.property.DavPropertyIterator;
 import org.apache.jackrabbit.webdav.property.DavPropertyName;
 import org.apache.jackrabbit.webdav.property.DavPropertyNameSet;
 import org.apache.jackrabbit.webdav.property.DavPropertySet;
@@ -268,15 +267,11 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
             final GenericURLFileName fileName = (GenericURLFileName) getName();
             DavPropertySet properties = getProperties(fileName, DavConstants.PROPFIND_ALL_PROP,
                     new DavPropertyNameSet(), false);
-            final DavPropertyIterator iter = properties.iterator();
-            while (iter.hasNext()) {
-                final DavProperty<?> property = iter.nextProperty();
+            for (final DavProperty<?> property : properties) {
                 attributes.put(property.getName().toString(), property.getValue());
             }
             properties = getPropertyNames(fileName);
-            final DavPropertyIterator iter2 = properties.iterator();
-            while (iter2.hasNext()) {
-                DavProperty<?> property = iter2.nextProperty();
+            for (DavProperty<?> property : properties) {
                 if (!attributes.containsKey(property.getName().getName())) {
                     property = getProperty(fileName, property.getName());
                     if (property != null) {
