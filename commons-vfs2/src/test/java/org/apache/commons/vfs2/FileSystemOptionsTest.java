@@ -20,7 +20,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import org.apache.commons.vfs2.provider.sftp.IdentityInfo;
+import org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
 
 /**
  * Check FileSystemOptions.
@@ -92,4 +96,69 @@ public class FileSystemOptionsTest {
         assertEquals(expected.hashCode(), actual.hashCode());
     }
 
+    @Test
+    public void testEqualsHashCodeAndCompareToWithSftpIdentityProviderMatch() {
+        for (int mask = 0; mask < 8; mask++) {
+            assertSftpOptionsEquals(
+                (mask & 1) == 1 ? new File("/tmp/test.priv") : null,
+                (mask & 2) == 2 ? new File("/tmp/test.pub") : null,
+                (mask & 4) == 4 ? new byte[] {1, 2, 3} : null
+            );
+        }
+    }
+
+    @Test
+    public void testEqualsHashCodeAndCompareToWithSftpIdentityProviderMismatch() {
+        final String pubKey1 = "/tmp/test.pub";
+        final String pubKey2 = "/tmp/test1.pub";
+
+        final String privKey1 = "/tmp/test.priv";
+        final String privKey2 = "/tmp/test1.priv";
+
+        assertSftpOptionsNotEquals(
+            new File(privKey1), new File(pubKey1), new byte[] {1, 2, 3},
+            new File(privKey2), new File(pubKey1), new byte[] {1, 2, 3}
+        );
+
+        assertSftpOptionsNotEquals(
+            new File(privKey1), new File(pubKey1), new byte[] {1, 2, 3},
+            new File(privKey1), new File(pubKey2), new byte[] {1, 2, 3}
+        );
+
+        assertSftpOptionsNotEquals(
+            new File(privKey1), new File(pubKey1), new byte[] {1, 2, 3},
+            new File(privKey1), new File(pubKey1), new byte[] {1, 2, 4}
+        );
+    }
+
+    private static void assertSftpOptionsEquals(final File privKey, final File pubKey, final byte[] passphrase) {
+        final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
+
+        final FileSystemOptions expected = new FileSystemOptions();
+        final IdentityInfo info1 = new IdentityInfo(privKey, pubKey, passphrase);
+        builder.setIdentityProvider(expected, info1);
+
+        final FileSystemOptions actual = new FileSystemOptions();
+        final IdentityInfo info2 = new IdentityInfo(privKey, pubKey, passphrase);
+        builder.setIdentityProvider(actual, info2);
+
+        assertEquals(0, expected.compareTo(actual));
+        assertEquals(expected.hashCode(), actual.hashCode());
+    }
+
+    private static void assertSftpOptionsNotEquals(final File privKey1, final File pubKey1, final byte[] passphrase1,
+        File privKey2, File pubKey2, byte[] passphrase2) {
+        final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
+
+        final FileSystemOptions expected = new FileSystemOptions();
+        final IdentityInfo info1 = new IdentityInfo(privKey1, pubKey1, passphrase1);
+        builder.setIdentityProvider(expected, info1);
+
+        final FileSystemOptions actual = new FileSystemOptions();
+        final IdentityInfo info2 = new IdentityInfo(privKey2, pubKey2, passphrase2);
+        builder.setIdentityProvider(actual, info2);
+
+        assertNotEquals(0, expected.compareTo(actual));
+        assertNotEquals(expected.hashCode(), actual.hashCode());
+    }
 }
