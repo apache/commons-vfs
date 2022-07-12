@@ -77,8 +77,8 @@ public class WindowsFileNameParser extends LocalFileNameParser {
         // Look for first separator
         final int maxpos = name.length();
         int pos = 0;
-        for (; pos < maxpos && name.charAt(pos) != '/'; pos++) {
-            // empty
+        while (pos < maxpos && name.charAt(pos) != '/') {
+            pos++;
         }
         pos++;
         if (pos >= maxpos) {
@@ -87,8 +87,8 @@ public class WindowsFileNameParser extends LocalFileNameParser {
 
         // Now have <name> '/'
         final int startShareName = pos;
-        for (; pos < maxpos && name.charAt(pos) != '/'; pos++) {
-            // empty
+        while (pos < maxpos && name.charAt(pos) != '/') {
+            pos++;
         }
         if (pos == startShareName) {
             throw new FileSystemException("vfs.provider.local/missing-share-name.error", uri);
@@ -111,8 +111,8 @@ public class WindowsFileNameParser extends LocalFileNameParser {
         // Skip over first 4 (unc) leading '/' chars
         int startPos = 0;
         final int maxlen = Math.min(4, name.length());
-        for (; startPos < maxlen && name.charAt(startPos) == '/'; startPos++) {
-            // empty
+        while (startPos < maxlen && name.charAt(startPos) == '/') {
+            startPos++;
         }
         if (startPos == maxlen && name.length() > (startPos + 1) && name.charAt(startPos + 1) == '/') {
             // Too many '/'

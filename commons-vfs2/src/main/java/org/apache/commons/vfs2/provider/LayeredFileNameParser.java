@@ -60,7 +60,8 @@ public class LayeredFileNameParser extends AbstractFileNameParser {
         // Looking for <name>!<abspath> (staring at the end)
         final int maxlen = uri.length();
         int pos = maxlen - 1;
-        for (; pos > 0 && uri.charAt(pos) != LayeredFileName.LAYER_SEPARATOR; pos--) {
+        while (pos > 0 && uri.charAt(pos) != LayeredFileName.LAYER_SEPARATOR) {
+            pos--;
         }
 
         if (pos == 0 && uri.charAt(pos) != LayeredFileName.LAYER_SEPARATOR) {

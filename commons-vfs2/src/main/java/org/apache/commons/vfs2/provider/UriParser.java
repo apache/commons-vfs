@@ -501,7 +501,8 @@ public final class UriParser {
         while (startElem < maxlen) {
             // Find the end of the element
             int endElem = startElem;
-            for (; endElem < maxlen && path.charAt(endElem) != SEPARATOR_CHAR; endElem++) {
+            while (endElem < maxlen && path.charAt(endElem) != SEPARATOR_CHAR) {
+                endElem++;
             }
 
             final int elemLen = endElem - startElem;
@@ -526,7 +527,8 @@ public final class UriParser {
 
                 // Find start of previous element
                 int pos = startElem - 2;
-                for (; pos >= 0 && path.charAt(pos) != SEPARATOR_CHAR; pos--) {
+                while (pos >= 0 && path.charAt(pos) != SEPARATOR_CHAR) {
+                    pos--;
                 }
                 startElem = pos + 1;
 
