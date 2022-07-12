@@ -17,6 +17,8 @@
 
 package org.apache.commons.vfs2.provider.sftp;
 
+import java.util.Arrays;
+
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 
@@ -27,7 +29,7 @@ import com.jcraft.jsch.JSchException;
  */
 public class BytesIdentityInfo implements IdentityProvider {
 
-    private final byte[] passPhrase;
+    private final byte[] passphrase;
 
     private final byte[] privateKey;
 
@@ -37,12 +39,10 @@ public class BytesIdentityInfo implements IdentityProvider {
      * Constructs an identity info with private and passphrase for the private key.
      *
      * @param privateKey Private key bytes
-     * @param passPhrase The passphrase to decrypt the private key (can be {@code null} if no passphrase is used)
+     * @param passphrase The passphrase to decrypt the private key (can be {@code null} if no passphrase is used)
      */
-    public BytesIdentityInfo(final byte[] privateKey, final byte[] passPhrase) {
-        this.privateKey = privateKey;
-        this.publicKey = null;
-        this.passPhrase = passPhrase;
+    public BytesIdentityInfo(final byte[] privateKey, final byte[] passphrase) {
+        this(privateKey, null, passphrase);
     }
 
     /**
@@ -50,26 +50,50 @@ public class BytesIdentityInfo implements IdentityProvider {
      *
      * @param privateKey Private key bytes
      * @param publicKey The public key part used for connections with exchange of certificates (can be {@code null})
-     * @param passPhrase The passphrase to decrypt the private key (can be {@code null} if no passphrase is used)
+     * @param passphrase The passphrase to decrypt the private key (can be {@code null} if no passphrase is used)
      */
-    public BytesIdentityInfo(final byte[] privateKey, final byte[] publicKey, final byte[] passPhrase) {
-        this.privateKey = privateKey;
-        this.publicKey = publicKey;
-        this.passPhrase = passPhrase;
+    public BytesIdentityInfo(final byte[] privateKey, final byte[] publicKey, final byte[] passphrase) {
+        this.privateKey = Utils.clone(privateKey);
+        this.publicKey = Utils.clone(publicKey);
+        this.passphrase = Utils.clone(passphrase);
     }
 
     @Override
     public void addIdentity(final JSch jsch) throws JSchException {
-        jsch.addIdentity("PrivateKey", privateKey, publicKey, passPhrase);
+        jsch.addIdentity("PrivateKey", privateKey, publicKey, passphrase);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof BytesIdentityInfo)) {
+            return false;
+        }
+        final BytesIdentityInfo other = (BytesIdentityInfo) obj;
+        return Arrays.equals(passphrase, other.passphrase) && Arrays.equals(privateKey, other.privateKey) && Arrays.equals(publicKey, other.publicKey);
     }
 
     /**
      * Gets the passphrase.
      *
      * @return the passphrase.
+     * @since 2.10.0
      */
+    public byte[] getPassphrase() {
+        return Utils.clone(passphrase);
+    }
+
+    /**
+     * Gets the passphrase.
+     *
+     * @return the passphrase.
+     * @deprecated Use {@link #getPassphrase()}.
+     */
+    @Deprecated
     public byte[] getPassPhrase() {
-        return passPhrase;
+        return Utils.clone(passphrase);
     }
 
     /**
@@ -78,7 +102,7 @@ public class BytesIdentityInfo implements IdentityProvider {
      * @return the private key.
      */
     public byte[] getPrivateKeyBytes() {
-        return privateKey;
+        return Utils.clone(privateKey);
     }
 
     /**
@@ -87,6 +111,16 @@ public class BytesIdentityInfo implements IdentityProvider {
      * @return the public key.
      */
     public byte[] getPublicKeyBytes() {
-        return publicKey;
+        return Utils.clone(publicKey);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Arrays.hashCode(passphrase);
+        result = prime * result + Arrays.hashCode(privateKey);
+        result = prime * result + Arrays.hashCode(publicKey);
+        return result;
     }
 }

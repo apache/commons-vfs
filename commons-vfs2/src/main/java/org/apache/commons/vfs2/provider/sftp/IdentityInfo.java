@@ -17,6 +17,8 @@
 package org.apache.commons.vfs2.provider.sftp;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Objects;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
@@ -28,7 +30,7 @@ import com.jcraft.jsch.JSchException;
  */
 public class IdentityInfo implements IdentityProvider {
 
-    private final byte[] passPhrase;
+    private final byte[] passphrase;
     private final File privateKey;
     private final File publicKey;
 
@@ -55,11 +57,11 @@ public class IdentityInfo implements IdentityProvider {
      * </p>
      *
      * @param privateKey The file with the private key
-     * @param passPhrase The passphrase to decrypt the private key (can be {@code null} if no passphrase is used)
+     * @param passphrase The passphrase to decrypt the private key (can be {@code null} if no passphrase is used)
      * @since 2.1
      */
-    public IdentityInfo(final File privateKey, final byte[] passPhrase) {
-        this(privateKey, null, passPhrase);
+    public IdentityInfo(final File privateKey, final byte[] passphrase) {
+        this(privateKey, null, passphrase);
     }
 
     /**
@@ -70,13 +72,13 @@ public class IdentityInfo implements IdentityProvider {
      *
      * @param privateKey The file with the private key
      * @param publicKey  The public key part used for connections with exchange of certificates (can be {@code null})
-     * @param passPhrase The passphrase to decrypt the private key (can be {@code null} if no passphrase is used)
+     * @param passphrase The passphrase to decrypt the private key (can be {@code null} if no passphrase is used)
      * @since 2.1
      */
-    public IdentityInfo(final File privateKey, final File publicKey, final byte[] passPhrase) {
-        this.privateKey = privateKey;
-        this.publicKey = publicKey;
-        this.passPhrase = passPhrase;
+    public IdentityInfo(final File privateKey, final File publicKey, final byte[] passphrase) {
+        this.privateKey = getAbsoluteFile(privateKey);
+        this.publicKey = getAbsoluteFile(publicKey);
+        this.passphrase = Utils.clone(passphrase);
     }
 
     /**
@@ -84,7 +86,23 @@ public class IdentityInfo implements IdentityProvider {
      */
     @Override
     public void addIdentity(final JSch jsch) throws JSchException {
-        jsch.addIdentity(getAbsolutePath(privateKey), getAbsolutePath(publicKey), passPhrase);
+        jsch.addIdentity(getAbsolutePath(privateKey), getAbsolutePath(publicKey), passphrase);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof IdentityInfo)) {
+            return false;
+        }
+        IdentityInfo other = (IdentityInfo) obj;
+        return Arrays.equals(passphrase, other.passphrase) && Objects.equals(privateKey, other.privateKey) && Objects.equals(publicKey, other.publicKey);
+    }
+
+    private File getAbsoluteFile(final File privateKey) {
+        return privateKey != null ? privateKey.getAbsoluteFile() : null;
     }
 
     private String getAbsolutePath(final File file) {
@@ -92,17 +110,29 @@ public class IdentityInfo implements IdentityProvider {
     }
 
     /**
-     * Get the passphrase of the private key.
+     * Gets the passphrase of the private key.
      *
      * @return the passphrase
-     * @since 2.1
+     * @since 2.10.0
      */
-    public byte[] getPassPhrase() {
-        return passPhrase;
+    public byte[] getPassphrase() {
+        return Utils.clone(passphrase);
     }
 
     /**
-     * Get the file with the private key.
+     * Gets the passphrase of the private key.
+     *
+     * @return the passphrase
+     * @since 2.1
+     * @deprecated Use {@link #getPassphrase()}.
+     */
+    @Deprecated
+    public byte[] getPassPhrase() {
+        return Utils.clone(passphrase);
+    }
+
+    /**
+     * Gets the file with the private key.
      *
      * @return the file
      * @since 2.1
@@ -112,12 +142,21 @@ public class IdentityInfo implements IdentityProvider {
     }
 
     /**
-     * Get the file with the public key.
+     * Gets the file with the public key.
      *
      * @return the file
      * @since 2.1
      */
     public File getPublicKey() {
         return publicKey;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Arrays.hashCode(passphrase);
+        result = prime * result + Objects.hash(privateKey, publicKey);
+        return result;
     }
 }
