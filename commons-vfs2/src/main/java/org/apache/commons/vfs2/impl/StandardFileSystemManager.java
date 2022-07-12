@@ -185,25 +185,6 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
      * Configures this manager from an XML configuration file.
      *
      * @param configUri The URI of the configuration.
-     * @param configStream An InputStream containing the configuration.
-     * @throws FileSystemException if an error occurs.
-     */
-    @SuppressWarnings("unused")
-    private void configure(final String configUri, final InputStream configStream) throws FileSystemException {
-        try {
-            // Load up the config
-            // TODO - validate
-            configure(createDocumentBuilder().parse(configStream).getDocumentElement());
-
-        } catch (final Exception e) {
-            throw new FileSystemException("vfs.impl/load-config.error", configUri, e);
-        }
-    }
-
-    /**
-     * Configures this manager from an XML configuration file.
-     *
-     * @param configUri The URI of the configuration.
      * @throws FileSystemException if an error occus.
      */
     private void configure(final URL configUri) throws FileSystemException {
