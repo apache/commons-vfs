@@ -325,8 +325,8 @@ public abstract class AbstractFileName implements FileName {
 
         final int maxlen = Math.min(basePathLen, pathLen);
         int pos = 0;
-        for (; pos < maxlen && getPath().charAt(pos) == path.charAt(pos); pos++) {
-            // empty
+        while (pos < maxlen && getPath().charAt(pos) == path.charAt(pos)) {
+            pos++;
         }
 
         if (pos == basePathLen && pos == pathLen) {
