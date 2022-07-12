@@ -25,6 +25,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -409,7 +410,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         }
 
         // TODO - get rid of this children stuff
-        final String[] childNames = childMap.values().stream().map(FTPFile::getName).toArray(String[]::new);
+        final String[] childNames = childMap.values().stream().filter(Objects::nonNull).map(FTPFile::getName).toArray(String[]::new);
 
         return UriParser.encode(childNames);
     }

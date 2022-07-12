@@ -232,8 +232,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public IdentityInfo[] getIdentityInfo(final FileSystemOptions options) {
         final IdentityProvider[] infos = getIdentityProvider(options);
         if (infos != null) {
-            return Stream.of(infos).filter(info -> info instanceof IdentityInfo)
-                                   .map(info -> (IdentityInfo) info).toArray(IdentityInfo[]::new);
+            return Stream.of(infos).filter(info -> info instanceof IdentityInfo).map(info -> (IdentityInfo) info).toArray(IdentityInfo[]::new);
         }
         return null;
     }
@@ -558,7 +557,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public void setIdentities(final FileSystemOptions options, final File... identityFiles) {
         IdentityProvider[] info = null;
         if (identityFiles != null) {
-            info = Stream.of(identityFiles).map(IdentityInfo::new).toArray(IdentityProvider[]::new);
+            info = Stream.of(identityFiles).filter(Objects::nonNull).filter(Objects::nonNull).map(IdentityInfo::new).toArray(IdentityProvider[]::new);
         }
         this.setParam(options, IDENTITIES, info);
     }

@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import javax.net.ssl.HostnameVerifier;
@@ -126,7 +127,7 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
 
         final String[] tlsVersions = builder.getTlsVersions(fileSystemOptions).split("\\s*,\\s*");
 
-        final TLS[] tlsArray = Stream.of(tlsVersions).map(TLS::valueOf).toArray(TLS[]::new);
+        final TLS[] tlsArray = Stream.of(tlsVersions).filter(Objects::nonNull).map(TLS::valueOf).toArray(TLS[]::new);
 
         final SSLConnectionSocketFactory sslSocketFactory = SSLConnectionSocketFactoryBuilder.create()
                 .setSslContext(createSSLContext(builder, fileSystemOptions))

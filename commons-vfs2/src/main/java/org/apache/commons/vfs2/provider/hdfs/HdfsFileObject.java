@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import org.apache.commons.vfs2.FileNotFolderException;
@@ -236,7 +237,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
         }
 
         final FileStatus[] fileStatuses = this.hdfs.listStatus(this.path);
-        return Stream.of(fileStatuses).map(status -> status.getPath().getName()).toArray(String[]::new);
+        return Stream.of(fileStatuses).filter(Objects::nonNull).map(status -> status.getPath().getName()).toArray(String[]::new);
     }
 
     /**

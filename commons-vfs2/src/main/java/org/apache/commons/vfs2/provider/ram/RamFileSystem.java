@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileContent;
@@ -152,7 +153,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
         final Collection<RamFileData> children = data.getChildren();
 
         synchronized (children) {
-            return children.stream().map(childData -> childData.getName().getBaseName()).toArray(String[]::new);
+            return children.stream().filter(Objects::nonNull).map(childData -> childData.getName().getBaseName()).toArray(String[]::new);
         }
     }
 
