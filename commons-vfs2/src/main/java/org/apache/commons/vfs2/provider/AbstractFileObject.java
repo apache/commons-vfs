@@ -322,7 +322,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 if (!exists()) {
                     try (FileContent content = getContent()) {
                         if (content != null) {
-                            try (OutputStream outputStream = content.getOutputStream()) {
+                            try (OutputStream ignored = content.getOutputStream()) {
                                 // Avoids NPE on OutputStream#close()
                             }
                         }
