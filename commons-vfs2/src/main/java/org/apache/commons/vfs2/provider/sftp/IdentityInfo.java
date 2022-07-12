@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider.sftp;
 
 import java.io.File;
+import java.util.Arrays;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
@@ -79,6 +80,29 @@ public class IdentityInfo implements IdentityProvider {
         this.passPhrase = passPhrase;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof IdentityInfo) {
+            final IdentityInfo other = (IdentityInfo) obj;
+            if (!Arrays.equals(passPhrase, other.passPhrase)) {
+                return false;
+            }
+            if (!isSameFile(privateKey, other.privateKey)) {
+                return false;
+            }
+            return isSameFile(publicKey, other.publicKey);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = prime + (passPhrase == null ? 0 : Arrays.hashCode(passPhrase));
+        result = prime * result + (privateKey == null ? 0 : privateKey.getAbsolutePath().hashCode());
+        return prime * result + (publicKey == null ? 0 : publicKey.getAbsolutePath().hashCode());
+    }
+
     /**
      * @since 2.4
      */
@@ -119,5 +143,12 @@ public class IdentityInfo implements IdentityProvider {
      */
     public File getPublicKey() {
         return publicKey;
+    }
+
+    private static boolean isSameFile(File a, File b) {
+        if (a == null || b == null) {
+            return a == b;
+        }
+        return a.getAbsolutePath().equals(b.getAbsolutePath());
     }
 }

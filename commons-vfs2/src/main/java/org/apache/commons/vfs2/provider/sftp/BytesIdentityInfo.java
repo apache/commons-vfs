@@ -20,6 +20,8 @@ package org.apache.commons.vfs2.provider.sftp;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 
+import java.util.Arrays;
+
 /**
  * Structure for an identity based on byte arrays.
  *
@@ -56,6 +58,24 @@ public class BytesIdentityInfo implements IdentityProvider {
         this.privateKey = privateKey;
         this.publicKey = publicKey;
         this.passPhrase = passPhrase;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof BytesIdentityInfo) {
+            BytesIdentityInfo other = (BytesIdentityInfo) o;
+            return Arrays.equals(passPhrase, other.passPhrase) && Arrays.equals(privateKey, other.privateKey) &&
+                Arrays.equals(publicKey, other.publicKey);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = Arrays.hashCode(passPhrase);
+        result = prime * result + Arrays.hashCode(privateKey);
+        return prime * result + Arrays.hashCode(publicKey);
     }
 
     @Override
