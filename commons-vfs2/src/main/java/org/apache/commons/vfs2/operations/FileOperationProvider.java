@@ -49,7 +49,7 @@ public interface FileOperationProvider {
     /**
      * Get implementation for a given FileObject and FileOperation interface.
      *
-     * @param file the FileObject for which we need a operation.
+     * @param file the FileObject for which we need an operation.
      * @param operationClass the Class which instance we are needed.
      * @return the required operation instance.
      *

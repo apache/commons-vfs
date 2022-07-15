@@ -61,7 +61,7 @@ public class FTPClientWrapper implements FtpClient {
         try {
             // imario@apache.org: 2005-02-14
             // it should be better to really "abort" the transfer, but
-            // currently I didnt manage to make it work - so lets "abort" the hard way.
+            // currently I didn't manage to make it work - so lets "abort" the hard way.
             // return getFtpClient().abort();
 
             disconnect();

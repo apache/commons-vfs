@@ -364,7 +364,7 @@ public class NamingTests extends AbstractProviderTestCase {
         // §5 Encode \
         file = getManager().resolveFile("dir%5cchild");
         // 18-6-2005 imario@apache.org: all file separators normalized to "/"
-        // decided to do this to get the same behavior as in §4 on windows
+        // decided to do this to get the same behavior as in §4 on Windows
         // platforms
         // assertEquals(path + "/dir\\child", file.getName().getPathDecoded());
         assertEquals(path + "/dir/child", file.getName().getPathDecoded());
@@ -404,7 +404,7 @@ public class NamingTests extends AbstractProviderTestCase {
         // Test that the root path is "/"
         assertEquals("root path", "/", rootName.getPath());
 
-        // Test that the root basname is ""
+        // Test that the root base name is ""
         assertEquals("root base name", "", rootName.getBaseName());
 
         // Test that the root name has no parent

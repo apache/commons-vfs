@@ -21,15 +21,15 @@ import org.apache.commons.vfs2.FileSystemException;
 /**
  * FileOperations interface provides API to work with operations.
  *
- * @see FileOperation on what a operation in the context of VFS is.
+ * @see FileOperation on what an operation in the context of VFS is.
  *
  * @since 0.1
  */
 public interface FileOperations {
     /**
      * @param operationClass the operation Class.
-     * @return a operation implementing the given {@code operationClass}
-     * @throws FileSystemException if an error occus.
+     * @return an operation implementing the given {@code operationClass}
+     * @throws FileSystemException if an error occurs.
      */
     FileOperation getOperation(Class<? extends FileOperation> operationClass) throws FileSystemException;
 
@@ -41,8 +41,8 @@ public interface FileOperations {
 
     /**
      * @param operationClass the operation Class.
-     * @return if a operation {@code operationClass} is available
-     * @throws FileSystemException if an error ocurs.
+     * @return if an operation {@code operationClass} is available
+     * @throws FileSystemException if an error occurs.
      */
     boolean hasOperation(Class<? extends FileOperation> operationClass) throws FileSystemException;
 }

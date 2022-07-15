@@ -37,7 +37,7 @@ public class ProviderReadTests extends AbstractProviderTestCase {
      * Walks a folder structure, asserting it contains exactly the expected files and folders.
      */
     protected void assertSameStructure(final FileObject folder, final FileInfo expected) throws Exception {
-        // Setup the structure
+        // Set up the structure
         final List<FileInfo> queueExpected = new ArrayList<>();
         queueExpected.add(expected);
 
@@ -188,7 +188,7 @@ public class ProviderReadTests extends AbstractProviderTestCase {
     @Test
     public void testFolderContent() throws Exception {
         if (getFileSystem().hasCapability(Capability.DIRECTORY_READ_CONTENT)) {
-            // test wont fail
+            // test won't fail
             return;
         }
 

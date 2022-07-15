@@ -60,7 +60,7 @@ public interface FileSystem {
     Object getAttribute(String attrName) throws FileSystemException;
 
     /**
-     * Returns a reference to the FileSytemManager.
+     * Returns a reference to the FileSystemManager.
      *
      * @return The FileSystemManager.
      */
@@ -148,7 +148,7 @@ public interface FileSystem {
      * Creates a temporary local copy of a file and its descendants. If this file is already a local file, a copy is not
      * made.
      * <p>
-     * Note that the local copy may include additonal files, that were not selected by the given selector.
+     * Note that the local copy may include additional files, that were not selected by the given selector.
      * </p>
      * <p>
      * TODO - Add options to indicate whether the caller is happy to deal with extra files being present locally (eg if

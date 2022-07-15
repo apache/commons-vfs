@@ -117,7 +117,7 @@ public class FtpFileSystem extends AbstractFileSystem {
     /**
      * Creates an FTP client to use.
      *
-     * @return An FTPCleint.
+     * @return An FTPClient.
      * @throws FileSystemException if an error occurs.
      */
     public FtpClient getClient() throws FileSystemException {

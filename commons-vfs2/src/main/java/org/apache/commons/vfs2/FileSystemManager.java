@@ -59,7 +59,7 @@ public interface FileSystemManager extends AutoCloseable {
      * we can register {@code SvnWsOperationProvider} and {@code CvsOperationProvider.}
      * </p>
      *
-     * @param scheme The scheme assoicated with this provider.
+     * @param scheme The scheme associated with this provider.
      * @param operationProvider The FileOperationProvider to add.
      * @throws FileSystemException if an error occurs.
      */
@@ -189,16 +189,16 @@ public interface FileSystemManager extends AutoCloseable {
     /**
      * Gets the configuration builder for the given scheme.
      *
-     * @param scheme The schem to use to obtain the FileSystemConfigBuidler.
+     * @param scheme The scheme to use to obtain the FileSystemConfigBuilder.
      * @return A FileSystemConfigBuilder appropriate for the given scheme.
-     * @throws FileSystemException if the given scheme is not konwn.
+     * @throws FileSystemException if the given scheme is not known.
      */
     FileSystemConfigBuilder getFileSystemConfigBuilder(String scheme) throws FileSystemException;
 
     /**
      * Gets Providers for file operations.
      *
-     * @param scheme the scheme for wich we want to get the list af registered providers.
+     * @param scheme the scheme for which we want to get the list af registered providers.
      *
      * @return the registered FileOperationProviders for the specified scheme. If there were no providers registered for
      *         the scheme, it returns null.
@@ -212,7 +212,7 @@ public interface FileSystemManager extends AutoCloseable {
      *
      * @param scheme The scheme to use to locate the provider's capabilities.
      * @return A Collection of the various capabilities.
-     * @throws FileSystemException if the given scheme is not konwn.
+     * @throws FileSystemException if the given scheme is not known.
      */
     Collection<Capability> getProviderCapabilities(String scheme) throws FileSystemException;
 

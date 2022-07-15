@@ -379,7 +379,7 @@ public final class UriParser {
                 break;
             }
             // A scheme character (these are not allowed as the first
-            // character of the scheme, but can be used as subsequent
+            // character of the scheme), but can be used as subsequent
             // characters.
         }
 

@@ -61,7 +61,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /** Whether the comparison is case sensitive. */
+    /** Whether the comparison is case-sensitive. */
     private final IOCase caseSensitivity;
 
     /** The wildcards that will be used to match file names. */
@@ -175,7 +175,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
      * @param caseSensitivity what case sensitivity rule to use, null means
      *                        case-sensitive
      *
-     * @return true if the file name matches the wilcard string
+     * @return true if the file name matches the wildcard string
      */
     // CHECKSTYLE:OFF TODO xxx Cyclomatic complexity of 19 should be refactored
     static boolean wildcardMatch(final String fileName, final String wildcardMatcher, IOCase caseSensitivity) {
@@ -236,7 +236,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
                         }
                     } else if (!caseSensitivity.checkRegionMatches(fileName, textIdx, wcs[wcsIdx])) {
                         // matching from current position
-                        // couldnt match token
+                        // couldn't match token
                         break;
                     }
 

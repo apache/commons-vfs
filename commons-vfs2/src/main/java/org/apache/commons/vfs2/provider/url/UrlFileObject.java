@@ -59,7 +59,7 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
 
     /**
      * Attaches this file object to its file resource. This method is called before any of the doBlah() or onBlah()
-     * methods. Sub-classes can use this method to perform lazy initialization.
+     * methods. Subclasses can use this method to perform lazy initialization.
      */
     @Override
     protected void doAttach() throws Exception {

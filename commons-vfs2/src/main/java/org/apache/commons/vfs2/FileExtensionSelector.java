@@ -82,7 +82,7 @@ public class FileExtensionSelector implements FileSelector {
      * Determines whether a folder should be traversed.
      *
      * @param fileInfo The file selection information.
-     * @return true if descendants should be traversed, fase otherwise.
+     * @return true if descendants should be traversed, false otherwise.
      */
     @Override
     public boolean traverseDescendents(final FileSelectInfo fileInfo) throws Exception {

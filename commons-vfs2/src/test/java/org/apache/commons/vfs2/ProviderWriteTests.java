@@ -280,7 +280,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
      */
     @Test
     public void testDelete() throws Exception {
-        // Set-up the test structure
+        // Set up the test structure
         final FileObject folder = createScratchFolder();
         folder.resolveFile("file1.txt").createFile();
         folder.resolveFile("file%25.txt").createFile();
@@ -327,7 +327,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
      */
     @Test
     public void testDeleteAllDescendents() throws Exception {
-        // Set-up the test structure
+        // Set up the test structure
         final FileObject folder = createScratchFolder();
         folder.resolveFile("file1.txt").createFile();
         folder.resolveFile("file%25.txt").createFile();
@@ -507,7 +507,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Tests that test folder iswritable.
+     * Tests that test folder is writable.
      */
     @Test
     public void testFolderIsWritable() throws Exception {

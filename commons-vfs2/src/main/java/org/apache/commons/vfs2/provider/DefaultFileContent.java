@@ -611,7 +611,7 @@ public final class DefaultFileContent implements FileContent {
     }
 
     /**
-     * Returns an input/output stream to use to read and write the content of the file in an random manner.
+     * Returns an input/output stream to use to read and write the content of the file in a random manner.
      *
      * @param mode The RandomAccessMode.
      * @return A RandomAccessContent object to access the file.
@@ -678,7 +678,7 @@ public final class DefaultFileContent implements FileContent {
     }
 
     /**
-     * Checks if a input and/or output stream is open.
+     * Checks if an input and/or output stream is open.
      * <p>
      * This checks only the scope of the current thread.
      * </p>
@@ -732,7 +732,7 @@ public final class DefaultFileContent implements FileContent {
     }
 
     /**
-     * Used internally to flag situations where the file attributes should be reretrieved.
+     * Used internally to flag situations where the file attributes should be retrieved again.
      *
      * @since 2.0
      */

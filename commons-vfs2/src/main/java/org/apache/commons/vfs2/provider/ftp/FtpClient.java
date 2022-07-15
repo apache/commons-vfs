@@ -128,7 +128,7 @@ public interface FtpClient {
     FTPFile[] listFiles(String relPath) throws IOException;
 
     /**
-     * Creates a new sub-directory on the FTP server in the current directory (if a relative pathname is given) or where
+     * Creates a new subdirectory on the FTP server in the current directory (if a relative pathname is given) or where
      * specified (if an absolute pathname is given).
      *
      * @param relPath The pathname of the directory to create.

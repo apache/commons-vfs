@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 import org.apache.commons.vfs2.FileSystemException;
 
 /**
- * A {@link VfsComponent} that contains a set of sub-components.
+ * A {@link VfsComponent} that contains a set of subcomponents.
  */
 public abstract class AbstractVfsContainer extends AbstractVfsComponent {
 
@@ -32,7 +32,7 @@ public abstract class AbstractVfsContainer extends AbstractVfsComponent {
     private final ArrayList<Object> components = new ArrayList<>(); // @GuardedBy("self")
 
     /**
-     * Adds a sub-component to this component.
+     * Adds a subcomponent to this component.
      * <p>
      * If the sub-component implements {@link VfsComponent}, it is initialized. All sub-components are closed when this
      * component is closed.
@@ -59,7 +59,7 @@ public abstract class AbstractVfsContainer extends AbstractVfsComponent {
     }
 
     /**
-     * Closes the sub-components of this component.
+     * Closes the subcomponents of this component.
      */
     @Override
     public void close() {
@@ -75,7 +75,7 @@ public abstract class AbstractVfsContainer extends AbstractVfsComponent {
     }
 
     /**
-     * Removes a sub-component from this component.
+     * Removes a subcomponent from this component.
      *
      * @param component the component to remove.
      */

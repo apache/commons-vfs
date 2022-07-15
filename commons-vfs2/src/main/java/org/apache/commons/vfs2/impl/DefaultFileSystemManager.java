@@ -193,7 +193,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Adds an file name extension mapping.
+     * Adds a file name extension mapping.
      *
      * @param extension The file name extension.
      * @param scheme The scheme to use for files with this extension.
@@ -419,7 +419,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
         // inform the cache ...
         getFilesCache().clear(fileSystem);
 
-        // just in case the cache didnt call _closeFileSystem
+        // just in case the cache didn't call _closeFileSystem
         _closeFileSystem(fileSystem);
     }
 
@@ -563,7 +563,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      *
      * @param scheme The scheme to locate.
      * @return The FileSystemConfigBuilder for the scheme.
-     * @throws FileSystemException if the given scheme is not konwn
+     * @throws FileSystemException if the given scheme is not known
      */
     @Override
     public FileSystemConfigBuilder getFileSystemConfigBuilder(final String scheme) throws FileSystemException {
@@ -596,7 +596,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * @param scheme the scheme for wich we want to get the list af registered providers.
+     * @param scheme the scheme for which we want to get the list af registered providers.
      *
      * @return the registered FileOperationProviders for the specified scheme. If there were no providers registered for
      *         the scheme, it returns null.
@@ -616,9 +616,9 @@ public class DefaultFileSystemManager implements FileSystemManager {
     /**
      * Get the capabilities for a given scheme.
      *
-     * @param scheme The scheme to located.
+     * @param scheme The scheme to locate.
      * @return A Collection of capabilities.
-     * @throws FileSystemException if the given scheme is not konwn
+     * @throws FileSystemException if the given scheme is not known
      */
     @Override
     public Collection<Capability> getProviderCapabilities(final String scheme) throws FileSystemException {
@@ -745,7 +745,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     /**
      * Resolves a URI, relative to a base file.
      *
-     * @param baseFile The base FileOjbect to use to locate the file.
+     * @param baseFile The base FileObject to use to locate the file.
      * @param uri The URI of the file to locate.
      * @return The FileObject for the located file.
      * @throws FileSystemException if the file cannot be located or an error occurs.
@@ -759,7 +759,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * Resolves a URI, relative to a base file with specified FileSystem configuration.
      *
      * @param baseFile The base file.
-     * @param uri The file name. May be a fully qualified or relative path or a url.
+     * @param uri The file name. May be a fully qualified or relative path or an url.
      * @param fileSystemOptions Options to pass to the file system.
      * @return A FileObject representing the target file.
      * @throws FileSystemException if an error occurs accessing the file.
@@ -1076,7 +1076,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * Can only be set before the FileSystemManager is initialized.
      * </p>
      *
-     * @param fileObjectDecorator must be inherted from {@link DecoratedFileObject} a has to provide a constructor with
+     * @param fileObjectDecorator must be inherited from {@link DecoratedFileObject} a has to provide a constructor with
      *            a single {@link FileObject} as argument
      * @throws FileSystemException if an error occurs setting the decorator.
      */
@@ -1107,7 +1107,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * </p>
      *
      * @param filesCache The FilesCache.
-     * @throws FileSystemException if an error occurs setting the cache..
+     * @throws FileSystemException if an error occurs setting the cache.
      */
     public void setFilesCache(final FilesCache filesCache) throws FileSystemException {
         if (init) {
@@ -1162,7 +1162,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     /**
      * Initializes a component, if it has not already been initialized.
      *
-     * @param component The component to setup.
+     * @param component The component to set up.
      * @throws FileSystemException if an error occurs.
      */
     private void setupComponent(final Object component) throws FileSystemException {
@@ -1181,7 +1181,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * Converts a local file into a {@link FileObject}.
      *
      * @param file The input File.
-     * @return the create FileObject
+     * @return the created FileObject
      * @throws FileSystemException if an error occurs creating the file.
      */
     @Override

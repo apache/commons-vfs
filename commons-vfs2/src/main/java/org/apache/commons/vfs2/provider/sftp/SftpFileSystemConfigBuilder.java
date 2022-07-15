@@ -91,7 +91,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * </p>
      * <p>
      * When used, the proxy username ({@linkplain #setProxyUser}) and hostname ({@linkplain #setProxyHost}) <b>must</b>
-     * be set. Optionnaly, the command ({@linkplain #setProxyCommand}), password ({@linkplain #setProxyPassword}) and
+     * be set. Optionally, the command ({@linkplain #setProxyCommand}), password ({@linkplain #setProxyPassword}) and
      * connection options ({@linkplain #setProxyOptions}) can be set.
      * </p>
      */
@@ -601,7 +601,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Configures Key exchange algorithm explicitly e.g diffie-hellman-group14-sha1,
+     * Configures Key exchange algorithm explicitly e.g. diffie-hellman-group14-sha1,
      * diffie-hellman-group-exchange-sha256, diffie-hellman-group-exchange-sha1, diffie-hellman-group1-sha1.
      *
      * @param options                The FileSystem options.

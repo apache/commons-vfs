@@ -30,7 +30,7 @@ public class ResourceFileNameParser extends GenericFileNameParser {
     private static final ResourceFileNameParser INSTANCE = new ResourceFileNameParser();
 
     /**
-     * retrieve a instance to this parser.
+     * retrieve an instance to this parser.
      *
      * @return the parser
      */

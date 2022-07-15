@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
 import org.junit.Test;
 
 /**
- * Test the cache stragey
+ * Test the cache strategy
  */
 public class ProviderCacheStrategyTests extends AbstractProviderTestCase {
 
@@ -61,7 +61,7 @@ public class ProviderCacheStrategyTests extends AbstractProviderTestCase {
         final FileObject scratchFolder = getWriteFolder();
         if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class)
                 || scratchFolder.getFileSystem() instanceof VirtualFileSystem) {
-            // cant check ram filesystem as every manager holds its own ram filesystem data
+            // can't check ram filesystem as every manager holds its own ram filesystem data
             return;
         }
 
@@ -95,7 +95,7 @@ public class ProviderCacheStrategyTests extends AbstractProviderTestCase {
         final FileObject scratchFolder = getWriteFolder();
         if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class)
                 || scratchFolder.getFileSystem() instanceof VirtualFileSystem) {
-            // cant check ram filesystem as every manager holds its own ram filesystem data
+            // can't check ram filesystem as every manager holds its own ram filesystem data
             return;
         }
 
@@ -125,7 +125,7 @@ public class ProviderCacheStrategyTests extends AbstractProviderTestCase {
         final FileObject scratchFolder = getWriteFolder();
         if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class)
                 || scratchFolder.getFileSystem() instanceof VirtualFileSystem) {
-            // cant check ram filesystem as every manager holds its own ram filesystem data
+            // can't check ram filesystem as every manager holds its own ram filesystem data
             return;
         }
 

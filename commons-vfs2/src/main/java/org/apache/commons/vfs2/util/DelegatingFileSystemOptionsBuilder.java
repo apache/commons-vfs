@@ -95,7 +95,7 @@ public class DelegatingFileSystemOptionsBuilder {
      * Pass in your fileSystemManager instance.
      * </p>
      *
-     * @param manager the manager to use to get the fileSystemConfigBuilder assocated to a scheme
+     * @param manager the manager to use to get the fileSystemConfigBuilder associated to a scheme
      */
     public DelegatingFileSystemOptionsBuilder(final FileSystemManager manager) {
         this.manager = manager;
@@ -283,7 +283,7 @@ public class DelegatingFileSystemOptionsBuilder {
      * @param name name
      * @param className className
      * @throws FileSystemException if an error occurs.
-     * @throws IllegalAccessException if a class canoot be accessed.
+     * @throws IllegalAccessException if a class cannot be accessed.
      * @throws InstantiationException if a class cannot be instantiated.
      */
     public void setConfigClass(final FileSystemOptions fso, final String scheme, final String name,
@@ -302,7 +302,7 @@ public class DelegatingFileSystemOptionsBuilder {
      * @param name name
      * @param classNames classNames
      * @throws FileSystemException if an error occurs.
-     * @throws IllegalAccessException if a class canoot be accessed.
+     * @throws IllegalAccessException if a class cannot be accessed.
      * @throws InstantiationException if a class cannot be instantiated.
      */
     public void setConfigClasses(final FileSystemOptions fso, final String scheme, final String name,
@@ -348,7 +348,7 @@ public class DelegatingFileSystemOptionsBuilder {
     }
 
     /**
-     * Sets the values using the informations of the given context.
+     * Sets the values using the information of the given context.
      */
     private void setValues(final Context ctx) throws FileSystemException {
         // find all setter methods suitable for the given "name"

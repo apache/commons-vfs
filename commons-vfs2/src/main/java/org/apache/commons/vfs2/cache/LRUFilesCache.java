@@ -114,7 +114,7 @@ public class LRUFilesCache extends AbstractFilesCache {
     private final Lock writeLock = rwLock.writeLock();
 
     /**
-     * Default constructor. Uses a LRU size of 100 per file system.
+     * Default constructor. Uses an LRU size of 100 per file system.
      */
     public LRUFilesCache() {
         this(DEFAULT_LRU_SIZE);

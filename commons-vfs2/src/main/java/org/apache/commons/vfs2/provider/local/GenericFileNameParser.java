@@ -38,7 +38,7 @@ public class GenericFileNameParser extends LocalFileNameParser {
     }
 
     /*
-     * ... this is why why need this: here the rootFilename can only be "/" (see above) put this "/" is also in the
+     * ... this is why need this: here the rootFilename can only be "/" (see above) put this "/" is also in the
      * pathname so its of no value for the LocalFileName instance
      */
     @Override

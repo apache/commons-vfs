@@ -158,11 +158,11 @@ public abstract class BaseFilterTest {
     }
 
     /**
-     * Returns a sub directory of the temporary directory.
+     * Returns a subdirectory of the temporary directory.
      *
-     * @param name Name of the sub directory.
+     * @param name Name of the subdirectory.
      *
-     * @return Sub directory of java.io.tmpdir.
+     * @return Subdirectory of java.io.tmpdir.
      */
     protected static File getTestDir(final String name) {
         return new File(getTempDir(), name);
@@ -203,15 +203,15 @@ public abstract class BaseFilterTest {
     }
 
     /**
-     * Creates a ZIP file and adds all files in a directory and all it's sub
-     * directories to the archive. Only entries are added that comply to the file
+     * Creates a ZIP file and adds all files in a directory and all it's
+     * subdirectories to the archive. Only entries are added that comply to the file
      * filter.
      *
      * @param srcDir   Directory to add - Cannot be {@code null} and must be a
      *                 valid directory.
      * @param filter   Filter or {@code null} for all files/directories.
      * @param destPath Path to use for the ZIP archive - May be {@code null} or
-     *                 an empyt string.
+     *                 an empty string.
      * @param destFile Target ZIP file - Cannot be {@code null}.
      *
      * @throws IOException Error writing to the output stream.
@@ -245,7 +245,7 @@ public abstract class BaseFilterTest {
      *                 valid directory.
      * @param filter   Filter or {@code null} for all files.
      * @param destPath Path to use for the ZIP archive - May be {@code null} or
-     *                 an empyt string.
+     *                 an empty string.
      * @param out      Destination stream - Cannot be {@code null}.
      *
      * @throws IOException Error writing to the output stream.
@@ -265,13 +265,13 @@ public abstract class BaseFilterTest {
     }
 
     /**
-     * Creates a ZIP file and adds all files in a directory and all it's sub
-     * directories to the archive.
+     * Creates a ZIP file and adds all files in a directory and all it's
+     * subdirectories to the archive.
      *
      * @param srcDir   Directory to add - Cannot be {@code null} and must be a
      *                 valid directory.
      * @param destPath Path to use for the ZIP archive - May be {@code null} or
-     *                 an empyt string.
+     *                 an empty string.
      * @param destFile Target ZIP file - Cannot be {@code null}.
      *
      * @throws IOException Error writing to the output stream.

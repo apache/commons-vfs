@@ -56,7 +56,7 @@ public class VFSClassLoader extends SecureClassLoader {
      * Constructors a new VFSClassLoader for the given file.
      *
      * @param file the file to load the classes and resources from.
-     * @param manager the FileManager to use when trying create a layered Jar file system.
+     * @param manager the FileManager to use when trying to create a layered Jar file system.
      * @throws FileSystemException if an error occurs.
      */
     public VFSClassLoader(final FileObject file, final FileSystemManager manager) throws FileSystemException {
@@ -67,7 +67,7 @@ public class VFSClassLoader extends SecureClassLoader {
      * Constructors a new VFSClassLoader for the given file.
      *
      * @param file the file to load the classes and resources from.
-     * @param manager the FileManager to use when trying create a layered Jar file system.
+     * @param manager the FileManager to use when trying to create a layered Jar file system.
      * @param parent the parent class loader for delegation.
      * @throws FileSystemException if an error occurs.
      */
@@ -80,7 +80,7 @@ public class VFSClassLoader extends SecureClassLoader {
      * Constructors a new VFSClassLoader for the given files. The files will be searched in the order specified.
      *
      * @param files the files to load the classes and resources from.
-     * @param manager the FileManager to use when trying create a layered Jar file system.
+     * @param manager the FileManager to use when trying to create a layered Jar file system.
      * @throws FileSystemException if an error occurs.
      */
     public VFSClassLoader(final FileObject[] files, final FileSystemManager manager) throws FileSystemException {
@@ -92,7 +92,7 @@ public class VFSClassLoader extends SecureClassLoader {
      * specified.
      *
      * @param files the FileObjects to load the classes and resources from.
-     * @param manager the FileManager to use when trying create a layered Jar file system.
+     * @param manager the FileManager to use when trying to create a layered Jar file system.
      * @param parent the parent class loader for delegation.
      * @throws FileSystemException if an error occurs.
      */
@@ -297,7 +297,7 @@ public class VFSClassLoader extends SecureClassLoader {
     }
 
     /**
-     * Returns true if the we should seal the package where res resides.
+     * Returns true if we should seal the package where res resides.
      */
     private boolean isSealed(final Resource res) throws FileSystemException {
         final String sealed = res.getPackageAttribute(Attributes.Name.SEALED);

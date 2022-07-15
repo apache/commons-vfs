@@ -27,7 +27,7 @@ import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
 
 /**
- * Filesytem to handle compressed files using the bzip2 method.
+ * File system to handle compressed files using the bzip2 method.
  */
 public class Bzip2FileSystem extends CompressedFileFileSystem {
 

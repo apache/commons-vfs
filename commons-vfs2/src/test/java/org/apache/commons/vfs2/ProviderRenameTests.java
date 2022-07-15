@@ -135,7 +135,7 @@ public class ProviderRenameTests extends AbstractProviderTestCase {
         final FileObject destFolder = scratchFolder.resolveFile("empty-target-folder");
         destFolder.createFolder();
         assertTrue("new destination must be folder", destFolder.getType().hasChildren());
-        assertEquals("new destination must be emty", 0, destFolder.getChildren().length);
+        assertEquals("new destination must be empty", 0, destFolder.getChildren().length);
 
         moveFile(destFolder, file, content);
     }

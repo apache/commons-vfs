@@ -31,7 +31,7 @@ public class FtpProviderMdtmOffTestCase extends FtpProviderTestCase {
     }
 
     /**
-     * Explicitly remove MDTM feature from underlying Apache MINA FTP server so we can fallback to LIST timestamp
+     * Explicitly remove MDTM feature from underlying Apache MINA FTP server so we can fall back to LIST timestamp
      * (existing default behavior).
      */
     @Override

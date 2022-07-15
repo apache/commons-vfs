@@ -27,7 +27,7 @@ import java.util.Set;
 import org.apache.commons.lang3.SystemUtils;
 
 /**
- * Class to help determining the OS.
+ * Class to help to determine the OS.
  *
  * @deprecated Use Apache Commons Lang's {@link SystemUtils}. Remove in 3.0.
  */
@@ -182,7 +182,7 @@ public final class Os {
      * Determines if the OS on which Ant is executing matches the given OS architecture.
      *
      * @param arch The architecture to check.
-     * @return true if the architecture mataches.
+     * @return true if the architecture matches.
      */
     public static boolean isArch(final String arch) {
         return isOs((OsFamily) null, null, arch, null);

@@ -149,7 +149,7 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
     }
 
     /**
-     * Gets the FileSystemConfigBuidler.
+     * Gets the FileSystemConfigBuilder.
      *
      * @return the FileSystemConfigBuilder.
      */

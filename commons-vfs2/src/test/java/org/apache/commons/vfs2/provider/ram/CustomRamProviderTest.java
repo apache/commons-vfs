@@ -97,7 +97,7 @@ public class CustomRamProviderTest {
     /** Create directory structure for {@link #testSpecialName()} and {@link #testSchemePrefix()} */
     private FileObject prepareSpecialFile(final String dirname, final String testFileName) throws FileSystemException
     {
-        // set up a folder containing an filename with special characters:
+        // set up a folder containing a filename with special characters:
         final FileObject dir = manager.resolveFile("ram:" + dirname);
         dir.createFolder();
         // construct the absolute name to make sure the relative name is not miss-interpreted
@@ -171,7 +171,7 @@ public class CustomRamProviderTest {
     @Test
     public void testReadEmptyFileByteByByte() throws FileSystemException, IOException {
         final InputStream input = this.createEmptyFile();
-        assertEquals("Empty file didnt return EOF -1", -1, input.read());
+        assertEquals("Empty file didn't return EOF -1", -1, input.read());
     }
 
     @Test
@@ -179,7 +179,7 @@ public class CustomRamProviderTest {
         final InputStream input = this.createEmptyFile();
 
         final byte[] buffer = new byte[100];
-        assertEquals("Empty file didnt return when filling buffer", -1, input.read(buffer));
+        assertEquals("Empty file didn't return when filling buffer", -1, input.read(buffer));
         assertArrayEquals("Buffer was written too", new byte[100], buffer);
     }
 
@@ -187,7 +187,7 @@ public class CustomRamProviderTest {
     public void testReadEmptyFileIntoBufferWithOffsetAndLength() throws FileSystemException, IOException {
         final InputStream input = this.createEmptyFile();
         final byte[] buffer = new byte[100];
-        assertEquals("Empty file didnt return when filling buffer", -1, input.read(buffer, 10, 90));
+        assertEquals("Empty file didn't return when filling buffer", -1, input.read(buffer, 10, 90));
         assertArrayEquals("Buffer was written too", new byte[100], buffer);
     }
 
@@ -196,7 +196,7 @@ public class CustomRamProviderTest {
         final InputStream input = this.createNonEmptyFile();
 
         assertEquals("Read 1st byte failed", 1, input.read());
-        assertEquals("Rread 2st byte failed", 2, input.read());
+        assertEquals("Read 2st byte failed", 2, input.read());
         assertEquals("Read 3st byte failed", 3, input.read());
         assertEquals("File should be empty", -1, input.read());
     }
@@ -344,7 +344,7 @@ public class CustomRamProviderTest {
     {
         // we test with this file name
         // does not work with '!'
-        final String testDir = "/spacialtest/";
+        final String testDir = "/specialtest/";
         final String testFileName = "test:+-_ \"()<>%#.txt";
         final String expectedName = testDir + testFileName;
 
