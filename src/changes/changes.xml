@@ -100,7 +100,10 @@ The <action> type attribute can be add,update,fix,remove.
       </action>      
       <action type="fix" dev="ggregory" due-to="Tobias Gierke, Gary Gregory">
         SFTP: Memory leak because AbstractFileProvider#findFileSystem.
-      </action>      
+      </action>
+      <action type="fix" dev="ggregory" due-to="Marc Wrobel">
+	Fix typos #275.
+      </action>
       <!-- ADD -->
       <action type="add" dev="ggregory" due-to="Seth Falco">
         Add vscode files to gitignore #205.
