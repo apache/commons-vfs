@@ -48,7 +48,7 @@ public class DelegatingFileSystemOptionsBuilderTest {
     @BeforeEach
     public void setUp() throws Exception {
 
-        // get a full blown, fully functional manager
+        // get a full-blown, fully functional manager
         fsm = new StandardFileSystemManager();
         fsm.init();
     }

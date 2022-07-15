@@ -35,7 +35,7 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
 public abstract class CompressedFileFileObject<FS extends CompressedFileFileSystem> extends AbstractFileObject<FS> {
 
     /**
-     * The value returned by {@link #doGetContentSize()} when not overriden by a subclass.
+     * The value returned by {@link #doGetContentSize()} when not overridden by a subclass.
      *
      * @since 2.5.0
      */

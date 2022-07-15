@@ -202,7 +202,7 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
     }
 
     /**
-     * Removes a instance from the list of copies.
+     * Removes an instance from the list of copies.
      *
      * @param file The File to remove.
      */

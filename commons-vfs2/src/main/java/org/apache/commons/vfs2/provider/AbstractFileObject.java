@@ -162,7 +162,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 // Attach and determine the file type
                 doAttach();
                 attached = true;
-                // now the type could already be injected by doAttach (e.g from parent to child)
+                // now the type could already be injected by doAttach (e.g. from parent to child)
 
                 /*
                  * VFS-210: determine the type when really asked fore if (type == null) { setFileType(doGetType()); } if
@@ -454,7 +454,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      */
     private boolean deleteSelf() throws FileSystemException {
         synchronized (fileSystem) {
-            // Its possible to delete a read-only file if you have write-execute access to the directory
+            // It's possible to delete a read-only file if you have write-execute access to the directory
 
             /*
              * VFS-210 if (getType() == FileType.IMAGINARY) { // File does not exist return false; }
@@ -747,8 +747,8 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * Checks if this fileObject is the same file as {@code destFile} just with a different name. E.g. for case
-     * insensitive file systems like windows.
+     * Checks if this fileObject is the same file as {@code destFile} just with a different name. E.g. for
+     * case-insensitive file systems like Windows.
      *
      * @param destFile The file to compare to.
      * @return true if the FileObjects are the same.
@@ -1476,7 +1476,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * This method is meant to add an object where this object holds a strong reference then. E.g. a archive-file system
+     * This method is meant to add an object where this object holds a strong reference then. E.g. an archive-file system
      * creates a list of all children and they shouldn't get garbage collected until the container is garbage collected
      *
      * @param strongRef The Object to add.
@@ -1591,8 +1591,8 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * Checks if this fileObject is the same file as {@code destFile} just with a different name. E.g. for case
-     * insensitive file systems like windows.
+     * Checks if this fileObject is the same file as {@code destFile} just with a different name. E.g. for
+     * case-insensitive file systems like windows.
      *
      * @param destFile The file to compare to.
      * @return true if the FileObjects are the same.
@@ -1731,7 +1731,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * Clled after this file-object closed all its streams.
+     * Called after this file-object closed all its streams.
      */
     protected void notifyAllStreamsClosed() {
         // noop

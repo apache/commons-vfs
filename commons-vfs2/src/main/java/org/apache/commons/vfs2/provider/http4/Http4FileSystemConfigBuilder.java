@@ -389,7 +389,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Determines if the hostname should be verified in SSL context.
      *
      * @param opts The FileSystemOptions.
-     * @return true if if the FileSystemOptions indicate that HTTP Keep-Alive is respected.
+     * @return true if the FileSystemOptions indicate that HTTP Keep-Alive is respected.
      */
     public boolean isHostnameVerificationEnabled(final FileSystemOptions opts) {
         return getBoolean(opts, HOSTNAME_VERIFICATION_ENABLED, DEFAULT_HOSTNAME_VERIFICATION_ENABLED);
@@ -399,7 +399,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Determines if the FileSystemOptions indicate that HTTP Keep-Alive is respected.
      *
      * @param opts The FileSystemOptions.
-     * @return true if if the FileSystemOptions indicate that HTTP Keep-Alive is respected.
+     * @return true if the FileSystemOptions indicate that HTTP Keep-Alive is respected.
      */
     public boolean isKeepAlive(final FileSystemOptions opts) {
         return getBoolean(opts, KEEP_ALIVE, DEFAULT_KEEP_ALIVE);
@@ -489,9 +489,9 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Set keystore pass phrase for SSL connecdtions.
+     * Set keystore pass phrase for SSL connections.
      * @param opts the file system options to modify
-     * @param keyStorePass keystore pass phrase for SSL connecdtions
+     * @param keyStorePass keystore pass phrase for SSL connections
      */
     public void setKeyStorePass(final FileSystemOptions opts, final String keyStorePass) {
         setParam(opts, KEYSTORE_PASS, keyStorePass);

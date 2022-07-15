@@ -212,7 +212,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
         try {
             return new SftpOutputStream(channel, channel.put(relPath, bAppend ? ChannelSftp.APPEND : ChannelSftp.OVERWRITE));
         } catch (Exception ex) {
-            // when channel.put throw exception eg. com.jcraft.jsch.SftpException: Permission denied
+            // when channel.put throw exception e.g. com.jcraft.jsch.SftpException: Permission denied
             //   returns the channel to the pool
             getAbstractFileSystem().putChannel(channel);
             throw ex;
@@ -285,7 +285,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
         final ChannelSftp channel = getAbstractFileSystem().getChannel();
 
         try {
-            // try the direct way to list the directory on the server to avoid too many roundtrips
+            // try the direct way to list the directory on the server to avoid too many round trips
             vector = channel.ls(relPath);
         } catch (final SftpException e) {
             String workingDirectory = null;

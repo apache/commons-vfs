@@ -21,7 +21,7 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 
 /**
- * Generic implementation for any URL based file system, without depending a specific library.
+ * Generic implementation for any URL based file system, without depending on a specific library.
  * <p>
  * Parses the URL into user/password/host/port/path/queryString.
  * </p>

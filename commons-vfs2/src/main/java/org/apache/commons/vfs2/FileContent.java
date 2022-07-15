@@ -60,7 +60,7 @@ public interface FileContent extends Closeable {
     /**
      * Gets the value of an attribute of the file's content.
      *
-     * @param attrName The name of the attribute. Attribute names are case insensitive.
+     * @param attrName The name of the attribute. Attribute names are case-insensitive.
      * @return The value of the attribute, or null if the attribute value is unknown.
      * @throws FileSystemException If the file does not exist, or does not support attributes.
      */
@@ -248,7 +248,7 @@ public interface FileContent extends Closeable {
     }
 
     /**
-     * Gets an stream for reading/writing the file's content.
+     * Gets a stream for reading/writing the file's content.
      * <p>
      * If the file does not exist, and you use one of the write* methods, this method creates it, and the parent folder,
      * if necessary. If the file does exist, parts of the file are replaced with whatever is written at a given

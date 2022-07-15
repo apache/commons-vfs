@@ -49,7 +49,7 @@ public class SuffixFileFilter implements FileFilter, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /** Whether the comparison is case sensitive. */
+    /** Whether the comparison is case-sensitive. */
     private final IOCase caseSensitivity;
 
     /** The file name suffixes to search for. */
@@ -72,7 +72,7 @@ public class SuffixFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Constructs a new Suffix file filter for an array of suffixs specifying
+     * Constructs a new Suffix file filter for an array of suffixes specifying
      * case-sensitivity.
      *
      * @param suffixes        the suffixes to allow, must not be null

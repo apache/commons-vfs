@@ -283,7 +283,7 @@ public class DefaultFileMonitorTest {
                 monitor.addFile(fileObject);
                 monitor.start();
                 // Need a long delay to insure the new timestamp doesn't truncate to be the same as
-                // the current timestammp. Java only guarantees the timestamp will be to 1 second.
+                // the current timestamp. Java only guarantees the timestamp will be to 1 second.
                 Thread.sleep(DELAY_MILLIS * 10);
                 final long valueMillis = System.currentTimeMillis();
                 final boolean rcMillis = testFile.setLastModified(valueMillis);

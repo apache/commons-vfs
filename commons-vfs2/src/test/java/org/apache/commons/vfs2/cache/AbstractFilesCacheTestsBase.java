@@ -69,7 +69,7 @@ public abstract class AbstractFilesCacheTestsBase extends AbstractProviderTestCa
     }
 
     /**
-     * Will test if the cache is cleared and if it is still useable afterwards. It will actually ensure the test is
+     * Will test if the cache is cleared and if it is still usable afterwards. It will actually ensure the test is
      * hitting the cache.
      */
     @Test
@@ -80,7 +80,7 @@ public abstract class AbstractFilesCacheTestsBase extends AbstractProviderTestCa
 
         // clean the cache for this file system
         cache.clear(fo1.getFileSystem());
-        // make sure a empty cache clean does not fail
+        // make sure an empty cache clean does not fail
         cache.clear(fo1.getFileSystem());
 
         final FileObject fo2 = getWriteFolder().resolveFile("dir1");

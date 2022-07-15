@@ -227,7 +227,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
      * @param builder Configuration options builder for http4 provider
      * @param rootName The root path
      * @param fileSystemOptions The FileSystem options
-     * @param authData The {@code UserAuthentiationData} object
+     * @param authData The {@code UserAuthenticationData} object
      * @return an {@link HttpClientContext} object
      */
     protected HttpClientContext createHttpClientContext(final Http4FileSystemConfigBuilder builder,

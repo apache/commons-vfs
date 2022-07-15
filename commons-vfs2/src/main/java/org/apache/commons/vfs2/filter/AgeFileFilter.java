@@ -86,7 +86,7 @@ public class AgeFileFilter implements FileFilter, Serializable {
      * Constructs a new age file filter for files older than (at or before) a
      * certain File (whose last modification time will be used as reference).
      *
-     * @param cutoffReference the file whose last modification time is usesd as the
+     * @param cutoffReference the file whose last modification time is used as the
      *                        threshold age of the files
      *
      * @throws FileSystemException Error reading the last modification time from the
@@ -100,7 +100,7 @@ public class AgeFileFilter implements FileFilter, Serializable {
      * Constructs a new age file filter for files on any one side of a certain File
      * (whose last modification time will be used as reference).
      *
-     * @param cutoffReference the file whose last modification time is usesd as the
+     * @param cutoffReference the file whose last modification time is used as the
      *                        threshold age of the files
      * @param acceptOlder     if true, older files (at or before the cutoff) are
      *                        accepted, else newer ones (after the cutoff).
@@ -177,9 +177,9 @@ public class AgeFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Provide a String representaion of this file filter.
+     * Provide a String representation of this file filter.
      *
-     * @return a String representaion
+     * @return a String representation
      */
     @Override
     public String toString() {

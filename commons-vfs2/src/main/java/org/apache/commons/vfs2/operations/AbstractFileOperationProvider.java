@@ -78,7 +78,7 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
         Collection<Class<? extends FileOperation>> resultList, FileObject file) throws FileSystemException;
 
     /**
-     * @param file the FileObject for which we need a operation.
+     * @param file the FileObject for which we need an operation.
      * @param operationClass the Class which instance we are needed.
      * @return the required operation instance.
      * @throws FileSystemException if operation cannot be retrieved.
@@ -93,7 +93,7 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
      * Get operation instance for specified FileOperation subclass.
      *
      * @param file the file this operation should act on.
-     * @param operationClass the class of an file operation interface to instantiate.
+     * @param operationClass the class of a file operation interface to instantiate.
      * @return a new file operation
      * @throws FileSystemException if operation cannot be instantiated.
      */

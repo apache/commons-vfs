@@ -71,7 +71,7 @@ public class SymbolicLinkFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Checks to see if the file is a symbolic link. Non existing files won't be accepted.
+     * Checks to see if the file is a symbolic link. Non-existing files won't be accepted.
      *
      * @param fileSelectInfo the file to check
      *

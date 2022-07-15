@@ -75,7 +75,7 @@ public class BasicOperationsTest {
      * Base class for different Test Providers. This is also a compile test to ensure interface stability.
      */
     static class MyFileOprationProviderBase implements FileOperationProvider {
-        int ops; // bit array to record invocations (poor mans mock)
+        int ops; // bit array to record invocations (poor man's mock)
 
         @Override
         public void collectOperations(final Collection<Class<? extends FileOperation>> operationsList,
@@ -142,7 +142,7 @@ public class BasicOperationsTest {
     }
 
     /**
-     * Ensure you can use FileOperationProvider which is not a VfsComponnt.
+     * Ensure you can use FileOperationProvider which is not a VfsComponent.
      *
      * @throws FileSystemException for runtime problems
      */

@@ -210,7 +210,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      * Creates a temporary local copy of a file and its descendants.
      *
      * @param file the start of the tree.
-     * @param selector selection what to do with childs.
+     * @param selector selection what to do with children.
      * @return replicated root file.
      * @throws Exception any Exception is wrapped as FileSystemException.
      */

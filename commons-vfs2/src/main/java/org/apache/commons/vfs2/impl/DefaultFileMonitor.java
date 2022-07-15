@@ -518,7 +518,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
     }
 
     /**
-     * Sets the number of files to check per run. a additional delay will be added if there are more files to check
+     * Sets the number of files to check per run. An additional delay will be added if there are more files to check.
      *
      * @param checksPerRun a value less than 1 will disable this feature
      */

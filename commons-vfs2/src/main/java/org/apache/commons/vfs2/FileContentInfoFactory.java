@@ -22,7 +22,7 @@ package org.apache.commons.vfs2;
 public interface FileContentInfoFactory {
 
     /**
-     * Creates a FileContentInfo for a the given FileContent.
+     * Creates a FileContentInfo for the given FileContent.
      *
      * @param fileContent Use this FileContent to create a matching FileContentInfo
      * @return a FileContentInfo for the given FileContent.

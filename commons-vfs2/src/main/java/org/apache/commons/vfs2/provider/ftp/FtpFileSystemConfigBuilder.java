@@ -205,7 +205,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * @param options The FlleSystemOptions.
+     * @param options The FileSystemOptions.
      * @see #setEntryParserFactory
      * @return An FTPFileEntryParserFactory.
      */

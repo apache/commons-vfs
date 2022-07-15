@@ -25,7 +25,7 @@ import org.apache.commons.vfs2.FileObject;
 public abstract class AbstractFileOperation implements FileOperation {
 
     /**
-     * FileObject which the FileOperation is operate on.
+     * FileObject which the FileOperation is operated on.
      */
     private final FileObject fileObject;
 
@@ -37,7 +37,7 @@ public abstract class AbstractFileOperation implements FileOperation {
     }
 
     /**
-     * @return an instance of FileObject which this FileOperation is operate on.
+     * @return an instance of FileObject which this FileOperation is operated on.
      */
     protected FileObject getFileObject() {
         return fileObject;

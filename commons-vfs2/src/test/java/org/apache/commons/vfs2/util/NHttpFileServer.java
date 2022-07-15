@@ -125,7 +125,7 @@ public class NHttpFileServer {
 
                 ContentType contentType;
                 final String filename = file.getName().toLowerCase(Locale.ROOT);
-// The following causes a failure on Linux and Macos in HttpProviderTestCase:
+// The following causes a failure on Linux and macOS in HttpProviderTestCase:
 // org.apache.commons.vfs2.FileSystemException: GET method failed for "http://localhost:37637/read-tests/file1.txt" range "10" with HTTP status 200.
 //                at org.apache.commons.vfs2.provider.http.HttpRandomAccessContent.getDataInputStream(HttpRandomAccessContent.java:80)
 //                if (filename.endsWith(".txt")) {

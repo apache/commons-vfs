@@ -156,7 +156,7 @@ public abstract class AbstractProviderTestCase extends TestCase {
         // ask it to normalize the name
         // todo: move this into the FileInfo class to do it generally?
         /*
-         * webdav-bug?: didnt manage to get the "?" correctly through webdavlib FileSystemManager fsm =
+         * webdav-bug?: didn't manage to get the "?" correctly through webdavlib FileSystemManager fsm =
          * getReadFolder().getFileSystem().getFileSystemManager(); FileName fn =
          * fsm.resolveName(getReadFolder().getName(), "file%3ftest.txt"); String baseName = fn.getBaseName();
          * base.addFile(baseName, FILE1_CONTENT);

@@ -47,7 +47,7 @@ public class VerifyingFileSelector extends Assertions implements FileSelector {
     /**
      * Asserts that the selector has seen all the files.
      *
-     * @return The files in the order they where visited.
+     * @return The files in the order they were visited.
      */
     public List<FileObject> finish() {
         assertEquals(0, children.size());

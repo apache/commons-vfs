@@ -456,7 +456,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     /**
      * Called by child file objects, to locate their FTP file info.
      *
-     * @param name the file name in its native form ie. without URI stuff (%nn)
+     * @param name the file name in its native form i.e. without URI stuff (%nn)
      * @param flush recreate children cache
      */
     private FTPFile getChildFile(final String name, final boolean flush) throws IOException {
@@ -498,7 +498,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         try {
             /*
              * Wrap our parent implementation, noting that we're refreshing so that we don't refresh() ourselves and
-             * each of our parents for each children. Note that refresh() will list children. Meaning, if if this file
+             * each of our parents for each child. Note that refresh() will list children. Meaning, if this file
              * has C children, P parents, there will be (C * P) listings made with (C * (P + 1)) refreshes, when there
              * should really only be 1 listing and C refreshes.
              */

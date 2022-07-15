@@ -91,7 +91,7 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
             conf = new Configuration();
             conf.set(FileSystem.FS_DEFAULT_NAME_KEY, HDFS_URI);
             conf.set("hadoop.security.token.service.use_ip", "true");
-            conf.setLong(DFSConfigKeys.DFS_BLOCK_SIZE_KEY, 1024 * 1024); // 1M blocksize
+            conf.setLong(DFSConfigKeys.DFS_BLOCK_SIZE_KEY, 1024 * 1024); // 1M block size
 
             HdfsFileProviderTest.setUmask(conf);
 

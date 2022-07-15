@@ -48,7 +48,7 @@ public class PrefixFileFilter implements FileFilter, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /** Whether the comparison is case sensitive. */
+    /** Whether the comparison is case-sensitive. */
     private final IOCase caseSensitivity;
 
     /** The file name prefixes to search for. */

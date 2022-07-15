@@ -43,34 +43,34 @@ public class LRUFilesCacheTests extends AbstractFilesCacheTestsBase {
         final FileObject scratchFolder = getWriteFolder();
         Assertions.assertNotNull(scratchFolder, "scratchFolder");
 
-        // releaseable
+        // releasable
         final FileObject dir1 = scratchFolder.resolveFile("dir1");
 
         // avoid cache removal
         final FileObject dir2 = scratchFolder.resolveFile("dir2");
         dir2.getContent();
 
-        // releaseable
+        // releasable
         @SuppressWarnings("unused")
         final FileObject dir3 = scratchFolder.resolveFile("dir3");
 
-        // releaseable
+        // releasable
         @SuppressWarnings("unused")
         final FileObject dir4 = scratchFolder.resolveFile("dir4");
 
-        // releaseable
+        // releasable
         @SuppressWarnings("unused")
         final FileObject dir5 = scratchFolder.resolveFile("dir5");
 
-        // releaseable
+        // releasable
         @SuppressWarnings("unused")
         final FileObject dir6 = scratchFolder.resolveFile("dir6");
 
-        // releaseable
+        // releasable
         @SuppressWarnings("unused")
         final FileObject dir7 = scratchFolder.resolveFile("dir7");
 
-        // releaseable
+        // releasable
         @SuppressWarnings("unused")
         final FileObject dir8 = scratchFolder.resolveFile("dir8");
 

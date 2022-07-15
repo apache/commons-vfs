@@ -126,7 +126,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
     }
 
     /**
-     * Build a 8-byte array from a long. No check is performed on the array length.
+     * Build an 8-byte array from a long. No check is performed on the array length.
      *
      * @param n The number to convert.
      * @param b The array to fill.

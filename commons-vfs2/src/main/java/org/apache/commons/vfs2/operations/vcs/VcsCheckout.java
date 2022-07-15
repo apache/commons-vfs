@@ -26,7 +26,7 @@ import org.apache.commons.vfs2.operations.FileOperation;
 public interface VcsCheckout extends FileOperation {
 
     /**
-     * @param export if true, administrative .svn directoies will not be created on the retrieved tree. The checkout
+     * @param export if true, administrative .svn directories will not be created on the retrieved tree. The checkout
      *        operation in this case is equivalent to export function.
      */
     void setExport(boolean export);

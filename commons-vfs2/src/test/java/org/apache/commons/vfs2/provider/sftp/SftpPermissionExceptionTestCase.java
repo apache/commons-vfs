@@ -76,7 +76,7 @@ public class SftpPermissionExceptionTestCase extends AbstractSftpProviderTestCas
     }
 
     /**
-     * Test SftpFileObject.doGetOutputStream return the channel to pool, when there is a exception in channel.put .
+     * Test SftpFileObject.doGetOutputStream return the channel to pool, when there is an exception in channel.put .
      */
     @Test
     public void testGetOutputStreamException() throws Exception {
@@ -101,7 +101,7 @@ public class SftpPermissionExceptionTestCase extends AbstractSftpProviderTestCas
                 fileObjectCopy.copyFrom(localFileObject, Selectors.SELECT_SELF);
                 Assertions.fail("permission fail");
             } catch (Exception ex) {
-                // ignore no perminison
+                // ignore no permission
             }
         }
 

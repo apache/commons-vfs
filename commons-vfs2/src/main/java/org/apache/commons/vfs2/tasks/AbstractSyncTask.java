@@ -45,7 +45,7 @@ import org.apache.tools.ant.Project;
  * <li>TODO - Deal with case where dest file already exists and is incorrect type (not file, not a folder).</li>
  * <li>TODO - Use visitors.</li>
  * <li>TODO - Add default excludes.</li>
- * <li>TOOD - Allow selector, mapper, filters, etc to be specified.</li>
+ * <li>TODO - Allow selector, mapper, filters, etc to be specified.</li>
  * <li>TODO - Handle source/dest directories as well.</li>
  * <li>TODO - Allow selector to be specified for choosing which dest files to sync.</li>
  * </ul>
@@ -235,7 +235,7 @@ public abstract class AbstractSyncTask extends VfsTask {
                 handleFile(destFiles, rootFile, destFile);
             } else {
                 // Find matching files
-                // If srcDirIsBase is true, select also the sub-directories
+                // If srcDirIsBase is true, select also the subdirectories
                 final FileObject[] files = rootFile
                         .findFiles(srcDirIsBase ? Selectors.SELECT_ALL : Selectors.SELECT_FILES);
 
@@ -414,7 +414,7 @@ public abstract class AbstractSyncTask extends VfsTask {
     }
 
     /**
-     * Sets whether the source directory should be consider as the base directory.
+     * Sets whether the source directory should be considered as the base directory.
      *
      * @param srcDirIsBase true if the source directory is the base directory.
      */
