@@ -762,7 +762,7 @@
         <section name="Resource">
 
             <p>
-                This is not really a filesystem, it just tries to lookup a resource using javas <code>ClassLoader.getResource()</code>
+                This is not really a filesystem, it just tries to look up a resource using javas <code>ClassLoader.getResource()</code>
                 and creates a VFS url for further processing.
             </p>
 

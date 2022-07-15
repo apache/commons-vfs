@@ -26,7 +26,7 @@
               Apache Commons VFS comes with a suite of (nearly 2000) tests (in <code>core/src/test</code>). The JUnit framework
               is used, and executed at build time via the Maven
               <a href="http://maven.apache.org/surefire/maven-surefire-plugin/">Surefire plugin</a> by the <code>mvn test</code> goal.
-              It you plan to contribute a patch for a bug or feature, make sure to also provide a test
+              If you plan to contribute a patch for a bug or feature, make sure to also provide a test
               which can reproduce the bug or exercise the new feature. Also run the whole test suite against the patched code.
             </p>
             <p>
