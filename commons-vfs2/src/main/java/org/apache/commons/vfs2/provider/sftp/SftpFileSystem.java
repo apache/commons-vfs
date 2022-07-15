@@ -47,7 +47,7 @@ public class SftpFileSystem extends AbstractFileSystem {
 
     private static final Log LOG = LogFactory.getLog(SftpFileSystem.class);
 
-    private static final int UNIDENTIFED = -1;
+    private static final int UNIDENTIFIED = -1;
 
     private static final int SLEEP_MILLIS = 100;
 
@@ -73,7 +73,7 @@ public class SftpFileSystem extends AbstractFileSystem {
      * DCL pattern requires that the ivar be volatile.
      * </p>
      */
-    private volatile int uid = UNIDENTIFED;
+    private volatile int uid = UNIDENTIFIED;
 
     /**
      * Cache for the user groups ids (null when not set)
@@ -124,7 +124,7 @@ public class SftpFileSystem extends AbstractFileSystem {
      */
     private boolean detectExecDisabled() {
         try {
-            return getUId() == UNIDENTIFED;
+            return getUId() == UNIDENTIFIED;
         } catch (final JSchException | IOException e) {
             LOG.debug("Cannot get UID, assuming no exec channel is present", e);
             return true;
@@ -312,9 +312,9 @@ public class SftpFileSystem extends AbstractFileSystem {
      * @since 2.1
      */
     public int getUId() throws JSchException, IOException {
-        if (uid == UNIDENTIFED) {
+        if (uid == UNIDENTIFIED) {
             synchronized (this) {
-                if (uid == UNIDENTIFED) {
+                if (uid == UNIDENTIFIED) {
                     final StringBuilder output = new StringBuilder();
                     final int code = executeCommand("id -u", output);
                     if (code != 0) {

@@ -178,7 +178,7 @@ public class Http5ProviderTestCase extends AbstractProviderTestConfig {
         assertEquals("foo/bar", builder.getUserAgent(opts));
     }
 
-    private void testResloveFolderSlash(final String uri, final boolean followRedirect) throws FileSystemException {
+    private void testResolveFolderSlash(final String uri, final boolean followRedirect) throws FileSystemException {
         VFS.getManager().getFilesCache().close();
         final FileSystemOptions opts = new FileSystemOptions();
         Http5FileSystemConfigBuilder.getInstance().setFollowRedirect(opts, followRedirect);
@@ -191,23 +191,23 @@ public class Http5ProviderTestCase extends AbstractProviderTestConfig {
     }
 
     @Test
-    public void testResloveFolderSlashNoRedirectOff() throws FileSystemException {
-        testResloveFolderSlash(ConnectionUri + "/read-tests", false);
+    public void testResolveFolderSlashNoRedirectOff() throws FileSystemException {
+        testResolveFolderSlash(ConnectionUri + "/read-tests", false);
     }
 
     @Test
-    public void testResloveFolderSlashNoRedirectOn() throws FileSystemException {
-        testResloveFolderSlash(ConnectionUri + "/read-tests", true);
+    public void testResolveFolderSlashNoRedirectOn() throws FileSystemException {
+        testResolveFolderSlash(ConnectionUri + "/read-tests", true);
     }
 
     @Test
-    public void testResloveFolderSlashYesRedirectOff() throws FileSystemException {
-        testResloveFolderSlash(ConnectionUri + "/read-tests/", false);
+    public void testResolveFolderSlashYesRedirectOff() throws FileSystemException {
+        testResolveFolderSlash(ConnectionUri + "/read-tests/", false);
     }
 
     @Test
-    public void testResloveFolderSlashYesRedirectOn() throws FileSystemException {
-        testResloveFolderSlash(ConnectionUri + "/read-tests/", true);
+    public void testResolveFolderSlashYesRedirectOn() throws FileSystemException {
+        testResolveFolderSlash(ConnectionUri + "/read-tests/", true);
     }
 
 }

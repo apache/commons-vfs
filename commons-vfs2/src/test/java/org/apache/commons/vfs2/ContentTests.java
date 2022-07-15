@@ -310,7 +310,7 @@ public class ContentTests extends AbstractProviderTestCase {
      * Tests concurrent reads on a file.
      */
     @Test
-    public void testReadSingleSequencial() throws Exception {
+    public void testReadSingleSequential() throws Exception {
         final FileObject file = getReadFolder().resolveFile("file1.txt");
         assertTrue(file.exists());
 

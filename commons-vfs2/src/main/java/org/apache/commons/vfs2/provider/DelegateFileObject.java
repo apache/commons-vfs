@@ -278,8 +278,8 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      * @since 2.0
      */
     @Override
-    protected void doRemoveAttribute(final String atttrName) throws Exception {
-        getFileContent().removeAttribute(atttrName);
+    protected void doRemoveAttribute(final String attrName) throws Exception {
+        getFileContent().removeAttribute(attrName);
     }
 
     /**
@@ -298,8 +298,8 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      * Sets an attribute of this file.
      */
     @Override
-    protected void doSetAttribute(final String atttrName, final Object value) throws Exception {
-        getFileContent().setAttribute(atttrName, value);
+    protected void doSetAttribute(final String attrName, final Object value) throws Exception {
+        getFileContent().setAttribute(attrName, value);
     }
 
     /**

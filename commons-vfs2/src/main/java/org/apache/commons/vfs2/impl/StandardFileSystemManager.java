@@ -427,7 +427,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
 
     private ClassLoader validateClassLoader(final ClassLoader clazzLoader, final Class<?> clazz) {
         return Objects.requireNonNull(clazzLoader, "The class loader for " + clazz
-                + " is null; some Java implementions use null for the bootstrap class loader.");
+                + " is null; some Java implementations use null for the bootstrap class loader.");
     }
 
 }

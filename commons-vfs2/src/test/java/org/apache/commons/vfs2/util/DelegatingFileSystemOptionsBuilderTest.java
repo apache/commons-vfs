@@ -70,10 +70,10 @@ public class DelegatingFileSystemOptionsBuilderTest {
     @Test
     public void testDelegatingBad() throws Throwable {
         final FileSystemOptions opts = new FileSystemOptions();
-        final DelegatingFileSystemOptionsBuilder delgate = new DelegatingFileSystemOptionsBuilder(fsm);
+        final DelegatingFileSystemOptionsBuilder delegate = new DelegatingFileSystemOptionsBuilder(fsm);
 
         try {
-            delgate.setConfigString(opts, "http", "proxyPort", "wrong_port");
+            delegate.setConfigString(opts, "http", "proxyPort", "wrong_port");
             fail();
         } catch (final FileSystemException e) {
             assertSame(e.getCause().getClass(), InvocationTargetException.class);
@@ -82,7 +82,7 @@ public class DelegatingFileSystemOptionsBuilderTest {
         }
 
         try {
-            delgate.setConfigClass(opts, "sftp", "userinfo", String.class);
+            delegate.setConfigClass(opts, "sftp", "userinfo", String.class);
             fail();
         } catch (final FileSystemException e) {
             assertEquals(e.getCode(), "vfs.provider/config-value-invalid.error");
@@ -94,12 +94,12 @@ public class DelegatingFileSystemOptionsBuilderTest {
         final String[] identityPaths = { "/file1", "/file2", };
 
         final FileSystemOptions opts = new FileSystemOptions();
-        final DelegatingFileSystemOptionsBuilder delgate = new DelegatingFileSystemOptionsBuilder(fsm);
+        final DelegatingFileSystemOptionsBuilder delegate = new DelegatingFileSystemOptionsBuilder(fsm);
 
-        delgate.setConfigString(opts, "http", "proxyHost", "proxy");
-        delgate.setConfigString(opts, "http", "proxyPort", "8080");
-        delgate.setConfigClass(opts, "sftp", "userinfo", TrustEveryoneUserInfo.class);
-        delgate.setConfigStrings(opts, "sftp", "identities", identityPaths);
+        delegate.setConfigString(opts, "http", "proxyHost", "proxy");
+        delegate.setConfigString(opts, "http", "proxyPort", "8080");
+        delegate.setConfigClass(opts, "sftp", "userinfo", TrustEveryoneUserInfo.class);
+        delegate.setConfigStrings(opts, "sftp", "identities", identityPaths);
 
         assertEquals("http.proxyHost", HttpFileSystemConfigBuilder.getInstance().getProxyHost(opts), "proxy");
         assertEquals("http.proxyPort", HttpFileSystemConfigBuilder.getInstance().getProxyPort(opts), 8080);

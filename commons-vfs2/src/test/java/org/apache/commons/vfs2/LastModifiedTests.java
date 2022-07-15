@@ -67,7 +67,7 @@ public class LastModifiedTests extends AbstractProviderTestCase {
      * @throws FileSystemException if error occurred
      */
     @Test
-    public void testGetAccurary() throws FileSystemException {
+    public void testGetAccuracy() throws FileSystemException {
         final FileObject file = getReadFolder().resolveFile("file1.txt");
         final long lastModTimeAccuracyMillis = (long) file.getFileSystem().getLastModTimeAccuracy();
         // System.out.println("Accuracy on " + file.getFileSystem().getRootURI() + " is " + lastModTimeAccuracy + " as

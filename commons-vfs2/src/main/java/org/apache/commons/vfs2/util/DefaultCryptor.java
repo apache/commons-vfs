@@ -53,11 +53,11 @@ public class DefaultCryptor implements Cryptor {
         for (int i = 0; i < length; i++) {
             final int id1 = indexOf(HEX_CHARS, chars[index++]);
             if (id1 == INDEX_NOT_FOUND) {
-                throw new IllegalArgumentException("Character " + chars[index - 1] + " at position " + (index - 1) + " is not a valid hexidecimal character");
+                throw new IllegalArgumentException("Character " + chars[index - 1] + " at position " + (index - 1) + " is not a valid hexadecimal character");
             }
             final int id2 = indexOf(HEX_CHARS, chars[index++]);
             if (id2 == INDEX_NOT_FOUND) {
-                throw new IllegalArgumentException("Character " + chars[index - 1] + " at position " + (index - 1) + " is not a valid hexidecimal character");
+                throw new IllegalArgumentException("Character " + chars[index - 1] + " at position " + (index - 1) + " is not a valid hexadecimal character");
             }
             decoded[i] = (byte) ((id1 << BITS_IN_HALF_BYTE) | id2);
         }

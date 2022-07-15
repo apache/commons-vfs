@@ -41,7 +41,7 @@ public class TarFileSystemTest {
     }
 
     @Test
-    public void testTbz2FileUseDefautlFilesCache() throws FileSystemException {
+    public void testTbz2FileUseDefaultFilesCache() throws FileSystemException {
         testUseWeakRefFilesCache("tbz2", "src/test/resources/test-data/test.tbz2", null);
     }
 
