@@ -56,7 +56,7 @@ o           Bump Maven Surefire from 2.19.1 to 3.0.0-M5. Thanks to Gary Gregory.
 o           Bump net.sourceforge.pmd:pmd-* from 6.32.0 to 6.33.0.
 o           Bump checkstyle from 8.41 to 8.44 #175. Thanks to Dependabot, Gary Gregory.
 o           Bump actions/setup-java to v2 #177. Thanks to Boris Petrov.
-o           Bump mockito-core from 3.8.0 to 3.11.2 #178. Thanks to Dependabot, Gary GRegory.
+o           Bump mockito-core from 3.8.0 to 3.11.2 #178. Thanks to Dependabot, Gary Gregory.
 o           Bump commons-io from 2.8.0 to 2.10.0. Thanks to Gary Gregory.
 o           Bump actions/cache from 2.1.4 to 2.1.6 #183. Thanks to Dependabot.
 o           Bump jackrabbit2.version from 2.21.5 to 2.21.6 #180. Thanks to Dependabot.
@@ -586,7 +586,7 @@ o VFS-252:  [SMB] SmbFileObject does not support setLastModifiedTime while jcifs
 o VFS-313:  [FTP] Configuration does not include option for setting socket timeout. Thanks to bdavis@saintandreas.org.
 o VFS-414:  [FTP] Add config API to set the file type.
 o VFS-182:  [FTP] Usage of FTP with heterogeneous FTP server (possibility of using Ascii file type).
-o VFS-381:  Iterate over a FileObject using the Java "foreach" statement, to provide all descendents of a FileObject.
+o VFS-381:  Iterate over a FileObject using the Java "foreach" statement, to provide all descendants of a FileObject.
 o VFS-373:  Add FileContent write APIs.
 o VFS-372:  Add constructors FileDepthSelector() and FileDepthSelector(int).
 o VFS-371:  Add FileObject API deleteAll().
@@ -598,10 +598,10 @@ o VFS-424:  Fix StandardFileSystemManager class loading so it works in a OSGi en
 o VFS-490:  [vfsclassloader] Do not open folders with .jar extension. Adds tests.
 o VFS-582:  [tests] revert rename of getTestDirectoryFile to make test classes more compatible for external providers.
 o VFS-480:  Make startup of SoftRefsFileCache cleaner thread work and less racy to avoid leaks.
-o VFS-549:  Use File.seperator instead of getProperty("file.separator").
+o VFS-549:  Use File.separator instead of getProperty("file.separator").
 o VFS-567:  [ftp] Ignore exceptions while QUIT/disconnect. Thanks to Antonio Petrelli.
 o VFS-572:  [sftp] better documentation for knownhosts file option. Thanks to Sandra Parsick.
-o VFS-574:  Ensure FileOpertionProviders are closed. Adds some testcases.
+o VFS-574:  Ensure FileOperationProviders are closed. Adds some testcases.
             The error code for missing operations exceptions corrected: vfs.operation/operation-not-supported.error
 o VFS-279:  [local] Avoid ClassCastException when replicating local files while OnCall caching is active. Thanks to Didier Earith, Simon Legner.
 o VFS-297:  [sftp] VSF fails to reuse FileSystem instances if FileSystemOptions contain
@@ -707,13 +707,13 @@ o VFS-283:  [SFTP] SFTP provider did not support passphrase-protected keys nor t
             keys only, a new structure EntityInfo has been created. SftpFileSystemConfigBuilder has now the new
             getter and setter methods getIdentityInfo and setIdentity info which replace the now deprecated methods
             getIdentities and setIdentities.
-o VFS-463:  FileSytemConfigBuilder supports system properties for the value of enum-based configuration entries.
+o VFS-463:  FileSystemConfigBuilder supports system properties for the value of enum-based configuration entries.
 o VFS-462:  [FTPS] Deprecate FtpsFileSystemConfigBuilder.setFtpsType and FtpsFileSystemConfigBuilder.getFtpsType
             in favor of FtpsFileSystemConfigBuilder.setFtpsMode and FtpsFileSystemConfigBuilder.getFtpsMode which
             use new enum FtpsMode instead.
 o VFS-459:  [FTP/FTPS] Sent commands and the received answer is logged at debug level.
 o VFS-457:  Update test dependencies: sshd-core version 0.7.0 to 0.8.0; mina-core 2.0.4 to 2.0.7; junit 4.11 to 4.12; slf4j-* 1.5.5 to 1.5.11
-o VFS-456:  Use org.bouncycastel:bcprov-jdk16 instead of org.bouncycastle:bcprof-jdk15on since Java 1.6 is required.
+o VFS-456:  Use org.bouncycastle:bcprov-jdk16 instead of org.bouncycastle:bcprof-jdk15on since Java 1.6 is required.
 o VFS-415:  Update VFS requirement to Java 1.6.
 o VFS-418:  Update to Apache Commons Compress 1.4.1.
 o VFS-321:  AbstractFileObject sometimes uses getFileSystem() and sometimes references "fs" field directly. Thanks to sebb.

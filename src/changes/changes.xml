@@ -129,7 +129,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="add" dev="ggregory">
         Add github/codeql-action.
       </action>
-      <!-- UDPATE -->
+      <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">
         Bump actions/cache from 2.1.6 to 3.0.5 #221, #249.
       </action>
@@ -237,7 +237,7 @@ The <action> type attribute can be add,update,fix,remove.
         Minor changes #185.
       </action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">
-        Port internal embedded HTTP asynchronous file server used in tests from from Apache HttpComponents HttpCore/HttpClient 4.x to 5.0.x.
+        Port internal embedded HTTP asynchronous file server used in tests from Apache HttpComponents HttpCore/HttpClient 4.x to 5.0.x.
       </action>
       <action type="fix" dev="ggregory" due-to="Arturo Bernal">
         Replace construction of FileInputStream and FileOutputStream objects with Files NIO APIs. #164.
@@ -286,7 +286,7 @@ The <action> type attribute can be add,update,fix,remove.
         SftpFileObject: Add synchronized to methods that read or write the thread-unsafe instance variable of type com.jcraft.jsch.SftpATTRS.
       </action>
       <action type="fix" issue="VFS-759" dev="ggregory" due-to="Woonsan Ko">
-        WebDAV providers should loaded only when commons-vfs2-jackrabbit* jars are available #84
+        WebDAV providers should be loaded only when commons-vfs2-jackrabbit* jars are available #84
       </action>
       <action type="fix" dev="ggregory" due-to="Arturo Bernal">
         Simplify conditions and avoid extra checks #187.
@@ -310,7 +310,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="Boris Petrov" type="update">
         Bump actions/setup-java to v2 #177.
       </action>
-      <action dev="ggregory" due-to="Dependabot, Gary GRegory" type="update">
+      <action dev="ggregory" due-to="Dependabot, Gary Gregory" type="update">
         Bump mockito-core from 3.8.0 to 3.11.2 #178.
       </action>
       <action dev="ggregory" due-to="Gary Gregory, Dependabot" type="update">
@@ -605,7 +605,7 @@ The <action> type attribute can be add,update,fix,remove.
         Remove workaround for JDK BUG: 6192331 which was fixed way back in Java 6: https://bugs.java.com/bugdatabase/view_bug.do?bug_id=6192331
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="fix">
-        FileObject.getURL() returns an illegal URL when a it should escape a space.
+        FileObject.getURL() returns an illegal URL when it should escape a space.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="add">
         Add FileObject.getURI().
@@ -1086,7 +1086,7 @@ Therefore source and binary compatibility is not affected.">
         Make startup of SoftRefsFileCache cleaner thread work and less racy to avoid leaks.
      </action>
       <action issue="VFS-549" dev="ecki" type="fix">
-        Use File.seperator instead of getProperty("file.separator").
+        Use File.separator instead of getProperty("file.separator").
      </action>
       <action issue="VFS-567" dev="ecki" type="fix" due-to="Antonio Petrelli">
         [ftp] Ignore exceptions while QUIT/disconnect.
@@ -1095,7 +1095,7 @@ Therefore source and binary compatibility is not affected.">
         [sftp] better documentation for knownhosts file option.
      </action>
       <action issue="VFS-574" dev="ecki" type="fix">
-        Ensure FileOpertionProviders are closed. Adds some testcases.
+        Ensure FileOperationProviders are closed. Adds some testcases.
         The error code for missing operations exceptions corrected: vfs.operation/operation-not-supported.error
      </action>
       <action issue="VFS-279" dev="ecki" type="fix" due-to="Didier Earith, Simon Legner">
@@ -1287,7 +1287,7 @@ Therefore source and binary compatibility is not affected.">
         StaticUserAuthenticator should return only requested authentication data.
       </action>
       <action issue="VFS-463" dev="joehni" type="update">
-        FileSytemConfigBuilder supports system properties for the value of enum-based configuration entries.
+        FileSystemConfigBuilder supports system properties for the value of enum-based configuration entries.
       </action>
       <action issue="VFS-462" dev="joehni" type="update">
         [FTPS] Deprecate FtpsFileSystemConfigBuilder.setFtpsType and FtpsFileSystemConfigBuilder.getFtpsType
@@ -1368,7 +1368,7 @@ Therefore source and binary compatibility is not affected.">
         Update test dependencies: sshd-core version 0.7.0 to 0.8.0; mina-core 2.0.4 to 2.0.7; junit 4.11 to 4.12; slf4j-* 1.5.5 to 1.5.11
       </action>
       <action issue="VFS-456" dev="joehni" type="update">
-        Use org.bouncycastel:bcprov-jdk16 instead of org.bouncycastle:bcprof-jdk15on since Java 1.6 is required.
+        Use org.bouncycastle:bcprov-jdk16 instead of org.bouncycastle:bcprof-jdk15on since Java 1.6 is required.
       </action>
       <action issue="VFS-415" dev="ggregory" type="update">
         Update VFS requirement to Java 1.6.
@@ -1494,7 +1494,7 @@ Therefore source and binary compatibility is not affected.">
         SFTP getChildren() does not fail when called on a file.
       </action>
       <action issue="VFS-381" dev="ggregory" type="add">
-        Iterate over a FileObject using the Java "foreach" statement, to provide all descendents of a FileObject.
+        Iterate over a FileObject using the Java "foreach" statement, to provide all descendants of a FileObject.
       </action>
       <action issue="VFS-380" dev="ggregory" type="fix">
         FTP connect.error message used instead of SFTP connect.error message.
@@ -1568,7 +1568,7 @@ Therefore source and binary compatibility is not affected.">
         Update the version of commons-net.
       </action>
       <action issue="VFS-230" dev="rgoers" type="fix">
-        Documented FileSystem capabilities on the web site.
+        Documented FileSystem capabilities on the website.
       </action>
       <action issue="VFS-337" dev="rgoers" type="fix">
         AbstractFileObject and classes that extend from it use AbstractFileName in the constructor and in

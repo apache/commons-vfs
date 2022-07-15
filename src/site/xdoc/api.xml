@@ -68,7 +68,7 @@ for (int i = 0; i < children.length; i++) {
 }]]></source>
 
             <p>
-                In some cases you might want to explicitely free resources allocated by the filesystem.
+                In some cases you might want to explicitly free resources allocated by the filesystem.
                 You can do this by calling
                 <a href="commons-vfs2/apidocs/org/apache/commons/vfs2/FileSystemManager.html#closeFileSystem">VFS.getManager().closeFileSystem(fs)</a>.
                 If you use VFS as singleton (as described above) you should take care that this will close the filesystem for
@@ -92,8 +92,8 @@ for (int i = 0; i < children.length; i++) {
                     it will be released.
                 </p>
                 <p>
-                    There is also a internal cache of each file object avoid the need to access the network layer. Now its possible
-                    to configure this behviour through the use of <a href="commons-vfs2/apidocs/org/apache/commons/vfs2/CacheStrategy.html">CacheStrategy</a>.
+                    There is also an internal cache of each file object avoid the need to access the network layer. Now it's possible
+                    to configure this behaviour through the use of <a href="commons-vfs2/apidocs/org/apache/commons/vfs2/CacheStrategy.html">CacheStrategy</a>.
                     <br />
                     Do this on the DefaultFileSystemManager. For example:
                     <code>
@@ -124,7 +124,7 @@ FileObject fo = VFS.getManager().resolveFile("smb://host/anyshare/dir", opts);]]
                     Internally the UserAuthenticator uses char arrays which will be zeroed before it is
                     freed for garbage collection.Unhappily none of the current libraries use char
                     arrays and so VFS has to create a string. Thus, the main advantage
-                    of this solution - security - is lost, but hey, thats not VFS fault ;-)
+                    of this solution - security - is lost, but hey, that's not VFS fault ;-)
                 </p>
                 <p>
                     VFS calls <code>UserAuthenticator.requestAuthentication</code> each time it
@@ -164,12 +164,12 @@ FileObject fo = VFS.getManager().resolveFile("smb://host/anyshare/dir", opts);]]
                 If such a file is found Commons VFS uses it in <u>addition</u> to the default providers.xml.
                 This allows you to start using a new filesystem by simply drop its implementation into the classpath.
                 The configuration file format is described below.<br />
-                <b>Notice:</b> Currently it is not allowed to override a already configured filesystem. Commons VFS throws
+                <b>Notice:</b> Currently it is not allowed to override an already configured filesystem. Commons VFS throws
                 an exception if there is already a filesystem for a scheme.
             </p>
 
             <p>
-                To configure Commons VFS programatically, you can create an
+                To configure Commons VFS programmatically, you can create an
                 instance of
                 <a href="commons-vfs2/apidocs/org/apache/commons/vfs2/impl/DefaultFileSystemManager.html">DefaultFileSystemManager</a>
                 and configure it manually.  The default constructor
