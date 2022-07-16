@@ -120,7 +120,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         final int index = selected.size();
 
         // If the file is a folder, traverse it
-        if (file.getType().hasChildren() && selector.traverseDescendents(fileInfo)) {
+        if (file.getType().hasChildren() && selector.traverseDescendants(fileInfo)) {
             final int curDepth = fileInfo.getDepth();
             fileInfo.setDepth(curDepth + 1);
 

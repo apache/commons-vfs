@@ -49,7 +49,7 @@ public class InvertIncludeFileSelector implements FileSelector {
      */
     @Override
     public boolean traverseDescendents(final FileSelectInfo fileInfo) throws Exception {
-        return delegateFileSelector.traverseDescendents(fileInfo);
+        return delegateFileSelector.traverseDescendants(fileInfo);
     }
 
 }

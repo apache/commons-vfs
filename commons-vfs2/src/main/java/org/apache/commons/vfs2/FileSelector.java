@@ -17,14 +17,14 @@
 package org.apache.commons.vfs2;
 
 /**
- * This interface is used to select files when traversing a file hierarchy.
+ * Selects what to traverse a file hierarchy.
  *
  * @see Selectors
  */
 public interface FileSelector {
 
     /**
-     * Determines if a file or folder should be selected. This method is called in depthwise order (that is, it is
+     * Tests if a file or folder should be selected. This method is called in depthwise order (that is, it is
      * called for the children of a folder before it is called for the folder itself).
      *
      * @param fileInfo the file or folder to select.
@@ -34,7 +34,7 @@ public interface FileSelector {
     boolean includeFile(FileSelectInfo fileInfo) throws Exception;
 
     /**
-     * Determines whether a folder should be traversed. If this method returns true, {@link #includeFile} is called for
+     * Tests whether a folder should be traversed. If this method returns true, {@link #includeFile} is called for
      * each of the children of the folder, and each of the child folders is recursively traversed.
      * <p>
      * This method is called on a folder before {@link #includeFile} is called.
@@ -43,6 +43,24 @@ public interface FileSelector {
      * @param fileInfo the file or folder to select.
      * @return true if the folder should be traversed.
      * @throws Exception if an error occurs.
+     * @since 2.10.0
      */
+    default boolean traverseDescendants(FileSelectInfo fileInfo) throws Exception {
+        return traverseDescendents(fileInfo);
+    }
+
+    /**
+     * Tests whether a folder should be traversed. If this method returns true, {@link #includeFile} is called for
+     * each of the children of the folder, and each of the child folders is recursively traversed.
+     * <p>
+     * This method is called on a folder before {@link #includeFile} is called.
+     * </p>
+     *
+     * @param fileInfo the file or folder to select.
+     * @return true if the folder should be traversed.
+     * @throws Exception if an error occurs.
+     * @deprecated Use {@link #traverseDescendants(FileSelectInfo)}.
+     */
+    @Deprecated
     boolean traverseDescendents(FileSelectInfo fileInfo) throws Exception;
 }
