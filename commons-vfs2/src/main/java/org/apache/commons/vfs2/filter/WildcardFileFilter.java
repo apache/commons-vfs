@@ -270,12 +270,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
     @Override
     public boolean accept(final FileSelectInfo fileSelectInfo) {
         final String name = fileSelectInfo.getFile().getName().getBaseName();
-        for (final String wildcard : wildcards) {
-            if (wildcardMatch(name, wildcard, caseSensitivity)) {
-                return true;
-            }
-        }
-        return false;
+        return wildcards.stream().anyMatch(wildcard -> wildcardMatch(name, wildcard, caseSensitivity));
     }
 
     // CHECKSTYLE:ON
@@ -291,12 +286,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
         buffer.append(super.toString());
         buffer.append("(");
         if (wildcards != null) {
-            for (int i = 0; i < wildcards.size(); i++) {
-                if (i > 0) {
-                    buffer.append(",");
-                }
-                buffer.append(wildcards.get(i));
-            }
+            buffer.append(String.join(",", wildcards));
         }
         buffer.append(")");
         return buffer.toString();

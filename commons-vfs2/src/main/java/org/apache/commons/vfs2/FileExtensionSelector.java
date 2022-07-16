@@ -70,12 +70,7 @@ public class FileExtensionSelector implements FileSelector {
      */
     @Override
     public boolean includeFile(final FileSelectInfo fileInfo) throws Exception {
-        for (final String extension : this.extensions) {
-            if (fileInfo.getFile().getName().getExtension().equalsIgnoreCase(extension)) {
-                return true;
-            }
-        }
-        return false;
+        return extensions.stream().anyMatch(extension -> fileInfo.getFile().getName().getExtension().equalsIgnoreCase(extension));
     }
 
     /**

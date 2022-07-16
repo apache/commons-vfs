@@ -209,13 +209,9 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
      * @return Returns the size of the FileSystem
      */
     long size() {
-        long size = 0;
         synchronized (cache) {
-            for (final RamFileData data : cache.values()) {
-                size += data.size();
-            }
+            return cache.values().stream().mapToLong(RamFileData::size).sum();
         }
-        return size;
     }
 
     /**

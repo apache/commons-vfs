@@ -117,12 +117,7 @@ public class PrefixFileFilter implements FileFilter, Serializable {
     @Override
     public boolean accept(final FileSelectInfo fileSelectInfo) {
         final String name = fileSelectInfo.getFile().getName().getBaseName();
-        for (final String prefix : this.prefixes) {
-            if (caseSensitivity.checkStartsWith(name, prefix)) {
-                return true;
-            }
-        }
-        return false;
+        return prefixes.stream().anyMatch(prefix -> caseSensitivity.checkStartsWith(name, prefix));
     }
 
     /**
@@ -136,12 +131,7 @@ public class PrefixFileFilter implements FileFilter, Serializable {
         buffer.append(super.toString());
         buffer.append("(");
         if (prefixes != null) {
-            for (int i = 0; i < prefixes.size(); i++) {
-                if (i > 0) {
-                    buffer.append(",");
-                }
-                buffer.append(prefixes.get(i));
-            }
+            buffer.append(String.join(",", prefixes));
         }
         buffer.append(")");
         return buffer.toString();

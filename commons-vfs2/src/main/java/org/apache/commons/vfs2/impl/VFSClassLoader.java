@@ -134,8 +134,7 @@ public class VFSClassLoader extends SecureClassLoader {
      */
     protected void copyPermissions(final PermissionCollection src, final PermissionCollection dest) {
         for (final Enumeration<Permission> elem = src.elements(); elem.hasMoreElements();) {
-            final Permission permission = elem.nextElement();
-            dest.add(permission);
+            dest.add(elem.nextElement());
         }
     }
 

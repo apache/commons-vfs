@@ -118,12 +118,7 @@ public class NameFileFilter implements FileFilter, Serializable {
     @Override
     public boolean accept(final FileSelectInfo fileSelectInfo) {
         final String name = fileSelectInfo.getFile().getName().getBaseName();
-        for (final String name2 : this.names) {
-            if (caseSensitivity.checkEquals(name, name2)) {
-                return true;
-            }
-        }
-        return false;
+        return names.stream().anyMatch(name2 -> caseSensitivity.checkEquals(name, name2));
     }
 
     /**
@@ -137,12 +132,7 @@ public class NameFileFilter implements FileFilter, Serializable {
         buffer.append(super.toString());
         buffer.append("(");
         if (names != null) {
-            for (int i = 0; i < names.size(); i++) {
-                if (i > 0) {
-                    buffer.append(",");
-                }
-                buffer.append(names.get(i));
-            }
+            buffer.append(String.join(",", names));
         }
         buffer.append(")");
         return buffer.toString();

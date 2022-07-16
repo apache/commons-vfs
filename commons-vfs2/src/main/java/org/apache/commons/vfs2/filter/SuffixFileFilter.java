@@ -115,12 +115,7 @@ public class SuffixFileFilter implements FileFilter, Serializable {
     @Override
     public boolean accept(final FileSelectInfo fileSelectInfo) {
         final String name = fileSelectInfo.getFile().getName().getBaseName();
-        for (final String suffix : this.suffixes) {
-            if (caseSensitivity.checkEndsWith(name, suffix)) {
-                return true;
-            }
-        }
-        return false;
+        return suffixes.stream().anyMatch(suffix -> caseSensitivity.checkEndsWith(name, suffix));
     }
 
     /**
@@ -134,12 +129,7 @@ public class SuffixFileFilter implements FileFilter, Serializable {
         buffer.append(super.toString());
         buffer.append("(");
         if (suffixes != null) {
-            for (int i = 0; i < suffixes.size(); i++) {
-                if (i > 0) {
-                    buffer.append(",");
-                }
-                buffer.append(suffixes.get(i));
-            }
+            buffer.append(String.join(",", suffixes));
         }
         buffer.append(")");
         return buffer.toString();

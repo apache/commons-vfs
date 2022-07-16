@@ -489,11 +489,11 @@ public class DefaultFileSystemManager implements FileSystemManager {
         }
 
         // Close the providers.
-        for (final FileProvider fileProvider : providers.values()) {
+        providers.values().forEach(fileProvider -> {
             if (fileProvider instanceof AbstractFileProvider) {
                 ((AbstractFileProvider) fileProvider).freeUnusedResources();
             }
-        }
+        });
         // vfsProvider does not need to free resources
     }
 

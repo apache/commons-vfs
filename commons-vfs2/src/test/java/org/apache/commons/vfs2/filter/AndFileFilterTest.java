@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.filter;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
@@ -165,6 +166,7 @@ public class AndFileFilterTest extends BaseFilterTest {
 
         // TEST
         testee.setFileFilters(list);
+        assertNotNull(testee.toString());
 
         // VERIFY
         assertContainsOnly(testee.getFileFilters(), filter1, filter2, filter3);

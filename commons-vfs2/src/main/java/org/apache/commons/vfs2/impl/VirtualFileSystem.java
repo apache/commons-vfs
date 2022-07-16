@@ -159,16 +159,8 @@ public class VirtualFileSystem extends AbstractFileSystem {
             // The name points to the junction point directly
             return name;
         }
-
         // Find matching junction
-        for (final FileName junctionPoint : junctions.keySet()) {
-            if (junctionPoint.isDescendent(name)) {
-                return junctionPoint;
-            }
-        }
-
-        // None
-        return null;
+        return junctions.keySet().stream().filter(fileName -> fileName.isDescendent(name)).findFirst().orElse(null);
     }
 
     /**

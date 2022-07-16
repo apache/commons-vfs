@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.security.cert.Certificate;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -62,11 +61,7 @@ public class JarFileObject extends ZipFileObject {
      * Adds the source attributes to the destination map.
      */
     private void addAll(final Attributes src, final Map<String, Object> dest) {
-        for (final Entry<Object, Object> entry : src.entrySet()) {
-            // final String name = entry.getKey().toString().toLowerCase();
-            final String name = entry.getKey().toString();
-            dest.put(name, entry.getValue());
-        }
+        src.forEach((k, v) -> dest.put(String.valueOf(k), v));
     }
 
     /**

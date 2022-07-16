@@ -20,6 +20,7 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
+import java.util.stream.Stream;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -228,10 +229,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
 
             try {
                 if (this.defaultFileMonitor.isRecursive() && child.getType().hasChildren()) {
-                    final FileObject[] newChildren = child.getChildren();
-                    for (final FileObject element : newChildren) {
-                        fireAllCreate(element);
-                    }
+                    Stream.of(child.getChildren()).forEach(this::fireAllCreate);
                 }
             } catch (final FileSystemException fse) {
                 LOG.error(fse.getLocalizedMessage(), fse);
@@ -253,8 +251,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
             try {
                 if (this.fileObject.getType().hasChildren()) {
                     this.children = new HashMap<>();
-                    final FileObject[] childrenList = this.fileObject.getChildren();
-                    for (final FileObject element : childrenList) {
+                    for (final FileObject element : this.fileObject.getChildren()) {
                         this.children.put(element.getName(), new Object()); // null?
                     }
                 }
@@ -343,10 +340,8 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
 
                     if (file.getType().hasChildren() && this.recursive) {
                         // Traverse the children
-                        final FileObject[] children = file.getChildren();
-                        for (final FileObject element : children) {
-                            this.addFile(element); // Add depth first
-                        }
+                        // Add depth first
+                        Stream.of(file.getChildren()).forEach(this::addFile);
                     }
 
                 } catch (final FileSystemException fse) {
