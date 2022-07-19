@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.tasks;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
@@ -56,7 +57,7 @@ public class ShowFileTask extends VfsTask {
     /**
      * Writes the content of the file to Ant log.
      */
-    private void logContent(final FileObject file, final String prefix) throws Exception {
+    private void logContent(final FileObject file, final String prefix) throws IOException {
         try (FileContent content = file.getContent();
             InputStream instr = content.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(instr, Charset.defaultCharset()))) {
@@ -100,7 +101,7 @@ public class ShowFileTask extends VfsTask {
     /**
      * Logs the details of a file.
      */
-    private void showFile(final FileObject file, final String prefix) throws Exception {
+    private void showFile(final FileObject file, final String prefix) throws IOException {
         // Write details
         final StringBuilder msg = new StringBuilder(prefix);
         msg.append(file.getName().getBaseName());
