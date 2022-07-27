@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -263,12 +264,12 @@ public class SftpFileSystem extends AbstractFileSystem {
                     // Retrieve the different groups
                     final String[] groups = output.toString().trim().split("\\s+");
 
-                    final int[] groupsIds = new int[groups.length];
-                    for (int i = 0; i < groups.length; i++) {
-                        groupsIds[i] = Integer.parseInt(groups[i]);
-                    }
-                    this.groupsIds = groupsIds;
-
+                    // Deal with potential empty groups
+                    this.groupsIds = Arrays.stream(groups)
+                        .map(String::trim)
+                        .filter(s -> !s.isEmpty())
+                        .mapToInt(Integer::parseInt)
+                        .toArray();
                 }
             }
         }
