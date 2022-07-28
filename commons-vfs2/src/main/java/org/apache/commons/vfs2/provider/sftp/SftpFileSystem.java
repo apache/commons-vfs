@@ -270,24 +270,6 @@ public class SftpFileSystem extends AbstractFileSystem {
     }
 
     /**
-     * Parses the output of the 'id -G' command
-     *
-     * @param output The output from the command
-     * @return the (numeric) group IDs.
-     */
-    int[] parseGroupIdOutput(final StringBuilder output) {
-        // Retrieve the different groups
-        final String[] groups = output.toString().trim().split("\\s+");
-
-        // Deal with potential empty groups
-        return Arrays.stream(groups)
-            .map(String::trim)
-            .filter(s -> !s.isEmpty())
-            .mapToInt(Integer::parseInt)
-            .toArray();
-    }
-
-    /**
      * Last modification time is only an int and in seconds, thus can be off by 999.
      *
      * @return 1000
@@ -351,6 +333,24 @@ public class SftpFileSystem extends AbstractFileSystem {
      */
     public boolean isExecDisabled() {
         return execDisabled;
+    }
+
+    /**
+     * Parses the output of the 'id -G' command
+     *
+     * @param output The output from the command
+     * @return the (numeric) group IDs.
+     */
+    int[] parseGroupIdOutput(final StringBuilder output) {
+        // Retrieve the different groups
+        final String[] groups = output.toString().trim().split("\\s+");
+
+        // Deal with potential empty groups
+        return Arrays.stream(groups)
+            .map(String::trim)
+            .filter(s -> !s.isEmpty())
+            .mapToInt(Integer::parseInt)
+            .toArray();
     }
 
     /**
