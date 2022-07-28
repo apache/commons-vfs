@@ -275,7 +275,7 @@ public class SftpFileSystem extends AbstractFileSystem {
      * @param output The output from the command
      * @return the (numeric) group IDs.
      */
-    int[] parseGroupIdOutput(StringBuilder output) {
+    int[] parseGroupIdOutput(final StringBuilder output) {
         // Retrieve the different groups
         final String[] groups = output.toString().trim().split("\\s+");
 
