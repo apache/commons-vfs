@@ -38,16 +38,16 @@ public class SftpFileSystemGroupsTests {
 
     @Test
     public void shouldHandleEmptyGroupResult() {
-        StringBuilder builder = new StringBuilder("\n");
-        int[] groups = fileSystem.parseGroupIdOutput(builder);
+        final StringBuilder builder = new StringBuilder("\n");
+        final int[] groups = fileSystem.parseGroupIdOutput(builder);
 
         Assert.assertEquals("Group ids should be empty", 0, groups.length);
     }
 
     @Test
     public void shouldHandleListOfGroupIds() {
-        StringBuilder builder = new StringBuilder("1 22 333 4444\n");
-        int[] groups = fileSystem.parseGroupIdOutput(builder);
+        final StringBuilder builder = new StringBuilder("1 22 333 4444\n");
+        final int[] groups = fileSystem.parseGroupIdOutput(builder);
 
         Assert.assertEquals("Group ids should not be empty", 4, groups.length);
         Assert.assertArrayEquals(new int[]{1, 22, 333, 4444}, groups);
@@ -55,7 +55,7 @@ public class SftpFileSystemGroupsTests {
 
     @Test(expected = NumberFormatException.class)
     public void shouldThrowOnUnexpectedOutput() {
-        StringBuilder builder = new StringBuilder("abc\n");
+        final StringBuilder builder = new StringBuilder("abc\n");
         fileSystem.parseGroupIdOutput(builder);
     }
 }
