@@ -258,10 +258,8 @@ public class SftpFileSystem extends AbstractFileSystem {
                     final StringBuilder output = new StringBuilder();
                     final int code = executeCommand("id -G", output);
                     if (code != 0) {
-                        throw new JSchException(
-                                "Could not get the groups id of the current user (error code: " + code + ")");
+                        throw new JSchException("Could not get the groups id of the current user (error code: " + code + ")");
                     }
-
                     this.groupsIds = parseGroupIdOutput(output);
                 }
             }
@@ -344,13 +342,8 @@ public class SftpFileSystem extends AbstractFileSystem {
     int[] parseGroupIdOutput(final StringBuilder output) {
         // Retrieve the different groups
         final String[] groups = output.toString().trim().split("\\s+");
-
         // Deal with potential empty groups
-        return Arrays.stream(groups)
-            .map(String::trim)
-            .filter(s -> !s.isEmpty())
-            .mapToInt(Integer::parseInt)
-            .toArray();
+        return Arrays.stream(groups).map(String::trim).filter(s -> !s.isEmpty()).mapToInt(Integer::parseInt).toArray();
     }
 
     /**
