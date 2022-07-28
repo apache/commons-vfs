@@ -24,6 +24,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Tests {@link SftpFileSystem}.
+ */
 public class SftpFileSystemGroupsTests {
 
     private SftpFileSystem fileSystem;
