@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -260,19 +261,30 @@ public class SftpFileSystem extends AbstractFileSystem {
                         throw new JSchException(
                                 "Could not get the groups id of the current user (error code: " + code + ")");
                     }
-                    // Retrieve the different groups
-                    final String[] groups = output.toString().trim().split("\\s+");
 
-                    final int[] groupsIds = new int[groups.length];
-                    for (int i = 0; i < groups.length; i++) {
-                        groupsIds[i] = Integer.parseInt(groups[i]);
-                    }
-                    this.groupsIds = groupsIds;
-
+                    this.groupsIds = parseGroupIdOutput(output);
                 }
             }
         }
         return groupsIds;
+    }
+
+    /**
+     * Parses the output of the 'id -G' command
+     *
+     * @param output The output from the command
+     * @return the (numeric) group IDs.
+     */
+    int[] parseGroupIdOutput(StringBuilder output) {
+        // Retrieve the different groups
+        final String[] groups = output.toString().trim().split("\\s+");
+
+        // Deal with potential empty groups
+        return Arrays.stream(groups)
+            .map(String::trim)
+            .filter(s -> !s.isEmpty())
+            .mapToInt(Integer::parseInt)
+            .toArray();
     }
 
     /**
