@@ -26,9 +26,9 @@ import org.junit.Test;
 
 public class SftpFileSystemGroupsTests {
 
-    FileSystemOptions options = new FileSystemOptions();
-    Session session;
-    SftpFileSystem fileSystem;
+    private final FileSystemOptions options = new FileSystemOptions();
+    private Session session;
+    private SftpFileSystem fileSystem;
 
     @Before
     public void setup() throws JSchException {
