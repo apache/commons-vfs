@@ -326,7 +326,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
      * Tests deletion
      */
     @Test
-    public void testDeleteAllDescendents() throws Exception {
+    public void testDeleteAllDescendants() throws Exception {
         // Set up the test structure
         final FileObject folder = createScratchFolder();
         folder.resolveFile("file1.txt").createFile();

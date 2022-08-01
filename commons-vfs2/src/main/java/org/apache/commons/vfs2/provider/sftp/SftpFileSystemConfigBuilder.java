@@ -566,24 +566,24 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Sets the identity info (your private key files).
      *
      * @param options      The FileSystem options.
-     * @param identites An array of identity info.
+     * @param identities An array of identity info.
      * @since 2.1
      * @deprecated Use {@link #setIdentityProvider(FileSystemOptions,IdentityProvider...)}
      */
     @Deprecated
-    public void setIdentityInfo(final FileSystemOptions options, final IdentityInfo... identites) {
-        this.setParam(options, IDENTITIES, identites);
+    public void setIdentityInfo(final FileSystemOptions options, final IdentityInfo... identities) {
+        this.setParam(options, IDENTITIES, identities);
     }
 
     /**
      * Sets the identity info (your private key files).
      *
      * @param options      The FileSystem options.
-     * @param identites An array of identity info.
+     * @param identities An array of identity info.
      * @since 2.4
      */
-    public void setIdentityProvider(final FileSystemOptions options, final IdentityProvider... identites) {
-        this.setParam(options, IDENTITIES, identites);
+    public void setIdentityProvider(final FileSystemOptions options, final IdentityProvider... identities) {
+        this.setParam(options, IDENTITIES, identities);
     }
 
     /**
@@ -605,11 +605,11 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * diffie-hellman-group-exchange-sha256, diffie-hellman-group-exchange-sha1, diffie-hellman-group1-sha1.
      *
      * @param options                The FileSystem options.
-     * @param keyExchangeAlgoritm The key exchange algorithm picked.
+     * @param keyExchangeAlgorithm The key exchange algorithm picked.
      * @since 2.4
      */
-    public void setKeyExchangeAlgorithm(final FileSystemOptions options, final String keyExchangeAlgoritm) {
-        setParam(options, KEY_EXCHANGE_ALGORITHM, keyExchangeAlgoritm);
+    public void setKeyExchangeAlgorithm(final FileSystemOptions options, final String keyExchangeAlgorithm) {
+        setParam(options, KEY_EXCHANGE_ALGORITHM, keyExchangeAlgorithm);
     }
 
     /**

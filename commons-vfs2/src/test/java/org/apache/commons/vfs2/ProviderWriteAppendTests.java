@@ -94,7 +94,7 @@ public class ProviderWriteAppendTests extends AbstractProviderTestCase {
      * See [VFS-807].
      */
     @Test
-    public void testAppendToNonExsiting() throws Exception {
+    public void testAppendToNonExisting() throws Exception {
         try (FileObject scratchFolder = createScratchFolder();
 
             // Create direct child of the test folder

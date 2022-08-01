@@ -29,7 +29,7 @@ public class ProviderConfiguration {
 
     private String className;
     private final List<String> schemes = new ArrayList<>(10);
-    private final List<String> dependenies = new ArrayList<>(10);
+    private final List<String> dependencies = new ArrayList<>(10);
 
     /**
      * Constructs a new instance.
@@ -52,7 +52,7 @@ public class ProviderConfiguration {
      * @return the dependency.
      */
     public List<String> getDependencies() {
-        return dependenies;
+        return dependencies;
     }
 
     /**
@@ -88,7 +88,7 @@ public class ProviderConfiguration {
      * @param dependency the dependency.
      */
     public void setDependency(final String dependency) {
-        dependenies.add(dependency);
+        dependencies.add(dependency);
     }
 
     /**

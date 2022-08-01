@@ -307,7 +307,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
         } catch (final FileNotFoundException fne) {
             return false;
         } catch (final Exception e) {
-            throw new FileSystemException("Unable to check existance ", e);
+            throw new FileSystemException("Unable to check existence ", e);
         }
     }
 

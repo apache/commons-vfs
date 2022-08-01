@@ -714,8 +714,8 @@ final class URIBitSets {
      * BitSet for control.
      */
     private static final int CHARACTER_DEL = 0x7F;
-    private static final int CHARCTER_US = 0x1F;
-    static final FluentBitSet CONTROL = bitSet().setInclusive(0, CHARCTER_US).set(CHARACTER_DEL);
+    private static final int CHARACTER_US = 0x1F;
+    static final FluentBitSet CONTROL = bitSet().setInclusive(0, CHARACTER_US).set(CHARACTER_DEL);
 
     private static final int NBITS = 256;
 
