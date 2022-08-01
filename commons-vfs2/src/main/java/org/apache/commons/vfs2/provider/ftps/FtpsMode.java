@@ -24,7 +24,7 @@ package org.apache.commons.vfs2.provider.ftps;
  * mode and it is not yet clear if its a problem with Commons VFS/Commons Net or our test server Apache FTP/SSHD.
  * </p>
  *
- * @see <a href="http://en.wikipedia.org/wiki/FTPS#Implicit">Wikipedia: FTPS/Implicit</a>
+ * @see <a href="https://en.wikipedia.org/wiki/FTPS#Implicit">Wikipedia: FTPS/Implicit</a>
  * @since 2.1
  */
 public enum FtpsMode {
@@ -36,7 +36,7 @@ public enum FtpsMode {
      * mode and it is not yet clear if its a problem with Commons VFS/Commons Net or our test server Apache FTP/SSHD.
      * </p>
      *
-     * @see <a href="http://en.wikipedia.org/wiki/FTPS#Implicit">Wikipedia: FTPS/Implicit</a>
+     * @see <a href="https://en.wikipedia.org/wiki/FTPS#Implicit">Wikipedia: FTPS/Implicit</a>
      */
     IMPLICIT,
 

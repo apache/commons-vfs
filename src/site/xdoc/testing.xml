@@ -25,31 +25,31 @@
             <p>
               Apache Commons VFS comes with a suite of (nearly 2000) tests (in <code>core/src/test</code>). The JUnit framework
               is used, and executed at build time via the Maven
-              <a href="http://maven.apache.org/surefire/maven-surefire-plugin/">Surefire plugin</a> by the <code>mvn test</code> goal.
+              <a href="https://maven.apache.org/surefire/maven-surefire-plugin/">Surefire plugin</a> by the <code>mvn test</code> goal.
               If you plan to contribute a patch for a bug or feature, make sure to also provide a test
               which can reproduce the bug or exercise the new feature. Also run the whole test suite against the patched code.
             </p>
             <p>
-              The <a href="http://junit.org">JUnit</a> tests will execute unit, compile but also integration tests to test the API and the implementation.
+              The <a href="https://junit.org">JUnit</a> tests will execute unit, compile but also integration tests to test the API and the implementation.
               The local file provider is tested in a directory of the local file system. Virtual providers (compression and archive)
               and resource access is based on this test directory as well. For testing the other providers some test servers are started.
               The following table described the details (for versions have a look in the
               <a href="commons-vfs2/dependencies.html#test">dependency report</a>):
             </p>
 <table><tr><th>Provider</th><th>Tested Against</th><th>External</th></tr>
-<tr><td>ftp</td><td><a href="http://mina.apache.org/ftpserver-project/">Apache FtpServer</a></td><td>-Pftp -Dtest.ftp.uri=ftp://test:test@localhost:123</td></tr>
-<tr><td>ftps</td><td><a href="http://mina.apache.org/ftpserver-project/">Apache FtpServer</a></td><td>-Pftps -Dtest.ftps.uri=ftps://test:test@localhost:123</td></tr>
-<tr><td>hdfs</td><td>Apache Hadoop HDFS (<a href="https://wiki.apache.org/hadoop/HowToDevelopUnitTests">MiniDFSCluster</a>)</td><td>-P!no-test-hdfs (see below)</td></tr>
+<tr><td>ftp</td><td><a href="https://mina.apache.org/ftpserver-project/">Apache FtpServer</a></td><td>-Pftp -Dtest.ftp.uri=ftp://test:test@localhost:123</td></tr>
+<tr><td>ftps</td><td><a href="https://mina.apache.org/ftpserver-project/">Apache FtpServer</a></td><td>-Pftps -Dtest.ftps.uri=ftps://test:test@localhost:123</td></tr>
+<tr><td>hdfs</td><td>Apache Hadoop HDFS (<a href="https://web.archive.org/web/20170706071449/https%3A//wiki.apache.org/hadoop/HowToDevelopUnitTests">MiniDFSCluster</a>)</td><td>-P!no-test-hdfs (see below)</td></tr>
 <tr><td>http</td><td>NHttpServer (local adaption of org.apache.http.examples.nio.NHttpServer)</td><td>-Phttp -Dtest.http.uri=http://localhost:123</td></tr>
 <tr><td>https</td><td>(not tested)</td><td>N/A</td></tr>
 <tr><td>jar</td><td>Local File Provider</td><td>N/A</td></tr>
 <tr><td>local</td><td>Local File system</td><td>N/A</td></tr>
 <tr><td>ram</td><td>In Memory test</td><td>N/A</td></tr>
 <tr><td>res</td><td>Local File Provider / JAR Provider</td><td>N/A</td></tr>
-<tr><td>sftp</td><td><a href="http://mina.apache.org/sshd-project/index.html">Apache SSHD</a></td><td>-Psftp -Dtest.sftp.uri=sftp://testtest@localhost:123</td></tr>
+<tr><td>sftp</td><td><a href="https://mina.apache.org/sshd-project/index.html">Apache SSHD</a></td><td>-Psftp -Dtest.sftp.uri=sftp://testtest@localhost:123</td></tr>
 <tr><td>tmp</td><td>Local File system</td><td>N/A</td></tr>
 <tr><td>url</td><td>NHttpServer (local adaption of org.apache.http.examples.nio.NHttpServer)<br/>Local File system</td><td>-Phttp -Dtest.http.uri=http://localhost:128</td></tr>
-<tr><td>webdav</td><td><a href="http://jackrabbit.apache.org/standalone-server.html">Apache Jackrabbit Standalone Server</a></td><td>-Pwebdav -Dtest.webdav.uri=webdav://admin@localhost:123/repository/default</td></tr>
+<tr><td>webdav</td><td><a href="https://jackrabbit.apache.org/jcr/standalone-server.html">Apache Jackrabbit Standalone Server</a></td><td>-Pwebdav -Dtest.webdav.uri=webdav://admin@localhost:123/repository/default</td></tr>
 <!-- <tr><td>webdavs</td><td>Apache Jackrabbit Standalone</td><td>-Pwebdav -Dtest.webdav.uri=webdav://admin@localhost:123/repository/default</td></tr> -->
 <tr><td>zip</td><td>Local File Provider</td><td>N/A</td></tr>
 <tr><td>smb (sandbox)</td><td>(not tested)</td><td>-Psmb -Dtest.smb.uri=smb://DOMAIN\User:Pass@host/C$/commons-vfs2/core/target/test-classes/test-data</td></tr>

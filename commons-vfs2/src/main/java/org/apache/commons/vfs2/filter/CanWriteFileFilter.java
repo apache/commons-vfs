@@ -61,7 +61,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * </p>
  *
  * @author This code was originally ported from Apache Commons IO File Filter
- * @see "http://commons.apache.org/proper/commons-io/"
+ * @see "https://commons.apache.org/proper/commons-io/"
  * @since 2.4
  */
 public class CanWriteFileFilter implements FileFilter, Serializable {

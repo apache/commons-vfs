@@ -38,46 +38,46 @@
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://commons.apache.org/logging/">Apache Commons Logging</a>
+                        <a href="https://commons.apache.org/proper/commons-logging/">Apache Commons Logging</a>
                     </td>
                     <td>All</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://commons.apache.org/lang/">Apache Commons Lang</a>
+                        <a href="https://commons.apache.org/proper/commons-lang/">Apache Commons Lang</a>
                     </td>
                     <td>All</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://commons.apache.org/collections/">Apache Commons Collections</a>
+                        <a href="https://commons.apache.org/proper/commons-collections/">Apache Commons Collections</a>
                     </td>
                     <td>LRU Cache (optional)</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://commons.apache.org/compress/">Apache Commons Compress</a>
+                        <a href="https://commons.apache.org/proper/commons-compress/">Apache Commons Compress</a>
                     </td>
                     <td>TAR, Bzip2</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://commons.apache.org/net/">Apache Commons Net</a>
+                        <a href="https://commons.apache.org/proper/commons-net/">Apache Commons Net</a>
                     </td>
                     <td>FTP</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://commons.apache.org/httpclient/">Apache Commons Httpclient</a><br/>
-                        Requires <a href="http://commons.apache.org/proper/commons-codec/">Commons Codec</a>
+                        <a href="https://hc.apache.org/httpclient-legacy/">Apache Commons Httpclient</a><br/>
+                        Requires <a href="https://commons.apache.org/proper/commons-codec/">Commons Codec</a>
                     </td>
                     <td>WebDAV, HTTP, URI Utils</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://jackrabbit.apache.org/jackrabbit-webdav-library.html">Apache Jackrabbit WebDAV Library</a><br/>
-                        Requires <a href="http://jackrabbit.apache.org/jackrabbit-jcr-commons.html">Jackrabbit JCR Commons</a>
-                        and <a href="http://www.slf4j.org">SLF4J</a> (Api and Impl).
+                        <a href="https://jackrabbit.apache.org/jcr/components/jackrabbit-webdav-library.html">Apache Jackrabbit WebDAV Library</a><br/>
+                        Requires <a href="https://jackrabbit.apache.org/jcr/components/jackrabbit-jcr-commons.html">Jackrabbit JCR Commons</a>
+                        and <a href="https://www.slf4j.org">SLF4J</a> (Api and Impl).
                     </td>
                     <td>WebDAV</td>
                 </tr>
@@ -89,21 +89,21 @@
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://hadoop.apache.org/docs/stable/">Apache Hadoop Common</a><br/>
-                        <a href="http://hadoop.apache.org/docs/stable/">Apache Hadoop HDFS Common</a><br/>
+                        <a href="https://hadoop.apache.org/docs/stable/">Apache Hadoop Common</a><br/>
+                        <a href="https://hadoop.apache.org/docs/stable/">Apache Hadoop HDFS Common</a><br/>
                         This requires a number of dependencies, use <code>$HADOOP_HOME/bin/hadoop classpath</code> command.
                     </td>
                     <td>HDFS</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://jcifs.samba.org/">jCIFS</a>
+                        <a href="https://jcifs.samba.org/">jCIFS</a>
                     </td>
                     <td>CIFS (VFS sandbox)</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://java.sun.com/products/javamail/">javamail</a>
+                        <a href="https://javaee.github.io/javamail/">javamail</a>
                     </td>
                     <td>mime (VFS sandbox)</td>
                 </tr>
@@ -111,7 +111,7 @@
         </section>
         <section name="Building Commons VFS">
             <p>
-                To build Commons VFS, get the <a href="scm.html">sources</a> and use <a href="http://maven.apache.org">Apache Maven</a> 3.2.5 or later.
+                To build Commons VFS, get the <a href="scm.html">sources</a> and use <a href="https://maven.apache.org/">Apache Maven</a> 3.2.5 or later.
                 You need to use Java 8 or later. Production builds can be done with the
                 <code>-Pjava-1.8</code> profile from Commons Parent (which will compile and test with a JDK
                 from the JAVA_1_8_HOME environment variable).

@@ -35,7 +35,7 @@ public abstract class AbstractFileName implements FileName {
     //
     // URIs can contain :, /, ?, #, @
     // See https://docs.oracle.com/javase/8/docs/api/java/net/URI.html
-    // http://tools.ietf.org/html/rfc3986#section-2.2
+    // https://datatracker.ietf.org/doc/html/rfc3986#section-2.2
     //
     // Since : and / occur before the path, only chars after path are escaped (i.e., # and ?)
     // ? is a reserved filesystem character for Windows and Unix, so can't be part of a file name.

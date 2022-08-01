@@ -33,7 +33,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * file filter list stops when the first filter returns {@code true}.
  *
  * @author This code was originally ported from Apache Commons IO File Filter
- * @see "http://commons.apache.org/proper/commons-io/"
+ * @see "https://commons.apache.org/proper/commons-io/"
  * @since 2.4
  */
 public class OrFileFilter implements FileFilter, ConditionalFileFilter, Serializable {
