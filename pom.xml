@@ -31,7 +31,7 @@
   <packaging>pom</packaging>
   <version>2.10.0-SNAPSHOT</version>
 
-  <url>http://commons.apache.org/proper/commons-vfs/</url>
+  <url>https://commons.apache.org/proper/commons-vfs/</url>
   <inceptionYear>2002</inceptionYear>
 
   <modules>
@@ -116,7 +116,7 @@
       <name>Bernd Eckenfels</name>
       <id>ecki</id>
       <email>ecki -at- apache.org</email>
-      <url>http://bernd.eckenfels.net</url>
+      <url>https://bernd.eckenfels.net</url>
       <timezone>+1</timezone>
     </developer>
   </developers>

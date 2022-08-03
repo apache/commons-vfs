@@ -30,7 +30,7 @@
           providers</a>) which cannot be shipped with the official Apache release.
           This includes experimental code as well as components which have 
           <a href="dependencies.html">dependencies</a> not compatible with the 
-          <a href="http://www.apache.org/legal/resolved.html#category-x">ASF redistribution policy
+          <a href="https://www.apache.org/legal/resolved.html#category-x">ASF redistribution policy
           (especially LGPL)</a>.
         </p><p>
           To build the sandbox binaries, see the <a href="../download.html">download and build

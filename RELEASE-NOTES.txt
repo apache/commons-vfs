@@ -76,14 +76,14 @@ o           Bump commons.javadoc.version from 3.2.0 to 3.3.0. Thanks to Gary Gre
 o           Update from to javax.mail:mail 1.4.7 to com.sun.mail:jakarta.mail 1.6.7. Thanks to Gary Gregory.
 
 
-Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
+Historical list of changes: https://commons.apache.org/proper/commons-vfs/changes-report.html
 
 For complete information on Apache Commons VFS Project, including instructions on how to submit bug reports,
 patches, or suggestions for improvement, see the Apache Apache Commons VFS Project website:
 
-http://commons.apache.org/proper/commons-vfs/
+https://commons.apache.org/proper/commons-vfs/
 
-Download page: http://commons.apache.org/proper/commons-vfs/download_vfs.cgi
+Download page: https://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------
 
@@ -166,14 +166,14 @@ o VFS-795:  Code improvements for SoftRefFilesCache (simplify loop, use isEmpty,
 o           Update commons-lang3 3.11 -> 3.12.0. Thanks to Gary Gregory.
 
 
-Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
+Historical list of changes: https://commons.apache.org/proper/commons-vfs/changes-report.html
 
 For complete information on Apache Commons VFS Project, including instructions on how to submit bug reports,
 patches, or suggestions for improvement, see the Apache Apache Commons VFS Project website:
 
-http://commons.apache.org/proper/commons-vfs/
+https://commons.apache.org/proper/commons-vfs/
 
-Download page: http://commons.apache.org/proper/commons-vfs/download_vfs.cgi
+Download page: https://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------
 
@@ -239,14 +239,14 @@ o           Update Apache Commons Net from 3.6 to 3.7.2. Thanks to Gary Gregory.
 o           Update JUnit from 4.13 to 4.13.1. Thanks to Gary Gregory.
 
 
-Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
+Historical list of changes: https://commons.apache.org/proper/commons-vfs/changes-report.html
 
 For complete information on Apache Commons VFS Project, including instructions on how to submit bug reports,
 patches, or suggestions for improvement, see the Apache Apache Commons VFS Project website:
 
-http://commons.apache.org/proper/commons-vfs/
+https://commons.apache.org/proper/commons-vfs/
 
-Download page: http://commons.apache.org/proper/commons-vfs/download_vfs.cgi
+Download page: https://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------
 
@@ -271,14 +271,14 @@ Changes:
 o           Update JUnit from 4.12 to 4.13. Thanks to Gary Gregory.
 
 
-Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
+Historical list of changes: https://commons.apache.org/proper/commons-vfs/changes-report.html
 
 For complete information on Apache Commons VFS Project, including instructions on how to submit bug reports,
 patches, or suggestions for improvement, see the Apache Apache Commons VFS Project website:
 
-http://commons.apache.org/proper/commons-vfs/
+https://commons.apache.org/proper/commons-vfs/
 
-Download page: http://commons.apache.org/proper/commons-vfs/download_vfs.cgi
+Download page: https://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------
 
@@ -326,14 +326,14 @@ o           Update tests using org.mockito:mockito-core from 3.0.0 to 3.1.0. Tha
 o VFS-749:  Update Apache Commons Parent from 48 to 50. Thanks to Gary Gregory.
 
 
-Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
+Historical list of changes: https://commons.apache.org/proper/commons-vfs/changes-report.html
 
 For complete information on Apache Commons VFS, including instructions on how to submit bug reports,
 patches, or suggestions for improvement, see the Apache Apache Commons VFS website:
 
-http://commons.apache.org/proper/commons-vfs/
+https://commons.apache.org/proper/commons-vfs/
 
-Download it from http://commons.apache.org/proper/commons-vfs/download_vfs.cgi
+Download it from https://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------
 
@@ -355,14 +355,14 @@ o VFS-724:  FileContent#getByteArray() throws IllegalArgumentException: Buffer s
 o           Javadoc fixes. Thanks to Gary Gregory.
 
 
-Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
+Historical list of changes: https://commons.apache.org/proper/commons-vfs/changes-report.html
 
 For complete information on Apache Commons VFS, including instructions on how to submit bug reports,
 patches, or suggestions for improvement, see the Apache Apache Commons VFS website:
 
-Visit http://commons.apache.org/proper/commons-vfs/
+Visit https://commons.apache.org/proper/commons-vfs/
 
-Download it from http://commons.apache.org/proper/commons-vfs/download_vfs.cgi
+Download it from https://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------
 
@@ -419,14 +419,14 @@ o           Public API note: The overridden method org.apache.commons.vfs2.provi
 o           Public API note: The overridden method org.apache.commons.vfs2.provider.sftp.SftpFileProvider#init() was removed but is implemented in a superclass.
 
 
-Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
+Historical list of changes: https://commons.apache.org/proper/commons-vfs/changes-report.html
 
 For complete information on Apache Commons VFS, including instructions on how to submit bug reports,
 patches, or suggestions for improvement, see the Apache Apache Commons VFS website:
 
-Visit http://commons.apache.org/proper/commons-vfs/
+Visit https://commons.apache.org/proper/commons-vfs/
 
-Download it from http://commons.apache.org/proper/commons-vfs/download_vfs.cgi
+Download it from https://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------
 
@@ -478,14 +478,14 @@ o VFS-682:  Throw a org.apache.commons.vfs2.FileSystemException instead of a Nul
 o VFS-688:  [SFTP] Update jsch from 0.1.54 to 0.1.55.
 
 
-Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
+Historical list of changes: https://commons.apache.org/proper/commons-vfs/changes-report.html
 
 For complete information on Apache Commons VFS, including instructions on how to submit bug reports,
 patches, or suggestions for improvement, see the Apache Apache Commons VFS website:
 
-Visit http://commons.apache.org/proper/commons-vfs/
+Visit https://commons.apache.org/proper/commons-vfs/
 
-Download it from http://commons.apache.org/proper/commons-vfs/download_vfs.cgi
+Download it from https://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------
 
@@ -524,14 +524,14 @@ Known Problems:
 o VFS-645:  VfsClassLoaderTests fails on Java 9.
 
 
-Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
+Historical list of changes: https://commons.apache.org/proper/commons-vfs/changes-report.html
 
 For complete information on Apache Commons VFS, including instructions on how to submit bug reports,
 patches, or suggestions for improvement, see the Apache Apache Commons VFS website:
 
-Visit http://commons.apache.org/proper/commons-vfs/
+Visit https://commons.apache.org/proper/commons-vfs/
 
-Download it from http://commons.apache.org/proper/commons-vfs/download_vfs.cgi
+Download it from https://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------
 
@@ -745,13 +745,13 @@ o VFS-361:  Upgrade commons collections version to 3.2.1.
 Removed:
 o VFS-469:  Remove unused dependency to javax.jcr:jcr.
 
-Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
+Historical list of changes: https://commons.apache.org/proper/commons-vfs/changes-report.html
 
 For complete information on Apache Commons VFS, including instructions on how to submit bug reports,
 patches, or suggestions for improvement, see the Apache Apache Commons VFS website:
 
-Visit http://commons.apache.org/proper/commons-vfs/
+Visit https://commons.apache.org/proper/commons-vfs/
 
-Download it from http://commons.apache.org/proper/commons-vfs/download_vfs.cgi
+Download it from https://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------

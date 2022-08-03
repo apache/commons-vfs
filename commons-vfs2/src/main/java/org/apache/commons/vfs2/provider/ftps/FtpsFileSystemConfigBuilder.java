@@ -145,7 +145,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
      *
      * @param opts The FileSystemOptions.
      * @param ftpsMode The mode to establish a FTPS connection.
-     * @see <a href="http://en.wikipedia.org/wiki/FTPS#Implicit">Wikipedia: FTPS/Implicit</a>
+     * @see <a href="https://en.wikipedia.org/wiki/FTPS#Implicit">Wikipedia: FTPS/Implicit</a>
      * @since 2.1
      */
     public void setFtpsMode(final FileSystemOptions opts, final FtpsMode ftpsMode) {
@@ -162,7 +162,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
      *
      * @param opts The FileSystemOptions.
      * @param ftpsType The file type.
-     * @see <a href="http://en.wikipedia.org/wiki/FTPS#Implicit">Wikipedia: FTPS/Implicit</a>
+     * @see <a href="https://en.wikipedia.org/wiki/FTPS#Implicit">Wikipedia: FTPS/Implicit</a>
      * @deprecated As of 2.1, use {@link #setFtpsMode(FileSystemOptions, FtpsMode)}
      */
     @Deprecated

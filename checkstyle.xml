@@ -26,25 +26,25 @@
   <property name="localeLanguage" value="en" />
 
   <!-- Checks that a package-info.java file exists for each package. -->
-  <!-- See http://checkstyle.sourceforge.net/config_javadoc.html -->
+  <!-- See https://checkstyle.org/config_javadoc.html#JavadocPackage -->
   <module name="JavadocPackage" />
 
   <!-- Checks whether files end with a new line. -->
-  <!-- See http://checkstyle.sf.net/config_misc.html#NewlineAtEndOfFile -->
+  <!-- See https://checkstyle.org/config_misc.html#NewlineAtEndOfFile -->
   <module name="NewlineAtEndOfFile" />
 
   <!-- Checks that property files contain the same keys. -->
-  <!-- See http://checkstyle.sf.net/config_misc.html#Translation -->
+  <!-- See https://checkstyle.org/config_misc.html#Translation -->
   <module name="Translation" />
 
   <!-- Checks for Tab characters -->
-  <!-- See http://checkstyle.sourceforge.net/config_whitespace.html#FileTabCharacter -->
+  <!-- See https://checkstyle.org/config_whitespace.html#FileTabCharacter -->
   <module name="FileTabCharacter">
     <property name="fileExtensions" value="java" />
   </module>
 
   <!-- Checks for white space at the end of the line -->
-  <!-- See http://checkstyle.sourceforge.net/config_regexp.html -->
+  <!-- See https://checkstyle.org/config_regexp.html#RegexpSingleline -->
   <module name="RegexpSingleline">
     <property name="format" value="\s+$" />
     <property name="message" value="Line has trailing spaces." />
@@ -68,7 +68,7 @@
   </module>
 
   <!-- Checks for Size Violations. -->
-  <!-- See http://checkstyle.sf.net/config_sizes.html -->
+  <!-- See https://checkstyle.org/config_sizes.html#LineLength -->
   <module name="LineLength">
     <property name="max" value="160" />
   </module>
@@ -81,13 +81,13 @@
   <module name="TreeWalker">
 
     <!-- Checks for Javadoc comments. -->
-    <!-- See http://checkstyle.sf.net/config_javadoc.html -->
+    <!-- See https://checkstyle.org/config_javadoc.html -->
     <module name="JavadocMethod">
       <property name="accessModifiers" value="public" />
     </module>
     <module name="MissingJavadocMethod"/>
 
-    <!-- http://checkstyle.sourceforge.net/config_javadoc.html#JavadocType -->
+    <!-- https://checkstyle.org/config_javadoc.html#JavadocType -->
     <module name="JavadocType">
       <!-- It is unfortunate to have to do this but checkstyle doesn't allow custom tags -->
       <property name="allowUnknownTags" value="true" />
@@ -100,7 +100,7 @@
     </module>
 
     <!-- Checks for Naming Conventions. -->
-    <!-- See http://checkstyle.sf.net/config_naming.html -->
+    <!-- See https://checkstyle.org/config_naming.html -->
     <module name="ConstantName">
       <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$|^capabilities$|^log$" />
     </module>
@@ -117,14 +117,14 @@
     <!-- <module name="RegexpHeader"/> -->
 
     <!-- Checks for imports -->
-    <!-- See http://checkstyle.sf.net/config_import.html -->
+    <!-- See https://checkstyle.org/config_imports.html -->
     <module name="AvoidStarImport" />
     <module name="IllegalImport" /> <!-- defaults to sun.* packages -->
     <module name="RedundantImport" />
     <module name="UnusedImports" />
 
     <!-- Checks for Size Violations. -->
-    <!-- See http://checkstyle.sf.net/config_sizes.html -->
+    <!-- See https://checkstyle.org/config_sizes.html -->
     <!--<module name="FileLength"/> -->
     <module name="MethodLength" />
     <module name="ParameterNumber">
@@ -132,7 +132,7 @@
     </module>
 
     <!-- Checks for whitespace -->
-    <!-- See http://checkstyle.sf.net/config_whitespace.html -->
+    <!-- See https://checkstyle.org/config_whitespace.html -->
     <module name="EmptyForIteratorPad" />
     <module name="NoWhitespaceAfter" />
     <module name="NoWhitespaceBefore" />
@@ -146,12 +146,12 @@
     <module name="GenericWhitespace" />
 
     <!-- Modifier Checks -->
-    <!-- See http://checkstyle.sf.net/config_modifiers.html -->
+    <!-- See https://checkstyle.org/config_modifier.html -->
     <module name="ModifierOrder" />
     <module name="RedundantModifier" />
 
     <!-- Checks for blocks. You know, those {}'s -->
-    <!-- See http://checkstyle.sf.net/config_blocks.html -->
+    <!-- See https://checkstyle.org/config_blocks.html -->
     <module name="AvoidNestedBlocks" />
     <!-- Require empty catch blocks to have at least a comment -->
     <module name="EmptyBlock">
@@ -167,7 +167,7 @@
     </module>
 
     <!-- Checks for common coding problems -->
-    <!-- See http://checkstyle.sf.net/config_coding.html -->
+    <!-- See https://checkstyle.org/config_coding.html -->
     <module name="CovariantEquals" />
     <module name="EqualsHashCode" />
     <module name="IllegalInstantiation" />
@@ -188,7 +188,7 @@
     <!-- <module name="UnnecessaryParentheses"/> -->
 
     <!-- Checks for class design -->
-    <!-- See http://checkstyle.sf.net/config_design.html -->
+    <!-- See https://checkstyle.org/config_design.html -->
     <module name="FinalClass" />
     <module name="HideUtilityClassConstructor" />
     <module name="InterfaceIsType" />
@@ -197,7 +197,7 @@
     </module>
 
     <!-- Miscellaneous other checks. -->
-    <!-- See http://checkstyle.sf.net/config_misc.html -->
+    <!-- See https://checkstyle.org/config_misc.html -->
     <module name="ArrayTypeStyle" />
     <module name="TodoComment">
       <property name="severity" value="info" />
