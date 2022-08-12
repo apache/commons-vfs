@@ -205,9 +205,6 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="XenoAmess" type="update">
         Bump ftpserver-core from 1.1.1 to 1.1.2 #235.
       </action>
-      <action dev="ggregory" due-to="Gary Gregory, Dependabot" type="update">
-        Bump org.apache.jackrabbit:jackrabbit-standalone-components from 2.21.9 to 2.21.12 #289.
-      </action>
       <action dev="ggregory" due-to="Dependabot" type="update">
         Bump hadoop.version from 3.3.1 to 3.3.4 #246, #262, #290.
       </action>
