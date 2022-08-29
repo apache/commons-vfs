@@ -482,7 +482,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
     /*
      * (non-Javadoc)
      *
-     * @see java.io.DataOutput#writeBytes(java.lang.String)
+     * @see java.io.DataOutput#writeBytes(String)
      */
     @Override
     public void writeBytes(final String s) throws IOException {
@@ -504,7 +504,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
     /*
      * (non-Javadoc)
      *
-     * @see java.io.DataOutput#writeChars(java.lang.String)
+     * @see java.io.DataOutput#writeChars(String)
      */
     @Override
     public void writeChars(final String s) throws IOException {
@@ -573,7 +573,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
     /*
      * (non-Javadoc)
      *
-     * @see java.io.DataOutput#writeUTF(java.lang.String)
+     * @see java.io.DataOutput#writeUTF(String)
      */
     @Override
     public void writeUTF(final String str) throws IOException {

@@ -109,7 +109,7 @@ final class RamFileData implements Serializable {
     /*
      * (non-Javadoc)
      *
-     * @see java.lang.Object#equals(java.lang.Object)
+     * @see Object#equals(Object)
      */
     @Override
     public boolean equals(final Object o) {
@@ -168,7 +168,7 @@ final class RamFileData implements Serializable {
     /*
      * (non-Javadoc)
      *
-     * @see java.lang.Object#hashCode()
+     * @see Object#hashCode()
      */
     @Override
     public int hashCode() {
@@ -243,7 +243,7 @@ final class RamFileData implements Serializable {
     /*
      * (non-Javadoc)
      *
-     * @see java.lang.Object#toString()
+     * @see Object#toString()
      */
     @Override
     public String toString() {

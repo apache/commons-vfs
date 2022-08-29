@@ -258,7 +258,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
     }
 
     /**
-     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doRemoveAttribute(java.lang.String)
+     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doRemoveAttribute(String)
      */
     @Override
     protected void doRemoveAttribute(final String attrName) throws Exception {
@@ -275,7 +275,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
     }
 
     /**
-     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doSetAttribute(java.lang.String, java.lang.Object)
+     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doSetAttribute(String, Object)
      */
     @Override
     protected void doSetAttribute(final String attrName, final Object value) throws Exception {
