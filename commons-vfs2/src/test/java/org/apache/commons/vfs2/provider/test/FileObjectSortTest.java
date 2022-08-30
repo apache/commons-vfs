@@ -33,8 +33,6 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests FileObject sorting.
- *
- * $Id$
  */
 public class FileObjectSortTest {
 
