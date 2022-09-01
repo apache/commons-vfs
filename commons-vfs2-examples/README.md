@@ -45,7 +45,7 @@ Apache Commons VFS Examples
 
 [![GitHub Actions Status](https://github.com/apache/commons-vfs/workflows/Java%20CI/badge.svg)](https://github.com/apache/commons-vfs/actions)
 [![Coverage Status](https://codecov.io/gh/apache/commons-vfs/branch/master/graph/badge.svg)](https://app.codecov.io/gh/apache/commons-vfs)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-vfs2-examples/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-vfs2-examples/)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-vfs2-examples/badge.svg?gav=true)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-vfs2-examples/?gav=true)
 [![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-vfs2-examples/2.9.0.svg)](https://javadoc.io/doc/org.apache.commons/commons-vfs2-examples/2.9.0)
 
 Apache Commons VFS is a Virtual File System library - Examples.
