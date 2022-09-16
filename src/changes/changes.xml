@@ -102,13 +102,16 @@ The <action> type attribute can be add,update,fix,remove.
         SFTP: Memory leak because AbstractFileProvider#findFileSystem.
       </action>
       <action type="fix" dev="ggregory" due-to="Marc Wrobel">
-	    Fix typos #275, #276, #277.
+	Fix typos #275, #276, #277.
       </action>
       <action type="fix" dev="ggregory" due-to="Marc Wrobel">
         Fix links in Javadoc and documentations #284.
       </action>
       <action type="fix" dev="ggregory" due-to="Mark van der Walle, Gary Gregory">
         [SFTP] Handle the case where a user does not have any groups #280.
+      </action>
+      <action type="fix" dev="ggregory" due-to="ymenager">
+        hadoop-hdfs-client is not set as optional #291.
       </action>
       <!-- ADD -->
       <action type="add" dev="ggregory" due-to="Seth Falco">
