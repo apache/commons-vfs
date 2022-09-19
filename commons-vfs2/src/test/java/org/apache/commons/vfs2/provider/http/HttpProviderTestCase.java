@@ -29,7 +29,10 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.VFS;
+import org.apache.commons.vfs2.cache.WeakRefFilesCache;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs2.impl.StandardFileSystemManager;
+import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.util.NHttpFileServer;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -210,6 +213,38 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
     @Test
     public void testResolveFolderSlashYesRedirectOn() throws FileSystemException {
         testResolveFolderSlash(ConnectionUri + "/read-tests/", true);
+    }
+
+    @Test
+    public void testHttpFileSystemFreeUnusedResources() throws Exception {
+        try (StandardFileSystemManager fileSystemManager = new StandardFileSystemManager()) {
+            fileSystemManager.setConfiguration(StandardFileSystemManager.class.getResource("providers.xml"));
+            // use WeakRef
+            fileSystemManager.setFilesCache(new WeakRefFilesCache());
+            fileSystemManager.init();
+
+            String path = "http://www.w3schools.com/webservices/tempconvert.asmx?action=WSDL";
+            AbstractFileSystem http4FileSystem = getFile(fileSystemManager, path);
+            http4FileSystem.isReleaseable();
+
+            while (!http4FileSystem.isReleaseable()) {
+                // Try GC
+                System.gc();
+            }
+            // free resource
+            // http4FileSystem.httpclient is closed
+            fileSystemManager.freeUnusedResources();
+
+            // get file again
+            getFile(fileSystemManager, path);
+        }
+    }
+
+    private static AbstractFileSystem getFile(FileSystemManager fileSystemManager, String path) throws FileSystemException {
+        FileObject fileObject = fileSystemManager.resolveFile(path);
+        // send
+        fileObject.getType();
+        return (AbstractFileSystem) fileObject.getFileSystem();
     }
 
 }
