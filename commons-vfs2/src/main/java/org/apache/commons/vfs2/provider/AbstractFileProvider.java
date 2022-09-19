@@ -149,7 +149,7 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
     }
 
     /**
-     * get snapshot of all fileSystem
+     * get snapshot of all fileSystem.
      *
      * @return FileSystem Array
      */
