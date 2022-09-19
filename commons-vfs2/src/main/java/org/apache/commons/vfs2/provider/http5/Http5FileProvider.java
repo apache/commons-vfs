@@ -43,6 +43,7 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.UserAuthenticator;
+import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs2.provider.GenericFileName;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
@@ -373,6 +374,21 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
         }
 
         return null;
+    }
+
+
+    /**
+     * Frees unused resources and close HttpFileSystem.
+     */
+    @Override
+    public void freeUnusedResources() {
+        final AbstractFileSystem[] abstractFileSystems = getAllFileSystemSnapshot();
+        // process snapshot outside lock
+        Stream.of(abstractFileSystems).filter(AbstractFileSystem::isReleaseable)
+                .forEach(system -> {
+                    system.closeCommunicationLink();
+                    closeFileSystem(system);
+                });
     }
 
 }

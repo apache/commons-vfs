@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider.http;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.stream.Stream;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.vfs2.Capability;
@@ -28,6 +29,7 @@ import org.apache.commons.vfs2.FileSystemConfigBuilder;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticationData;
+import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs2.provider.GenericFileName;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
@@ -92,5 +94,20 @@ public class HttpFileProvider extends AbstractOriginatingFileProvider {
     @Override
     public FileSystemConfigBuilder getConfigBuilder() {
         return HttpFileSystemConfigBuilder.getInstance();
+    }
+
+
+    /**
+     * Frees unused resources and close HttpFileSystem.
+     */
+    @Override
+    public void freeUnusedResources() {
+        final AbstractFileSystem[] abstractFileSystems = getAllFileSystemSnapshot();
+        // process snapshot outside lock
+        Stream.of(abstractFileSystems).filter(AbstractFileSystem::isReleaseable)
+                .forEach(system -> {
+                    system.closeCommunicationLink();
+                    closeFileSystem(system);
+                });
     }
 }
