@@ -16,8 +16,7 @@
  */
 package org.apache.commons.vfs2.provider;
 
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Stream;
 
 import org.apache.commons.vfs2.FileName;
@@ -137,21 +136,17 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
      * Frees unused resources.
      */
     public void freeUnusedResources() {
-        final AbstractFileSystem[] abstractFileSystems;
-        synchronized (fileSystemMap) {
-            // create snapshot under lock
-            abstractFileSystems = fileSystemMap.values().toArray(EMPTY_ABSTRACT_FILE_SYSTEMS);
-        }
-
         // process snapshot outside lock
-        Stream.of(abstractFileSystems).filter(AbstractFileSystem::isReleaseable)
+        Stream.of(getAllFileSystemSnapshot()).filter(AbstractFileSystem::isReleaseable)
                                       .forEach(AbstractFileSystem::closeCommunicationLink);
     }
 
+
     /**
-     * get snapshot of all fileSystem.
+     * Gets snapshot of all fileSystem under lock.
      *
-     * @return FileSystem Array
+     * @return AbstractFileSystem Array
+     * @since  2.10.0
      */
     public AbstractFileSystem[] getAllFileSystemSnapshot() {
         final AbstractFileSystem[] abstractFileSystems;

@@ -386,12 +386,11 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
      */
     @Override
     public void freeUnusedResources() {
-        final AbstractFileSystem[] abstractFileSystems = getAllFileSystemSnapshot();
         // process snapshot outside lock
-        Stream.of(abstractFileSystems).filter(AbstractFileSystem::isReleaseable)
-                .forEach(system -> {
-                    system.closeCommunicationLink();
-                    closeFileSystem(system);
+        Stream.of(getAllFileSystemSnapshot()).filter(AbstractFileSystem::isReleaseable)
+                .forEach(fileSystem -> {
+                    fileSystem.closeCommunicationLink();
+                    closeFileSystem(fileSystem);
                 });
     }
 }
