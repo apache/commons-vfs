@@ -382,7 +382,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
 
 
     /**
-     * Frees unused resources and close HttpFileSystem.
+     * Frees unused resources and close Http4FileSystem.
      */
     @Override
     public void freeUnusedResources() {

@@ -20,6 +20,7 @@ import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 
 import java.io.File;
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileNotFolderException;
@@ -223,16 +224,17 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
             fileSystemManager.setFilesCache(new WeakRefFilesCache());
             fileSystemManager.init();
 
-            String path = "http://www.w3schools.com/webservices/tempconvert.asmx?action=WSDL";
-            AbstractFileSystem http4FileSystem = getFile(fileSystemManager, path);
-            http4FileSystem.isReleaseable();
+            String path = ConnectionUri + "/read-tests/";
+            AbstractFileSystem httpFileSystem = getFile(fileSystemManager, path);
 
-            while (!http4FileSystem.isReleaseable()) {
+            long afterFiveSeconds = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(1);
+            while (System.currentTimeMillis() <= afterFiveSeconds && !httpFileSystem.isReleaseable()) {
                 // Try GC
                 System.gc();
             }
+            assertTrue(httpFileSystem.isReleaseable());
             // free resource
-            // http4FileSystem.httpclient is closed
+            // httpFileSystem.httpClient is closed
             fileSystemManager.freeUnusedResources();
 
             // get file again

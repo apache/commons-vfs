@@ -378,7 +378,7 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
 
 
     /**
-     * Frees unused resources and close HttpFileSystem.
+     * Frees unused resources and close Http5FileSystem.
      */
     @Override
     public void freeUnusedResources() {

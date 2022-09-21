@@ -147,7 +147,7 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
      * Gets snapshot of all fileSystem under lock.
      *
      * @return AbstractFileSystem Array
-     * @since  2.10.0
+     * @since 2.10.0
      */
     public AbstractFileSystem[] getAllFileSystemSnapshot() {
         final AbstractFileSystem[] abstractFileSystems;

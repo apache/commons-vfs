@@ -221,16 +221,17 @@ public class Http5ProviderTestCase extends AbstractProviderTestConfig {
             fileSystemManager.setFilesCache(new WeakRefFilesCache());
             fileSystemManager.init();
 
-            String path = "http5://www.w3schools.com/webservices/tempconvert.asmx?action=WSDL";
-            AbstractFileSystem http4FileSystem = getFile(fileSystemManager, path);
-            http4FileSystem.isReleaseable();
+            String path = ConnectionUri + "/read-tests/";
+            AbstractFileSystem http5FileSystem = getFile(fileSystemManager, path);
 
-            while (!http4FileSystem.isReleaseable()) {
+            long afterFiveSeconds = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(1);
+            while (System.currentTimeMillis() <= afterFiveSeconds && !http5FileSystem.isReleaseable()) {
                 // Try GC
                 System.gc();
             }
+            assertTrue(http5FileSystem.isReleaseable());
             // free resource
-            // http4FileSystem.httpclient is closed
+            // http5FileSystem.httpClient is closed
             fileSystemManager.freeUnusedResources();
 
             // get file again
