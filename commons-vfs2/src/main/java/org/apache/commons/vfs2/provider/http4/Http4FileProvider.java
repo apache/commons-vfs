@@ -206,7 +206,6 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
         final HostnameVerifier hostNameVerifier = createHostnameVerifier(builder, fileSystemOptions);
         final HttpClientBuilder httpClientBuilder =
                 HttpClients.custom()
-                .setConnectionManagerShared(true)
                 .setRoutePlanner(createHttpRoutePlanner(builder, fileSystemOptions))
                 .setConnectionManager(createConnectionManager(builder, fileSystemOptions, sslContext, hostNameVerifier))
                 .setSSLContext(sslContext)
