@@ -230,8 +230,8 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
             String path = ConnectionUri + "/read-tests/";
             AbstractFileSystem http4FileSystem = getFile(fileSystemManager, path);
 
-            long afterFiveSeconds = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(1);
-            while (System.currentTimeMillis() <= afterFiveSeconds && !http4FileSystem.isReleaseable()) {
+            long afterOneSecond = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(1);
+            while (System.currentTimeMillis() <= afterOneSecond && !http4FileSystem.isReleaseable()) {
                 // Try GC
                 System.gc();
             }

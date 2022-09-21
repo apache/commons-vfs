@@ -227,8 +227,8 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
             String path = ConnectionUri + "/read-tests/";
             AbstractFileSystem httpFileSystem = getFile(fileSystemManager, path);
 
-            long afterFiveSeconds = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(1);
-            while (System.currentTimeMillis() <= afterFiveSeconds && !httpFileSystem.isReleaseable()) {
+            long afterOneSecond = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(1);
+            while (System.currentTimeMillis() <= afterOneSecond && !httpFileSystem.isReleaseable()) {
                 // Try GC
                 System.gc();
             }

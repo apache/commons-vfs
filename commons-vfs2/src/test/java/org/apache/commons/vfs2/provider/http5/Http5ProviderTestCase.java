@@ -224,8 +224,8 @@ public class Http5ProviderTestCase extends AbstractProviderTestConfig {
             String path = ConnectionUri + "/read-tests/";
             AbstractFileSystem http5FileSystem = getFile(fileSystemManager, path);
 
-            long afterFiveSeconds = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(1);
-            while (System.currentTimeMillis() <= afterFiveSeconds && !http5FileSystem.isReleaseable()) {
+            long afterOneSecond = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(1);
+            while (System.currentTimeMillis() <= afterOneSecond && !http5FileSystem.isReleaseable()) {
                 // Try GC
                 System.gc();
             }
