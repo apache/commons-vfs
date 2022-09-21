@@ -16,7 +16,8 @@
  */
 package org.apache.commons.vfs2.provider;
 
-import java.util.*;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Stream;
 
 import org.apache.commons.vfs2.FileName;
