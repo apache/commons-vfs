@@ -231,6 +231,7 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
             while (System.currentTimeMillis() <= afterOneSecond && !httpFileSystem.isReleaseable()) {
                 // Try GC
                 System.gc();
+                Thread.sleep(20);
             }
             assertTrue(httpFileSystem.isReleaseable());
             // free resource

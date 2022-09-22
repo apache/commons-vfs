@@ -234,6 +234,7 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
             while (System.currentTimeMillis() <= afterOneSecond && !http4FileSystem.isReleaseable()) {
                 // Try GC
                 System.gc();
+                Thread.sleep(20);
             }
             assertTrue(http4FileSystem.isReleaseable());
             // free resource

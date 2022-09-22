@@ -228,6 +228,7 @@ public class Http5ProviderTestCase extends AbstractProviderTestConfig {
             while (System.currentTimeMillis() <= afterOneSecond && !http5FileSystem.isReleaseable()) {
                 // Try GC
                 System.gc();
+                Thread.sleep(20);
             }
             assertTrue(http5FileSystem.isReleaseable());
             // free resource
