@@ -190,7 +190,7 @@
     <jackrabbit1.version>1.6.5</jackrabbit1.version>
     <jackrabbit2.version>2.21.12</jackrabbit2.version>
     <commons.surefire.version>3.0.0-M7</commons.surefire.version>
-    <commons.japicmp.version>0.15.7</commons.japicmp.version>
+    <commons.japicmp.version>0.16.0</commons.japicmp.version>
     <commons.jacoco.version>0.8.8</commons.jacoco.version>
     <commons.spotbugs.version>4.7.1.1</commons.spotbugs.version>
     <commons.spotbugs.impl.version>4.7.1</commons.spotbugs.impl.version>

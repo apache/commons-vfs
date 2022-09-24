@@ -102,7 +102,7 @@ The <action> type attribute can be add,update,fix,remove.
         SFTP: Memory leak because AbstractFileProvider#findFileSystem.
       </action>
       <action type="fix" dev="ggregory" due-to="Marc Wrobel">
-	Fix typos #275, #276, #277.
+	    Fix typos #275, #276, #277.
       </action>
       <action type="fix" dev="ggregory" due-to="Marc Wrobel">
         Fix links in Javadoc and documentations #284.
@@ -194,7 +194,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump biz.aQute.bnd:biz.aQute.bndlib from 5.3.0 to 6.3.1.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
-        Bump commons.japicmp.version from 0.15.3 to 0.15.7.
+        Bump commons.japicmp.version from 0.15.3 to 0.16.0.
       </action>
       <action dev="ggregory" due-to="Gary Gregory, John Patrick, Dependabot" type="update">
         Replace JUnit 4.13.2 with 5.9.0 #281.
