@@ -192,10 +192,10 @@
     <commons.surefire.version>3.0.0-M7</commons.surefire.version>
     <commons.japicmp.version>0.16.0</commons.japicmp.version>
     <commons.jacoco.version>0.8.8</commons.jacoco.version>
-    <commons.spotbugs.version>4.7.1.1</commons.spotbugs.version>
-    <commons.spotbugs.impl.version>4.7.1</commons.spotbugs.impl.version>
+    <commons.spotbugs.version>4.7.2.0</commons.spotbugs.version>
+    <commons.spotbugs.impl.version>4.7.2</commons.spotbugs.impl.version>
     <commons.asm.version>9.3</commons.asm.version>
-    <commons.pmd.version>6.48.0</commons.pmd.version>
+    <commons.pmd.version>6.49.0</commons.pmd.version>
     <commons.javadoc.version>3.4.1</commons.javadoc.version>
     <commons.felix.version>5.1.2</commons.felix.version>
     <commons.animal-sniffer.version>1.21</commons.animal-sniffer.version>
@@ -215,7 +215,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.18.0</version>
+          <version>3.19.0</version>
           <dependencies>
             <dependency>
               <groupId>net.sourceforge.pmd</groupId>
