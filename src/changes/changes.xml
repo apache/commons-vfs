@@ -197,7 +197,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump commons.japicmp.version from 0.15.3 to 0.16.0.
       </action>
       <action dev="ggregory" due-to="Gary Gregory, John Patrick, Dependabot" type="update">
-        Replace JUnit 4.13.2 with 5.9.0 #281.
+        Replace JUnit 4.13.2 with 5.9.1 #281, #306.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Bump org.apache.httpcomponents:httpcore-nio 4.4.14 -> 4.4.15.
