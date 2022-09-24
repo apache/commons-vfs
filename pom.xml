@@ -619,14 +619,14 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>5.9.0</version>
+        <version>5.9.1</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>4.7.0</version>
+        <version>4.8.0</version>
       </dependency>
       <!-- Test FTP with Apache FTP Server (MINA) -->
       <dependency>
