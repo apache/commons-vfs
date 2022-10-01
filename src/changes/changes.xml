@@ -152,7 +152,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump actions/checkout from 2.3.4 to 3.0.2 #217, #220, #245.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">
-        Bump actions/setup-java from 2 to 3.
+        Bump actions/setup-java from 2 to 3.5.1.
       </action>
       <action type="update" dev="ggregory" due-to="Dependabot">
         Bump jakarta.mail from 1.6.7 to 2.0.1 #200.
