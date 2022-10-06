@@ -225,9 +225,7 @@ public final class UriParser {
         if (strings == null) {
             return null;
         }
-        for (int i = 0; i < strings.length; i++) {
-            strings[i] = encode(strings[i]);
-        }
+        Arrays.setAll(strings, i -> encode(strings[i]));
         return strings;
     }
 

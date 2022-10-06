@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.vfs2.FileFilter;
@@ -131,8 +132,7 @@ public class AndFileFilter implements FileFilter, ConditionalFileFilter, Seriali
                 if (i > 0) {
                     buffer.append(",");
                 }
-                final Object filter = fileFilters.get(i);
-                buffer.append(filter == null ? "null" : filter.toString());
+                buffer.append(Objects.toString(fileFilters.get(i)));
             }
         }
         buffer.append(")");

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.vfs2.FileFilter;
 import org.apache.commons.vfs2.FileSelectInfo;
@@ -127,8 +128,7 @@ public class OrFileFilter implements FileFilter, ConditionalFileFilter, Serializ
                 if (i > 0) {
                     buffer.append(",");
                 }
-                final Object filter = fileFilters.get(i);
-                buffer.append(filter == null ? "null" : filter.toString());
+                buffer.append(Objects.toString(fileFilters.get(i)));
             }
         }
         buffer.append(")");

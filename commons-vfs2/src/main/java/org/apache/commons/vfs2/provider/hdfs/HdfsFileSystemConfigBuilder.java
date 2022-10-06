@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider.hdfs;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
@@ -124,14 +125,15 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
         }
         final String[] urls = urlNames.split(",");
         final URL[] realURLs = new URL[urls.length];
-        for (int i = 0; i < urls.length; i++) {
+        Arrays.setAll(realURLs, i -> {
             try {
-                realURLs[i] = new URL(urls[i]);
+                return new URL(urls[i]);
             } catch (MalformedURLException e) {
                 // This should never happen because we save it in the proper form.
                 throw new IllegalArgumentException(urls[i], e);
             }
-        }
+
+        });
         return realURLs;
     }
 
