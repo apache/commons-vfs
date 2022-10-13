@@ -1205,6 +1205,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         } catch (final FileSystemException exc) {
             throw exc;
         } catch (final UnsupportedOperationException uoe) {
+            // TODO Remove for 3.0
             // Backward compatibility for subclasses before 2.5.0
             if (DO_GET_INPUT_STREAM_INT.equals(uoe.getMessage())) {
                 try {
