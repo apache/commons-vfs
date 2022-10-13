@@ -1204,9 +1204,9 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             throw new org.apache.commons.vfs2.FileNotFoundException(fileName, exc);
         } catch (final FileSystemException exc) {
             throw exc;
-        } catch (final UnsupportedOperationException exc) {
+        } catch (final UnsupportedOperationException uoe) {
             // Backward compatibility for subclasses before 2.5.0
-            if (DO_GET_INPUT_STREAM_INT.equals(exc.getMessage())) {
+            if (DO_GET_INPUT_STREAM_INT.equals(uoe.getMessage())) {
                 try {
                     // Invoke old API.
                     return doGetInputStream();
@@ -1217,7 +1217,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                     throw new FileSystemException("vfs.provider/read.error", fileName, e);
                 }
             }
-            throw exc;
+            throw uoe;
         } catch (final Exception exc) {
             throw new FileSystemException("vfs.provider/read.error", fileName, exc);
         }
