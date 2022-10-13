@@ -221,7 +221,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump commons-parent from 52 to 54 #302.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
-        Bump org.ow2.asm:asm from 9.2 to 9.3.
+        Bump org.ow2.asm:asm from 9.2 to 9.4.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Bump commons.jacoco.version from 0.8.7 to 0.8.8.
