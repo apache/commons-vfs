@@ -1214,7 +1214,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                     if (e instanceof FileSystemException) {
                         throw (FileSystemException) e;
                     }
-                    throw new FileSystemException("vfs.provider/read.error", fileName, exc);
+                    throw new FileSystemException("vfs.provider/read.error", fileName, e);
                 }
             }
             throw exc;
