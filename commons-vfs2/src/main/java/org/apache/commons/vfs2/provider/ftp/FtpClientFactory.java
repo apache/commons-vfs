@@ -36,6 +36,8 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 
+import static org.apache.commons.net.ftp.FTPClient.ACTIVE_LOCAL_DATA_CONNECTION_MODE;
+
 /**
  * Creates {@link FtpClient} instances.
  */
@@ -238,6 +240,11 @@ public final class FtpClientFactory {
                     final Boolean passiveMode = builder.getPassiveMode(fileSystemOptions);
                     if (passiveMode != null && passiveMode.booleanValue()) {
                         client.enterLocalPassiveMode();
+                    }
+
+                    final FtpActivePortRange activePortRange = builder.getActivePortRange(fileSystemOptions);
+                    if (activePortRange != null) {
+                        client.setActivePortRange(activePortRange.getMinimum(), activePortRange.getMaximum());
                     }
 
                     setupOpenConnection(client, fileSystemOptions);
