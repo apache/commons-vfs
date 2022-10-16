@@ -44,4 +44,11 @@ public class FtpFileSystemConfigBuilderTest {
         assertEquals(Duration.ofSeconds(10), instance.getControlKeepAliveTimeout(options));
     }
 
+    @Test
+    public void testActivePortRange() {
+        final FtpFileSystemConfigBuilder instance = FtpFileSystemConfigBuilder.getInstance();
+        final FileSystemOptions options = new FileSystemOptions();
+        instance.setActivePortRange(options, FtpActivePortRange.of(2121, 2125));
+        assertEquals(FtpActivePortRange.of(2121, 2125), instance.getActivePortRange(options));
+    }
 }
