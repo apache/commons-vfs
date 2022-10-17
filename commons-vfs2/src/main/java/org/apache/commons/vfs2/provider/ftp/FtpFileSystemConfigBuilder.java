@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.Range;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.ftp.parser.FTPFileEntryParserFactory;
 import org.apache.commons.vfs2.FileContent;
@@ -46,6 +47,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String FACTORY_KEY = FTPFileEntryParserFactory.class.getName() + ".KEY";
     private static final String FILE_TYPE = PREFIX + ".FILE_TYPE";
     private static final String PASSIVE_MODE = PREFIX + ".PASSIVE";
+    private static final String ACTIVE_PORT_RANGE = PREFIX + ".ACTIVE_PORT_RANGE";
     private static final String PROXY = PREFIX + ".PROXY";
     private static final String RECENT_DATE_FORMAT = PREFIX + ".RECENT_DATE_FORMAT";
     private static final String REMOTE_VERIFICATION = PREFIX + ".REMOTE_VERIFICATION";
@@ -242,6 +244,17 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public Boolean getPassiveMode(final FileSystemOptions options) {
         return getBoolean(options, PASSIVE_MODE);
+    }
+
+    /**
+     * Gets the active port range.
+     *
+     * @param options The FileSystemOptions.
+     * @return the Range of active ports
+     * @since 2.10.0
+     */
+    public Range<Integer> getActivePortRange(final FileSystemOptions options) {
+        return getParam(options, ACTIVE_PORT_RANGE);
     }
 
     /**
@@ -526,6 +539,17 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public void setPassiveMode(final FileSystemOptions options, final boolean passiveMode) {
         setParam(options, PASSIVE_MODE, toBooleanObject(passiveMode));
+    }
+
+    /**
+     * Sets the active port range.
+     *
+     * @param options   The FileSystemOptions.
+     * @param portRange the Range of active ports
+     * @since 2.10.0
+     */
+    public void setActivePortRange(final FileSystemOptions options, final Range<Integer> portRange) {
+        setParam(options, ACTIVE_PORT_RANGE, portRange);
     }
 
     /**

@@ -23,6 +23,7 @@ import java.io.Writer;
 import java.net.Proxy;
 import java.time.Duration;
 
+import org.apache.commons.lang3.Range;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationUtils;
 import org.apache.commons.logging.Log;
@@ -238,6 +239,11 @@ public final class FtpClientFactory {
                     final Boolean passiveMode = builder.getPassiveMode(fileSystemOptions);
                     if (passiveMode != null && passiveMode.booleanValue()) {
                         client.enterLocalPassiveMode();
+                    }
+
+                    final Range<Integer> activePortRange = builder.getActivePortRange(fileSystemOptions);
+                    if (activePortRange != null) {
+                        client.setActivePortRange(activePortRange.getMinimum(), activePortRange.getMaximum());
                     }
 
                     setupOpenConnection(client, fileSystemOptions);
