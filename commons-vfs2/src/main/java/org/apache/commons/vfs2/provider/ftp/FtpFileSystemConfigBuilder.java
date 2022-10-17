@@ -251,6 +251,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param options The FileSystemOptions.
      * @return the Range of active ports
+     * @since 2.10.0
      */
     public Range<Integer> getActivePortRange(final FileSystemOptions options) {
         return getParam(options, ACTIVE_PORT_RANGE);
@@ -545,6 +546,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param options   The FileSystemOptions.
      * @param portRange the Range of active ports
+     * @since 2.10.0
      */
     public void setActivePortRange(final FileSystemOptions options, final Range<Integer> portRange) {
         setParam(options, ACTIVE_PORT_RANGE, portRange);
