@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.Range;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.ftp.parser.FTPFileEntryParserFactory;
 import org.apache.commons.vfs2.FileContent;
@@ -249,9 +250,9 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Gets the active port range.
      *
      * @param options The FileSystemOptions.
-     * @return the FTP active port range
+     * @return the Range of active ports
      */
-    public FtpActivePortRange getActivePortRange(final FileSystemOptions options) {
+    public Range<Integer> getActivePortRange(final FileSystemOptions options) {
         return getParam(options, ACTIVE_PORT_RANGE);
     }
 
@@ -543,9 +544,9 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Sets the active port range.
      *
      * @param options   The FileSystemOptions.
-     * @param portRange the FTP active port range
+     * @param portRange the Range of active ports
      */
-    public void setActivePortRange(final FileSystemOptions options, final FtpActivePortRange portRange) {
+    public void setActivePortRange(final FileSystemOptions options, final Range<Integer> portRange) {
         setParam(options, ACTIVE_PORT_RANGE, portRange);
     }
 
