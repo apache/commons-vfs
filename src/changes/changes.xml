@@ -147,6 +147,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-821" type="add" dev="ggregory" due-to="Marc Wrobel, Gary Gregory">
         Deprecate FileSelector#traverseDescendents in favor of traverseDescendants.
       </action>
+      <action issue="VFS-821" type="add" dev="ggregory" due-to="Maksym Perevertov, Gary Gregory">
+        Add active port range configuration for FTP client factory #318.
+      </action>
       <!-- UPDATE -->
       <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">
         Bump actions/cache from 2.1.6 to 3.0.11 #221, #249, #310, #314, #317.
