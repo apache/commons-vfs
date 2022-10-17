@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Duration;
 
+import org.apache.commons.lang3.Range;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.junit.jupiter.api.Test;
 
@@ -48,7 +49,7 @@ public class FtpFileSystemConfigBuilderTest {
     public void testActivePortRange() {
         final FtpFileSystemConfigBuilder instance = FtpFileSystemConfigBuilder.getInstance();
         final FileSystemOptions options = new FileSystemOptions();
-        instance.setActivePortRange(options, FtpActivePortRange.of(2121, 2125));
-        assertEquals(FtpActivePortRange.of(2121, 2125), instance.getActivePortRange(options));
+        instance.setActivePortRange(options, Range.between(2121, 2125));
+        assertEquals(Range.between(2121, 2125), instance.getActivePortRange(options));
     }
 }
