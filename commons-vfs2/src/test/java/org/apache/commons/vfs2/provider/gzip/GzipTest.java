@@ -19,11 +19,12 @@ package org.apache.commons.vfs2.provider.gzip;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class GzipTest {
@@ -34,8 +35,15 @@ public class GzipTest {
         final File gzFile = new File("src/test/resources/test-data/好.txt.gz");
         FileSystemManager manager = VFS.getManager();
 
-        try (FileObject localFileObject = manager.resolveFile(gzFile.getAbsolutePath()); FileObject gzFileObject = manager.createFileSystem(localFileObject);) {
-            Assert.assertTrue(gzFileObject instanceof GzipFileObject);
+        try (FileObject localFileObject = manager.resolveFile(gzFile.getAbsolutePath());
+                FileObject gzFileObjectDir = manager.createFileSystem(localFileObject);
+                FileObject gzFileObject = gzFileObjectDir.resolveFile("好.txt")) {
+            Assertions.assertTrue(gzFileObjectDir instanceof GzipFileObject);
+            Assertions.assertTrue(gzFileObjectDir.isFolder());
+            Assertions.assertTrue(gzFileObject instanceof GzipFileObject);
+            Assertions.assertFalse(gzFileObject.isFolder());
+            String content = gzFileObject.getContent().getString(StandardCharsets.UTF_8);
+            Assertions.assertEquals("aaa", content);
         }
     }
 }
