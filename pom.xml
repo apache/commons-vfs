@@ -195,7 +195,7 @@
     <commons.spotbugs.version>4.7.2.0</commons.spotbugs.version>
     <commons.spotbugs.impl.version>4.7.3</commons.spotbugs.impl.version>
     <commons.asm.version>9.4</commons.asm.version>
-    <commons.pmd.version>6.50.0</commons.pmd.version>
+    <commons.pmd.version>6.51.0</commons.pmd.version>
     <commons.javadoc.version>3.4.1</commons.javadoc.version>
     <commons.felix.version>5.1.2</commons.felix.version>
     <commons.animal-sniffer.version>1.21</commons.animal-sniffer.version>
