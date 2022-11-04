@@ -241,6 +241,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="Dependabot" type="update">
         Bump maven-checkstyle-plugin from 3.1.2 to 3.2.0 #321
       </action>
+      <action dev="ggregory" due-to="Dependabot" type="update">
+        Bump commons-compress from 1.21 to 1.22 #329.
+      </action>
     </release>
     <release version="2.9.0" date="2021-06-16" description="Maintenance release. Requires Java 8.">
       <!-- ADDS -->
