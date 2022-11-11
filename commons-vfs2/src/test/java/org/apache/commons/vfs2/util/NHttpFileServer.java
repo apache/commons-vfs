@@ -255,7 +255,7 @@ public class NHttpFileServer {
 
         server = bootstrap.setIOReactorConfig(config).register("*", new HttpFileHandler(docRoot)).create();
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> close()));
+        Runtime.getRuntime().addShutdownHook(new Thread(this::close));
 
         server.start();
 
