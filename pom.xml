@@ -192,7 +192,7 @@
     <commons.surefire.version>3.0.0-M7</commons.surefire.version>
     <commons.japicmp.version>0.16.0</commons.japicmp.version>
     <commons.jacoco.version>0.8.8</commons.jacoco.version>
-    <commons.spotbugs.version>4.7.2.2</commons.spotbugs.version>
+    <commons.spotbugs.version>4.7.3.0</commons.spotbugs.version>
     <commons.spotbugs.impl.version>4.7.3</commons.spotbugs.impl.version>
     <commons.asm.version>9.4</commons.asm.version>
     <commons.pmd.version>6.51.0</commons.pmd.version>
