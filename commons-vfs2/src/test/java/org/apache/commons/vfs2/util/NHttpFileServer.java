@@ -190,7 +190,7 @@ public class NHttpFileServer {
         if (args.length >= 2) {
             port = Integer.parseInt(args[1]);
         }
-        new NHttpFileServer(port, docRoot).start().awaitTermination();
+        start(port, docRoot, 0).awaitTermination();
     }
 
     static final void println(final String msg) {
