@@ -77,8 +77,7 @@ import org.apache.hc.core5.ssl.SSLContexts;
 import org.apache.hc.core5.util.TimeValue;
 
 /**
- * Embedded HTTP/1.1 file server based on a non-blocking I/O model and capable of direct channel (zero copy) data
- * transfer.
+ * Embedded HTTP/1.1 file server based on a non-blocking I/O model and capable of direct channel (zero copy) data transfer.
  */
 public class NHttpFileServer {
 
@@ -91,8 +90,8 @@ public class NHttpFileServer {
         }
 
         @Override
-        public void handle(final Message<HttpRequest, Void> message, final ResponseTrigger responseTrigger,
-            final HttpContext context) throws HttpException, IOException {
+        public void handle(final Message<HttpRequest, Void> message, final ResponseTrigger responseTrigger, final HttpContext context)
+                throws HttpException, IOException {
             final HttpRequest request = message.getHead();
             final String method = request.getMethod().toUpperCase(Locale.ROOT);
             if (!method.equals("GET") && !method.equals("HEAD") && !method.equals("POST")) {
@@ -112,14 +111,16 @@ public class NHttpFileServer {
 
                 final String msg = "File " + file.getPath() + " not found";
                 println(msg);
-                responseTrigger.submitResponse(AsyncResponseBuilder.create(HttpStatus.SC_NOT_FOUND)
-                    .setEntity("<html><body><h1>" + msg + "</h1></body></html>", mimeType).build(), context);
+                responseTrigger.submitResponse(
+                        AsyncResponseBuilder.create(HttpStatus.SC_NOT_FOUND).setEntity("<html><body><h1>" + msg + "</h1></body></html>", mimeType).build(),
+                        context);
 
             } else if (!file.canRead()) {
                 final String msg = "Cannot read file " + file.getPath();
                 println(msg);
-                responseTrigger.submitResponse(AsyncResponseBuilder.create(HttpStatus.SC_FORBIDDEN)
-                    .setEntity("<html><body><h1>" + msg + "</h1></body></html>", mimeType).build(), context);
+                responseTrigger.submitResponse(
+                        AsyncResponseBuilder.create(HttpStatus.SC_FORBIDDEN).setEntity("<html><body><h1>" + msg + "</h1></body></html>", mimeType).build(),
+                        context);
 
             } else {
 
@@ -156,8 +157,8 @@ public class NHttpFileServer {
         }
 
         @Override
-        public AsyncRequestConsumer<Message<HttpRequest, Void>> prepare(final HttpRequest request,
-            final EntityDetails entityDetails, final HttpContext context) throws HttpException {
+        public AsyncRequestConsumer<Message<HttpRequest, Void>> prepare(final HttpRequest request, final EntityDetails entityDetails, final HttpContext context)
+                throws HttpException {
             return new BasicRequestConsumer<>(entityDetails != null ? new NoopEntityConsumer() : null);
         }
 
@@ -172,10 +173,12 @@ public class NHttpFileServer {
     private final int port;
 
     private HttpAsyncServer server;
+
     private NHttpFileServer(final int port, final File docRoot) {
         this.port = port;
         this.docRoot = docRoot;
     }
+
     public static void main(final String[] args) throws Exception {
         if (args.length < 1) {
             System.err.println("Please specify document root directory");
@@ -189,15 +192,15 @@ public class NHttpFileServer {
         }
         new NHttpFileServer(port, docRoot).start().awaitTermination();
     }
+
     static final void println(final String msg) {
         if (DEBUG) {
             System.out.println(HttpDateGenerator.INSTANCE.getCurrentDate() + " | " + msg);
         }
     }
 
-    public static NHttpFileServer start(final int port, final File docRoot, final long waitMillis)
-        throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException,
-        CertificateException, IOException, InterruptedException, ExecutionException {
+    public static NHttpFileServer start(final int port, final File docRoot, final long waitMillis) throws KeyManagementException, UnrecoverableKeyException,
+            NoSuchAlgorithmException, KeyStoreException, CertificateException, IOException, InterruptedException, ExecutionException {
         return new NHttpFileServer(port, docRoot).start();
     }
 
@@ -229,8 +232,8 @@ public class NHttpFileServer {
 
     }
 
-    private NHttpFileServer start() throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException,
-        KeyStoreException, CertificateException, IOException, InterruptedException, ExecutionException {
+    private NHttpFileServer start() throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException,
+            IOException, InterruptedException, ExecutionException {
         final AsyncServerBootstrap bootstrap = AsyncServerBootstrap.bootstrap();
         SSLContext sslContext = null;
         if (port == 8443 || port == 443) {
@@ -241,8 +244,7 @@ public class NHttpFileServer {
                 System.exit(1);
             }
             println("Loading keystore " + url);
-            sslContext = SSLContexts.custom()
-                .loadKeyMaterial(url, "nopassword".toCharArray(), "nopassword".toCharArray()).build();
+            sslContext = SSLContexts.custom().loadKeyMaterial(url, "nopassword".toCharArray(), "nopassword".toCharArray()).build();
             bootstrap.setTlsStrategy(new BasicServerTlsStrategy(sslContext, new FixedPortStrategy(port)));
         }
 
@@ -262,7 +264,7 @@ public class NHttpFileServer {
         final Future<ListenerEndpoint> future = server.listen(new InetSocketAddress(port));
         listenerEndpoint = future.get();
         println("Serving " + docRoot + " on " + listenerEndpoint.getAddress()
-            + (sslContext == null ? "" : " with " + sslContext.getProvider() + " " + sslContext.getProtocol()));
+                + (sslContext == null ? "" : " with " + sslContext.getProvider() + " " + sslContext.getProtocol()));
         return this;
     }
 
