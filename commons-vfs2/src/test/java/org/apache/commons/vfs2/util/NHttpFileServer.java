@@ -92,6 +92,7 @@ public class NHttpFileServer {
         @Override
         public void handle(final Message<HttpRequest, Void> message, final ResponseTrigger responseTrigger, final HttpContext context)
                 throws HttpException, IOException {
+            println("Handling " + message + " in " + context);
             final HttpRequest request = message.getHead();
             final String method = request.getMethod().toUpperCase(Locale.ROOT);
             if (!method.equals("GET") && !method.equals("HEAD") && !method.equals("POST")) {
