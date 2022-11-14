@@ -256,7 +256,10 @@ public class NHttpFileServer {
                 .build();
         // @formatter:on
 
-        server = bootstrap.setIOReactorConfig(config).register("*", new HttpFileHandler(docRoot)).create();
+        server = bootstrap
+                .setExceptionCallback(e -> e.printStackTrace())
+                .setIOReactorConfig(config)
+                .register("*", new HttpFileHandler(docRoot)).create();
 
         Runtime.getRuntime().addShutdownHook(new Thread(this::close));
 
