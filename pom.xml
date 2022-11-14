@@ -188,7 +188,7 @@
     <dependency.locations.enabled>false</dependency.locations.enabled>
     <hadoop.version>3.3.4</hadoop.version>
     <httpcore5.version>5.1.5</httpcore5.version>
-    <httpclient5.version>5.1.3</httpclient5.version>
+    <httpclient5.version>5.2</httpclient5.version>
     <jackrabbit1.version>1.6.5</jackrabbit1.version>
     <jackrabbit2.version>2.21.13</jackrabbit2.version>
     <commons.surefire.version>3.0.0-M7</commons.surefire.version>
