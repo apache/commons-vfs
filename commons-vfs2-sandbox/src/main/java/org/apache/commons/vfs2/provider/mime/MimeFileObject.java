@@ -158,7 +158,7 @@ public class MimeFileObject extends AbstractFileObject<MimeFileSystem> implement
             }
         }
 
-        return vfs.toArray(new MimeFileObject[vfs.size()]);
+        return vfs.toArray(new MimeFileObject[0]);
     }
 
     private void setPart(final Part part) {
