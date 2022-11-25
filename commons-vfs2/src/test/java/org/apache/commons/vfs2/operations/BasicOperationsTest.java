@@ -69,6 +69,7 @@ public class BasicOperationsTest {
 
     /** This FileOperationsProvider is no VfsComponent. */
     static class MyFileOperationProviderNoncomp extends MyFileOperationProviderBase {
+        // empty
     }
 
     /**
@@ -106,6 +107,7 @@ public class BasicOperationsTest {
     @BeforeEach
     public void setUp() throws FileSystemException {
         manager = new DefaultFileSystemManager();
+        @SuppressWarnings("resource") // manager is closed on @AfterEach
         final FileProvider fp = new DefaultLocalFileProvider();
         manager.addProvider("file", fp);
         manager.init();
@@ -129,13 +131,13 @@ public class BasicOperationsTest {
      */
     @Test
     public void testLifecycleComp() throws FileSystemException {
-        final MyFileOperationProviderBase myop = new MyFileOperationProviderComp();
-        assertEquals(0, myop.ops);
-        manager.addOperationProvider("file", myop);
-        assertEquals(7, myop.ops);
-        manager.close();
-        assertEquals(15, myop.ops, "close() not called"); // VFS-577
-
+        try (final MyFileOperationProviderComp myop = new MyFileOperationProviderComp()) {
+            assertEquals(0, myop.ops);
+            manager.addOperationProvider("file", myop);
+            assertEquals(7, myop.ops);
+            manager.close();
+            assertEquals(15, myop.ops, "close() not called"); // VFS-577
+        }
         // fixture will close again
     }
 
@@ -163,14 +165,15 @@ public class BasicOperationsTest {
     public void testNotFoundAny() throws FileSystemException {
         final MyFileOperationProviderBase myop = new MyFileOperationProviderNoncomp();
         manager.addOperationProvider("file", myop);
-        final FileObject fo = manager.toFileObject(new File("."));
+        try (final FileObject fo = manager.toFileObject(new File("."))) {
 
-        final FileOperations ops = fo.getFileOperations();
-        assertNotNull(ops);
+            final FileOperations ops = fo.getFileOperations();
+            assertNotNull(ops);
 
-        final Class<? extends FileOperation>[] oparray = ops.getOperations();
-        assertSame(0, oparray.length, "no ops should be found");
-        assertSame(16, myop.ops); // collect
+            final Class<? extends FileOperation>[] oparray = ops.getOperations();
+            assertSame(0, oparray.length, "no ops should be found");
+            assertSame(16, myop.ops); // collect
+        }
     }
 
     /**
@@ -182,14 +185,15 @@ public class BasicOperationsTest {
     public void testNotFoundOperation() throws FileSystemException {
         final MyFileOperationProviderBase myop = new MyFileOperationProviderNoncomp();
         manager.addOperationProvider("file", myop);
-        final FileObject fo = manager.toFileObject(new File("."));
+        try (final FileObject fo = manager.toFileObject(new File("."))) {
 
-        final FileOperations ops = fo.getFileOperations();
-        assertNotNull(ops);
+            final FileOperations ops = fo.getFileOperations();
+            assertNotNull(ops);
 
-        FileSystemException thrown = assertThrows(FileSystemException.class, () -> ops.getOperation(VcsLog.class));
-        assertEquals("vfs.operation/operation-not-supported.error", thrown.getCode());
-        assertSame(32, myop.ops); // getOperation was called
+            FileSystemException thrown = assertThrows(FileSystemException.class, () -> ops.getOperation(VcsLog.class));
+            assertEquals("vfs.operation/operation-not-supported.error", thrown.getCode());
+            assertSame(32, myop.ops); // getOperation was called
+        }
     }
 
 }
