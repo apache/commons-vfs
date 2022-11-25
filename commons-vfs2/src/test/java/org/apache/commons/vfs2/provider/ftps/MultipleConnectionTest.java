@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 public class MultipleConnectionTest {
 
     @BeforeAll
-    public static void setUpClass() throws FtpException, IOException {
+    public static void setUpClass() throws FtpException {
         AbstractFtpsProviderTestCase.setUpClass(true);
     }
 
