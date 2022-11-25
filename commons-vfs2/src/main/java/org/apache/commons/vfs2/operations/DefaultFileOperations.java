@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.operations;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -94,7 +95,7 @@ public class DefaultFileOperations implements FileOperations {
 
         @SuppressWarnings("unchecked")
         final Class<? extends FileOperation>[] array = (Class<? extends FileOperation>[]) operations
-                .toArray(new Class<?>[] {});
+                .toArray(ArrayUtils.EMPTY_CLASS_ARRAY);
         return array;
     }
 
