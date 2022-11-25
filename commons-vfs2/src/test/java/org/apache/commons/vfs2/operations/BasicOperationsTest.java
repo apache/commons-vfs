@@ -113,11 +113,9 @@ public class BasicOperationsTest {
 
     /**
      * JUnit Fixture: Tear Down the FSM.
-     *
-     * @throws FileSystemException for runtime problems
      */
     @AfterEach
-    public void tearDown() throws FileSystemException {
+    public void tearDown() {
         if (manager != null) {
             manager.close();
             manager = null;
