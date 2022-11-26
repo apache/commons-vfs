@@ -82,7 +82,7 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
      */
     private static String ConnectionUri;
 
-    private static FtpServer Server;
+    private static FtpServer EmbeddedFtpServer;
 
     private static final String TEST_URI = "test.ftps.uri";
 
@@ -105,15 +105,17 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
     }
 
     /**
-     * Creates and starts an embedded Apache FTP Server (MINA).
+     * Creates and starts an embedded Apache FTP EmbeddedFtpServer (MINA).
      *
      * @param implicit FTPS connection mode
      * @throws FtpException
      */
-    static void setUpClass(final boolean implicit) throws FtpException {
-        if (Server != null) {
+    synchronized static void setUpClass(final boolean implicit) throws FtpException {
+        if (EmbeddedFtpServer != null) {
             return;
         }
+        // Let the OS find use an ephemeral port by using 0.
+        SocketPort = 0;
         final FtpServerFactory serverFactory = new FtpServerFactory();
         final PropertiesUserManagerFactory propertiesUserManagerFactory = new PropertiesUserManagerFactory();
         final URL userPropsResource = ClassLoader.getSystemClassLoader().getResource(USER_PROPS_RES);
@@ -126,21 +128,21 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         user.setHomeDirectory(getTestDirectory());
         serverFactory.setUserManager(userManager);
         final ListenerFactory factory = new ListenerFactory();
-        // Let the OS find use an ephemeral port by using 0 here.
-        factory.setPort(0);
+        factory.setPort(SocketPort);
 
         // define SSL configuration
         final URL serverJksResource = ClassLoader.getSystemClassLoader().getResource(SERVER_JKS_RES);
         Assertions.assertNotNull(serverJksResource, SERVER_JKS_RES);
-        final SslConfigurationFactory ssl = new SslConfigurationFactory();
+        // System.out.println("Loading " + serverJksResource);
+        final SslConfigurationFactory sllConfigFactory = new SslConfigurationFactory();
         final File keyStoreFile = FileUtils.toFile(serverJksResource);
         Assertions.assertTrue(keyStoreFile.exists(), keyStoreFile.toString());
-        ssl.setKeystoreFile(keyStoreFile);
-        ssl.setKeystorePassword("password");
+        sllConfigFactory.setKeystoreFile(keyStoreFile);
+        sllConfigFactory.setKeystorePassword("password");
 
         // set the SSL configuration for the listener
-        SslConfiguration sslConfiguration = ssl.createSslConfiguration();
-        NoProtocolSslConfigurationProxy noProtocolSslConfigurationProxy = new NoProtocolSslConfigurationProxy(sslConfiguration);
+        final SslConfiguration sslConfiguration = sllConfigFactory.createSslConfiguration();
+        final NoProtocolSslConfigurationProxy noProtocolSslConfigurationProxy = new NoProtocolSslConfigurationProxy(sslConfiguration);
         factory.setSslConfiguration(noProtocolSslConfigurationProxy);
         factory.setImplicitSsl(implicit);
 
@@ -148,19 +150,19 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         serverFactory.addListener("default", factory.createListener());
 
         // start the server
-        Server = serverFactory.createServer();
-        Server.start();
-        SocketPort = ((org.apache.ftpserver.impl.DefaultFtpServer) Server).getListener("default").getPort();
+        EmbeddedFtpServer = serverFactory.createServer();
+        EmbeddedFtpServer.start();
+        SocketPort = ((org.apache.ftpserver.impl.DefaultFtpServer) EmbeddedFtpServer).getListener("default").getPort();
         ConnectionUri = "ftps://test:test@localhost:" + SocketPort;
     }
 
     /**
-     * Stops the embedded Apache FTP Server (MINA).
+     * Stops the embedded Apache FTP EmbeddedFtpServer (MINA).
      */
     static void tearDownClass() {
-        if (Server != null) {
-            Server.stop();
-            Server = null;
+        if (EmbeddedFtpServer != null) {
+            EmbeddedFtpServer.stop();
+            EmbeddedFtpServer = null;
         }
     }
 
