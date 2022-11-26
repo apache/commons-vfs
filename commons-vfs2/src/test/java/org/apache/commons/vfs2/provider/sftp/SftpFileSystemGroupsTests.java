@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.sftp;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
@@ -56,9 +58,10 @@ public class SftpFileSystemGroupsTests {
         Assert.assertArrayEquals(new int[]{1, 22, 333, 4444}, groups);
     }
 
-    @Test(expected = NumberFormatException.class)
+    @Test
     public void shouldThrowOnUnexpectedOutput() {
         final StringBuilder builder = new StringBuilder("abc\n");
-        fileSystem.parseGroupIdOutput(builder);
+        assertThrows(NumberFormatException.class, () -> fileSystem.parseGroupIdOutput(builder));
     }
+
 }
