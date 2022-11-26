@@ -28,7 +28,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class MultipleConnectionTest {
+public class FtpsMultipleConnectionTest {
 
     @BeforeAll
     public static void setUpClass() throws FtpException {

@@ -45,7 +45,10 @@ import org.junit.jupiter.api.Assertions;
  */
 abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
 
+    private static final String LISTENER_NAME = "default";
+
     static final class FtpProviderTestSuite extends ProviderTestSuite {
+        
         private final boolean implicit;
 
         public FtpProviderTestSuite(final AbstractFtpsProviderTestCase providerConfig) throws Exception {
@@ -127,8 +130,8 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         // The user prop file requires the "homedirectory" to be set
         user.setHomeDirectory(getTestDirectory());
         serverFactory.setUserManager(userManager);
-        final ListenerFactory factory = new ListenerFactory();
-        factory.setPort(SocketPort);
+        final ListenerFactory listenerFactory = new ListenerFactory();
+        listenerFactory.setPort(SocketPort);
 
         // define SSL configuration
         final URL serverJksResource = ClassLoader.getSystemClassLoader().getResource(SERVER_JKS_RES);
@@ -143,32 +146,52 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         // set the SSL configuration for the listener
         final SslConfiguration sslConfiguration = sllConfigFactory.createSslConfiguration();
         final NoProtocolSslConfigurationProxy noProtocolSslConfigurationProxy = new NoProtocolSslConfigurationProxy(sslConfiguration);
-        factory.setSslConfiguration(noProtocolSslConfigurationProxy);
-        factory.setImplicitSsl(implicit);
+        listenerFactory.setSslConfiguration(noProtocolSslConfigurationProxy);
+        listenerFactory.setImplicitSsl(implicit);
 
         // replace the default listener
-        serverFactory.addListener("default", factory.createListener());
+        serverFactory.addListener(LISTENER_NAME, listenerFactory.createListener());
 
         // start the server
         EmbeddedFtpServer = serverFactory.createServer();
         EmbeddedFtpServer.start();
-        SocketPort = ((org.apache.ftpserver.impl.DefaultFtpServer) EmbeddedFtpServer).getListener("default").getPort();
+        Thread.yield();
+        if (EmbeddedFtpServer.isStopped() || EmbeddedFtpServer.isSuspended()) {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        SocketPort = ((org.apache.ftpserver.impl.DefaultFtpServer) EmbeddedFtpServer).getListener(LISTENER_NAME).getPort();
+        // System.out.println("Using port " + SocketPort);
         ConnectionUri = "ftps://test:test@localhost:" + SocketPort;
     }
 
     /**
      * Stops the embedded Apache FTP EmbeddedFtpServer (MINA).
      */
-    static void tearDownClass() {
+    synchronized static void tearDownClass() {
         if (EmbeddedFtpServer != null) {
+            EmbeddedFtpServer.suspend();
             EmbeddedFtpServer.stop();
+            Thread.yield();
+            int count = 10;
+            while (count-- > 0 && !EmbeddedFtpServer.isStopped()) {
+                final int millis = 200;
+                System.out.println(String.format("Waiting %,d milliseconds for %s to stop", millis, EmbeddedFtpServer));
+                try {
+                    Thread.sleep(millis);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             EmbeddedFtpServer = null;
         }
     }
 
     /**
-     * Returns the base folder for tests. You can override the DEFAULT_URI by using the system property name defined by
-     * TEST_URI.
+     * Returns the base folder for tests. You can override the DEFAULT_URI by using the system property name defined by TEST_URI.
      */
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
