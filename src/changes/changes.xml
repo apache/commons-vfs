@@ -54,7 +54,7 @@ The <action> type attribute can be add,update,fix,remove.
         LocalFile.doGetOutputStream(boolean) for an existing file no longer truncates the file.
       </action>
       <action type="fix" dev="ggregory" due-to="wodencafe">
-        (doc) Update the Javadoc link to not lead to 404. #218.
+        Update the Javadoc link to not lead to 404. #218.
       </action>
       <action type="fix" issue="VFS-810" dev="ggregory" due-to="Jan Aelbrecht, Gary Gregory">
         Percent encoded backslashes in authority of URLs aren't allowed for WebDav.
@@ -115,6 +115,9 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action type="fix" dev="ggregory" due-to="Boris Petrov">
         AbstractFileObject uses the wrong exception for "cause" #316.
+      </action>
+      <action type="fix" dev="ggregory" due-to="John Patrick">
+        JUnit5 assertThrows SftpFileSystemGroupsTests #323.
       </action>
       <!-- ADD -->
       <action type="add" dev="ggregory" due-to="Seth Falco">
