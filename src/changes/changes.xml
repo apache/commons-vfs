@@ -197,7 +197,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump net.sourceforge.pmd:pmd-* from 6.36.0 to 6.51.0 #208, #247, #256, #261, #266, #270, #283.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">
-        Bump org.mockito:mockito-core from 3.11.2 to 4.8.0 #263, #292, #308.
+        Bump org.mockito:mockito-core from 3.11.2 to 4.9.0 #263, #292, #308, #337.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">
         Bump maven-javadoc-plugin from 3.3.0 to 3.4.1, #293.
