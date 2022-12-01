@@ -190,7 +190,8 @@ public class SoftRefFilesCache extends AbstractFilesCache {
             final Reference<FileObject> ref = createReference(fileObject, refQueue);
             final FileSystemAndNameKey key = new FileSystemAndNameKey(fileObject.getFileSystem(), fileObject.getName());
 
-            if (files.containsKey(fileObject.getName()) && files.get(fileObject.getName()).get() != null) {
+            final Reference<FileObject> reference = files.get(fileObject.getName());
+            if (reference != null && reference.get() != null) {
                 return false;
             }
             final Reference<FileObject> old = files.put(fileObject.getName(), ref);

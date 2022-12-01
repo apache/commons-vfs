@@ -238,12 +238,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     public void addOperationProvider(final String[] schemes, final FileOperationProvider operationProvider)
             throws FileSystemException {
         for (final String scheme : schemes) {
-            if (!operationProviders.containsKey(scheme)) {
-                final List<FileOperationProvider> providers = new ArrayList<>();
-                operationProviders.put(scheme, providers);
-            }
-
-            final List<FileOperationProvider> providers = operationProviders.get(scheme);
+            final List<FileOperationProvider> providers = operationProviders.computeIfAbsent(scheme, k -> new ArrayList<>());
 
             if (providers.contains(operationProvider)) {
                 throw new FileSystemException("vfs.operation/operation-provider-already-added.error", scheme);
