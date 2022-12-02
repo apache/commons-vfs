@@ -247,6 +247,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="Dependabot" type="update">
         Bump commons-compress from 1.21 to 1.22 #329.
       </action>
+      <action dev="ggregory" due-to="Gary Gregory" type="update">
+        Bump commons-net:commons-net from 3.8.0 to 3.9.0.
+      </action>
     </release>
     <release version="2.9.0" date="2021-06-16" description="Maintenance release. Requires Java 8.">
       <!-- ADDS -->
@@ -564,7 +567,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump actions/cache from v2 to v2.1.4 #159.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
-        Update commons-net:commons-net 3.7.2-> 3.8.0.
+        Bump commons-net:commons-net from 3.7.2 to 3.8.0.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Update junit 4.13.1 -> 4.13.2.
