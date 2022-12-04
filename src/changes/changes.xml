@@ -119,6 +119,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="John Patrick">
         JUnit5 assertThrows SftpFileSystemGroupsTests #323.
       </action>
+      <action issue="VFS-825" type="fix" dev="ggregory" due-to="Anthony Goubard">
+        Fix for GZip input and output stream results in StackOverflowError #322.
+      </action>
       <!-- ADD -->
       <action type="add" dev="ggregory" due-to="Seth Falco">
         Add vscode files to gitignore #205.
