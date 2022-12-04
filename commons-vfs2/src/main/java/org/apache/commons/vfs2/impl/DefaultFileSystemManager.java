@@ -251,7 +251,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Registers a file system provider.
+     * Adds a file system provider.
      * <p>
      * The manager takes care of all lifecycle management. A provider may be registered multiple times. The first
      * {@link LocalFileProvider} added will be remembered for {@link #getLocalFileProvider()}.
@@ -266,7 +266,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Registers a file system provider.
+     * Adds a file system provider.
      * <p>
      * The manager takes care of all lifecycle management. A provider may be registered multiple times. The first
      * {@link LocalFileProvider} added will be remembered for {@link #getLocalFileProvider()}.
@@ -303,7 +303,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Determines if a layered file system can be created for a given file.
+     * Tests if a layered file system can be created for a given file.
      *
      * @param file The file to check for.
      * @return true if the FileSystem can be created.
@@ -476,7 +476,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Free all resources used by unused file systems created by this manager.
+     * Frees all unused resources created by this manager.
      */
     public void freeUnusedResources() {
         if (!init) {
@@ -493,7 +493,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Returns the base file used to resolve relative URI.
+     * Gets the base file used to resolve relative URI.
      *
      * @return The FileObject that represents the base file.
      * @throws FileSystemException if an error occurs.
@@ -504,7 +504,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Get the cache strategy used.
+     * Gets the cache strategy used.
      *
      * @return The CacheStrategy.
      */
@@ -514,7 +514,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * get the fileContentInfoFactory used to determine the infos of a file content.
+     * Gets the fileContentInfoFactory used to determine the infos of a file content.
      *
      * @return The FileContentInfoFactory.
      */
@@ -524,7 +524,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Get the file object decorator used.
+     * Gets the file object decorator used.
      *
      * @return The decorator.
      */
@@ -534,7 +534,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * The constructor associated to the fileObjectDecorator. We cache it here for performance reasons.
+     * Gets the constructor associated to the fileObjectDecorator. We cache it here for performance reasons.
      *
      * @return The decorator's Constructor.
      */
@@ -544,7 +544,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Returns the filesCache implementation used to cache files.
+     * Gets the filesCache implementation used to cache files.
      *
      * @return The FilesCache.
      */
@@ -554,7 +554,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Get the configuration builder for the given scheme.
+     * Gets the configuration builder for the given scheme.
      *
      * @param scheme The scheme to locate.
      * @return The FileSystemConfigBuilder for the scheme.
@@ -568,7 +568,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Locates the local file provider.
+     * Gets the local file provider.
      * <p>
      * The local file provider is the first {@linkplain #addProvider(String[], FileProvider) provider added}
      * implementing {@link LocalFileProvider}.
@@ -582,7 +582,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Returns the logger used by this manager.
+     * Gets the logger used by this manager.
      *
      * @return the Logger.
      */
@@ -609,7 +609,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Get the capabilities for a given scheme.
+     * Gets the capabilities for a given scheme.
      *
      * @param scheme The scheme to locate.
      * @return A Collection of capabilities.
@@ -623,7 +623,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Returns the file replicator.
+     * Gets the file replicator.
      *
      * @return The file replicator. Never returns null.
      * @throws FileSystemException if there is no FileReplicator.
@@ -633,7 +633,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Get the schemes currently available.
+     * Gets the schemes currently available.
      *
      * @return The array of scheme names.
      */
@@ -646,7 +646,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Returns the temporary file store.
+     * Gets the temporary file store.
      *
      * @return The file store. Never returns null.
      * @throws FileSystemException if there is no TemporaryFileStore.
@@ -656,7 +656,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Get the URLStreamHandlerFactory.
+     * Gets the URLStreamHandlerFactory.
      *
      * @return The URLStreamHandlerFactory.
      */
@@ -666,7 +666,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Returns true if this manager has a provider for a particular scheme.
+     * Tests if this manager has a provider for a particular scheme.
      *
      * @param scheme The scheme to check.
      * @return true if a provider is configured for this scheme, false otherwise.
@@ -726,6 +726,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * Resolves a URI, relative to base file.
      * <p>
      * Uses the {@linkplain #getLocalFileProvider() local file provider} to locate the system file.
+     * </p>
      *
      * @param baseFile The base File to use to locate the file.
      * @param uri The URI of the file to locate.
@@ -816,7 +817,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Locate a file by URI, use the FileSystemOptions for file-system creation.
+     * Resolves a file by URI, use the FileSystemOptions for file-system creation.
      *
      * @param uri The URI of the file to locate.
      * @param fileSystemOptions The options for the FileSystem.
@@ -832,7 +833,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Converts a URI into a {@link FileObject}.
+     * Resolves a URI into a {@link FileObject}.
      *
      * @param uri The URI to convert.
      * @return The {@link FileObject} that represents the URI. Never returns null.
@@ -846,7 +847,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Converts a URL into a {@link FileObject}.
+     * Resolves a URL into a {@link FileObject}.
      *
      * @param url The URL to convert.
      * @return The {@link FileObject} that represents the URL. Never returns null.
@@ -1048,7 +1049,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * set the fileContentInfoFactory used to determine the infos of a file content.
+     * Sets the fileContentInfoFactory used to determine the infos of a file content.
      * <p>
      * Can only be set before the FileSystemManager is initialized.
      * </p>
@@ -1066,7 +1067,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Set a fileObject decorator to be used for ALL returned file objects.
+     * Sets a fileObject decorator to be used for ALL returned file objects.
      * <p>
      * Can only be set before the FileSystemManager is initialized.
      * </p>
@@ -1110,8 +1111,6 @@ public class DefaultFileSystemManager implements FileSystemManager {
         }
         this.filesCache = filesCache;
     }
-
-    // -- OPERATIONS --
 
     /**
      * Sets the logger to use.
