@@ -63,7 +63,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Get alternate configuration object.
+     * Gets the alternate configuration object.
      *
      * @return alternate configuration object or {@code null}.
      * @param opts The FileSystemOptions.
@@ -74,7 +74,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Get alternate configuration input stream.
+     * Gets the  alternate configuration input stream.
      *
      * @return alternate configuration input stream or {@code null}.
      * @param opts The FileSystemOptions.
@@ -85,7 +85,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Get names of alternate configuration resources.
+     * Gets the names of alternate configuration resources.
      *
      * @return resource name list of alternate configurations or {@code null}.
      * @param opts The FileSystemOptions.
@@ -97,7 +97,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Get paths of alternate configuration file system files.
+     * Gets the paths of alternate configuration file system files.
      *
      * @return list of full paths of alternate configuration files or {@code null}.
      * @param opts The FileSystemOptions.
@@ -112,7 +112,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Get URLs of alternate configurations.
+     * Gets URLs of alternate configurations.
      *
      * @return list of alternate configuration URLs or {@code null}.
      * @param opts The FileSystemOptions.
@@ -143,10 +143,12 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Specifies an already initialized configuration object to override any specific HDFS settings. The property will
      * be passed on to {@code org.apache.hadoop.conf.Configuration#addResource(Configuration)} after the URL was set as
      * the default name with: {@code Configuration#set(FileSystem.FS_DEFAULT_NAME_KEY, url)}.
+     * </p>
      * <p>
      * One use for this is to set a different value for the {@code dfs.client.use.datanode.hostname} property in order
      * to access HDFS files stored in an AWS installation (from outside their firewall). There are other possible uses
      * too.
+     * </p>
      *
      * @param opts The FileSystemOptions to modify.
      * @param configuration additional configuration object or {@code null} to unset any configuration object previously
@@ -162,10 +164,12 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Specifies an input stream connected to a config file to override any specific HDFS settings. The property will be
      * passed on to {@code org.apache.hadoop.conf.Configuration#addResource(InputStream)} after the URL was set as the
      * default name with: {@code Configuration#set(FileSystem.FS_DEFAULT_NAME_KEY, url)}.
+     * </p>
      * <p>
      * One use for this is to set a different value for the {@code dfs.client.use.datanode.hostname} property in order
      * to access HDFS files stored in an AWS installation (from outside their firewall). There are other possible uses
      * too.
+     * </p>
      *
      * @param opts The FileSystemOptions to modify.
      * @param inputStream input stream of additional configuration file or {@code null} to unset the configuration input
@@ -219,13 +223,16 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Specifies the path of a local file system config file to override any specific HDFS settings. The property will
      * be passed on to {@code org.apache.hadoop.conf.Configuration#addResource(Path)} after the URL was set as the
      * default name with: {@code Configuration#set(FileSystem.FS_DEFAULT_NAME_KEY, url)}.
+     * </p>
      * <p>
      * One use for this is to set a different value for the {@code dfs.client.use.datanode.hostname} property in order
      * to access HDFS files stored in an AWS installation (from outside their firewall). There are other possible uses
      * too.
+     * </p>
      * <p>
      * This method may be called multiple times and all the specified resources will be loaded in the order they were
      * specified.
+     * </p>
      *
      * @param opts The FileSystemOptions to modify.
      * @param path full path of additional configuration file (local file system) or {@code null} to unset all the path
@@ -250,13 +257,16 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Specifies the URL of a config file to override any specific HDFS settings. The property will be passed on to
      * {@code org.apache.hadoop.conf.Configuration#addResource(URL)} after the URL was set as the default name with:
      * {@code Configuration#set(FileSystem.FS_DEFAULT_NAME_KEY, url)}.
+     * </p>
      * <p>
      * One use for this is to set a different value for the {@code dfs.client.use.datanode.hostname} property in order
      * to access HDFS files stored in an AWS installation (from outside their firewall). There are other possible uses
      * too.
+     * </p>
      * <p>
      * This method may be called multiple times and all the specified resources will be loaded in the order they were
      * specified.
+     * </p>
      *
      * @param opts The FileSystemOptions to modify.
      * @param url URL of additional configuration file or {@code null} to unset all the URL values set so far.
