@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
@@ -31,8 +32,8 @@ public class GzipTest {
 
     @Test
     public void testCreateGzipFileSystem() throws IOException {
-
         final File gzFile = new File("src/test/resources/test-data/好.txt.gz");
+        @SuppressWarnings("resource") // global
         FileSystemManager manager = VFS.getManager();
 
         try (FileObject localFileObject = manager.resolveFile(gzFile.getAbsolutePath());
@@ -42,8 +43,9 @@ public class GzipTest {
             Assertions.assertTrue(gzFileObjectDir.isFolder());
             Assertions.assertTrue(gzFileObject instanceof GzipFileObject);
             Assertions.assertFalse(gzFileObject.isFolder());
-            String content = gzFileObject.getContent().getString(StandardCharsets.UTF_8);
-            Assertions.assertEquals("aaa", content);
+            try (FileContent content = gzFileObject.getContent()) {
+                Assertions.assertEquals("aaa", content.getString(StandardCharsets.UTF_8));
+            }
         }
     }
 }
