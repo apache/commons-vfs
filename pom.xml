@@ -190,7 +190,7 @@
     <httpcore5.version>5.1.5</httpcore5.version>
     <httpclient5.version>5.2.1</httpclient5.version>
     <jackrabbit1.version>1.6.5</jackrabbit1.version>
-    <jackrabbit2.version>2.21.13</jackrabbit2.version>
+    <jackrabbit2.version>2.21.14</jackrabbit2.version>
     <commons.surefire.version>3.0.0-M7</commons.surefire.version>
     <commons.japicmp.version>0.16.0</commons.japicmp.version>
     <commons.jacoco.version>0.8.8</commons.jacoco.version>
