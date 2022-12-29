@@ -208,8 +208,7 @@ public class CustomRamProviderTest {
         final byte[] buffer = new byte[100];
         assertEquals("Filling buffer failed when file is not empty", NON_EMPTY_FILE_CONTENT.length, input.read(buffer));
 
-        final byte[] expectedBuffer = new byte[100];
-        System.arraycopy(NON_EMPTY_FILE_CONTENT, 0, expectedBuffer, 0, NON_EMPTY_FILE_CONTENT.length);
+        final byte[] expectedBuffer = Arrays.copyOf(NON_EMPTY_FILE_CONTENT, 100);
         assertArrayEquals("Buffer not filled", expectedBuffer, buffer);
 
         Arrays.fill(buffer, (byte) 0);
