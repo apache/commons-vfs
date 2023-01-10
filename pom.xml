@@ -195,9 +195,9 @@
     <commons.spotbugs.version>4.7.3.0</commons.spotbugs.version>
     <commons.spotbugs.impl.version>4.7.3</commons.spotbugs.impl.version>
     <commons.asm.version>9.4</commons.asm.version>
-    <commons.pmd.version>6.53.0</commons.pmd.version>
     <commons.felix.version>5.1.2</commons.felix.version>
     <commons.animal-sniffer.version>1.21</commons.animal-sniffer.version>
+    <commons.pmd-impl.version>6.53.0</commons.pmd-impl.version>
     <biz.aQute.bndlib.version>6.3.1</biz.aQute.bndlib.version>
     <slf4j.version>1.7.36</slf4j.version>
     <log4j2.version>2.19.0</log4j2.version>
@@ -211,33 +211,6 @@
     <defaultGoal>clean verify apache-rat:check japicmp:cmp javadoc:javadoc spotbugs:check pmd:check checkstyle:check</defaultGoal>
     <pluginManagement>
       <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.19.0</version>
-          <dependencies>
-            <dependency>
-              <groupId>net.sourceforge.pmd</groupId>
-              <artifactId>pmd-core</artifactId>
-              <version>${commons.pmd.version}</version>
-            </dependency>
-            <dependency>
-              <groupId>net.sourceforge.pmd</groupId>
-              <artifactId>pmd-java</artifactId>
-              <version>${commons.pmd.version}</version>
-            </dependency>
-            <dependency>
-              <groupId>net.sourceforge.pmd</groupId>
-              <artifactId>pmd-javascript</artifactId>
-              <version>${commons.pmd.version}</version>
-            </dependency>
-            <dependency>
-              <groupId>net.sourceforge.pmd</groupId>
-              <artifactId>pmd-jsp</artifactId>
-              <version>${commons.pmd.version}</version>
-            </dependency>
-          </dependencies>
-        </plugin>
         <plugin>
           <groupId>com.github.spotbugs</groupId>
           <artifactId>spotbugs-maven-plugin</artifactId>
