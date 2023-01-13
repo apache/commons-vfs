@@ -21,9 +21,20 @@ import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
 import java.io.File;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
@@ -201,6 +212,84 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
         final Package pack = testClass.getPackage();
         assertEquals("code.sealed", pack.getName());
         verifyPackage(pack, true);
+    }
+
+    @Test
+    public void testThreadSafety() throws Exception {
+        final int THREADS = 20;
+        BlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<>(THREADS * 2);
+        List<Throwable> exceptions = new ArrayList<>();
+        Thread.UncaughtExceptionHandler handler = new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                synchronized(exceptions) {
+                    exceptions.add(e);
+                }
+            }
+        };
+        ThreadFactory factory = new ThreadFactoryBuilder().setUncaughtExceptionHandler(handler).build();
+        Queue<Runnable> rejections = new LinkedList<>();
+        RejectedExecutionHandler rejectionHandler = new RejectedExecutionHandler() {
+            @Override
+            public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+                synchronized(rejections) {
+                    rejections.add(r);
+                }
+            }
+        };
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(THREADS, THREADS, 0, TimeUnit.SECONDS, workQueue, factory, rejectionHandler);
+        executor.prestartAllCoreThreads();
+        for (int i = 0; i < THREADS; i++) {
+            VFSClassLoader loader = createClassLoader();
+            workQueue.put(new VfsClassLoaderTests.LoadClass(loader));
+        }
+        while (!workQueue.isEmpty()) {
+            Thread.sleep(10);
+        }
+        while (!rejections.isEmpty() && executor.getActiveCount() > 0) {
+            List<Runnable> rejected = new ArrayList<>();
+            synchronized(rejections) {
+                rejected.addAll(rejections);
+                rejections.clear();
+            }
+            workQueue.addAll(rejected);
+        }
+        executor.shutdown();
+        executor.awaitTermination(30, TimeUnit.SECONDS);
+        assertEquals(THREADS, executor.getCompletedTaskCount());
+        if (!exceptions.isEmpty()) {
+            for (Throwable t : exceptions) {
+                System.out.println(t.toString());
+                t.printStackTrace(System.out);
+            }
+        }
+        assertTrue(exceptions.size() + " threads failed", exceptions.isEmpty());
+    }
+
+    private class LoadClass implements Runnable {
+        private final VFSClassLoader loader;
+        public LoadClass(VFSClassLoader loader) {
+            this.loader = loader;
+        }
+
+        @Override
+        public void run() {
+            try {
+                final Class<?> testClass = loader.findClass("code.ClassToLoad");
+                final Package pack = testClass.getPackage();
+                assertEquals("code", pack.getName());
+                verifyPackage(pack, false);
+
+                final Object testObject = testClass.newInstance();
+                assertEquals("**PRIVATE**", testObject.toString());
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (InstantiationException e) {
+                throw new RuntimeException(e);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     /**

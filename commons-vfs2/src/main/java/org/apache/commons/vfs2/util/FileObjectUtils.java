@@ -82,8 +82,13 @@ public final class FileObjectUtils {
      * @since 2.6.0
      */
     public static byte[] getContentAsByteArray(final FileObject file) throws IOException {
-        try (FileContent content = file.getContent()) {
-            return content.getByteArray();
+        synchronized(file.getFileSystem()) {
+            try (FileContent content = file.getContent()) {
+                return content.getByteArray();
+            } catch (NullPointerException npe) {
+                System.out.println("break here");
+                throw npe;
+            }
         }
     }
 
@@ -97,8 +102,10 @@ public final class FileObjectUtils {
      * @since 2.4
      */
     public static String getContentAsString(final FileObject file, final Charset charset) throws IOException {
-        try (FileContent content = file.getContent()) {
-            return content.getString(charset);
+        synchronized(file.getFileSystem()) {
+            try (FileContent content = file.getContent()) {
+                return content.getString(charset);
+            }
         }
     }
 
@@ -112,8 +119,10 @@ public final class FileObjectUtils {
      * @since 2.4
      */
     public static String getContentAsString(final FileObject file, final String charset) throws IOException {
-        try (FileContent content = file.getContent()) {
-            return content.getString(charset);
+        synchronized(file.getFileSystem()) {
+            try (FileContent content = file.getContent()) {
+                return content.getString(charset);
+            }
         }
     }
 
