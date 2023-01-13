@@ -34,7 +34,6 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
@@ -227,7 +226,14 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
                 }
             }
         };
-        final ThreadFactory factory = new ThreadFactoryBuilder().setUncaughtExceptionHandler(handler).build();
+        final ThreadFactory factory = new ThreadFactory() {
+            @Override
+            public Thread newThread(Runnable r) {
+                Thread thread = new Thread(r, "VfsClassLoaderTests.testThreadSafety");
+                thread.setUncaughtExceptionHandler(handler);
+                return thread;
+            }
+        };
         final Queue<Runnable> rejections = new LinkedList<>();
         final RejectedExecutionHandler rejectionHandler = new RejectedExecutionHandler() {
             @Override
