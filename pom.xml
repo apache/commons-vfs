@@ -195,7 +195,6 @@
     <commons.spotbugs.impl.version>4.7.3</commons.spotbugs.impl.version>
     <commons.asm.version>9.4</commons.asm.version>
     <commons.animal-sniffer.version>1.21</commons.animal-sniffer.version>
-    <commons.pmd-impl.version>6.53.0</commons.pmd-impl.version>
     <biz.aQute.bndlib.version>6.3.1</biz.aQute.bndlib.version>
     <slf4j.version>1.7.36</slf4j.version>
     <log4j2.version>2.19.0</log4j2.version>
