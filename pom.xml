@@ -191,8 +191,6 @@
     <httpclient5.version>5.2.1</httpclient5.version>
     <jackrabbit1.version>1.6.5</jackrabbit1.version>
     <jackrabbit2.version>2.21.14</jackrabbit2.version>
-    <commons.spotbugs.version>4.7.3.0</commons.spotbugs.version>
-    <commons.spotbugs.impl.version>4.7.3</commons.spotbugs.impl.version>
     <commons.asm.version>9.4</commons.asm.version>
     <commons.animal-sniffer.version>1.21</commons.animal-sniffer.version>
     <biz.aQute.bndlib.version>6.3.1</biz.aQute.bndlib.version>
