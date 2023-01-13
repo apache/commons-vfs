@@ -217,37 +217,37 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
     @Test
     public void testThreadSafety() throws Exception {
         final int THREADS = 20;
-        BlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<>(THREADS * 2);
-        List<Throwable> exceptions = new ArrayList<>();
-        Thread.UncaughtExceptionHandler handler = new Thread.UncaughtExceptionHandler() {
+        final BlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<>(THREADS * 2);
+        final List<Throwable> exceptions = new ArrayList<>();
+        final Thread.UncaughtExceptionHandler handler = new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread t, Throwable e) {
-                synchronized(exceptions) {
+                synchronized (exceptions) {
                     exceptions.add(e);
                 }
             }
         };
-        ThreadFactory factory = new ThreadFactoryBuilder().setUncaughtExceptionHandler(handler).build();
-        Queue<Runnable> rejections = new LinkedList<>();
-        RejectedExecutionHandler rejectionHandler = new RejectedExecutionHandler() {
+        final ThreadFactory factory = new ThreadFactoryBuilder().setUncaughtExceptionHandler(handler).build();
+        final Queue<Runnable> rejections = new LinkedList<>();
+        final RejectedExecutionHandler rejectionHandler = new RejectedExecutionHandler() {
             @Override
             public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-                synchronized(rejections) {
+                synchronized (rejections) {
                     rejections.add(r);
                 }
             }
         };
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(THREADS, THREADS, 0, TimeUnit.SECONDS, workQueue, factory, rejectionHandler);
+        final ThreadPoolExecutor executor = new ThreadPoolExecutor(THREADS, THREADS, 0, TimeUnit.SECONDS, workQueue, factory, rejectionHandler);
         executor.prestartAllCoreThreads();
         for (int i = 0; i < THREADS; i++) {
-            VFSClassLoader loader = createClassLoader();
+            final VFSClassLoader loader = createClassLoader();
             workQueue.put(new VfsClassLoaderTests.LoadClass(loader));
         }
         while (!workQueue.isEmpty()) {
             Thread.sleep(10);
         }
         while (!rejections.isEmpty() && executor.getActiveCount() > 0) {
-            List<Runnable> rejected = new ArrayList<>();
+            final List<Runnable> rejected = new ArrayList<>();
             synchronized(rejections) {
                 rejected.addAll(rejections);
                 rejections.clear();
@@ -257,12 +257,6 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
         executor.shutdown();
         executor.awaitTermination(30, TimeUnit.SECONDS);
         assertEquals(THREADS, executor.getCompletedTaskCount());
-        if (!exceptions.isEmpty()) {
-            for (Throwable t : exceptions) {
-                System.out.println(t.toString());
-                t.printStackTrace(System.out);
-            }
-        }
         assertTrue(exceptions.size() + " threads failed", exceptions.isEmpty());
     }
 
@@ -282,11 +276,7 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
 
                 final Object testObject = testClass.newInstance();
                 assertEquals("**PRIVATE**", testObject.toString());
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            } catch (InstantiationException e) {
-                throw new RuntimeException(e);
-            } catch (IllegalAccessException e) {
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
         }
