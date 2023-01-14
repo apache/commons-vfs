@@ -227,7 +227,7 @@ public class Http5ProviderTestCase extends AbstractProviderTestConfig {
 
             // make FileSystem.isReleaseable is true through GC will break the build randomly.
             // It is better to decrease AbstractFileSystem.useCount directly.
-            AbstractFileSystemTestUtil.fileObjectDestroyed(http5FileSystem,null);
+            AbstractFileSystemTestUtil.fileObjectDestroyed(http5FileSystem, null);
             assertTrue(http5FileSystem.isReleaseable());
             // free resource
             // http5FileSystem.httpClient is closed

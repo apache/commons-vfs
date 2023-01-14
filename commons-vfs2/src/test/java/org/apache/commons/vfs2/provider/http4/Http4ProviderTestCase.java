@@ -232,7 +232,7 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
             AbstractFileSystem http4FileSystem = getFile(fileSystemManager, path);
             // make FileSystem.isReleaseable is true through GC will break the build randomly.
             // It is better to decrease AbstractFileSystem.useCount directly.
-            AbstractFileSystemTestUtil.fileObjectDestroyed(http4FileSystem,null);
+            AbstractFileSystemTestUtil.fileObjectDestroyed(http4FileSystem, null);
             assertTrue(http4FileSystem.isReleaseable());
             // free resource
             // http4FileSystem.httpClient is closed
