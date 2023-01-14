@@ -45,7 +45,7 @@ public interface FileSelector {
      * @throws Exception if an error occurs.
      * @since 2.10.0
      */
-    default boolean traverseDescendants(FileSelectInfo fileInfo) throws Exception {
+    default boolean traverseDescendants(final FileSelectInfo fileInfo) throws Exception {
         return traverseDescendents(fileInfo);
     }
 

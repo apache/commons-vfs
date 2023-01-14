@@ -90,14 +90,14 @@ public class IdentityInfo implements IdentityProvider {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
         if (!(obj instanceof IdentityInfo)) {
             return false;
         }
-        IdentityInfo other = (IdentityInfo) obj;
+        final IdentityInfo other = (IdentityInfo) obj;
         return Arrays.equals(passphrase, other.passphrase) && Objects.equals(privateKey, other.privateKey) && Objects.equals(publicKey, other.publicKey);
     }
 
