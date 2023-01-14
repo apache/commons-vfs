@@ -18,6 +18,7 @@
 package org.apache.commons.vfs2.provider.sftp;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
@@ -116,11 +117,6 @@ public class BytesIdentityInfo implements IdentityProvider {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + Arrays.hashCode(passphrase);
-        result = prime * result + Arrays.hashCode(privateKey);
-        result = prime * result + Arrays.hashCode(publicKey);
-        return result;
+        return Objects.hash(Arrays.hashCode(passphrase), Arrays.hashCode(privateKey), Arrays.hashCode(publicKey));
     }
 }
