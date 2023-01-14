@@ -34,6 +34,7 @@ import org.apache.commons.vfs2.cache.WeakRefFilesCache;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
+import org.apache.commons.vfs2.provider.AbstractFileSystemTestUtil;
 import org.apache.commons.vfs2.util.NHttpFileServer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
@@ -229,13 +230,9 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
 
             String path = ConnectionUri + "/read-tests/";
             AbstractFileSystem http4FileSystem = getFile(fileSystemManager, path);
-
-            long afterOneSecond = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(1);
-            while (System.currentTimeMillis() <= afterOneSecond && !http4FileSystem.isReleaseable()) {
-                // Try GC
-                System.gc();
-                Thread.sleep(20);
-            }
+            // make FileSystem.isReleaseable is true through GC will break the build randomly.
+            // It is better to decrease AbstractFileSystem.useCount directly.
+            AbstractFileSystemTestUtil.fileObjectDestroyed(http4FileSystem,null);
             assertTrue(http4FileSystem.isReleaseable());
             // free resource
             // http4FileSystem.httpClient is closed

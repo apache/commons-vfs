@@ -34,6 +34,7 @@ import org.apache.commons.vfs2.cache.WeakRefFilesCache;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
+import org.apache.commons.vfs2.provider.AbstractFileSystemTestUtil;
 import org.apache.commons.vfs2.util.NHttpFileServer;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -224,12 +225,9 @@ public class Http5ProviderTestCase extends AbstractProviderTestConfig {
             String path = ConnectionUri + "/read-tests/";
             AbstractFileSystem http5FileSystem = getFile(fileSystemManager, path);
 
-            long afterOneSecond = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(1);
-            while (System.currentTimeMillis() <= afterOneSecond && !http5FileSystem.isReleaseable()) {
-                // Try GC
-                System.gc();
-                Thread.sleep(20);
-            }
+            // make FileSystem.isReleaseable is true through GC will break the build randomly.
+            // It is better to decrease AbstractFileSystem.useCount directly.
+            AbstractFileSystemTestUtil.fileObjectDestroyed(http5FileSystem,null);
             assertTrue(http5FileSystem.isReleaseable());
             // free resource
             // http5FileSystem.httpClient is closed
