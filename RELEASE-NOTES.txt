@@ -79,7 +79,7 @@ o           Update from to javax.mail:mail 1.4.7 to com.sun.mail:jakarta.mail 1.
 Historical list of changes: https://commons.apache.org/proper/commons-vfs/changes-report.html
 
 For complete information on Apache Commons VFS Project, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons VFS Project website:
+patches, or suggestions for improvement, see the Apache Commons VFS Project website:
 
 https://commons.apache.org/proper/commons-vfs/
 
@@ -169,7 +169,7 @@ o           Update commons-lang3 3.11 -> 3.12.0. Thanks to Gary Gregory.
 Historical list of changes: https://commons.apache.org/proper/commons-vfs/changes-report.html
 
 For complete information on Apache Commons VFS Project, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons VFS Project website:
+patches, or suggestions for improvement, see the Apache Commons VFS Project website:
 
 https://commons.apache.org/proper/commons-vfs/
 
@@ -242,7 +242,7 @@ o           Update JUnit from 4.13 to 4.13.1. Thanks to Gary Gregory.
 Historical list of changes: https://commons.apache.org/proper/commons-vfs/changes-report.html
 
 For complete information on Apache Commons VFS Project, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons VFS Project website:
+patches, or suggestions for improvement, see the Apache Commons VFS Project website:
 
 https://commons.apache.org/proper/commons-vfs/
 
@@ -274,7 +274,7 @@ o           Update JUnit from 4.12 to 4.13. Thanks to Gary Gregory.
 Historical list of changes: https://commons.apache.org/proper/commons-vfs/changes-report.html
 
 For complete information on Apache Commons VFS Project, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons VFS Project website:
+patches, or suggestions for improvement, see the Apache Commons VFS Project website:
 
 https://commons.apache.org/proper/commons-vfs/
 
@@ -329,7 +329,7 @@ o VFS-749:  Update Apache Commons Parent from 48 to 50. Thanks to Gary Gregory.
 Historical list of changes: https://commons.apache.org/proper/commons-vfs/changes-report.html
 
 For complete information on Apache Commons VFS, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons VFS website:
+patches, or suggestions for improvement, see the Apache Commons VFS website:
 
 https://commons.apache.org/proper/commons-vfs/
 
@@ -358,7 +358,7 @@ o           Javadoc fixes. Thanks to Gary Gregory.
 Historical list of changes: https://commons.apache.org/proper/commons-vfs/changes-report.html
 
 For complete information on Apache Commons VFS, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons VFS website:
+patches, or suggestions for improvement, see the Apache Commons VFS website:
 
 Visit https://commons.apache.org/proper/commons-vfs/
 
@@ -422,7 +422,7 @@ o           Public API note: The overridden method org.apache.commons.vfs2.provi
 Historical list of changes: https://commons.apache.org/proper/commons-vfs/changes-report.html
 
 For complete information on Apache Commons VFS, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons VFS website:
+patches, or suggestions for improvement, see the Apache Commons VFS website:
 
 Visit https://commons.apache.org/proper/commons-vfs/
 
@@ -481,7 +481,7 @@ o VFS-688:  [SFTP] Update jsch from 0.1.54 to 0.1.55.
 Historical list of changes: https://commons.apache.org/proper/commons-vfs/changes-report.html
 
 For complete information on Apache Commons VFS, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons VFS website:
+patches, or suggestions for improvement, see the Apache Commons VFS website:
 
 Visit https://commons.apache.org/proper/commons-vfs/
 
@@ -527,7 +527,7 @@ o VFS-645:  VfsClassLoaderTests fails on Java 9.
 Historical list of changes: https://commons.apache.org/proper/commons-vfs/changes-report.html
 
 For complete information on Apache Commons VFS, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons VFS website:
+patches, or suggestions for improvement, see the Apache Commons VFS website:
 
 Visit https://commons.apache.org/proper/commons-vfs/
 
@@ -748,7 +748,7 @@ o VFS-469:  Remove unused dependency to javax.jcr:jcr.
 Historical list of changes: https://commons.apache.org/proper/commons-vfs/changes-report.html
 
 For complete information on Apache Commons VFS, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons VFS website:
+patches, or suggestions for improvement, see the Apache Commons VFS website:
 
 Visit https://commons.apache.org/proper/commons-vfs/
 
