@@ -66,7 +66,7 @@ import org.apache.commons.vfs2.operations.FileOperations;
  * Other files in the <i>same</i> file system as this file can be found using:
  * </p>
  * <ul>
- * <li>{@link #findFiles} to find a set of matching descendants in in the same file system.</li>
+ * <li>{@link #findFiles} to find a set of matching descendants in the same file system.</li>
  * <li>{@link #getChildren} and {@link #getChild} to find the children of this file.</li>
  * <li>{@link #getParent} to find the folder containing this file.</li>
  * <li>{@link #getFileSystem} to find another file in the same file system.</li>
