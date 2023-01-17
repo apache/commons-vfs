@@ -217,7 +217,7 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
 
     @Test
     public void testThreadSafety() throws Exception {
-        final int THREADS = 20;
+        final int THREADS = 40;
         final BlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<>(THREADS * 2);
         final List<Throwable> exceptions = new ArrayList<>();
         final Thread.UncaughtExceptionHandler handler = new Thread.UncaughtExceptionHandler() {
