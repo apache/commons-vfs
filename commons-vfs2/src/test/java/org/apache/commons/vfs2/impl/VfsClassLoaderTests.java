@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.impl;
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.io.output.StringBuilderWriter;
 import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
@@ -263,7 +265,19 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
         executor.shutdown();
         executor.awaitTermination(30, TimeUnit.SECONDS);
         assertEquals(THREADS, executor.getCompletedTaskCount());
-        assertTrue(exceptions.size() + " threads failed", exceptions.isEmpty());
+        if (!exceptions.isEmpty()) {
+            StringBuilder exceptionMsg = new StringBuilder();
+            StringBuilderWriter writer = new StringBuilderWriter(exceptionMsg);
+            PrintWriter pWriter = new PrintWriter(writer);
+            for (Throwable t : exceptions) {
+                pWriter.write(t.getMessage());
+                pWriter.write('\n');
+                t.printStackTrace(pWriter);
+                pWriter.write('\n');
+            }
+            pWriter.flush();
+            assertTrue(exceptions.size() + " threads failed: " + exceptionMsg, exceptions.isEmpty());
+        }
     }
 
     private class LoadClass implements Runnable {
