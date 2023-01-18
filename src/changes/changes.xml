@@ -125,6 +125,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="Gary Gregory">
         MonitorInputStream.read(byte[], int, int) and read() should be synchronized like the superclass BufferedInputStream.
       </action>
+      <action issue="VFS-683" type="fix" dev="ggregory" due-to="Daryl Odnert, Otto Fowler, Bernd Eckenfels, Dave MacDonald, Ivan Bella, Gary Gregory">
+        Class loader thread safety #367.
+      </action>
       <!-- ADD -->
       <action type="add" dev="ggregory" due-to="Seth Falco">
         Add vscode files to gitignore #205.
