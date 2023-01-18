@@ -142,7 +142,6 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
                                       .forEach(AbstractFileSystem::closeCommunicationLink);
     }
 
-
     /**
      * Gets snapshot of all fileSystem under lock.
      *
@@ -157,7 +156,6 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
         }
         return abstractFileSystems;
     }
-
 
     /**
      * Gets the FileSystemConfigBuilder.
