@@ -122,6 +122,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-825" type="fix" dev="ggregory" due-to="Anthony Goubard">
         Fix for GZip input and output stream results in StackOverflowError #322.
       </action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">
+        MonitorInputStream.read(byte[], int, int) and read() should be synchronized like the superclass BufferedInputStream.
+      </action>
       <!-- ADD -->
       <action type="add" dev="ggregory" due-to="Seth Falco">
         Add vscode files to gitignore #205.

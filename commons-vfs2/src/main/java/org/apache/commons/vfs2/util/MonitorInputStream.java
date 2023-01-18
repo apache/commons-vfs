@@ -139,7 +139,7 @@ public class MonitorInputStream extends BufferedInputStream {
      * @throws IOException if an IO error occurs.
      */
     @Override
-    public int read() throws IOException { // lgtm [java/non-sync-override]
+    public synchronized int read() throws IOException {
         if (isClosed()) {
             return EOF_CHAR;
         }
@@ -162,7 +162,7 @@ public class MonitorInputStream extends BufferedInputStream {
      * @throws IOException if an IO error occurs.
      */
     @Override
-    public int read(final byte[] buffer, final int offset, final int length) throws IOException { // lgtm [java/non-sync-override]
+    public synchronized int read(final byte[] buffer, final int offset, final int length) throws IOException {
         if (isClosed()) {
             return EOF_CHAR;
         }
