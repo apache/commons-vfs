@@ -28,8 +28,8 @@ import java.util.concurrent.atomic.AtomicLong;
 public class MonitorInputStream extends BufferedInputStream {
 
     private static final int EOF_CHAR = -1;
-    private final AtomicLong atomicCount = new AtomicLong();
-    private final AtomicBoolean finished = new AtomicBoolean(false);
+    private final AtomicLong count = new AtomicLong();
+    private final AtomicBoolean closed = new AtomicBoolean(false);
 
     /**
      * Constructs a MonitorInputStream from the passed InputStream.
@@ -60,7 +60,7 @@ public class MonitorInputStream extends BufferedInputStream {
      */
     @Override
     public synchronized int available() throws IOException {
-        if (finished.get()) {
+        if (isClosed()) {
             return 0;
         }
 
@@ -74,8 +74,8 @@ public class MonitorInputStream extends BufferedInputStream {
      */
     @Override
     public void close() throws IOException {
-        final boolean closed = finished.getAndSet(true);
-        if (closed) {
+        final boolean alreadyClosed = closed.getAndSet(true);
+        if (alreadyClosed) {
             return;
         }
 
@@ -116,7 +116,11 @@ public class MonitorInputStream extends BufferedInputStream {
      * @return The number of bytes read by this input stream.
      */
     public long getCount() {
-        return atomicCount.get();
+        return count.get();
+    }
+
+    private boolean isClosed() {
+        return closed.get();
     }
 
     /**
@@ -136,13 +140,13 @@ public class MonitorInputStream extends BufferedInputStream {
      */
     @Override
     public int read() throws IOException { // lgtm [java/non-sync-override]
-        if (finished.get()) {
+        if (isClosed()) {
             return EOF_CHAR;
         }
 
         final int ch = super.read();
         if (ch != EOF_CHAR) {
-            atomicCount.incrementAndGet();
+            count.incrementAndGet();
         }
 
         return ch;
@@ -159,14 +163,14 @@ public class MonitorInputStream extends BufferedInputStream {
      */
     @Override
     public int read(final byte[] buffer, final int offset, final int length) throws IOException { // lgtm [java/non-sync-override]
-        if (finished.get()) {
+        if (isClosed()) {
             return EOF_CHAR;
         }
 
-        final int nread = super.read(buffer, offset, length);
-        if (nread != EOF_CHAR) {
-            atomicCount.addAndGet(nread);
+        final int numRead = super.read(buffer, offset, length);
+        if (numRead != EOF_CHAR) {
+            count.addAndGet(numRead);
         }
-        return nread;
+        return numRead;
     }
 }
