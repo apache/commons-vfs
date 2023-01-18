@@ -143,18 +143,15 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
     }
 
     /**
-     * Gets snapshot of all fileSystem under lock.
+     * Gets a snapshot of all AbstractFileSystems.
      *
-     * @return AbstractFileSystem Array
+     * @return a snapshot of all AbstractFileSystems.
      * @since 2.10.0
      */
     public AbstractFileSystem[] getAllFileSystemSnapshot() {
-        final AbstractFileSystem[] abstractFileSystems;
         synchronized (fileSystemMap) {
-            // create snapshot under lock
-            abstractFileSystems = fileSystemMap.values().toArray(EMPTY_ABSTRACT_FILE_SYSTEMS);
+            return fileSystemMap.values().toArray(EMPTY_ABSTRACT_FILE_SYSTEMS);
         }
-        return abstractFileSystems;
     }
 
     /**
