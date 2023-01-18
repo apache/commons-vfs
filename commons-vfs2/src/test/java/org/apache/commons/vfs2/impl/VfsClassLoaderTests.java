@@ -19,11 +19,23 @@ package org.apache.commons.vfs2.impl;
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.io.output.StringBuilderWriter;
 import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
@@ -201,6 +213,93 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
         final Package pack = testClass.getPackage();
         assertEquals("code.sealed", pack.getName());
         verifyPackage(pack, true);
+    }
+
+    @Test
+    public void testThreadSafety() throws Exception {
+        final int THREADS = 40;
+        final BlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<>(THREADS * 2);
+        final List<Throwable> exceptions = new ArrayList<>();
+        final Thread.UncaughtExceptionHandler handler = new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                synchronized (exceptions) {
+                    exceptions.add(e);
+                }
+            }
+        };
+        final ThreadFactory factory = new ThreadFactory() {
+            @Override
+            public Thread newThread(Runnable r) {
+                Thread thread = new Thread(r, "VfsClassLoaderTests.testThreadSafety");
+                thread.setUncaughtExceptionHandler(handler);
+                return thread;
+            }
+        };
+        final Queue<Runnable> rejections = new LinkedList<>();
+        final RejectedExecutionHandler rejectionHandler = new RejectedExecutionHandler() {
+            @Override
+            public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+                synchronized (rejections) {
+                    rejections.add(r);
+                }
+            }
+        };
+        final ThreadPoolExecutor executor = new ThreadPoolExecutor(THREADS, THREADS, 0, TimeUnit.SECONDS, workQueue, factory, rejectionHandler);
+        executor.prestartAllCoreThreads();
+        for (int i = 0; i < THREADS; i++) {
+            final VFSClassLoader loader = createClassLoader();
+            workQueue.put(new VfsClassLoaderTests.LoadClass(loader));
+        }
+        while (!workQueue.isEmpty()) {
+            Thread.sleep(10);
+        }
+        while (!rejections.isEmpty() && executor.getActiveCount() > 0) {
+            final List<Runnable> rejected = new ArrayList<>();
+            synchronized(rejections) {
+                rejected.addAll(rejections);
+                rejections.clear();
+            }
+            workQueue.addAll(rejected);
+        }
+        executor.shutdown();
+        executor.awaitTermination(30, TimeUnit.SECONDS);
+        assertEquals(THREADS, executor.getCompletedTaskCount());
+        if (!exceptions.isEmpty()) {
+            StringBuilder exceptionMsg = new StringBuilder();
+            StringBuilderWriter writer = new StringBuilderWriter(exceptionMsg);
+            PrintWriter pWriter = new PrintWriter(writer);
+            for (Throwable t : exceptions) {
+                pWriter.write(t.getMessage());
+                pWriter.write('\n');
+                t.printStackTrace(pWriter);
+                pWriter.write('\n');
+            }
+            pWriter.flush();
+            assertTrue(exceptions.size() + " threads failed: " + exceptionMsg, exceptions.isEmpty());
+        }
+    }
+
+    private class LoadClass implements Runnable {
+        private final VFSClassLoader loader;
+        public LoadClass(VFSClassLoader loader) {
+            this.loader = loader;
+        }
+
+        @Override
+        public void run() {
+            try {
+                final Class<?> testClass = loader.findClass("code.ClassToLoad");
+                final Package pack = testClass.getPackage();
+                assertEquals("code", pack.getName());
+                verifyPackage(pack, false);
+
+                final Object testObject = testClass.newInstance();
+                assertEquals("**PRIVATE**", testObject.toString());
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     /**
