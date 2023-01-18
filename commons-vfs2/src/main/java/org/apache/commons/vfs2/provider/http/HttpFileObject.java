@@ -98,7 +98,9 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
      */
     @Override
     protected void doDetach() throws Exception {
-        method = null;
+        synchronized (getFileSystem()) {
+            method = null;
+        }
     }
 
     /**
@@ -106,7 +108,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
      */
     @Override
     protected long doGetContentSize() throws Exception {
-        final Header header = method.getResponseHeader("content-length");
+        final Header header = getHeadMethod().getResponseHeader("content-length");
         if (header == null) {
             // Assume 0 content-length
             return 0;
@@ -147,7 +149,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
      */
     @Override
     protected long doGetLastModifiedTime() throws Exception {
-        final Header header = method.getResponseHeader("last-modified");
+        final Header header = getHeadMethod().getResponseHeader("last-modified");
         FileSystemException.requireNonNull(header, "vfs.provider.http/last-modified.error", getName());
         return DateUtil.parseDate(header.getValue()).getTime();
     }
@@ -202,18 +204,21 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
     }
 
     HeadMethod getHeadMethod() throws IOException {
-        if (method != null) {
+        // need to synchronize on the filesystem as the detach method will clear out "method"
+        synchronized (getFileSystem()) {
+            if (method != null) {
+                return method;
+            }
+            method = new HeadMethod();
+            try {
+                setupMethod(method);
+                final HttpClient client = getAbstractFileSystem().getClient();
+                client.executeMethod(method);
+            } finally {
+                method.releaseConnection();
+            }
             return method;
         }
-        method = new HeadMethod();
-        try {
-            setupMethod(method);
-            final HttpClient client = getAbstractFileSystem().getClient();
-            client.executeMethod(method);
-        } finally {
-            method.releaseConnection();
-        }
-        return method;
     }
 
     protected String getUrlCharset() {
