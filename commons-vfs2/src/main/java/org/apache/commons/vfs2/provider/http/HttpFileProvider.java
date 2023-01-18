@@ -96,7 +96,6 @@ public class HttpFileProvider extends AbstractOriginatingFileProvider {
         return HttpFileSystemConfigBuilder.getInstance();
     }
 
-
     /**
      * Frees unused resources and close HttpFileSystem.
      */
