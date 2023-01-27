@@ -22,6 +22,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
@@ -32,7 +34,7 @@ import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
 import javax.jcr.Value;
 
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -73,7 +75,7 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
      */
     private static String ConnectionUri;
 
-    private static File RepoDirectory;
+    private static Path RepoDirectory;
 
     private static final boolean DEBUG = Boolean.getBoolean("Webdav4ProviderTestCase.Debug");
 
@@ -85,20 +87,13 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
         ConnectionUri = String.format("webdav4://%s:%s@localhost:%d/repository/default", USER_ID, PASSWORD, SocketPort);
     }
 
-    static File createTempDirectory() throws IOException {
+    static Path createTempDirectory() throws IOException {
         // create base folder
-        final File base = new File("./target/test").getCanonicalFile();
-        base.mkdirs();
-
-        final File tempFile = File.createTempFile("Webdav4ProviderTestCase_", ".tmp", base);
-
-        if (!tempFile.delete()) {
-            throw new IOException("Could not delete temp file: " + tempFile.getAbsolutePath());
-        }
-
-        if (!tempFile.mkdir()) {
-            throw new IOException("Could not create temp directory: " + tempFile.getAbsolutePath());
-        }
+        final Path base = Paths.get("target/test").normalize();
+        Files.createDirectories(base);
+        final Path tempFile = Files.createTempFile(base, "WebdavProviderTestCase_", ".tmp");
+        Files.delete(tempFile);
+        Files.createDirectories(base);
 
         if (DEBUG) {
             System.out.println("Working in " + tempFile);
@@ -107,7 +102,7 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
         return tempFile;
     }
 
-    private static void dump(final File repoDirectory) throws Exception {
+    private static void dump(final Path repoDirectory) throws Exception {
         final TransientRepository repository = getTransientRepository(repoDirectory);
         try {
             final Session session = getSession(repository);
@@ -159,11 +154,11 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
         return System.getProperty(TEST_URI);
     }
 
-    private static TransientRepository getTransientRepository(final File repoDirectory) {
-        return new TransientRepository(new File(repoDirectory, "repository.xml"), repoDirectory);
+    private static TransientRepository getTransientRepository(final Path repoDirectory) {
+        return new TransientRepository(repoDirectory.resolve("repository.xml").toString(), repoDirectory.toString());
     }
 
-    private static void importFiles(final File repoDirectory, final File sourceDir) throws Exception {
+    private static void importFiles(final Path repoDirectory, final File sourceDir) throws Exception {
         final TransientRepository repository = getTransientRepository(repoDirectory);
         try {
             final Session session = getSession(repository);
@@ -226,7 +221,7 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
      * @param repoDirectory
      * @throws Exception
      */
-    private static void startJackrabbit(final File repoDirectory) throws Exception {
+    private static void startJackrabbit(final Path repoDirectory) throws Exception {
         boolean quiet = false;
 
         if (!DEBUG) {
@@ -289,12 +284,14 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
         // Remove repo dir
         try {
             message("Deleting temp directory " + RepoDirectory);
-            FileUtils.deleteDirectory(RepoDirectory);
+            PathUtils.deleteDirectory(RepoDirectory);
         } catch (final IOException e) {
             message(e);
-            if (RepoDirectory.exists()) {
+            try {
+                Files.delete(RepoDirectory);
+            } catch (IOException e1) {
                 message("Directory will be deleted on VM exit " + RepoDirectory);
-                RepoDirectory.deleteOnExit();
+                RepoDirectory.toFile().deleteOnExit();
             }
         }
     }
