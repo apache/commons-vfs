@@ -27,6 +27,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.SystemUtils;
@@ -83,7 +84,7 @@ public class FileLockTest {
         final Path zipFile = Paths.get("src/test/resources/test-data/test.zip");
         newZipFile = Files.createTempFile(getClass().getSimpleName(), ".zip");
         newZipFile.toFile().deleteOnExit();
-        Files.copy(zipFile, newZipFile);
+        Files.copy(zipFile, newZipFile, StandardCopyOption.REPLACE_EXISTING);
         zipFileUri = "zip:file:" + newZipFile.toAbsolutePath() + "!/read-tests/file1.txt";
         manager = VFS.getManager();
     }
