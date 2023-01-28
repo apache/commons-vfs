@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -64,10 +66,10 @@ public class DefaultFileContentTest {
     }
 
     private void testInputStreamBufferSize(final int bufferSize) throws Exception {
-        final File temp = File.createTempFile("temp-file-name", ".tmp");
+        final Path temp = Files.createTempFile("temp-file-name", ".tmp");
         final FileSystemManager fileSystemManager = VFS.getManager();
 
-        try (FileObject file = fileSystemManager.resolveFile(temp.getAbsolutePath())) {
+        try (FileObject file = fileSystemManager.resolveFile(temp.toAbsolutePath().toString())) {
             file.getContent().getInputStream(bufferSize);
         }
     }
@@ -94,10 +96,10 @@ public class DefaultFileContentTest {
 
     @Test
     public void testMarkingWhenReadingEOS() throws Exception {
-        final File temp = File.createTempFile("temp-file-name", ".tmp");
+        final Path temp = Files.createTempFile("temp-file-name", ".tmp");
         final FileSystemManager fileSystemManager = VFS.getManager();
 
-        try (FileObject file = fileSystemManager.resolveFile(temp.getAbsolutePath())) {
+        try (FileObject file = fileSystemManager.resolveFile(temp.toAbsolutePath().toString())) {
             try (OutputStream outputStream = file.getContent().getOutputStream()) {
                 outputStream.write(expected.getBytes());
                 outputStream.flush();
@@ -123,10 +125,10 @@ public class DefaultFileContentTest {
 
     @Test
     public void testMarkingWorks() throws Exception {
-        final File temp = File.createTempFile("temp-file-name", ".tmp");
+        final Path temp = Files.createTempFile("temp-file-name", ".tmp");
         final FileSystemManager fileSystemManager = VFS.getManager();
 
-        try (FileObject file = fileSystemManager.resolveFile(temp.getAbsolutePath())) {
+        try (FileObject file = fileSystemManager.resolveFile(temp.toAbsolutePath().toString())) {
             try (OutputStream outputStream = file.getContent().getOutputStream()) {
                 outputStream.write(expected.getBytes());
                 outputStream.flush();
@@ -147,10 +149,10 @@ public class DefaultFileContentTest {
     }
 
     private void testOutputStreamBufferSize(final int bufferSize) throws Exception {
-        final File temp = File.createTempFile("temp-file-name", ".tmp");
+        final Path temp = Files.createTempFile("temp-file-name", ".tmp");
         final FileSystemManager fileSystemManager = VFS.getManager();
 
-        try (FileObject file = fileSystemManager.resolveFile(temp.getAbsolutePath())) {
+        try (FileObject file = fileSystemManager.resolveFile(temp.toAbsolutePath().toString())) {
             file.getContent().getOutputStream(bufferSize).close();
         }
     }
@@ -172,10 +174,10 @@ public class DefaultFileContentTest {
 
     @Test
     public void testOutputStreamBufferSizeNegativeWithAppendFlag() throws Exception {
-        final File temp = File.createTempFile("temp-file-name", ".tmp");
+        final Path temp = Files.createTempFile("temp-file-name", ".tmp");
         final FileSystemManager fileSystemManager = VFS.getManager();
 
-        try (FileObject file = fileSystemManager.resolveFile(temp.getAbsolutePath())) {
+        try (FileObject file = fileSystemManager.resolveFile(temp.toAbsolutePath().toString())) {
             assertThrows(IllegalArgumentException.class, () -> file.getContent().getOutputStream(true, -1));
         }
     }
@@ -186,10 +188,10 @@ public class DefaultFileContentTest {
     }
 
     private <T extends Closeable> void testStreamClosedInADifferentThread(final FailableFunction<FileContent, T, IOException> getStream) throws Exception {
-        final File temp = File.createTempFile("temp-file-name", ".tmp");
+        final Path temp = Files.createTempFile("temp-file-name", ".tmp");
         final FileSystemManager fileSystemManager = VFS.getManager();
 
-        try (FileObject file = fileSystemManager.resolveFile(temp.getAbsolutePath())) {
+        try (FileObject file = fileSystemManager.resolveFile(temp.toAbsolutePath().toString())) {
             final T stream = getStream.apply(file.getContent());
             final AtomicBoolean check = new AtomicBoolean();
             final Thread thread = new Thread(() -> {

@@ -19,15 +19,15 @@ package org.apache.commons.vfs2.provider.zip;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.FileObject;
@@ -43,13 +43,13 @@ import org.junit.jupiter.api.Test;
 public class FileLockTest {
 
     private FileSystemManager manager;
-    private File newZipFile;
+    private Path newZipFile;
 
     private String zipFileUri;
 
-    private void assertDelete() {
+    private void assertDelete() throws IOException {
         // We do not use newZipFile in the Assert message to avoid touching it before calling delete().
-        assertTrue(newZipFile.delete(), "Could not delete file");
+        Files.delete(newZipFile);
     }
 
     private void readAndAssert(final InputStream inputStream) throws IOException {
@@ -80,11 +80,11 @@ public class FileLockTest {
 
     @BeforeEach
     public void setup() throws IOException {
-        final File zipFile = new File("src/test/resources/test-data/test.zip");
-        newZipFile = File.createTempFile(getClass().getSimpleName(), ".zip");
-        newZipFile.deleteOnExit();
-        FileUtils.copyFile(zipFile, newZipFile);
-        zipFileUri = "zip:file:" + newZipFile.getAbsolutePath() + "!/read-tests/file1.txt";
+        final Path zipFile = Paths.get("src/test/resources/test-data/test.zip");
+        newZipFile = Files.createTempFile(getClass().getSimpleName(), ".zip");
+        newZipFile.toFile().deleteOnExit();
+        Files.copy(zipFile, newZipFile);
+        zipFileUri = "zip:file:" + newZipFile.toAbsolutePath() + "!/read-tests/file1.txt";
         manager = VFS.getManager();
     }
 
@@ -94,7 +94,7 @@ public class FileLockTest {
             try (InputStream inputStream = zipFileObject.getContent().getInputStream()) {
                 if (SystemUtils.IS_OS_WINDOWS) {
                     // We do not use newZipFile in the Assert message to avoid touching it before calling delete().
-                    assertFalse(newZipFile.delete(), "Could not delete file");
+                    assertFalse(newZipFile.toFile().delete(), "Could not delete file");
                 }
             }
         }
@@ -107,7 +107,7 @@ public class FileLockTest {
         try (FileObject zipFileObject = manager.resolveFile(zipFileUri)) {
             try (InputStream inputStream = zipFileObject.getContent().getInputStream()) {
                 // We do not use newZipFile in the Assert message to avoid touching it before calling delete().
-                assertFalse(newZipFile.delete(), "Could not delete file");
+                assertFalse(newZipFile.toFile().delete(), "Could not delete file");
             }
         }
     }

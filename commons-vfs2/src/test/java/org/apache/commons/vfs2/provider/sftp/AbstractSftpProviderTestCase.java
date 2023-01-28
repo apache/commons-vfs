@@ -26,6 +26,9 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -484,20 +487,20 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
             return;
         }
         // System.setProperty("vfs.sftp.sshdir", getTestDirectory() + "/../vfs.sftp.sshdir");
-        final String tmpDir = System.getProperty("java.io.tmpdir");
+        final Path tmpDir = Paths.get(System.getProperty("java.io.tmpdir"));
         Server = SshServer.setUpDefaultServer();
         Server.setPort(0);
         if (SecurityUtils.isBouncyCastleRegistered()) {
             // A temporary file will hold the key
-            final File keyFile = File.createTempFile("key", ".pem", new File(tmpDir));
-            keyFile.deleteOnExit();
+            final Path keyFile = Files.createTempFile(tmpDir, "key", ".pem");
+            keyFile.toFile().deleteOnExit();
             // It has to be deleted in order to be generated
-            keyFile.delete();
+            Files.delete(keyFile);
 
-            final PEMGeneratorHostKeyProvider keyProvider = new PEMGeneratorHostKeyProvider(keyFile.getAbsolutePath());
+            final PEMGeneratorHostKeyProvider keyProvider = new PEMGeneratorHostKeyProvider(keyFile.toAbsolutePath().toString());
             Server.setKeyPairProvider(keyProvider);
         } else {
-            Server.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(tmpDir + "/key.ser"));
+            Server.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(tmpDir.resolve("key.ser").toString()));
         }
         final List<NamedFactory<Command>> list = new ArrayList<>(1);
         list.add(new NamedFactory<Command>() {

@@ -16,8 +16,9 @@
  */
 package org.apache.commons.vfs2.provider.local;
 
-import java.io.File;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.FileContent;
@@ -36,13 +37,13 @@ public class TempFileTests extends AbstractProviderTestCase {
     @Test
     public void testLocalFile() throws Exception {
         final String prefix = "\u0074\u0065\u0074";
-        final File file = File.createTempFile(prefix + "-", "-" + prefix);
-        assertTrue(file.exists());
-        final URI uri = file.toURI();
+        final Path file = Files.createTempFile(prefix + "-", "-" + prefix);
+        assertTrue(Files.exists(file));
+        final URI uri = file.toUri();
         try (FileSystemManager manager = getManager()) {
             try (FileObject fileObject = manager.resolveFile(uri)) {
                 try (FileContent sourceContent = fileObject.getContent()) {
-                    assertEquals(sourceContent.getSize(), file.length());
+                    assertEquals(sourceContent.getSize(), Files.size(file));
                 }
             }
         }

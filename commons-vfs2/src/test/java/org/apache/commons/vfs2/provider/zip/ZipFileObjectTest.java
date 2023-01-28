@@ -20,8 +20,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -36,15 +39,15 @@ public class ZipFileObjectTest {
     private static final String NESTED_FILE_1 = "/read-xml-tests/file1.xml";
     private static final String NESTED_FILE_2 = "/read-xml-tests/file2.xml";
 
-    private void assertDelete(final File fileObject) {
-        Assert.assertTrue("Could not delete file", fileObject.delete());
+    private void assertDelete(final Path fileObject) throws IOException {
+        Files.delete(fileObject);
     }
 
-    private File createTempFile() throws IOException {
-        final File zipFile = new File("src/test/resources/test-data/read-xml-tests.zip");
-        final File newZipFile = File.createTempFile(getClass().getSimpleName(), ".zip");
-        newZipFile.deleteOnExit();
-        FileUtils.copyFile(zipFile, newZipFile);
+    private Path createTempFile() throws IOException {
+        final Path zipFile = Paths.get("src/test/resources/test-data/read-xml-tests.zip");
+        final Path newZipFile = Files.createTempFile(getClass().getSimpleName(), ".zip");
+        newZipFile.toFile().deleteOnExit();
+        Files.copy(zipFile, newZipFile, StandardCopyOption.REPLACE_EXISTING);
         return newZipFile;
     }
 
@@ -82,9 +85,9 @@ public class ZipFileObjectTest {
     @Test
     @Disabled("Shows that leaving a stream open and not closing any resource leaves the container file locked")
     public void testLeaveNestedFileOpen() throws IOException {
-        final File newZipFile = createTempFile();
+        final Path newZipFile = createTempFile();
         final FileSystemManager manager = VFS.getManager();
-        try (FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
+        try (FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.toAbsolutePath())) {
             @SuppressWarnings({ "resource" })
             final FileObject zipFileObject1 = zipFileObject.resolveFile(NESTED_FILE_1);
             getInputStreamAndAssert(zipFileObject1, "1");
@@ -99,9 +102,9 @@ public class ZipFileObjectTest {
      */
     @Test
     public void testReadingFilesInZipFile() throws IOException {
-        final File newZipFile = createTempFile();
+        final Path newZipFile = createTempFile();
         final FileSystemManager manager = VFS.getManager();
-        try (FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
+        try (FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.toAbsolutePath())) {
             try (FileObject zipFileObject1 = zipFileObject.resolveFile(NESTED_FILE_1)) {
                 try (InputStream inputStream = zipFileObject1.getContent().getInputStream()) {
                     readAndAssert(zipFileObject1, inputStream, "1");
@@ -120,11 +123,11 @@ public class ZipFileObjectTest {
      */
     @Test
     public void testReadingOneAfterClosingAnotherFile() throws IOException {
-        final File newZipFile = createTempFile();
+        final Path newZipFile = createTempFile();
         final FileSystemManager manager = VFS.getManager();
         final FileObject zipFileObject1;
         final InputStream inputStream1;
-        try (FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
+        try (FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.toAbsolutePath())) {
             // leave resources open
             zipFileObject1 = zipFileObject.resolveFile(NESTED_FILE_1);
             inputStream1 = zipFileObject1.getContent().getInputStream();
@@ -144,11 +147,11 @@ public class ZipFileObjectTest {
      */
     @Test
     public void testReadingOneAfterClosingAnotherStream() throws IOException {
-        final File newZipFile = createTempFile();
+        final Path newZipFile = createTempFile();
         final FileSystemManager manager = VFS.getManager();
         final FileObject zipFileObject1;
         final InputStream inputStream1;
-        try (FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
+        try (FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.toAbsolutePath())) {
             // leave resources open (note that internal counters are updated)
             zipFileObject1 = zipFileObject.resolveFile(NESTED_FILE_1);
             inputStream1 = zipFileObject1.getContent().getInputStream();
@@ -194,9 +197,9 @@ public class ZipFileObjectTest {
      */
     @Test
     public void testResolveNestedFileWithoutCleanup() throws IOException {
-        final File newZipFile = createTempFile();
+        final Path newZipFile = createTempFile();
         final FileSystemManager manager = VFS.getManager();
-        try (FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
+        try (FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.toAbsolutePath())) {
             @SuppressWarnings({ "unused", "resource" })
             // We resolve a nested file and do nothing else.
             final FileObject zipFileObject1 = zipFileObject.resolveFile(NESTED_FILE_1);

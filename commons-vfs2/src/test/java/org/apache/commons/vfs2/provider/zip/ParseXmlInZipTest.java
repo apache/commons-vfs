@@ -19,10 +19,13 @@ package org.apache.commons.vfs2.provider.zip;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
@@ -30,7 +33,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -57,11 +59,11 @@ public class ParseXmlInZipTest {
         Locale.setDefault(new Locale("en", "US"));
     }
 
-    private File createTempFile() throws IOException {
-        final File zipFile = new File("src/test/resources/test-data/read-xml-tests.zip");
-        final File newZipFile = File.createTempFile(getClass().getSimpleName(), ".zip");
-        newZipFile.deleteOnExit();
-        FileUtils.copyFile(zipFile, newZipFile);
+    private Path createTempFile() throws IOException {
+        final Path zipFile = Paths.get("src/test/resources/test-data/read-xml-tests.zip");
+        final Path newZipFile = Files.createTempFile(getClass().getSimpleName(), ".zip");
+        newZipFile.toFile().deleteOnExit();
+        Files.copy(zipFile, newZipFile, StandardCopyOption.REPLACE_EXISTING);
         return newZipFile;
     }
 
@@ -101,8 +103,8 @@ public class ParseXmlInZipTest {
 
     @Test
     public void testParseXmlInZip() throws IOException, SAXException {
-        final File newZipFile = createTempFile();
-        final String xmlFilePath = "zip:file:" + newZipFile.getAbsolutePath() + "!/read-xml-tests/file1.xml";
+        final Path newZipFile = createTempFile();
+        final String xmlFilePath = "zip:file:" + newZipFile.toAbsolutePath() + "!/read-xml-tests/file1.xml";
         final FileSystemManager manager = VFS.getManager();
         try (FileObject zipFileObject = manager.resolveFile(xmlFilePath)) {
             try (InputStream inputStream = zipFileObject.getContent().getInputStream()) {
@@ -150,8 +152,8 @@ public class ParseXmlInZipTest {
 
     private void testResolveAndParseXmlInZip(final String xmlPathInZip, final String xsdPathInZip)
             throws IOException, FileSystemException, SAXException {
-        final File newZipFile = createTempFile();
-        final String zipFilePath = "zip:file:" + newZipFile.getAbsolutePath();
+        final Path newZipFile = createTempFile();
+        final String zipFilePath = "zip:file:" + newZipFile.toAbsolutePath();
         final FileSystemManager manager = VFS.getManager();
         try (FileObject zipFileObject = manager.resolveFile(zipFilePath)) {
             try (FileObject xmlFileObject = zipFileObject.resolveFile(xmlPathInZip)) {
