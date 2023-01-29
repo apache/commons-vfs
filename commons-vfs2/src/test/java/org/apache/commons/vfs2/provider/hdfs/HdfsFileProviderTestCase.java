@@ -128,7 +128,7 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
     private static MiniDFSCluster cluster;
 
     /**
-     * Creates the test suite for the zip file system.
+     * Creates the test suite for the ZIP file system.
      */
     public static Test suite() throws Exception {
         return new HdfsProviderTestSuite(new HdfsFileProviderTestCase(), false);

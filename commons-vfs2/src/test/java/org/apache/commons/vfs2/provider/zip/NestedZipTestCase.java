@@ -27,12 +27,12 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import junit.framework.Test;
 
 /**
- * Tests for the Zip file system, using a zip file nested inside another zip file.
+ * Tests for the Zip file system, using a ZIP file nested inside another ZIP file.
  */
 public class NestedZipTestCase extends AbstractProviderTestConfig {
 
     /**
-     * Creates the test suite for nested zip files.
+     * Creates the test suite for nested ZIP files.
      */
     public static Test suite() throws Exception {
         return new ProviderTestSuite(new NestedZipTestCase(), true);

@@ -34,7 +34,7 @@ import junit.framework.Test;
 public class ZipProviderTestCase extends AbstractProviderTestConfig {
 
     /**
-     * Creates the test suite for the zip file system.
+     * Creates the test suite for the ZIP file system.
      */
     public static Test suite() throws Exception {
         return new ProviderTestSuite(new ZipProviderTestCase(), true);

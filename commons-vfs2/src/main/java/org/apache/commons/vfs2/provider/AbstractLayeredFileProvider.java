@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 
 /**
- * A {@link FileProvider} that is layered on top of another, such as the contents of a zip or tar file.
+ * A {@link FileProvider} that is layered on top of another, such as the contents of a ZIP or tar file.
  */
 public abstract class AbstractLayeredFileProvider extends AbstractFileProvider {
 

@@ -116,7 +116,7 @@ public class ZipFileObjectTest {
     }
 
     /**
-     * Tests that we can get a stream from one file in a zip file, then close another file from the same zip, then
+     * Tests that we can get a stream from one file in a ZIP file, then close another file from the same zip, then
      * process the initial input stream.
      *
      * @throws IOException
@@ -140,7 +140,7 @@ public class ZipFileObjectTest {
     }
 
     /**
-     * Tests that we can get a stream from one file in a zip file, then close another file from the same zip, then
+     * Tests that we can get a stream from one file in a ZIP file, then close another file from the same zip, then
      * process the initial input stream. If our internal reference counting is correct, the test passes.
      *
      * @throws IOException
@@ -166,7 +166,7 @@ public class ZipFileObjectTest {
     }
 
     /**
-     * Test read file with special name in a zip file
+     * Test read file with special name in a ZIP file
      */
     @Test
     public void testReadSpecialNameFileInZipFile() throws FileSystemException {

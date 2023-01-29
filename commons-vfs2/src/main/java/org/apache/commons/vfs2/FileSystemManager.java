@@ -105,7 +105,7 @@ public interface FileSystemManager extends AutoCloseable {
 
     /**
      * Creates a layered file system. A layered file system is a file system that is created from the contents of a
-     * file, such as a zip or tar file.
+     * file, such as a ZIP or tar file.
      *
      * @param file The file to use to create the file system.
      * @return The root file of the new file system.
@@ -115,7 +115,7 @@ public interface FileSystemManager extends AutoCloseable {
 
     /**
      * Creates a layered file system. A layered file system is a file system that is created from the contents of a
-     * file, such as a zip or tar file.
+     * file, such as a ZIP or tar file.
      *
      * @param provider The name of the file system provider to use. This name is the same as the scheme used in URI to
      *            identify the provider.
