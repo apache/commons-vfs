@@ -176,10 +176,14 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
                 // VFS-210: sftp allows to gather an input stream even from a directory and will
                 // fail on first read. So we need to check the type anyway
                 if (!getType().hasContent()) {
+                    // VFS-832: Sftp channel should put back when throw an exception
+                    getAbstractFileSystem().putChannel(channel);
                     throw new FileSystemException("vfs.provider/read-not-file.error", getName());
                 }
                 inputStream = channel.get(relPath);
             } catch (final SftpException e) {
+                // VFS-832: Sftp channel should put back when catch an exception
+                getAbstractFileSystem().putChannel(channel);
                 if (e.id == ChannelSftp.SSH_FX_NO_SUCH_FILE) {
                     throw new FileNotFoundException(getName());
                 }
