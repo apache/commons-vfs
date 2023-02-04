@@ -38,7 +38,7 @@ public class SftpPutChannelTestCase extends AbstractSftpProviderTestCase {
      * to expose the channels count
      */
     private static class CustomServerSession extends ServerSession {
-        public CustomServerSession(FactoryManager server, IoSession ioSession) throws Exception {
+        public CustomServerSession(final FactoryManager server, final IoSession ioSession) throws Exception {
             super(server, ioSession);
         }
 
@@ -49,7 +49,7 @@ public class SftpPutChannelTestCase extends AbstractSftpProviderTestCase {
 
     private static class CustomSessionFactory extends SessionFactory {
         @Override
-        protected AbstractSession doCreateSession(IoSession ioSession) throws Exception {
+        protected AbstractSession doCreateSession(final IoSession ioSession) throws Exception {
             return new CustomServerSession(server, ioSession);
         }
     }
@@ -70,18 +70,13 @@ public class SftpPutChannelTestCase extends AbstractSftpProviderTestCase {
         return suite;
     }
 
-    @Override
-    protected SessionFactory sessionFactory() {
-        return new CustomSessionFactory();
-    }
-
     /**
-     * Returns the capabilities required by the tests of this test case.
+     * Gets the capabilities required by the tests of this test case.
      */
     @Override
     protected Capability[] getRequiredCapabilities() {
-        return new Capability[]{Capability.CREATE, Capability.DELETE, Capability.GET_TYPE, Capability.LIST_CHILDREN,
-            Capability.READ_CONTENT, Capability.WRITE_CONTENT};
+        return new Capability[] { Capability.CREATE, Capability.DELETE, Capability.GET_TYPE, Capability.LIST_CHILDREN, Capability.READ_CONTENT,
+                Capability.WRITE_CONTENT };
     }
 
     @Override
@@ -89,8 +84,13 @@ public class SftpPutChannelTestCase extends AbstractSftpProviderTestCase {
         return false;
     }
 
+    @Override
+    protected SessionFactory sessionFactory() {
+        return new CustomSessionFactory();
+    }
+
     /**
-     * Test SftpFileObject.doGetInputStream return the channel to pool, when there is an exception
+     * Tests SftpFileObject.doGetInputStream return the channel to pool, when there is an exception
      */
     @Test
     public void testDoGetInputStream() throws Exception {
@@ -102,8 +102,8 @@ public class SftpPutChannelTestCase extends AbstractSftpProviderTestCase {
                 try (InputStream ignored = readFolder.resolveFile("not-exists.txt").getContent().getInputStream()) {
                     Assertions.fail("file should not be exists");
                 }
-            } catch (FileSystemException e) {
-                int channelsCount = ((CustomServerSession) Server.getActiveSessions().get(0)).getChannelsCount();
+            } catch (final FileSystemException e) {
+                final int channelsCount = ((CustomServerSession) Server.getActiveSessions().get(0)).getChannelsCount();
                 Assertions.assertTrue(channelsCount < MAX_CHANNELS, "channels count expected less than " + MAX_CHANNELS);
             }
         }
