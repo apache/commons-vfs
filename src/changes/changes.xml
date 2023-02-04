@@ -128,6 +128,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-683" type="fix" dev="ggregory" due-to="Daryl Odnert, Otto Fowler, Bernd Eckenfels, Dave MacDonald, Ivan Bella, Gary Gregory">
         Class loader thread safety #367.
       </action>
+      <action issue="VFS-832" type="fix" dev="ggregory" due-to="Gary Gregory">
+        Sftp channel not put back in doGetInputStream #370.
+      </action>
       <!-- ADD -->
       <action type="add" dev="ggregory" due-to="Seth Falco">
         Add vscode files to gitignore #205.
