@@ -70,7 +70,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
          */
         @Override
         protected void onClose() throws IOException {
-            getAbstractFileSystem().putChannel(channel);
+            putChannel(channel);
         }
     }
 
@@ -90,7 +90,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
          */
         @Override
         protected void onClose() throws IOException {
-            getAbstractFileSystem().putChannel(channel);
+            putChannel(channel);
         }
     }
     private static final long MOD_TIME_FACTOR = 1000L;
@@ -113,7 +113,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
         try {
             channel.mkdir(relPath);
         } finally {
-            getAbstractFileSystem().putChannel(channel);
+            putChannel(channel);
         }
     }
 
@@ -130,7 +130,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
                 channel.rmdir(relPath);
             }
         } finally {
-            getAbstractFileSystem().putChannel(channel);
+            putChannel(channel);
         }
     }
 
@@ -177,13 +177,12 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
                 // fail on first read. So we need to check the type anyway
                 if (!getType().hasContent()) {
                     // VFS-832: Sftp channel should put back when throw an exception
-                    getAbstractFileSystem().putChannel(channel);
+                    putChannel(channel);
                     throw new FileSystemException("vfs.provider/read-not-file.error", getName());
                 }
                 inputStream = channel.get(relPath);
             } catch (final SftpException e) {
-                // VFS-832: Sftp channel should put back when catch an exception
-                getAbstractFileSystem().putChannel(channel);
+                putChannel(channel);
                 if (e.id == ChannelSftp.SSH_FX_NO_SUCH_FILE) {
                     throw new FileNotFoundException(getName());
                 }
@@ -216,9 +215,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
         try {
             return new SftpOutputStream(channel, channel.put(relPath, bAppend ? ChannelSftp.APPEND : ChannelSftp.OVERWRITE));
         } catch (Exception ex) {
-            // when channel.put throw exception e.g. com.jcraft.jsch.SftpException: Permission denied
-            //   returns the channel to the pool
-            getAbstractFileSystem().putChannel(channel);
+            putChannel(channel);
             throw ex;
         }
 
@@ -323,7 +320,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
                 throw lsEx;
             }
         } finally {
-            getAbstractFileSystem().putChannel(channel);
+            putChannel(channel);
         }
         FileSystemException.requireNonNull(vector, "vfs.provider.sftp/list-children.error");
 
@@ -363,7 +360,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
             final SftpFileObject newSftpFileObject = (SftpFileObject) FileObjectUtils.getAbstractFileObject(newFile);
             channel.rename(relPath, newSftpFileObject.relPath);
         } finally {
-            getAbstractFileSystem().putChannel(channel);
+            putChannel(channel);
         }
     }
 
@@ -429,7 +426,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
         try {
             channel.setStat(relPath, attrs);
         } finally {
-            getAbstractFileSystem().putChannel(channel);
+            putChannel(channel);
         }
     }
 
@@ -444,7 +441,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
         try {
             return new SftpInputStream(channel, channel.get(getName().getPathDecoded(), null, filePointer));
         } catch (final SftpException e) {
-            getAbstractFileSystem().putChannel(channel);
+            putChannel(channel);
             throw new FileSystemException(e);
         }
     }
@@ -485,6 +482,11 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     @Override
     protected void onChange() throws Exception {
         statSelf();
+    }
+
+    @SuppressWarnings("resource") // does not allocate
+    private void putChannel(final ChannelSftp channel) {
+        getAbstractFileSystem().putChannel(channel);
     }
 
     /**
@@ -528,7 +530,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
             }
         } finally {
             if (channelSftp != null) {
-                getAbstractFileSystem().putChannel(channelSftp);
+                putChannel(channelSftp);
             }
         }
     }
