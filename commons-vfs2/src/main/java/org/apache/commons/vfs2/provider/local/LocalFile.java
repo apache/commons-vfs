@@ -103,7 +103,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
      */
     @Override
     protected InputStream doGetInputStream(final int bufferSize) throws Exception {
-        return new FileInputStream(file);
+        return Files.newInputStream(file.toPath());
     }
 
     /**
