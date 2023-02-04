@@ -35,7 +35,7 @@ import java.io.InputStream;
 public class SftpPutChannelTestCase extends AbstractSftpProviderTestCase {
 
     /**
-     * to expose the channels count
+     * Exposes the channels size.
      */
     private static class CustomServerSession extends ServerSession {
         public CustomServerSession(final FactoryManager server, final IoSession ioSession) throws Exception {
