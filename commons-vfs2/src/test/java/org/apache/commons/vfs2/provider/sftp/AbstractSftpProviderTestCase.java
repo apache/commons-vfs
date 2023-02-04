@@ -64,6 +64,7 @@ import org.apache.sshd.server.filesystem.NativeSshFile;
 import org.apache.sshd.server.keyprovider.PEMGeneratorHostKeyProvider;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.apache.sshd.server.session.ServerSession;
+import org.apache.sshd.server.session.SessionFactory;
 import org.apache.sshd.server.sftp.SftpSubsystem;
 
 import com.jcraft.jsch.SftpATTRS;
@@ -224,16 +225,18 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
 
     static class SftpProviderTestSuite extends ProviderTestSuite {
         private final boolean isExecChannelClosed;
+        private final SessionFactory sessionFactory;
 
         public SftpProviderTestSuite(final AbstractSftpProviderTestCase providerConfig) throws Exception {
             super(providerConfig);
             this.isExecChannelClosed = providerConfig.isExecChannelClosed();
+            this.sessionFactory = providerConfig.sessionFactory();
         }
 
         @Override
         protected void setUp() throws Exception {
             if (getSystemTestUriOverride() == null) {
-                setUpClass(isExecChannelClosed);
+                setUpClass(isExecChannelClosed, sessionFactory);
             }
             super.setUp();
         }
@@ -482,13 +485,14 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
      * @throws FtpException
      * @throws IOException
      */
-    private static void setUpClass(final boolean isExecChannelClosed) throws IOException {
+    private static void setUpClass(final boolean isExecChannelClosed, SessionFactory sessionFactory) throws IOException {
         if (Server != null) {
             return;
         }
         // System.setProperty("vfs.sftp.sshdir", getTestDirectory() + "/../vfs.sftp.sshdir");
         final Path tmpDir = Paths.get(System.getProperty("java.io.tmpdir"));
         Server = SshServer.setUpDefaultServer();
+        Server.setSessionFactory(sessionFactory);
         Server.setPort(0);
         if (SecurityUtils.isBouncyCastleRegistered()) {
             // A temporary file will hold the key
@@ -591,6 +595,10 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
     }
 
     protected abstract boolean isExecChannelClosed();
+
+    protected SessionFactory sessionFactory() {
+        return null;
+    }
 
     /**
      * Prepares the file system manager.
