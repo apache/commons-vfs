@@ -192,7 +192,7 @@
     <jackrabbit2.version>2.21.15</jackrabbit2.version>
     <commons.asm.version>9.4</commons.asm.version>
     <slf4j.version>1.7.36</slf4j.version>
-    <log4j2.version>2.19.0</log4j2.version>
+    <log4j2.version>2.20.0</log4j2.version>
     <clirr.skip>true</clirr.skip>
     <japicmp.skip>false</japicmp.skip>
     <jacoco.skip>false</jacoco.skip>
