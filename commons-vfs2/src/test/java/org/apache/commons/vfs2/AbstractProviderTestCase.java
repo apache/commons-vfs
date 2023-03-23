@@ -114,6 +114,15 @@ public abstract class AbstractProviderTestCase extends TestCase {
      * are encoded using UTF-8.
      */
     protected void assertSameURLContent(final String expected, final URLConnection connection) throws Exception {
+        assertSameURLContent(expected, connection.getInputStream(), connection);
+    }
+
+    /**
+     * Asserts that the content of a file is the same as expected. Checks the length reported by getContentLength() is
+     * correct, then reads the content as a byte stream and compares the result with the expected content. Assumes files
+     * are encoded using UTF-8.
+     */
+    protected void assertSameURLContent(final String expected, final InputStream instr, final URLConnection connection) throws Exception {
         // Get file content as a binary stream
         final byte[] expectedBin = expected.getBytes(StandardCharsets.UTF_8);
 
@@ -121,7 +130,6 @@ public abstract class AbstractProviderTestCase extends TestCase {
         assertEquals("same content length", expectedBin.length, connection.getContentLength());
 
         // Read content into byte array
-        final InputStream instr = connection.getInputStream();
         final ByteArrayOutputStream outstr;
         try {
             outstr = new ByteArrayOutputStream();
