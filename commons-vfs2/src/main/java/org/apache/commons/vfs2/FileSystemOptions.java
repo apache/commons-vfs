@@ -116,6 +116,11 @@ public final class FileSystemOptions implements Cloneable, Comparable<FileSystem
         this(new TreeMap<>());
     }
 
+    /**
+     * Constructs a new instance with the given options.
+     *
+     * @param options the options.
+     */
     protected FileSystemOptions(final Map<FileSystemOptionKey, Object> options) {
         this.options = options;
     }
