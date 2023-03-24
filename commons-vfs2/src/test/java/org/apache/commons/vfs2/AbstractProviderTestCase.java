@@ -114,7 +114,9 @@ public abstract class AbstractProviderTestCase extends TestCase {
      * are encoded using UTF-8.
      */
     protected void assertSameURLContent(final String expected, final URLConnection connection) throws Exception {
-        assertSameURLContent(expected, connection.getInputStream(), connection);
+        try (InputStream in = connection.getInputStream()) {
+            assertSameURLContent(expected, in, connection);
+        }
     }
 
     /**
