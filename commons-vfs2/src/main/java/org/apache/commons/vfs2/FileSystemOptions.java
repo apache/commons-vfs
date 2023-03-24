@@ -194,8 +194,7 @@ public final class FileSystemOptions implements Cloneable, Comparable<FileSystem
     }
 
     <T> T getOption(final Class<? extends FileSystem> fileSystemClass, final String name) {
-        final FileSystemOptionKey key = new FileSystemOptionKey(fileSystemClass, name);
-        return (T) options.get(key);
+        return (T) options.get(new FileSystemOptionKey(fileSystemClass, name));
     }
 
     @Override
