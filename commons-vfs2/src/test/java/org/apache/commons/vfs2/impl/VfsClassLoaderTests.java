@@ -204,12 +204,14 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
 
         // VFS-834: testing that getting the resource again does not close out the previous input stream.
         final URL resource2 = loader.getResource("read-tests/file1.txt");
+        assertNotNull(resource2);
+        final URLConnection urlCon2 = resource2.openConnection();
 
         assertSameURLContent(FILE1_CONTENT, instr1, urlCon1);
 
-        assertNotNull(resource2);
-        final URLConnection urlCon2 = resource2.openConnection();
-        final InputStream instr2 = urlCon1.getInputStream();
+        // For tar files, getting the second input stream will reset the input (see TarFileSystem.resetTarFile())
+        // hence we need to actually get the input stream after asserting the contents of the first one.
+        final InputStream instr2 = urlCon2.getInputStream();
 
         assertSameURLContent(FILE1_CONTENT, instr2, urlCon2);
     }
