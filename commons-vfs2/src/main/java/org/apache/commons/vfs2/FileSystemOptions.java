@@ -214,8 +214,7 @@ public final class FileSystemOptions implements Cloneable, Comparable<FileSystem
     }
 
     boolean hasOption(final Class<? extends FileSystem> fileSystemClass, final String name) {
-        final FileSystemOptionKey key = new FileSystemOptionKey(fileSystemClass, name);
-        return options.containsKey(key);
+        return options.containsKey(new FileSystemOptionKey(fileSystemClass, name));
     }
 
     void setOption(final Class<? extends FileSystem> fileSystemClass, final String name, final Object value) {
