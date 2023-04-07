@@ -189,7 +189,7 @@
     <httpcore5.version>5.2.1</httpcore5.version>
     <httpclient5.version>5.2.1</httpclient5.version>
     <jackrabbit1.version>1.6.5</jackrabbit1.version>
-    <jackrabbit2.version>2.21.15</jackrabbit2.version>
+    <jackrabbit2.version>2.21.16</jackrabbit2.version>
     <commons.asm.version>9.4</commons.asm.version>
     <slf4j.version>1.7.36</slf4j.version>
     <log4j2.version>2.20.0</log4j2.version>
