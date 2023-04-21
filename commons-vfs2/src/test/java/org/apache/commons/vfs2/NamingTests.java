@@ -103,6 +103,7 @@ public class NamingTests extends AbstractProviderTestCase {
         final String path = name.getPath() + "/a";
         assertSameName(path, name, path, scope);
         assertSameName(path, name, "../" + name.getBaseName() + "/a", scope);
+        assertSameName(path, name, "./a", scope);
 
         // Test an empty name
         assertBadName(name, "", scope);
@@ -116,6 +117,8 @@ public class NamingTests extends AbstractProviderTestCase {
         assertBadName(name, "../a", scope);
         assertBadName(name, "../" + name.getBaseName() + "a", scope);
         assertBadName(name, "a/..", scope);
+        assertBadName(name, "%2e%2e/ab", scope);
+        assertBadName(name, "..%2f../ab", scope);
 
         // Test absolute names
         assertBadName(name, "/", scope);
