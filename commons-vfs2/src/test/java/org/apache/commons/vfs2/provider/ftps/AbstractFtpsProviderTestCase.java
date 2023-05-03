@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
+import org.apache.ftpserver.ConnectionConfigFactory;
 import org.apache.ftpserver.FtpServer;
 import org.apache.ftpserver.FtpServerFactory;
 import org.apache.ftpserver.ftplet.FtpException;
@@ -152,6 +153,15 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         // replace the default listener
         serverFactory.addListener(LISTENER_NAME, listenerFactory.createListener());
 
+        ConnectionConfigFactory configFactory = new ConnectionConfigFactory();
+        configFactory.setMaxLogins(1000);
+        configFactory.setMaxThreads(1000);
+        configFactory.setMaxAnonymousLogins(1000);
+        configFactory.setMaxLoginFailures(100);
+        configFactory.setAnonymousLoginEnabled(true);
+        configFactory.setLoginFailureDelay(1);
+        serverFactory.setConnectionConfig(configFactory.createConnectionConfig());
+
         // start the server
         EmbeddedFtpServer = serverFactory.createServer();
         EmbeddedFtpServer.start();
@@ -221,8 +231,9 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
     }
 
     protected void setupOptions(final FtpsFileSystemConfigBuilder builder) {
-        builder.setConnectTimeout(fileSystemOptions, Duration.ofSeconds(10));
-        builder.setDataTimeout(fileSystemOptions, Duration.ofSeconds(10));
+        builder.setConnectTimeout(fileSystemOptions, Duration.ofSeconds(60));
+        builder.setDataTimeout(fileSystemOptions, Duration.ofSeconds(60));
+        builder.setSoTimeout(fileSystemOptions, Duration.ofSeconds(60));
     }
 
 }

@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
+import org.apache.ftpserver.ConnectionConfigFactory;
 import org.apache.ftpserver.FtpServer;
 import org.apache.ftpserver.FtpServerFactory;
 import org.apache.ftpserver.command.CommandFactory;
@@ -113,6 +114,14 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         if (commandFactory != null) {
             serverFactory.setCommandFactory(commandFactory);
         }
+        ConnectionConfigFactory configFactory = new ConnectionConfigFactory();
+        configFactory.setMaxLogins(500);
+        configFactory.setMaxThreads(500);
+        configFactory.setMaxAnonymousLogins(500);
+        configFactory.setMaxLoginFailures(100);
+        configFactory.setAnonymousLoginEnabled(true);
+        configFactory.setLoginFailureDelay(1);
+        serverFactory.setConnectionConfig(configFactory.createConnectionConfig());
         final ListenerFactory factory = new ListenerFactory();
         // set the port of the listener
         factory.setPort(0);

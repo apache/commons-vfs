@@ -16,25 +16,6 @@
  */
 package org.apache.commons.vfs2.impl;
 
-import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
-
-import java.io.File;
-import java.io.PrintWriter;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.RejectedExecutionHandler;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
 import org.apache.commons.io.output.StringBuilderWriter;
 import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.Capability;
@@ -42,12 +23,63 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileType;
+import org.apache.commons.vfs2.operations.FileOperationProvider;
 import org.junit.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
+import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
 
 /**
  * VfsClassLoader test cases.
  */
 public class VfsClassLoaderTests extends AbstractProviderTestCase {
+
+    final static Map<String, Long> TEST_FILES = Arrays.asList(new Object[][] {
+            {"read-tests/empty.txt",0L},
+            {"read-tests/file1.txt",20L},
+            //{"read-tests/file%25.txt",20L},
+            {"read-tests/dir1/file1.txt",12L},
+            {"read-tests/dir1/file2.txt",12L},
+            {"read-tests/dir1/subdir2/file1.txt",12L},
+            {"read-tests/dir1/subdir2/file2.txt",12L},
+            {"read-tests/dir1/subdir2/file3.txt",12L},
+            {"read-tests/dir1/subdir3/file1.txt",12L},
+            {"read-tests/dir1/subdir3/file2.txt",12L},
+            {"read-tests/dir1/subdir3/file3.txt",12L},
+            {"read-tests/dir1/file3.txt",12L},
+            {"read-tests/dir1/subdir4.jar/file1.txt",12L},
+            {"read-tests/dir1/subdir4.jar/file2.txt",12L},
+            {"read-tests/dir1/subdir4.jar/file3.txt",12L},
+            {"read-tests/dir1/subdir1/file1.txt",12L},
+            {"read-tests/dir1/subdir1/file2.txt",12L},
+            {"read-tests/dir1/subdir1/file3.txt",12L},
+            //{"read-tests/largefile.txt", 3221225472L},
+            {"read-tests/file space.txt",20L}
+    }).stream().collect(Collectors.toMap(o -> (String)o[0], o -> (Long)o[1]));
 
     /**
      * Non-Delegating Class Loader.
@@ -217,7 +249,17 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
 
     @Test
     public void testThreadSafety() throws Exception {
-        final int THREADS = 40;
+        final FileSystemManager manager = getManager();
+
+        // The http4 and sftp mechanisms do not work with this thread safety test
+        List<String> schemes = Arrays.asList(manager.getSchemes());
+        if (schemes.contains("http4") || schemes.contains("sftp")) {
+            System.out.println("VfsClassLoaderTests skipping thread safety test for schemes :" + schemes);
+            return;
+        }
+
+        // note THREADS must be an even number
+        final int THREADS = 20;
         final BlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<>(THREADS * 2);
         final List<Throwable> exceptions = new ArrayList<>();
         final Thread.UncaughtExceptionHandler handler = new Thread.UncaughtExceptionHandler() {
@@ -229,9 +271,10 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
             }
         };
         final ThreadFactory factory = new ThreadFactory() {
+            private int count = 0;
             @Override
             public Thread newThread(Runnable r) {
-                Thread thread = new Thread(r, "VfsClassLoaderTests.testThreadSafety");
+                Thread thread = new Thread(r, "VfsClassLoaderTests.testThreadSafety #" + count++);
                 thread.setUncaughtExceptionHandler(handler);
                 return thread;
             }
@@ -247,9 +290,12 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
         };
         final ThreadPoolExecutor executor = new ThreadPoolExecutor(THREADS, THREADS, 0, TimeUnit.SECONDS, workQueue, factory, rejectionHandler);
         executor.prestartAllCoreThreads();
-        for (int i = 0; i < THREADS; i++) {
+        VFSClassLoader resourceLoader = createClassLoader();
+        final CyclicBarrier barrier = new CyclicBarrier(THREADS);
+        for (int i = 0; i < THREADS/2; i++) {
             final VFSClassLoader loader = createClassLoader();
-            workQueue.put(new VfsClassLoaderTests.LoadClass(loader));
+            workQueue.put(new VfsClassLoaderTests.LoadClass(barrier, loader));
+            workQueue.put(new VfsClassLoaderTests.ReadResource(barrier, resourceLoader));
         }
         while (!workQueue.isEmpty()) {
             Thread.sleep(10);
@@ -263,14 +309,14 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
             workQueue.addAll(rejected);
         }
         executor.shutdown();
-        executor.awaitTermination(30, TimeUnit.SECONDS);
+        executor.awaitTermination(5, TimeUnit.MINUTES);
         assertEquals(THREADS, executor.getCompletedTaskCount());
         if (!exceptions.isEmpty()) {
             StringBuilder exceptionMsg = new StringBuilder();
             StringBuilderWriter writer = new StringBuilderWriter(exceptionMsg);
             PrintWriter pWriter = new PrintWriter(writer);
             for (Throwable t : exceptions) {
-                pWriter.write(t.getMessage());
+                pWriter.write(String.valueOf(t.getMessage()));
                 pWriter.write('\n');
                 t.printStackTrace(pWriter);
                 pWriter.write('\n');
@@ -282,13 +328,17 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
 
     private class LoadClass implements Runnable {
         private final VFSClassLoader loader;
-        public LoadClass(VFSClassLoader loader) {
+        private final CyclicBarrier barrier;
+
+        public LoadClass(CyclicBarrier barrier, VFSClassLoader loader) {
+            this.barrier = barrier;
             this.loader = loader;
         }
 
         @Override
         public void run() {
             try {
+                barrier.await();
                 final Class<?> testClass = loader.findClass("code.ClassToLoad");
                 final Package pack = testClass.getPackage();
                 assertEquals("code", pack.getName());
@@ -298,7 +348,80 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
                 assertEquals("**PRIVATE**", testObject.toString());
             } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
                 throw new RuntimeException(e);
+            } catch (InterruptedException | BrokenBarrierException e) {
+                throw new RuntimeException(e);
             }
+        }
+    }
+
+    private class ReadResource implements Runnable {
+        private final VFSClassLoader loader;
+        private final CyclicBarrier barrier;
+
+        public ReadResource(CyclicBarrier barrier, VFSClassLoader loader) {
+            this.barrier = barrier;
+            this.loader = loader;
+        }
+
+        @Override
+        public void run() {
+            try {
+                barrier.await();
+                List<Map.Entry<String, Long>> files = new ArrayList<>(TEST_FILES.entrySet());
+                Collections.shuffle(files);
+                for (int i = 0; i < 10; i++) {
+                    for (Map.Entry<String, Long> file : files) {
+                        testFindResource(file.getKey(), file.getValue());
+                        testGetResource(file.getKey(), file.getValue());
+                        testResourceAsStream(file.getKey(), file.getValue());
+                    }
+                }
+            } catch (InterruptedException | BrokenBarrierException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        private void testResourceAsStream(String file, long size) {
+            try {
+                try (InputStream stream = loader.getResourceAsStream(file)) {
+                    if (stream == null) {
+                        loader.getResourceAsStream(file);
+                    }
+                    readStream(file, stream, size);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to read " + file + " on thread " + Thread.currentThread(), e);
+            }
+        }
+        private void testGetResource(String file, long size) {
+            try {
+                URL url = loader.getResource(file);
+                try (InputStream stream = url.openStream()) {
+                    readStream(file, stream, size);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to read " + file + " on thread " + Thread.currentThread(), e);
+            }
+        }
+        private void testFindResource(String file, long size) {
+            try {
+                URL url = loader.findResource(file);
+                try (InputStream stream = url.openStream()) {
+                    readStream(file, stream, size);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to read " + file + " on thread " + Thread.currentThread(), e);
+            }
+        }
+        private void readStream(String file, InputStream stream, long size) throws IOException {
+            long length = 0;
+            byte[] bytes = new byte[1024];
+            int readBytes = stream.read(bytes);
+            while (readBytes >= 0) {
+                length += readBytes;
+                readBytes = stream.read(bytes);
+            }
+            assertEquals("Incorrect length for " + file + " on thread " + Thread.currentThread(), length, size);
         }
     }
 

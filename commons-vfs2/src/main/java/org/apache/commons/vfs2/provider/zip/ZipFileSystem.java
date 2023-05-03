@@ -16,16 +16,6 @@
  */
 package org.apache.commons.vfs2.provider.zip;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.Capability;
@@ -39,6 +29,16 @@ import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.UriParser;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
 /**
  * A read-only file system for ZIP and JAR files.
  */
@@ -49,7 +49,53 @@ public class ZipFileSystem extends AbstractFileSystem {
 
     private final File file;
     private final Charset charset;
-    private ZipFile zipFile;
+    private ZipFileThreadLocal zipFile = new ZipFileThreadLocal();
+
+    private class ZipFileThreadLocal {
+
+        private ThreadLocal<Boolean> isPresent = new ThreadLocal<Boolean>() {
+            @Override
+            protected Boolean initialValue() {
+                return Boolean.FALSE;
+            }
+        };
+        private ThreadLocal<ZipFile> zipFile = new ThreadLocal<ZipFile>() {
+            @Override
+            public ZipFile initialValue() {
+                if (isPresent.get()) {
+                    throw new IllegalStateException("Creating an initial value but we already have one");
+                }
+                try {
+                    isPresent.set(Boolean.TRUE);
+                    return createZipFile(ZipFileSystem.this.file);
+                } catch (FileSystemException fse) {
+                    throw new RuntimeException(fse);
+                }
+            }
+        };
+
+        public ZipFile getFile() throws FileSystemException {
+            try {
+                return zipFile.get();
+            } catch (RuntimeException e) {
+                if (e.getCause() instanceof FileSystemException) {
+                    throw new FileSystemException(e.getCause());
+                }
+                else {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        public void closeFile() throws IOException {
+            if (isPresent.get()) {
+                ZipFile file = zipFile.get();
+                file.close();
+                zipFile.remove();
+                isPresent.set(Boolean.FALSE);
+            }
+        }
+    }
 
     /**
      * Cache doesn't need to be synchronized since it is read-only.
@@ -71,12 +117,6 @@ public class ZipFileSystem extends AbstractFileSystem {
         // Make a local copy of the file
         file = parentLayer.getFileSystem().replicateFile(parentLayer, Selectors.SELECT_SELF);
         this.charset = ZipFileSystemConfigBuilder.getInstance().getCharset(fileSystemOptions);
-
-        // Open the Zip file
-        if (!file.exists()) {
-            // Don't need to do anything
-            zipFile = null;
-        }
     }
 
     /**
@@ -111,12 +151,9 @@ public class ZipFileSystem extends AbstractFileSystem {
 
     @Override
     protected void doCloseCommunicationLink() {
-        // Release the zip file
+        // Release the zip files
         try {
-            if (zipFile != null) {
-                zipFile.close();
-                zipFile = null;
-            }
+            zipFile.closeFile();
         } catch (final IOException e) {
             // getLogger().warn("vfs.provider.zip/close-zip-file.error :" + file, e);
             VfsLog.warn(getLogger(), LOG, "vfs.provider.zip/close-zip-file.error :" + file, e);
@@ -136,11 +173,7 @@ public class ZipFileSystem extends AbstractFileSystem {
     }
 
     protected ZipFile getZipFile() throws FileSystemException {
-        if (zipFile == null && this.file.exists()) {
-            this.zipFile = createZipFile(this.file);
-        }
-
-        return zipFile;
+        return zipFile.getFile();
     }
 
     @Override

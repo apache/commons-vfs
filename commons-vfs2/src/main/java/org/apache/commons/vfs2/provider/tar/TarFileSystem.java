@@ -16,16 +16,6 @@
  */
 package org.apache.commons.vfs2.provider.tar;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.zip.GZIPInputStream;
-
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
@@ -44,6 +34,16 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.UriParser;
 import org.apache.commons.vfs2.provider.bzip2.Bzip2FileObject;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.zip.GZIPInputStream;
+
 /**
  * A read-only file system for Tar files.
  */
@@ -54,7 +54,53 @@ public class TarFileSystem extends AbstractFileSystem {
 
     private final File file;
 
-    private TarArchiveInputStream tarFile;
+    private TarFileThreadLocal tarFile = new TarFileThreadLocal();
+
+    private class TarFileThreadLocal {
+
+        private ThreadLocal<Boolean> isPresent = new ThreadLocal<Boolean>() {
+            @Override
+            protected Boolean initialValue() {
+                return Boolean.FALSE;
+            }
+        };
+        private ThreadLocal<TarArchiveInputStream> tarFile = new ThreadLocal<TarArchiveInputStream>() {
+            @Override
+            public TarArchiveInputStream initialValue() {
+                if (isPresent.get()) {
+                    throw new IllegalStateException("Creating an initial value but we already have one");
+                }
+                try {
+                    isPresent.set(Boolean.TRUE);
+                    return createTarFile(TarFileSystem.this.file);
+                } catch (FileSystemException fse) {
+                    throw new RuntimeException(fse);
+                }
+            }
+        };
+
+        public TarArchiveInputStream getFile() throws FileSystemException {
+            try {
+                return tarFile.get();
+            } catch (RuntimeException e) {
+                if (e.getCause() instanceof FileSystemException) {
+                    throw new FileSystemException(e.getCause());
+                }
+                else {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        public void closeFile() throws IOException {
+            if (isPresent.get()) {
+                TarArchiveInputStream file = tarFile.get();
+                file.close();
+                tarFile.remove();
+                isPresent.set(Boolean.FALSE);
+            }
+        }
+    }
 
     /**
      * Cache doesn't need to be synchronized since it is read-only.
@@ -117,10 +163,7 @@ public class TarFileSystem extends AbstractFileSystem {
     protected void doCloseCommunicationLink() {
         // Release the tar file
         try {
-            if (tarFile != null) {
-                tarFile.close();
-                tarFile = null;
-            }
+            tarFile.closeFile();
         } catch (final IOException e) {
             // getLogger().warn("vfs.provider.tar/close-tar-file.error :" + file, e);
             VfsLog.warn(getLogger(), LOG, "vfs.provider.tar/close-tar-file.error :" + file, e);
@@ -147,6 +190,7 @@ public class TarFileSystem extends AbstractFileSystem {
         resetTarFile();
         try {
             ArchiveEntry next;
+            TarArchiveInputStream tarFile = getTarFile();
             while ((next = tarFile.getNextEntry()) != null) {
                 if (next.equals(entry)) {
                     return tarFile;
@@ -159,10 +203,7 @@ public class TarFileSystem extends AbstractFileSystem {
     }
 
     protected TarArchiveInputStream getTarFile() throws FileSystemException {
-        if (tarFile == null && this.file.exists()) {
-            recreateTarFile();
-        }
-        return tarFile;
+        return tarFile.getFile();
     }
 
     @Override
@@ -225,15 +266,12 @@ public class TarFileSystem extends AbstractFileSystem {
      */
 
     private void recreateTarFile() throws FileSystemException {
-        if (this.tarFile != null) {
-            try {
-                this.tarFile.close();
-            } catch (final IOException e) {
-                throw new FileSystemException("vfs.provider.tar/close-tar-file.error", file, e);
-            }
-            tarFile = null;
+        try {
+            tarFile.closeFile();
+        } catch (final IOException e) {
+            throw new FileSystemException("vfs.provider.tar/close-tar-file.error", file, e);
         }
-        this.tarFile = createTarFile(this.file);
+        tarFile.getFile();
     }
 
     /**
