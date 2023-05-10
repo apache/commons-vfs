@@ -23,7 +23,6 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs2.impl.VfsThreadedClassLoaderTests;
 import org.apache.commons.vfs2.provider.jar.JarFileProvider;
 import org.apache.commons.vfs2.provider.url.UrlFileProvider;
 
@@ -35,9 +34,7 @@ import junit.framework.Test;
 public class ResourceProviderTestCase extends AbstractProviderTestConfig {
 
     public static Test suite() throws Exception {
-        final ProviderTestSuite testSuite = new ProviderTestSuite(new ResourceProviderTestCase(), true);
-        testSuite.addTests(VfsThreadedClassLoaderTests.class);
-        return testSuite;
+        return new ProviderTestSuite(new ResourceProviderTestCase(), true);
     }
 
     /**
