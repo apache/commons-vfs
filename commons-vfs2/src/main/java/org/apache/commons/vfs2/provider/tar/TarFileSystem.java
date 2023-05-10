@@ -57,7 +57,7 @@ public class TarFileSystem extends AbstractFileSystem {
     private TarFileThreadLocal tarFile = new TarFileThreadLocal();
 
     private class TarFileCreationException extends RuntimeException {
-        public TarFileCreationException(Throwable cause) {
+        TarFileCreationException(Throwable cause) {
             super(cause);
         }
     }

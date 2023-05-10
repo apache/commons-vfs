@@ -52,7 +52,7 @@ public class ZipFileSystem extends AbstractFileSystem {
     private ZipFileThreadLocal zipFile = new ZipFileThreadLocal();
 
     private class ZipFileCreationException extends RuntimeException {
-        public ZipFileCreationException(Throwable cause) {
+        ZipFileCreationException(Throwable cause) {
             super(cause);
         }
     }
