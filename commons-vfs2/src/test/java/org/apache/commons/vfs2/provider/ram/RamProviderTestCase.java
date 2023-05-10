@@ -25,9 +25,11 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs2.impl.VfsThreadedClassLoaderTests;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
 
 import junit.framework.Test;
+import org.apache.commons.vfs2.provider.tar.TarProviderTestCase;
 
 /**
  * Tests for the RAM file system.
@@ -43,7 +45,9 @@ public class RamProviderTestCase extends AbstractProviderTestConfig {
      * Creates the test suite for the ram file system.
      */
     public static Test suite() throws Exception {
-        return new ProviderTestSuite(new RamProviderTestCase());
+        final ProviderTestSuite testSuite = new ProviderTestSuite(new RamProviderTestCase());
+        testSuite.addTests(VfsThreadedClassLoaderTests.class);
+        return testSuite;
     }
 
     /**

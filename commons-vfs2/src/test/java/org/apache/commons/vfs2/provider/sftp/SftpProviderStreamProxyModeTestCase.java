@@ -17,7 +17,6 @@
 package org.apache.commons.vfs2.provider.sftp;
 
 import java.net.URI;
-import java.util.Set;
 
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -31,13 +30,6 @@ import junit.framework.Test;
 
 public class SftpProviderStreamProxyModeTestCase extends AbstractSftpProviderTestCase {
 
-    private static final Class<?>[] BASE_TESTS = new Class<?>[] {
-            // Just tries to read
-            ProviderReadTests.class,
-            // VFS-405: set/get permissions
-            PermissionsTests.class
-    };
-
     // --- VFS-440: stream proxy test suite
     // We override the addBaseTests method so that only
     // one test is run (we just test that the input/output are correctly forwarded, and
@@ -45,12 +37,11 @@ public class SftpProviderStreamProxyModeTestCase extends AbstractSftpProviderTes
     public static Test suite() throws Exception {
         final SftpProviderTestSuite suite = new SftpProviderTestSuite(new SftpProviderStreamProxyModeTestCase()) {
             @Override
-            protected void addBaseTests(Set<Class<?>> exclusions) throws Exception {
-                for (Class<?> testClass : BASE_TESTS) {
-                    if (!exclusions.contains(testClass)) {
-                        addTests(testClass);
-                    }
-                }
+            protected void addBaseTests() throws Exception {
+                // Just tries to read
+                addTests(ProviderReadTests.class);
+                // VFS-405: set/get permissions
+                addTests(PermissionsTests.class);
             }
         };
         return suite;

@@ -20,7 +20,6 @@ import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 
 import java.io.File;
 import java.time.Duration;
-import java.util.Set;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileNotFolderException;
@@ -80,11 +79,9 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
              * Adds base tests - excludes the nested test cases.
              */
             @Override
-            protected void addBaseTests(Set<Class<?>> exclusions) throws Exception {
-                super.addBaseTests(exclusions);
-                if (!exclusions.contains(HttpProviderTestCase.class)) {
-                    addTests(HttpProviderTestCase.class);
-                }
+            protected void addBaseTests() throws Exception {
+                super.addBaseTests();
+                addTests(HttpProviderTestCase.class);
             }
 
             @Override

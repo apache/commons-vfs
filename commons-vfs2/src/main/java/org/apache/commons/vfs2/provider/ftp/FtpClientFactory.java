@@ -120,7 +120,7 @@ public final class FtpClientFactory {
          * @return A new connection.
          * @throws FileSystemException if an error occurs while connecting.
          */
-        public synchronized C createConnection(final String hostname, final int port, char[] username, char[] password,
+        public C createConnection(final String hostname, final int port, char[] username, char[] password,
                 final String workingDirectory, final FileSystemOptions fileSystemOptions) throws FileSystemException {
             // Determine the username and password to use
             if (username == null) {

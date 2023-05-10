@@ -20,7 +20,6 @@ import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 
 import java.io.File;
 import java.nio.file.Paths;
-import java.util.Set;
 
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
@@ -41,11 +40,9 @@ public class SftpPermissionExceptionTestCase extends AbstractSftpProviderTestCas
     public static junit.framework.Test suite() throws Exception {
         final SftpProviderTestSuite suite = new SftpProviderTestSuite(new SftpPermissionExceptionTestCase()){
             @Override
-            protected void addBaseTests(Set<Class<?>> exclusions) throws Exception {
-                if (!exclusions.contains(SftpPermissionExceptionTestCase.class)) {
-                    // Just tries to read
-                    addTests(SftpPermissionExceptionTestCase.class);
-                }
+            protected void addBaseTests() throws Exception {
+                // Just tries to read
+                addTests(SftpPermissionExceptionTestCase.class);
             }
         };
         return suite;

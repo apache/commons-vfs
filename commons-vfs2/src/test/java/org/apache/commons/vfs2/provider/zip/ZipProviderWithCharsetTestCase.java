@@ -28,6 +28,8 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs2.impl.VfsThreadedClassLoaderTests;
+import org.apache.commons.vfs2.provider.tar.TarProviderTestCase;
 import org.junit.jupiter.api.Assertions;
 
 import junit.framework.Test;
@@ -41,7 +43,9 @@ public class ZipProviderWithCharsetTestCase extends AbstractProviderTestConfig {
      * Creates the test suite for the ZIP file system.
      */
     public static Test suite() throws Exception {
-        return new ProviderTestSuite(new ZipProviderWithCharsetTestCase(), true);
+        final ProviderTestSuite testSuite = new ProviderTestSuite(new ZipProviderWithCharsetTestCase(), true);
+        testSuite.addTests(VfsThreadedClassLoaderTests.class);
+        return testSuite;
     }
 
     /**
