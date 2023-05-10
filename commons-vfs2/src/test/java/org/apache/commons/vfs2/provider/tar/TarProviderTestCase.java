@@ -28,7 +28,6 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 
 import junit.framework.Test;
 import org.apache.commons.vfs2.impl.VfsThreadedClassLoaderTests;
-import org.apache.commons.vfs2.provider.local.LocalProviderTestCase;
 
 /**
  * Tests for the Tar file system.

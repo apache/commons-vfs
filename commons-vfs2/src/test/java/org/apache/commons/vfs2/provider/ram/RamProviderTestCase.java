@@ -29,7 +29,6 @@ import org.apache.commons.vfs2.impl.VfsThreadedClassLoaderTests;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
 
 import junit.framework.Test;
-import org.apache.commons.vfs2.provider.tar.TarProviderTestCase;
 
 /**
  * Tests for the RAM file system.

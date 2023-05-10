@@ -29,7 +29,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.impl.VfsThreadedClassLoaderTests;
-import org.apache.commons.vfs2.provider.tar.TarProviderTestCase;
 import org.junit.jupiter.api.Assertions;
 
 import junit.framework.Test;

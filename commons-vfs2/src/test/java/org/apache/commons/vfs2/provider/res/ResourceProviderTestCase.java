@@ -25,7 +25,6 @@ import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.impl.VfsThreadedClassLoaderTests;
 import org.apache.commons.vfs2.provider.jar.JarFileProvider;
-import org.apache.commons.vfs2.provider.tar.TarProviderTestCase;
 import org.apache.commons.vfs2.provider.url.UrlFileProvider;
 
 import junit.framework.Test;
