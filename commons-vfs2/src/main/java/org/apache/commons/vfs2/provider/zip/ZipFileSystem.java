@@ -16,6 +16,16 @@
  */
 package org.apache.commons.vfs2.provider.zip;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.Capability;
@@ -29,16 +39,6 @@ import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.UriParser;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-
 /**
  * A read-only file system for ZIP and JAR files.
  */
@@ -50,6 +50,12 @@ public class ZipFileSystem extends AbstractFileSystem {
     private final File file;
     private final Charset charset;
     private ZipFileThreadLocal zipFile = new ZipFileThreadLocal();
+
+    private class ZipFileCreationException extends RuntimeException {
+        public ZipFileCreationException(Throwable cause) {
+            super(cause);
+        }
+    }
 
     private class ZipFileThreadLocal {
 
@@ -69,7 +75,7 @@ public class ZipFileSystem extends AbstractFileSystem {
                     isPresent.set(Boolean.TRUE);
                     return createZipFile(ZipFileSystem.this.file);
                 } catch (FileSystemException fse) {
-                    throw new RuntimeException(fse);
+                    throw new ZipFileCreationException(fse);
                 }
             }
         };
@@ -77,13 +83,8 @@ public class ZipFileSystem extends AbstractFileSystem {
         public ZipFile getFile() throws FileSystemException {
             try {
                 return zipFile.get();
-            } catch (RuntimeException e) {
-                if (e.getCause() instanceof FileSystemException) {
-                    throw new FileSystemException(e.getCause());
-                }
-                else {
-                    throw new RuntimeException(e);
-                }
+            } catch (ZipFileCreationException e) {
+                throw new FileSystemException(e);
             }
         }
 

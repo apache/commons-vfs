@@ -153,7 +153,8 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         // replace the default listener
         serverFactory.addListener(LISTENER_NAME, listenerFactory.createListener());
 
-        ConnectionConfigFactory configFactory = new ConnectionConfigFactory();
+        // allow more connections
+        final ConnectionConfigFactory configFactory = new ConnectionConfigFactory();
         configFactory.setMaxLogins(1000);
         configFactory.setMaxThreads(1000);
         configFactory.setMaxAnonymousLogins(1000);

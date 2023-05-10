@@ -31,6 +31,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -43,6 +44,7 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs2.impl.VfsThreadedClassLoaderTests;
 import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.sshd.SshServer;
 import org.apache.sshd.common.NamedFactory;
@@ -228,7 +230,8 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
         private final SessionFactory sessionFactory;
 
         public SftpProviderTestSuite(final AbstractSftpProviderTestCase providerConfig) throws Exception {
-            super(providerConfig);
+            // exclude the threaded class loader tests
+            super(providerConfig, Collections.singleton(VfsThreadedClassLoaderTests.class));
             this.isExecChannelClosed = providerConfig.isExecChannelClosed();
             this.sessionFactory = providerConfig.sessionFactory();
         }

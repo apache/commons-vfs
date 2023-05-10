@@ -20,6 +20,8 @@ import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 
 import java.io.File;
 import java.time.Duration;
+import java.util.Collections;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
@@ -31,6 +33,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs2.impl.VfsThreadedClassLoaderTests;
 import org.apache.commons.vfs2.util.NHttpFileServer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
@@ -73,14 +76,16 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
      * @throws Exception Thrown when the suite cannot be constructed.
      */
     public static junit.framework.Test suite() throws Exception {
-        return new ProviderTestSuite(new Http4ProviderTestCase()) {
+        return new ProviderTestSuite(new Http4ProviderTestCase(), Collections.singleton(VfsThreadedClassLoaderTests.class)) {
             /**
-             * Adds base tests - excludes the nested test cases.
+             * Adds base tests - excludes the nested test cases and the threaded class loader tests
              */
             @Override
-            protected void addBaseTests() throws Exception {
-                super.addBaseTests();
-                addTests(Http4ProviderTestCase.class);
+            protected void addBaseTests(Set<Class<?>> exclusions) throws Exception {
+                super.addBaseTests(exclusions);
+                if (!exclusions.contains(Http4ProviderTestCase.class)) {
+                    addTests(Http4ProviderTestCase.class);
+                }
             }
 
             @Override

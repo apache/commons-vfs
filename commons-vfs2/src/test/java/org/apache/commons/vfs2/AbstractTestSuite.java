@@ -24,8 +24,10 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -72,12 +74,17 @@ public abstract class AbstractTestSuite extends TestSetup {
 
     protected AbstractTestSuite(final ProviderTestConfig providerConfig, final String prefix, final boolean nested,
         final boolean addEmptyDir) throws Exception {
+        this(providerConfig, prefix, nested, addEmptyDir, Collections.emptySet());
+    }
+
+    protected AbstractTestSuite(final ProviderTestConfig providerConfig, final String prefix, final boolean nested,
+        final boolean addEmptyDir, final Set<Class<?>> exclusions) throws Exception {
         super(new TestSuite());
         testSuite = (TestSuite) fTest;
         this.providerConfig = providerConfig;
         this.prefix = prefix;
         this.addEmptyDir = addEmptyDir;
-        addBaseTests();
+        addBaseTests(exclusions);
         if (!nested) {
             // Add nested tests
             // TODO - move nested jar and zip tests here
@@ -88,9 +95,9 @@ public abstract class AbstractTestSuite extends TestSetup {
     }
 
     /**
-     * Adds base tests - excludes the nested test cases.
+     * Adds base tests - excludes the nested test cases and specified exclusions.
      */
-    protected void addBaseTests() throws Exception {
+    protected void addBaseTests(final Set<Class<?>> exclusions) throws Exception {
     }
 
     /**

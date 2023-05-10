@@ -28,6 +28,7 @@ import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 
 import java.io.InputStream;
+import java.util.Set;
 
 /**
  * Test SftpFileObject.doGetInputStream return the channel to pool when throw an exception.
@@ -62,9 +63,11 @@ public class SftpPutChannelTestCase extends AbstractSftpProviderTestCase {
     public static junit.framework.Test suite() throws Exception {
         final SftpProviderTestSuite suite = new SftpProviderTestSuite(new SftpPutChannelTestCase()) {
             @Override
-            protected void addBaseTests() throws Exception {
-                // Just tries to read
-                addTests(SftpPutChannelTestCase.class);
+            protected void addBaseTests(Set<Class<?>> exclusions) throws Exception {
+                if (!exclusions.contains(SftpPutChannelTestCase.class)) {
+                    // Just tries to read
+                    addTests(SftpPutChannelTestCase.class);
+                }
             }
         };
         return suite;

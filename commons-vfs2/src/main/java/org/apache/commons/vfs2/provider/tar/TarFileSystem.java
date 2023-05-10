@@ -16,6 +16,16 @@
  */
 package org.apache.commons.vfs2.provider.tar;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.zip.GZIPInputStream;
+
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
@@ -34,16 +44,6 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.UriParser;
 import org.apache.commons.vfs2.provider.bzip2.Bzip2FileObject;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.zip.GZIPInputStream;
-
 /**
  * A read-only file system for Tar files.
  */
@@ -55,6 +55,12 @@ public class TarFileSystem extends AbstractFileSystem {
     private final File file;
 
     private TarFileThreadLocal tarFile = new TarFileThreadLocal();
+
+    private class TarFileCreationException extends RuntimeException {
+        public TarFileCreationException(Throwable cause) {
+            super(cause);
+        }
+    }
 
     private class TarFileThreadLocal {
 
@@ -74,7 +80,7 @@ public class TarFileSystem extends AbstractFileSystem {
                     isPresent.set(Boolean.TRUE);
                     return createTarFile(TarFileSystem.this.file);
                 } catch (FileSystemException fse) {
-                    throw new RuntimeException(fse);
+                    throw new TarFileCreationException(fse);
                 }
             }
         };
@@ -82,13 +88,8 @@ public class TarFileSystem extends AbstractFileSystem {
         public TarArchiveInputStream getFile() throws FileSystemException {
             try {
                 return tarFile.get();
-            } catch (RuntimeException e) {
-                if (e.getCause() instanceof FileSystemException) {
-                    throw new FileSystemException(e.getCause());
-                }
-                else {
-                    throw new RuntimeException(e);
-                }
+            } catch (TarFileCreationException e) {
+                throw new FileSystemException(e);
             }
         }
 

@@ -17,6 +17,10 @@
 package org.apache.commons.vfs2;
 
 import org.apache.commons.vfs2.impl.VfsClassLoaderTests;
+import org.apache.commons.vfs2.impl.VfsThreadedClassLoaderTests;
+
+import java.util.Collections;
+import java.util.Set;
 
 /**
  * The suite of tests for a file system.
@@ -24,10 +28,39 @@ import org.apache.commons.vfs2.impl.VfsClassLoaderTests;
 public class ProviderTestSuite extends AbstractTestSuite {
 
     /**
+     * The list of base tests to be added to the test suite
+     */
+    private final static Class<?>[] BASE_TESTS = new Class<?>[] {
+            UrlTests.class,
+            ProviderCacheStrategyTests.class,
+            UriTests.class,
+            NamingTests.class,
+            ContentTests.class,
+            ProviderReadTests.class,
+            ProviderWriteTests.class,
+            ProviderWriteAppendTests.class,
+            ProviderRandomReadTests.class,
+            ProviderRandomReadWriteTests.class,
+            ProviderRandomSetLengthTests.class,
+            ProviderRenameTests.class,
+            ProviderDeleteTests.class,
+            LastModifiedTests.class,
+            UrlStructureTests.class,
+            VfsClassLoaderTests.class,
+            VfsThreadedClassLoaderTests.class};
+
+    /**
      * Adds the tests for a file system to this suite.
      */
     public ProviderTestSuite(final ProviderTestConfig providerConfig) throws Exception {
         this(providerConfig, "", false, false);
+    }
+
+    /**
+     * Adds the tests for a file system to this suite except for specified exclusions
+     */
+    public ProviderTestSuite(final ProviderTestConfig providerConfig, Set<Class<?>> exclusions) throws Exception {
+        this(providerConfig, "", false, false, exclusions);
     }
 
     /**
@@ -39,30 +72,24 @@ public class ProviderTestSuite extends AbstractTestSuite {
 
     protected ProviderTestSuite(final ProviderTestConfig providerConfig, final String prefix, final boolean nested,
             final boolean addEmptyDir) throws Exception {
-        super(providerConfig, prefix, nested, addEmptyDir);
+        this(providerConfig, prefix, nested, addEmptyDir, Collections.emptySet());
+    }
+
+    protected ProviderTestSuite(final ProviderTestConfig providerConfig, final String prefix, final boolean nested,
+                                final boolean addEmptyDir, final Set<Class<?>> exclusions) throws Exception {
+        super(providerConfig, prefix, nested, addEmptyDir, exclusions);
     }
 
     /**
-     * Adds base tests - excludes the nested test cases.
+     * Adds base tests - excludes the nested test cases and specified exclusions.
      */
     @Override
-    protected void addBaseTests() throws Exception {
-        addTests(UrlTests.class);
-        addTests(ProviderCacheStrategyTests.class);
-        addTests(UriTests.class);
-        addTests(NamingTests.class);
-        addTests(ContentTests.class);
-        addTests(ProviderReadTests.class);
-        addTests(ProviderWriteTests.class);
-        addTests(ProviderWriteAppendTests.class);
-        addTests(ProviderRandomReadTests.class);
-        addTests(ProviderRandomReadWriteTests.class);
-        addTests(ProviderRandomSetLengthTests.class);
-        addTests(ProviderRenameTests.class);
-        addTests(ProviderDeleteTests.class);
-        addTests(LastModifiedTests.class);
-        addTests(UrlStructureTests.class);
-        addTests(VfsClassLoaderTests.class);
+    protected void addBaseTests(Set<Class<?>> exclusions) throws Exception {
+        for (Class<?> testClass : BASE_TESTS) {
+            if (!exclusions.contains(testClass)) {
+                addTests(testClass);
+            }
+        }
     }
 
 }

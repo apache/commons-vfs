@@ -21,6 +21,7 @@ import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
+import java.util.Set;
 
 import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
@@ -114,7 +115,8 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         if (commandFactory != null) {
             serverFactory.setCommandFactory(commandFactory);
         }
-        ConnectionConfigFactory configFactory = new ConnectionConfigFactory();
+        // allow more connections
+        final ConnectionConfigFactory configFactory = new ConnectionConfigFactory();
         configFactory.setMaxLogins(500);
         configFactory.setMaxThreads(500);
         configFactory.setMaxAnonymousLogins(500);
@@ -151,12 +153,14 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         return new ProviderTestSuite(testCase) {
 
             @Override
-            protected void addBaseTests() throws Exception {
+            protected void addBaseTests(Set<Class<?>> exclusions) throws Exception {
                 if (testClasses.length == 0) {
-                    super.addBaseTests();
+                    super.addBaseTests(exclusions);
                 } else {
                     for (final Class<?> test : testClasses) {
-                        addTests(test);
+                        if (!exclusions.contains(test)) {
+                            addTests(test);
+                        }
                     }
                 }
             }
