@@ -34,7 +34,7 @@ import junit.framework.Test;
 public class ResourceProviderTestCase extends AbstractProviderTestConfig {
 
     public static Test suite() throws Exception {
-        return new ProviderTestSuite(new ResourceProviderTestCase(), true);
+        return new ProviderTestSuite(new ResourceProviderTestCase());
     }
 
     /**
