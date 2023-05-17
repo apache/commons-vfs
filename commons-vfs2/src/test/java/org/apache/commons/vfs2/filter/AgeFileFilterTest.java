@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.vfs2.FileFilterSelector;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelectInfo;
@@ -73,7 +74,7 @@ public class AgeFileFilterTest extends BaseFilterTest {
         oldFileInfo = null;
         oldFile = null;
 
-        zipFileObj.close();
+        IOUtils.close(zipFileObj);
         FileUtils.deleteQuietly(zipFile);
         zipFile = null;
 

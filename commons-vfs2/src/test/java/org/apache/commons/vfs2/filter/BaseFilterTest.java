@@ -148,6 +148,12 @@ public abstract class BaseFilterTest {
         }
     }
 
+    protected static void delete(final File file) {
+        if (file != null) {
+            file.delete();
+        }
+    }
+
     /**
      * Returns the temporary directory.
      *
@@ -165,7 +171,9 @@ public abstract class BaseFilterTest {
      * @return Subdirectory of java.io.tmpdir.
      */
     protected static File getTestDir(final String name) {
-        return new File(getTempDir(), name);
+        final File file = new File(getTempDir(), name);
+        file.mkdirs();
+        return file;
     }
 
     /**

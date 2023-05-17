@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.vfs2.FileFilter;
 import org.apache.commons.vfs2.FileFilterSelector;
 import org.apache.commons.vfs2.FileObject;
@@ -80,9 +81,7 @@ public class SymbolicLinkFileFilterTest extends BaseFilterTest {
         linkFileInfo = null;
         notExistingFile = null;
         notExistingFileInfo = null;
-        if (zipFileObject != null) {
-            zipFileObject.close();
-        }
+        IOUtils.close(zipFileObject);
         if (zipFile != null) {
             FileUtils.deleteQuietly(zipFile);
             zipFile = null;

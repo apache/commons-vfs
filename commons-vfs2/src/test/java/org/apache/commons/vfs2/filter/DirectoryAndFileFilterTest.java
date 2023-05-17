@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.vfs2.FileFilter;
 import org.apache.commons.vfs2.FileFilterSelector;
 import org.apache.commons.vfs2.FileObject;
@@ -71,7 +72,7 @@ public class DirectoryAndFileFilterTest extends BaseFilterTest {
         notExistingFileInfo = null;
         notExistingFile = null;
 
-        zipFileObj.close();
+        IOUtils.close(zipFileObj);
         FileUtils.deleteQuietly(zipFile);
         zipFile = null;
 

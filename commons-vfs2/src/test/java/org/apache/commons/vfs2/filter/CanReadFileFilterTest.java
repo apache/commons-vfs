@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.vfs2.FileFilterSelector;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelectInfo;
@@ -61,17 +62,17 @@ public class CanReadFileFilterTest extends BaseFilterTest {
     public static void afterClass() throws IOException {
 
         writableFileInfo = null;
-        writableFile.delete();
+        delete(writableFile);
         writableFile = null;
 
         readOnlyFileInfo = null;
-        readOnlyFile.delete();
+        delete(readOnlyFile);
         readOnlyFile = null;
 
         notExistingFileInfo = null;
         notExistingFile = null;
 
-        zipFileObj.close();
+        IOUtils.close(zipFileObj);
         FileUtils.deleteQuietly(zipFile);
         zipFile = null;
 
