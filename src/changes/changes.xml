@@ -246,8 +246,8 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" due-to="Dependabot" type="update">
         Bump slf4j.version from 1.7.26 to 1.7.36 #244.
       </action>
-      <action dev="ggregory" due-to="Dependabot" type="update">
-        Bump commons-parent from 52 to 56 #302, #349, #362.
+      <action dev="ggregory" due-to="Dependabot, Gary Gregory" type="update">
+        Bump commons-parent from 52 to 57 #302, #349, #362.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Bump org.ow2.asm:asm from 9.2 to 9.4.
