@@ -49,7 +49,7 @@ public final class FileSystemOptions implements Cloneable, Comparable<FileSystem
      * Keys in the options Map.
      */
     private static final class FileSystemOptionKey implements Comparable<FileSystemOptionKey> {
-        /** Constant used to create hashcode */
+        /** Constant used to create hash code */
         private static final int HASH = 29;
 
         /** The FileSystem class */
