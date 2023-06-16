@@ -49,6 +49,7 @@ Apache Commons VFS Project
 [![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-vfs2/2.9.0.svg)](https://javadoc.io/doc/org.apache.commons/commons-vfs2/2.9.0)
 [![CodeQL](https://github.com/apache/commons-vfs/workflows/CodeQL/badge.svg)](https://github.com/apache/commons-vfs/actions/workflows/codeql-analysis.yml?query=workflow%3ACodeQL)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/apache/commons-vfs/badge)](https://api.securityscorecards.dev/projects/github.com/apache/commons-vfs)
+[![Source Map](https://sourcespy.com/shield.svg)](https://sourcespy.com/github/apachecommonsvfs/)
 
 Apache Commons VFS is a Virtual File System library.
 
@@ -57,6 +58,7 @@ Documentation
 
 More information can be found on the [Apache Commons VFS Project homepage](https://commons.apache.org/proper/commons-vfs).
 The [Javadoc](https://commons.apache.org/proper/commons-vfs/commons-vfs2/apidocs/index.html) can be browsed.
+A list of [module, class and other diagrams](https://sourcespy.com/github/apachecommonsvfs/) can help understand overall strucutre of the project. 
 Questions related to the usage of Apache Commons VFS Project should be posted to the [user mailing list][ml].
 
 Where can I get the latest release?
