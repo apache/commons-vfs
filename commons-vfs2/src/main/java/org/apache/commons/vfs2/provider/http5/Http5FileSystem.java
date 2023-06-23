@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider.http5;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.URI;
 import java.util.Collection;
 
@@ -91,7 +92,7 @@ public class Http5FileSystem extends AbstractFileSystem {
             try {
                 ((CloseableHttpClient) httpClient).close();
             } catch (final IOException e) {
-                throw new RuntimeException("Error closing HttpClient", e);
+                throw new UncheckedIOException("Error closing HttpClient", e);
             }
         }
     }
