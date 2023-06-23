@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.Collections;
@@ -596,7 +597,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
             try {
                 childMap.remove(UriParser.decode(child.getBaseName()));
             } catch (final FileSystemException e) {
-                throw new RuntimeException(e.getMessage());
+                throw new UncheckedIOException(e);
             }
         } else {
             // if child was added we have to rescan the children
