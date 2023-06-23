@@ -18,6 +18,7 @@ package org.apache.commons.vfs2.provider.hdfs;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -76,7 +77,7 @@ public class HdfsFileSystem extends AbstractFileSystem {
                 fs.close();
             }
         } catch (final IOException e) {
-            throw new RuntimeException("Error closing HDFS client", e);
+            throw new UncheckedIOException("Error closing HDFS client", e);
         }
         super.close();
     }
