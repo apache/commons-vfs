@@ -99,7 +99,7 @@ public class HdfsFileProviderTest {
             final int newPermission = 0777 ^ umask;
             conf2.set("dfs.datanode.data.dir.perm", String.format("%03o", newPermission));
         } catch (final Exception e) {
-            throw new RuntimeException("Error getting umask from O/S", e);
+            throw new IllegalStateException("Error getting umask from O/S", e);
         }
     }
 

@@ -20,6 +20,7 @@ import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
@@ -99,7 +100,7 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
                 cluster = new MiniDFSCluster(PORT, conf, 1, true, true, true, null, null, null, null);
                 cluster.waitActive();
             } catch (final IOException e) {
-                throw new RuntimeException("Error setting up mini cluster", e);
+                throw new UncheckedIOException("Error setting up mini cluster", e);
             }
             hdfs = cluster.getFileSystem();
 
