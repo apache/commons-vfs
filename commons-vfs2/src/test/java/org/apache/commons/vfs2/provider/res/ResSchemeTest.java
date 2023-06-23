@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.res;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.URI;
@@ -24,8 +25,6 @@ import java.net.URISyntaxException;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.VFS;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ResSchemeTest {
 

@@ -21,8 +21,8 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FilesCache;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
-import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * Tests for {@link NullFilesCache} used by {@link NullFilesCacheTestCase}.

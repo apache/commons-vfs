@@ -16,6 +16,9 @@
  */
 package org.apache.commons.vfs2.provider.ftp;
 
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
+
 import java.io.IOException;
 import java.time.Instant;
 import java.util.concurrent.ThreadLocalRandom;
@@ -24,11 +27,8 @@ import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.LastModifiedTests;
-import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
-
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
+import org.junit.jupiter.api.Assertions;
 
 public class FtpMdtmOnRefreshLastModifiedTests extends LastModifiedTests {
 

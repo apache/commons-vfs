@@ -19,8 +19,8 @@ package org.apache.commons.vfs2;
 import java.io.IOException;
 
 import org.apache.commons.vfs2.util.RandomAccessMode;
-import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * Random set length test cases for file providers.

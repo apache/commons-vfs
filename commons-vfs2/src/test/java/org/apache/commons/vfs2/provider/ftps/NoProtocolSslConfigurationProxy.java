@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider.ftps;
 
 import java.security.GeneralSecurityException;
+
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 

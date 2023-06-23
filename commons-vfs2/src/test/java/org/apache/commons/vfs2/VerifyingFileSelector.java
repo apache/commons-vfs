@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.junit.jupiter.api.Assertions;
 
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.util.FileObjectUtils;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * A file selector that asserts that all files are visited, in the correct order.

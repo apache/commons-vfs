@@ -18,13 +18,14 @@ package org.apache.commons.vfs2.provider.sftp;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
 
 /**
  * Tests {@link SftpFileSystem}.

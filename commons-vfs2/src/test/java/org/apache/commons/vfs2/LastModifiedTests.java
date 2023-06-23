@@ -22,8 +22,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * Test cases for getting and setting file last modified time.

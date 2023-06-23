@@ -21,8 +21,8 @@ import java.util.Objects;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FilesCache;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
-import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * Tests for {@link LRUFilesCache} used by {@link LRUFilesCacheTestCase}.

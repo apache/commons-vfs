@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.sftp;
 
+import java.io.InputStream;
+
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -26,8 +28,6 @@ import org.apache.sshd.server.session.ServerSession;
 import org.apache.sshd.server.session.SessionFactory;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-
-import java.io.InputStream;
 
 /**
  * Test SftpFileObject.doGetInputStream return the channel to pool when throw an exception.
