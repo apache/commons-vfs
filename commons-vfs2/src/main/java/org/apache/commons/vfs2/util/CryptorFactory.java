@@ -55,7 +55,7 @@ public final class CryptorFactory {
                 instance = (Cryptor) clazz.newInstance();
                 return instance;
             } catch (final Exception ex) {
-                throw new RuntimeException("Unable to create Cryptor " + cryptorClass, ex);
+                throw new IllegalStateException("Unable to create Cryptor " + cryptorClass, ex);
             }
         }
         instance = new DefaultCryptor();
