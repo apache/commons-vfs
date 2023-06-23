@@ -296,8 +296,8 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
 
                 final Object testObject = testClass.newInstance();
                 assertEquals("**PRIVATE**", testObject.toString());
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-                throw new RuntimeException(e);
+            } catch (ReflectiveOperationException e) {
+                throw new IllegalStateException(e);
             }
         }
     }
