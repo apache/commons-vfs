@@ -27,6 +27,7 @@ import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 
 import junit.framework.Test;
+import org.apache.commons.vfs2.impl.VfsThreadedClassLoaderTests;
 
 /**
  * Tests for the Zip file system.
@@ -37,7 +38,9 @@ public class ZipProviderTestCase extends AbstractProviderTestConfig {
      * Creates the test suite for the ZIP file system.
      */
     public static Test suite() throws Exception {
-        return new ProviderTestSuite(new ZipProviderTestCase(), true);
+        final ProviderTestSuite testSuite = new ProviderTestSuite(new ZipProviderTestCase(), true);
+        testSuite.addTests(VfsThreadedClassLoaderTests.class);
+        return testSuite;
     }
 
     /**

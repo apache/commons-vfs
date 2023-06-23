@@ -49,7 +49,54 @@ public class ZipFileSystem extends AbstractFileSystem {
 
     private final File file;
     private final Charset charset;
-    private ZipFile zipFile;
+    private ZipFileThreadLocal zipFile = new ZipFileThreadLocal();
+
+    private class ZipFileCreationException extends RuntimeException {
+        ZipFileCreationException(Throwable cause) {
+            super(cause);
+        }
+    }
+
+    private class ZipFileThreadLocal {
+
+        private ThreadLocal<Boolean> isPresent = new ThreadLocal<Boolean>() {
+            @Override
+            protected Boolean initialValue() {
+                return Boolean.FALSE;
+            }
+        };
+        private ThreadLocal<ZipFile> zipFile = new ThreadLocal<ZipFile>() {
+            @Override
+            public ZipFile initialValue() {
+                if (isPresent.get()) {
+                    throw new IllegalStateException("Creating an initial value but we already have one");
+                }
+                try {
+                    isPresent.set(Boolean.TRUE);
+                    return createZipFile(ZipFileSystem.this.file);
+                } catch (FileSystemException fse) {
+                    throw new ZipFileCreationException(fse);
+                }
+            }
+        };
+
+        public ZipFile getFile() throws FileSystemException {
+            try {
+                return zipFile.get();
+            } catch (ZipFileCreationException e) {
+                throw new FileSystemException(e);
+            }
+        }
+
+        public void closeFile() throws IOException {
+            if (isPresent.get()) {
+                ZipFile file = zipFile.get();
+                file.close();
+                zipFile.remove();
+                isPresent.set(Boolean.FALSE);
+            }
+        }
+    }
 
     /**
      * Cache doesn't need to be synchronized since it is read-only.
@@ -71,12 +118,6 @@ public class ZipFileSystem extends AbstractFileSystem {
         // Make a local copy of the file
         file = parentLayer.getFileSystem().replicateFile(parentLayer, Selectors.SELECT_SELF);
         this.charset = ZipFileSystemConfigBuilder.getInstance().getCharset(fileSystemOptions);
-
-        // Open the Zip file
-        if (!file.exists()) {
-            // Don't need to do anything
-            zipFile = null;
-        }
     }
 
     /**
@@ -111,12 +152,9 @@ public class ZipFileSystem extends AbstractFileSystem {
 
     @Override
     protected void doCloseCommunicationLink() {
-        // Release the zip file
+        // Release the zip files
         try {
-            if (zipFile != null) {
-                zipFile.close();
-                zipFile = null;
-            }
+            zipFile.closeFile();
         } catch (final IOException e) {
             // getLogger().warn("vfs.provider.zip/close-zip-file.error :" + file, e);
             VfsLog.warn(getLogger(), LOG, "vfs.provider.zip/close-zip-file.error :" + file, e);
@@ -136,11 +174,7 @@ public class ZipFileSystem extends AbstractFileSystem {
     }
 
     protected ZipFile getZipFile() throws FileSystemException {
-        if (zipFile == null && this.file.exists()) {
-            this.zipFile = createZipFile(this.file);
-        }
-
-        return zipFile;
+        return zipFile.getFile();
     }
 
     @Override

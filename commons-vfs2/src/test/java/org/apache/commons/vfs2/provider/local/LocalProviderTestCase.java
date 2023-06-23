@@ -26,6 +26,7 @@ import org.apache.commons.vfs2.PermissionsTests;
 import org.apache.commons.vfs2.ProviderTestSuite;
 
 import junit.framework.Test;
+import org.apache.commons.vfs2.impl.VfsThreadedClassLoaderTests;
 
 /**
  * Tests for the local file system.
@@ -47,6 +48,8 @@ public class LocalProviderTestCase extends AbstractProviderTestConfig {
         if (SystemUtils.IS_OS_WINDOWS) {
             testSuite.addTests(WindowsFileNameTests.class);
         }
+
+        testSuite.addTests(VfsThreadedClassLoaderTests.class);
 
         return testSuite;
     }
