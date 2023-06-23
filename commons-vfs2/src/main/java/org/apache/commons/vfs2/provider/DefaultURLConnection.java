@@ -23,6 +23,7 @@ import java.io.UncheckedIOException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.apache.commons.io.function.Uncheck;
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileSystemException;
 
@@ -51,11 +52,7 @@ public final class DefaultURLConnection extends URLConnection {
 
     @Override
     public String getContentEncoding() {
-        try {
-            return fileContent.getContentInfo().getContentEncoding();
-        } catch (final FileSystemException e) {
-            throw new UncheckedIOException(e);
-        }
+        return Uncheck.get(() -> fileContent.getContentInfo().getContentEncoding());
     }
 
     @Override
@@ -69,11 +66,7 @@ public final class DefaultURLConnection extends URLConnection {
 
     @Override
     public String getContentType() {
-        try {
-            return fileContent.getContentInfo().getContentType();
-        } catch (final FileSystemException e) {
-            throw new UncheckedIOException(e);
-        }
+        return Uncheck.get(() -> fileContent.getContentInfo().getContentType());
     }
 
     @Override

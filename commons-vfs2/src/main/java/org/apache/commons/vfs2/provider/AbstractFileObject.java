@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import org.apache.commons.io.function.Uncheck;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileContentInfoFactory;
@@ -1862,11 +1863,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     private void setFileType(final FileType type) {
         if (type != null && type != FileType.IMAGINARY) {
-            try {
-                fileName.setType(type);
-            } catch (final FileSystemException e) {
-                throw new UncheckedIOException(e);
-            }
+            Uncheck.run(() -> fileName.setType(type));
         }
         this.type = type;
     }
