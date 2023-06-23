@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
@@ -81,7 +82,7 @@ public class DefaultURLStreamHandler extends URLStreamHandler {
             setURL(u, protocolPart, "", -1, null, null, filePart.toString(), null, null);
         } catch (final FileSystemException fse) {
             // This is rethrown to MalformedURLException in URL anyway
-            throw new RuntimeException(fse.getMessage());
+            throw new UncheckedIOException(fse);
         }
     }
 

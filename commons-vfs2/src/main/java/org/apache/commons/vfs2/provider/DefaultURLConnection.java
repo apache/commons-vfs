@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -53,7 +54,7 @@ public final class DefaultURLConnection extends URLConnection {
         try {
             return fileContent.getContentInfo().getContentEncoding();
         } catch (final FileSystemException e) {
-            throw new RuntimeException(e.getMessage());
+            throw new UncheckedIOException(e);
         }
     }
 
@@ -71,7 +72,7 @@ public final class DefaultURLConnection extends URLConnection {
         try {
             return fileContent.getContentInfo().getContentType();
         } catch (final FileSystemException e) {
-            throw new RuntimeException(e.getMessage());
+            throw new UncheckedIOException(e);
         }
     }
 
@@ -99,6 +100,6 @@ public final class DefaultURLConnection extends URLConnection {
      * (content.getFile().getFileSystem().hasCapability(Capability.ATTRIBUTES)) { String value = (String)
      * content.getAttribute(name); if (value != null) { return value; } }
      *
-     * return null; } catch (FileSystemException e) { throw new RuntimeException(e); } }
+     * return null; } catch (FileSystemException e) { throw new UncheckedIOException(e); } }
      */
 }

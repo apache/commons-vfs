@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -315,11 +316,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     private FilesCache getFilesCache() {
         final FilesCache filesCache = getContext().getFileSystemManager().getFilesCache();
-        if (filesCache == null) {
-            throw new RuntimeException(Messages.getString("vfs.provider/files-cache-missing.error"));
-        }
-
-        return filesCache;
+        return Objects.requireNonNull(filesCache, () -> Messages.getString("vfs.provider/files-cache-missing.error"));
     }
 
     /**

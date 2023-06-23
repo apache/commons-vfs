@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
@@ -1864,7 +1865,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             try {
                 fileName.setType(type);
             } catch (final FileSystemException e) {
-                throw new RuntimeException(e.getMessage());
+                throw new UncheckedIOException(e);
             }
         }
         this.type = type;
