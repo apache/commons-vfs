@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider.zip;
 
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.util.HashSet;
 import java.util.zip.ZipEntry;
 
@@ -125,7 +126,7 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem> {
             }
         } catch (final FileSystemException e) {
             // should not happen as the type has already been cached.
-            throw new RuntimeException(e);
+            throw new UncheckedIOException(e);
         }
 
         return children.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
