@@ -70,13 +70,13 @@ public class RunTest {
         final TestResult result = new TestResult() {
             @Override
             public synchronized void addError(final Test test, final Throwable throwable) {
-                // throw new RuntimeException(throwable.getMessage());
+                // throw new IllegalStateException(throwable.getMessage());
                 throwable.printStackTrace();
             }
 
             @Override
             public synchronized void addFailure(final Test test, final AssertionFailedError assertionFailedError) {
-                // throw new RuntimeException(assertionFailedError.getMessage());
+                // throw new IllegalStateException(assertionFailedError.getMessage());
                 assertionFailedError.printStackTrace();
             }
 
