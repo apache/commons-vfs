@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
@@ -124,7 +125,7 @@ public abstract class BaseFilterTest {
                     try {
                         return fileObject.getParent();
                     } catch (final FileSystemException ex) {
-                        throw new RuntimeException(ex);
+                        throw new UncheckedIOException(ex);
                     }
                 }
 
@@ -144,7 +145,7 @@ public abstract class BaseFilterTest {
                 }
             };
         } catch (final FileSystemException ex) {
-            throw new RuntimeException(ex);
+            throw new UncheckedIOException(ex);
         }
     }
 
