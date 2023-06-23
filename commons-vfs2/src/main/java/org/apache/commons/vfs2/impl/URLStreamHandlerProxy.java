@@ -39,9 +39,9 @@ final class URLStreamHandlerProxy extends URLStreamHandler {
             setURL(u, url.getProtocol(), url.getHost(), url.getPort(), url.getAuthority(), url.getUserInfo(),
                     url.getFile(), url.getQuery(), url.getRef());
         } catch (final MalformedURLException mue) {
-            // We rethrow this as a simple runtime exception.
+            // We rethrow this as a runtime exception.
             // It is rethrown in URL as a MalformedURLException anyway.
-            throw new RuntimeException(mue.getMessage());
+            throw new IllegalArgumentException(mue.getMessage());
         }
     }
 }
