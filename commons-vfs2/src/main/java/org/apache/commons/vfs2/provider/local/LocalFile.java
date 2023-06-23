@@ -25,6 +25,7 @@ import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.StandardOpenOption;
 
+import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
@@ -124,13 +125,8 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
      * Creates an output stream to write the file content to.
      */
     @Override
-    protected OutputStream doGetOutputStream(final boolean append) throws Exception {
-        // TODO Reuse Apache Commons IO
-        // @formatter:off
-        return Files.newOutputStream(file.toPath(), append ?
-            new OpenOption[] {StandardOpenOption.CREATE, StandardOpenOption.APPEND} :
-            new OpenOption[] {StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING});
-        // @formatter:on
+    protected OutputStream doGetOutputStream(final boolean append) throws IOException {
+        return PathUtils.newOutputStream(file.toPath(), append);
     }
 
     @Override
