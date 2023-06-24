@@ -16,11 +16,11 @@
  */
 package org.apache.commons.vfs2.provider.http4;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
+import java.io.Closeable;
 import java.net.URI;
 import java.util.Collection;
 
+import org.apache.commons.io.function.Uncheck;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
@@ -29,7 +29,6 @@ import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.impl.client.CloseableHttpClient;
 
 /**
  * http4 file system.
@@ -88,12 +87,10 @@ public class Http4FileSystem extends AbstractFileSystem {
 
     @Override
     protected void doCloseCommunicationLink() {
-        if (httpClient instanceof CloseableHttpClient) {
-            try {
-                ((CloseableHttpClient) httpClient).close();
-            } catch (final IOException e) {
-                throw new UncheckedIOException("Error closing HttpClient", e);
-            }
+        if (httpClient instanceof Closeable) {
+            // TODO "Error closing HttpClient" Commons IO
+            // Uncheck.run(() -> ((Closeable) httpClient).close(), () -> "Error closing HttpClient");
+            Uncheck.run(() -> ((Closeable) httpClient).close());
         }
     }
 

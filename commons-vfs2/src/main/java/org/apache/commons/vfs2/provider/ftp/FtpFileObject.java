@@ -20,7 +20,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UncheckedIOException;
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.Collections;
@@ -31,6 +30,7 @@ import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.apache.commons.io.function.Uncheck;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -594,11 +594,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     @Override
     protected void onChildrenChanged(final FileName child, final FileType newType) {
         if (childMap != null && newType.equals(FileType.IMAGINARY)) {
-            try {
-                childMap.remove(UriParser.decode(child.getBaseName()));
-            } catch (final FileSystemException e) {
-                throw new UncheckedIOException(e);
-            }
+            Uncheck.run(() -> childMap.remove(UriParser.decode(child.getBaseName())));
         } else {
             // if child was added we have to rescan the children
             // TODO - get rid of this

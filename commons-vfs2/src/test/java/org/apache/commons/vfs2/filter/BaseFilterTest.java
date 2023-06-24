@@ -24,7 +24,6 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +31,7 @@ import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.apache.commons.io.function.Uncheck;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSystemException;
@@ -116,17 +116,12 @@ public abstract class BaseFilterTest {
      * @return File select info.
      */
     protected static FileSelectInfo createFileSelectInfo(final File file) {
-        try {
-            final FileSystemManager fsManager = VFS.getManager();
-            final FileObject fileObject = fsManager.toFileObject(file);
+        return Uncheck.get(() -> {
+            final FileObject fileObject = VFS.getManager().toFileObject(file);
             return new FileSelectInfo() {
                 @Override
                 public FileObject getBaseFolder() {
-                    try {
-                        return fileObject.getParent();
-                    } catch (final FileSystemException ex) {
-                        throw new UncheckedIOException(ex);
-                    }
+                    return Uncheck.get(fileObject::getParent);
                 }
 
                 @Override
@@ -144,9 +139,7 @@ public abstract class BaseFilterTest {
                     return Objects.toString(fileObject);
                 }
             };
-        } catch (final FileSystemException ex) {
-            throw new UncheckedIOException(ex);
-        }
+        });
     }
 
     protected static void delete(final File file) {

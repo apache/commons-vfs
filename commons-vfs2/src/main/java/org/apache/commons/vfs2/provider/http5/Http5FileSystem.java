@@ -16,11 +16,11 @@
  */
 package org.apache.commons.vfs2.provider.http5;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
+import java.io.Closeable;
 import java.net.URI;
 import java.util.Collection;
 
+import org.apache.commons.io.function.Uncheck;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
@@ -28,7 +28,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.hc.client5.http.classic.HttpClient;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.protocol.HttpClientContext;
 
 /**
@@ -88,12 +87,10 @@ public class Http5FileSystem extends AbstractFileSystem {
 
     @Override
     protected void doCloseCommunicationLink() {
-        if (httpClient instanceof CloseableHttpClient) {
-            try {
-                ((CloseableHttpClient) httpClient).close();
-            } catch (final IOException e) {
-                throw new UncheckedIOException("Error closing HttpClient", e);
-            }
+        if (httpClient instanceof Closeable) {
+            // TODO "Error closing HttpClient" Commons IO
+            // Uncheck.run(() -> ((Closeable) httpClient).close(), () -> "Error closing HttpClient");
+            Uncheck.run(() -> ((Closeable) httpClient).close());
         }
     }
 

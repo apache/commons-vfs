@@ -17,10 +17,10 @@
 package org.apache.commons.vfs2.provider.zip;
 
 import java.io.InputStream;
-import java.io.UncheckedIOException;
 import java.util.HashSet;
 import java.util.zip.ZipEntry;
 
+import org.apache.commons.io.function.Uncheck;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
@@ -120,15 +120,9 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem> {
      */
     @Override
     protected String[] doListChildren() {
-        try {
-            if (!getType().hasChildren()) {
-                return null;
-            }
-        } catch (final FileSystemException e) {
-            // should not happen as the type has already been cached.
-            throw new UncheckedIOException(e);
+        if (!Uncheck.get(this::getType).hasChildren()) {
+            return null;
         }
-
         return children.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 

@@ -17,13 +17,12 @@
 package org.apache.commons.vfs2.provider;
 
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
 
+import org.apache.commons.io.function.Uncheck;
 import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 
 /**
@@ -62,7 +61,7 @@ public class DefaultURLStreamHandler extends URLStreamHandler {
 
     @Override
     protected void parseURL(final URL u, final String spec, final int start, final int limit) {
-        try {
+        Uncheck.run(() -> {
             final FileObject old = context.resolveFile(u.toExternalForm(), fileSystemOptions);
 
             final FileObject newURL;
@@ -80,10 +79,7 @@ public class DefaultURLStreamHandler extends URLStreamHandler {
             final String protocolPart = UriParser.extractScheme(context.getFileSystemManager().getSchemes(), url, filePart);
 
             setURL(u, protocolPart, "", -1, null, null, filePart.toString(), null, null);
-        } catch (final FileSystemException fse) {
-            // This is rethrown to MalformedURLException in URL anyway
-            throw new UncheckedIOException(fse);
-        }
+        });
     }
 
     @Override
