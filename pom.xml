@@ -193,6 +193,9 @@
     <commons.asm.version>9.4</commons.asm.version>
     <slf4j.version>1.7.36</slf4j.version>
     <log4j2.version>2.20.0</log4j2.version>
+    <!-- For VFS, somehow, SPDX >= 0.6.0 requires Java 11 (maybe because it's a multi-module project). -->
+    <commons.spdx.version>0.5.5</commons.spdx.version>
+
     <clirr.skip>true</clirr.skip>
     <japicmp.skip>false</japicmp.skip>
     <jacoco.skip>false</jacoco.skip>
