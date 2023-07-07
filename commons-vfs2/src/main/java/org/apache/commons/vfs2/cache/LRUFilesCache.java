@@ -110,7 +110,6 @@ public class LRUFilesCache extends AbstractFilesCache {
     private final int lruSize;
     private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
     private final Lock readLock = rwLock.readLock();
-
     private final Lock writeLock = rwLock.writeLock();
 
     /**
@@ -152,7 +151,6 @@ public class LRUFilesCache extends AbstractFilesCache {
     @Override
     public FileObject getFile(final FileSystem filesystem, final FileName name) {
         final Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
-
         readLock.lock();
         try {
             return files.get(name);
