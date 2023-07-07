@@ -109,8 +109,6 @@ public class LRUFilesCache extends AbstractFilesCache {
     /** The size of the cache */
     private final int lruSize;
     private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
-    private final Lock readLock = rwLock.readLock();
-    private final Lock writeLock = rwLock.writeLock();
 
     /**
      * Default constructor. Uses an LRU size of 100 per file system.
@@ -132,13 +130,13 @@ public class LRUFilesCache extends AbstractFilesCache {
     public void clear(final FileSystem filesystem) {
         final Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
 
-        writeLock.lock();
+        writeLock().lock();
         try {
             files.clear();
 
             fileSystemCache.remove(filesystem);
         } finally {
-            writeLock.unlock();
+            writeLock().unlock();
         }
     }
 
@@ -151,11 +149,11 @@ public class LRUFilesCache extends AbstractFilesCache {
     @Override
     public FileObject getFile(final FileSystem filesystem, final FileName name) {
         final Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
-        readLock.lock();
+        readLock().lock();
         try {
             return files.get(name);
         } finally {
-            readLock.unlock();
+            readLock().unlock();
         }
     }
 
@@ -167,11 +165,11 @@ public class LRUFilesCache extends AbstractFilesCache {
     public void putFile(final FileObject file) {
         final Map<FileName, FileObject> files = getOrCreateFilesystemCache(file.getFileSystem());
 
-        writeLock.lock();
+        writeLock().lock();
         try {
             files.put(file.getName(), file);
         } finally {
-            writeLock.unlock();
+            writeLock().unlock();
         }
     }
 
@@ -179,26 +177,23 @@ public class LRUFilesCache extends AbstractFilesCache {
     public boolean putFileIfAbsent(final FileObject file) {
         final Map<FileName, FileObject> files = getOrCreateFilesystemCache(file.getFileSystem());
 
-        writeLock.lock();
+        writeLock().lock();
         try {
-            final FileName name = file.getName();
-
-            if (files.containsKey(name)) {
-                return false;
-            }
-
-            files.put(name, file);
-            return true;
+            return files.putIfAbsent(file.getName(), file) == null;
         } finally {
-            writeLock.unlock();
+            writeLock().unlock();
         }
+    }
+
+    private Lock readLock() {
+        return rwLock.readLock();
     }
 
     @Override
     public void removeFile(final FileSystem filesystem, final FileName name) {
         final Map<?, ?> files = getOrCreateFilesystemCache(filesystem);
 
-        writeLock.lock();
+        writeLock().lock();
         try {
             files.remove(name);
 
@@ -206,7 +201,7 @@ public class LRUFilesCache extends AbstractFilesCache {
                 fileSystemCache.remove(filesystem);
             }
         } finally {
-            writeLock.unlock();
+            writeLock().unlock();
         }
     }
 
@@ -214,5 +209,9 @@ public class LRUFilesCache extends AbstractFilesCache {
     public void touchFile(final FileObject file) {
         // this moves the file back on top
         getFile(file.getFileSystem(), file.getName());
+    }
+
+    private Lock writeLock() {
+        return rwLock.writeLock();
     }
 }
