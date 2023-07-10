@@ -38,11 +38,11 @@
     </menu>
 
     <menu name="VFS Modules" inherit="top">
-      <item name="Core" href="commons-vfs2/index.html"/>
-      <item name="Examples" href="commons-vfs2-examples/index.html"/>
-      <item name="Jackrabbit 1" href="commons-vfs2-jackrabbit1/index.html"/>
-      <item name="Jackrabbit 2" href="commons-vfs2-jackrabbit2/index.html"/>
-      <item name="Sandbox" href="commons-vfs2-sandbox/index.html"/>
+      <item name="VFS Core" href="commons-vfs2/index.html"/>
+      <item name="VFS Examples" href="commons-vfs2-examples/index.html"/>
+      <item name="VFS Jackrabbit 1" href="commons-vfs2-jackrabbit1/index.html"/>
+      <item name="VFS Jackrabbit 2" href="commons-vfs2-jackrabbit2/index.html"/>
+      <item name="VFS Sandbox" href="commons-vfs2-sandbox/index.html"/>
     </menu>
 
     <menu name="VFS Development" inherit="top">
