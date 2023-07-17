@@ -80,19 +80,6 @@ public abstract class VfsTestUtils {
     }
 
     /**
-     * Compares 2 objects for equality, nulls are equal. Used by the test classes' equals() methods.
-     */
-    public static boolean equals(final Object o1, final Object o2) {
-        if (o1 == null && o2 == null) {
-            return true;
-        }
-        if (o1 == null || o2 == null) {
-            return false;
-        }
-        return o1.equals(o2);
-    }
-
-    /**
      * Makes a file canonical
      */
     public static File getCanonicalFile(final File file) {
