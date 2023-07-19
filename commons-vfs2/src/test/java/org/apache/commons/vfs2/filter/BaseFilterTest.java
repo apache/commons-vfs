@@ -31,6 +31,7 @@ import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.function.Uncheck;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelectInfo;
@@ -154,7 +155,7 @@ public abstract class BaseFilterTest {
      * @return java.io.tmpdir
      */
     protected static File getTempDir() {
-        return new File(System.getProperty("java.io.tmpdir"));
+        return FileUtils.getTempDirectory();
     }
 
     /**

@@ -20,6 +20,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.FileObject;
@@ -173,9 +174,7 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
     @Override
     public void init() throws FileSystemException {
         if (tempDir == null) {
-            final String baseTmpDir = System.getProperty("java.io.tmpdir");
-
-            tempDir = new File(baseTmpDir, "vfs_cache").getAbsoluteFile();
+            tempDir = new File(FileUtils.getTempDirectoryPath(), "vfs_cache").getAbsoluteFile();
         }
 
         filecount = RANDOM.nextInt() & MASK;

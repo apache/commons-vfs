@@ -36,6 +36,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
@@ -490,7 +491,7 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
             return;
         }
         // System.setProperty("vfs.sftp.sshdir", getTestDirectory() + "/../vfs.sftp.sshdir");
-        final Path tmpDir = Paths.get(System.getProperty("java.io.tmpdir"));
+        final Path tmpDir = PathUtils.getTempDirectory();
         Server = SshServer.setUpDefaultServer();
         Server.setSessionFactory(sessionFactory);
         Server.setPort(0);
