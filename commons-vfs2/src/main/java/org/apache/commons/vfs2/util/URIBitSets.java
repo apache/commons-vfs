@@ -18,6 +18,7 @@ package org.apache.commons.vfs2.util;
 
 import java.util.BitSet;
 
+import org.apache.commons.lang3.util.FluentBitSet;
 import org.apache.commons.vfs2.provider.GenericURLFileName;
 
 /**
