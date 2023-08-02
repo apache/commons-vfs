@@ -47,7 +47,6 @@ import org.apache.commons.vfs2.provider.webdav4.Webdav4FileProvider;
 import org.apache.commons.vfs2.provider.webdav4.Webdav4FileSystemConfigBuilder;
 import org.apache.commons.vfs2.util.FreeSocketPortUtil;
 import org.apache.jackrabbit.core.TransientRepository;
-import org.apache.jackrabbit.standalone.Main;
 
 import junit.framework.Test;
 
@@ -68,7 +67,7 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
 
     private static final String TEST_URI = "test.webdav4.uri";
 
-    private static Main jrMain;
+    private static JackrabbitMain jrMain;
 
     /**
      * Use %40 for @ in URLs
@@ -212,7 +211,7 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
         dump(RepoDirectory);
         // Start server with temp repo
         startJackrabbit(RepoDirectory);
-        message("Returned from org.apache.jackrabbit.standalone.Main " + SocketPort);
+        message("Returned from " + JackrabbitMain.class.getName() +  " " + SocketPort);
     }
 
     /**
@@ -228,7 +227,7 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
             quiet = true;
         }
 
-        jrMain = new Main(new String[] { "--port", Integer.toString(SocketPort), "--repo", repoDirectory.toString(),
+        jrMain = new JackrabbitMain(new String[] { "--port", Integer.toString(SocketPort), "--repo", repoDirectory.toString(),
                 quiet ? "--quiet" : "" }) {
         };
 
