@@ -44,7 +44,7 @@
     <suppress checks="MethodName" files="DefaultFileSystemManager.java" lines="185"/>
     
     <!-- Use of literals here is reasonable. -->
-    <suppress checks="MagicNumber" files="URIUtils.java" lines="142, 151, 161"/>
+    <suppress checks="MagicNumber" files="URIUtils.java" lines="143, 152, 162"/>
     <suppress checks="MagicNumber" files="RamFileRandomAccessContent.java"/>
     <suppress checks="MagicNumber" files="FtpCheck.java" lines="48, 28"/>
     <suppress checks="MagicNumber" files="SftpCheck.java" lines="42, 28"/>
