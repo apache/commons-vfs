@@ -221,12 +221,26 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
     /** The FileSystemConfigBuilder */
     private final Webdav4FileSystemConfigBuilder builder;
 
-
+    /**
+     * Constructs a new instance.
+     *
+     * @param name file name.
+     * @param fileSystem file system.
+     * @throws FileSystemException if any error occurs
+     */
     protected Webdav4FileObject(final AbstractFileName name, final Webdav4FileSystem fileSystem)
             throws FileSystemException {
         this(name, fileSystem, Webdav4FileSystemConfigBuilder.getInstance());
     }
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param name file name.
+     * @param fileSystem file system.
+     * @param builder builds the file system configuration.
+     * @throws FileSystemException if any error occurs
+     */
     protected Webdav4FileObject(final AbstractFileName name, final Webdav4FileSystem fileSystem,
             final Webdav4FileSystemConfigBuilder builder) throws FileSystemException {
         super(name, fileSystem, builder);
