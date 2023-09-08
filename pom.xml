@@ -190,7 +190,7 @@
     <httpclient5.version>5.2.1</httpclient5.version>
     <jackrabbit1.version>1.6.5</jackrabbit1.version>
     <!-- Never use jackrabbit2 2.21.x, it breaks compatibility and it "unstable" -->
-    <jackrabbit2.version>2.20.11</jackrabbit2.version>
+    <jackrabbit2.version>2.20.12</jackrabbit2.version>
     <commons.asm.version>9.4</commons.asm.version>
     <slf4j.version>1.7.36</slf4j.version>
     <log4j2.version>2.20.0</log4j2.version>
