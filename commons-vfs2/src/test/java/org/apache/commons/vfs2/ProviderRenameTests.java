@@ -97,6 +97,23 @@ public class ProviderRenameTests extends AbstractProviderTestCase {
     }
 
     /**
+     * Tests create-delete-create-a-file sequence on the same file system.
+     */
+    @Test
+    public void testRenameFileWithSpaces() throws Exception {
+        final FileObject scratchFolder = createScratchFolder();
+
+        // Create direct child of the test folder
+        final FileObject file = scratchFolder.resolveFile("file space.txt");
+        assertFalse(file.exists());
+
+        final String content = createTestFile(file);
+
+        // Make sure we can move the new file to another file on the same file system
+        moveFile(scratchFolder, file, content);
+    }
+
+    /**
      * Moves a file from a child folder to a parent folder to test what happens when the original folder is now empty.
      *
      * See [VFS-298] FTP: Exception is thrown when renaming a file.

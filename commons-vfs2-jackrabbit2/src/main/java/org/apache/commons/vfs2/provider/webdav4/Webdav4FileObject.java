@@ -38,7 +38,6 @@ import org.apache.commons.vfs2.provider.GenericURLFileName;
 import org.apache.commons.vfs2.provider.http4.Http4FileObject;
 import org.apache.commons.vfs2.util.FileObjectUtils;
 import org.apache.commons.vfs2.util.MonitorOutputStream;
-import org.apache.commons.vfs2.util.URIUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -423,7 +422,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
      */
     @Override
     protected void doRename(final FileObject newFile) throws Exception {
-        final String url = URIUtils.encodePath(toUrlString((GenericURLFileName) getName()));
+        final String url = toUrlString((GenericURLFileName) getName());
         final String dest = toUrlString((GenericURLFileName) newFile.getName(), false);
         final HttpMove request = new HttpMove(url, dest, false);
         setupRequest(request);
