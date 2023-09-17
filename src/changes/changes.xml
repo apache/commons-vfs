@@ -139,6 +139,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" issue="VFS-844" dev="ggregory" due-to="Thorsten Beise, Gary Gregory">
         UriString of webdav-filename is twice URLEncoded in moveTo operation.
       </action>
+      <action type="fix" issue="VFS-846" dev="ggregory" due-to="beise, Gary Gregory">
+        Resolve a FileName to correct FileType #424.
+      </action>
       <!-- ADD -->
       <action type="add" dev="ggregory" due-to="Seth Falco">
         Add vscode files to gitignore #205.
