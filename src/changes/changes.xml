@@ -136,9 +136,6 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="step-security-bot, Gary Gregory">
         [StepSecurity] ci: Harden GitHub Actions #401.
       </action>
-      <action type="fix" issue="VFS-844" dev="ggregory" due-to="Thorsten Beise, Gary Gregory">
-        UriString of webdav-filename is twice URLEncoded in moveTo operation.
-      </action>
       <action type="fix" issue="VFS-846" dev="ggregory" due-to="beise, Gary Gregory">
         Resolve a FileName to correct FileType #424.
       </action>
