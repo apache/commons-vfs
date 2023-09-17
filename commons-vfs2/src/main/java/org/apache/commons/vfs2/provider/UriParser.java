@@ -477,7 +477,13 @@ public final class UriParser {
             return fileType;
         }
 
-        if (path.charAt(path.length() - 1) != '/') {
+        // '/' or '.' or '..' or anyPath/..' or 'anyPath/.'  should always be a path
+        if (path.charAt(path.length() - 1) != '/'
+                && path.lastIndexOf("/..") != (path.length() - 3)
+                && path.lastIndexOf("/.") != (path.length() - 2)
+                && path.lastIndexOf("..") != 0
+                && path.lastIndexOf(".") != 0
+        ) {
             fileType = FileType.FILE;
         }
 
