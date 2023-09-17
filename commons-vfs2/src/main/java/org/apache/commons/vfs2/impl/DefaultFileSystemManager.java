@@ -925,12 +925,17 @@ public class DefaultFileSystemManager implements FileSystemManager {
             throw new FileSystemException("vfs.provider/invalid-descendent-name.error", name);
         }
 
+        // Reappend the removed trailing / in case of a FOLDER, so that the following calls to
+        // 'provider.parseUri(realBase, fullPath)' can determine the correct FileType
+        // otherwise the resulting FileType is always fileType.FILE
+        final String trailingPathPart = (fileType == FileType.FOLDER) ? FileName.SEPARATOR : "";
+
         final String fullPath;
         if (scheme != null) {
-            fullPath = resolvedPath;
+            fullPath = resolvedPath + trailingPathPart;
         } else {
             scheme = realBase.getScheme();
-            fullPath = realBase.getRootURI() + resolvedPath;
+            fullPath = realBase.getRootURI() + resolvedPath + trailingPathPart;
         }
         final FileProvider provider = providers.get(scheme);
         if (provider != null) {

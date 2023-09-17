@@ -16,10 +16,11 @@
  */
 package org.apache.commons.vfs2.provider;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileType;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UriParserTest {
 
@@ -69,4 +70,27 @@ public class UriParserTest {
         assertEquals("/user:pass@host/some/path/some:file", buffer.toString());
     }
 
+    @Test
+    public void testTypeOfNormalizedPath() {
+        try {
+            assertEquals(FileType.FOLDER, UriParser.normalisePath(new StringBuilder("")));
+            assertEquals(FileType.FOLDER, UriParser.normalisePath(new StringBuilder("/")));
+            assertEquals(FileType.FOLDER, UriParser.normalisePath(new StringBuilder(".")));
+            assertEquals(FileType.FOLDER, UriParser.normalisePath(new StringBuilder("./")));
+            assertEquals(FileType.FOLDER, UriParser.normalisePath(new StringBuilder("./Sub Folder/")));
+            assertEquals(FileType.FOLDER, UriParser.normalisePath(new StringBuilder("./Sub Folder/.")));
+            assertEquals(FileType.FOLDER, UriParser.normalisePath(new StringBuilder("./Sub Folder/./")));
+
+            assertEquals(FileType.FILE, UriParser.normalisePath(new StringBuilder("File.txt")));
+            assertEquals(FileType.FILE, UriParser.normalisePath(new StringBuilder("/File.txt")));
+            assertEquals(FileType.FILE, UriParser.normalisePath(new StringBuilder("./File.txt")));
+            assertEquals(FileType.FILE, UriParser.normalisePath(new StringBuilder("./Sub Folder/File.txt")));
+            assertEquals(FileType.FILE, UriParser.normalisePath(new StringBuilder("./Sub Folder/./File.txt")));
+            assertEquals(FileType.FILE, UriParser.normalisePath(new StringBuilder("./Sub Folder/./File.")));
+            assertEquals(FileType.FILE, UriParser.normalisePath(new StringBuilder("./Sub Folder/./File..")));
+
+        } catch(FileSystemException e) {
+            fail(e);
+        }
+    }
 }
