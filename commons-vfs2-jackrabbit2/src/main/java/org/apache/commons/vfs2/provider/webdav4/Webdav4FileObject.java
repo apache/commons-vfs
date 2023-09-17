@@ -92,8 +92,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
 
         private boolean createVersion(final String urlStr) {
             try {
-                final HttpVersionControl request = new HttpVersionControl(urlStr);
-                setupRequest(request);
+                final HttpVersionControl request = setupRequest(new HttpVersionControl(urlStr));
                 // AutoClose the underlying HTTP connection which is held by the response object
                 try (CloseableHttpResponse res = (CloseableHttpResponse) executeRequest(request)) {
                     return true;
@@ -135,8 +134,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                 }
                 if (fileExists && isCheckedIn) {
                     try {
-                        final HttpCheckout request = new HttpCheckout(urlStr);
-                        setupRequest(request);
+                        final HttpCheckout request = setupRequest(new HttpCheckout(urlStr));
                         // AutoClose the underlying HTTP connection which is held by the response object
                         try (CloseableHttpResponse res = (CloseableHttpResponse) executeRequest(request)) {
                             isCheckedIn = false;
@@ -216,8 +214,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                 setProperties.add(new DefaultDavProperty<>(DeltaVConstants.COMMENT, comment));
             }
             setProperties.add(new DefaultDavProperty<>(DeltaVConstants.CREATOR_DISPLAYNAME, name));
-            final HttpProppatch request = new HttpProppatch(urlStr, setProperties, removeProperties);
-            setupRequest(request);
+            final HttpProppatch request = setupRequest(new HttpProppatch(urlStr, setProperties, removeProperties));
             // AutoClose the underlying HTTP connection which is held by the response object
             try (CloseableHttpResponse res = (CloseableHttpResponse) executeRequest(request)) {
                 // TODO: workaround due to PMD violation 'Empty try body - you could rename the resource to 'ignored'
@@ -268,8 +265,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
      */
     @Override
     protected void doCreateFolder() throws Exception {
-        final HttpMkcol request = new HttpMkcol(toUrlString((GenericURLFileName) getName()));
-        setupRequest(request);
+        final HttpMkcol request = setupRequest(new HttpMkcol(toUrlString((GenericURLFileName) getName())));
         try {
             // AutoClose the underlying HTTP connection which is held by the response object
             try (CloseableHttpResponse res = (CloseableHttpResponse) executeRequest(request)) {
@@ -286,8 +282,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
      */
     @Override
     protected void doDelete() throws Exception {
-        final HttpDelete request = new HttpDelete(toUrlString((GenericURLFileName) getName()));
-        setupRequest(request);
+        final HttpDelete request = setupRequest(new HttpDelete(toUrlString((GenericURLFileName) getName())));
         // AutoClose the underlying HTTP connection which is held by the response object
         try (CloseableHttpResponse res = (CloseableHttpResponse) executeRequest(request)) {
             // TODO: workaround due to PMD violation 'Empty try body - you could rename the resource to 'ignored'
@@ -446,8 +441,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
     protected void doRename(final FileObject newFile) throws Exception {
         final String url = toUrlString((GenericURLFileName) getName());
         final String dest = toUrlString((GenericURLFileName) newFile.getName(), false);
-        final HttpMove request = new HttpMove(url, dest, false);
-        setupRequest(request);
+        final HttpMove request = setupRequest(new HttpMove(url, dest, false));
         // AutoClose the underlying HTTP connection which is held by the response object
         try (CloseableHttpResponse res = (CloseableHttpResponse) executeRequest(request)) {
             // TODO: workaround due to PMD violation 'Empty try body - you could rename the resource to 'ignored'
@@ -472,8 +466,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                 propertyNameSet.add(property.getName()); // remove property
             }
 
-            final HttpProppatch request = new HttpProppatch(urlStr, properties, propertyNameSet);
-            setupRequest(request);
+            final HttpProppatch request = setupRequest(new HttpProppatch(urlStr, properties, propertyNameSet));
             // AutoClose the underlying HTTP connection which is held by the response object
             try (CloseableHttpResponse response = (CloseableHttpResponse) executeRequest(request)) {
                 if (!request.succeeded(response)) {
@@ -529,8 +522,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
             final boolean addEncoding) throws FileSystemException {
         try {
             final String urlStr = toUrlString(name);
-            final HttpPropfind request = new HttpPropfind(urlStr, type, nameSet, DavConstants.DEPTH_0);
-            setupRequest(request);
+            final HttpPropfind request = setupRequest(new HttpPropfind(urlStr, type, nameSet, DavConstants.DEPTH_0));
             try (CloseableHttpResponse res = (CloseableHttpResponse) executeRequest(request)) {
                 if (request.succeeded(res)) {
                     final MultiStatus multiStatus = request.getResponseBodyAsMultiStatus(res);
@@ -624,12 +616,13 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
         return i >= 0 ? path.substring(i + 1) : path;
     }
 
-    private void setupRequest(final HttpUriRequest request) {
+    private <T extends HttpUriRequest> T setupRequest(final T request) {
         // NOTE: *FileSystemConfigBuilder takes care of redirect option and user agent.
         request.addHeader("Cache-control", "no-cache");
         request.addHeader("Cache-store", "no-store");
         request.addHeader("Pragma", "no-cache");
         request.addHeader("Expires", "0");
+        return request;
     }
 
     /**
