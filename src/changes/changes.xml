@@ -140,7 +140,10 @@ The <action> type attribute can be add,update,fix,remove.
         Resolve a FileName to correct FileType #424.
       </action>
       <action type="fix" issue="VFS-844" dev="ggregory" due-to="beise, Gary Gregory">
-        Prevent that source files urlString is twice URIEncoded #423
+        Prevent that source files urlString is twice URIEncoded #423.
+      </action>
+      <action type="fix" issue="VFS-843" dev="ggregory" due-to="beise, Gary Gregory">
+        Close the HttpConnection after consuming the entire HttpEntity #421.
       </action>
       <!-- ADD -->
       <action type="add" dev="ggregory" due-to="Seth Falco">
