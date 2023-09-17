@@ -169,7 +169,6 @@ public class DefaultFileSystemManagerTest {
     /**
      * If the path ends with one of '/' or '.' or '..' or anyPath/..' or 'anyPath/.' ,
      * the resulting FileName should be of FileType.FOLDER, else of FileType.FILE.
-     *
      */
     @Test
     public void testResolveFileNameType() {
