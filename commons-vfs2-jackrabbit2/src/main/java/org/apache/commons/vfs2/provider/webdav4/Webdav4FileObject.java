@@ -652,8 +652,9 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
             password = name.getPassword();
         }
         try {
-            final GenericURLFileName newFile = new GenericURLFileName(getInternalURI().getScheme(), name.getHostName(), name.getPort(), name.getDefaultPort(),
-                    user, password, name.getPath(), name.getType(), name.getQueryString());
+            final GenericURLFileName newFile = new Webdav4FileName(getInternalURI().getScheme(), name.getHostName(), name.getPort(), name.getDefaultPort(),
+                    user, password, name.getPath(), name.getType(), name.getQueryString(),
+                    builder.getAppendTrailingSlash(getFileSystem().getFileSystemOptions()));
             return newFile.getURIEncoded(this.getUrlCharset());
         } catch (final Exception e) {
             return name.getURI();
