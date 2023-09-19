@@ -96,7 +96,7 @@ public abstract class VfsTestUtils {
 
     /**
      * Returns the test directory as a String.
-     * <p>
+     *
      * {@link #getTestDirectoryFile()} should be preferred.
      *
      * @return the test directory as a String
