@@ -236,7 +236,7 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
     }
 
     public static Test suite() throws Exception {
-        return new ProviderTestSuite(new Webdav4ProviderTestCase()) {
+        return new Webdav4ProviderTestSuite(new Webdav4ProviderTestCase()) {
             @Override
             protected void setUp() throws Exception {
                 if (getSystemTestUriOverride() == null) {
