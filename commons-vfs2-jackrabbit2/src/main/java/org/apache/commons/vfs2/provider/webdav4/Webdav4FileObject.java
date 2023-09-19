@@ -43,6 +43,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.DateUtils;
 import org.apache.http.entity.ByteArrayEntity;
@@ -496,10 +497,16 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
 
             return response;
         } catch (final FileSystemException fse) {
+            if (request instanceof HttpRequestBase) {
+                ((HttpRequestBase) request).releaseConnection();
+            }
             throw fse;
         } catch (final IOException e) {
             throw new FileSystemException(e);
         } catch (final DavException e) {
+            if (request instanceof HttpRequestBase) {
+                ((HttpRequestBase) request).releaseConnection();
+            }
             throw ExceptionConverter.generate(e);
         }
     }
