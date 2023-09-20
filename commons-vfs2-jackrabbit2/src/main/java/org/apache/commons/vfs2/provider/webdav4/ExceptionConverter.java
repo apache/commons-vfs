@@ -31,7 +31,7 @@ import org.w3c.dom.Element;
  */
 public final class ExceptionConverter {
 
-    // avoid instanciation
+    /** Disallow instantiation. */
     private ExceptionConverter() {
     }
 
