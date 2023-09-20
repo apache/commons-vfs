@@ -148,6 +148,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-841" type="fix" dev="ggregory" due-to="Woonsan Ko, Gary Gregory">
         Copy the Main class for testing with Jackrabbit Standalone Components instead of reusing #409.
       </action>
+      <action type="fix" issue="VFS-849" dev="ggregory" due-to="beise, Gary Gregory">
+        HttpConnection resources not properly cleaned up in webdav request #428.
+      </action>
       <!-- ADD -->
       <action type="add" dev="ggregory" due-to="Seth Falco">
         Add vscode files to gitignore #205.
