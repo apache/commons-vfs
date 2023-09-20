@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.webdav4;
 
+import java.util.Objects;
+
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileContentInfo;
 import org.apache.commons.vfs2.FileContentInfoFactory;
@@ -45,13 +47,13 @@ public class Webdav4FileContentInfoFactory implements FileContentInfoFactory {
         nameSet.add(DavPropertyName.GETCONTENTTYPE);
         final DavPropertySet propertySet = file.getProperties((GenericURLFileName) file.getName(), nameSet, true);
 
-        DavProperty property = propertySet.get(DavPropertyName.GETCONTENTTYPE);
+        DavProperty<?> property = propertySet.get(DavPropertyName.GETCONTENTTYPE);
         if (property != null) {
-            contentType = (String) property.getValue();
+            contentType = Objects.toString(property.getValue(), null);
         }
         property = propertySet.get(Webdav4FileObject.RESPONSE_CHARSET);
         if (property != null) {
-            contentEncoding = (String) property.getValue();
+            contentEncoding = Objects.toString(property.getValue(), null);
         }
 
         return new DefaultFileContentInfo(contentType, contentEncoding);
