@@ -493,12 +493,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
             }
 
             if (request instanceof BaseDavRequest) {
-                try {
-                    ((BaseDavRequest) request).checkSuccess(response);
-                } catch(DavException e){
-                    EntityUtils.consume(response.getEntity());
-                    throw e;
-                }
+                ((BaseDavRequest) request).checkSuccess(response);
             }
 
             return response;
