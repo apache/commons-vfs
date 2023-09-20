@@ -47,6 +47,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.DateUtils;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
+import org.apache.http.util.EntityUtils;
 import org.apache.jackrabbit.webdav.DavConstants;
 import org.apache.jackrabbit.webdav.DavException;
 import org.apache.jackrabbit.webdav.MultiStatus;
@@ -487,6 +488,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
             response = executeHttpUriRequest(request);
             final int status = response.getStatusLine().getStatusCode();
             if (status == HttpURLConnection.HTTP_NOT_FOUND || status == HttpURLConnection.HTTP_GONE) {
+                EntityUtils.consume(response.getEntity());
                 throw new FileNotFoundException(request.getURI());
             }
 
