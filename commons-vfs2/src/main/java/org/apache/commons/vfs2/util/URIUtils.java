@@ -107,6 +107,12 @@ public class URIUtils {
 
         private static final byte ESCAPE_CHAR = '%';
 
+        private static final int EIGHT_BIT_CHARSET_SIZE = 256;
+
+        private static final int FOUR_BITS = 4;
+
+        private static final int UNSIGNED_BYTE_MASK = 0xF;
+
         // @formatter:off
         private static final FluentBitSet WWW_FORM_URL_SAFE = URIBitSets.bitSet()
             // alpha characters
@@ -140,7 +146,7 @@ public class URIUtils {
             for (final byte c : bytes) {
                 int b = c;
                 if (b < 0) {
-                    b = 256 + b;
+                    b = EIGHT_BIT_CHARSET_SIZE + b;
                 }
                 if (urlsafe.get(b)) {
                     if (b == ' ') {
@@ -149,7 +155,7 @@ public class URIUtils {
                     buffer.write(b);
                 } else {
                     buffer.write(ESCAPE_CHAR);
-                    final char hex1 = hexDigit(b >> 4);
+                    final char hex1 = hexDigit(b >> FOUR_BITS);
                     final char hex2 = hexDigit(b);
                     buffer.write(hex1);
                     buffer.write(hex2);
@@ -159,7 +165,7 @@ public class URIUtils {
         }
 
         private static char hexDigit(final int b) {
-            return Character.toUpperCase(Character.forDigit(b & 0xF, RADIX));
+            return Character.toUpperCase(Character.forDigit(b & UNSIGNED_BYTE_MASK, RADIX));
         }
     }
 
