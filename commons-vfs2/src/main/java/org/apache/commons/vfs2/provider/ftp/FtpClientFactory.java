@@ -210,7 +210,7 @@ public final class FtpClientFactory {
                     // Set dataTimeout value
                     final Duration dataTimeout = builder.getDataTimeoutDuration(fileSystemOptions);
                     if (dataTimeout != null) {
-                        client.setDataTimeout(DurationUtils.toMillisInt(dataTimeout));
+                        client.setDataTimeout(dataTimeout);
                     }
 
                     final Duration socketTimeout = builder.getSoTimeoutDuration(fileSystemOptions);
@@ -220,14 +220,13 @@ public final class FtpClientFactory {
 
                     final Duration controlKeepAliveTimeout = builder.getControlKeepAliveTimeout(fileSystemOptions);
                     if (controlKeepAliveTimeout != null) {
-                        // yes, in seconds.
-                        client.setControlKeepAliveTimeout(controlKeepAliveTimeout.getSeconds());
+                        client.setControlKeepAliveTimeout(controlKeepAliveTimeout);
                     }
 
                     final Duration controlKeepAliveReplyTimeout = builder
                         .getControlKeepAliveReplyTimeout(fileSystemOptions);
                     if (controlKeepAliveReplyTimeout != null) {
-                        client.setControlKeepAliveReplyTimeout((int) controlKeepAliveReplyTimeout.toMillis());
+                        client.setControlKeepAliveReplyTimeout(controlKeepAliveReplyTimeout);
                     }
 
                     final Boolean userDirIsRoot = builder.getUserDirIsRoot(fileSystemOptions);
