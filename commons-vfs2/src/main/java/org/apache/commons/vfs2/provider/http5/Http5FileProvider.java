@@ -50,7 +50,7 @@ import org.apache.hc.client5.http.auth.AuthCache;
 import org.apache.hc.client5.http.auth.AuthScope;
 import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
 import org.apache.hc.client5.http.classic.HttpClient;
-import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.cookie.BasicCookieStore;
 import org.apache.hc.client5.http.cookie.Cookie;
 import org.apache.hc.client5.http.cookie.CookieStore;
@@ -119,10 +119,14 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
     private HttpClientConnectionManager createConnectionManager(final Http5FileSystemConfigBuilder builder,
             final FileSystemOptions fileSystemOptions) throws FileSystemException {
 
+        final ConnectionConfig connectionConfig = ConnectionConfig.custom()
+                .setConnectTimeout(Timeout.of(builder.getSoTimeoutDuration(fileSystemOptions)))
+                .build();
+
         final SocketConfig socketConfig =
                 SocketConfig
                 .custom()
-                .setSoTimeout(Timeout.ofMilliseconds(builder.getSoTimeoutDuration(fileSystemOptions).toMillis()))
+                .setSoTimeout(Timeout.of(builder.getSoTimeoutDuration(fileSystemOptions)))
                 .build();
 
         final String[] tlsVersions = builder.getTlsVersions(fileSystemOptions).split("\\s*,\\s*");
@@ -136,6 +140,7 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
                 .build();
 
         return PoolingHttpClientConnectionManagerBuilder.create()
+                .setDefaultConnectionConfig(connectionConfig)
                 .setSSLSocketFactory(sslSocketFactory)
                 .setMaxConnTotal(builder.getMaxTotalConnections(fileSystemOptions))
                 .setMaxConnPerRoute(builder.getMaxConnectionsPerHost(fileSystemOptions))
@@ -153,13 +158,6 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
         }
 
         return cookieStore;
-    }
-
-    private RequestConfig createDefaultRequestConfig(final Http5FileSystemConfigBuilder builder,
-            final FileSystemOptions fileSystemOptions) {
-        return RequestConfig.custom()
-                .setConnectTimeout(Timeout.ofMilliseconds(builder.getSoTimeoutDuration(fileSystemOptions).toMillis()))
-                .build();
     }
 
     private HostnameVerifier createHostnameVerifier(final Http5FileSystemConfigBuilder builder, final FileSystemOptions fileSystemOptions) {
@@ -206,7 +204,6 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
                 .setRoutePlanner(createHttpRoutePlanner(builder, fileSystemOptions))
                 .setConnectionManager(createConnectionManager(builder, fileSystemOptions))
                 .setConnectionReuseStrategy(connectionReuseStrategy)
-                .setDefaultRequestConfig(createDefaultRequestConfig(builder, fileSystemOptions))
                 .setDefaultHeaders(defaultHeaders)
                 .setDefaultCookieStore(createDefaultCookieStore(builder, fileSystemOptions));
 

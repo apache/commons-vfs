@@ -144,7 +144,7 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
 
         FileSystemException.requireNonNull(header, "vfs.provider.http/last-modified.error", getName());
 
-        return DateUtils.parseDate(header.getValue()).getTime();
+        return DateUtils.parseStandardDate(header.getValue()).toEpochMilli();
     }
 
     @Override
