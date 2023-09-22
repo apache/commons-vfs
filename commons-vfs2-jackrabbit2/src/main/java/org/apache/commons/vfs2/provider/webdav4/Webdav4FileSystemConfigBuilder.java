@@ -32,6 +32,8 @@ public final class Webdav4FileSystemConfigBuilder extends Http4FileSystemConfigB
      * <p>
      * This parameter expects a value of type {@link Boolean}.
      * </p>
+     *
+     * @since 2.10.0
      */
     protected static final String KEY_APPEND_TRAILING_SLASH = "appendTrailingSlash";
 
@@ -67,7 +69,9 @@ public final class Webdav4FileSystemConfigBuilder extends Http4FileSystemConfigB
      *
      * @param opts The FileSystem options.
      * @return {@code true} to follow redirects, {@code false} not to.
-     * @see #setFollowRedirect
+     * @see #setAppendTrailingSlash
+     *
+     * @since 2.10.0
      */
     public boolean getAppendTrailingSlash(final FileSystemOptions opts) {
         return getBoolean(opts, KEY_APPEND_TRAILING_SLASH, DEFAULT_APPEND_TRAILING_SLASH);
@@ -110,7 +114,8 @@ public final class Webdav4FileSystemConfigBuilder extends Http4FileSystemConfigB
      *
      * @param opts The FileSystem options.
      * @param appendTrailingSlash {@code true} to append slash, {@code false} not to.
-     * @see #setFollowRedirect
+     *
+     * @since 2.10.0
      */
     public void setAppendTrailingSlash(final FileSystemOptions opts, final boolean appendTrailingSlash) {
         setParam(opts, KEY_APPEND_TRAILING_SLASH, appendTrailingSlash);

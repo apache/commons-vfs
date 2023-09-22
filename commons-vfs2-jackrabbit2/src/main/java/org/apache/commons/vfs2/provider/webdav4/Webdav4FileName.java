@@ -25,6 +25,7 @@ import org.apache.commons.vfs2.util.URIUtils;
 /**
  * Webdav4 file name that represents a URL.
  *
+ * @since 2.10.0
  */
 public class Webdav4FileName extends GenericURLFileName {
     private static final int BUFFER_SIZE = 250;
