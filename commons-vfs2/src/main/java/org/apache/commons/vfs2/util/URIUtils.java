@@ -100,7 +100,7 @@ public class URIUtils {
      * <p>
      * This was forked from some needed methods such as {@code #encodeUrl(...)} and {@code #hexDigit(int)}
      * in {@code org.apache.commons.codec.net.URLCodec}, as commons-codec library cannot be pulled in transitively
-     * via Http Client v3 library any more.
+     * via HTTP Client v3 library any more.
      * </p>
      */
     private static final class URLCodecUtils {

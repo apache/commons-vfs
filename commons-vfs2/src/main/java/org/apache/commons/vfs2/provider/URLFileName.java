@@ -24,7 +24,7 @@ import org.apache.commons.vfs2.FileType;
 
 /**
  * A file name that represents URL.
- * @deprecated Use {@link GenericURLFileName} as it doesn't depend on Http Client v3 API directly.
+ * @deprecated Use {@link GenericURLFileName} as it doesn't depend on HTTP Client v3 API directly.
  */
 @Deprecated
 public class URLFileName extends GenericFileName {
