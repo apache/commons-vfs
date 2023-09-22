@@ -20,7 +20,6 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.VFS;
-import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.GenericURLFileName;
 import org.junit.jupiter.api.Test;
 
@@ -28,12 +27,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests {@link Webdav4FileName}.
- *
  */
 public class Webdav4FileNameTest {
     /**
      * If the resolved path ends with a '/'
-     *
      */
     @Test
     public void testWebdavUrlWithTrailingSlash() throws FileSystemException {
@@ -54,6 +51,11 @@ public class Webdav4FileNameTest {
         final String urlWithRelativePart3 = "webdav4://localhost:80/Path/../Decendant Path/";
         final String urlWithRelativePart4 = "webdav4://localhost:80/Path/Sub Path/..";
         final String urlWithRelativePart5 = "webdav4://localhost:80/Path/Sub Path/../";
+        final String urlWithQuery1 = "webdav4://localhost:80/Path/Sub Path/?";
+        final String urlWithQuery2 = "webdav4://localhost:80/Path/Sub Path/?foo=bar";
+        final String urlWithQuery3 = "webdav4://localhost:80/Path/Sub Path/?foo=1&bar=2";
+        final String urlWithQuery4 = "webdav4://localhost:80/Path/Sub Path/?foo=1&bar=2";
+        final String urlWithQuery5 = "webdav4://localhost:80/Path/File?foo=1&bar=2";
 
         try (final Webdav4FileObject file = (Webdav4FileObject) fileSystemManager.resolveFile(urlBase, fsoptsWithTrailingSlash)) {
             final GenericURLFileName fileName = (GenericURLFileName) file.getName();
@@ -99,11 +101,30 @@ public class Webdav4FileNameTest {
             final GenericURLFileName fileName = (GenericURLFileName) file.getName();
             assertEquals("http://localhost/Path/", file.toUrlString(fileName));
         }
+        try (final Webdav4FileObject file = (Webdav4FileObject) fileSystemManager.resolveFile(urlWithQuery1, fsoptsWithTrailingSlash)) {
+            final GenericURLFileName fileName = (GenericURLFileName) file.getName();
+            assertEquals("http://localhost/Path/Sub%20Path/", file.toUrlString(fileName));
+        }
+        try (final Webdav4FileObject file = (Webdav4FileObject) fileSystemManager.resolveFile(urlWithQuery2, fsoptsWithTrailingSlash)) {
+            final GenericURLFileName fileName = (GenericURLFileName) file.getName();
+            assertEquals("http://localhost/Path/Sub%20Path/?foo=bar", file.toUrlString(fileName));
+        }
+        try (final Webdav4FileObject file = (Webdav4FileObject) fileSystemManager.resolveFile(urlWithQuery3, fsoptsWithTrailingSlash)) {
+            final GenericURLFileName fileName = (GenericURLFileName) file.getName();
+            assertEquals("http://localhost/Path/Sub%20Path/?foo=1&bar=2", file.toUrlString(fileName));
+        }
+        try (final Webdav4FileObject file = (Webdav4FileObject) fileSystemManager.resolveFile(urlWithQuery4, fsoptsWithTrailingSlash)) {
+            final GenericURLFileName fileName = (GenericURLFileName) file.getName();
+            assertEquals("http://localhost/Path/Sub%20Path/?foo=1&bar=2", file.toUrlString(fileName));
+        }
+        try (final Webdav4FileObject file = (Webdav4FileObject) fileSystemManager.resolveFile(urlWithQuery5, fsoptsWithTrailingSlash)) {
+            final GenericURLFileName fileName = (GenericURLFileName) file.getName();
+            assertEquals("http://localhost/Path/File?foo=1&bar=2", file.toUrlString(fileName));
+        }
     }
 
     /**
      * If the resolved path ends without a '/'
-     *
      */
     @Test
     public void testWebdavUrlWithoutTrailingSlash() throws FileSystemException {
@@ -124,6 +145,11 @@ public class Webdav4FileNameTest {
         final String urlWithRelativePart3 = "webdav4://localhost:80/Path/../Decendant Path/";
         final String urlWithRelativePart4 = "webdav4://localhost:80/Path/Sub Path/..";
         final String urlWithRelativePart5 = "webdav4://localhost:80/Path/Sub Path/../";
+        final String urlWithQuery1 = "webdav4://localhost:80/Path/Sub Path/?";
+        final String urlWithQuery2 = "webdav4://localhost:80/Path/Sub Path/?foo=bar";
+        final String urlWithQuery3 = "webdav4://localhost:80/Path/Sub Path/?foo=1&bar=2";
+        final String urlWithQuery4 = "webdav4://localhost:80/Path/Sub Path/?foo=1&bar=2";
+        final String urlWithQuery5 = "webdav4://localhost:80/Path/File?foo=1&bar=2";
 
         try (final Webdav4FileObject file = (Webdav4FileObject) fileSystemManager.resolveFile(urlBase, fsoptsWithoutTrailingSlash)) {
             final GenericURLFileName fileName = (GenericURLFileName) file.getName();
@@ -214,6 +240,46 @@ public class Webdav4FileNameTest {
         try (final Webdav4FileObject file = (Webdav4FileObject) fileSystemManager.resolveFile(urlWithRelativePart5, fsoptsWithToutrailingSlashDefault)) {
             final GenericURLFileName fileName = (GenericURLFileName) file.getName();
             assertEquals("http://localhost/Path", file.toUrlString(fileName));
+        }
+        try (final Webdav4FileObject file = (Webdav4FileObject) fileSystemManager.resolveFile(urlWithQuery1, fsoptsWithoutTrailingSlash)) {
+            final GenericURLFileName fileName = (GenericURLFileName) file.getName();
+            assertEquals("http://localhost/Path/Sub%20Path", file.toUrlString(fileName));
+        }
+        try (final Webdav4FileObject file = (Webdav4FileObject) fileSystemManager.resolveFile(urlWithQuery1, fsoptsWithToutrailingSlashDefault)) {
+            final GenericURLFileName fileName = (GenericURLFileName) file.getName();
+            assertEquals("http://localhost/Path/Sub%20Path", file.toUrlString(fileName));
+        }
+        try (final Webdav4FileObject file = (Webdav4FileObject) fileSystemManager.resolveFile(urlWithQuery2, fsoptsWithoutTrailingSlash)) {
+            final GenericURLFileName fileName = (GenericURLFileName) file.getName();
+            assertEquals("http://localhost/Path/Sub%20Path?foo=bar", file.toUrlString(fileName));
+        }
+        try (final Webdav4FileObject file = (Webdav4FileObject) fileSystemManager.resolveFile(urlWithQuery2, fsoptsWithToutrailingSlashDefault)) {
+            final GenericURLFileName fileName = (GenericURLFileName) file.getName();
+            assertEquals("http://localhost/Path/Sub%20Path?foo=bar", file.toUrlString(fileName));
+        }
+        try (final Webdav4FileObject file = (Webdav4FileObject) fileSystemManager.resolveFile(urlWithQuery3, fsoptsWithoutTrailingSlash)) {
+            final GenericURLFileName fileName = (GenericURLFileName) file.getName();
+            assertEquals("http://localhost/Path/Sub%20Path?foo=1&bar=2", file.toUrlString(fileName));
+        }
+        try (final Webdav4FileObject file = (Webdav4FileObject) fileSystemManager.resolveFile(urlWithQuery3, fsoptsWithToutrailingSlashDefault)) {
+            final GenericURLFileName fileName = (GenericURLFileName) file.getName();
+            assertEquals("http://localhost/Path/Sub%20Path?foo=1&bar=2", file.toUrlString(fileName));
+        }
+        try (final Webdav4FileObject file = (Webdav4FileObject) fileSystemManager.resolveFile(urlWithQuery4, fsoptsWithoutTrailingSlash)) {
+            final GenericURLFileName fileName = (GenericURLFileName) file.getName();
+            assertEquals("http://localhost/Path/Sub%20Path?foo=1&bar=2", file.toUrlString(fileName));
+        }
+        try (final Webdav4FileObject file = (Webdav4FileObject) fileSystemManager.resolveFile(urlWithQuery4, fsoptsWithToutrailingSlashDefault)) {
+            final GenericURLFileName fileName = (GenericURLFileName) file.getName();
+            assertEquals("http://localhost/Path/Sub%20Path?foo=1&bar=2", file.toUrlString(fileName));
+        }
+        try (final Webdav4FileObject file = (Webdav4FileObject) fileSystemManager.resolveFile(urlWithQuery5, fsoptsWithoutTrailingSlash)) {
+            final GenericURLFileName fileName = (GenericURLFileName) file.getName();
+            assertEquals("http://localhost/Path/File?foo=1&bar=2", file.toUrlString(fileName));
+        }
+        try (final Webdav4FileObject file = (Webdav4FileObject) fileSystemManager.resolveFile(urlWithQuery5, fsoptsWithToutrailingSlashDefault)) {
+            final GenericURLFileName fileName = (GenericURLFileName) file.getName();
+            assertEquals("http://localhost/Path/File?foo=1&bar=2", file.toUrlString(fileName));
         }
     }
 }
