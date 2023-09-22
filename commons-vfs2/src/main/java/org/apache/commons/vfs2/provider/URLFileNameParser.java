@@ -25,7 +25,7 @@ import org.apache.commons.vfs2.FileType;
  * <p>
  * Parses the url into user/password/host/port/path/queryString.
  * </p>
- * @deprecated Use {@link GenericURLFileNameParser} as it doesn't depend on Http Client v3 API directly.
+ * @deprecated Use {@link GenericURLFileNameParser} as it doesn't depend on HTTP Client v3 API directly.
  */
 @Deprecated
 public class URLFileNameParser extends HostFileNameParser {
