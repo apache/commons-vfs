@@ -88,7 +88,7 @@ public class Webdav4FileName extends GenericURLFileName {
             pathDecoded += FileName.SEPARATOR;
         }
 
-        if (getQueryString() == null) {
+        if (getQueryString() == null || getQueryString().isEmpty()) {
             if (charset != null) {
                 return URIUtils.encodePath(pathDecoded, charset);
             }
