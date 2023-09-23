@@ -82,7 +82,7 @@ public abstract class VfsTestUtils {
     }
 
     /**
-     * Makes a file canonical
+     * Gets a canonical file. 
      */
     public static File getCanonicalFile(final File file) {
         try {
@@ -97,7 +97,7 @@ public abstract class VfsTestUtils {
     }
 
     /**
-     * Returns the test directory as a String.
+     * Gets the test directory as a String.
      *
      * {@link #getTestDirectoryFile()} should be preferred.
      *
@@ -108,7 +108,7 @@ public abstract class VfsTestUtils {
     }
 
     /**
-     * Locates a test directory, creating it if it does not exist.
+     * Gets a test directory, creating it if it does not exist.
      *
      * @param name path of the directory, relative to this test's base directory.
      */
@@ -121,7 +121,7 @@ public abstract class VfsTestUtils {
     }
 
     /**
-     * Locates the base directory for this test.
+     * Gets the base directory for this test.
      */
     public static File getTestDirectoryFile() {
         if (baseDir == null) {
@@ -141,7 +141,7 @@ public abstract class VfsTestUtils {
     }
 
     /**
-     * Locates a test resource, and asserts that the resource exists
+     * Gets a test resource, and asserts that the resource exists
      *
      * @param name path of the resource, relative to this test's base directory.
      */
@@ -150,7 +150,7 @@ public abstract class VfsTestUtils {
     }
 
     /**
-     * Locates a test resource.
+     * Gets a test resource.
      *
      * @param name path of the resource, relative to this test's base directory.
      */
