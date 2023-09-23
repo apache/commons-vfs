@@ -172,6 +172,7 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
 
     private static void importFiles(final Node parent, final File sourceDir) throws RepositoryException, IOException {
         final File[] files = sourceDir.listFiles();
+        // System.out.printf("Test importing %,d files from %s...%n", files.length, sourceDir);
         for (final File file : files) {
             if (file.isFile()) {
                 try (final InputStream data = Files.newInputStream(file.toPath())) {
