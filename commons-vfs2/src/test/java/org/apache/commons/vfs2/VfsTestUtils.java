@@ -34,6 +34,8 @@ import org.apache.commons.vfs2.util.Messages;
  */
 public abstract class VfsTestUtils {
 
+    public static final String TEST_BASE_DIR = "test.basedir";
+
     private static File baseDir;
 
     /** URL pattern */
@@ -102,7 +104,7 @@ public abstract class VfsTestUtils {
      * @return the test directory as a String
      */
     public static String getTestDirectory() {
-        return System.getProperty("test.basedir", "target/test-classes/test-data");
+        return System.getProperty(TEST_BASE_DIR, "target/test-classes/test-data");
     }
 
     /**

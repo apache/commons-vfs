@@ -29,7 +29,7 @@ public class RunTest {
 
         final Properties props = System.getProperties();
         props.setProperty("test.data.src", "src/test-data");
-        props.setProperty("test.basedir", "core/target/test-classes/test-data");
+        props.setProperty(VfsTestUtils.TEST_BASE_DIR, "core/target/test-classes/test-data");
         props.setProperty("test.basedir.res", "test-data");
         props.setProperty("test.policy", "src/test-data/test.policy");
         props.setProperty("test.secure", "false");
