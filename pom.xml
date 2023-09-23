@@ -192,7 +192,7 @@
     <!-- Don't use jackrabbit2 2.21.x, it has broken compatibility in the past, and it's labeled "unstable" -->
     <jackrabbit2.version>2.20.12</jackrabbit2.version>
     <commons.asm.version>9.4</commons.asm.version>
-    <slf4j.version>1.7.36</slf4j.version>
+    <slf4j.version>2.0.9</slf4j.version>
     <log4j2.version>2.20.0</log4j2.version>
     <!-- For VFS, somehow, SPDX >= 0.6.0 requires Java 11 (maybe because it's a multi-module project). -->
     <commons.spdx.version>0.5.5</commons.spdx.version>
