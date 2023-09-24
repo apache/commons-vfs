@@ -107,6 +107,8 @@
     <commons.module.name>org.apache.commons.vfs2.hdfs</commons.module.name>
     <commons.osgi.import>
     </commons.osgi.import>
+    <!-- Hadoop jars contain overlapping packages that blow up JPMS -->
+    <moditect.skip>true</moditect.skip>
   </properties>
 
   <build>
