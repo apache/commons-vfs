@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.provider.GenericURLFileName;
 
 /**
  * Internal URI encoding {@link BitSet} definitions.
- * <P>
+ * <p>
  * This was forked from the {@link BitSet}s in {@code org.apache.commons.httpclient.URI}, in order to not be dependent
  * on HttpClient v3 API, when generating and handling {@link GenericURLFileName}s, but it should work with any different
  * HTTP backend provider implementations.

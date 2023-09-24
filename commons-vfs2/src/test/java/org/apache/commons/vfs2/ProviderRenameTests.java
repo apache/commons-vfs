@@ -119,7 +119,7 @@ public class ProviderRenameTests extends AbstractProviderTestCase {
 
     /**
      * Tests moving a file to empty folder.
-     * <P>
+     * <p>
      * This fails with VFS-558, but only with a CacheStrategy.ON_CALL.
      */
     @Test
