@@ -55,6 +55,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="add" issue="VFS-851" dev="ggregory" due-to="Gary Gregory">
         Split out HDFS provider into its own Maven module commons-vfs2-hdfs.
       </action>
+      <action type="add" dev="ggregory" due-to="Gary Gregory">
+        Generate JPMS module info files when building on Java 11 or greater, except for commons-vfs2-hdfs due to Hadoop libraries' overlapping packages.
+      </action>
       <!-- FIX -->
       <action type="fix" dev="ggregory" due-to="Seth Falco">
         Replace package.html with package-info.java #206. 
@@ -278,7 +281,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump slf4j.version from 1.7.26 to 1.7.36 #244.
       </action>
       <action dev="ggregory" due-to="Dependabot, Gary Gregory" type="update">
-        Bump commons-parent from 52 to 58 #302, #349, #362.
+        Bump commons-parent from 52 to 62 #302, #349, #362.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Bump org.ow2.asm:asm from 9.2 to 9.4.
