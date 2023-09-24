@@ -36,6 +36,7 @@
 
   <modules>
     <module>commons-vfs2</module>
+    <module>commons-vfs2-hdfs</module>
     <module>commons-vfs2-jackrabbit1</module>
     <module>commons-vfs2-jackrabbit2</module>
     <module>commons-vfs2-examples</module>
@@ -194,6 +195,10 @@
     <commons.asm.version>9.4</commons.asm.version>
     <slf4j.version>1.7.36</slf4j.version>
     <log4j2.version>2.20.0</log4j2.version>
+    <collections4.version>4.4</collections4.version>
+    <jsch.version>0.1.55</jsch.version>
+    <httpclient3.version>3.1</httpclient3.version>
+    <ant.version>1.6.5</ant.version>
     <!-- For VFS, somehow, SPDX >= 0.6.0 requires Java 11 (maybe because it's a multi-module project). -->
     <commons.spdx.version>0.5.5</commons.spdx.version>
 
@@ -339,7 +344,7 @@
             </overrideCompatibilityChangeParameters>
             <excludes>
               <!--  Package moved to new module -->
-              <exclude>org.apache.commons.vfs2.provider.webdav</exclude>
+              <exclude>org.apache.commons.vfs2.provider.hdfs</exclude>
             </excludes>
           </parameter>
         </configuration>
@@ -414,7 +419,7 @@
             </overrideCompatibilityChangeParameters>
             <excludes>
               <!--  Package moved to new module -->
-              <exclude>org.apache.commons.vfs2.provider.webdav</exclude>
+              <exclude>org.apache.commons.vfs2.provider.hdfs</exclude>
             </excludes>
           </parameter>
         </configuration>
@@ -483,12 +488,12 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-collections4</artifactId>
-        <version>4.4</version>
+        <version>${collections4.version}</version>
       </dependency>
       <dependency>
         <groupId>commons-httpclient</groupId>
         <artifactId>commons-httpclient</artifactId>
-        <version>3.1</version>
+        <version>${httpclient3.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
@@ -513,12 +518,12 @@
       <dependency>
         <groupId>ant</groupId>
         <artifactId>ant</artifactId>
-        <version>1.6.5</version>
+        <version>${ant.version}</version>
       </dependency>
       <dependency>
         <groupId>com.jcraft</groupId>
         <artifactId>jsch</artifactId>
-        <version>0.1.55</version>
+        <version>${jsch.version}</version>
       </dependency>
       <dependency>
         <groupId>jcifs</groupId>

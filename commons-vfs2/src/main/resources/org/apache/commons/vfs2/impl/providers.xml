@@ -148,6 +148,7 @@
     <provider class-name="org.apache.commons.vfs2.provider.hdfs.HdfsFileProvider">
         <scheme name="hdfs"/>
         <if-available class-name="org.apache.hadoop.fs.FileSystem"/>
+        <if-available class-name="org.apache.commons.vfs2.provider.hdfs.HdfsFileSystem"/>
     </provider>
 
     <extension-map extension="zip" scheme="zip"/>

@@ -20,8 +20,10 @@ import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -60,7 +62,10 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
 
         @SuppressWarnings("deprecation")
         private void copyTestResources(final File directory, final Path parent) throws Exception {
-            for (final File file : directory.listFiles()) {
+            final File[] listFiles = Objects.requireNonNull(Objects.requireNonNull(directory, "directory").listFiles(),
+                    () -> directory.toString() + " no data, directory exists: " + directory.exists() + ", current: " + PathUtils.current().toAbsolutePath().normalize());
+            Assertions.assertNotNull(directory, directory::toString);
+            for (final File file : listFiles) {
                 if (file.isFile()) {
                     final Path src = new Path(file.getAbsolutePath());
                     final Path dst = new Path(parent, file.getName());
@@ -80,6 +85,7 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
         @SuppressWarnings("deprecation")
         @Override
         protected void setUp() throws Exception {
+            System.setProperty("test.basedir", "../commons-vfs2/target/test-classes/test-data");
             Logger.getRootLogger().setLevel(Level.OFF);
 
             // Put the MiniDFSCluster directory in the target directory

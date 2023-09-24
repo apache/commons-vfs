@@ -105,6 +105,7 @@ public class HdfsFileProviderTest {
 
     @BeforeAll
     public static void setUp() throws Exception {
+        System.setProperty("test.basedir", "../commons-vfs2/target/test-classes/test-data");
         Logger.getRootLogger().setLevel(Level.ERROR);
 
         // Put the MiniDFSCluster directory in the target directory
