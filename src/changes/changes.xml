@@ -49,10 +49,10 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
     <release version="2.10.0" date="2023-MM-DD" description="Maintenance release. Requires Java 8.">
       <!-- ADD -->
-      <action type="fix" issue="VFS-848" dev="ggregory" due-to="beise, Gary Gregory">
+      <action type="add" issue="VFS-848" dev="ggregory" due-to="beise, Gary Gregory">
         Config option for trailing slash in webdav URI #425.
       </action>
-      <action type="fix" issue="VFS-851" dev="ggregory" due-to="Gary Gregory">
+      <action type="add" issue="VFS-851" dev="ggregory" due-to="Gary Gregory">
         Split out HDFS provider into its own Maven module commons-vfs2-hdfs.
       </action>
       <!-- FIX -->
