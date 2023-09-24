@@ -24,6 +24,7 @@ import java.util.Objects;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.file.PathUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -37,6 +38,7 @@ import org.apache.hadoop.hdfs.DFSConfigKeys;
 import org.apache.hadoop.hdfs.MiniDFSCluster;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.junit.Assume;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.junit.jupiter.api.condition.OS;
@@ -89,6 +91,7 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
         @SuppressWarnings("deprecation")
         @Override
         protected void setUp() throws Exception {
+            Assume.assumeFalse(SystemUtils.IS_OS_WINDOWS);
             System.setProperty("test.basedir", "../commons-vfs2/target/test-classes/test-data");
             Logger.getRootLogger().setLevel(Level.OFF);
 
