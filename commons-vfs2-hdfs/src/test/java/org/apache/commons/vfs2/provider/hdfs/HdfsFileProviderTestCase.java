@@ -51,6 +51,7 @@ import junit.framework.Test;
 @DisabledOnOs(value = OS.WINDOWS)
 public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
 
+    @DisabledOnOs(value = OS.WINDOWS)
     public static class HdfsProviderTestSuite extends ProviderTestSuite {
 
         // Turn off the MiniDFSCluster logging
