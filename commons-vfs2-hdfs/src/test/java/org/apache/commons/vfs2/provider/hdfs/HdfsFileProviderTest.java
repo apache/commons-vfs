@@ -47,6 +47,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 /**
  * This test class uses the Hadoop MiniDFSCluster class to create an embedded Hadoop cluster.
@@ -54,6 +56,7 @@ import org.junit.jupiter.api.Test;
  * This will only work on systems that Hadoop supports.
  */
 @SuppressWarnings("resource")
+@DisabledOnOs(value = OS.WINDOWS)
 public class HdfsFileProviderTest {
 
     // Turn off the MiniDFSCluster logging

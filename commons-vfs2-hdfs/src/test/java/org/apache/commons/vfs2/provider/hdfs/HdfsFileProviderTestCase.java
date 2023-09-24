@@ -38,6 +38,8 @@ import org.apache.hadoop.hdfs.MiniDFSCluster;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 import junit.framework.Test;
 
@@ -46,6 +48,7 @@ import junit.framework.Test;
  * <P>
  * This will only work on systems that Hadoop supports.
  */
+@DisabledOnOs(value = OS.WINDOWS)
 public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
 
     public static class HdfsProviderTestSuite extends ProviderTestSuite {
