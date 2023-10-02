@@ -52,7 +52,7 @@ public final class CryptorFactory {
         if (cryptorClass != null) {
             try {
                 final Class<?> clazz = Class.forName(cryptorClass);
-                instance = (Cryptor) clazz.newInstance();
+                instance = (Cryptor) clazz.getConstructor().newInstance();
                 return instance;
             } catch (final Exception ex) {
                 throw new IllegalStateException("Unable to create Cryptor " + cryptorClass, ex);

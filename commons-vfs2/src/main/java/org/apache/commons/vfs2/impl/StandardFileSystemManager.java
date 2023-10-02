@@ -254,7 +254,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
      */
     private Object createInstance(final String className) throws FileSystemException {
         try {
-            return loadClass(className).newInstance();
+            return loadClass(className).getConstructor().newInstance();
         } catch (final Exception e) {
             throw new FileSystemException("vfs.impl/create-provider.error", className, e);
         }

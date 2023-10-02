@@ -63,7 +63,7 @@ public final class VFS {
         try {
             // Create instance
             final Class<FileSystemManager> clazz = (Class<FileSystemManager>) Class.forName(managerClassName);
-            final FileSystemManager manager = clazz.newInstance();
+            final FileSystemManager manager = clazz.getConstructor().newInstance();
             // Initialize
             if (manager instanceof AbstractFileSystem) {
                 ((AbstractFileSystem) manager).init();

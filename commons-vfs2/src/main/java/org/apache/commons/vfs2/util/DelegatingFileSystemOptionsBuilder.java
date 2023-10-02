@@ -283,11 +283,10 @@ public class DelegatingFileSystemOptionsBuilder {
      * @param name name
      * @param className className
      * @throws FileSystemException if an error occurs.
-     * @throws IllegalAccessException if a class cannot be accessed.
-     * @throws InstantiationException if a class cannot be instantiated.
+     * @throws ReflectiveOperationException if a class cannot be accessed or instantiated.
      */
     public void setConfigClass(final FileSystemOptions fso, final String scheme, final String name,
-            final Class<?> className) throws FileSystemException, IllegalAccessException, InstantiationException {
+            final Class<?> className) throws FileSystemException, ReflectiveOperationException {
         setConfigClasses(fso, scheme, name, new Class[] {className});
     }
 
@@ -302,14 +301,13 @@ public class DelegatingFileSystemOptionsBuilder {
      * @param name name
      * @param classNames classNames
      * @throws FileSystemException if an error occurs.
-     * @throws IllegalAccessException if a class cannot be accessed.
-     * @throws InstantiationException if a class cannot be instantiated.
+     * @throws ReflectiveOperationException if a class cannot be accessed or instantiated.
      */
     public void setConfigClasses(final FileSystemOptions fso, final String scheme, final String name,
-            final Class<?>[] classNames) throws FileSystemException, IllegalAccessException, InstantiationException {
+            final Class<?>[] classNames) throws FileSystemException, ReflectiveOperationException {
         final Object[] values = new Object[classNames.length];
         for (int iterClassNames = 0; iterClassNames < values.length; iterClassNames++) {
-            values[iterClassNames] = classNames[iterClassNames].newInstance();
+            values[iterClassNames] = classNames[iterClassNames].getConstructor().newInstance();
         }
 
         final Context ctx = new Context(fso, scheme, name, values);
