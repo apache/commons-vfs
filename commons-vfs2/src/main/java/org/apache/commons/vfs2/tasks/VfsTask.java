@@ -107,10 +107,12 @@ public class VfsTask extends Task {
 
         @Override
         public void trace(final Object o) {
+            // no-op
         }
 
         @Override
         public void trace(final Object o, final Throwable throwable) {
+            // no-op
         }
 
         @Override
@@ -135,10 +137,12 @@ public class VfsTask extends Task {
 
         @Override
         public void buildStarted(final BuildEvent event) {
+            // no-op
         }
 
         @Override
         public void messageLogged(final BuildEvent event) {
+            // no-op
         }
 
         @Override
@@ -148,22 +152,27 @@ public class VfsTask extends Task {
 
         @Override
         public void subBuildStarted(final BuildEvent buildEvent) {
+            // no-op
         }
 
         @Override
         public void targetFinished(final BuildEvent event) {
+            // no-op
         }
 
         @Override
         public void targetStarted(final BuildEvent event) {
+            // no-op
         }
 
         @Override
         public void taskFinished(final BuildEvent event) {
+            // no-op
         }
 
         @Override
         public void taskStarted(final BuildEvent event) {
+            // no-op
         }
     }
 
