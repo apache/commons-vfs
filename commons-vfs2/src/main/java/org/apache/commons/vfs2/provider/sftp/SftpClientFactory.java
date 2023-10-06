@@ -51,7 +51,7 @@ public final class SftpClientFactory {
     private static final String KEY_STRICT_HOST_KEY_CHECKING = "StrictHostKeyChecking";
 
     /** Interface JSchLogger with JCL. */
-    private static class JSchLogger implements Logger {
+    private static final class JSchLogger implements Logger {
         @Override
         public boolean isEnabled(final int level) {
             switch (level) {

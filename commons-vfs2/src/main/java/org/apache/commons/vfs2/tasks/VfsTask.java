@@ -34,7 +34,7 @@ public class VfsTask extends Task {
     /**
      * A commons-logging wrapper for Ant logging.
      */
-    private class AntLogger implements Log {
+    private final class AntLogger implements Log {
         @Override
         public void debug(final Object o) {
             log(String.valueOf(o), Project.MSG_DEBUG);
@@ -127,7 +127,7 @@ public class VfsTask extends Task {
     /**
      * Closes the VFS manager when the project finishes.
      */
-    private class CloseListener implements SubBuildListener {
+    private final class CloseListener implements SubBuildListener {
         @Override
         public void buildFinished(final BuildEvent event) {
             closeManager();

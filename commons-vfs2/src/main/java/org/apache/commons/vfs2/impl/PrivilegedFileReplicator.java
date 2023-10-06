@@ -38,7 +38,7 @@ public class PrivilegedFileReplicator implements FileReplicator, VfsComponent {
     /**
      * An action that closes the wrapped replicator.
      */
-    private class CloseAction implements PrivilegedAction<Object> {
+    private final class CloseAction implements PrivilegedAction<Object> {
         /**
          * Performs the action.
          */
@@ -51,7 +51,7 @@ public class PrivilegedFileReplicator implements FileReplicator, VfsComponent {
     /**
      * An action that initializes the wrapped replicator.
      */
-    private class InitAction implements PrivilegedExceptionAction<Object> {
+    private final class InitAction implements PrivilegedExceptionAction<Object> {
         /**
          * Performs the action.
          */
@@ -65,7 +65,7 @@ public class PrivilegedFileReplicator implements FileReplicator, VfsComponent {
     /**
      * An action that replicates a file using the wrapped replicator.
      */
-    private class ReplicateAction implements PrivilegedExceptionAction<File> {
+    private final class ReplicateAction implements PrivilegedExceptionAction<File> {
         private final FileObject srcFile;
         private final FileSelector selector;
 
