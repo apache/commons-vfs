@@ -205,7 +205,7 @@
     <module name="UpperEll" />
     <module name="ImportOrder">
       <property name="option" value="top"/>
-      <property name="groups" value="java,javax,org"/>
+      <property name="groups" value="java,javax,junit,org"/>
       <property name="ordered" value="true"/>
       <property name="separated" value="true"/>
     </module>
