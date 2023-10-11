@@ -47,7 +47,7 @@ import org.junit.jupiter.api.Assertions;
  */
 public class FtpProviderTestCase extends AbstractProviderTestConfig {
 
-    private static int SocketPort;
+    private static int socketPort;
 
     /**
      * Use %40 for @ in URLs
@@ -75,7 +75,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
     }
 
     static int getSocketPort() {
-        return SocketPort;
+        return socketPort;
     }
 
     private static String getSystemTestUriOverride() {
@@ -123,8 +123,8 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         // start the server
         server = serverFactory.createServer();
         server.start();
-        SocketPort = ((org.apache.ftpserver.impl.DefaultFtpServer) server).getListener("default").getPort();
-        connectionUri = "ftp://test:test@localhost:" + SocketPort;
+        socketPort = ((org.apache.ftpserver.impl.DefaultFtpServer) server).getListener("default").getPort();
+        connectionUri = "ftp://test:test@localhost:" + socketPort;
     }
 
     /**

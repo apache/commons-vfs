@@ -78,7 +78,7 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         }
     }
 
-    private static int SocketPort;
+    private static int socketPort;
 
     /**
      * Use %40 for @ in URLs

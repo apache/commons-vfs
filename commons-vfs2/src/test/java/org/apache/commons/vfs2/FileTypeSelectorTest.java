@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
  */
 public class FileTypeSelectorTest {
 
-    private static FileObject BaseFolder;
+    private static FileObject baseFolder;
 
     /**
      * Creates a RAM FS.
@@ -38,15 +38,15 @@ public class FileTypeSelectorTest {
      */
     @BeforeAll
     public static void setUpClass() throws Exception {
-        BaseFolder = VFS.getManager().resolveFile("ram://" + FileTypeSelectorTest.class.getName());
-        BaseFolder.resolveFile("root1.html").createFile();
-        BaseFolder.resolveFile("root2.html").createFile();
-        BaseFolder.resolveFile("f1/a.html").createFile();
-        BaseFolder.resolveFile("f2/b.html").createFile();
-        BaseFolder.resolveFile("f3/c.html").createFile();
-        BaseFolder.resolveFile("f4/").createFolder();
-        BaseFolder.resolveFile("f5/").createFolder();
-        BaseFolder.resolveFile("f6/f7").createFolder();
+        baseFolder = VFS.getManager().resolveFile("ram://" + FileTypeSelectorTest.class.getName());
+        baseFolder.resolveFile("root1.html").createFile();
+        baseFolder.resolveFile("root2.html").createFile();
+        baseFolder.resolveFile("f1/a.html").createFile();
+        baseFolder.resolveFile("f2/b.html").createFile();
+        baseFolder.resolveFile("f3/c.html").createFile();
+        baseFolder.resolveFile("f4/").createFolder();
+        baseFolder.resolveFile("f5/").createFolder();
+        baseFolder.resolveFile("f6/f7").createFolder();
     }
 
     /**
@@ -56,15 +56,15 @@ public class FileTypeSelectorTest {
      */
     @AfterAll
     public static void tearDownClass() throws Exception {
-        if (BaseFolder != null) {
-            BaseFolder.deleteAll();
+        if (baseFolder != null) {
+            baseFolder.deleteAll();
         }
     }
 
     @Test
     public void testFileOrFolders() throws Exception {
         final FileSelector selector = new FileTypeSelector(FileType.FILE_OR_FOLDER);
-        final FileObject[] foList = BaseFolder.findFiles(selector);
+        final FileObject[] foList = baseFolder.findFiles(selector);
         // Why 0?
         assertEquals(0, foList.length);
     }
@@ -72,14 +72,14 @@ public class FileTypeSelectorTest {
     @Test
     public void testFiles() throws Exception {
         final FileSelector selector = new FileTypeSelector(FileType.FILE);
-        final FileObject[] foList = BaseFolder.findFiles(selector);
+        final FileObject[] foList = baseFolder.findFiles(selector);
         assertEquals(5, foList.length);
     }
 
     @Test
     public void testFolders() throws Exception {
         final FileSelector selector = new FileTypeSelector(FileType.FOLDER);
-        final FileObject[] foList = BaseFolder.findFiles(selector);
+        final FileObject[] foList = baseFolder.findFiles(selector);
         assertEquals(8, foList.length);
     }
 

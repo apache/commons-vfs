@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
  */
 public class FileIteratorTest {
 
-    private static FileObject BaseFolder;
+    private static FileObject baseFolder;
 
     private final static int FILE_COUNT = 14;
 
@@ -42,21 +42,21 @@ public class FileIteratorTest {
      */
     @BeforeAll
     public static void setUpClass() throws Exception {
-        BaseFolder = VFS.getManager().resolveFile("ram://" + FileIteratorTest.class.getName());
-        BaseFolder.deleteAll();
-        BaseFolder.resolveFile("a.htm").createFile();
-        BaseFolder.resolveFile("a.html").createFile();
-        BaseFolder.resolveFile("a.xhtml").createFile();
-        BaseFolder.resolveFile("b.htm").createFile();
-        BaseFolder.resolveFile("b.html").createFile();
-        BaseFolder.resolveFile("b.xhtml").createFile();
-        BaseFolder.resolveFile("c.htm").createFile();
-        BaseFolder.resolveFile("c.html").createFile();
-        BaseFolder.resolveFile("c.xhtml").createFile();
-        BaseFolder.resolveFile("subdir1").createFolder();
-        BaseFolder.resolveFile("subdir1/subfile1.txt").createFile();
-        BaseFolder.resolveFile("subdir2").createFolder();
-        BaseFolder.resolveFile("subdir2/subfile1.txt").createFile();
+        baseFolder = VFS.getManager().resolveFile("ram://" + FileIteratorTest.class.getName());
+        baseFolder.deleteAll();
+        baseFolder.resolveFile("a.htm").createFile();
+        baseFolder.resolveFile("a.html").createFile();
+        baseFolder.resolveFile("a.xhtml").createFile();
+        baseFolder.resolveFile("b.htm").createFile();
+        baseFolder.resolveFile("b.html").createFile();
+        baseFolder.resolveFile("b.xhtml").createFile();
+        baseFolder.resolveFile("c.htm").createFile();
+        baseFolder.resolveFile("c.html").createFile();
+        baseFolder.resolveFile("c.xhtml").createFile();
+        baseFolder.resolveFile("subdir1").createFolder();
+        baseFolder.resolveFile("subdir1/subfile1.txt").createFile();
+        baseFolder.resolveFile("subdir2").createFolder();
+        baseFolder.resolveFile("subdir2/subfile1.txt").createFile();
     }
 
     /**
@@ -66,24 +66,24 @@ public class FileIteratorTest {
      */
     @AfterAll
     public static void tearDownClass() throws Exception {
-        if (BaseFolder != null) {
-            BaseFolder.deleteAll();
+        if (baseFolder != null) {
+            baseFolder.deleteAll();
         }
     }
 
     @Test
     public void testIterator() throws FileSystemException {
-        final FileObject[] findFiles = BaseFolder.findFiles(Selectors.SELECT_ALL);
+        final FileObject[] findFiles = baseFolder.findFiles(Selectors.SELECT_ALL);
         assertEquals(FILE_COUNT, findFiles.length);
-        final FileObject[] listFiles = BaseFolder.getChildren();
+        final FileObject[] listFiles = baseFolder.getChildren();
         assertTrue(FILE_COUNT > listFiles.length);
         int i = 0;
-        for (final FileObject actualFile : BaseFolder) {
+        for (final FileObject actualFile : baseFolder) {
             final FileObject expectedFile = findFiles[i];
             assertEquals(expectedFile, actualFile);
             i++;
         }
-        final Iterator<FileObject> iter = BaseFolder.iterator();
+        final Iterator<FileObject> iter = baseFolder.iterator();
         i = 0;
         while (iter.hasNext()) {
             final FileObject expectedFile = findFiles[i];
