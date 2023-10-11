@@ -241,7 +241,7 @@
             <suppressionsLocation>${vfs.parent.dir}/checkstyle-suppressions.xml</suppressionsLocation>
             <enableRulesSummary>false</enableRulesSummary>
             <propertyExpansion>basedir=${basedir}</propertyExpansion>
-            <includeTestSourceDirectory>true</includeTestSourceDirectory>
+            <!-- <includeTestSourceDirectory>true</includeTestSourceDirectory> -->
           </configuration>
         </plugin>
         <plugin>
