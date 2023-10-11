@@ -86,7 +86,7 @@ public class HdfsFileProviderTest {
      * <P>
      * Will do nothing on Windows.
      */
-    public static void setUmask(final Configuration conf2) {
+    public static void setUmask(final Configuration config) {
         if (SystemUtils.IS_OS_WINDOWS) {
             return;
         }
@@ -100,7 +100,7 @@ public class HdfsFileProviderTest {
             // Need to set permission to 777 xor umask
             // leading zero makes java interpret as base 8
             final int newPermission = 0777 ^ umask;
-            conf2.set("dfs.datanode.data.dir.perm", String.format("%03o", newPermission));
+            config.set("dfs.datanode.data.dir.perm", String.format("%03o", newPermission));
         } catch (final Exception e) {
             throw new IllegalStateException("Error getting umask from O/S", e);
         }
