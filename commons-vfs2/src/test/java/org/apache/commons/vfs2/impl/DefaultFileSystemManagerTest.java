@@ -16,10 +16,25 @@
  */
 package org.apache.commons.vfs2.impl;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.io.File;
 import java.nio.file.Paths;
 
-import org.apache.commons.vfs2.*;
+import org.apache.commons.vfs2.CacheStrategy;
+import org.apache.commons.vfs2.FileName;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileSystemManager;
+import org.apache.commons.vfs2.FileType;
+import org.apache.commons.vfs2.FilesCache;
+import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.cache.NullFilesCache;
 import org.apache.commons.vfs2.provider.GenericURLFileName;
 import org.apache.commons.vfs2.provider.bzip2.Bzip2FileObject;
@@ -30,8 +45,6 @@ import org.apache.commons.vfs2.provider.zip.ZipFileObject;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests {@link DefaultFileSystemManager}.

@@ -27,6 +27,12 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import junit.extensions.TestSetup;
+import junit.framework.Protectable;
+import junit.framework.Test;
+import junit.framework.TestResult;
+import junit.framework.TestSuite;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -35,12 +41,6 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.impl.PrivilegedFileReplicator;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
 import org.junit.Assert;
-
-import junit.extensions.TestSetup;
-import junit.framework.Protectable;
-import junit.framework.Test;
-import junit.framework.TestResult;
-import junit.framework.TestSuite;
 
 /**
  * The suite of tests for a file system.

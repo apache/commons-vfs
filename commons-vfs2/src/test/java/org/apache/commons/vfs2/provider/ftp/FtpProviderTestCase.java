@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 
+import junit.framework.Test;
+
 import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
@@ -39,8 +41,6 @@ import org.apache.ftpserver.listener.ListenerFactory;
 import org.apache.ftpserver.usermanager.PropertiesUserManagerFactory;
 import org.apache.ftpserver.usermanager.impl.BaseUser;
 import org.junit.jupiter.api.Assertions;
-
-import junit.framework.Test;
 
 /**
  * Tests for FTP file systems.

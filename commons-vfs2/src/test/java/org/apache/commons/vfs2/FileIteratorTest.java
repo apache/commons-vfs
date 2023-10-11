@@ -33,7 +33,7 @@ public class FileIteratorTest {
 
     private static FileObject BaseFolder;
 
-    private final static int FileCount = 14;
+    private final static int FILE_COUNT = 14;
 
     /**
      * Creates a RAM FS.
@@ -74,9 +74,9 @@ public class FileIteratorTest {
     @Test
     public void testIterator() throws FileSystemException {
         final FileObject[] findFiles = BaseFolder.findFiles(Selectors.SELECT_ALL);
-        assertEquals(FileCount, findFiles.length);
+        assertEquals(FILE_COUNT, findFiles.length);
         final FileObject[] listFiles = BaseFolder.getChildren();
-        assertTrue(FileCount > listFiles.length);
+        assertTrue(FILE_COUNT > listFiles.length);
         int i = 0;
         for (final FileObject actualFile : BaseFolder) {
             final FileObject expectedFile = findFiles[i];

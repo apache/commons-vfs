@@ -18,14 +18,14 @@ package org.apache.commons.vfs2.provider.local;
 
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
 
+import junit.framework.Test;
+
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.PermissionsTests;
 import org.apache.commons.vfs2.ProviderTestSuite;
-
-import junit.framework.Test;
 
 /**
  * Tests for the local file system.
