@@ -127,7 +127,7 @@ public class DefaultFileMonitorTest {
      */
     @Disabled("VFS-299")
     @Test
-    public void ignore_testAddRemove() throws Exception {
+    public void testIgnoreTestAddRemove() throws Exception {
         try (FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
             final CountingListener listener = new CountingListener();
             try (DefaultFileMonitor monitor = new DefaultFileMonitor(listener)) {
@@ -150,7 +150,7 @@ public class DefaultFileMonitorTest {
      */
     @Disabled("VFS-299")
     @Test
-    public void ignore_testStartStop() throws Exception {
+    public void testIgnoreTestStartStop() throws Exception {
         try (FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
             final CountingListener stoppedListener = new CountingListener();
             try (DefaultFileMonitor stoppedMonitor = new DefaultFileMonitor(stoppedListener)) {

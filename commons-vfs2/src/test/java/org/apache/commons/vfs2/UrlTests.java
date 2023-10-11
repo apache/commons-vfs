@@ -39,7 +39,7 @@ public class UrlTests extends AbstractProviderTestCase {
     }
 
     @Test
-    public void testReservedCharacter_Space() throws FileSystemException {
+    public void testReservedCharacterSpace() throws FileSystemException {
         try (FileObject fileObject = getReadFolder().resolveFile("file with spaces.txt")) {
             final URL url = fileObject.getURL();
             final String string = url.toString();

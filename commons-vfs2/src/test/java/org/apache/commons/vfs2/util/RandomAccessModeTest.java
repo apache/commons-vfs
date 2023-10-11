@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 public class RandomAccessModeTest {
 
     @Test
-    public void test_fromAccessMode() {
+    public void testFromAccessMode() {
         assertEquals(RandomAccessMode.READ, RandomAccessMode.from(AccessMode.READ));
         assertEquals(RandomAccessMode.READ, RandomAccessMode.from(AccessMode.READ, AccessMode.READ));
         assertEquals(RandomAccessMode.READ, RandomAccessMode.from(AccessMode.READ, AccessMode.READ, AccessMode.EXECUTE));

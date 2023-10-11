@@ -59,7 +59,7 @@ public class DefaultFileSystemManagerTest {
      * @throws FileSystemException
      */
     @Test
-    public void test_close() throws FileSystemException {
+    public void testClose() throws FileSystemException {
         try (FileSystemManager fileSystemManager = new DefaultFileSystemManager()) {
             VFS.setManager(fileSystemManager);
             VFS.setManager(null);

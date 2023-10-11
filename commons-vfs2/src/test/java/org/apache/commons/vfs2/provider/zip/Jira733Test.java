@@ -69,12 +69,12 @@ public class Jira733Test {
     }
 
     @Test
-    public void testZipParentLayer_exists() throws Exception {
+    public void testZipParentLayerExists() throws Exception {
         testZipParentLayer(FileObject::exists);
     }
 
     @Test
-    public void testZipParentLayer_exists_getContents() throws Exception {
+    public void testZipParentLayerExistsGetContents() throws Exception {
         testZipParentLayer(fileObject -> {
             fileObject.exists();
             fileObject.getContent();
@@ -82,57 +82,57 @@ public class Jira733Test {
     }
 
     @Test
-    public void testZipParentLayer_getChildren() throws Exception {
+    public void testZipParentLayerGetChildren() throws Exception {
         testZipParentLayer(fileObject -> fileObject.getParent().getChildren());
     }
 
     @Test
-    public void testZipParentLayer_getContents() throws Exception {
+    public void testZipParentLayerGetContents() throws Exception {
         testZipParentLayer(FileObject::getContent);
     }
 
     @Test
-    public void testZipParentLayer_getType() throws Exception {
+    public void testZipParentLayerGetType() throws Exception {
         testZipParentLayer(FileObject::getType);
     }
 
     @Test
-    public void testZipParentLayer_isAttached() throws Exception {
+    public void testZipParentLayerIsAttached() throws Exception {
         testZipParentLayer(FileObject::isAttached);
     }
 
     @Test
-    public void testZipParentLayer_isContentOpen() throws Exception {
+    public void testZipParentLayerIsContentOpen() throws Exception {
         testZipParentLayer(FileObject::isContentOpen);
     }
 
     @Test
-    public void testZipParentLayer_isExecutable() throws Exception {
+    public void testZipParentLayerIsExecutable() throws Exception {
         testZipParentLayer(FileObject::isExecutable);
     }
 
     @Test
-    public void testZipParentLayer_isFile() throws Exception {
+    public void testZipParentLayerIsFile() throws Exception {
         testZipParentLayer(FileObject::isFile);
     }
 
     @Test
-    public void testZipParentLayer_isFolder() throws Exception {
+    public void testZipParentLayerIsFolder() throws Exception {
         testZipParentLayer(FileObject::isFolder);
     }
 
     @Test
-    public void testZipParentLayer_isHidden() throws Exception {
+    public void testZipParentLayerIsHidden() throws Exception {
         testZipParentLayer(FileObject::isHidden);
     }
 
     @Test
-    public void testZipParentLayer_isReadable() throws Exception {
+    public void testZipParentLayerIsReadable() throws Exception {
         testZipParentLayer(FileObject::isReadable);
     }
 
     @Test
-    public void testZipParentLayer_isWriteable() throws Exception {
+    public void testZipParentLayerIsWriteable() throws Exception {
         testZipParentLayer(FileObject::isWriteable);
     }
 
