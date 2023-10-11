@@ -49,6 +49,28 @@ import org.junit.Test;
  */
 public class VfsClassLoaderTests extends AbstractProviderTestCase {
 
+    private class LoadClass implements Runnable {
+        private final VFSClassLoader loader;
+        public LoadClass(VFSClassLoader loader) {
+            this.loader = loader;
+        }
+
+        @Override
+        public void run() {
+            try {
+                final Class<?> testClass = loader.findClass("code.ClassToLoad");
+                final Package pack = testClass.getPackage();
+                assertEquals("code", pack.getName());
+                verifyPackage(pack, false);
+
+                final Object testObject = testClass.getConstructor().newInstance();
+                assertEquals("**PRIVATE**", testObject.toString());
+            } catch (ReflectiveOperationException e) {
+                throw new IllegalStateException(e);
+            }
+        }
+    }
+
     /**
      * Non-Delegating Class Loader.
      */
@@ -277,28 +299,6 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
             }
             pWriter.flush();
             assertTrue(exceptions.size() + " threads failed: " + exceptionMsg, exceptions.isEmpty());
-        }
-    }
-
-    private class LoadClass implements Runnable {
-        private final VFSClassLoader loader;
-        public LoadClass(VFSClassLoader loader) {
-            this.loader = loader;
-        }
-
-        @Override
-        public void run() {
-            try {
-                final Class<?> testClass = loader.findClass("code.ClassToLoad");
-                final Package pack = testClass.getPackage();
-                assertEquals("code", pack.getName());
-                verifyPackage(pack, false);
-
-                final Object testObject = testClass.getConstructor().newInstance();
-                assertEquals("**PRIVATE**", testObject.toString());
-            } catch (ReflectiveOperationException e) {
-                throw new IllegalStateException(e);
-            }
         }
     }
 

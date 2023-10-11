@@ -37,14 +37,14 @@ public class RamProviderTestCase extends AbstractProviderTestConfig {
     /** logger */
     private static final Log log = LogFactory.getLog(RamProviderTestCase.class);
 
-    private boolean inited;
-
     /**
      * Creates the test suite for the ram file system.
      */
     public static Test suite() throws Exception {
         return new ProviderTestSuite(new RamProviderTestCase());
     }
+
+    private boolean inited;
 
     /**
      * Returns the base folder for tests.

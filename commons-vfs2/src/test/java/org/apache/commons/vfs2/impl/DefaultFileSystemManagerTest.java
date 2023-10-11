@@ -53,21 +53,6 @@ import org.mockito.Mockito;
  */
 public class DefaultFileSystemManagerTest {
 
-    /**
-     * Tests {@link DefaultFileSystemManager#close()}.
-     *
-     * @throws FileSystemException
-     */
-    @Test
-    public void testClose() throws FileSystemException {
-        try (FileSystemManager fileSystemManager = new DefaultFileSystemManager()) {
-            VFS.setManager(fileSystemManager);
-            VFS.setManager(null);
-        }
-        assertNotNull(VFS.getManager());
-        assertFalse(VFS.getManager().resolveFile(Paths.get("DoesNotExist.not").toUri()).exists());
-    }
-
     @Test
     public void testAddAndRemoveProvider() throws FileSystemException {
         try (DefaultFileSystemManager fileSystemManager = new DefaultFileSystemManager()) {
@@ -89,6 +74,21 @@ public class DefaultFileSystemManagerTest {
             Mockito.verify(provider).close();
             assertThrows(FileSystemException.class, () -> fileSystemManager.resolveFile("ram2:///"));
         }
+    }
+
+    /**
+     * Tests {@link DefaultFileSystemManager#close()}.
+     *
+     * @throws FileSystemException
+     */
+    @Test
+    public void testClose() throws FileSystemException {
+        try (FileSystemManager fileSystemManager = new DefaultFileSystemManager()) {
+            VFS.setManager(fileSystemManager);
+            VFS.setManager(null);
+        }
+        assertNotNull(VFS.getManager());
+        assertFalse(VFS.getManager().resolveFile(Paths.get("DoesNotExist.not").toUri()).exists());
     }
 
     @Test

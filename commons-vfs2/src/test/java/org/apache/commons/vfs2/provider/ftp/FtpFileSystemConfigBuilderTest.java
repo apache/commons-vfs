@@ -30,6 +30,14 @@ import org.junit.jupiter.api.Test;
 public class FtpFileSystemConfigBuilderTest {
 
     @Test
+    public void testActivePortRange() {
+        final FtpFileSystemConfigBuilder instance = FtpFileSystemConfigBuilder.getInstance();
+        final FileSystemOptions options = new FileSystemOptions();
+        instance.setActivePortRange(options, Range.between(2121, 2125));
+        assertEquals(Range.between(2121, 2125), instance.getActivePortRange(options));
+    }
+
+    @Test
     public void testControlKeepAliveReplyTimeout() {
         final FtpFileSystemConfigBuilder instance = FtpFileSystemConfigBuilder.getInstance();
         final FileSystemOptions options = new FileSystemOptions();
@@ -43,13 +51,5 @@ public class FtpFileSystemConfigBuilderTest {
         final FileSystemOptions options = new FileSystemOptions();
         instance.setControlKeepAliveTimeout(options, Duration.ofSeconds(10));
         assertEquals(Duration.ofSeconds(10), instance.getControlKeepAliveTimeout(options));
-    }
-
-    @Test
-    public void testActivePortRange() {
-        final FtpFileSystemConfigBuilder instance = FtpFileSystemConfigBuilder.getInstance();
-        final FileSystemOptions options = new FileSystemOptions();
-        instance.setActivePortRange(options, Range.between(2121, 2125));
-        assertEquals(Range.between(2121, 2125), instance.getActivePortRange(options));
     }
 }

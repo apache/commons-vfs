@@ -432,11 +432,6 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
     private static final String TEST_URI = "test.sftp.uri";
 
     /**
-     * The underlying file system
-     */
-    protected SftpFileSystem fileSystem;
-
-    /**
      * Creates a pipe thread that connects an input to an output
      *
      * @param name     The name of the thread (for debugging purposes)
@@ -572,6 +567,11 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
     }
 
     /**
+     * The underlying file system
+     */
+    protected SftpFileSystem fileSystem;
+
+    /**
      * Returns the base folder for tests.
      */
     @Override
@@ -596,16 +596,16 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
 
     protected abstract boolean isExecChannelClosed();
 
-    protected SessionFactory sessionFactory() {
-        return null;
-    }
-
     /**
      * Prepares the file system manager.
      */
     @Override
     public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("sftp", new SftpFileProvider());
+    }
+
+    protected SessionFactory sessionFactory() {
+        return null;
     }
 
 }

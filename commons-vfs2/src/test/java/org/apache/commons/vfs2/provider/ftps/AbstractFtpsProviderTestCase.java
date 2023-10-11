@@ -45,8 +45,6 @@ import org.junit.jupiter.api.Assertions;
  */
 abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
 
-    private static final String LISTENER_NAME = "default";
-
     static final class FtpProviderTestSuite extends ProviderTestSuite {
         
         private final boolean implicit;
@@ -78,6 +76,8 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         }
     }
 
+    private static final String LISTENER_NAME = "default";
+
     private static int socketPort;
 
     /**
@@ -92,8 +92,6 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
     private static final String USER_PROPS_RES = "org.apache.ftpsserver/users.properties";
 
     private static final String SERVER_JKS_RES = "org.apache.ftpsserver/ftpserver.jks";
-
-    protected FileSystemOptions fileSystemOptions;
 
     static String getConnectionUri() {
         return connectionUri;
@@ -189,6 +187,8 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
             embeddedFtpServer = null;
         }
     }
+
+    protected FileSystemOptions fileSystemOptions;
 
     /**
      * Returns the base folder for tests. You can override the DEFAULT_URI by using the system property name defined by TEST_URI.
