@@ -29,9 +29,9 @@ public class DefaultFilesCacheTests extends AbstractFilesCacheTestsBase {
         final FileObject scratchFolder = getWriteFolder();
 
         final FileObject dir1 = scratchFolder.resolveFile("dir1");
-        final FileObject dir1_2 = scratchFolder.resolveFile("dir1");
+        final FileObject dir1Bis = scratchFolder.resolveFile("dir1");
 
-        assertSame(dir1, dir1_2);
+        assertSame(dir1, dir1Bis);
 
         // now the same test, unreferenced (compare only hashCode)
         final int hc1 = getFileHashCode();

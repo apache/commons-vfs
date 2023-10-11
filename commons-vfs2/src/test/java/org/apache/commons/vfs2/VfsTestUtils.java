@@ -82,7 +82,7 @@ public abstract class VfsTestUtils {
     }
 
     /**
-     * Gets a canonical file. 
+     * Gets a canonical file.
      */
     public static File getCanonicalFile(final File file) {
         try {
@@ -115,8 +115,7 @@ public abstract class VfsTestUtils {
     public static File getTestDirectory(final String name) {
         File file = new File(getTestDirectoryFile(), name);
         file = getCanonicalFile(file);
-        assertTrue(file.isDirectory() || file.mkdirs(),
-                "Test directory \"" + file + "\" does not exist or is not a directory.");
+        assertTrue(file.isDirectory() || file.mkdirs(), "Test directory \"" + file + "\" does not exist or is not a directory.");
         return file;
     }
 

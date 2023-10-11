@@ -40,8 +40,7 @@ import org.junit.jupiter.api.Test;
  */
 public class DelegatingFileSystemOptionsBuilderTest {
 
-    private static final String[] schemes = { "http", "ftp", "file", "zip", "tar", "tgz", "bz2", "gz",
-            "jar", "tmp", "ram" };
+    private static final String[] schemes = { "http", "ftp", "file", "zip", "tar", "tgz", "bz2", "gz", "jar", "tmp", "ram" };
 
     private StandardFileSystemManager fsm;
 
@@ -77,8 +76,7 @@ public class DelegatingFileSystemOptionsBuilderTest {
             fail();
         } catch (final FileSystemException e) {
             assertSame(e.getCause().getClass(), InvocationTargetException.class);
-            assertSame(((InvocationTargetException) e.getCause()).getTargetException().getClass(),
-                    NumberFormatException.class);
+            assertSame(((InvocationTargetException) e.getCause()).getTargetException().getClass(), NumberFormatException.class);
         }
 
         try {
@@ -103,8 +101,7 @@ public class DelegatingFileSystemOptionsBuilderTest {
 
         assertEquals("http.proxyHost", HttpFileSystemConfigBuilder.getInstance().getProxyHost(opts), "proxy");
         assertEquals("http.proxyPort", HttpFileSystemConfigBuilder.getInstance().getProxyPort(opts), 8080);
-        assertSame("sftp.userInfo", SftpFileSystemConfigBuilder.getInstance().getUserInfo(opts).getClass(),
-                TrustEveryoneUserInfo.class);
+        assertSame("sftp.userInfo", SftpFileSystemConfigBuilder.getInstance().getUserInfo(opts).getClass(), TrustEveryoneUserInfo.class);
 
         final File[] identities = SftpFileSystemConfigBuilder.getInstance().getIdentities(opts);
         assertNotNull("sftp.identities", identities);
