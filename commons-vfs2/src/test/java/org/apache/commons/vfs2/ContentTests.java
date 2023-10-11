@@ -57,7 +57,7 @@ public class ContentTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Tests attributes
+     * Tests attributes.
      */
     @Test
     public void testAttributes() throws FileSystemException {
@@ -237,7 +237,7 @@ public class ContentTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Tests parent identity
+     * Tests parent identity.
      */
     @Test
     public void testParent() throws FileSystemException {

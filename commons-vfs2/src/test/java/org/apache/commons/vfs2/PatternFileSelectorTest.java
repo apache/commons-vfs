@@ -116,7 +116,7 @@ public class PatternFileSelectorTest {
     }
 
     /**
-     * Tests matching all
+     * Tests matching all.
      *
      * @throws Exception
      */
@@ -127,7 +127,7 @@ public class PatternFileSelectorTest {
     }
 
     /**
-     * Tests matching partial file names
+     * Tests matching partial file names.
      *
      * @throws Exception
      */
@@ -139,7 +139,7 @@ public class PatternFileSelectorTest {
     }
 
     /**
-     * Tests matching partial file names with delimiter
+     * Tests matching partial file names with delimiter.
      *
      * @throws Exception
      */

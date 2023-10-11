@@ -100,7 +100,7 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
     }
 
     static int getSocketPort() {
-        return SocketPort;
+        return socketPort;
     }
 
     static String getSystemTestUriOverride() {
@@ -118,7 +118,7 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
             return;
         }
         // Let the OS find use an ephemeral port by using 0.
-        SocketPort = 0;
+        socketPort = 0;
         final FtpServerFactory serverFactory = new FtpServerFactory();
         final PropertiesUserManagerFactory propertiesUserManagerFactory = new PropertiesUserManagerFactory();
         final URL userPropsResource = ClassLoader.getSystemClassLoader().getResource(USER_PROPS_RES);
@@ -131,7 +131,7 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         user.setHomeDirectory(getTestDirectory());
         serverFactory.setUserManager(userManager);
         final ListenerFactory listenerFactory = new ListenerFactory();
-        listenerFactory.setPort(SocketPort);
+        listenerFactory.setPort(socketPort);
 
         // define SSL configuration
         final URL serverJksResource = ClassLoader.getSystemClassLoader().getResource(SERVER_JKS_RES);
@@ -163,9 +163,9 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
                 e.printStackTrace();
             }
         }
-        SocketPort = ((org.apache.ftpserver.impl.DefaultFtpServer) embeddedFtpServer).getListener(LISTENER_NAME).getPort();
+        socketPort = ((org.apache.ftpserver.impl.DefaultFtpServer) embeddedFtpServer).getListener(LISTENER_NAME).getPort();
         // System.out.println("Using port " + SocketPort);
-        connectionUri = "ftps://test:test@localhost:" + SocketPort;
+        connectionUri = "ftps://test:test@localhost:" + socketPort;
     }
 
     /**

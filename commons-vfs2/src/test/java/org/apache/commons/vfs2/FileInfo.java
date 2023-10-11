@@ -99,7 +99,7 @@ public class FileInfo {
     }
 
     /**
-     * Returns the {@link FileType} of the file
+     * Returns the {@link FileType} of the file.
      *
      * @return {@link FileType}
      */

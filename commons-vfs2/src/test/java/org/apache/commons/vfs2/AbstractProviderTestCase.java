@@ -240,7 +240,7 @@ public abstract class AbstractProviderTestCase extends TestCase {
     }
 
     /**
-     * get the provider configuration
+     * get the provider configuration.
      */
     public ProviderTestConfig getProviderConfig() {
         return providerConfig;

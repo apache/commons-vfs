@@ -307,7 +307,7 @@ public class NamingTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Tests resolution of relative file names via the FS manager
+     * Tests resolution of relative file names via the FS manager.
      */
     @Test
     public void testRelativeURI() throws Exception {

@@ -113,7 +113,7 @@ public class PermissionsTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Tests for the readable permission
+     * Tests for the readable permission.
      */
     @Test
     public void testReadable() throws Exception {
@@ -138,7 +138,7 @@ public class PermissionsTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Tests for the writable permission
+     * Tests for the writable permission.
      */
     @Test
     public void testWriteable() throws Exception {

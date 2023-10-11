@@ -25,15 +25,14 @@ import org.apache.commons.vfs2.VFS;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests https://issues.apache.org/jira/browse/VFS-426
+ * Tests https://issues.apache.org/jira/browse/VFS-426.
  *
- *          ggregory $
  * @since 2.1
  */
 public class HttpFilesCacheTest {
 
     /**
-     * Tests https://issues.apache.org/jira/browse/VFS-426
+     * Tests https://issues.apache.org/jira/browse/VFS-426.
      */
     @Test
     public void testQueryStringUrls() throws FileSystemException {

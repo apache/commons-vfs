@@ -24,7 +24,12 @@
 <!-- Exceptions for Checkstyle -->
 
 <suppressions>
-
+    <!-- Disable some checks in tests -->
+    <suppress checks="JavadocPackage" files="src[/\\]test[/\\]java[/\\]" />
+    <suppress checks="JavadocMethod" files="src[/\\]test[/\\]java[/\\]" />
+    <suppress checks="JavadocVariable" files="src[/\\]test[/\\]java[/\\]" />
+    <suppress checks="MissingJavadocMethod" files="src[/\\]test[/\\]java[/\\]" />
+    
     <!-- Disable the warnings for the generated classes -->
     <suppress checks=".*" files="ParseException.java"/>
     <suppress checks=".*" files="PropertyListParser.java"/>
