@@ -74,7 +74,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Gets the  alternate configuration input stream.
+     * Gets the alternate configuration input stream.
      *
      * @return alternate configuration input stream or {@code null}.
      * @param opts The FileSystemOptions.
