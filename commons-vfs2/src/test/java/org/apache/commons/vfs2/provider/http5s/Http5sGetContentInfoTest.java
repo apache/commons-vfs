@@ -37,7 +37,7 @@ import org.apache.commons.vfs2.provider.http5.Http5FileSystemConfigBuilder;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests VFS-427 NPE on Http5FileObject.getContent().getContentInfo()
+ * Tests VFS-427 NPE on Http5FileObject.getContent().getContentInfo().
  */
 public class Http5sGetContentInfoTest {
 

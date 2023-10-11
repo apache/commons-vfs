@@ -90,7 +90,7 @@ public class SftpPutChannelTestCase extends AbstractSftpProviderTestCase {
     }
 
     /**
-     * Tests SftpFileObject.doGetInputStream return the channel to pool, when there is an exception
+     * Tests SftpFileObject.doGetInputStream return the channel to pool, when there is an exception.
      */
     @Test
     public void testDoGetInputStream() throws Exception {

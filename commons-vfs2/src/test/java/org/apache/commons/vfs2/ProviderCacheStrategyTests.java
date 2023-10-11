@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
 import org.junit.Test;
 
 /**
- * Test the cache strategy
+ * Test the cache strategy.
  */
 public class ProviderCacheStrategyTests extends AbstractProviderTestCase {
 
@@ -54,7 +54,7 @@ public class ProviderCacheStrategyTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Test the manual cache strategy
+     * Test the manual cache strategy.
      */
     @Test
     public void testManualCache() throws Exception {
@@ -88,7 +88,7 @@ public class ProviderCacheStrategyTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Test the on_call strategy
+     * Test the on_call strategy.
      */
     @Test
     public void testOnCallCache() throws Exception {
@@ -118,7 +118,7 @@ public class ProviderCacheStrategyTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Test the on_resolve strategy
+     * Test the on_resolve strategy.
      */
     @Test
     public void testOnResolveCache() throws Exception {

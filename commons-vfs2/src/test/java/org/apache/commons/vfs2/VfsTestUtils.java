@@ -141,7 +141,7 @@ public abstract class VfsTestUtils {
     }
 
     /**
-     * Gets a test resource, and asserts that the resource exists
+     * Gets a test resource, and asserts that the resource exists.
      *
      * @param name path of the resource, relative to this test's base directory.
      */

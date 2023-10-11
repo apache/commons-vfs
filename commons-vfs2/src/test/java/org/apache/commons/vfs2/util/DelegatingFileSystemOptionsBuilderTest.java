@@ -36,7 +36,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Some tests for the DelegatingFileSystemOptionsBuilder
+ * Tests {@link DelegatingFileSystemOptionsBuilder}.
  */
 public class DelegatingFileSystemOptionsBuilderTest {
 

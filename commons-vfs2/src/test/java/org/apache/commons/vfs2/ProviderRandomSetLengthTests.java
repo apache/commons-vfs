@@ -52,7 +52,7 @@ public class ProviderRandomSetLengthTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Writes a file
+     * Writes a file.
      */
     @Test
     public void testRandomSetLength() throws Exception {

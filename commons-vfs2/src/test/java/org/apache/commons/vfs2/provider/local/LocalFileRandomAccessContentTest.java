@@ -34,7 +34,7 @@ public class LocalFileRandomAccessContentTest {
     private final int EOF = -1;
 
     /**
-     * test LocalFileRandomAccessContent InputStream read one byte 0xff; see VFS-624
+     * test LocalFileRandomAccessContent InputStream read one byte 0xff; see VFS-624.
      **/
     @Test
     public void testInputStreamRead0xff() throws IOException {

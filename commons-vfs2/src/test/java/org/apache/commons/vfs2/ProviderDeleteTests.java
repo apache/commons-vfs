@@ -73,7 +73,7 @@ public class ProviderDeleteTests extends AbstractProviderTestCase {
     }
 
     /**
-     * deletes files
+     * deletes files.
      */
     @Test
     public void testDeleteAllFiles() throws Exception {
@@ -88,7 +88,7 @@ public class ProviderDeleteTests extends AbstractProviderTestCase {
     }
 
     /**
-     * deletes a single file
+     * deletes a single file.
      */
     @Test
     public void testDeleteFile() throws Exception {
@@ -100,7 +100,7 @@ public class ProviderDeleteTests extends AbstractProviderTestCase {
     }
 
     /**
-     * deletes the complete structure
+     * deletes the complete structure.
      */
     @Test
     public void testDeleteFiles() throws Exception {
@@ -110,7 +110,7 @@ public class ProviderDeleteTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Deletes a non existent file
+     * Deletes a non existent file.
      */
     @Test
     public void testDeleteNonExistantFile() throws Exception {
@@ -122,7 +122,7 @@ public class ProviderDeleteTests extends AbstractProviderTestCase {
     }
 
     /**
-     * deletes a.txt
+     * deletes a.txt.
      */
     @Test
     public void testDeleteOneFiles() throws Exception {

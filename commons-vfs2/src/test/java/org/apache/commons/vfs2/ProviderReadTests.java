@@ -248,7 +248,7 @@ public class ProviderReadTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Tests can read multiple time end of stream of empty file
+     * Tests can read multiple time end of stream of empty file.
      */
     @Test
     public void testReadEmptyMultipleEOF() throws Exception {
@@ -266,7 +266,7 @@ public class ProviderReadTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Tests can read multiple time end of stream
+     * Tests can read multiple time end of stream.
      */
     @Test
     public void testReadFileEOFMultiple() throws Exception {

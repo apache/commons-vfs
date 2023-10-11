@@ -238,8 +238,7 @@ public class CustomRamProviderTest {
     }
 
     /**
-     *
-     * Checks root folder exists
+     * Checks root folder exists.
      *
      * @throws FileSystemException
      */
@@ -262,6 +261,7 @@ public class CustomRamProviderTest {
      * <p>
      * This test is not RamProvider specific but it uses it as a simple test-bed.
      * Verifies VFS-741.
+     * </p>
      */
     @Test
     public void testSchemePrefix() throws FileSystemException

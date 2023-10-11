@@ -27,7 +27,7 @@ import org.apache.commons.vfs2.VFS;
 import org.junit.jupiter.api.Test;
 
 /**
- * test use DefaultFileSystemManager.createFileSystem method to create tar,tgz,tbz2 file system
+ * test use DefaultFileSystemManager.createFileSystem method to create tar,tgz,tbz2 file system.
  *
  * @since 2.7.0
  **/

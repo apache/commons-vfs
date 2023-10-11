@@ -41,13 +41,13 @@ public class FileObjectSortTest {
      */
     private static final int SIZE = 100;
 
-    // Consider @Immutable
+    /** Consider @Immutable. */
     private static FileSystem vfsFileSystem;
 
-    // Consider @Immutable
+    /** Consider @Immutable */
     private static FileObject[] sortedArray;
 
-    // Consider @Immutable
+    /** Consider @Immutable */
     private static FileObject[] unSortedArray;
 
     private static FileObject resolveFile(final FileSystem fs, final int i) throws FileSystemException {
@@ -84,7 +84,7 @@ public class FileObjectSortTest {
     }
 
     /**
-     * Tests sorting an array
+     * Tests sorting an array.
      */
     @Test
     public void testSortArrayMoveAll() {
@@ -105,7 +105,7 @@ public class FileObjectSortTest {
     }
 
     /**
-     * Tests sorting a list
+     * Tests sorting a list.
      */
     @Test
     public void testSortListMoveAll() {
