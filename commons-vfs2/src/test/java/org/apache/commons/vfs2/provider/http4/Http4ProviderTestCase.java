@@ -40,16 +40,16 @@ import org.junit.jupiter.api.Assertions;
  */
 public class Http4ProviderTestCase extends AbstractProviderTestConfig {
 
-    private static NHttpFileServer Server;
+    private static NHttpFileServer server;
 
-    private static int SocketPort;
+    private static int socketPort;
 
     private static final String TEST_URI = "test.http.uri";
 
     /**
      * Use %40 for @ in URLs
      */
-    private static String ConnectionUri;
+    private static String connectionUri;
 
     private static String getSystemTestUriOverride() {
         return System.getProperty(TEST_URI);
@@ -61,9 +61,9 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
      * @throws Exception
      */
     private static void setUpClass() throws Exception {
-        Server = NHttpFileServer.start(0, new File(getTestDirectory()), 5000);
-        SocketPort = Server.getPort();
-        ConnectionUri = "http4://localhost:" + SocketPort;
+        server = NHttpFileServer.start(0, new File(getTestDirectory()), 5000);
+        socketPort = server.getPort();
+        connectionUri = "http4://localhost:" + socketPort;
     }
 
     /**
@@ -104,8 +104,8 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
      * @throws InterruptedException
      */
     private static void tearDownClass() throws InterruptedException {
-        if (Server != null) {
-            Server.shutdown(5000, TimeUnit.SECONDS);
+        if (server != null) {
+            server.shutdown(5000, TimeUnit.SECONDS);
         }
     }
 
@@ -121,7 +121,7 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         String uri = getSystemTestUriOverride();
         if (uri == null) {
-            uri = ConnectionUri;
+            uri = connectionUri;
         }
         return manager.resolveFile(uri);
     }
@@ -198,22 +198,22 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
 
     @Test
     public void testResolveFolderSlashNoRedirectOff() throws FileSystemException {
-        testResolveFolderSlash(ConnectionUri + "/read-tests", false);
+        testResolveFolderSlash(connectionUri + "/read-tests", false);
     }
 
     @Test
     public void testResolveFolderSlashNoRedirectOn() throws FileSystemException {
-        testResolveFolderSlash(ConnectionUri + "/read-tests", true);
+        testResolveFolderSlash(connectionUri + "/read-tests", true);
     }
 
     @Test
     public void testResolveFolderSlashYesRedirectOff() throws FileSystemException {
-        testResolveFolderSlash(ConnectionUri + "/read-tests/", false);
+        testResolveFolderSlash(connectionUri + "/read-tests/", false);
     }
 
     @Test
     public void testResolveFolderSlashYesRedirectOn() throws FileSystemException {
-        testResolveFolderSlash(ConnectionUri + "/read-tests/", true);
+        testResolveFolderSlash(connectionUri + "/read-tests/", true);
     }
 
 }

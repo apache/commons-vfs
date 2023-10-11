@@ -51,7 +51,7 @@ public class SftpProviderStreamProxyModeTestCase extends AbstractSftpProviderTes
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         String uri = getSystemTestUriOverride();
         if (uri == null) {
-            uri = ConnectionUri;
+            uri = connectionUri;
         }
 
         final FileSystemOptions fileSystemOptions = new FileSystemOptions();

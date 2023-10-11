@@ -106,7 +106,7 @@ public class SftpPermissionExceptionTestCase extends AbstractSftpProviderTestCas
         }
 
         // try to get created channel number.
-        final int channelId = Server.getActiveSessions().get(0).registerChannel(new ChannelSession());
+        final int channelId = server.getActiveSessions().get(0).registerChannel(new ChannelSession());
         Assertions.assertTrue(channelId < 30, "create too many sftp channel more");
 
         // try to set the local file to writable

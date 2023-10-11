@@ -36,16 +36,16 @@ import org.apache.commons.vfs2.util.NHttpFileServer;
  */
 public class UrlProviderHttpTestCase extends AbstractProviderTestConfig {
 
-    private static NHttpFileServer Server;
+    private static NHttpFileServer server;
 
-    private static int SocketPort;
+    private static int socketPort;
 
     private static final String TEST_URI = "test.http.uri";
 
     /**
      * Use %40 for @ in URLs
      */
-    private static String ConnectionUri;
+    private static String connectionUri;
 
     public UrlProviderHttpTestCase() throws IOException {
         // empty
@@ -61,9 +61,9 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig {
      * @throws Exception
      */
     private static void setUpClass() throws Exception {
-        Server = NHttpFileServer.start(0, new File(getTestDirectory()), 5000);
-        SocketPort = Server.getPort();
-        ConnectionUri = "http://localhost:" + SocketPort;
+        server = NHttpFileServer.start(0, new File(getTestDirectory()), 5000);
+        socketPort = server.getPort();
+        connectionUri = "http://localhost:" + socketPort;
     }
 
     public static Test suite() throws Exception {
@@ -89,8 +89,8 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig {
      * @throws InterruptedException
      */
     public static void tearDownClass() throws InterruptedException {
-        if (Server != null) {
-            Server.shutdown(5000, TimeUnit.SECONDS);
+        if (server != null) {
+            server.shutdown(5000, TimeUnit.SECONDS);
         }
     }
 
@@ -101,7 +101,7 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig {
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         String uri = getSystemTestUriOverride();
         if (uri == null) {
-            uri = ConnectionUri;
+            uri = connectionUri;
         }
         return manager.resolveFile(uri);
     }

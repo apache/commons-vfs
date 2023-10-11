@@ -246,7 +246,7 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
             // Close all active sessions
             // Note that it should be done by super.tearDown()
             // while closing
-            for (final AbstractSession session : Server.getActiveSessions()) {
+            for (final AbstractSession session : server.getActiveSessions()) {
                 session.close(true);
             }
             tearDownClass();
@@ -421,13 +421,13 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
         }
     }
 
-    private static int SocketPort;
+    private static int socketPort;
 
     private static final String DEFAULT_USER = "testtest";
 
-    protected static String ConnectionUri;
+    protected static String connectionUri;
 
-    protected static SshServer Server;
+    protected static SshServer server;
 
     private static final String TEST_URI = "test.sftp.uri";
 
@@ -486,14 +486,14 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
      * @throws IOException
      */
     private static void setUpClass(final boolean isExecChannelClosed, SessionFactory sessionFactory) throws IOException {
-        if (Server != null) {
+        if (server != null) {
             return;
         }
         // System.setProperty("vfs.sftp.sshdir", getTestDirectory() + "/../vfs.sftp.sshdir");
         final Path tmpDir = PathUtils.getTempDirectory();
-        Server = SshServer.setUpDefaultServer();
-        Server.setSessionFactory(sessionFactory);
-        Server.setPort(0);
+        server = SshServer.setUpDefaultServer();
+        server.setSessionFactory(sessionFactory);
+        server.setPort(0);
         if (SecurityUtils.isBouncyCastleRegistered()) {
             // A temporary file will hold the key
             final Path keyFile = Files.createTempFile(tmpDir, "key", ".pem");
@@ -502,9 +502,9 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
             Files.delete(keyFile);
 
             final PEMGeneratorHostKeyProvider keyProvider = new PEMGeneratorHostKeyProvider(keyFile.toAbsolutePath().toString());
-            Server.setKeyPairProvider(keyProvider);
+            server.setKeyPairProvider(keyProvider);
         } else {
-            Server.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(tmpDir.resolve("key.ser").toString()));
+            server.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(tmpDir.resolve("key.ser").toString()));
         }
         final List<NamedFactory<Command>> list = new ArrayList<>(1);
         list.add(new NamedFactory<Command>() {
@@ -519,10 +519,10 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
                 return "sftp";
             }
         });
-        Server.setSubsystemFactories(list);
-        Server.setPasswordAuthenticator((username, password, session) -> StringUtils.equals(username, password));
-        Server.setPublickeyAuthenticator((username, key, session) -> true);
-        Server.setForwardingFilter(new ForwardingFilter() {
+        server.setSubsystemFactories(list);
+        server.setPasswordAuthenticator((username, password, session) -> StringUtils.equals(username, password));
+        server.setPublickeyAuthenticator((username, key, session) -> true);
+        server.setForwardingFilter(new ForwardingFilter() {
             @Override
             public boolean canConnect(final InetSocketAddress address, final ServerSession session) {
                 return true;
@@ -544,18 +544,18 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
             }
         });
         // Allows the execution of commands
-        Server.setCommandFactory(new ScpCommandFactory(new TestCommandFactory(isExecChannelClosed)));
+        server.setCommandFactory(new ScpCommandFactory(new TestCommandFactory(isExecChannelClosed)));
         // HACK Start
         // How do we really do simple user to directory matching?
-        Server.setFileSystemFactory(new TestFileSystemFactory());
+        server.setFileSystemFactory(new TestFileSystemFactory());
         // HACK End
-        Server.start();
-        SocketPort = Server.getPort();
-        ConnectionUri = String.format("sftp://%s@localhost:%d", DEFAULT_USER, SocketPort);
+        server.start();
+        socketPort = server.getPort();
+        connectionUri = String.format("sftp://%s@localhost:%d", DEFAULT_USER, socketPort);
         // HACK Start
         // How do we really do simple security?
         // Do this after we start the server to simplify this set up code.
-        Server.getUserAuthFactories().add(new UserAuthNone.Factory());
+        server.getUserAuthFactories().add(new UserAuthNone.Factory());
         // HACK End
     }
 
@@ -565,9 +565,9 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
      * @throws InterruptedException
      */
     private static void tearDownClass() throws InterruptedException {
-        if (Server != null) {
-            Server.stop();
-            Server = null;
+        if (server != null) {
+            server.stop();
+            server = null;
         }
     }
 
@@ -578,7 +578,7 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         String uri = getSystemTestUriOverride();
         if (uri == null) {
-            uri = ConnectionUri;
+            uri = connectionUri;
         }
 
         final FileSystemOptions fileSystemOptions = new FileSystemOptions();

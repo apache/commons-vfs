@@ -165,7 +165,7 @@ public class NHttpFileServer {
 
     }
 
-    public static boolean DEBUG = Boolean.getBoolean(NHttpFileServer.class.getSimpleName() + ".debug");
+    public static final boolean DEBUG = Boolean.getBoolean(NHttpFileServer.class.getSimpleName() + ".debug");
 
     private final File docRoot;
 

@@ -35,19 +35,19 @@ import org.junit.jupiter.api.Test;
  */
 public class PatternFileSelectorTest {
 
-    private static FileObject BaseFolder;
+    private static FileObject baseFolder;
 
     /**
      * 9 files and 1 directory = 10
      */
-    private static final int EntryCount = 10;
+    private static final int ENTRY_COUNT = 10;
 
-    private static final int ExtensionCount = 3;
+    private static final int EXTENSION_COUNT = 3;
 
-    private static final int FilesPerExtensionCount = 3;
+    private static final int FILES_PER_EXTENSION_COUNT = 3;
 
     static FileObject getBaseFolder() {
-        return BaseFolder;
+        return baseFolder;
     }
 
     /**
@@ -57,18 +57,18 @@ public class PatternFileSelectorTest {
      */
     @BeforeAll
     public static void setUpClass() throws Exception {
-        BaseFolder = VFS.getManager().resolveFile("ram://" + PatternFileSelectorTest.class.getName());
-        BaseFolder.deleteAll();
-        BaseFolder.createFolder();
-        BaseFolder.resolveFile("aa.htm").createFile();
-        BaseFolder.resolveFile("aa.html").createFile();
-        BaseFolder.resolveFile("aa.xhtml").createFile();
-        BaseFolder.resolveFile("b.htm").createFile();
-        BaseFolder.resolveFile("b.html").createFile();
-        BaseFolder.resolveFile("b.xhtml").createFile();
-        BaseFolder.resolveFile("c.htm").createFile();
-        BaseFolder.resolveFile("c.html").createFile();
-        BaseFolder.resolveFile("c.xhtml").createFile();
+        baseFolder = VFS.getManager().resolveFile("ram://" + PatternFileSelectorTest.class.getName());
+        baseFolder.deleteAll();
+        baseFolder.createFolder();
+        baseFolder.resolveFile("aa.htm").createFile();
+        baseFolder.resolveFile("aa.html").createFile();
+        baseFolder.resolveFile("aa.xhtml").createFile();
+        baseFolder.resolveFile("b.htm").createFile();
+        baseFolder.resolveFile("b.html").createFile();
+        baseFolder.resolveFile("b.xhtml").createFile();
+        baseFolder.resolveFile("c.htm").createFile();
+        baseFolder.resolveFile("c.html").createFile();
+        baseFolder.resolveFile("c.xhtml").createFile();
     }
 
     /**
@@ -78,8 +78,8 @@ public class PatternFileSelectorTest {
      */
     @AfterAll
     public static void tearDownClass() throws Exception {
-        if (BaseFolder != null) {
-            BaseFolder.deleteAll();
+        if (baseFolder != null) {
+            baseFolder.deleteAll();
         }
     }
 
@@ -90,7 +90,7 @@ public class PatternFileSelectorTest {
      */
     @Test
     public void testFileExtensions() throws Exception {
-        final FileObject[] foArray = BaseFolder.findFiles(Selectors.SELECT_FILES);
+        final FileObject[] foArray = baseFolder.findFiles(Selectors.SELECT_FILES);
         assertTrue(foArray.length > 0);
         final String regExPrefix = ".*\\.";
         // gather file extensions.
@@ -100,18 +100,18 @@ public class PatternFileSelectorTest {
         }
         final String message = String.format("Extensions: %s; files: %s", extensionSet.toString(),
                 Arrays.asList(foArray).toString());
-        assertEquals(ExtensionCount, extensionSet.size(), message);
+        assertEquals(EXTENSION_COUNT, extensionSet.size(), message);
         // check each extension
         for (final String extension : extensionSet) {
             final FileSelector selector = new PatternFileSelector(extension);
-            final FileObject[] list = BaseFolder.findFiles(selector);
-            assertEquals(FilesPerExtensionCount, list.length);
+            final FileObject[] list = baseFolder.findFiles(selector);
+            assertEquals(FILES_PER_EXTENSION_COUNT, list.length);
         }
         // check each file against itself
         for (final FileObject fo : foArray) {
             final FileSelector selector = new PatternFileSelector(regExPrefix + fo.getName().getExtension());
-            final FileObject[] list = BaseFolder.findFiles(selector);
-            assertEquals(FilesPerExtensionCount, list.length);
+            final FileObject[] list = baseFolder.findFiles(selector);
+            assertEquals(FILES_PER_EXTENSION_COUNT, list.length);
         }
     }
 
@@ -122,8 +122,8 @@ public class PatternFileSelectorTest {
      */
     @Test
     public void testMatchAll() throws Exception {
-        final FileObject[] list = BaseFolder.findFiles(new PatternFileSelector(".*"));
-        assertEquals(EntryCount, list.length);
+        final FileObject[] list = baseFolder.findFiles(new PatternFileSelector(".*"));
+        assertEquals(ENTRY_COUNT, list.length);
     }
 
     /**
@@ -133,7 +133,7 @@ public class PatternFileSelectorTest {
      */
     @Test
     public void testMatchPartial() throws Exception {
-        final FileObject[] list = BaseFolder.findFiles(new PatternFileSelector(".*a.htm"));
+        final FileObject[] list = baseFolder.findFiles(new PatternFileSelector(".*a.htm"));
         assertEquals(1, list.length);
         assertEquals("aa.htm", list[0].getName().getBaseName());
     }
@@ -145,7 +145,7 @@ public class PatternFileSelectorTest {
      */
     @Test
     public void testMatchPartialDelimited() throws Exception {
-        final FileObject[] list = BaseFolder.findFiles(new PatternFileSelector("^.*\\/b.htm$"));
+        final FileObject[] list = baseFolder.findFiles(new PatternFileSelector("^.*\\/b.htm$"));
         assertEquals(1, list.length);
         assertEquals("b.htm", list[0].getName().getBaseName());
     }
