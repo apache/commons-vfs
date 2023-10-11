@@ -125,7 +125,7 @@ public class HdfsFileProviderTest {
 
         setUmask(conf);
 
-        cluster = new MiniDFSCluster(PORT, conf, 1, true, true, true, null, null, null, null);
+        cluster = new MiniDFSCluster.Builder(conf).nameNodePort(PORT).numDataNodes(1).build();
         cluster.waitActive();
 
         // Set up the VFS
