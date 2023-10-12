@@ -37,6 +37,7 @@ import org.junit.Assert;
  * File system test cases, which verifies the structure and naming functionality.
  * <p>
  * Works from a base folder, and assumes a particular structure under that base folder.
+ * </p>
  */
 public abstract class AbstractProviderTestCase extends TestCase {
 
@@ -232,28 +233,28 @@ public abstract class AbstractProviderTestCase extends TestCase {
     }
 
     /**
-     * Returns the file system manager used by this test.
+     * Gets the file system manager used by this test.
      */
     protected DefaultFileSystemManager getManager() {
         return manager;
     }
 
     /**
-     * get the provider configuration.
+     * Gets the provider configuration.
      */
     public ProviderTestConfig getProviderConfig() {
         return providerConfig;
     }
 
     /**
-     * Returns the read test folder.
+     * Gets the read test folder.
      */
     protected FileObject getReadFolder() {
         return readFolder;
     }
 
     /**
-     * Returns the capabilities required by the tests of this test case. The tests are not run if the provider being
+     * Gets the capabilities required by the tests of this test case. The tests are not run if the provider being
      * tested does not support all the required capabilities. Return null or an empty array to always run the tests.
      * <p>
      * This implementation returns null.
@@ -263,7 +264,7 @@ public abstract class AbstractProviderTestCase extends TestCase {
     }
 
     /**
-     * Returns the write test folder.
+     * Gets the write test folder.
      */
     protected FileObject getWriteFolder() {
         return writeFolder;
