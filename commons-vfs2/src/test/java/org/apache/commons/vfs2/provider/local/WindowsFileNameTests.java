@@ -35,11 +35,11 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
     public void testWindowsFilenameParserError() {
         // check VFS-338 with 2+4 slashes we want a dedicated error
         try {
-            final String FILE = "file://////";
+            final String file = "file://////";
             final DefaultFileSystemManager manager = getManager();
             Assertions.assertNotNull(manager, "Unexpected null manager for test " + this);
-            final FileObject fo = manager.resolveFile(FILE);
-            fail("Windows File Parser should not allow " + FILE + " " + fo);
+            final FileObject fo = manager.resolveFile(file);
+            fail("Windows File Parser should not allow " + file + " " + fo);
         } catch (FileSystemException ex) {
             assertEquals("Exception code", "vfs.provider/invalid-absolute-uri.error", ex.getCode());
             ex = (FileSystemException) ex.getCause();
@@ -50,11 +50,11 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
     @Test
     public void testWindowsFilenameUNCStartError() {
         try {
-            final String FILE = "file://///";
+            final String file = "file://///";
             final DefaultFileSystemManager manager = getManager();
             Assertions.assertNotNull(manager, "Unexpected null manager for test " + this);
-            final FileObject fo = manager.resolveFile(FILE);
-            fail("Windows File Parser should not allow " + FILE + " " + fo);
+            final FileObject fo = manager.resolveFile(file);
+            fail("Windows File Parser should not allow " + file + " " + fo);
         } catch (FileSystemException ex) {
             assertEquals("Exception code", "vfs.provider/invalid-absolute-uri.error", ex.getCode());
             ex = (FileSystemException) ex.getCause();

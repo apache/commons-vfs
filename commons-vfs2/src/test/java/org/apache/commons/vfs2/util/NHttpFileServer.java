@@ -79,7 +79,7 @@ import org.apache.hc.core5.util.TimeValue;
 /**
  * Embedded HTTP/1.1 file server based on a non-blocking I/O model and capable of direct channel (zero copy) data transfer.
  */
-public class NHttpFileServer {
+public final class NHttpFileServer {
 
     private static class HttpFileHandler implements AsyncServerRequestHandler<Message<HttpRequest, Void>> {
 
@@ -181,7 +181,7 @@ public class NHttpFileServer {
         start(port, docRoot, 0).awaitTermination();
     }
 
-    static final void println(final String msg) {
+    static void println(final String msg) {
         if (DEBUG) {
             System.out.println(HttpDateGenerator.INSTANCE.getCurrentDate() + " | " + msg);
         }
