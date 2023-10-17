@@ -20,10 +20,10 @@ package code;
  * The test class for the VFS classloader.
  */
 public class ClassToLoad {
-    private final String m_message = "**PRIVATE**";
+    private final String message = "**PRIVATE**";
 
     @Override
     public String toString() {
-        return m_message;
+        return message;
     }
 }
