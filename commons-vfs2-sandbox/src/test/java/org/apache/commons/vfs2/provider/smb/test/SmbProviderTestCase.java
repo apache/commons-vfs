@@ -17,14 +17,18 @@
 package org.apache.commons.vfs2.provider.smb.test;
 
 import junit.framework.Test;
+import junit.framework.TestSuite;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
+import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.ProviderTestConfig;
 import org.apache.commons.vfs2.ProviderTestSuite;
+import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.smb.SmbFileProvider;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * Tests for the SMB file system.
@@ -37,7 +41,11 @@ public class SmbProviderTestCase extends AbstractProviderTestConfig implements P
         if (System.getProperty(TEST_URI) != null) {
             return new ProviderTestSuite(new SmbProviderTestCase());
         }
-        return notConfigured(SmbProviderTestCase.class);
+
+        // Cannot run IPv6LocalConnectionTests for smb, because there is no end-to-end test
+        // infrastructure implemented yet
+
+        return new TestSuite(SmbProviderTestCase.class);
     }
 
     /**
@@ -57,4 +65,15 @@ public class SmbProviderTestCase extends AbstractProviderTestConfig implements P
         return manager.resolveFile(uri);
     }
 
+    @org.junit.jupiter.api.Test
+    public void testResolveIPv6Url() throws Exception {
+        final String ipv6Url = "smb://user:pass@[fe80::1c42:dae:8370:aea6%en1]/share";
+
+        final FileObject fileObject = VFS.getManager().resolveFile(ipv6Url, new FileSystemOptions());
+
+        Assertions.assertEquals(
+                "smb://user:pass@[fe80::1c42:dae:8370:aea6%en1]/share/", fileObject.getFileSystem().getRootURI());
+
+        Assertions.assertEquals("smb://user:pass@[fe80::1c42:dae:8370:aea6%en1]/share/", fileObject.getName().getURI());
+    }
 }

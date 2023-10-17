@@ -41,6 +41,7 @@ import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.IPv6LocalConnectionTests;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.temp.TemporaryFileProvider;
@@ -256,6 +257,16 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
             }
 
             @Override
+            protected void addBaseTests() throws Exception {
+                super.addBaseTests();
+                addTests(Webdav4ProviderTestCase.class);
+
+                if (getSystemTestUriOverride() == null) {
+                    addTests(IPv6LocalConnectionTests.class);
+                }
+            }
+
+            @Override
             protected void tearDown() throws Exception {
                 tearDownClass();
                 super.tearDown();
@@ -326,4 +337,13 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
         manager.addProvider("tmp", new TemporaryFileProvider());
     }
 
+    @org.junit.Test
+    public void testResolveIPv6Url() throws Exception {
+        final String ipv6Url = "webdav4://user:pass@[fe80::1c42:dae:8370:aea6%en1]/file.txt";
+
+        final FileObject fileObject = VFS.getManager().resolveFile(ipv6Url, new FileSystemOptions());
+
+        assertEquals("webdav4://user:pass@[fe80::1c42:dae:8370:aea6%en1]/", fileObject.getFileSystem().getRootURI());
+        assertEquals("webdav4://user:pass@[fe80::1c42:dae:8370:aea6%en1]/file.txt", fileObject.getName().getURI());
+    }
 }
