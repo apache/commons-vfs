@@ -81,7 +81,7 @@ public abstract class BaseFilterTest {
      *
      * @return Path and file name divided by the separator.
      */
-    public static String concatPathAndFilename(final String path, final String fileName, final String separator) {
+    public static String concatPathAndFileName(final String path, final String fileName, final String separator) {
 
         if (fileName == null) {
             throw new IllegalArgumentException("file name cannot be null");
@@ -259,7 +259,7 @@ public abstract class BaseFilterTest {
         final File[] files = listFiles(srcDir, filter);
         for (final File file : files) {
             if (file.isDirectory()) {
-                zipDir(file, filter, concatPathAndFilename(destPath, file.getName(), File.separator), out);
+                zipDir(file, filter, concatPathAndFileName(destPath, file.getName(), File.separator), out);
             } else {
                 zipFile(file, destPath, out);
             }
@@ -298,7 +298,7 @@ public abstract class BaseFilterTest {
 
         final byte[] buf = new byte[1024];
         try (InputStream in = new BufferedInputStream(Files.newInputStream(srcFile.toPath()))) {
-            final ZipEntry zipEntry = new ZipEntry(concatPathAndFilename(destPath, srcFile.getName(), File.separator));
+            final ZipEntry zipEntry = new ZipEntry(concatPathAndFileName(destPath, srcFile.getName(), File.separator));
             zipEntry.setTime(srcFile.lastModified());
             out.putNextEntry(zipEntry);
             int len;

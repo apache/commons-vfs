@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Assertions;
 public class WindowsFileNameTests extends AbstractProviderTestCase {
 
     @Test
-    public void testWindowsFilenameParserError() {
+    public void testWindowsFileNameParserError() {
         // check VFS-338 with 2+4 slashes we want a dedicated error
         try {
             final String file = "file://////";
@@ -48,7 +48,7 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
     }
 
     @Test
-    public void testWindowsFilenameUNCStartError() {
+    public void testWindowsFileNameUNCStartError() {
         try {
             final String file = "file://///";
             final DefaultFileSystemManager manager = getManager();
