@@ -142,14 +142,14 @@ public class MimeFileObject extends AbstractFileObject<MimeFileSystem> implement
                 for (int i = 0; i < multipart.getCount(); i++) {
                     final Part part = multipart.getBodyPart(i);
 
-                    String filename = UriParser.encode(part.getFileName());
-                    if (filename == null) {
-                        filename = MimeFileSystem.NULL_BP_NAME + i;
+                    String fileName = UriParser.encode(part.getFileName());
+                    if (fileName == null) {
+                        fileName = MimeFileSystem.NULL_BP_NAME + i;
                     }
 
                     final MimeFileObject fo = (MimeFileObject) FileObjectUtils
                             .getAbstractFileObject(getFileSystem().resolveFile(getFileSystem().getFileSystemManager()
-                                    .resolveName(getName(), filename, NameScope.CHILD)));
+                                    .resolveName(getName(), fileName, NameScope.CHILD)));
                     fo.setPart(part);
                     vfs.add(fo);
                 }

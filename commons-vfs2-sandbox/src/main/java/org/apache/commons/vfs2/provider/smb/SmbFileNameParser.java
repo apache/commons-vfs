@@ -49,12 +49,12 @@ public class SmbFileNameParser extends URLFileNameParser {
     }
 
     @Override
-    public FileName parseUri(final VfsComponentContext context, final FileName base, final String filename)
+    public FileName parseUri(final VfsComponentContext context, final FileName base, final String fileName)
             throws FileSystemException {
         final StringBuilder name = new StringBuilder();
 
         // Extract the scheme and authority parts
-        final Authority auth = extractToPath(context, filename, name);
+        final Authority auth = extractToPath(context, fileName, name);
 
         // extract domain
         String username = auth.getUserName();
@@ -70,7 +70,7 @@ public class SmbFileNameParser extends URLFileNameParser {
         // Extract the share
         final String share = UriParser.extractFirstElement(name);
         if (share == null || share.isEmpty()) {
-            throw new FileSystemException("vfs.provider.smb/missing-share-name.error", filename);
+            throw new FileSystemException("vfs.provider.smb/missing-share-name.error", fileName);
         }
 
         // Normalise the path. Do this after extracting the share name,

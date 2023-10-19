@@ -97,7 +97,7 @@ public class CustomRamProviderTest {
     /** Create directory structure for {@link #testSpecialName()} and {@link #testSchemePrefix()} */
     private FileObject prepareSpecialFile(final String dirname, final String testFileName) throws FileSystemException
     {
-        // set up a folder containing a filename with special characters:
+        // set up a folder containing a file name with special characters:
         final FileObject dir = manager.resolveFile("ram:" + dirname);
         dir.createFolder();
         // construct the absolute name to make sure the relative name is not miss-interpreted

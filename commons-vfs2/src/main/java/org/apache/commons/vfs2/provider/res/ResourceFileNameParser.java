@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.provider.local.GenericFileNameParser;
 
 /**
- * Slightly modified filename parser for resource URIs.
+ * Slightly modified file name parser for resource URIs.
  */
 public class ResourceFileNameParser extends GenericFileNameParser {
 
