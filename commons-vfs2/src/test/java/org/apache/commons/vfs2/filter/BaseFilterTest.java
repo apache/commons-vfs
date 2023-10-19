@@ -75,7 +75,7 @@ public abstract class BaseFilterTest {
      * values into account.
      *
      * @param path      Path - Can be {@code null} or an empty string.
-     * @param fileName  Filename - Cannot be {@code null}.
+     * @param fileName  File name - Cannot be {@code null}.
      * @param separator Separator for directories - Can be {@code null} or an
      *                  empty string.
      *
@@ -103,11 +103,11 @@ public abstract class BaseFilterTest {
         if (trimmedPath.isEmpty()) {
             return fileName;
         }
-        final String trimmedFilename = fileName.trim();
+        final String trimmedFileName = fileName.trim();
         if (trimmedPath.endsWith(separator)) {
-            return trimmedPath + trimmedFilename;
+            return trimmedPath + trimmedFileName;
         }
-        return trimmedPath + separator + trimmedFilename;
+        return trimmedPath + separator + trimmedFileName;
     }
 
     /**

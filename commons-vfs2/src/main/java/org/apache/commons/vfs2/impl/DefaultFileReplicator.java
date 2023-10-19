@@ -143,8 +143,8 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
 
         // imario@apache.org: BUG34976 get rid of maybe reserved and dangerous characters
         // e.g. to allow replication of http://hostname.org/fileservlet?file=abc.txt
-        final String safeBasename = UriParser.encode(baseName, TMP_RESERVED_CHARS).replace('%', '_');
-        return "tmp_" + getFilecount() + "_" + safeBasename;
+        final String safeBaseName = UriParser.encode(baseName, TMP_RESERVED_CHARS).replace('%', '_');
+        return "tmp_" + getFilecount() + "_" + safeBaseName;
     }
 
     /**

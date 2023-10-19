@@ -55,7 +55,7 @@ public class FtpProviderUserDirTestCase extends FtpProviderTestCase {
         FileUtils.deleteDirectory(rootDir);
         // noinspection ResultOfMethodCallIgnored
         rootDir.mkdir();
-        FileUtils.copyDirectory(testDir, initialDir, pathname -> !pathname.getPath().contains(rootDir.getName()));
+        FileUtils.copyDirectory(testDir, initialDir, pathName -> !pathName.getPath().contains(rootDir.getName()));
 
         return new NativeFileSystemFactory() {
             @Override

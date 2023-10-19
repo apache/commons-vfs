@@ -38,8 +38,8 @@ public class GenericFileNameParser extends LocalFileNameParser {
     }
 
     /*
-     * ... this is why need this: here the rootFilename can only be "/" (see above) put this "/" is also in the
-     * pathname so its of no value for the LocalFileName instance
+     * ... this is why need this: here the rootFileName can only be "/" (see above) put this "/" is also in the
+     * path name so its of no value for the LocalFileName instance
      */
     @Override
     protected FileName createFileName(final String scheme, final String rootFile, final String path,

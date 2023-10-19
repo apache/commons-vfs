@@ -32,7 +32,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
     private static final Log LOG = LogFactory.getLog(StaticUserAuthenticator.class);
 
     /** The user name */
-    private final String username;
+    private final String userName;
 
     /** The password */
     private final String password;
@@ -44,11 +44,11 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
      * Constructs a new instance.
      *
      * @param domain The user domain.
-     * @param username The user name.
+     * @param userName The user name.
      * @param password The user password.
      */
-    public StaticUserAuthenticator(final String domain, final String username, final String password) {
-        this.username = username;
+    public StaticUserAuthenticator(final String domain, final String userName, final String password) {
+        this.userName = userName;
         this.password = password;
         this.domain = domain;
     }
@@ -76,7 +76,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
     @Override
     public int compareTo(final StaticUserAuthenticator other) {
         int result = compareStringOrNull(domain, other.domain);
-        result = result == 0 ? compareStringOrNull(username, other.username) : result;
+        result = result == 0 ? compareStringOrNull(userName, other.userName) : result;
         result = result == 0 ? compareStringOrNull(password, other.password) : result;
 
         return result;
@@ -102,7 +102,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
         }
 
         final StaticUserAuthenticator other = (StaticUserAuthenticator) obj;
-        return Objects.equals(domain, other.domain) && Objects.equals(username, other.username)
+        return Objects.equals(domain, other.domain) && Objects.equals(userName, other.userName)
             && Objects.equals(password, other.password);
     }
 
@@ -117,7 +117,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
         int result = 1;
         result = prime * result + (domain == null ? 0 : domain.hashCode());
         result = prime * result + (password == null ? 0 : password.hashCode());
-        result = prime * result + (username == null ? 0 : username.hashCode());
+        result = prime * result + (userName == null ? 0 : userName.hashCode());
 
         return result;
     }
@@ -129,7 +129,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
             if (type == UserAuthenticationData.DOMAIN) {
                 data.setData(UserAuthenticationData.DOMAIN, UserAuthenticatorUtils.toChar(domain));
             } else if (type == UserAuthenticationData.USERNAME) {
-                data.setData(UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(username));
+                data.setData(UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(userName));
             } else if (type == UserAuthenticationData.PASSWORD) {
                 data.setData(UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(password));
             } else if (LOG.isDebugEnabled()) {
@@ -152,8 +152,8 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
         if (domain != null) {
             buffer.append(domain).append('\\');
         }
-        if (username != null) {
-            buffer.append(username);
+        if (userName != null) {
+            buffer.append(userName);
         } else {
             buffer.append("(null)");
         }
