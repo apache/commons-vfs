@@ -80,12 +80,12 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
     @Override
     public File allocateFile(final String baseName) throws FileSystemException {
         // Create a unique-ish file name
-        final String basename = createFilename(baseName);
+        final String actualBaseName = createFilename(baseName);
         synchronized (this) {
             filecount++;
         }
 
-        return createAndAddFile(tempDir, basename);
+        return createAndAddFile(tempDir, actualBaseName);
     }
 
     /**
@@ -110,8 +110,8 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
         }
     }
 
-    protected File createAndAddFile(final File parent, final String basename) throws FileSystemException {
-        final File file = createFile(tempDir, basename);
+    protected File createAndAddFile(final File parent, final String baseName) throws FileSystemException {
+        final File file = createFile(tempDir, baseName);
 
         // Keep track to delete later
         addFile(file);
@@ -221,8 +221,8 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
      */
     @Override
     public File replicateFile(final FileObject srcFile, final FileSelector selector) throws FileSystemException {
-        final String basename = srcFile.getName().getBaseName();
-        final File file = allocateFile(basename);
+        final String baseName = srcFile.getName().getBaseName();
+        final File file = allocateFile(baseName);
 
         // Copy from the source file
         final FileObject destFile = getContext().toFileObject(file);

@@ -24,15 +24,15 @@ import org.junit.Test;
 public class ProviderDeleteTests extends AbstractProviderTestCase {
 
     private static class FileNameSelector implements FileSelector {
-        final String basename;
+        final String baseName;
 
-        private FileNameSelector(final String basename) {
-            this.basename = basename;
+        private FileNameSelector(final String baseName) {
+            this.baseName = baseName;
         }
 
         @Override
         public boolean includeFile(final FileSelectInfo fileInfo) throws Exception {
-            return this.basename.equals(fileInfo.getFile().getName().getBaseName());
+            return this.baseName.equals(fileInfo.getFile().getName().getBaseName());
         }
 
         @Override
