@@ -577,9 +577,11 @@
       </dependency>
       <!-- Testing -->
       <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter</artifactId>
-        <scope>test</scope>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <type>pom</type>
+        <scope>import</scope>
+        <version>${commons.junit.version}</version>
       </dependency>
       <dependency>
         <groupId>org.mockito</groupId>

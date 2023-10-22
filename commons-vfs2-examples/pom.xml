@@ -79,6 +79,19 @@
     </resources>
   </build>
 
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>com.github.siom79.japicmp</groupId>
+        <artifactId>japicmp-maven-plugin</artifactId>
+        <!-- Does not obey japicmp.skip -->
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+	</plugins>
+  </reporting>
+
   <profiles>
 
     <profile>
