@@ -16,9 +16,6 @@
  */
 package org.apache.commons.vfs2.provider.smb.test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -29,6 +26,9 @@ import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.smb.SmbFileProvider;
 import org.junit.jupiter.api.Assertions;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * Tests for the SMB file system.
