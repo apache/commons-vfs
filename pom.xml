@@ -41,6 +41,7 @@
     <module>commons-vfs2-jackrabbit2</module>
     <module>commons-vfs2-examples</module>
     <module>commons-vfs2-distribution</module>
+    <module>commons-vfs2-bom</module>
   </modules>
   <!-- commons-vfs2-sandbox is in profile include-sandbox -->
 
