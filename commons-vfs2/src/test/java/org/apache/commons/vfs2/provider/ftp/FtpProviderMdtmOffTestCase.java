@@ -16,13 +16,13 @@
  */
 package org.apache.commons.vfs2.provider.ftp;
 
-import junit.framework.Test;
-
 import org.apache.ftpserver.command.CommandFactory;
 import org.apache.ftpserver.command.CommandFactoryFactory;
 import org.apache.ftpserver.ftplet.FtpReply;
 import org.apache.ftpserver.impl.FtpReplyTranslator;
 import org.apache.ftpserver.impl.LocalizedFtpReply;
+
+import junit.framework.Test;
 
 public class FtpProviderMdtmOffTestCase extends FtpProviderTestCase {
 

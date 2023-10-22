@@ -25,13 +25,13 @@ import java.lang.reflect.Method;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
 import org.junit.Assert;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
 
 /**
  * File system test cases, which verifies the structure and naming functionality.

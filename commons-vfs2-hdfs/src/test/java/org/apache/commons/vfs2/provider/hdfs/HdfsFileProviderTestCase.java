@@ -22,8 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-import junit.framework.Test;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.lang3.SystemUtils;
@@ -44,6 +42,8 @@ import org.junit.Assume;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.junit.jupiter.api.condition.OS;
+
+import junit.framework.Test;
 
 /**
  * This test class uses the Hadoop MiniDFSCluster class to create an embedded Hadoop cluster.

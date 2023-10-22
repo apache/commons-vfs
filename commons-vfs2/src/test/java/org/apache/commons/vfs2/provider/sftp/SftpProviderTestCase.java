@@ -16,9 +16,9 @@
  */
 package org.apache.commons.vfs2.provider.sftp;
 
-import junit.framework.Test;
-
 import org.apache.commons.vfs2.PermissionsTests;
+
+import junit.framework.Test;
 
 public class SftpProviderTestCase extends AbstractSftpProviderTestCase {
 
