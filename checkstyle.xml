@@ -77,6 +77,10 @@
   <!--<module name="SuppressionFilter">
     <property name="file" value="conf/checkstyle-suppressions.xml"/>
     </module> -->
+  <module name="RegexpSingleline">
+    <property name="format" value="\s+$"/>
+    <property name="message" value="Line has trailing spaces."/>
+  </module>
 
   <module name="TreeWalker">
 
