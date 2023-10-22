@@ -95,10 +95,10 @@ public class CustomRamProviderTest {
     }
 
     /** Create directory structure for {@link #testSpecialName()} and {@link #testSchemePrefix()} */
-    private FileObject prepareSpecialFile(final String dirname, final String testFileName) throws FileSystemException
+    private FileObject prepareSpecialFile(final String dirName, final String testFileName) throws FileSystemException
     {
-        // set up a folder containing a filename with special characters:
-        final FileObject dir = manager.resolveFile("ram:" + dirname);
+        // set up a folder containing a file name with special characters:
+        final FileObject dir = manager.resolveFile("ram:" + dirName);
         dir.createFolder();
         // construct the absolute name to make sure the relative name is not miss-interpreted
         // ("./" + UriParser.encode(testFileName, ENC) would also work)
@@ -238,8 +238,7 @@ public class CustomRamProviderTest {
     }
 
     /**
-     *
-     * Checks root folder exists
+     * Checks root folder exists.
      *
      * @throws FileSystemException
      */
@@ -262,6 +261,7 @@ public class CustomRamProviderTest {
      * <p>
      * This test is not RamProvider specific but it uses it as a simple test-bed.
      * Verifies VFS-741.
+     * </p>
      */
     @Test
     public void testSchemePrefix() throws FileSystemException

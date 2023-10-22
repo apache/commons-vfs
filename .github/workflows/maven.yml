@@ -28,22 +28,22 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        java: [ 8, 11, 17 ]
+        java: [ 8, 11, 17, 21 ]
         experimental: [false]
 #        include:
-#          - java: 18-ea
+#          - java: 22-ea
 #            os: ubuntu-latest
 #            experimental: true
-#          - java: 18-ea
+#          - java: 22-ea
 #            os: windows-latest
 #            experimental: true
-#          - java: 18-ea
+#          - java: 22-ea
 #            os: macos-latest
 #            experimental: true
       fail-fast: false
 
     steps:
-    - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+    - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       with:
         persist-credentials: false
     - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
@@ -58,4 +58,4 @@ jobs:
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - name: Build with Maven
-      run: mvn -V --file pom.xml --no-transfer-progress -DtrimStackTrace=false '-Djdk.tls.client.protocols=TLSv1.2'
+      run: mvn --show-version --batch-mode --no-transfer-progress -DtrimStackTrace=false '-Djdk.tls.client.protocols=TLSv1.2'

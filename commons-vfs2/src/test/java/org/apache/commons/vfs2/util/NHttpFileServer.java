@@ -79,7 +79,7 @@ import org.apache.hc.core5.util.TimeValue;
 /**
  * Embedded HTTP/1.1 file server based on a non-blocking I/O model and capable of direct channel (zero copy) data transfer.
  */
-public class NHttpFileServer {
+public final class NHttpFileServer {
 
     private static class HttpFileHandler implements AsyncServerRequestHandler<Message<HttpRequest, Void>> {
 
@@ -126,15 +126,15 @@ public class NHttpFileServer {
             } else {
 
                 ContentType contentType;
-                final String filename = file.getName().toLowerCase(Locale.ROOT);
+                final String fileName = file.getName().toLowerCase(Locale.ROOT);
 // The following causes a failure on Linux and macOS in HttpProviderTestCase:
 // org.apache.commons.vfs2.FileSystemException: GET method failed for "http://localhost:37637/read-tests/file1.txt" range "10" with HTTP status 200.
 //                at org.apache.commons.vfs2.provider.http.HttpRandomAccessContent.getDataInputStream(HttpRandomAccessContent.java:80)
-//                if (filename.endsWith(".txt")) {
+//                if (fileName.endsWith(".txt")) {
 //                    contentType = ContentType.TEXT_PLAIN;
-//                } else if (filename.endsWith(".html") || filename.endsWith(".htm") || file.isDirectory()) {
+//                } else if (fileName.endsWith(".html") || fileName.endsWith(".htm") || file.isDirectory()) {
 //                    contentType = ContentType.TEXT_HTML;
-//                } else if (filename.endsWith(".xml")) {
+//                } else if (fileName.endsWith(".xml")) {
 //                    contentType = ContentType.TEXT_XML;
 //                } else {
 //                    contentType = ContentType.DEFAULT_BINARY;
@@ -165,20 +165,7 @@ public class NHttpFileServer {
 
     }
 
-    public static boolean DEBUG = Boolean.getBoolean(NHttpFileServer.class.getSimpleName() + ".debug");
-
-    private final File docRoot;
-
-    private ListenerEndpoint listenerEndpoint;
-
-    private final int port;
-
-    private HttpAsyncServer server;
-
-    private NHttpFileServer(final int port, final File docRoot) {
-        this.port = port;
-        this.docRoot = docRoot;
-    }
+    public static final boolean DEBUG = Boolean.getBoolean(NHttpFileServer.class.getSimpleName() + ".debug");
 
     public static void main(final String[] args) throws Exception {
         if (args.length < 1) {
@@ -194,7 +181,7 @@ public class NHttpFileServer {
         start(port, docRoot, 0).awaitTermination();
     }
 
-    static final void println(final String msg) {
+    static void println(final String msg) {
         if (DEBUG) {
             System.out.println(HttpDateGenerator.INSTANCE.getCurrentDate() + " | " + msg);
         }
@@ -203,6 +190,19 @@ public class NHttpFileServer {
     public static NHttpFileServer start(final int port, final File docRoot, final long waitMillis) throws KeyManagementException, UnrecoverableKeyException,
             NoSuchAlgorithmException, KeyStoreException, CertificateException, IOException, InterruptedException, ExecutionException {
         return new NHttpFileServer(port, docRoot).start();
+    }
+
+    private final File docRoot;
+
+    private ListenerEndpoint listenerEndpoint;
+
+    private final int port;
+
+    private HttpAsyncServer server;
+
+    private NHttpFileServer(final int port, final File docRoot) {
+        this.port = port;
+        this.docRoot = docRoot;
     }
 
     private void awaitTermination() throws InterruptedException {

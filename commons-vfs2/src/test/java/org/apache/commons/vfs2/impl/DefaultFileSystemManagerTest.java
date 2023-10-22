@@ -16,10 +16,25 @@
  */
 package org.apache.commons.vfs2.impl;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.io.File;
 import java.nio.file.Paths;
 
-import org.apache.commons.vfs2.*;
+import org.apache.commons.vfs2.CacheStrategy;
+import org.apache.commons.vfs2.FileName;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileSystemManager;
+import org.apache.commons.vfs2.FileType;
+import org.apache.commons.vfs2.FilesCache;
+import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.cache.NullFilesCache;
 import org.apache.commons.vfs2.provider.GenericURLFileName;
 import org.apache.commons.vfs2.provider.bzip2.Bzip2FileObject;
@@ -31,29 +46,12 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * Tests {@link DefaultFileSystemManager}.
  *
  * @since 2.5.0
  */
 public class DefaultFileSystemManagerTest {
-
-    /**
-     * Tests {@link DefaultFileSystemManager#close()}.
-     *
-     * @throws FileSystemException
-     */
-    @Test
-    public void test_close() throws FileSystemException {
-        try (FileSystemManager fileSystemManager = new DefaultFileSystemManager()) {
-            VFS.setManager(fileSystemManager);
-            VFS.setManager(null);
-        }
-        assertNotNull(VFS.getManager());
-        assertFalse(VFS.getManager().resolveFile(Paths.get("DoesNotExist.not").toUri()).exists());
-    }
 
     @Test
     public void testAddAndRemoveProvider() throws FileSystemException {
@@ -76,6 +74,21 @@ public class DefaultFileSystemManagerTest {
             Mockito.verify(provider).close();
             assertThrows(FileSystemException.class, () -> fileSystemManager.resolveFile("ram2:///"));
         }
+    }
+
+    /**
+     * Tests {@link DefaultFileSystemManager#close()}.
+     *
+     * @throws FileSystemException
+     */
+    @Test
+    public void testClose() throws FileSystemException {
+        try (FileSystemManager fileSystemManager = new DefaultFileSystemManager()) {
+            VFS.setManager(fileSystemManager);
+            VFS.setManager(null);
+        }
+        assertNotNull(VFS.getManager());
+        assertFalse(VFS.getManager().resolveFile(Paths.get("DoesNotExist.not").toUri()).exists());
     }
 
     @Test
@@ -111,8 +124,7 @@ public class DefaultFileSystemManagerTest {
     public void testFileCacheEmptyAfterManagerClose() throws FileSystemException {
         final FileSystemManager manager = VFS.getManager();
         assertNotNull(manager);
-        try (FileObject fileObject = manager
-                .resolveFile(Paths.get("src/test/resources/test-data/read-tests/file1.txt").toUri())) {
+        try (FileObject fileObject = manager.resolveFile(Paths.get("src/test/resources/test-data/read-tests/file1.txt").toUri())) {
             assertTrue(fileObject.exists());
             final FilesCache filesCache = manager.getFilesCache();
             final FileName name = fileObject.getName();
@@ -131,8 +143,7 @@ public class DefaultFileSystemManagerTest {
     public void testFileCacheEmptyAfterVFSClose() throws FileSystemException {
         final FileSystemManager manager = VFS.getManager();
         assertNotNull(manager);
-        try (FileObject fileObject = manager
-                .resolveFile(Paths.get("src/test/resources/test-data/read-tests/file1.txt").toUri())) {
+        try (FileObject fileObject = manager.resolveFile(Paths.get("src/test/resources/test-data/read-tests/file1.txt").toUri())) {
             assertTrue(fileObject.exists());
             final FilesCache filesCache = manager.getFilesCache();
             final FileName name = fileObject.getName();
@@ -145,8 +156,7 @@ public class DefaultFileSystemManagerTest {
     }
 
     /**
-     * Even if the file name is absolute, the base file must be given. This is an inconsistency in the API, but it is
-     * documented as such.
+     * Even if the file name is absolute, the base file must be given. This is an inconsistency in the API, but it is documented as such.
      *
      * @see "VFS-519"
      */
@@ -167,49 +177,51 @@ public class DefaultFileSystemManagerTest {
     }
 
     /**
-     * If the path ends with one of '/' or '.' or '..' or anyPath/..' or 'anyPath/.' ,
-     * the resulting FileName should be of FileType.FOLDER, else of FileType.FILE.
+     * If the path ends with one of '/' or '.' or '..' or anyPath/..' or 'anyPath/.' , the resulting FileName should be of FileType.FOLDER, else of
+     * FileType.FILE.
      */
     @Test
     public void testResolveFileNameType() {
         try (DefaultFileSystemManager fileSystemManager = new DefaultFileSystemManager()) {
-            FileName baseNameFolder = new GenericURLFileName(
-                    "sftp"
-                    ,"localhost"
-                    ,22
-                    ,22
-                    ,"user"
-                    ,"password"
-                    ,"basePath"
-                    , FileType.FOLDER
-                    ,"query=test");
+            // @formatter:off
+            final FileName baseNameFolder = new GenericURLFileName(
+                    "sftp",
+                    "localhost",
+                    22,
+                    22,
+                    "user",
+                    "password",
+                    "basePath",
+                     FileType.FOLDER,
+                    "query=test");
+            // @formatter:on
 
-            assertEquals(FileType.FOLDER,fileSystemManager.resolveName(baseNameFolder, "").getType());
-            assertEquals(FileType.FOLDER,fileSystemManager.resolveName(baseNameFolder, "/").getType());
-            assertEquals(FileType.FOLDER,fileSystemManager.resolveName(baseNameFolder, ".").getType());
-            assertEquals(FileType.FOLDER,fileSystemManager.resolveName(baseNameFolder, "..").getType());
-            assertEquals(FileType.FOLDER,fileSystemManager.resolveName(baseNameFolder, "./").getType());
-            assertEquals(FileType.FOLDER,fileSystemManager.resolveName(baseNameFolder, "../").getType());
-            assertEquals(FileType.FOLDER,fileSystemManager.resolveName(baseNameFolder, "./Sub Folder/").getType());
-            assertEquals(FileType.FOLDER,fileSystemManager.resolveName(baseNameFolder, "../Descendant Folder/").getType());
-            assertEquals(FileType.FOLDER,fileSystemManager.resolveName(baseNameFolder, "./Sub Folder/.").getType());
-            assertEquals(FileType.FOLDER,fileSystemManager.resolveName(baseNameFolder, "../Descendant Folder/..").getType());
-            assertEquals(FileType.FOLDER,fileSystemManager.resolveName(baseNameFolder, "./Sub Folder/./").getType());
-            assertEquals(FileType.FOLDER,fileSystemManager.resolveName(baseNameFolder, "../Descendant Folder/../").getType());
+            assertEquals(FileType.FOLDER, fileSystemManager.resolveName(baseNameFolder, "").getType());
+            assertEquals(FileType.FOLDER, fileSystemManager.resolveName(baseNameFolder, "/").getType());
+            assertEquals(FileType.FOLDER, fileSystemManager.resolveName(baseNameFolder, ".").getType());
+            assertEquals(FileType.FOLDER, fileSystemManager.resolveName(baseNameFolder, "..").getType());
+            assertEquals(FileType.FOLDER, fileSystemManager.resolveName(baseNameFolder, "./").getType());
+            assertEquals(FileType.FOLDER, fileSystemManager.resolveName(baseNameFolder, "../").getType());
+            assertEquals(FileType.FOLDER, fileSystemManager.resolveName(baseNameFolder, "./Sub Folder/").getType());
+            assertEquals(FileType.FOLDER, fileSystemManager.resolveName(baseNameFolder, "../Descendant Folder/").getType());
+            assertEquals(FileType.FOLDER, fileSystemManager.resolveName(baseNameFolder, "./Sub Folder/.").getType());
+            assertEquals(FileType.FOLDER, fileSystemManager.resolveName(baseNameFolder, "../Descendant Folder/..").getType());
+            assertEquals(FileType.FOLDER, fileSystemManager.resolveName(baseNameFolder, "./Sub Folder/./").getType());
+            assertEquals(FileType.FOLDER, fileSystemManager.resolveName(baseNameFolder, "../Descendant Folder/../").getType());
 
-            assertEquals(FileType.FILE,fileSystemManager.resolveName(baseNameFolder, "File.txt").getType());
-            assertEquals(FileType.FILE,fileSystemManager.resolveName(baseNameFolder, "/File.txt").getType());
-            assertEquals(FileType.FILE,fileSystemManager.resolveName(baseNameFolder, "./File.txt").getType());
-            assertEquals(FileType.FILE,fileSystemManager.resolveName(baseNameFolder, "../File.txt").getType());
-            assertEquals(FileType.FILE,fileSystemManager.resolveName(baseNameFolder, "./Sub Folder/File.txt").getType());
-            assertEquals(FileType.FILE,fileSystemManager.resolveName(baseNameFolder, "../Descendant Folder/File.txt").getType());
-            assertEquals(FileType.FILE,fileSystemManager.resolveName(baseNameFolder, "./Sub Folder/./File.txt").getType());
-            assertEquals(FileType.FILE,fileSystemManager.resolveName(baseNameFolder, "../Descendant Folder/../File.txt").getType());
-            assertEquals(FileType.FILE,fileSystemManager.resolveName(baseNameFolder, "../Descendant Folder/../File.").getType());
-            assertEquals(FileType.FILE,fileSystemManager.resolveName(baseNameFolder, "../Descendant Folder/../File..").getType());
+            assertEquals(FileType.FILE, fileSystemManager.resolveName(baseNameFolder, "File.txt").getType());
+            assertEquals(FileType.FILE, fileSystemManager.resolveName(baseNameFolder, "/File.txt").getType());
+            assertEquals(FileType.FILE, fileSystemManager.resolveName(baseNameFolder, "./File.txt").getType());
+            assertEquals(FileType.FILE, fileSystemManager.resolveName(baseNameFolder, "../File.txt").getType());
+            assertEquals(FileType.FILE, fileSystemManager.resolveName(baseNameFolder, "./Sub Folder/File.txt").getType());
+            assertEquals(FileType.FILE, fileSystemManager.resolveName(baseNameFolder, "../Descendant Folder/File.txt").getType());
+            assertEquals(FileType.FILE, fileSystemManager.resolveName(baseNameFolder, "./Sub Folder/./File.txt").getType());
+            assertEquals(FileType.FILE, fileSystemManager.resolveName(baseNameFolder, "../Descendant Folder/../File.txt").getType());
+            assertEquals(FileType.FILE, fileSystemManager.resolveName(baseNameFolder, "../Descendant Folder/../File.").getType());
+            assertEquals(FileType.FILE, fileSystemManager.resolveName(baseNameFolder, "../Descendant Folder/../File..").getType());
 
-        } catch(FileSystemException fsex){
-            fail(fsex);
+        } catch (FileSystemException e) {
+            fail(e);
         }
     }
 

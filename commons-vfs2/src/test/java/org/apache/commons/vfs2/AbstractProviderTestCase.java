@@ -25,18 +25,19 @@ import java.lang.reflect.Method;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 
+import junit.framework.Test;
+import junit.framework.TestCase;
+
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
 import org.junit.Assert;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-
 /**
  * File system test cases, which verifies the structure and naming functionality.
  * <p>
  * Works from a base folder, and assumes a particular structure under that base folder.
+ * </p>
  */
 public abstract class AbstractProviderTestCase extends TestCase {
 
@@ -44,15 +45,6 @@ public abstract class AbstractProviderTestCase extends TestCase {
     public static final String FILE1_CONTENT = "This is a test file.";
     // Expected contents of test files
     public static final String TEST_FILE_CONTENT = "A test file.";
-    private FileObject baseFolder;
-    private FileObject readFolder;
-    private FileObject writeFolder;
-    private DefaultFileSystemManager manager;
-    private ProviderTestConfig providerConfig;
-
-    private Method method;
-
-    private boolean addEmptyDir;
 
     protected static Test notConfigured(final Class<?> testClass) {
         return warning(testClass + " is not configured for tests, skipping");
@@ -66,6 +58,14 @@ public abstract class AbstractProviderTestCase extends TestCase {
             }
         };
     }
+
+    private boolean addEmptyDir;
+    private FileObject baseFolder;
+    private DefaultFileSystemManager manager;
+    private Method method;
+    private ProviderTestConfig providerConfig;
+    private FileObject readFolder;
+    private FileObject writeFolder;
 
     protected void addEmptyDir(final boolean addEmptyDir) {
         this.addEmptyDir = addEmptyDir;
@@ -233,28 +233,28 @@ public abstract class AbstractProviderTestCase extends TestCase {
     }
 
     /**
-     * Returns the file system manager used by this test.
+     * Gets the file system manager used by this test.
      */
     protected DefaultFileSystemManager getManager() {
         return manager;
     }
 
     /**
-     * get the provider configuration
+     * Gets the provider configuration.
      */
     public ProviderTestConfig getProviderConfig() {
         return providerConfig;
     }
 
     /**
-     * Returns the read test folder.
+     * Gets the read test folder.
      */
     protected FileObject getReadFolder() {
         return readFolder;
     }
 
     /**
-     * Returns the capabilities required by the tests of this test case. The tests are not run if the provider being
+     * Gets the capabilities required by the tests of this test case. The tests are not run if the provider being
      * tested does not support all the required capabilities. Return null or an empty array to always run the tests.
      * <p>
      * This implementation returns null.
@@ -264,7 +264,7 @@ public abstract class AbstractProviderTestCase extends TestCase {
     }
 
     /**
-     * Returns the write test folder.
+     * Gets the write test folder.
      */
     protected FileObject getWriteFolder() {
         return writeFolder;

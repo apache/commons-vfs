@@ -49,7 +49,7 @@ public class ProviderRandomReadWriteTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Writes a file
+     * Writes a file.
      */
     @Test
     public void testRandomWrite() throws Exception {

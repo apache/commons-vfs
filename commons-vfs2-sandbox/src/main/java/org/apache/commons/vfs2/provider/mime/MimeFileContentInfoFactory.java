@@ -16,15 +16,13 @@
  */
 package org.apache.commons.vfs2.provider.mime;
 
-import javax.mail.MessagingException;
-import javax.mail.Part;
-import javax.mail.internet.ContentType;
-
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileContentInfo;
 import org.apache.commons.vfs2.FileContentInfoFactory;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.impl.DefaultFileContentInfo;
+
+import jakarta.mail.MessagingException;
 
 /**
  * Get access to the content info stuff for mime objects.

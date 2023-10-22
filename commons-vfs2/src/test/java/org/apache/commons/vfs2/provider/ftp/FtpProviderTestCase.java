@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 
+import junit.framework.Test;
+
 import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
@@ -40,42 +42,30 @@ import org.apache.ftpserver.usermanager.PropertiesUserManagerFactory;
 import org.apache.ftpserver.usermanager.impl.BaseUser;
 import org.junit.jupiter.api.Assertions;
 
-import junit.framework.Test;
-
 /**
  * Tests for FTP file systems.
  */
 public class FtpProviderTestCase extends AbstractProviderTestConfig {
 
-    private static int SocketPort;
+    private static int socketPort;
 
     /**
      * Use %40 for @ in URLs
      */
-    private static String ConnectionUri;
+    private static String connectionUri;
 
-    private static FtpServer Server;
+    private static FtpServer server;
 
     private static final String TEST_URI = "test.ftp.uri";
 
     private static final String USER_PROPS_RES = "org.apache.ftpserver/users.properties";
 
-    private final boolean mdtmLastModifiedTime;
-
-    public FtpProviderTestCase() {
-        this(false);
-    }
-
-    public FtpProviderTestCase(final boolean mdtmLastModifiedTime) {
-        this.mdtmLastModifiedTime = mdtmLastModifiedTime;
-    }
-
     static String getConnectionUri() {
-        return ConnectionUri;
+        return connectionUri;
     }
 
     static int getSocketPort() {
-        return SocketPort;
+        return socketPort;
     }
 
     private static String getSystemTestUriOverride() {
@@ -92,7 +82,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
      */
     static void setUpClass(final String rootDirectory, final FileSystemFactory fileSystemFactory,
         final CommandFactory commandFactory) throws FtpException {
-        if (Server != null) {
+        if (server != null) {
             return;
         }
         final FtpServerFactory serverFactory = new FtpServerFactory();
@@ -121,10 +111,10 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         serverFactory.addListener("default", factory.createListener());
 
         // start the server
-        Server = serverFactory.createServer();
-        Server.start();
-        SocketPort = ((org.apache.ftpserver.impl.DefaultFtpServer) Server).getListener("default").getPort();
-        ConnectionUri = "ftp://test:test@localhost:" + SocketPort;
+        server = serverFactory.createServer();
+        server.start();
+        socketPort = ((org.apache.ftpserver.impl.DefaultFtpServer) server).getListener("default").getPort();
+        connectionUri = "ftp://test:test@localhost:" + socketPort;
     }
 
     /**
@@ -179,10 +169,20 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
      * Stops the embedded Apache FTP Server (MINA).
      */
     static void tearDownClass() {
-        if (Server != null) {
-            Server.stop();
-            Server = null;
+        if (server != null) {
+            server.stop();
+            server = null;
         }
+    }
+
+    private final boolean mdtmLastModifiedTime;
+
+    public FtpProviderTestCase() {
+        this(false);
+    }
+
+    public FtpProviderTestCase(final boolean mdtmLastModifiedTime) {
+        this.mdtmLastModifiedTime = mdtmLastModifiedTime;
     }
 
     /**
@@ -193,7 +193,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         String uri = getSystemTestUriOverride();
         if (uri == null) {
-            uri = ConnectionUri;
+            uri = connectionUri;
         }
         final FileSystemOptions options = new FileSystemOptions();
         final FtpFileSystemConfigBuilder builder = FtpFileSystemConfigBuilder.getInstance();

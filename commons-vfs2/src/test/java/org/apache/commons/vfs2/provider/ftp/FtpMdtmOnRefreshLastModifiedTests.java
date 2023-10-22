@@ -32,20 +32,6 @@ import org.junit.jupiter.api.Assertions;
 
 public class FtpMdtmOnRefreshLastModifiedTests extends LastModifiedTests {
 
-    /**
-     * Tests {@link FileContent#getLastModifiedTime()} re-calls {@link FtpClient#mdtmInstant(String)} after refresh.
-     */
-    @Test
-    public void testGetLastModifiedFileExactMatchRefresh() throws IOException {
-        final String fileName = "file1.txt";
-        final FileObject readFolder = getReadFolder();
-        final FtpFileObject fileObject = (FtpFileObject) readFolder.resolveFile(fileName);
-
-        returnsCorrectMdtmValue(fileObject);
-        fileObject.refresh();
-        returnsCorrectMdtmValue(fileObject);
-    }
-
     private void returnsCorrectMdtmValue(final FtpFileObject fileObject) throws IOException {
         final String relPath = fileObject.getRelPath();
         final FtpClient ftpClient = spyClient(fileObject);
@@ -66,6 +52,20 @@ public class FtpMdtmOnRefreshLastModifiedTests extends LastModifiedTests {
         final FtpClient ftpClientSpy = spy(fileSystem.getClient());
         fileSystem.putClient(ftpClientSpy);
         return ftpClientSpy;
+    }
+
+    /**
+     * Tests {@link FileContent#getLastModifiedTime()} re-calls {@link FtpClient#mdtmInstant(String)} after refresh.
+     */
+    @Test
+    public void testGetLastModifiedFileExactMatchRefresh() throws IOException {
+        final String fileName = "file1.txt";
+        final FileObject readFolder = getReadFolder();
+        final FtpFileObject fileObject = (FtpFileObject) readFolder.resolveFile(fileName);
+
+        returnsCorrectMdtmValue(fileObject);
+        fileObject.refresh();
+        returnsCorrectMdtmValue(fileObject);
     }
 
 }

@@ -16,14 +16,14 @@
  */
 package org.apache.commons.vfs2.provider.webdav4;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.provider.GenericURLFileName;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests {@link Webdav4FileName}.

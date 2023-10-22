@@ -32,7 +32,7 @@ import org.junit.Test;
 public class TempFileTests extends AbstractProviderTestCase {
 
     /**
-     * https://issues.apache.org/jira/browse/VFS-790
+     * https://issues.apache.org/jira/browse/VFS-790.
      */
     @Test
     public void testLocalFile() throws Exception {

@@ -35,17 +35,17 @@ public class UrlFileNameParserTest {
     }
 
     @Test
-    public void testJira739_scheme_file() throws Exception {
+    public void testJira739SchemeFile() throws Exception {
         testJira739("file:///");
     }
 
     @Test
-    public void testJira739_scheme_maprfs() throws Exception {
+    public void testJira739SchemeMaprfs() throws Exception {
         testJira739("maprfs:///");
     }
 
     @Test
-    public void testJira739_scheme_ram() throws Exception {
+    public void testJira739SchemeRam() throws Exception {
         testJira739("ram:///");
     }
 

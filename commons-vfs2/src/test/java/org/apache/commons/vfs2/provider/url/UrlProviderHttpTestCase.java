@@ -22,6 +22,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import junit.framework.Test;
+
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -29,27 +31,21 @@ import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.util.NHttpFileServer;
 
-import junit.framework.Test;
-
 /**
  * Test cases for HTTP with the default provider.
  */
 public class UrlProviderHttpTestCase extends AbstractProviderTestConfig {
 
-    private static NHttpFileServer Server;
+    private static NHttpFileServer server;
 
-    private static int SocketPort;
+    private static int socketPort;
 
     private static final String TEST_URI = "test.http.uri";
 
     /**
      * Use %40 for @ in URLs
      */
-    private static String ConnectionUri;
-
-    public UrlProviderHttpTestCase() throws IOException {
-        // empty
-    }
+    private static String connectionUri;
 
     private static String getSystemTestUriOverride() {
         return System.getProperty(TEST_URI);
@@ -61,9 +57,9 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig {
      * @throws Exception
      */
     private static void setUpClass() throws Exception {
-        Server = NHttpFileServer.start(0, new File(getTestDirectory()), 5000);
-        SocketPort = Server.getPort();
-        ConnectionUri = "http://localhost:" + SocketPort;
+        server = NHttpFileServer.start(0, new File(getTestDirectory()), 5000);
+        socketPort = server.getPort();
+        connectionUri = "http://localhost:" + socketPort;
     }
 
     public static Test suite() throws Exception {
@@ -89,9 +85,13 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig {
      * @throws InterruptedException
      */
     public static void tearDownClass() throws InterruptedException {
-        if (Server != null) {
-            Server.shutdown(5000, TimeUnit.SECONDS);
+        if (server != null) {
+            server.shutdown(5000, TimeUnit.SECONDS);
         }
+    }
+
+    public UrlProviderHttpTestCase() throws IOException {
+        // empty
     }
 
     /**
@@ -101,7 +101,7 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig {
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         String uri = getSystemTestUriOverride();
         if (uri == null) {
-            uri = ConnectionUri;
+            uri = connectionUri;
         }
         return manager.resolveFile(uri);
     }

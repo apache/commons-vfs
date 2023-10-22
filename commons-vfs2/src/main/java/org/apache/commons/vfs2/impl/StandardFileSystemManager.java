@@ -81,13 +81,13 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
      * Adds a operationProvider from a operationProvider definition.
      */
     private void addOperationProvider(final Element providerDef) throws FileSystemException {
-        final String classname = providerDef.getAttribute("class-name");
+        final String className = providerDef.getAttribute("class-name");
 
         // Attach only to available schemas
         final String[] schemas = getSchemas(providerDef);
         for (final String schema : schemas) {
             if (hasProvider(schema)) {
-                final FileOperationProvider operationProvider = (FileOperationProvider) createInstance(classname);
+                final FileOperationProvider operationProvider = (FileOperationProvider) createInstance(className);
                 addOperationProvider(schema, operationProvider);
             }
         }
@@ -101,13 +101,13 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
      * @throws FileSystemException if an error occurs.
      */
     private void addProvider(final Element providerDef, final boolean isDefault) throws FileSystemException {
-        final String classname = providerDef.getAttribute("class-name");
+        final String className = providerDef.getAttribute("class-name");
 
         // Make sure all required schemes are available
         final String[] requiredSchemes = getRequiredSchemes(providerDef);
         for (final String requiredScheme : requiredSchemes) {
             if (!hasProvider(requiredScheme)) {
-                final String msg = Messages.getString("vfs.impl/skipping-provider-scheme.debug", classname,
+                final String msg = Messages.getString("vfs.impl/skipping-provider-scheme.debug", className,
                         requiredScheme);
                 VfsLog.debug(getLogger(), getLogger(), msg);
                 return;
@@ -118,14 +118,14 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
         final String[] requiredClasses = getRequiredClasses(providerDef);
         for (final String requiredClass : requiredClasses) {
             if (!findClass(requiredClass)) {
-                final String msg = Messages.getString("vfs.impl/skipping-provider.debug", classname, requiredClass);
+                final String msg = Messages.getString("vfs.impl/skipping-provider.debug", className, requiredClass);
                 VfsLog.debug(getLogger(), getLogger(), msg);
                 return;
             }
         }
 
         // Create and register the provider
-        final FileProvider provider = (FileProvider) createInstance(classname);
+        final FileProvider provider = (FileProvider) createInstance(className);
         final String[] schemas = getSchemas(providerDef);
         if (schemas.length > 0) {
             addProvider(schemas, provider);

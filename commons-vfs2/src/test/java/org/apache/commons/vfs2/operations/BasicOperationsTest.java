@@ -42,6 +42,30 @@ import org.junit.jupiter.api.Test;
  */
 public class BasicOperationsTest {
 
+    /**
+     * Base class for different Test Providers. This is also a compile test to ensure interface stability.
+     */
+    static class MyFileOperationProviderBase implements FileOperationProvider {
+        int ops; // bit array to record invocations (poor man's mock)
+
+        @Override
+        public void collectOperations(final Collection<Class<? extends FileOperation>> operationsList,
+                final FileObject file) throws FileSystemException {
+            assertNotNull(operationsList, "collect operationsList");
+            assertNotNull(file, "collect file");
+            ops |= 16;
+        }
+
+        @Override
+        public FileOperation getOperation(final FileObject file, final Class<? extends FileOperation> operationClass)
+                throws FileSystemException {
+            assertNotNull(file, "file object");
+            assertNotNull(operationClass, "operationClass");
+            ops |= 32;
+            return null;
+        }
+    }
+
     /** This FileOperationsProvider is a VfsComponent and records invocations. */
     static class MyFileOperationProviderComp extends MyFileOperationProviderBase implements VfsComponent {
         @Override
@@ -70,30 +94,6 @@ public class BasicOperationsTest {
     /** This FileOperationsProvider is no VfsComponent. */
     static class MyFileOperationProviderNoncomp extends MyFileOperationProviderBase {
         // empty
-    }
-
-    /**
-     * Base class for different Test Providers. This is also a compile test to ensure interface stability.
-     */
-    static class MyFileOperationProviderBase implements FileOperationProvider {
-        int ops; // bit array to record invocations (poor man's mock)
-
-        @Override
-        public void collectOperations(final Collection<Class<? extends FileOperation>> operationsList,
-                final FileObject file) throws FileSystemException {
-            assertNotNull(operationsList, "collect operationsList");
-            assertNotNull(file, "collect file");
-            ops |= 16;
-        }
-
-        @Override
-        public FileOperation getOperation(final FileObject file, final Class<? extends FileOperation> operationClass)
-                throws FileSystemException {
-            assertNotNull(file, "file object");
-            assertNotNull(operationClass, "operationClass");
-            ops |= 32;
-            return null;
-        }
     }
 
     /** FSM to work with, maintained by JUnit Fixture. */

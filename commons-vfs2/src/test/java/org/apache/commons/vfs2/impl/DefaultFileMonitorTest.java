@@ -120,72 +120,6 @@ public class DefaultFileMonitorTest {
         throw new IllegalStateException();
     }
 
-    /**
-     * VFS-299: Handlers are not removed. One instance is {@link DefaultFileMonitor#removeFile(FileObject)}.
-     *
-     * As a result, the file monitor will fire two created events.
-     */
-    @Disabled("VFS-299")
-    @Test
-    public void ignore_testAddRemove() throws Exception {
-        try (FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
-            final CountingListener listener = new CountingListener();
-            try (DefaultFileMonitor monitor = new DefaultFileMonitor(listener)) {
-                monitor.setDelay(DELAY_MILLIS);
-                monitor.addFile(fileObject);
-                monitor.removeFile(fileObject);
-                monitor.addFile(fileObject);
-                monitor.start();
-                writeToFile(testFile);
-                Thread.sleep(DELAY_MILLIS * 3);
-                assertEquals(1, listener.created.get(), "Created event is only fired once");
-            }
-        }
-    }
-
-    /**
-     * VFS-299: Handlers are not removed. There is no API for properly decommissioning a file monitor.
-     *
-     * As a result, listeners of stopped monitors still receive events.
-     */
-    @Disabled("VFS-299")
-    @Test
-    public void ignore_testStartStop() throws Exception {
-        try (FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
-            final CountingListener stoppedListener = new CountingListener();
-            try (DefaultFileMonitor stoppedMonitor = new DefaultFileMonitor(stoppedListener)) {
-                stoppedMonitor.start();
-                stoppedMonitor.addFile(fileObject);
-            }
-
-            // Variant 1: it becomes documented behavior to manually remove all files after stop() such that all
-            // listeners
-            // are removed
-            // This currently does not work, see DefaultFileMonitorTests#testAddRemove above.
-            // stoppedMonitor.removeFile(file);
-
-            // Variant 2: change behavior of stop(), which then removes all handlers.
-            // This would remove the possibility to pause watching files. Resuming watching for the same files via
-            // start();
-            // stop(); start(); would not work.
-
-            // Variant 3: introduce new method DefaultFileMonitor#close which definitely removes all resources held by
-            // DefaultFileMonitor.
-
-            final CountingListener activeListener = new CountingListener();
-            try (DefaultFileMonitor activeMonitor = new DefaultFileMonitor(activeListener)) {
-                activeMonitor.setDelay(DELAY_MILLIS);
-                activeMonitor.addFile(fileObject);
-                activeMonitor.start();
-                writeToFile(testFile);
-                Thread.sleep(DELAY_MILLIS * 10);
-
-                assertEquals(1, activeListener.created.get(), "The listener of the active monitor received one created event");
-                assertEquals(0, stoppedListener.created.get(), "The listener of the stopped monitor received no events");
-            }
-        }
-    }
-
     private void resetStatus() {
         status.clear();
     }
@@ -337,6 +271,72 @@ public class DefaultFileMonitorTest {
                 monitor.addFile(fileObject);
                 writeToFile(testFile);
                 waitFor(Status.CREATED, DELAY_MILLIS * 10, PeekLocation.LAST);
+            }
+        }
+    }
+
+    /**
+     * VFS-299: Handlers are not removed. One instance is {@link DefaultFileMonitor#removeFile(FileObject)}.
+     *
+     * As a result, the file monitor will fire two created events.
+     */
+    @Disabled("VFS-299")
+    @Test
+    public void testIgnoreTestAddRemove() throws Exception {
+        try (FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
+            final CountingListener listener = new CountingListener();
+            try (DefaultFileMonitor monitor = new DefaultFileMonitor(listener)) {
+                monitor.setDelay(DELAY_MILLIS);
+                monitor.addFile(fileObject);
+                monitor.removeFile(fileObject);
+                monitor.addFile(fileObject);
+                monitor.start();
+                writeToFile(testFile);
+                Thread.sleep(DELAY_MILLIS * 3);
+                assertEquals(1, listener.created.get(), "Created event is only fired once");
+            }
+        }
+    }
+
+    /**
+     * VFS-299: Handlers are not removed. There is no API for properly decommissioning a file monitor.
+     *
+     * As a result, listeners of stopped monitors still receive events.
+     */
+    @Disabled("VFS-299")
+    @Test
+    public void testIgnoreTestStartStop() throws Exception {
+        try (FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
+            final CountingListener stoppedListener = new CountingListener();
+            try (DefaultFileMonitor stoppedMonitor = new DefaultFileMonitor(stoppedListener)) {
+                stoppedMonitor.start();
+                stoppedMonitor.addFile(fileObject);
+            }
+
+            // Variant 1: it becomes documented behavior to manually remove all files after stop() such that all
+            // listeners
+            // are removed
+            // This currently does not work, see DefaultFileMonitorTests#testAddRemove above.
+            // stoppedMonitor.removeFile(file);
+
+            // Variant 2: change behavior of stop(), which then removes all handlers.
+            // This would remove the possibility to pause watching files. Resuming watching for the same files via
+            // start();
+            // stop(); start(); would not work.
+
+            // Variant 3: introduce new method DefaultFileMonitor#close which definitely removes all resources held by
+            // DefaultFileMonitor.
+
+            final CountingListener activeListener = new CountingListener();
+            try (DefaultFileMonitor activeMonitor = new DefaultFileMonitor(activeListener)) {
+                activeMonitor.setDelay(DELAY_MILLIS);
+                activeMonitor.addFile(fileObject);
+                activeMonitor.start();
+                writeToFile(testFile);
+                Thread.sleep(DELAY_MILLIS * 10);
+
+                assertEquals(1, activeListener.created.get(), "The listener of the active monitor received one created event");
+                assertEquals(0, stoppedListener.created.get(), "The listener of the stopped monitor received no events");
             }
         }
     }

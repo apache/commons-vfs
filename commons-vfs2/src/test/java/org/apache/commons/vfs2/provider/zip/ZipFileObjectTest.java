@@ -166,7 +166,7 @@ public class ZipFileObjectTest {
     }
 
     /**
-     * Test read file with special name in a ZIP file
+     * Test read file with special name in a ZIP file.
      */
     @Test
     public void testReadSpecialNameFileInZipFile() throws FileSystemException {

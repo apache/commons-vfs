@@ -29,15 +29,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import javax.mail.Address;
-import javax.mail.Header;
-import javax.mail.Message.RecipientType;
-import javax.mail.MessagingException;
-import javax.mail.Part;
-import javax.mail.internet.MimeMessage;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import jakarta.mail.Address;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 
 /**
  * A map which tries to allow access to the various aspects of the mail.

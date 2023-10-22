@@ -80,12 +80,12 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
     @Override
     public File allocateFile(final String baseName) throws FileSystemException {
         // Create a unique-ish file name
-        final String basename = createFilename(baseName);
+        final String actualBaseName = createFilename(baseName);
         synchronized (this) {
             filecount++;
         }
 
-        return createAndAddFile(tempDir, basename);
+        return createAndAddFile(tempDir, actualBaseName);
     }
 
     /**
@@ -110,8 +110,8 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
         }
     }
 
-    protected File createAndAddFile(final File parent, final String basename) throws FileSystemException {
-        final File file = createFile(tempDir, basename);
+    protected File createAndAddFile(final File parent, final String baseName) throws FileSystemException {
+        final File file = createFile(tempDir, baseName);
 
         // Keep track to delete later
         addFile(file);
@@ -143,8 +143,8 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
 
         // imario@apache.org: BUG34976 get rid of maybe reserved and dangerous characters
         // e.g. to allow replication of http://hostname.org/fileservlet?file=abc.txt
-        final String safeBasename = UriParser.encode(baseName, TMP_RESERVED_CHARS).replace('%', '_');
-        return "tmp_" + getFilecount() + "_" + safeBasename;
+        final String safeBaseName = UriParser.encode(baseName, TMP_RESERVED_CHARS).replace('%', '_');
+        return "tmp_" + getFilecount() + "_" + safeBaseName;
     }
 
     /**
@@ -221,8 +221,8 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
      */
     @Override
     public File replicateFile(final FileObject srcFile, final FileSelector selector) throws FileSystemException {
-        final String basename = srcFile.getName().getBaseName();
-        final File file = allocateFile(basename);
+        final String baseName = srcFile.getName().getBaseName();
+        final File file = allocateFile(baseName);
 
         // Copy from the source file
         final FileObject destFile = getContext().toFileObject(file);

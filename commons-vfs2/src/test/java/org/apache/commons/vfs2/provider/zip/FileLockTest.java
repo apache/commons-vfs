@@ -39,7 +39,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests https://issues.apache.org/jira/browse/VFS-291
+ * Tests https://issues.apache.org/jira/browse/VFS-291.
  */
 public class FileLockTest {
 

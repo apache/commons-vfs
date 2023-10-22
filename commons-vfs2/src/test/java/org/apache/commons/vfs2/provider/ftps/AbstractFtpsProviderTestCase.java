@@ -45,8 +45,6 @@ import org.junit.jupiter.api.Assertions;
  */
 abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
 
-    private static final String LISTENER_NAME = "default";
-
     static final class FtpProviderTestSuite extends ProviderTestSuite {
         
         private final boolean implicit;
@@ -78,14 +76,16 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         }
     }
 
-    private static int SocketPort;
+    private static final String LISTENER_NAME = "default";
+
+    private static int socketPort;
 
     /**
      * Use %40 for @ in URLs
      */
-    private static String ConnectionUri;
+    private static String connectionUri;
 
-    private static FtpServer EmbeddedFtpServer;
+    private static FtpServer embeddedFtpServer;
 
     private static final String TEST_URI = "test.ftps.uri";
 
@@ -93,14 +93,12 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
 
     private static final String SERVER_JKS_RES = "org.apache.ftpsserver/ftpserver.jks";
 
-    protected FileSystemOptions fileSystemOptions;
-
     static String getConnectionUri() {
-        return ConnectionUri;
+        return connectionUri;
     }
 
     static int getSocketPort() {
-        return SocketPort;
+        return socketPort;
     }
 
     static String getSystemTestUriOverride() {
@@ -114,11 +112,11 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
      * @throws FtpException
      */
     synchronized static void setUpClass(final boolean implicit) throws FtpException {
-        if (EmbeddedFtpServer != null) {
+        if (embeddedFtpServer != null) {
             return;
         }
         // Let the OS find use an ephemeral port by using 0.
-        SocketPort = 0;
+        socketPort = 0;
         final FtpServerFactory serverFactory = new FtpServerFactory();
         final PropertiesUserManagerFactory propertiesUserManagerFactory = new PropertiesUserManagerFactory();
         final URL userPropsResource = ClassLoader.getSystemClassLoader().getResource(USER_PROPS_RES);
@@ -131,7 +129,7 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         user.setHomeDirectory(getTestDirectory());
         serverFactory.setUserManager(userManager);
         final ListenerFactory listenerFactory = new ListenerFactory();
-        listenerFactory.setPort(SocketPort);
+        listenerFactory.setPort(socketPort);
 
         // define SSL configuration
         final URL serverJksResource = ClassLoader.getSystemClassLoader().getResource(SERVER_JKS_RES);
@@ -153,42 +151,44 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         serverFactory.addListener(LISTENER_NAME, listenerFactory.createListener());
 
         // start the server
-        EmbeddedFtpServer = serverFactory.createServer();
-        EmbeddedFtpServer.start();
+        embeddedFtpServer = serverFactory.createServer();
+        embeddedFtpServer.start();
         Thread.yield();
-        if (EmbeddedFtpServer.isStopped() || EmbeddedFtpServer.isSuspended()) {
+        if (embeddedFtpServer.isStopped() || embeddedFtpServer.isSuspended()) {
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        SocketPort = ((org.apache.ftpserver.impl.DefaultFtpServer) EmbeddedFtpServer).getListener(LISTENER_NAME).getPort();
+        socketPort = ((org.apache.ftpserver.impl.DefaultFtpServer) embeddedFtpServer).getListener(LISTENER_NAME).getPort();
         // System.out.println("Using port " + SocketPort);
-        ConnectionUri = "ftps://test:test@localhost:" + SocketPort;
+        connectionUri = "ftps://test:test@localhost:" + socketPort;
     }
 
     /**
      * Stops the embedded Apache FTP EmbeddedFtpServer (MINA).
      */
     synchronized static void tearDownClass() {
-        if (EmbeddedFtpServer != null) {
-            EmbeddedFtpServer.suspend();
-            EmbeddedFtpServer.stop();
+        if (embeddedFtpServer != null) {
+            embeddedFtpServer.suspend();
+            embeddedFtpServer.stop();
             Thread.yield();
             int count = 10;
-            while (count-- > 0 && !EmbeddedFtpServer.isStopped()) {
+            while (count-- > 0 && !embeddedFtpServer.isStopped()) {
                 final int millis = 200;
-                System.out.println(String.format("Waiting %,d milliseconds for %s to stop", millis, EmbeddedFtpServer));
+                System.out.println(String.format("Waiting %,d milliseconds for %s to stop", millis, embeddedFtpServer));
                 try {
                     Thread.sleep(millis);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-            EmbeddedFtpServer = null;
+            embeddedFtpServer = null;
         }
     }
+
+    protected FileSystemOptions fileSystemOptions;
 
     /**
      * Returns the base folder for tests. You can override the DEFAULT_URI by using the system property name defined by TEST_URI.
@@ -197,7 +197,7 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         String uri = getSystemTestUriOverride();
         if (uri == null) {
-            uri = ConnectionUri;
+            uri = connectionUri;
         }
         return manager.resolveFile(uri, getFileSystemOptions());
     }

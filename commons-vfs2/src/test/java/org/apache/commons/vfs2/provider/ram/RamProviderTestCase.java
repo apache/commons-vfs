@@ -18,6 +18,8 @@ package org.apache.commons.vfs2.provider.ram;
 
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
 
+import junit.framework.Test;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
@@ -27,8 +29,6 @@ import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
 
-import junit.framework.Test;
-
 /**
  * Tests for the RAM file system.
  */
@@ -37,14 +37,14 @@ public class RamProviderTestCase extends AbstractProviderTestConfig {
     /** logger */
     private static final Log log = LogFactory.getLog(RamProviderTestCase.class);
 
-    private boolean inited;
-
     /**
      * Creates the test suite for the ram file system.
      */
     public static Test suite() throws Exception {
         return new ProviderTestSuite(new RamProviderTestCase());
     }
+
+    private boolean inited;
 
     /**
      * Returns the base folder for tests.

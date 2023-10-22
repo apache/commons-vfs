@@ -50,7 +50,7 @@ public class TarFileObjectTest {
     }
 
     /**
-     * Test read file with special name in a tar file
+     * Test read file with special name in a tar file.
      */
     @Test
     public void testReadSpecialNameFileInTarFile() throws FileSystemException {
@@ -59,7 +59,7 @@ public class TarFileObjectTest {
     }
 
     /**
-     * Test read file with special name in a tbz2 file
+     * Test read file with special name in a tbz2 file.
      */
     @Test
     public void testReadSpecialNameFileInTbz2File() throws FileSystemException {
@@ -68,7 +68,7 @@ public class TarFileObjectTest {
     }
 
     /**
-     * Test read file with special name in a tgz file
+     * Test read file with special name in a tgz file.
      */
     @Test
     public void testReadSpecialNameFileInTgzFile() throws FileSystemException {

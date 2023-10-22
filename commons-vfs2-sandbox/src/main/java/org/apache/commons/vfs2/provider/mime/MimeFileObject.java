@@ -24,13 +24,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
-import javax.mail.Header;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.Part;
-import javax.mail.internet.MimeMultipart;
-
 import org.apache.commons.vfs2.FileContentInfoFactory;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -40,6 +33,11 @@ import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.provider.UriParser;
 import org.apache.commons.vfs2.util.FileObjectUtils;
+
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Multipart;
+import jakarta.mail.internet.MimeMultipart;
 
 /**
  * A part of a MIME message.
@@ -144,14 +142,14 @@ public class MimeFileObject extends AbstractFileObject<MimeFileSystem> implement
                 for (int i = 0; i < multipart.getCount(); i++) {
                     final Part part = multipart.getBodyPart(i);
 
-                    String filename = UriParser.encode(part.getFileName());
-                    if (filename == null) {
-                        filename = MimeFileSystem.NULL_BP_NAME + i;
+                    String fileName = UriParser.encode(part.getFileName());
+                    if (fileName == null) {
+                        fileName = MimeFileSystem.NULL_BP_NAME + i;
                     }
 
                     final MimeFileObject fo = (MimeFileObject) FileObjectUtils
                             .getAbstractFileObject(getFileSystem().resolveFile(getFileSystem().getFileSystemManager()
-                                    .resolveName(getName(), filename, NameScope.CHILD)));
+                                    .resolveName(getName(), fileName, NameScope.CHILD)));
                     fo.setPart(part);
                     vfs.add(fo);
                 }

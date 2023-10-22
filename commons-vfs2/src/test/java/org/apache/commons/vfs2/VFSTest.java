@@ -35,7 +35,7 @@ public class VFSTest {
      * @since 2.5.0
      */
     @Test
-    public void test_close() throws FileSystemException {
+    public void testClose() throws FileSystemException {
         try (FileSystemManager fileSystemManager = new StandardFileSystemManager()) {
             VFS.setManager(fileSystemManager);
             VFS.setManager(null);
@@ -45,7 +45,7 @@ public class VFSTest {
     }
 
     @Test
-    public void test_setManager() throws FileSystemException {
+    public void testSetManager() throws FileSystemException {
         final StandardFileSystemManager fileSystemManager = new StandardFileSystemManager();
         VFS.setManager(fileSystemManager);
         assertEquals(fileSystemManager, VFS.getManager());

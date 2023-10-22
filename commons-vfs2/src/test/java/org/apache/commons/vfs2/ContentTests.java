@@ -57,7 +57,7 @@ public class ContentTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Tests attributes
+     * Tests attributes.
      */
     @Test
     public void testAttributes() throws FileSystemException {
@@ -154,7 +154,7 @@ public class ContentTests extends AbstractProviderTestCase {
     }
 
     @Test
-    public void testGetString_Charset() throws Exception {
+    public void testGetStringCharset() throws Exception {
         // Get the test file
         try (FileObject file = getReadFolder().resolveFile("file1.txt")) {
             assertEquals(FileType.FILE, file.getType());
@@ -165,7 +165,7 @@ public class ContentTests extends AbstractProviderTestCase {
     }
 
     @Test
-    public void testGetString_String() throws Exception {
+    public void testGetStringString() throws Exception {
         // Get the test file
         try (FileObject file = getReadFolder().resolveFile("file1.txt")) {
             assertEquals(FileType.FILE, file.getType());
@@ -237,7 +237,7 @@ public class ContentTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Tests parent identity
+     * Tests parent identity.
      */
     @Test
     public void testParent() throws FileSystemException {

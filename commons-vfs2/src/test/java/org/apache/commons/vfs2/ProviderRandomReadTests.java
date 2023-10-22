@@ -35,7 +35,7 @@ public class ProviderRandomReadTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Read a file
+     * Read a file.
      */
     @Test
     public void testRandomRead() throws Exception {

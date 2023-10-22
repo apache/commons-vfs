@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 public class RandomAccessModeTest {
 
     @Test
-    public void test_fromAccessMode() {
+    public void testFromAccessMode() {
         assertEquals(RandomAccessMode.READ, RandomAccessMode.from(AccessMode.READ));
         assertEquals(RandomAccessMode.READ, RandomAccessMode.from(AccessMode.READ, AccessMode.READ));
         assertEquals(RandomAccessMode.READ, RandomAccessMode.from(AccessMode.READ, AccessMode.READ, AccessMode.EXECUTE));
@@ -45,29 +45,29 @@ public class RandomAccessModeTest {
     }
 
     @Test
-    public void test_getModeStringRead() {
+    public void testGetModeStringRead() {
         assertEquals("r", RandomAccessMode.READ.getModeString());
     }
 
     @Test
-    public void test_getModeStringReadWrite() {
+    public void testGetModeStringReadWrite() {
         assertEquals("rw", RandomAccessMode.READWRITE.getModeString());
     }
 
     @Test
-    public void test_testRead() {
+    public void testRead() {
         assertTrue(RandomAccessMode.READ.requestRead());
         assertFalse(RandomAccessMode.READ.requestWrite());
     }
 
     @Test
-    public void test_testReadWrite() {
+    public void testReadWrite() {
         assertTrue(RandomAccessMode.READWRITE.requestRead());
         assertTrue(RandomAccessMode.READWRITE.requestWrite());
     }
 
     @Test
-    public void test_toAccessModes() {
+    public void testToAccessModes() {
         assertArrayEquals(new AccessMode[] {AccessMode.READ}, RandomAccessMode.READ.toAccessModes());
         assertArrayEquals(new AccessMode[] {AccessMode.READ, AccessMode.WRITE}, RandomAccessMode.READWRITE.toAccessModes());
     }

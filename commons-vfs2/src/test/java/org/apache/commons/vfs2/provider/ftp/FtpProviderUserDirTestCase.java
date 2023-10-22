@@ -21,14 +21,14 @@ import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 import java.io.File;
 import java.io.IOException;
 
+import junit.framework.Test;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.ftpserver.filesystem.nativefs.NativeFileSystemFactory;
 import org.apache.ftpserver.ftplet.FileSystemFactory;
 import org.apache.ftpserver.ftplet.FileSystemView;
 import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.ftpserver.ftplet.User;
-
-import junit.framework.Test;
 
 /**
  * Tests for FTP file systems (with homeDirIsRoot=true).
@@ -55,7 +55,7 @@ public class FtpProviderUserDirTestCase extends FtpProviderTestCase {
         FileUtils.deleteDirectory(rootDir);
         // noinspection ResultOfMethodCallIgnored
         rootDir.mkdir();
-        FileUtils.copyDirectory(testDir, initialDir, pathname -> !pathname.getPath().contains(rootDir.getName()));
+        FileUtils.copyDirectory(testDir, initialDir, pathName -> !pathName.getPath().contains(rootDir.getName()));
 
         return new NativeFileSystemFactory() {
             @Override

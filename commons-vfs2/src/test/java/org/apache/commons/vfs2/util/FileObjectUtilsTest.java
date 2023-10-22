@@ -51,7 +51,7 @@ public class FileObjectUtilsTest {
     }
 
     @Test
-    public void testgetContentAsString_Charset() throws IOException {
+    public void testgetContentAsStringCharset() throws IOException {
         assertEquals("This is a test file.",
             FileObjectUtils.getContentAsString(
                 VFS.getManager().toFileObject(new File("src/test/resources/test-data/read-tests/file1.txt")),
@@ -59,7 +59,7 @@ public class FileObjectUtilsTest {
     }
 
     @Test
-    public void testgetContentAsString_CharsetNull() throws IOException {
+    public void testgetContentAsStringCharsetNull() throws IOException {
         assertEquals("This is a test file.",
             FileObjectUtils.getContentAsString(
                 VFS.getManager().toFileObject(new File("src/test/resources/test-data/read-tests/file1.txt")),
@@ -67,13 +67,13 @@ public class FileObjectUtilsTest {
     }
 
     @Test
-    public void testgetContentAsString_String() throws IOException {
+    public void testgetContentAsStringString() throws IOException {
         assertEquals("This is a test file.", FileObjectUtils.getContentAsString(
             VFS.getManager().toFileObject(new File("src/test/resources/test-data/read-tests/file1.txt")), "UTF-8"));
     }
 
     @Test
-    public void testgetContentAsString_StringNull() throws IOException {
+    public void testgetContentAsStringStringNull() throws IOException {
         assertEquals("This is a test file.",
             FileObjectUtils.getContentAsString(
                 VFS.getManager().toFileObject(new File("src/test/resources/test-data/read-tests/file1.txt")),

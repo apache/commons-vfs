@@ -31,7 +31,7 @@ import org.apache.commons.vfs2.provider.http4.Http4FileSystemConfigBuilder;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests VFS-427 NPE on Http4FileObject.getContent().getContentInfo()
+ * Tests VFS-427 NPE on Http4FileObject.getContent().getContentInfo().
  */
 public class Http4sGetContentInfoTest {
 

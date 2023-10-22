@@ -52,7 +52,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 /**
- * For testing purpose, copied from org.apache.jackrabbit.standalone.Main with renaming the classname,
+ * For testing purpose, copied from org.apache.jackrabbit.standalone.Main with renaming the class name,
  * except of the part calling <CODE>Main.class.getProtectionDomain().getCodeSource().getLocation()</CODE>,
  * which reads some files from the jackrabbit-standalone-component.jar file directly.
  */

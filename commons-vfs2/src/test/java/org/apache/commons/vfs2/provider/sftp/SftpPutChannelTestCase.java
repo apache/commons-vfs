@@ -90,7 +90,7 @@ public class SftpPutChannelTestCase extends AbstractSftpProviderTestCase {
     }
 
     /**
-     * Tests SftpFileObject.doGetInputStream return the channel to pool, when there is an exception
+     * Tests SftpFileObject.doGetInputStream return the channel to pool, when there is an exception.
      */
     @Test
     public void testDoGetInputStream() throws Exception {
@@ -103,7 +103,7 @@ public class SftpPutChannelTestCase extends AbstractSftpProviderTestCase {
                     Assertions.fail("file should not be exists");
                 }
             } catch (final FileSystemException e) {
-                final int channelsCount = ((CustomServerSession) Server.getActiveSessions().get(0)).getChannelsCount();
+                final int channelsCount = ((CustomServerSession) server.getActiveSessions().get(0)).getChannelsCount();
                 Assertions.assertTrue(channelsCount < MAX_CHANNELS, "channels count expected less than " + MAX_CHANNELS);
             }
         }

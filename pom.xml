@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>62</version>
+    <version>64</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -241,6 +241,7 @@
             <suppressionsLocation>${vfs.parent.dir}/checkstyle-suppressions.xml</suppressionsLocation>
             <enableRulesSummary>false</enableRulesSummary>
             <propertyExpansion>basedir=${basedir}</propertyExpansion>
+            <!-- <includeTestSourceDirectory>true</includeTestSourceDirectory> -->
           </configuration>
         </plugin>
         <plugin>

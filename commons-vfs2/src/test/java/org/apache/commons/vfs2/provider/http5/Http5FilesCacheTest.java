@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 public class Http5FilesCacheTest {
 
     /**
-     * Tests https://issues.apache.org/jira/browse/VFS-426
+     * Tests https://issues.apache.org/jira/browse/VFS-426.
      */
     @Test
     public void testQueryStringUrls() throws FileSystemException {

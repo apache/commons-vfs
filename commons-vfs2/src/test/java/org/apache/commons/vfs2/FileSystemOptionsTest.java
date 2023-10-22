@@ -57,6 +57,37 @@ public class FileSystemOptionsTest {
         }
     }
 
+    private static void assertSftpOptionsEquals(final File privKey, final File pubKey, final byte[] passphrase) {
+        final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
+
+        final FileSystemOptions expected = new FileSystemOptions();
+        final IdentityInfo info1 = new IdentityInfo(privKey, pubKey, passphrase);
+        builder.setIdentityProvider(expected, info1);
+
+        final FileSystemOptions actual = new FileSystemOptions();
+        final IdentityInfo info2 = new IdentityInfo(privKey, pubKey, passphrase);
+        builder.setIdentityProvider(actual, info2);
+
+        assertEquals(0, expected.compareTo(actual));
+        assertEquals(expected.hashCode(), actual.hashCode());
+    }
+
+    private static void assertSftpOptionsNotEquals(final File privKey1, final File pubKey1, final byte[] passphrase1,
+        File privKey2, File pubKey2, byte[] passphrase2) {
+        final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
+
+        final FileSystemOptions expected = new FileSystemOptions();
+        final IdentityInfo info1 = new IdentityInfo(privKey1, pubKey1, passphrase1);
+        builder.setIdentityProvider(expected, info1);
+
+        final FileSystemOptions actual = new FileSystemOptions();
+        final IdentityInfo info2 = new IdentityInfo(privKey2, pubKey2, passphrase2);
+        builder.setIdentityProvider(actual, info2);
+
+        assertNotEquals(0, expected.compareTo(actual));
+        assertNotEquals(expected.hashCode(), actual.hashCode());
+    }
+
     @Test
     public void testClone() {
         final FileSystemOptions fileSystemOptions = new FileSystemOptions();
@@ -129,36 +160,5 @@ public class FileSystemOptionsTest {
             new File(privKey1), new File(pubKey1), new byte[] {1, 2, 3},
             new File(privKey1), new File(pubKey1), new byte[] {1, 2, 4}
         );
-    }
-
-    private static void assertSftpOptionsEquals(final File privKey, final File pubKey, final byte[] passphrase) {
-        final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
-
-        final FileSystemOptions expected = new FileSystemOptions();
-        final IdentityInfo info1 = new IdentityInfo(privKey, pubKey, passphrase);
-        builder.setIdentityProvider(expected, info1);
-
-        final FileSystemOptions actual = new FileSystemOptions();
-        final IdentityInfo info2 = new IdentityInfo(privKey, pubKey, passphrase);
-        builder.setIdentityProvider(actual, info2);
-
-        assertEquals(0, expected.compareTo(actual));
-        assertEquals(expected.hashCode(), actual.hashCode());
-    }
-
-    private static void assertSftpOptionsNotEquals(final File privKey1, final File pubKey1, final byte[] passphrase1,
-        File privKey2, File pubKey2, byte[] passphrase2) {
-        final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
-
-        final FileSystemOptions expected = new FileSystemOptions();
-        final IdentityInfo info1 = new IdentityInfo(privKey1, pubKey1, passphrase1);
-        builder.setIdentityProvider(expected, info1);
-
-        final FileSystemOptions actual = new FileSystemOptions();
-        final IdentityInfo info2 = new IdentityInfo(privKey2, pubKey2, passphrase2);
-        builder.setIdentityProvider(actual, info2);
-
-        assertNotEquals(0, expected.compareTo(actual));
-        assertNotEquals(expected.hashCode(), actual.hashCode());
     }
 }

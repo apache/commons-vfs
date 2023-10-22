@@ -276,7 +276,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
      */
 
     /**
-     * Tests deletion
+     * Tests deletion.
      */
     @Test
     public void testDelete() throws Exception {
@@ -323,7 +323,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Tests deletion
+     * Tests deletion.
      */
     @Test
     public void testDeleteAllDescendants() throws Exception {
@@ -370,7 +370,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Tests file creation
+     * Tests file creation.
      */
     @Test
     public void testFileCreate() throws Exception {
@@ -716,7 +716,7 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
     }
 
     /**
-     * Tests file write to and from the same file system type
+     * Tests file write to and from the same file system type.
      */
     @Test
     public void testWriteSameFileSystem() throws Exception {
