@@ -257,7 +257,7 @@ public final class NHttpFileServer {
         // @formatter:on
 
         server = bootstrap
-                .setExceptionCallback(e -> e.printStackTrace())
+                .setExceptionCallback(Exception::printStackTrace)
                 .setIOReactorConfig(config)
                 .register("*", new HttpFileHandler(docRoot)).create();
 

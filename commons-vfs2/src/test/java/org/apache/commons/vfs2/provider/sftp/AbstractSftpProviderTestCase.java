@@ -480,7 +480,7 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
      * @throws FtpException
      * @throws IOException
      */
-    private static void setUpClass(final boolean isExecChannelClosed, SessionFactory sessionFactory) throws IOException {
+    private static void setUpClass(final boolean isExecChannelClosed, final SessionFactory sessionFactory) throws IOException {
         if (server != null) {
             return;
         }

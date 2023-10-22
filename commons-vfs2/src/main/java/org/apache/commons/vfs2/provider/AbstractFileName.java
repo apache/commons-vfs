@@ -441,9 +441,8 @@ public abstract class AbstractFileName implements FileName {
                 uri = UriParser.decode(uri);
 
                 return UriParser.encode(uri, RESERVED_URI_CHARS);
-            } catch (final FileSystemException e) {
+            } catch (final FileSystemException ignore) { // NOPMD
                 // Default to base URI value?
-                return uri;
             }
         }
 

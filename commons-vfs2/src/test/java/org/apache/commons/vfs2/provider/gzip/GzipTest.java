@@ -34,7 +34,7 @@ public class GzipTest {
     public void testCreateGzipFileSystem() throws IOException {
         final File gzFile = new File("src/test/resources/test-data/好.txt.gz");
         @SuppressWarnings("resource") // global
-        FileSystemManager manager = VFS.getManager();
+        final FileSystemManager manager = VFS.getManager();
 
         try (FileObject localFileObject = manager.resolveFile(gzFile.getAbsolutePath());
                 FileObject gzFileObjectDir = manager.createFileSystem(localFileObject);

@@ -190,7 +190,7 @@ public class BasicOperationsTest {
             final FileOperations ops = fo.getFileOperations();
             assertNotNull(ops);
 
-            FileSystemException thrown = assertThrows(FileSystemException.class, () -> ops.getOperation(VcsLog.class));
+            final FileSystemException thrown = assertThrows(FileSystemException.class, () -> ops.getOperation(VcsLog.class));
             assertEquals("vfs.operation/operation-not-supported.error", thrown.getCode());
             assertSame(32, myop.ops); // getOperation was called
         }

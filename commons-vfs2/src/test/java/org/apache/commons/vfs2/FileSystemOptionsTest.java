@@ -73,7 +73,7 @@ public class FileSystemOptionsTest {
     }
 
     private static void assertSftpOptionsNotEquals(final File privKey1, final File pubKey1, final byte[] passphrase1,
-        File privKey2, File pubKey2, byte[] passphrase2) {
+        final File privKey2, final File pubKey2, final byte[] passphrase2) {
         final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
 
         final FileSystemOptions expected = new FileSystemOptions();

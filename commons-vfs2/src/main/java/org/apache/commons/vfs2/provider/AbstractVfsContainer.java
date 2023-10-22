@@ -70,7 +70,7 @@ public abstract class AbstractVfsContainer extends AbstractVfsComponent {
         }
 
         // Close all components
-        Stream.of(toclose).filter(component -> component instanceof VfsComponent)
+        Stream.of(toclose).filter(VfsComponent.class::isInstance)
                           .forEach(component -> ((VfsComponent) component).close());
     }
 

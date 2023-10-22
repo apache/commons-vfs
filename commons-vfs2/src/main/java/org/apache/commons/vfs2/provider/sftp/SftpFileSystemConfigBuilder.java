@@ -232,7 +232,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public IdentityInfo[] getIdentityInfo(final FileSystemOptions options) {
         final IdentityProvider[] infos = getIdentityProvider(options);
         if (infos != null) {
-            return Stream.of(infos).filter(info -> info instanceof IdentityInfo).map(info -> (IdentityInfo) info).toArray(IdentityInfo[]::new);
+            return Stream.of(infos).filter(IdentityInfo.class::isInstance).map(info -> (IdentityInfo) info).toArray(IdentityInfo[]::new);
         }
         return null;
     }

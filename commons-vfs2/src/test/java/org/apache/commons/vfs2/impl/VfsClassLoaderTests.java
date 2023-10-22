@@ -51,7 +51,7 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
 
     private class LoadClass implements Runnable {
         private final VFSClassLoader loader;
-        public LoadClass(VFSClassLoader loader) {
+        public LoadClass(final VFSClassLoader loader) {
             this.loader = loader;
         }
 
@@ -242,29 +242,20 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
         final int THREADS = 40;
         final BlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<>(THREADS * 2);
         final List<Throwable> exceptions = new ArrayList<>();
-        final Thread.UncaughtExceptionHandler handler = new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread t, Throwable e) {
-                synchronized (exceptions) {
-                    exceptions.add(e);
-                }
+        final Thread.UncaughtExceptionHandler handler = (t, e) -> {
+            synchronized (exceptions) {
+                exceptions.add(e);
             }
         };
-        final ThreadFactory factory = new ThreadFactory() {
-            @Override
-            public Thread newThread(Runnable r) {
-                Thread thread = new Thread(r, "VfsClassLoaderTests.testThreadSafety");
-                thread.setUncaughtExceptionHandler(handler);
-                return thread;
-            }
+        final ThreadFactory factory = r -> {
+            final Thread thread = new Thread(r, "VfsClassLoaderTests.testThreadSafety");
+            thread.setUncaughtExceptionHandler(handler);
+            return thread;
         };
         final Queue<Runnable> rejections = new LinkedList<>();
-        final RejectedExecutionHandler rejectionHandler = new RejectedExecutionHandler() {
-            @Override
-            public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-                synchronized (rejections) {
-                    rejections.add(r);
-                }
+        final RejectedExecutionHandler rejectionHandler = (r, executor) -> {
+            synchronized (rejections) {
+                rejections.add(r);
             }
         };
         final ThreadPoolExecutor executor = new ThreadPoolExecutor(THREADS, THREADS, 0, TimeUnit.SECONDS, workQueue, factory, rejectionHandler);
@@ -288,10 +279,10 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
         executor.awaitTermination(30, TimeUnit.SECONDS);
         assertEquals(THREADS, executor.getCompletedTaskCount());
         if (!exceptions.isEmpty()) {
-            StringBuilder exceptionMsg = new StringBuilder();
-            StringBuilderWriter writer = new StringBuilderWriter(exceptionMsg);
-            PrintWriter pWriter = new PrintWriter(writer);
-            for (Throwable t : exceptions) {
+            final StringBuilder exceptionMsg = new StringBuilder();
+            final StringBuilderWriter writer = new StringBuilderWriter(exceptionMsg);
+            final PrintWriter pWriter = new PrintWriter(writer);
+            for (final Throwable t : exceptions) {
                 pWriter.write(t.getMessage());
                 pWriter.write('\n');
                 t.printStackTrace(pWriter);

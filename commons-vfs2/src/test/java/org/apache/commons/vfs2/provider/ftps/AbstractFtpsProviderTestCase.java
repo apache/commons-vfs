@@ -46,7 +46,7 @@ import org.junit.jupiter.api.Assertions;
 abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
 
     static final class FtpProviderTestSuite extends ProviderTestSuite {
-        
+
         private final boolean implicit;
 
         public FtpProviderTestSuite(final AbstractFtpsProviderTestCase providerConfig) throws Exception {

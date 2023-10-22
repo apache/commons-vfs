@@ -19,8 +19,6 @@ package org.apache.commons.vfs2;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Iterator;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -83,11 +81,10 @@ public class FileIteratorTest {
             assertEquals(expectedFile, actualFile);
             i++;
         }
-        final Iterator<FileObject> iter = baseFolder.iterator();
         i = 0;
-        while (iter.hasNext()) {
+        for (FileObject element : baseFolder) {
             final FileObject expectedFile = findFiles[i];
-            assertEquals(expectedFile, iter.next());
+            assertEquals(expectedFile, element);
             i++;
         }
     }

@@ -160,7 +160,7 @@ public class ContentTests extends AbstractProviderTestCase {
             assertEquals(FileType.FILE, file.getType());
             assertTrue(file.isFile());
 
-            assertEquals(FILE1_CONTENT, new String(file.getContent().getString(StandardCharsets.UTF_8)));
+            assertEquals(FILE1_CONTENT, file.getContent().getString(StandardCharsets.UTF_8));
         }
     }
 
@@ -171,7 +171,7 @@ public class ContentTests extends AbstractProviderTestCase {
             assertEquals(FileType.FILE, file.getType());
             assertTrue(file.isFile());
 
-            assertEquals(FILE1_CONTENT, new String(file.getContent().getString(StandardCharsets.UTF_8.name())));
+            assertEquals(FILE1_CONTENT, file.getContent().getString(StandardCharsets.UTF_8.name()));
         }
     }
 

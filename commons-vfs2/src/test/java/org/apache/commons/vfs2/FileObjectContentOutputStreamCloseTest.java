@@ -29,7 +29,7 @@ public class FileObjectContentOutputStreamCloseTest {
 
     @Test
     public void test() throws IOException {
-        Path tempFilePath = Files.createTempFile("org.apache.commons.vfs2", ".txt");
+        final Path tempFilePath = Files.createTempFile("org.apache.commons.vfs2", ".txt");
         try (@SuppressWarnings("resource") // VFS.getManager() is a constant.
         FileObject fileObject = VFS.getManager().resolveFile(tempFilePath.toUri());
                 final FileContent content = fileObject.getContent();
