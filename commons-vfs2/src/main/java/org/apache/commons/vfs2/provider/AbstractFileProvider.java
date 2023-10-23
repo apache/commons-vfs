@@ -137,15 +137,21 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
      * Frees unused resources.
      */
     public void freeUnusedResources() {
-        final AbstractFileSystem[] abstractFileSystems;
-        synchronized (fileSystemMap) {
-            // create snapshot under lock
-            abstractFileSystems = fileSystemMap.values().toArray(EMPTY_ABSTRACT_FILE_SYSTEMS);
-        }
-
         // process snapshot outside lock
-        Stream.of(abstractFileSystems).filter(AbstractFileSystem::isReleaseable)
+        Stream.of(getAllFileSystemSnapshot()).filter(AbstractFileSystem::isReleaseable)
                                       .forEach(AbstractFileSystem::closeCommunicationLink);
+    }
+
+    /**
+     * Gets a snapshot of all AbstractFileSystems.
+     *
+     * @return a snapshot of all AbstractFileSystems.
+     * @since 2.10.0
+     */
+    public AbstractFileSystem[] getAllFileSystemSnapshot() {
+        synchronized (fileSystemMap) {
+            return fileSystemMap.values().toArray(EMPTY_ABSTRACT_FILE_SYSTEMS);
+        }
     }
 
     /**

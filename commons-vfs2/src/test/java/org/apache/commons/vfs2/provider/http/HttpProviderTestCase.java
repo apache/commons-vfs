@@ -20,6 +20,7 @@ import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 
 import java.io.File;
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileNotFolderException;
@@ -29,7 +30,11 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.VFS;
+import org.apache.commons.vfs2.cache.WeakRefFilesCache;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs2.impl.StandardFileSystemManager;
+import org.apache.commons.vfs2.provider.AbstractFileSystem;
+import org.apache.commons.vfs2.provider.AbstractFileSystemTestUtil;
 import org.apache.commons.vfs2.util.NHttpFileServer;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -210,6 +215,37 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
     @Test
     public void testResolveFolderSlashYesRedirectOn() throws FileSystemException {
         testResolveFolderSlash(connectionUri + "/read-tests/", true);
+    }
+
+    @Test
+    public void testHttpFileSystemFreeUnusedResources() throws Exception {
+        try (StandardFileSystemManager fileSystemManager = new StandardFileSystemManager()) {
+            fileSystemManager.setConfiguration(StandardFileSystemManager.class.getResource("providers.xml"));
+            // use WeakRef
+            fileSystemManager.setFilesCache(new WeakRefFilesCache());
+            fileSystemManager.init();
+
+            String path = ConnectionUri + "/read-tests/";
+            AbstractFileSystem httpFileSystem = getFile(fileSystemManager, path);
+
+            // make FileSystem.isReleaseable is true through GC will break the build randomly.
+            // It is better to decrease AbstractFileSystem.useCount directly.
+            AbstractFileSystemTestUtil.fileObjectDestroyed(httpFileSystem, null);
+            assertTrue(httpFileSystem.isReleaseable());
+            // free resource
+            // httpFileSystem.httpClient is closed
+            fileSystemManager.freeUnusedResources();
+
+            // get file again
+            getFile(fileSystemManager, path);
+        }
+    }
+
+    private static AbstractFileSystem getFile(FileSystemManager fileSystemManager, String path) throws FileSystemException {
+        FileObject fileObject = fileSystemManager.resolveFile(path);
+        // send
+        fileObject.getType();
+        return (AbstractFileSystem) fileObject.getFileSystem();
     }
 
 }

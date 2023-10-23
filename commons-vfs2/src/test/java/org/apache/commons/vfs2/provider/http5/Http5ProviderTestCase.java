@@ -30,7 +30,11 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.VFS;
+import org.apache.commons.vfs2.cache.WeakRefFilesCache;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs2.impl.StandardFileSystemManager;
+import org.apache.commons.vfs2.provider.AbstractFileSystem;
+import org.apache.commons.vfs2.provider.AbstractFileSystemTestUtil;
 import org.apache.commons.vfs2.util.NHttpFileServer;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -208,6 +212,37 @@ public class Http5ProviderTestCase extends AbstractProviderTestConfig {
     @Test
     public void testResolveFolderSlashYesRedirectOn() throws FileSystemException {
         testResolveFolderSlash(connectionUri + "/read-tests/", true);
+    }
+
+    @Test
+    public void testHttp5FileSystemFreeUnusedResources() throws Exception {
+        try (StandardFileSystemManager fileSystemManager = new StandardFileSystemManager()) {
+            fileSystemManager.setConfiguration(StandardFileSystemManager.class.getResource("providers.xml"));
+            // use WeakRef
+            fileSystemManager.setFilesCache(new WeakRefFilesCache());
+            fileSystemManager.init();
+
+            String path = ConnectionUri + "/read-tests/";
+            AbstractFileSystem http5FileSystem = getFile(fileSystemManager, path);
+
+            // make FileSystem.isReleaseable is true through GC will break the build randomly.
+            // It is better to decrease AbstractFileSystem.useCount directly.
+            AbstractFileSystemTestUtil.fileObjectDestroyed(http5FileSystem, null);
+            assertTrue(http5FileSystem.isReleaseable());
+            // free resource
+            // http5FileSystem.httpClient is closed
+            fileSystemManager.freeUnusedResources();
+
+            // get file again
+            getFile(fileSystemManager, path);
+        }
+    }
+
+    private static AbstractFileSystem getFile(FileSystemManager fileSystemManager, String path) throws FileSystemException {
+        FileObject fileObject = fileSystemManager.resolveFile(path);
+        // send
+        fileObject.getType();
+        return (AbstractFileSystem) fileObject.getFileSystem();
     }
 
 }

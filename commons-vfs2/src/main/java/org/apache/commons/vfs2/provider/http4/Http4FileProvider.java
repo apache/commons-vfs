@@ -43,6 +43,7 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.UserAuthenticator;
+import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs2.provider.GenericFileName;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
@@ -378,4 +379,17 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
         return null;
     }
 
+
+    /**
+     * Frees unused resources and close Http4FileSystem.
+     */
+    @Override
+    public void freeUnusedResources() {
+        // process snapshot outside lock
+        Stream.of(getAllFileSystemSnapshot()).filter(AbstractFileSystem::isReleaseable)
+                .forEach(fileSystem -> {
+                    fileSystem.closeCommunicationLink();
+                    closeFileSystem(fileSystem);
+                });
+    }
 }
