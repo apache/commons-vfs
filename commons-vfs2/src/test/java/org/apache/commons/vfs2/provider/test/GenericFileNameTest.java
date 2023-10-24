@@ -55,6 +55,10 @@ public class GenericFileNameTest {
         // Missing absolute path
         testBadlyFormedUri("ftp://host:90a", "vfs.provider/missing-hostname-path-sep.error");
         testBadlyFormedUri("ftp://host?a", "vfs.provider/missing-hostname-path-sep.error");
+
+        // Improperly accepted malformed uris
+        // testBadlyFormedUri("ftp://host[a/file", "malformed uri");
+        // testBadlyFormedUri("ftp://host]a/file", "malformed uri");
     }
 
     /**
@@ -144,6 +148,40 @@ public class GenericFileNameTest {
         // See also https://issues.apache.org/jira/browse/VFS-810
         assertEquals("ftp://user::%40@hostname/", name.getRootURI());
         assertEquals("ftp://user::%40@hostname/", name.getURI());
+
+        // Hostname with unreserved uri symbols "-", ".", "_", "~"
+        // https://datatracker.ietf.org/doc/html/rfc3986#page-49
+        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://p0~p1_p2-p3.p4/file");
+        assertEquals("ftp", name.getScheme());
+        assertNull(name.getUserName());
+        assertNull(name.getPassword());
+        assertEquals("p0~p1_p2-p3.p4", name.getHostName());
+        assertEquals(21, name.getPort());
+        assertEquals("/file", name.getPath());
+        assertEquals("ftp://p0~p1_p2-p3.p4/", name.getRootURI());
+        assertEquals("ftp://p0~p1_p2-p3.p4/file", name.getURI());
+
+        // Hostname with sub-delim uri symbols that are currently accepted with the hostname parser
+        // https://datatracker.ietf.org/doc/html/rfc3986#page-49
+        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://p0!p1'p2(p3)*p4/file");
+        assertEquals("ftp", name.getScheme());
+        assertNull(name.getUserName());
+        assertNull(name.getPassword());
+        assertEquals("p0!p1'p2(p3)*p4", name.getHostName());
+        assertEquals(21, name.getPort());
+        assertEquals("/file", name.getPath());
+        assertEquals("ftp://p0!p1'p2(p3)*p4/", name.getRootURI());
+        assertEquals("ftp://p0!p1'p2(p3)*p4/file", name.getURI());
+
+        // Hostnames with sub-delim uri symbols that are currently not accepted with the hostname parser
+        // (which looks wrong)
+        // https://datatracker.ietf.org/doc/html/rfc3986#page-49
+        // name = (GenericFileName) urlParser.parseUri(null, null, "ftp://p0$p1/file");
+        // name = (GenericFileName) urlParser.parseUri(null, null, "ftp://p0&p1/file");
+        // name = (GenericFileName) urlParser.parseUri(null, null, "ftp://p0+p1/file");
+        // name = (GenericFileName) urlParser.parseUri(null, null, "ftp://p0,p1/file");
+        // name = (GenericFileName) urlParser.parseUri(null, null, "ftp://p0;p1/file");
+        // name = (GenericFileName) urlParser.parseUri(null, null, "ftp://p0=p1/file");
     }
 
     @Test
