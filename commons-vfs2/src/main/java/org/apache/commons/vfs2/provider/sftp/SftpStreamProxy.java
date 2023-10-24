@@ -94,7 +94,7 @@ public class SftpStreamProxy implements Proxy {
     private final int proxyPort;
 
     /**
-     * Username used to connect to the proxy host.
+     * User name used to connect to the proxy host.
      */
     private final String proxyUser;
 
