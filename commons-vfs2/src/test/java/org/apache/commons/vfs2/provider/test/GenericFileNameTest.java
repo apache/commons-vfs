@@ -56,7 +56,7 @@ public class GenericFileNameTest {
         testBadlyFormedUri("ftp://host:90a", "vfs.provider/missing-hostname-path-sep.error");
         testBadlyFormedUri("ftp://host?a", "vfs.provider/missing-hostname-path-sep.error");
 
-        // Improperly accepted malformed uris
+        // TODO Improperly accepted malformed uris
         // testBadlyFormedUri("ftp://host[a/file", "malformed uri");
         // testBadlyFormedUri("ftp://host]a/file", "malformed uri");
     }
