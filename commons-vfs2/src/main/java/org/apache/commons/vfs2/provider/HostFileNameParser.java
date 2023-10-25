@@ -165,16 +165,24 @@ public class HostFileNameParser extends AbstractFileNameParser {
      */
     protected String extractHostName(final StringBuilder name) {
         final int maxlen = name.length();
+        final boolean isIPv6Host = isIPv6Host(name.toString());
         int pos = 0;
         for (; pos < maxlen; pos++) {
             final char ch = name.charAt(pos);
-            if (ch == '/' || ch == ';' || ch == '?' || ch == ':' || ch == '@' || ch == '&' || ch == '=' || ch == '+'
-                    || ch == '$' || ch == ',') {
+            if (isHostNameTerminatingChar(ch, isIPv6Host)) {
                 break;
             }
         }
         if (pos == 0) {
             return null;
+        }
+
+        if (isIPv6Host && pos < maxlen) {
+            if (pos == 1) {
+                return null; // Returning empty host
+            }
+
+            pos++; // Including terminating ']' into the extracted host string for IPv6 hosts
         }
 
         final String hostname = name.substring(0, pos);
@@ -291,6 +299,10 @@ public class HostFileNameParser extends AbstractFileNameParser {
         if (hostName == null) {
             throw new FileSystemException("vfs.provider/missing-hostname.error", uri);
         }
+        if (isIPv6Host(hostName) && !isHostNameTerminatingChar(hostName.charAt(hostName.length() - 1), true)) {
+            throw new FileSystemException("vfs.provider/unterminated-ipv6-hostname.error", uri);
+        }
+
         auth.hostName = hostName.toLowerCase();
 
         // Extract port
@@ -356,5 +368,22 @@ public class HostFileNameParser extends AbstractFileNameParser {
 
         return new GenericFileName(auth.scheme, auth.hostName, auth.port, defaultPort, auth.userName, auth.password,
                 path, fileType);
+    }
+
+    private static boolean isIPv6HostHeadingChar(final char ch) {
+        return ch == '[';
+    }
+
+    private static boolean isHostNameTerminatingChar(final char ch, final boolean isIPv6Host) {
+        if (isIPv6Host) {
+            return ch == ']';
+        }
+
+        return ch == '/' || ch == ';' || ch == '?' || ch == ':' || ch == '@' || ch == '&' || ch == '=' || ch == '+'
+                || ch == '$' || ch == ',';
+    }
+
+    private static boolean isIPv6Host(String name) {
+        return name.length() > 0 && isIPv6HostHeadingChar(name.charAt(0));
     }
 }

@@ -81,7 +81,17 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
             @Override
             protected void addBaseTests() throws Exception {
                 super.addBaseTests();
+
                 addTests(HttpProviderTestCase.class);
+
+                // HttpAsyncServer returns 400 on link local requests from Httpclient
+                // (e.g. Apache Web Server does the same https://bz.apache.org/bugzilla/show_bug.cgi?id=35122,
+                // but not every HTTP server does).
+                // Until this is addressed, local connection test won't work end-to-end
+
+                // if (getSystemTestUriOverride() == null) {
+                //    addTests(IPv6LocalConnectionTests.class);
+                // }
             }
 
             @Override
@@ -212,4 +222,14 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
         testResolveFolderSlash(connectionUri + "/read-tests/", true);
     }
 
+    @Test
+    public void testResolveIPv6Url() throws FileSystemException {
+        final String ipv6Url = "http://[fe80::1c42:dae:8370:aea6%en1]/file.txt";
+
+        @SuppressWarnings("rawtypes")
+        final FileObject fileObject = VFS.getManager().resolveFile(ipv6Url, new FileSystemOptions());
+
+        assertEquals("http://[fe80::1c42:dae:8370:aea6%en1]/", fileObject.getFileSystem().getRootURI());
+        assertEquals("http://[fe80::1c42:dae:8370:aea6%en1]/file.txt", fileObject.getName().getURI());
+    }
 }

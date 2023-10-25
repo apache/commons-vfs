@@ -36,7 +36,6 @@ import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.protocol.HttpClientContext;
 import org.apache.hc.client5.http.utils.DateUtils;
-import org.apache.hc.client5.http.utils.URIUtils;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.HttpHeaders;
@@ -94,7 +93,7 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
         final FileSystemOptions fileSystemOptions = fileSystem.getFileSystemOptions();
         urlCharset = builder.getUrlCharset(fileSystemOptions);
         final String pathEncoded = ((GenericURLFileName) name).getPathQueryEncoded(getUrlCharset());
-        internalURI = URIUtils.resolve(fileSystem.getInternalBaseURI(), pathEncoded);
+        internalURI = fileSystem.getInternalBaseURI().resolve(pathEncoded);
     }
 
     @Override

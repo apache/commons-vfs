@@ -68,7 +68,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         return socketPort;
     }
 
-    private static String getSystemTestUriOverride() {
+    protected static String getSystemTestUriOverride() {
         return System.getProperty(TEST_URI);
     }
 

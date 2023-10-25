@@ -163,11 +163,19 @@ public final class UriParser {
             throws FileSystemException {
         int index = offset;
         int count = length;
+        boolean ipv6Host = false;
         for (; count > 0; count--, index++) {
             final char ch = buffer.charAt(index);
-            if (ch != '%') {
+            if (ch == '[') {
+                ipv6Host = true;
+            }
+            if (ch == ']') {
+                ipv6Host = false;
+            }
+            if (ch != '%' || ipv6Host) {
                 continue;
             }
+
             if (count < 3) {
                 throw new FileSystemException("vfs.provider/invalid-escape-sequence.error",
                         buffer.substring(index, index + count));

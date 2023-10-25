@@ -95,4 +95,8 @@ public class UriParserTest {
             fail(e);
         }
     }
+    @Test
+    public void testIPv6CheckUriEncoding() throws FileSystemException {
+        UriParser.checkUriEncoding("http://[fe80::14b5:1204:5410:64ca%en1]:8080");
+    }
 }

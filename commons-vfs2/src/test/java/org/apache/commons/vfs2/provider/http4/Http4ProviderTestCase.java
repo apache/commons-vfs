@@ -31,6 +31,8 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs2.provider.http5.Http5FileObject;
+import org.apache.commons.vfs2.provider.http5.Http5FileSystemConfigBuilder;
 import org.apache.commons.vfs2.util.NHttpFileServer;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -80,7 +82,17 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
             @Override
             protected void addBaseTests() throws Exception {
                 super.addBaseTests();
+
                 addTests(Http4ProviderTestCase.class);
+
+                // HttpAsyncServer returns 400 on link local requests from Httpclient
+                // (e.g. Apache Web Server does the same https://bz.apache.org/bugzilla/show_bug.cgi?id=35122,
+                // but not every HTTP server does).
+                // Until this is addressed, local connection test won't work end-to-end
+
+                // if (getSystemTestUriOverride() == null) {
+                //    addTests(IPv6LocalConnectionTests.class);
+                // }
             }
 
             @Override
@@ -216,4 +228,14 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
         testResolveFolderSlash(connectionUri + "/read-tests/", true);
     }
 
+    @Test
+    public void testResolveIPv6Url() throws FileSystemException {
+        final String ipv6Url = "http4://[fe80::1c42:dae:8370:aea6%en1]";
+
+        @SuppressWarnings("rawtypes")
+        final Http4FileObject fileObject = (Http4FileObject)
+                VFS.getManager().resolveFile(ipv6Url, new FileSystemOptions());
+
+        assertEquals("http://[fe80::1c42:dae:8370:aea6%en1]/", fileObject.getInternalURI().toString());
+    }
 }
