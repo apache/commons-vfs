@@ -160,6 +160,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="Gary Gregory">
         DelegatingFileSystemOptionsBuilder.setConfigClass[es](FileSystemOptions, String, String, Class) now throw the more general ReflectiveOperationException instead of 2 subclasses.
       </action>
+      <action type="fix" issue="VFS-524" dev="ggregory" due-to="Alex, Fedor Yudanov, Gary Gregory">
+        A URI with an IPv6 address can't be parsed out correctly #438.
+      </action>
       <!-- ADD -->
       <action type="add" issue="VFS-848" dev="ggregory" due-to="beise, Gary Gregory">
         Config option for trailing slash in webdav URI #425.
