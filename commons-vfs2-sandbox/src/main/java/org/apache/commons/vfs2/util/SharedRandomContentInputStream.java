@@ -133,8 +133,8 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
     }
 
     @Override
-    public synchronized void mark(final int readlimit) {
-        super.mark(readlimit);
+    public synchronized void mark(final int readLimit) {
+        super.mark(readLimit);
         resetCount = 0;
     }
 

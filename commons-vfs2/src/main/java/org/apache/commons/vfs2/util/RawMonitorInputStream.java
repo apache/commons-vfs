@@ -117,9 +117,9 @@ public class RawMonitorInputStream extends FilterInputStream {
     }
 
     @Override
-    public synchronized void mark(final int readlimit) {
+    public synchronized void mark(final int readLimit) {
         // TODO Auto-generated method stub
-        super.mark(readlimit);
+        super.mark(readLimit);
     }
 
     /**
