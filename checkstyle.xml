@@ -84,6 +84,7 @@
 
   <module name="TreeWalker">
 
+    <module name="ExplicitInitializationCheck" />
     <module name="UnusedImports"/>
     <!-- Checks for Javadoc comments. -->
     <!-- See https://checkstyle.org/config_javadoc.html -->

@@ -44,7 +44,7 @@ public class MimeFileSystem extends AbstractFileSystem {
 
     private final Log log = LogFactory.getLog(MimeFileSystem.class);
 
-    private InputStream mimeStream = null;
+    private InputStream mimeStream;
 
     protected MimeFileSystem(final FileName rootName, final FileObject parentLayer,
             final FileSystemOptions fileSystemOptions) {
