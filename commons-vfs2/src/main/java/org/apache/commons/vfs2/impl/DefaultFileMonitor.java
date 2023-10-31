@@ -299,12 +299,12 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
     private boolean recursive;
 
     /**
-     * Set the delay between checks
+     * Sets the delay between checks
      */
     private Duration delay = DEFAULT_DELAY;
 
     /**
-     * Set the number of files to check until a delay will be inserted
+     * Sets the number of files to check until a delay will be inserted
      */
     private int checksPerRun = DEFAULT_MAX_FILES;
 

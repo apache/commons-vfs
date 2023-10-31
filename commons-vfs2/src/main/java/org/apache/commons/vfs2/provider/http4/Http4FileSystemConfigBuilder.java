@@ -480,7 +480,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Set keystore file path for SSL connections.
+     * Sets keystore file path for SSL connections.
      * @param opts the file system options to modify
      * @param keyStoreFile keystore file path
      */
@@ -489,7 +489,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Set keystore pass phrase for SSL connections.
+     * Sets keystore pass phrase for SSL connections.
      * @param opts the file system options to modify
      * @param keyStorePass keystore pass phrase for SSL connections
      */
@@ -498,7 +498,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Set keystore type for SSL connections.
+     * Sets keystore type for SSL connections.
      * @param opts the file system options to modify
      * @param keyStoreType keystore type for SSL connections
      * @since 2.7.0

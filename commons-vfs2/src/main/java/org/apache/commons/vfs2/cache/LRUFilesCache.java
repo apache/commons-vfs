@@ -111,14 +111,14 @@ public class LRUFilesCache extends AbstractFilesCache {
     private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
 
     /**
-     * Default constructor. Uses an LRU size of 100 per file system.
+     * Constructs a new instance. Uses an LRU size of 100 per file system.
      */
     public LRUFilesCache() {
         this(DEFAULT_LRU_SIZE);
     }
 
     /**
-     * Set the desired LRU size.
+     * Constructs a new instance with the desired LRU size.
      *
      * @param lruSize the LRU size
      */

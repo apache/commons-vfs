@@ -1022,7 +1022,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * Set the cache strategy to use when dealing with file object data.
+     * Sets the cache strategy to use when dealing with file object data.
      * <p>
      * Can only be set before the FileSystemManager is initialized.
      * </p>

@@ -434,7 +434,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Sets the control keep alive timeout for the FTP client.
      * <p>
-     * Set the {@code controlKeepAliveTimeout} to ensure the socket be alive after download huge file.
+     * Sets the {@code controlKeepAliveTimeout} to ensure the socket be alive after download huge file.
      * </p>
      *
      * @param options The FileSystem options.
@@ -446,7 +446,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Set the data timeout for the FTP client.
+     * Sets the data timeout for the FTP client.
      * <p>
      * If you set the {@code dataTimeout} to {@code null}, no dataTimeout will be set on the FTP client.
      * </p>
@@ -460,7 +460,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Set the data timeout for the FTP client.
+     * Sets the data timeout for the FTP client.
      * <p>
      * If you set the {@code dataTimeout} to {@code null}, no dataTimeout will be set on the FTP client.
      * </p>
@@ -475,7 +475,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Set the default date format used by the server. See {@link org.apache.commons.net.ftp.FTPClientConfig} for
+     * Sets the default date format used by the server. See {@link org.apache.commons.net.ftp.FTPClientConfig} for
      * details and examples.
      *
      * @param options The FileSystemOptions.
@@ -486,7 +486,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Set the FQCN of your FileEntryParser used to parse the directory listing from your server.
+     * Sets the FQCN of your FileEntryParser used to parse the directory listing from your server.
      * <p>
      * If you do not use the default commons-net FTPFileEntryParserFactory e.g. by using {@link #setEntryParserFactory}
      * this is the "key" parameter passed as argument into your custom factory.
@@ -587,7 +587,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Set the language code used by the server. See {@link org.apache.commons.net.ftp.FTPClientConfig} for details and
+     * Sets the language code used by the server. See {@link org.apache.commons.net.ftp.FTPClientConfig} for details and
      * examples.
      *
      * @param options The FileSystemOptions.
