@@ -19,7 +19,7 @@ package org.apache.commons.vfs2.tasks;
 import org.apache.commons.vfs2.FileObject;
 
 /**
- * A task that synchronises the destination folder to look exactly like the source folder (or folders).
+ * A task that synchronizes the destination folder to look exactly like the source folder (or folders).
  */
 public class SyncTask extends CopyTask {
 

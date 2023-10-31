@@ -35,7 +35,7 @@ import org.apache.commons.vfs2.operations.FileOperationProvider;
  *
  * <h2><a id="naming">File Naming</a></h2>
  * <p>
- * A file system manager can recognise several types of file names:
+ * A file system manager can recognize several types of file names:
  * </p>
  * <ul>
  * <li>Absolute URI. These must start with a scheme, such as {@code file:} or {@code ftp:}, followed by a scheme
