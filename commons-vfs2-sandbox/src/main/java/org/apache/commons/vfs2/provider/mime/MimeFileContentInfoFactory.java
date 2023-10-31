@@ -25,7 +25,7 @@ import org.apache.commons.vfs2.impl.DefaultFileContentInfo;
 import jakarta.mail.MessagingException;
 
 /**
- * Get access to the content info stuff for mime objects.
+ * Gets access to the content info stuff for mime objects.
  */
 public class MimeFileContentInfoFactory implements FileContentInfoFactory {
     @Override

@@ -76,7 +76,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         }
 
         /**
-         * Get the connection schema.
+         * Gets the connection schema.
          *
          * @return the connection scheme.
          * @since 2.0

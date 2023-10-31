@@ -365,7 +365,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
     }
 
     /**
-     * Get access to the delegated file.
+     * Gets access to the delegated file.
      *
      * @return The FileObject.
      * @since 2.0

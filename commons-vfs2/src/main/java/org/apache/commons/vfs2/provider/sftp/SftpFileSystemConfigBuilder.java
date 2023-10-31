@@ -250,7 +250,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Get the identity repository factory.
+     * Gets the identity repository factory.
      *
      * @param options The FileSystem options.
      * @return the IdentityRepositoryFactory

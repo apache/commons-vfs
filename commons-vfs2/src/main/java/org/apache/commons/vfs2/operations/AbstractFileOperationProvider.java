@@ -90,7 +90,7 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
     }
 
     /**
-     * Get operation instance for specified FileOperation subclass.
+     * Gets operation instance for specified FileOperation subclass.
      *
      * @param file the file this operation should act on.
      * @param operationClass the class of a file operation interface to instantiate.

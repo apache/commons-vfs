@@ -50,7 +50,7 @@ public interface RandomAccessContent extends DataOutput, DataInput, Closeable {
     long getFilePointer() throws IOException;
 
     /**
-     * Get the input stream.
+     * Gets the input stream.
      * <p>
      * <b>Notice: If you use {@link #seek(long)} you have to re-get the InputStream</b>
      * </p>

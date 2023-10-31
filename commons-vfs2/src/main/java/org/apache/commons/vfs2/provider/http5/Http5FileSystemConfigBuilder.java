@@ -286,7 +286,7 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Get keystore type for SSL connections.
+     * Gets keystore type for SSL connections.
      * @param opts the file system options to modify
      * @return keystore type for SSL connections
      * @since 2.7.0

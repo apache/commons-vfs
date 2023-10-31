@@ -47,7 +47,7 @@ public interface FileOperationProvider {
     void collectOperations(Collection<Class<? extends FileOperation>> operationsList, FileObject file) throws FileSystemException;
 
     /**
-     * Get implementation for a given FileObject and FileOperation interface.
+     * Gets implementation for a given FileObject and FileOperation interface.
      *
      * @param file the FileObject for which we need an operation.
      * @param operationClass the Class which instance we are needed.

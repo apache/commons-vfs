@@ -187,7 +187,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Get the default date format used by the server. See {@link org.apache.commons.net.ftp.FTPClientConfig} for
+     * Gets the default date format used by the server. See {@link org.apache.commons.net.ftp.FTPClientConfig} for
      * details and examples.
      *
      * @param options The FileSystemOptions
@@ -289,7 +289,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Get the language code used by the server. See {@link org.apache.commons.net.ftp.FTPClientConfig} for details and
+     * Gets the language code used by the server. See {@link org.apache.commons.net.ftp.FTPClientConfig} for details and
      * examples.
      *
      * @param options The FilesystemOptions.

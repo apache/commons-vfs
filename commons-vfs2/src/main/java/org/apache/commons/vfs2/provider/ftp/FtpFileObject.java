@@ -309,7 +309,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     }
 
     /**
-     * Get the last modified time on an FTP file
+     * Gets the last modified time on an FTP file
      *
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetLastModifiedTime()
      */
