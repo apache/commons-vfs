@@ -6,7 +6,7 @@ The Apache Commons VFS Project team is pleased to announce the release of Apache
 
 Apache Commons VFS is a Virtual File System library.
 
-Maintenance release. Requires Java 8.
+Maintenance release. Requires Java 8 or above.
 
 Changes in this version include:
 
@@ -95,7 +95,7 @@ The Apache Commons VFS Project team is pleased to announce the release of Apache
 
 Apache Commons VFS is a Virtual File System library.
 
-Feature and maintenance release. Requires Java 8.
+Feature and maintenance release. Requires Java 8 or above.
 
 Changes in this version include:
 
@@ -185,7 +185,7 @@ The Apache Commons VFS Project team is pleased to announce the release of Apache
 
 Apache Commons VFS is a Virtual File System library.
 
-Maintenance release. Requires Java 8.
+Maintenance release. Requires Java 8 or above.
 
 Changes in this version include:
 

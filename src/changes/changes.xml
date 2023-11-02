@@ -47,7 +47,7 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="2.10.0" date="2023-MM-DD" description="Maintenance release. Requires Java 8.">
+    <release version="2.10.0" date="2023-MM-DD" description="Maintenance release. Requires Java 8 or above.">
       <!-- FIX -->
       <action type="fix" dev="ggregory" due-to="Seth Falco">
         Replace package.html with package-info.java #206. 
@@ -325,7 +325,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump commons-lang3 from 3.12.0 to 3.13.0.
       </action>
     </release>
-    <release version="2.9.0" date="2021-06-16" description="Maintenance release. Requires Java 8.">
+    <release version="2.9.0" date="2021-06-16" description="Maintenance release. Requires Java 8 or above.">
       <!-- ADDS -->
       <action type="fix" dev="ggregory" due-to="Gary Gregory">
         Add and use FileOperationProvider.EMPTY_ARRAY.
@@ -467,7 +467,7 @@ The <action> type attribute can be add,update,fix,remove.
         Update from to javax.mail:mail 1.4.7 to com.sun.mail:jakarta.mail 1.6.7.
       </action>
     </release>
-    <release version="2.8.0" date="2021-03-06" description="Feature and maintenance release. Requires Java 8.">
+    <release version="2.8.0" date="2021-03-06" description="Feature and maintenance release. Requires Java 8 or above.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
@@ -656,7 +656,7 @@ The <action> type attribute can be add,update,fix,remove.
         Update commons-lang3 3.11 to 3.12.0.
       </action>
     </release>
-    <release version="2.7.0" date="2020-10-26" description="Feature and maintenance release. Requires Java 8.">
+    <release version="2.7.0" date="2020-10-26" description="Feature and maintenance release. Requires Java 8 or above.">
       <action issue="VFS-753" dev="ggregory" due-to="John Webb, Gary Gregory" type="fix">
         NumberFormatException in SftpFileSystem::getUId.
       </action>
