@@ -29,10 +29,6 @@ import org.apache.commons.vfs2.filter.PrefixFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class PrefixFileFilterExample {
-    private PrefixFileFilterExample() {
-        /* main class not instantiated. */
-    }
-
     /**
      * Invokes this example from the command line.
      *
@@ -50,6 +46,10 @@ public final class PrefixFileFilterExample {
             System.out.println(file);
         }
 
+    }
+
+    private PrefixFileFilterExample() {
+        /* main class not instantiated. */
     }
 
 }

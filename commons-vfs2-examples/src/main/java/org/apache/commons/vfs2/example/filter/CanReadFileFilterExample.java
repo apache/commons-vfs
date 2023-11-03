@@ -29,10 +29,6 @@ import org.apache.commons.vfs2.filter.CanReadFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class CanReadFileFilterExample {
-    private CanReadFileFilterExample() {
-        /* main class not instantiated. */
-    }
-
     /**
      * Invokes this example from the command line.
      *
@@ -64,6 +60,10 @@ public final class CanReadFileFilterExample {
             System.out.println(file);
         }
 
+    }
+
+    private CanReadFileFilterExample() {
+        /* main class not instantiated. */
     }
 
 }

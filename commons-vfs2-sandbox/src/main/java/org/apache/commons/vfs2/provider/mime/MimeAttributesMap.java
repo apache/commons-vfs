@@ -71,12 +71,19 @@ public class MimeAttributesMap implements Map<String, Object> {
         }
     }
 
-    private Map<String, Object> getMap() {
-        if (backingMap == null) {
-            backingMap = createMap();
-        }
+    @Override
+    public void clear() {
+        throw new UnsupportedOperationException();
+    }
 
-        return backingMap;
+    @Override
+    public boolean containsKey(final Object key) {
+        return getMap().containsKey(key);
+    }
+
+    @Override
+    public boolean containsValue(final Object value) {
+        return getMap().containsValue(value);
     }
 
     private Map<String, Object> createMap() {
@@ -161,8 +168,21 @@ public class MimeAttributesMap implements Map<String, Object> {
     }
 
     @Override
-    public int size() {
-        return getMap().size();
+    public Set<Entry<String, Object>> entrySet() {
+        return Collections.unmodifiableSet(getMap().entrySet());
+    }
+
+    @Override
+    public Object get(final Object key) {
+        return getMap().get(key);
+    }
+
+    private Map<String, Object> getMap() {
+        if (backingMap == null) {
+            backingMap = createMap();
+        }
+
+        return backingMap;
     }
 
     @Override
@@ -171,27 +191,12 @@ public class MimeAttributesMap implements Map<String, Object> {
     }
 
     @Override
-    public boolean containsKey(final Object key) {
-        return getMap().containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(final Object value) {
-        return getMap().containsValue(value);
-    }
-
-    @Override
-    public Object get(final Object key) {
-        return getMap().get(key);
+    public Set<String> keySet() {
+        return Collections.unmodifiableSet(getMap().keySet());
     }
 
     @Override
     public Object put(final String key, final Object value) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Object remove(final Object key) {
         throw new UnsupportedOperationException();
     }
 
@@ -201,22 +206,17 @@ public class MimeAttributesMap implements Map<String, Object> {
     }
 
     @Override
-    public void clear() {
+    public Object remove(final Object key) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Set<String> keySet() {
-        return Collections.unmodifiableSet(getMap().keySet());
+    public int size() {
+        return getMap().size();
     }
 
     @Override
     public Collection<Object> values() {
         return Collections.unmodifiableCollection(getMap().values());
-    }
-
-    @Override
-    public Set<Entry<String, Object>> entrySet() {
-        return Collections.unmodifiableSet(getMap().entrySet());
     }
 }

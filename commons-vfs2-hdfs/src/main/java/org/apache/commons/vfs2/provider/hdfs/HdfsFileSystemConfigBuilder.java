@@ -43,15 +43,15 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String KEY_CONFIG_STREAM = "configStream";
     private static final String KEY_CONFIG_CONF = "configConf";
 
-    private HdfsFileSystemConfigBuilder() {
-        super("hdfs.");
-    }
-
     /**
      * @return HdfsFileSystemConfigBuilder instance
      */
     public static HdfsFileSystemConfigBuilder getInstance() {
         return BUILDER;
+    }
+
+    private HdfsFileSystemConfigBuilder() {
+        super("hdfs.");
     }
 
     /**

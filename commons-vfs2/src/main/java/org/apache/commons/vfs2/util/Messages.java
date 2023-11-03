@@ -35,10 +35,6 @@ public final class Messages {
     private static final ConcurrentMap<String, MessageFormat> MESSAGE_MAP = new ConcurrentHashMap<>();
     private static final ResourceBundle RESOURCES = new CombinedResources("org.apache.commons.vfs2.Resources");
 
-    private Messages() {
-        // no instances.
-    }
-
     /**
      * Locates a message by its code.
      */
@@ -87,5 +83,9 @@ public final class Messages {
         } catch (final MissingResourceException mre) {
             return "Unknown message with code \"" + code + "\".";
         }
+    }
+
+    private Messages() {
+        // no instances.
     }
 }

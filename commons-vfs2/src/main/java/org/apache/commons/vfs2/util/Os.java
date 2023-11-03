@@ -94,12 +94,6 @@ public final class Os {
         OS_ALL_FAMILIES = determineAllFamilies();
     }
 
-    /**
-     * Private constructor to block instantiation.
-     */
-    private Os() {
-    }
-
     private static boolean archMatches(final String arch) {
         boolean isArch = true;
         if (arch != null) {
@@ -277,5 +271,11 @@ public final class Os {
             isVersion = version.equalsIgnoreCase(OS_VERSION);
         }
         return isVersion;
+    }
+
+    /**
+     * Private constructor to block instantiation.
+     */
+    private Os() {
     }
 }

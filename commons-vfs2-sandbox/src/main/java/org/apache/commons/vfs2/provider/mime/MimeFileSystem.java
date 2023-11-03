@@ -52,33 +52,11 @@ public class MimeFileSystem extends AbstractFileSystem {
     }
 
     /**
-     * Creates a file object.
-     */
-    @Override
-    protected FileObject createFile(final AbstractFileName name) throws FileSystemException {
-        return new MimeFileObject(name, null, this);
-    }
-
-    /**
      * Returns the capabilities of this file system.
      */
     @Override
     protected void addCapabilities(final Collection<Capability> caps) {
         caps.addAll(MimeFileProvider.capabilities);
-    }
-
-    @Override
-    protected void doCloseCommunicationLink() {
-        try {
-            if (mimeStream == null) {
-                return;
-            }
-
-            closeMimeStream();
-            mimeStream = null;
-        } catch (final IOException e) {
-            log.warn(e.getLocalizedMessage(), e);
-        }
     }
 
     private void closeMimeStream() throws IOException {
@@ -105,5 +83,27 @@ public class MimeFileSystem extends AbstractFileSystem {
             mimeStream = getParentLayer().getContent().getInputStream();
         }
         return new MimeMessage(null, mimeStream);
+    }
+
+    /**
+     * Creates a file object.
+     */
+    @Override
+    protected FileObject createFile(final AbstractFileName name) throws FileSystemException {
+        return new MimeFileObject(name, null, this);
+    }
+
+    @Override
+    protected void doCloseCommunicationLink() {
+        try {
+            if (mimeStream == null) {
+                return;
+            }
+
+            closeMimeStream();
+            mimeStream = null;
+        } catch (final IOException e) {
+            log.warn(e.getLocalizedMessage(), e);
+        }
     }
 }

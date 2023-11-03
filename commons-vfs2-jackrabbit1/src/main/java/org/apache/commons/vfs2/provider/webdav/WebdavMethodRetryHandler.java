@@ -34,18 +34,18 @@ public final class WebdavMethodRetryHandler implements HttpMethodRetryHandler {
     private static final WebdavMethodRetryHandler INSTANCE = new WebdavMethodRetryHandler();
 
     /**
-     * Constructs a new instance.
-     */
-    private WebdavMethodRetryHandler() {
-    }
-
-    /**
      * Gets the singleton instance.
      *
      * @return the singleton instance.
      */
     public static WebdavMethodRetryHandler getInstance() {
         return INSTANCE;
+    }
+
+    /**
+     * Constructs a new instance.
+     */
+    private WebdavMethodRetryHandler() {
     }
 
     @Override

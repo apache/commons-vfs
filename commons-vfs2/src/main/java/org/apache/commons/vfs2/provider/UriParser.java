@@ -47,9 +47,6 @@ public final class UriParser {
 
     private static final char LOW_MASK = 0x0F;
 
-    private UriParser() {
-    }
-
     /**
      * Encodes and appends a string to a StringBuilder.
      *
@@ -559,5 +556,8 @@ public final class UriParser {
         }
 
         return fileType;
+    }
+
+    private UriParser() {
     }
 }

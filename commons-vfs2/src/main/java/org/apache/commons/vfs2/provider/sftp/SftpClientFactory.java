@@ -45,11 +45,6 @@ import com.jcraft.jsch.UserInfo;
  */
 public final class SftpClientFactory {
 
-    private static final String KEY_COMPRESSION_C2S = "compression.c2s";
-    private static final String KEY_COMPRESSION_S2C = "compression.s2c";
-    private static final String KEY_PREFERRED_AUTHENTICATIONS = "PreferredAuthentications";
-    private static final String KEY_STRICT_HOST_KEY_CHECKING = "StrictHostKeyChecking";
-
     /** Interface JSchLogger with JCL. */
     private static final class JSchLogger implements Logger {
         @Override
@@ -93,6 +88,11 @@ public final class SftpClientFactory {
             }
         }
     }
+    private static final String KEY_COMPRESSION_C2S = "compression.c2s";
+    private static final String KEY_COMPRESSION_S2C = "compression.s2c";
+    private static final String KEY_PREFERRED_AUTHENTICATIONS = "PreferredAuthentications";
+
+    private static final String KEY_STRICT_HOST_KEY_CHECKING = "StrictHostKeyChecking";
 
     private static final String SSH_DIR_NAME = ".ssh";
     private static final String OPENSSH_CONFIG_NAME = "config";
@@ -100,9 +100,6 @@ public final class SftpClientFactory {
 
     static {
         JSch.setLogger(new JSchLogger());
-    }
-
-    private SftpClientFactory() {
     }
 
     private static void addIdentities(final JSch jsch, final File sshDir, final IdentityProvider[] identities)
@@ -343,5 +340,8 @@ public final class SftpClientFactory {
             throw new FileSystemException("vfs.provider.sftp/known-hosts.error", knownHostsFile.getAbsolutePath(), e);
         }
 
+    }
+
+    private SftpClientFactory() {
     }
 }

@@ -29,10 +29,6 @@ import org.apache.commons.vfs2.filter.HiddenFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class HiddenFileFilterExample {
-    private HiddenFileFilterExample() {
-        /* main class not instantiated. */
-    }
-
     /**
      * Invokes this example from the command line.
      *
@@ -58,6 +54,10 @@ public final class HiddenFileFilterExample {
             System.out.println(file);
         }
 
+    }
+
+    private HiddenFileFilterExample() {
+        /* main class not instantiated. */
     }
 
 }

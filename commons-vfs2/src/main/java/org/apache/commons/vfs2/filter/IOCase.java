@@ -67,6 +67,22 @@ public enum IOCase {
     /** Serialization version. */
     private static final long serialVersionUID = -6343169151696340687L;
 
+    /**
+     * Factory method to create an IOCase from a name.
+     *
+     * @param name the name to find
+     * @return the IOCase object
+     * @throws IllegalArgumentException if the name is invalid
+     */
+    public static IOCase forName(final String name) {
+        for (final IOCase ioCase : IOCase.values()) {
+            if (ioCase.getName().equals(name)) {
+                return ioCase;
+            }
+        }
+        throw new IllegalArgumentException("Invalid IOCase name: " + name);
+    }
+
     /** The enumeration name. */
     private final String name;
 
@@ -82,22 +98,6 @@ public enum IOCase {
     IOCase(final String name, final boolean sensitive) {
         this.name = name;
         this.sensitive = sensitive;
-    }
-
-    /**
-     * Factory method to create an IOCase from a name.
-     *
-     * @param name the name to find
-     * @return the IOCase object
-     * @throws IllegalArgumentException if the name is invalid
-     */
-    public static IOCase forName(final String name) {
-        for (final IOCase ioCase : IOCase.values()) {
-            if (ioCase.getName().equals(name)) {
-                return ioCase;
-            }
-        }
-        throw new IllegalArgumentException("Invalid IOCase name: " + name);
     }
 
     /**

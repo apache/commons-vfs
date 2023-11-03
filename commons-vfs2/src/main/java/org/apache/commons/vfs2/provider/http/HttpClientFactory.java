@@ -38,9 +38,6 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
  */
 public final class HttpClientFactory {
 
-    private HttpClientFactory() {
-    }
-
     /**
      * Creates a new connection to the server.
      *
@@ -147,6 +144,9 @@ public final class HttpClientFactory {
     public static HttpClient createConnection(final String scheme, final String hostname, final int port, final String username, final String password,
         final FileSystemOptions fileSystemOptions) throws FileSystemException {
         return createConnection(HttpFileSystemConfigBuilder.getInstance(), scheme, hostname, port, username, password, fileSystemOptions);
+    }
+
+    private HttpClientFactory() {
     }
 
 }

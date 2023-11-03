@@ -29,10 +29,6 @@ import org.apache.commons.vfs2.filter.RegexFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class RegexFileFilterExample {
-    private RegexFileFilterExample() {
-        /* main class not instantiated. */
-    }
-
     /**
      * Invokes this example from the command line.
      *
@@ -50,6 +46,10 @@ public final class RegexFileFilterExample {
             System.out.println(file);
         }
 
+    }
+
+    private RegexFileFilterExample() {
+        /* main class not instantiated. */
     }
 
 }

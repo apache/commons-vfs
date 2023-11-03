@@ -32,19 +32,19 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final RamFileSystemConfigBuilder SINGLETON = new RamFileSystemConfigBuilder();
 
     /**
-     * Constructor
-     */
-    private RamFileSystemConfigBuilder() {
-        super("ram.");
-    }
-
-    /**
      * Gets the singleton builder.
      *
      * @return the singleton builder.
      */
     public static RamFileSystemConfigBuilder getInstance() {
         return SINGLETON;
+    }
+
+    /**
+     * Constructor
+     */
+    private RamFileSystemConfigBuilder() {
+        super("ram.");
     }
 
     /**

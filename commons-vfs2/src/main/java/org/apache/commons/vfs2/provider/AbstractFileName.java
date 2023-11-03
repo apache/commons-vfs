@@ -42,39 +42,6 @@ public abstract class AbstractFileName implements FileName {
     // Therefore only # is a reserved char in a URI as part of the path that can be in the file name.
     private static final char[] RESERVED_URI_CHARS = {'#', ' '};
 
-    private final String scheme;
-    private final String absPath;
-    private FileType type;
-
-    // Cached attributes
-    private String uriString;
-    private String baseName;
-    private String rootUri;
-    private String extension;
-    private String decodedAbsPath;
-
-    private String key;
-
-    /**
-     * Constructs a new instance.
-     *
-     * @param scheme The scheme.
-     * @param absolutePath the absolute path, maybe empty or null.
-     * @param type the file type.
-     */
-    public AbstractFileName(final String scheme, final String absolutePath, final FileType type) {
-        this.rootUri = null;
-        this.scheme = scheme;
-        this.type = type;
-        if (StringUtils.isEmpty(absolutePath)) {
-            this.absPath = ROOT_PATH;
-        } else if (absolutePath.length() > 1 && absolutePath.endsWith("/")) {
-            this.absPath = absolutePath.substring(0, absolutePath.length() - 1);
-        } else {
-            this.absPath = absolutePath;
-        }
-    }
-
     /**
      * Checks whether a path fits in a particular scope of another path.
      *
@@ -110,6 +77,39 @@ public abstract class AbstractFileName implements FileName {
             return baseLen <= 1 || path.length() <= baseLen || path.charAt(baseLen) == SEPARATOR_CHAR;
         }
         throw new IllegalArgumentException();
+    }
+    private final String scheme;
+    private final String absPath;
+
+    private FileType type;
+    // Cached attributes
+    private String uriString;
+    private String baseName;
+    private String rootUri;
+    private String extension;
+
+    private String decodedAbsPath;
+
+    private String key;
+
+    /**
+     * Constructs a new instance.
+     *
+     * @param scheme The scheme.
+     * @param absolutePath the absolute path, maybe empty or null.
+     * @param type the file type.
+     */
+    public AbstractFileName(final String scheme, final String absolutePath, final FileType type) {
+        this.rootUri = null;
+        this.scheme = scheme;
+        this.type = type;
+        if (StringUtils.isEmpty(absolutePath)) {
+            this.absPath = ROOT_PATH;
+        } else if (absolutePath.length() > 1 && absolutePath.endsWith("/")) {
+            this.absPath = absolutePath.substring(0, absolutePath.length() - 1);
+        } else {
+            this.absPath = absolutePath;
+        }
     }
 
     /**

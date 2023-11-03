@@ -24,12 +24,6 @@ package org.apache.commons.vfs2.util;
 public final class EncryptUtil {
 
     /**
-     * Don't allow class instantiation.
-     */
-    private EncryptUtil() {
-    }
-
-    /**
      * This class can be called with "encrypt" password as the arguments where encrypt is a literal and password is
      * replaced with the clear text password to be encrypted.
      *
@@ -47,5 +41,11 @@ public final class EncryptUtil {
         if (args[0].equals("encrypt")) {
             System.out.println(cryptor.encrypt(args[1]));
         }
+    }
+
+    /**
+     * Don't allow class instantiation.
+     */
+    private EncryptUtil() {
     }
 }

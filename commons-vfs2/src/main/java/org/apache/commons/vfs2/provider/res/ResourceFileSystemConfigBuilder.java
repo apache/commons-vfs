@@ -28,10 +28,6 @@ public final class ResourceFileSystemConfigBuilder extends FileSystemConfigBuild
 
     private static final ResourceFileSystemConfigBuilder BUILDER = new ResourceFileSystemConfigBuilder();
 
-    private ResourceFileSystemConfigBuilder() {
-        super("resource.");
-    }
-
     /**
      * Gets the singleton builder.
      *
@@ -39,6 +35,10 @@ public final class ResourceFileSystemConfigBuilder extends FileSystemConfigBuild
      */
     public static ResourceFileSystemConfigBuilder getInstance() {
         return BUILDER;
+    }
+
+    private ResourceFileSystemConfigBuilder() {
+        super("resource.");
     }
 
     /**

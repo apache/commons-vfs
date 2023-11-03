@@ -32,25 +32,6 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
  */
 public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem> {
 
-    protected Bzip2FileObject(final AbstractFileName name, final FileObject container, final Bzip2FileSystem fs) {
-        super(name, container, fs);
-    }
-
-    /**
-     * Deprecated since 2.1.
-     *
-     * @param name Abstract file name.
-     * @param container My container.
-     * @param fs My file system.
-     *
-     * @deprecated Use {@link #Bzip2FileObject(AbstractFileName, FileObject, Bzip2FileSystem)} instead.
-     */
-    @Deprecated
-    protected Bzip2FileObject(final AbstractFileName name, final FileObject container,
-            final CompressedFileFileSystem fs) {
-        super(name, container, cast(fs));
-    }
-
     private static Bzip2FileSystem cast(final CompressedFileFileSystem fs) {
         if (fs instanceof Bzip2FileSystem) {
             return (Bzip2FileSystem) fs;
@@ -68,6 +49,25 @@ public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem> {
      */
     public static InputStream wrapInputStream(final String name, final InputStream inputStream) throws IOException {
         return new BZip2CompressorInputStream(inputStream);
+    }
+
+    protected Bzip2FileObject(final AbstractFileName name, final FileObject container, final Bzip2FileSystem fs) {
+        super(name, container, fs);
+    }
+
+    /**
+     * Deprecated since 2.1.
+     *
+     * @param name Abstract file name.
+     * @param container My container.
+     * @param fs My file system.
+     *
+     * @deprecated Use {@link #Bzip2FileObject(AbstractFileName, FileObject, Bzip2FileSystem)} instead.
+     */
+    @Deprecated
+    protected Bzip2FileObject(final AbstractFileName name, final FileObject container,
+            final CompressedFileFileSystem fs) {
+        super(name, container, cast(fs));
     }
 
     @Override

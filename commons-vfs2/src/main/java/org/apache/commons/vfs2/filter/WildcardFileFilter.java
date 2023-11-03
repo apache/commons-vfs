@@ -61,65 +61,6 @@ public class WildcardFileFilter implements FileFilter, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /** Whether the comparison is case-sensitive. */
-    private final IOCase caseSensitivity;
-
-    /** The wildcards that will be used to match file names. */
-    private final List<String> wildcards;
-
-    /**
-     * Construct a new wildcard filter for a list of wildcards specifying
-     * case-sensitivity.
-     *
-     * @param caseSensitivity how to handle case sensitivity, null means
-     *                        case-sensitive
-     * @param wildcards       the list of wildcards to match, not null
-     */
-    public WildcardFileFilter(final IOCase caseSensitivity, final List<String> wildcards) {
-        if (wildcards == null) {
-            throw new IllegalArgumentException("The wildcard list must not be null");
-        }
-        this.wildcards = new ArrayList<>(wildcards);
-        this.caseSensitivity = caseSensitivity == null ? IOCase.SENSITIVE : caseSensitivity;
-    }
-
-    /**
-     * Construct a new wildcard filter for an array of wildcards specifying
-     * case-sensitivity.
-     *
-     * @param caseSensitivity how to handle case sensitivity, null means
-     *                        case-sensitive
-     * @param wildcards       the array of wildcards to match, not null
-     */
-    public WildcardFileFilter(final IOCase caseSensitivity, final String... wildcards) {
-        if (wildcards == null) {
-            throw new IllegalArgumentException("The wildcard array must not be null");
-        }
-        this.wildcards = new ArrayList<>(Arrays.asList(wildcards));
-        this.caseSensitivity = caseSensitivity == null ? IOCase.SENSITIVE : caseSensitivity;
-    }
-
-    /**
-     * Construct a new case-sensitive wildcard filter for a list of wildcards.
-     *
-     * @param wildcards the list of wildcards to match, not null
-     */
-    public WildcardFileFilter(final List<String> wildcards) {
-        this(null, wildcards);
-    }
-
-    /**
-     * Construct a new case-sensitive wildcard filter for an array of wildcards.
-     * <p>
-     * The array is not cloned, so could be changed after constructing the instance.
-     * This would be inadvisable however.
-     *
-     * @param wildcards the array of wildcards to match
-     */
-    public WildcardFileFilter(final String... wildcards) {
-        this(null, wildcards);
-    }
-
     /**
      * Splits a string into a number of tokens. The text is split by '?' and '*'.
      * Where multiple '*' occur consecutively they are collapsed into a single '*'.
@@ -259,6 +200,65 @@ public class WildcardFileFilter implements FileFilter, Serializable {
         return false;
     }
     // CHECKSTYLE:ON
+
+    /** Whether the comparison is case-sensitive. */
+    private final IOCase caseSensitivity;
+
+    /** The wildcards that will be used to match file names. */
+    private final List<String> wildcards;
+
+    /**
+     * Construct a new wildcard filter for a list of wildcards specifying
+     * case-sensitivity.
+     *
+     * @param caseSensitivity how to handle case sensitivity, null means
+     *                        case-sensitive
+     * @param wildcards       the list of wildcards to match, not null
+     */
+    public WildcardFileFilter(final IOCase caseSensitivity, final List<String> wildcards) {
+        if (wildcards == null) {
+            throw new IllegalArgumentException("The wildcard list must not be null");
+        }
+        this.wildcards = new ArrayList<>(wildcards);
+        this.caseSensitivity = caseSensitivity == null ? IOCase.SENSITIVE : caseSensitivity;
+    }
+
+    /**
+     * Construct a new wildcard filter for an array of wildcards specifying
+     * case-sensitivity.
+     *
+     * @param caseSensitivity how to handle case sensitivity, null means
+     *                        case-sensitive
+     * @param wildcards       the array of wildcards to match, not null
+     */
+    public WildcardFileFilter(final IOCase caseSensitivity, final String... wildcards) {
+        if (wildcards == null) {
+            throw new IllegalArgumentException("The wildcard array must not be null");
+        }
+        this.wildcards = new ArrayList<>(Arrays.asList(wildcards));
+        this.caseSensitivity = caseSensitivity == null ? IOCase.SENSITIVE : caseSensitivity;
+    }
+
+    /**
+     * Construct a new case-sensitive wildcard filter for a list of wildcards.
+     *
+     * @param wildcards the list of wildcards to match, not null
+     */
+    public WildcardFileFilter(final List<String> wildcards) {
+        this(null, wildcards);
+    }
+
+    /**
+     * Construct a new case-sensitive wildcard filter for an array of wildcards.
+     * <p>
+     * The array is not cloned, so could be changed after constructing the instance.
+     * This would be inadvisable however.
+     *
+     * @param wildcards the array of wildcards to match
+     */
+    public WildcardFileFilter(final String... wildcards) {
+        this(null, wildcards);
+    }
 
     /**
      * Checks to see if the file name matches one of the wildcards.

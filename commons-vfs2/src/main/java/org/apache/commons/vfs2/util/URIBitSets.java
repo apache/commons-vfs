@@ -720,15 +720,15 @@ final class URIBitSets {
 
     private static final int NBITS = 256;
 
-    private URIBitSets() {
-    }
-
     static FluentBitSet bitSet() {
         return new FluentBitSet(NBITS);
     }
 
     private static FluentBitSet bitSet(final int... bitIndexArray) {
         return bitSet().set(bitIndexArray);
+    }
+
+    private URIBitSets() {
     }
 
 }

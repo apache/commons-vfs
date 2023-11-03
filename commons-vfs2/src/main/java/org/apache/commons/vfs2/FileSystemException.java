@@ -40,6 +40,52 @@ public class FileSystemException extends IOException {
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(":(?:[^/]+)@");
 
     /**
+     * Throws a FileSystemException when the given object is null.
+     *
+     * @param obj
+     *            the object reference to check for null.
+     * @param code
+     *            message used when {@code
+     *                FileSystemException} is thrown
+     * @param <T>
+     *            the type of the reference
+     * @return {@code obj} if not {@code null}
+     * @throws FileSystemException
+     *             if {@code obj} is {@code null}
+     * @since 2.3
+     */
+    public static <T> T requireNonNull(final T obj, final String code) throws FileSystemException {
+        if (obj == null) {
+            throw new FileSystemException(code);
+        }
+        return obj;
+    }
+
+    /**
+     * Throws a FileSystemException when the given object is null.
+     *
+     * @param obj
+     *            the object reference to check for null.
+     * @param code
+     *            message used when {@code
+     *                FileSystemException} is thrown
+     * @param info
+     *            one context information.
+     * @param <T>
+     *            the type of the reference
+     * @return {@code obj} if not {@code null}
+     * @throws FileSystemException
+     *             if {@code obj} is {@code null}
+     * @since 2.3
+     */
+    public static <T> T requireNonNull(final T obj, final String code, final Object... info) throws FileSystemException {
+        if (obj == null) {
+            throw new FileSystemException(code, info);
+        }
+        return obj;
+    }
+
+    /**
      * Array of complementary info (context).
      */
     private final String[] info;
@@ -140,52 +186,6 @@ public class FileSystemException extends IOException {
      */
     public FileSystemException(final Throwable cause) {
         this(cause.getMessage(), cause, (Object[]) null);
-    }
-
-    /**
-     * Throws a FileSystemException when the given object is null.
-     *
-     * @param obj
-     *            the object reference to check for null.
-     * @param code
-     *            message used when {@code
-     *                FileSystemException} is thrown
-     * @param <T>
-     *            the type of the reference
-     * @return {@code obj} if not {@code null}
-     * @throws FileSystemException
-     *             if {@code obj} is {@code null}
-     * @since 2.3
-     */
-    public static <T> T requireNonNull(final T obj, final String code) throws FileSystemException {
-        if (obj == null) {
-            throw new FileSystemException(code);
-        }
-        return obj;
-    }
-
-    /**
-     * Throws a FileSystemException when the given object is null.
-     *
-     * @param obj
-     *            the object reference to check for null.
-     * @param code
-     *            message used when {@code
-     *                FileSystemException} is thrown
-     * @param info
-     *            one context information.
-     * @param <T>
-     *            the type of the reference
-     * @return {@code obj} if not {@code null}
-     * @throws FileSystemException
-     *             if {@code obj} is {@code null}
-     * @since 2.3
-     */
-    public static <T> T requireNonNull(final T obj, final String code, final Object... info) throws FileSystemException {
-        if (obj == null) {
-            throw new FileSystemException(code, info);
-        }
-        return obj;
     }
 
     /**

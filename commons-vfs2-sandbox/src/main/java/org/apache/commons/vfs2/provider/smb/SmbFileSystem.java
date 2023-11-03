@@ -35,18 +35,18 @@ public class SmbFileSystem extends AbstractFileSystem {
     }
 
     /**
-     * Creates a file object.
-     */
-    @Override
-    protected FileObject createFile(final AbstractFileName name) throws FileSystemException {
-        return new SmbFileObject(name, this);
-    }
-
-    /**
      * Returns the capabilities of this file system.
      */
     @Override
     protected void addCapabilities(final Collection<Capability> caps) {
         caps.addAll(SmbFileProvider.capabilities);
+    }
+
+    /**
+     * Creates a file object.
+     */
+    @Override
+    protected FileObject createFile(final AbstractFileName name) throws FileSystemException {
+        return new SmbFileObject(name, this);
     }
 }

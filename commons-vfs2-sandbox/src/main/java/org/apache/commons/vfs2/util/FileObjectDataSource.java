@@ -36,16 +36,6 @@ public class FileObjectDataSource implements DataSource {
     }
 
     @Override
-    public InputStream getInputStream() throws IOException {
-        return fo.getContent().getInputStream();
-    }
-
-    @Override
-    public OutputStream getOutputStream() throws IOException {
-        return fo.getContent().getOutputStream();
-    }
-
-    @Override
     public String getContentType() {
         try {
             return fo.getContent().getContentInfo().getContentType();
@@ -55,7 +45,17 @@ public class FileObjectDataSource implements DataSource {
     }
 
     @Override
+    public InputStream getInputStream() throws IOException {
+        return fo.getContent().getInputStream();
+    }
+
+    @Override
     public String getName() {
         return fo.getName().getBaseName();
+    }
+
+    @Override
+    public OutputStream getOutputStream() throws IOException {
+        return fo.getContent().getOutputStream();
     }
 }

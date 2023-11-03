@@ -39,25 +39,6 @@ public class SmbFileName extends GenericFileName {
     }
 
     /**
-     * Returns the share name.
-     *
-     * @return share name
-     */
-    public String getShare() {
-        return share;
-    }
-
-    /**
-     * Builds the root URI for this file name.
-     */
-    @Override
-    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword) {
-        super.appendRootUri(buffer, addPassword);
-        buffer.append('/');
-        buffer.append(share);
-    }
-
-    /**
      * Put {@code domain} before @{code username} if both are set.
      * <p>
      * Uses super method to add password or password placeholder.
@@ -72,6 +53,16 @@ public class SmbFileName extends GenericFileName {
     }
 
     /**
+     * Builds the root URI for this file name.
+     */
+    @Override
+    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword) {
+        super.appendRootUri(buffer, addPassword);
+        buffer.append('/');
+        buffer.append(share);
+    }
+
+    /**
      * Factory method for creating name instances.
      *
      * @param path path of file.
@@ -82,6 +73,24 @@ public class SmbFileName extends GenericFileName {
     public FileName createName(final String path, final FileType type) {
         return new SmbFileName(getScheme(), getHostName(), getPort(), getUserName(), getPassword(), domain, share, path,
                 type);
+    }
+
+    /**
+     * Returns the domain name.
+     *
+     * @return domain name
+     */
+    public String getDomain() {
+        return domain;
+    }
+
+    /**
+     * Returns the share name.
+     *
+     * @return share name
+     */
+    public String getShare() {
+        return share;
     }
 
     /**
@@ -108,14 +117,5 @@ public class SmbFileName extends GenericFileName {
         sb.append(getPathDecoded());
         uriWithoutAuth = sb.toString();
         return uriWithoutAuth;
-    }
-
-    /**
-     * Returns the domain name.
-     *
-     * @return domain name
-     */
-    public String getDomain() {
-        return domain;
     }
 }

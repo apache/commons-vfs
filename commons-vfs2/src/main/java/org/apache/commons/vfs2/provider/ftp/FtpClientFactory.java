@@ -281,9 +281,6 @@ public final class FtpClientFactory {
         }
     }
 
-    private FtpClientFactory() {
-    }
-
     /**
      * Creates a new connection to the server.
      *
@@ -301,5 +298,8 @@ public final class FtpClientFactory {
             throws FileSystemException {
         final FtpConnectionFactory factory = new FtpConnectionFactory(FtpFileSystemConfigBuilder.getInstance());
         return factory.createConnection(hostname, port, username, password, workingDirectory, fileSystemOptions);
+    }
+
+    private FtpClientFactory() {
     }
 }

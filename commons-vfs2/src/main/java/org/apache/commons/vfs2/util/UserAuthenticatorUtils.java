@@ -26,9 +26,6 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemConfigBuilder;
  */
 public final class UserAuthenticatorUtils {
 
-    private UserAuthenticatorUtils() {
-    }
-
     /**
      * Authenticates if there is an authenticator, else returns null.
      *
@@ -117,5 +114,8 @@ public final class UserAuthenticatorUtils {
         }
 
         return new String(data);
+    }
+
+    private UserAuthenticatorUtils() {
     }
 }

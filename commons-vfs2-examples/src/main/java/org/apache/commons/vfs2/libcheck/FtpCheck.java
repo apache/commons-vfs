@@ -27,10 +27,6 @@ import org.apache.commons.net.ftp.FTPReply;
  * Basic check for FTP.
  */
 public final class FtpCheck {
-    private FtpCheck() {
-        /* main class not instantiated. */
-    }
-
     /**
      * Invokes this example from the command line.
      *
@@ -86,5 +82,9 @@ public final class FtpCheck {
             }
         }
         client.disconnect();
+    }
+
+    private FtpCheck() {
+        /* main class not instantiated. */
     }
 }

@@ -30,19 +30,19 @@ public class ZipFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String KEY_CHARSET = PREFIX + ".charset";
 
     /**
-     * Constructs a new instance.
-     */
-    private ZipFileSystemConfigBuilder() {
-        super("zip.");
-    }
-
-    /**
      * Gets the singleton instance.
      *
      * @return the singleton instance.
      */
     public static final ZipFileSystemConfigBuilder getInstance() {
         return INSTANCE;
+    }
+
+    /**
+     * Constructs a new instance.
+     */
+    private ZipFileSystemConfigBuilder() {
+        super("zip.");
     }
 
     /**

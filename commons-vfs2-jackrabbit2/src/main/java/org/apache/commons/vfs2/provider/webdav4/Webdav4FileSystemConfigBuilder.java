@@ -43,10 +43,6 @@ public final class Webdav4FileSystemConfigBuilder extends Http4FileSystemConfigB
 
     private static final boolean DEFAULT_FOLLOW_REDIRECT = false;
 
-    private Webdav4FileSystemConfigBuilder() {
-        super("webdav4.");
-    }
-
     /**
      * Gets the singleton builder.
      *
@@ -56,12 +52,8 @@ public final class Webdav4FileSystemConfigBuilder extends Http4FileSystemConfigB
         return BUILDER;
     }
 
-    /**
-     * @return The Webdav FileSystem Class object.
-     */
-    @Override
-    protected Class<? extends FileSystem> getConfigClass() {
-        return Webdav4FileSystem.class;
+    private Webdav4FileSystemConfigBuilder() {
+        super("webdav4.");
     }
 
     /**
@@ -75,6 +67,14 @@ public final class Webdav4FileSystemConfigBuilder extends Http4FileSystemConfigB
      */
     public boolean getAppendTrailingSlash(final FileSystemOptions opts) {
         return getBoolean(opts, KEY_APPEND_TRAILING_SLASH, DEFAULT_APPEND_TRAILING_SLASH);
+    }
+
+    /**
+     * @return The Webdav FileSystem Class object.
+     */
+    @Override
+    protected Class<? extends FileSystem> getConfigClass() {
+        return Webdav4FileSystem.class;
     }
 
     /**

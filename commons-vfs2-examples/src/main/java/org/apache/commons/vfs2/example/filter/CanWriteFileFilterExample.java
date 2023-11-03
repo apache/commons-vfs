@@ -29,10 +29,6 @@ import org.apache.commons.vfs2.filter.CanWriteFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class CanWriteFileFilterExample {
-    private CanWriteFileFilterExample() {
-        /* main class not instantiated. */
-    }
-
     /**
      * Invokes this example from the command line.
      *
@@ -57,6 +53,10 @@ public final class CanWriteFileFilterExample {
             System.out.println(file);
         }
 
+    }
+
+    private CanWriteFileFilterExample() {
+        /* main class not instantiated. */
     }
 
 }

@@ -29,10 +29,6 @@ import org.apache.commons.vfs2.filter.WildcardFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class WildcardFileFilterExample {
-    private WildcardFileFilterExample() {
-        /* main class not instantiated. */
-    }
-
     /**
      * Invokes this example from the command line.
      *
@@ -50,6 +46,10 @@ public final class WildcardFileFilterExample {
             System.out.println(file);
         }
 
+    }
+
+    private WildcardFileFilterExample() {
+        /* main class not instantiated. */
     }
 
 }

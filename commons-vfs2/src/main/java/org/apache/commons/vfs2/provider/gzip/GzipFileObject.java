@@ -31,6 +31,13 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
  */
 public class GzipFileObject extends CompressedFileFileObject<GzipFileSystem> {
 
+    private static GzipFileSystem cast(final CompressedFileFileSystem fs) {
+        if (fs instanceof GzipFileSystem) {
+            return (GzipFileSystem) fs;
+        }
+        throw new IllegalArgumentException("GzipFileObject expects an instance of GzipFileSystem");
+    }
+
     /**
      * Deprecated since 2.1.
      *
@@ -48,13 +55,6 @@ public class GzipFileObject extends CompressedFileFileObject<GzipFileSystem> {
 
     protected GzipFileObject(final AbstractFileName name, final FileObject container, final GzipFileSystem fs) {
         super(name, container, fs);
-    }
-
-    private static GzipFileSystem cast(final CompressedFileFileSystem fs) {
-        if (fs instanceof GzipFileSystem) {
-            return (GzipFileSystem) fs;
-        }
-        throw new IllegalArgumentException("GzipFileObject expects an instance of GzipFileSystem");
     }
 
     @Override

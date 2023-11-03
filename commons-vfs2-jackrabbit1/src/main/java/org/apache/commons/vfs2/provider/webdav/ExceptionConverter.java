@@ -32,10 +32,6 @@ import org.w3c.dom.Element;
  */
 public final class ExceptionConverter {
 
-    // avoid instantiation.
-    private ExceptionConverter() {
-    }
-
     /**
      * Generates a new instance of FileSystemException.
      *
@@ -83,5 +79,9 @@ public final class ExceptionConverter {
         }
 
         return new FileSystemException(msg);
+    }
+
+    // avoid instantiation.
+    private ExceptionConverter() {
     }
 }

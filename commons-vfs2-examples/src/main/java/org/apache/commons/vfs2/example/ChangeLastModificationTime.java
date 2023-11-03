@@ -24,10 +24,6 @@ import org.apache.commons.vfs2.VFS;
  */
 public final class ChangeLastModificationTime {
 
-    private ChangeLastModificationTime() {
-        /* main class not instantiated. */
-    }
-
     /**
      * Invokes this example from the command line.
      *
@@ -45,6 +41,10 @@ public final class ChangeLastModificationTime {
         System.err.println("set to: " + setTo);
         fo.getContent().setLastModifiedTime(setTo);
         System.err.println("after set: " + fo.getContent().getLastModifiedTime());
+    }
+
+    private ChangeLastModificationTime() {
+        /* main class not instantiated. */
     }
 
 }

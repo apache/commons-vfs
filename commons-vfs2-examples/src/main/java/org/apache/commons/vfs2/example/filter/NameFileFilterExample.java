@@ -29,10 +29,6 @@ import org.apache.commons.vfs2.filter.NameFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class NameFileFilterExample {
-    private NameFileFilterExample() {
-        /* main class not instantiated. */
-    }
-
     /**
      * Invokes this example from the command line.
      *
@@ -50,6 +46,10 @@ public final class NameFileFilterExample {
             System.out.println(file);
         }
 
+    }
+
+    private NameFileFilterExample() {
+        /* main class not instantiated. */
     }
 
 }

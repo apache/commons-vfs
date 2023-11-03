@@ -31,10 +31,6 @@ public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBui
 
     private static final boolean DEFAULT_FOLLOW_REDIRECT = false;
 
-    private WebdavFileSystemConfigBuilder() {
-        super("webdav.");
-    }
-
     /**
      * Gets the singleton builder.
      *
@@ -42,6 +38,10 @@ public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBui
      */
     public static HttpFileSystemConfigBuilder getInstance() {
         return BUILDER;
+    }
+
+    private WebdavFileSystemConfigBuilder() {
+        super("webdav.");
     }
 
     /**

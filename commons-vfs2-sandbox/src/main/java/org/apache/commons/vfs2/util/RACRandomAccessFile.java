@@ -27,22 +27,27 @@ import org.apache.commons.vfs2.RandomAccessContent;
  * instance.
  */
 public class RACRandomAccessFile extends RandomAccessFile implements RandomAccessContent {
+    private static File createTempFile() throws IOException {
+        return File.createTempFile("fraf", "");
+    }
+
     private final byte[] singleByteBuf = new byte[1];
 
     private RandomAccessContent rac;
-
-    public RACRandomAccessFile(final RandomAccessContent rac) throws IOException {
-        this(createTempFile());
-        this.rac = rac;
-    }
 
     private RACRandomAccessFile(final File tempFile) throws IOException {
         super(tempFile, "r");
         deleteTempFile(tempFile);
     }
 
-    private static File createTempFile() throws IOException {
-        return File.createTempFile("fraf", "");
+    public RACRandomAccessFile(final RandomAccessContent rac) throws IOException {
+        this(createTempFile());
+        this.rac = rac;
+    }
+
+    @Override
+    public void close() throws IOException {
+        this.rac.close();
     }
 
     private void deleteTempFile(final File tempFile) {
@@ -61,38 +66,13 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
     }
 
     @Override
-    public void seek(final long pos) throws IOException {
-        this.rac.seek(pos);
-    }
-
-    @Override
-    public int skipBytes(final int n) throws IOException {
-        return this.rac.skipBytes(n);
-    }
-
-    @Override
-    public long length() throws IOException {
-        return this.rac.length();
-    }
-
-    @Override
-    public void setLength(final long newLength) throws IOException {
-        throw new IOException("Underlying RandomAccessContent instance length cannot be modified.");
-    }
-
-    @Override
     public InputStream getInputStream() throws IOException {
         return this.rac.getInputStream();
     }
 
     @Override
-    public void close() throws IOException {
-        this.rac.close();
-    }
-
-    @Override
-    public final int read(final byte[] b) throws IOException {
-        return read(b, 0, b.length);
+    public long length() throws IOException {
+        return this.rac.length();
     }
 
     @Override
@@ -103,16 +83,29 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
     }
 
     @Override
+    public final int read(final byte[] b) throws IOException {
+        return read(b, 0, b.length);
+    }
+
+    @Override
     public int read(final byte[] b, final int off, final int len) throws IOException {
         this.rac.readFully(b, off, len);
         return len;
     }
 
     @Override
-    public final void write(final int b) throws IOException {
-        final byte[] buf = this.singleByteBuf;
-        buf[0] = (byte) b;
-        write(buf, 0, 1);
+    public void seek(final long pos) throws IOException {
+        this.rac.seek(pos);
+    }
+
+    @Override
+    public void setLength(final long newLength) throws IOException {
+        throw new IOException("Underlying RandomAccessContent instance length cannot be modified.");
+    }
+
+    @Override
+    public int skipBytes(final int n) throws IOException {
+        return this.rac.skipBytes(n);
     }
 
     @Override
@@ -123,6 +116,13 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
     @Override
     public void write(final byte[] b, final int off, final int len) throws IOException {
         this.rac.write(b, off, len);
+    }
+
+    @Override
+    public final void write(final int b) throws IOException {
+        final byte[] buf = this.singleByteBuf;
+        buf[0] = (byte) b;
+        write(buf, 0, 1);
     }
 
 }

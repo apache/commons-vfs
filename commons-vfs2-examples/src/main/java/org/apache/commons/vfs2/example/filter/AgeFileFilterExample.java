@@ -29,10 +29,6 @@ import org.apache.commons.vfs2.filter.AgeFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class AgeFileFilterExample {
-    private AgeFileFilterExample() {
-        /* main class not instantiated. */
-    }
-
     /**
      * Invokes this example from the command line.
      *
@@ -53,6 +49,10 @@ public final class AgeFileFilterExample {
             System.out.println(file);
         }
 
+    }
+
+    private AgeFileFilterExample() {
+        /* main class not instantiated. */
     }
 
 }

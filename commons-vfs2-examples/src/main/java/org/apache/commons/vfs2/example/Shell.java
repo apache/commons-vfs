@@ -50,8 +50,31 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
  */
 public final class Shell {
 
+    private static String getVersion(final Class<?> cls) {
+        try {
+            return cls.getPackage().getImplementationVersion();
+        } catch (final Exception ignored) {
+            return "N/A";
+        }
+    }
+    /**
+     * Invokes this example from the command line.
+     *
+     * @param args Arguments TODO
+     */
+    public static void main(final String[] args) {
+        try {
+            new Shell().go();
+        } catch (final Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        System.exit(0);
+    }
     private final FileSystemManager mgr;
+
     private FileObject cwd;
+
     private final BufferedReader reader;
 
     private Shell() throws IOException {
@@ -72,18 +95,57 @@ public final class Shell {
     }
 
     /**
-     * Invokes this example from the command line.
-     *
-     * @param args Arguments TODO
+     * Does a 'cat' command.
      */
-    public static void main(final String[] args) {
-        try {
-            new Shell().go();
-        } catch (final Exception e) {
-            e.printStackTrace();
-            System.exit(1);
+    private void cat(final String[] cmd) throws Exception {
+        if (cmd.length < 2) {
+            throw new Exception("USAGE: cat <path>");
         }
-        System.exit(0);
+
+        // Locate the file
+        final FileObject file = mgr.resolveFile(cwd, cmd[1]);
+
+        // Dump the contents to System.out
+        FileObjectUtils.writeContent(file, System.out);
+        System.out.println();
+    }
+
+    /**
+     * Does a 'cd' command. If the taget directory does not exist, a message is printed to {@code System.err}.
+     */
+    private void cd(final String[] cmd) throws Exception {
+        final String path;
+        if (cmd.length > 1) {
+            path = cmd[1];
+        } else {
+            path = System.getProperty("user.home");
+        }
+
+        // Locate and validate the folder
+        final FileObject tmp = mgr.resolveFile(cwd, path);
+        if (tmp.exists()) {
+            cwd = tmp;
+        } else {
+            System.out.println("Folder does not exist: " + tmp.getName());
+        }
+        System.out.println("Current folder is " + cwd.getName());
+    }
+
+    /**
+     * Does a 'cp' command.
+     */
+    private void cp(final String[] cmd) throws Exception {
+        if (cmd.length < 3) {
+            throw new Exception("USAGE: cp <src> <dest>");
+        }
+
+        final FileObject src = mgr.resolveFile(cwd, cmd[1]);
+        FileObject dest = mgr.resolveFile(cwd, cmd[2]);
+        if (dest.exists() && dest.getType() == FileType.FOLDER) {
+            dest = dest.resolveFile(src.getName().getBaseName());
+        }
+
+        dest.copyFrom(src, Selectors.SELECT_ALL);
     }
 
     private void go() throws Exception {
@@ -139,6 +201,37 @@ public final class Shell {
         }
     }
 
+    /**
+     * Does a 'help' command.
+     */
+    private void help() {
+        System.out.println("Commands:");
+        System.out.println("cat <file>         Displays the contents of a file.");
+        System.out.println("cd [folder]        Changes current folder.");
+        System.out.println("cp <src> <dest>    Copies a file or folder.");
+        System.out.println("help               Shows this message.");
+        System.out.println("info [scheme]      Displays information about providers.");
+        System.out.println("ls [-R] [path]     Lists contents of a file or folder.");
+        System.out.println("pwd                Displays current folder.");
+        System.out.println("pwfs               Displays current file system.");
+        System.out.println("rm <path>          Deletes a file or folder.");
+        System.out.println("touch <path>       Sets the last-modified time of a file.");
+        System.out.println("exit, quit         Exits this program.");
+    }
+
+    private void info(final String scheme) throws Exception {
+        System.out.println("Provider Info for scheme \"" + scheme + "\":");
+        final Collection<Capability> caps;
+        caps = mgr.getProviderCapabilities(scheme);
+        if (caps != null && !caps.isEmpty()) {
+            System.out.println("  capabilities: " + caps);
+        }
+        final FileOperationProvider[] ops = mgr.getOperationProviders(scheme);
+        if (ops != null && ops.length > 0) {
+            System.out.println("  operations: " + Arrays.toString(ops));
+        }
+    }
+
     private void info(final String[] cmd) throws Exception {
         if (cmd.length > 1) {
             info(cmd[1]);
@@ -166,115 +259,23 @@ public final class Shell {
         }
     }
 
-    private void info(final String scheme) throws Exception {
-        System.out.println("Provider Info for scheme \"" + scheme + "\":");
-        final Collection<Capability> caps;
-        caps = mgr.getProviderCapabilities(scheme);
-        if (caps != null && !caps.isEmpty()) {
-            System.out.println("  capabilities: " + caps);
-        }
-        final FileOperationProvider[] ops = mgr.getOperationProviders(scheme);
-        if (ops != null && ops.length > 0) {
-            System.out.println("  operations: " + Arrays.toString(ops));
-        }
-    }
-
     /**
-     * Does a 'help' command.
+     * Lists the children of a folder.
      */
-    private void help() {
-        System.out.println("Commands:");
-        System.out.println("cat <file>         Displays the contents of a file.");
-        System.out.println("cd [folder]        Changes current folder.");
-        System.out.println("cp <src> <dest>    Copies a file or folder.");
-        System.out.println("help               Shows this message.");
-        System.out.println("info [scheme]      Displays information about providers.");
-        System.out.println("ls [-R] [path]     Lists contents of a file or folder.");
-        System.out.println("pwd                Displays current folder.");
-        System.out.println("pwfs               Displays current file system.");
-        System.out.println("rm <path>          Deletes a file or folder.");
-        System.out.println("touch <path>       Sets the last-modified time of a file.");
-        System.out.println("exit, quit         Exits this program.");
-    }
-
-    /**
-     * Does an 'rm' command.
-     */
-    private void rm(final String[] cmd) throws Exception {
-        if (cmd.length < 2) {
-            throw new Exception("USAGE: rm <path>");
+    private void listChildren(final FileObject dir, final boolean recursive, final String prefix) throws FileSystemException {
+        final FileObject[] children = dir.getChildren();
+        for (final FileObject child : children) {
+            System.out.print(prefix);
+            System.out.print(child.getName().getBaseName());
+            if (child.getType() == FileType.FOLDER) {
+                System.out.println("/");
+                if (recursive) {
+                    listChildren(child, true, prefix + "    ");
+                }
+            } else {
+                System.out.println();
+            }
         }
-
-        final FileObject file = mgr.resolveFile(cwd, cmd[1]);
-        file.delete(Selectors.SELECT_SELF);
-    }
-
-    /**
-     * Does a 'cp' command.
-     */
-    private void cp(final String[] cmd) throws Exception {
-        if (cmd.length < 3) {
-            throw new Exception("USAGE: cp <src> <dest>");
-        }
-
-        final FileObject src = mgr.resolveFile(cwd, cmd[1]);
-        FileObject dest = mgr.resolveFile(cwd, cmd[2]);
-        if (dest.exists() && dest.getType() == FileType.FOLDER) {
-            dest = dest.resolveFile(src.getName().getBaseName());
-        }
-
-        dest.copyFrom(src, Selectors.SELECT_ALL);
-    }
-
-    /**
-     * Does a 'cat' command.
-     */
-    private void cat(final String[] cmd) throws Exception {
-        if (cmd.length < 2) {
-            throw new Exception("USAGE: cat <path>");
-        }
-
-        // Locate the file
-        final FileObject file = mgr.resolveFile(cwd, cmd[1]);
-
-        // Dump the contents to System.out
-        FileObjectUtils.writeContent(file, System.out);
-        System.out.println();
-    }
-
-    /**
-     * Does a 'pwd' command.
-     */
-    private void pwd() {
-        System.out.println("Current folder is " + cwd.getName());
-    }
-
-    /**
-     * Does a 'pwfs' command.
-     */
-    private void pwfs() {
-        System.out.println("FileSystem of current folder is " + cwd.getFileSystem() + " (root: " + cwd.getFileSystem().getRootURI() + ")");
-    }
-
-    /**
-     * Does a 'cd' command. If the taget directory does not exist, a message is printed to {@code System.err}.
-     */
-    private void cd(final String[] cmd) throws Exception {
-        final String path;
-        if (cmd.length > 1) {
-            path = cmd[1];
-        } else {
-            path = System.getProperty("user.home");
-        }
-
-        // Locate and validate the folder
-        final FileObject tmp = mgr.resolveFile(cwd, path);
-        if (tmp.exists()) {
-            cwd = tmp;
-        } else {
-            System.out.println("Folder does not exist: " + tmp.getName());
-        }
-        System.out.println("Current folder is " + cwd.getName());
     }
 
     /**
@@ -313,39 +314,6 @@ public final class Shell {
     }
 
     /**
-     * Does a 'touch' command.
-     */
-    private void touch(final String[] cmd) throws Exception {
-        if (cmd.length < 2) {
-            throw new Exception("USAGE: touch <path>");
-        }
-        final FileObject file = mgr.resolveFile(cwd, cmd[1]);
-        if (!file.exists()) {
-            file.createFile();
-        }
-        file.getContent().setLastModifiedTime(System.currentTimeMillis());
-    }
-
-    /**
-     * Lists the children of a folder.
-     */
-    private void listChildren(final FileObject dir, final boolean recursive, final String prefix) throws FileSystemException {
-        final FileObject[] children = dir.getChildren();
-        for (final FileObject child : children) {
-            System.out.print(prefix);
-            System.out.print(child.getName().getBaseName());
-            if (child.getType() == FileType.FOLDER) {
-                System.out.println("/");
-                if (recursive) {
-                    listChildren(child, true, prefix + "    ");
-                }
-            } else {
-                System.out.println();
-            }
-        }
-    }
-
-    /**
      * Returns the next command, split into tokens.
      */
     private String[] nextCommand() throws IOException {
@@ -362,11 +330,43 @@ public final class Shell {
         return cmd.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
-    private static String getVersion(final Class<?> cls) {
-        try {
-            return cls.getPackage().getImplementationVersion();
-        } catch (final Exception ignored) {
-            return "N/A";
+    /**
+     * Does a 'pwd' command.
+     */
+    private void pwd() {
+        System.out.println("Current folder is " + cwd.getName());
+    }
+
+    /**
+     * Does a 'pwfs' command.
+     */
+    private void pwfs() {
+        System.out.println("FileSystem of current folder is " + cwd.getFileSystem() + " (root: " + cwd.getFileSystem().getRootURI() + ")");
+    }
+
+    /**
+     * Does an 'rm' command.
+     */
+    private void rm(final String[] cmd) throws Exception {
+        if (cmd.length < 2) {
+            throw new Exception("USAGE: rm <path>");
         }
+
+        final FileObject file = mgr.resolveFile(cwd, cmd[1]);
+        file.delete(Selectors.SELECT_SELF);
+    }
+
+    /**
+     * Does a 'touch' command.
+     */
+    private void touch(final String[] cmd) throws Exception {
+        if (cmd.length < 2) {
+            throw new Exception("USAGE: touch <path>");
+        }
+        final FileObject file = mgr.resolveFile(cwd, cmd[1]);
+        if (!file.exists()) {
+            file.createFile();
+        }
+        file.getContent().setLastModifiedTime(System.currentTimeMillis());
     }
 }

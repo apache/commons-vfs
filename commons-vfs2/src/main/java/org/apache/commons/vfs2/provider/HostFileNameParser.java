@@ -146,6 +146,23 @@ public class HostFileNameParser extends AbstractFileNameParser {
         }
     }
 
+    private static boolean isHostNameTerminatingChar(final char ch, final boolean isIPv6Host) {
+        if (isIPv6Host) {
+            return ch == ']';
+        }
+
+        return ch == '/' || ch == ';' || ch == '?' || ch == ':' || ch == '@' || ch == '&' || ch == '=' || ch == '+'
+                || ch == '$' || ch == ',';
+    }
+
+    private static boolean isIPv6Host(String name) {
+        return name.length() > 0 && isIPv6HostHeadingChar(name.charAt(0));
+    }
+
+    private static boolean isIPv6HostHeadingChar(final char ch) {
+        return ch == '[';
+    }
+
     private final int defaultPort;
 
     /**
@@ -368,22 +385,5 @@ public class HostFileNameParser extends AbstractFileNameParser {
 
         return new GenericFileName(auth.scheme, auth.hostName, auth.port, defaultPort, auth.userName, auth.password,
                 path, fileType);
-    }
-
-    private static boolean isIPv6HostHeadingChar(final char ch) {
-        return ch == '[';
-    }
-
-    private static boolean isHostNameTerminatingChar(final char ch, final boolean isIPv6Host) {
-        if (isIPv6Host) {
-            return ch == ']';
-        }
-
-        return ch == '/' || ch == ';' || ch == '?' || ch == ':' || ch == '@' || ch == '&' || ch == '=' || ch == '+'
-                || ch == '$' || ch == ',';
-    }
-
-    private static boolean isIPv6Host(String name) {
-        return name.length() > 0 && isIPv6HostHeadingChar(name.charAt(0));
     }
 }

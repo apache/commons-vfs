@@ -29,10 +29,6 @@ import org.apache.commons.vfs2.filter.DirectoryFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class DirectoryFileFilterExample {
-    private DirectoryFileFilterExample() {
-        /* main class not instantiated. */
-    }
-
     /**
      * Invokes this example from the command line.
      *
@@ -49,6 +45,10 @@ public final class DirectoryFileFilterExample {
         for (final FileObject file : files) {
             System.out.println(file);
         }
+    }
+
+    private DirectoryFileFilterExample() {
+        /* main class not instantiated. */
     }
 
 }

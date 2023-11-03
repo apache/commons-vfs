@@ -33,10 +33,6 @@ public final class VFS {
     /** The URI style */
     private static Boolean uriStyle;
 
-    private VFS() {
-        // no public instantiation.
-    }
-
     /**
      * Closes the default {@link FileSystemManager} instance.
      * <p>
@@ -141,5 +137,9 @@ public final class VFS {
             throw new IllegalStateException("VFS.uriStyle was already set differently.");
         }
         VFS.uriStyle = Boolean.valueOf(uriStyle);
+    }
+
+    private VFS() {
+        // no public instantiation.
     }
 }

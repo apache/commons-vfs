@@ -196,6 +196,15 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     private static final String DEFAULT_TLS_VERSIONS = "V_1_2";
 
+    /**
+     * Gets the singleton builder.
+     *
+     * @return the singleton builder.
+     */
+    public static Http5FileSystemConfigBuilder getInstance() {
+        return BUILDER;
+    }
+
     private Http5FileSystemConfigBuilder() {
         super("http.");
     }
@@ -207,15 +216,6 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     protected Http5FileSystemConfigBuilder(final String prefix) {
         super(prefix);
-    }
-
-    /**
-     * Gets the singleton builder.
-     *
-     * @return the singleton builder.
-     */
-    public static Http5FileSystemConfigBuilder getInstance() {
-        return BUILDER;
     }
 
     @Override

@@ -51,13 +51,6 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider {
         Capability.GET_LAST_MODIFIED, Capability.SET_LAST_MODIFIED_FILE, Capability.RANDOM_ACCESS_READ, Capability.APPEND_CONTENT));
 
     /**
-     * Constructs a new provider.
-     */
-    public SftpFileProvider() {
-        setFileNameParser(SftpFileNameParser.getInstance());
-    }
-
-    /**
      * Creates a new Session.
      *
      * @return A Session, never null.
@@ -79,6 +72,13 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider {
         } finally {
             UserAuthenticatorUtils.cleanup(authData);
         }
+    }
+
+    /**
+     * Constructs a new provider.
+     */
+    public SftpFileProvider() {
+        setFileNameParser(SftpFileNameParser.getInstance());
     }
 
     /**

@@ -29,10 +29,6 @@ import org.apache.commons.vfs2.filter.EmptyFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class EmptyFileFilterExample {
-    private EmptyFileFilterExample() {
-        /* main class not instantiated. */
-    }
-
     /**
      * Invokes this example from the command line.
      *
@@ -58,6 +54,10 @@ public final class EmptyFileFilterExample {
             System.out.println(file);
         }
 
+    }
+
+    private EmptyFileFilterExample() {
+        /* main class not instantiated. */
     }
 
 }

@@ -28,10 +28,6 @@ import com.jcraft.jsch.UserInfo;
  * Basic check for SFTP.
  */
 public final class SftpCheck {
-    private SftpCheck() {
-        /* main class not instantiated. */
-    }
-
     /**
      * Invokes this example from the command line.
      *
@@ -63,12 +59,12 @@ public final class SftpCheck {
             }
 
             @Override
-            public boolean promptPassword(final String string) {
+            public boolean promptPassphrase(final String string) {
                 return false;
             }
 
             @Override
-            public boolean promptPassphrase(final String string) {
+            public boolean promptPassword(final String string) {
                 return false;
             }
 
@@ -90,5 +86,9 @@ public final class SftpCheck {
         System.err.println("done");
         chan.disconnect();
         session.disconnect();
+    }
+
+    private SftpCheck() {
+        /* main class not instantiated. */
     }
 }

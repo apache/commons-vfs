@@ -74,10 +74,6 @@ public final class FtpsClientFactory {
         }
     }
 
-    private FtpsClientFactory() {
-        // empty
-    }
-
     /**
      * Creates a new connection to the server.
      *
@@ -95,5 +91,9 @@ public final class FtpsClientFactory {
             throws FileSystemException {
         final FtpsConnectionFactory factory = new FtpsConnectionFactory(FtpsFileSystemConfigBuilder.getInstance());
         return factory.createConnection(hostname, port, username, password, workingDirectory, fileSystemOptions);
+    }
+
+    private FtpsClientFactory() {
+        // empty
     }
 }

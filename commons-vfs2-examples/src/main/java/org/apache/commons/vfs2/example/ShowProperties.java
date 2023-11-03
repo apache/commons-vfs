@@ -32,10 +32,6 @@ public final class ShowProperties {
     /** Maximum number of children to show. */
     private static final int SHOW_MAX = 5;
 
-    private ShowProperties() {
-        /* main class not instantiated. */
-    }
-
     /**
      * Invokes this example from the command line.
      *
@@ -89,6 +85,10 @@ public final class ShowProperties {
                 ex.printStackTrace();
             }
         }
+    }
+
+    private ShowProperties() {
+        /* main class not instantiated. */
     }
 
 }

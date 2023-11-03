@@ -33,19 +33,33 @@ public class SmbFileNameParser extends URLFileNameParser {
     private static final int SMB_PORT = 139;
 
     /**
-     * Creates a new instance with the default port 139.
-     */
-    public SmbFileNameParser() {
-        super(SMB_PORT);
-    }
-
-    /**
      * Gets the singleton instance.
      *
      * @return the singleton instance.
      */
     public static FileNameParser getInstance() {
         return INSTANCE;
+    }
+
+    /**
+     * Creates a new instance with the default port 139.
+     */
+    public SmbFileNameParser() {
+        super(SMB_PORT);
+    }
+
+    private String extractDomain(final String username) {
+        if (username == null) {
+            return null;
+        }
+
+        for (int i = 0; i < username.length(); i++) {
+            if (username.charAt(i) == '\\') {
+                return username.substring(0, i);
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -80,19 +94,5 @@ public class SmbFileNameParser extends URLFileNameParser {
 
         return new SmbFileName(auth.getScheme(), auth.getHostName(), auth.getPort(), username, auth.getPassword(),
                 domain, share, path, fileType);
-    }
-
-    private String extractDomain(final String username) {
-        if (username == null) {
-            return null;
-        }
-
-        for (int i = 0; i < username.length(); i++) {
-            if (username.charAt(i) == '\\') {
-                return username.substring(0, i);
-            }
-        }
-
-        return null;
     }
 }

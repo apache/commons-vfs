@@ -19,12 +19,12 @@ package org.apache.commons.vfs2.provider.sftp;
 
 final class Utils {
 
-    private Utils() {
-        // never
-    }
-
     static byte[] clone(final byte[] array) {
         return array != null ? array.clone() : null;
+    }
+
+    private Utils() {
+        // never
     }
 
 }

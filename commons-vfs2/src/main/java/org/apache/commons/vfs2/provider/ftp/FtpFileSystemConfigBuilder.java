@@ -61,20 +61,6 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String TRANSFER_ABORTED_OK_REPLY_CODES = PREFIX + ".TRANSFER_ABORTED_OK_REPLY_CODES";
     private static final String MDTM_LAST_MODIFED_TIME = PREFIX + ".MDTM_LAST_MODIFED_TIME";
 
-    private FtpFileSystemConfigBuilder() {
-        super("ftp.");
-    }
-
-    /**
-     * Create new config builder with specified prefix string.
-     *
-     * @param prefix prefix string to use for parameters of this config builder.
-     * @since 2.1
-     */
-    protected FtpFileSystemConfigBuilder(final String prefix) {
-        super(prefix);
-    }
-
     /**
      * Gets the singleton instance.
      *
@@ -94,6 +80,31 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public static List<Integer> getSaneTransferAbortedOkReplyCodes() {
         // See VFS-674, its accompanying PR and https://github.com/apache/commons-vfs/pull/51 as to why 426 and 550 are here
         return new ArrayList<>(Arrays.asList(FTPReply.TRANSFER_ABORTED, FTPReply.FILE_UNAVAILABLE));
+    }
+
+    private FtpFileSystemConfigBuilder() {
+        super("ftp.");
+    }
+
+    /**
+     * Create new config builder with specified prefix string.
+     *
+     * @param prefix prefix string to use for parameters of this config builder.
+     * @since 2.1
+     */
+    protected FtpFileSystemConfigBuilder(final String prefix) {
+        super(prefix);
+    }
+
+    /**
+     * Gets the active port range.
+     *
+     * @param options The FileSystemOptions.
+     * @return the Range of active ports
+     * @since 2.10.0
+     */
+    public Range<Integer> getActivePortRange(final FileSystemOptions options) {
+        return getParam(options, ACTIVE_PORT_RANGE);
     }
 
     /**
@@ -247,17 +258,6 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Gets the active port range.
-     *
-     * @param options The FileSystemOptions.
-     * @return the Range of active ports
-     * @since 2.10.0
-     */
-    public Range<Integer> getActivePortRange(final FileSystemOptions options) {
-        return getParam(options, ACTIVE_PORT_RANGE);
-    }
-
-    /**
      * Gets the Proxy.
      *
      * @param options The FileSystemOptions.
@@ -366,6 +366,17 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public Boolean getUserDirIsRoot(final FileSystemOptions options) {
         return getBoolean(options, USER_DIR_IS_ROOT, Boolean.TRUE);
+    }
+
+    /**
+     * Sets the active port range.
+     *
+     * @param options   The FileSystemOptions.
+     * @param portRange the Range of active ports
+     * @since 2.10.0
+     */
+    public void setActivePortRange(final FileSystemOptions options, final Range<Integer> portRange) {
+        setParam(options, ACTIVE_PORT_RANGE, portRange);
     }
 
     /**
@@ -539,17 +550,6 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public void setPassiveMode(final FileSystemOptions options, final boolean passiveMode) {
         setParam(options, PASSIVE_MODE, toBooleanObject(passiveMode));
-    }
-
-    /**
-     * Sets the active port range.
-     *
-     * @param options   The FileSystemOptions.
-     * @param portRange the Range of active ports
-     * @since 2.10.0
-     */
-    public void setActivePortRange(final FileSystemOptions options, final Range<Integer> portRange) {
-        setParam(options, ACTIVE_PORT_RANGE, portRange);
     }
 
     /**

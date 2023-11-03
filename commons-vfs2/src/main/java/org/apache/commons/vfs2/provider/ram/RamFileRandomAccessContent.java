@@ -36,6 +36,64 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
     private static final int BYTE_VALUE_MASK = 0xFF;
 
     /**
+     * Build an 8-byte array from a long. No check is performed on the array length.
+     *
+     * @param n The number to convert.
+     * @param b The array to fill.
+     * @return A byte[].
+     */
+    public static byte[] toBytes(long n, final byte[] b) {
+        b[7] = (byte) n;
+        n >>>= 8;
+        b[6] = (byte) n;
+        n >>>= 8;
+        b[5] = (byte) n;
+        n >>>= 8;
+        b[4] = (byte) n;
+        n >>>= 8;
+        b[3] = (byte) n;
+        n >>>= 8;
+        b[2] = (byte) n;
+        n >>>= 8;
+        b[1] = (byte) n;
+        n >>>= 8;
+        b[0] = (byte) n;
+        return b;
+    }
+
+    /**
+     * Build a long from first 8 bytes of the array.
+     *
+     * @param b The byte[] to convert.
+     * @return A long.
+     */
+    public static long toLong(final byte[] b) {
+        return ((long) b[7] & BYTE_VALUE_MASK) + (((long) b[6] & BYTE_VALUE_MASK) << 8) + (((long) b[5] & BYTE_VALUE_MASK) << 16)
+                + (((long) b[4] & BYTE_VALUE_MASK) << 24) + (((long) b[3] & BYTE_VALUE_MASK) << 32) + (((long) b[2] & BYTE_VALUE_MASK) << 40)
+                + (((long) b[1] & BYTE_VALUE_MASK) << 48) + (((long) b[0] & BYTE_VALUE_MASK) << 56);
+    }
+
+    /**
+     * Build a short from first 2 bytes of the array.
+     *
+     * @param b The byte[] to convert.
+     * @return A short.
+     */
+    public static short toShort(final byte[] b) {
+        return (short) toUnsignedShort(b);
+    }
+
+    /**
+     * Build a short from first 2 bytes of the array.
+     *
+     * @param b The byte[] to convert.
+     * @return A short.
+     */
+    public static int toUnsignedShort(final byte[] b) {
+        return (b[1] & BYTE_VALUE_MASK) + ((b[0] & BYTE_VALUE_MASK) << 8);
+    }
+
+    /**
      * File Pointer
      */
     protected int filePointer;
@@ -123,64 +181,6 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
                 return n;
             }
         };
-    }
-
-    /**
-     * Build an 8-byte array from a long. No check is performed on the array length.
-     *
-     * @param n The number to convert.
-     * @param b The array to fill.
-     * @return A byte[].
-     */
-    public static byte[] toBytes(long n, final byte[] b) {
-        b[7] = (byte) n;
-        n >>>= 8;
-        b[6] = (byte) n;
-        n >>>= 8;
-        b[5] = (byte) n;
-        n >>>= 8;
-        b[4] = (byte) n;
-        n >>>= 8;
-        b[3] = (byte) n;
-        n >>>= 8;
-        b[2] = (byte) n;
-        n >>>= 8;
-        b[1] = (byte) n;
-        n >>>= 8;
-        b[0] = (byte) n;
-        return b;
-    }
-
-    /**
-     * Build a long from first 8 bytes of the array.
-     *
-     * @param b The byte[] to convert.
-     * @return A long.
-     */
-    public static long toLong(final byte[] b) {
-        return ((long) b[7] & BYTE_VALUE_MASK) + (((long) b[6] & BYTE_VALUE_MASK) << 8) + (((long) b[5] & BYTE_VALUE_MASK) << 16)
-                + (((long) b[4] & BYTE_VALUE_MASK) << 24) + (((long) b[3] & BYTE_VALUE_MASK) << 32) + (((long) b[2] & BYTE_VALUE_MASK) << 40)
-                + (((long) b[1] & BYTE_VALUE_MASK) << 48) + (((long) b[0] & BYTE_VALUE_MASK) << 56);
-    }
-
-    /**
-     * Build a short from first 2 bytes of the array.
-     *
-     * @param b The byte[] to convert.
-     * @return A short.
-     */
-    public static short toShort(final byte[] b) {
-        return (short) toUnsignedShort(b);
-    }
-
-    /**
-     * Build a short from first 2 bytes of the array.
-     *
-     * @param b The byte[] to convert.
-     * @return A short.
-     */
-    public static int toUnsignedShort(final byte[] b) {
-        return (b[1] & BYTE_VALUE_MASK) + ((b[0] & BYTE_VALUE_MASK) << 8);
     }
 
     /*

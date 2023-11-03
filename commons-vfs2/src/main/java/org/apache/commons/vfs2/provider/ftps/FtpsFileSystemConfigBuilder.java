@@ -39,10 +39,6 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
     private static final String KEY_MANAGER = PREFIX + ".KEY_MANAGER";
     private static final String TRUST_MANAGER = PREFIX + ".TRUST_MANAGER";
 
-    private FtpsFileSystemConfigBuilder() {
-        super("ftps.");
-    }
-
     /**
      * Gets the singleton builder.
      *
@@ -50,6 +46,10 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
      */
     public static FtpsFileSystemConfigBuilder getInstance() {
         return BUILDER;
+    }
+
+    private FtpsFileSystemConfigBuilder() {
+        super("ftps.");
     }
 
     /**

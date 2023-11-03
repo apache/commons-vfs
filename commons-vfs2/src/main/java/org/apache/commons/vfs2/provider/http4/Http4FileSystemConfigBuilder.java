@@ -176,6 +176,15 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     private static final String PROXY_SCHEME = "proxyScheme";
 
+    /**
+     * Gets the singleton builder.
+     *
+     * @return the singleton builder.
+     */
+    public static Http4FileSystemConfigBuilder getInstance() {
+        return BUILDER;
+    }
+
     private Http4FileSystemConfigBuilder() {
         super("http.");
     }
@@ -187,15 +196,6 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     protected Http4FileSystemConfigBuilder(final String prefix) {
         super(prefix);
-    }
-
-    /**
-     * Gets the singleton builder.
-     *
-     * @return the singleton builder.
-     */
-    public static Http4FileSystemConfigBuilder getInstance() {
-        return BUILDER;
     }
 
     @Override

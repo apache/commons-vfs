@@ -24,10 +24,6 @@ import org.apache.commons.logging.Log;
  */
 public final class VfsLog {
 
-    // static utility class
-    private VfsLog() {
-    }
-
     /**
      * debug.
      *
@@ -181,5 +177,9 @@ public final class VfsLog {
         } else if (commonslog != null) {
             commonslog.warn(message, t);
         }
+    }
+
+    // static utility class
+    private VfsLog() {
     }
 }

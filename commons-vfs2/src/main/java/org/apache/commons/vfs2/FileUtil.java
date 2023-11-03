@@ -30,13 +30,6 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
 public final class FileUtil {
 
     /**
-     * No instances.
-     */
-    private FileUtil() {
-        // empty
-    }
-
-    /**
      * Copies the content from a source file to a destination file.
      *
      * @param srcFile The source FileObject.
@@ -76,6 +69,13 @@ public final class FileUtil {
     @Deprecated
     public static void writeContent(final FileObject file, final OutputStream output) throws IOException {
         FileObjectUtils.writeContent(file, output);
+    }
+
+    /**
+     * No instances.
+     */
+    private FileUtil() {
+        // empty
     }
 
 }

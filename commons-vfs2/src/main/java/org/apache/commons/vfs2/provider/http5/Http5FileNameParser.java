@@ -31,18 +31,18 @@ public class Http5FileNameParser extends GenericURLFileNameParser {
     private static final Http5FileNameParser INSTANCE = new Http5FileNameParser();
 
     /**
-     * Creates a new instance with the default port 80.
-     */
-    public Http5FileNameParser() {
-        super(DEFAULT_PORT);
-    }
-
-    /**
      * Gets the singleton instance.
      *
      * @return the singleton instance.
      */
     public static FileNameParser getInstance() {
         return INSTANCE;
+    }
+
+    /**
+     * Creates a new instance with the default port 80.
+     */
+    public Http5FileNameParser() {
+        super(DEFAULT_PORT);
     }
 }

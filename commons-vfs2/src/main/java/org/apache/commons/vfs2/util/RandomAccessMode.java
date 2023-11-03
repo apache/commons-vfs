@@ -61,14 +61,6 @@ public enum RandomAccessMode {
     private static final AccessMode[] ACCESS_MODE_READ = {AccessMode.READ};
     private static final AccessMode[] ACCESS_MODE_READ_WRITE = {AccessMode.READ, AccessMode.WRITE};
 
-    private final boolean read;
-    private final boolean write;
-
-    RandomAccessMode(final boolean read, final boolean write) {
-        this.read = read;
-        this.write = write;
-    }
-
     /**
      * Converts an array of {@link AccessMode} into a RandomAccessMode.
      *
@@ -89,6 +81,14 @@ public enum RandomAccessMode {
             return READ;
         }
         throw new IllegalArgumentException(Arrays.toString(accessModes));
+    }
+    private final boolean read;
+
+    private final boolean write;
+
+    RandomAccessMode(final boolean read, final boolean write) {
+        this.read = read;
+        this.write = write;
     }
 
     /**

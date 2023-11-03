@@ -78,39 +78,6 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     private static final String DO_GET_INPUT_STREAM_INT = "doGetInputStream(int)";
 
-    private final AbstractFileName fileName;
-    private final AFS fileSystem;
-
-    private FileContent content;
-    // Cached info
-    private boolean attached;
-    private FileType type;
-
-    private FileObject parent;
-    // Changed to hold only the name of the children and let the object
-    // go into the global files cache
-    // private FileObject[] children;
-    private FileName[] children;
-
-    private List<Object> objects;
-
-    /**
-     * FileServices instance.
-     */
-    private FileOperations operations;
-
-    /**
-     * Constructs a new instance.
-     *
-     * @param fileName the file name.
-     * @param fileSystem the file system.
-     */
-    protected AbstractFileObject(final AbstractFileName fileName, final AFS fileSystem) {
-        this.fileName = fileName;
-        this.fileSystem = fileSystem;
-        fileSystem.fileObjectHanded(this);
-    }
-
     /**
      * Traverses a file.
      */
@@ -146,6 +113,39 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 selected.add(index, file);
             }
         }
+    }
+    private final AbstractFileName fileName;
+
+    private final AFS fileSystem;
+    private FileContent content;
+    // Cached info
+    private boolean attached;
+
+    private FileType type;
+    private FileObject parent;
+
+    // Changed to hold only the name of the children and let the object
+    // go into the global files cache
+    // private FileObject[] children;
+    private FileName[] children;
+
+    private List<Object> objects;
+
+    /**
+     * FileServices instance.
+     */
+    private FileOperations operations;
+
+    /**
+     * Constructs a new instance.
+     *
+     * @param fileName the file name.
+     * @param fileSystem the file system.
+     */
+    protected AbstractFileObject(final AbstractFileName fileName, final AFS fileSystem) {
+        this.fileName = fileName;
+        this.fileSystem = fileSystem;
+        fileSystem.fileObjectHanded(this);
     }
 
     /**

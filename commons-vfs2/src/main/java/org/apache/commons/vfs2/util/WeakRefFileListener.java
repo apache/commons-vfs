@@ -31,16 +31,6 @@ import org.apache.commons.vfs2.FileSystem;
  */
 public class WeakRefFileListener implements FileListener {
 
-    private final FileSystem fs;
-    private final FileName name;
-    private final WeakReference<FileListener> listener;
-
-    protected WeakRefFileListener(final FileObject file, final FileListener listener) {
-        this.fs = file.getFileSystem();
-        this.name = file.getName();
-        this.listener = new WeakReference<>(listener);
-    }
-
     /**
      * Installs the {@code listener} at the given {@code file}.
      *
@@ -49,6 +39,16 @@ public class WeakRefFileListener implements FileListener {
      */
     public static void installListener(final FileObject file, final FileListener listener) {
         file.getFileSystem().addListener(file, new WeakRefFileListener(file, new WeakRefFileListener(file, listener)));
+    }
+    private final FileSystem fs;
+    private final FileName name;
+
+    private final WeakReference<FileListener> listener;
+
+    protected WeakRefFileListener(final FileObject file, final FileListener listener) {
+        this.fs = file.getFileSystem();
+        this.name = file.getName();
+        this.listener = new WeakReference<>(listener);
     }
 
     /**

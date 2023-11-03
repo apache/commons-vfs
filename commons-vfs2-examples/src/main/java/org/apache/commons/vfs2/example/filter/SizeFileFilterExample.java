@@ -29,10 +29,6 @@ import org.apache.commons.vfs2.filter.SizeFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class SizeFileFilterExample {
-    private SizeFileFilterExample() {
-        /* main class not instantiated. */
-    }
-
     /**
      * Invokes this example from the command line.
      *
@@ -51,6 +47,10 @@ public final class SizeFileFilterExample {
             System.out.println(file);
         }
 
+    }
+
+    private SizeFileFilterExample() {
+        /* main class not instantiated. */
     }
 
 }
