@@ -54,6 +54,13 @@ import org.mortbay.jetty.webapp.WebAppContext;
  */
 class JackrabbitMain {
 
+    /**
+     * @param args
+     */
+    public static void main(final String[] args) throws Exception {
+        new JackrabbitMain(args).run();
+    }
+
     private final Options options = new Options();
 
     private final CommandLine command;
@@ -67,8 +74,8 @@ class JackrabbitMain {
     private final Server server = new Server();
 
     private FileAppender jackrabbitAppender;
-
     private FileAppender jettyAppender;
+
     public JackrabbitMain(final String[] args) throws ParseException {
         options.addOption("?", "help", false, "print this message");
         options.addOption("n", "notice", false, "print copyright notices");
@@ -84,13 +91,6 @@ class JackrabbitMain {
         options.addOption("c", "conf", true, "repository configuration file");
 
         command = new GnuParser().parse(options, args);
-    }
-
-    /**
-     * @param args
-     */
-    public static void main(final String[] args) throws Exception {
-        new JackrabbitMain(args).run();
     }
 
     private void copyToOutput(final String resource) throws IOException {

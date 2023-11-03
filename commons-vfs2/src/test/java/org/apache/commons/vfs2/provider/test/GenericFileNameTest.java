@@ -73,6 +73,183 @@ public class GenericFileNameTest {
         }
     }
 
+    @Test
+    public void testIPv6BadlyFormedUri() {
+        // address with opening bracket only
+        testBadlyFormedUri("ftp://[", "vfs.provider/unterminated-ipv6-hostname.error");
+
+        // address with closing bracket only (ftp://]) actually currently parses ok, but it's not considered as IPv6 case by parser
+
+        // address with unterminated host name
+        testBadlyFormedUri("ftp://[fe80::8b2:d61e:e5c:b333", "vfs.provider/unterminated-ipv6-hostname.error");
+
+        // address without opening bracket (first ":" considered as port number separator in this case)
+        testBadlyFormedUri("ftp://fe80::8b2:d61e:e5c:b333]", "vfs.provider/missing-port.error");
+
+        // empty address in brackets
+        testBadlyFormedUri("ftp://[]", "vfs.provider/missing-hostname.error");
+
+        // double square brackets
+        // (first "]" considered as terminating bracket, path separator is expected instead of the second "]")
+        testBadlyFormedUri("ftp://[[fe80::8b2:d61e:e5c:b333]]", "vfs.provider/missing-hostname-path-sep.error");
+
+        // two empty strings in brackets
+        testBadlyFormedUri("ftp://[][]", "vfs.provider/missing-hostname.error");
+
+        // two non-empty strings in brackets
+        testBadlyFormedUri("ftp://[fe80::8b2:d61e:e5c:b333][fe80::8b2:d61e:e5c:b333]", "vfs.provider/missing-hostname-path-sep.error");
+    }
+
+    @Test
+    public void testParseIPv6InvalidHostsTolerance() throws Exception {
+        // We don't strictly validate IPv6 host name, if it can be parsed out from URI
+        // Assuming, it'll just fail on connection stage
+
+        GenericURLFileNameParser urlParser = new GenericURLFileNameParser(21);
+
+        // too few segments
+        GenericFileName name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[1:2e]:2222/test");
+        assertEquals("[1:2e]", name.getHostName());
+        assertEquals(2222, name.getPort());
+        assertEquals("ftp://[1:2e]:2222/test", name.getURI());
+
+        // IPv4 address in square brackets
+        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[192.168.1.1]:2222/test");
+        assertEquals("[192.168.1.1]", name.getHostName());
+        assertEquals(2222, name.getPort());
+        assertEquals("ftp://[192.168.1.1]:2222/test", name.getURI());
+
+        // too many segments
+        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[::7:6:5:4:3:2:1:0]:2222/test");
+        assertEquals("[::7:6:5:4:3:2:1:0]", name.getHostName());
+        assertEquals(2222, name.getPort());
+        assertEquals("ftp://[::7:6:5:4:3:2:1:0]:2222/test", name.getURI());
+
+        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[3ffe:0:0:0:0:0:0:0:1]:2222/test");
+        assertEquals("[3ffe:0:0:0:0:0:0:0:1]", name.getHostName());
+        assertEquals(2222, name.getPort());
+        assertEquals("ftp://[3ffe:0:0:0:0:0:0:0:1]:2222/test", name.getURI());
+
+        // segment exceeds 16 bits
+        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[3ffe::10000]:2222/test");
+        assertEquals("[3ffe::10000]", name.getHostName());
+        assertEquals(2222, name.getPort());
+        assertEquals("ftp://[3ffe::10000]:2222/test", name.getURI());
+
+        // whitespace host
+        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[ ]:2222/test");
+        assertEquals("[ ]", name.getHostName());
+        assertEquals(2222, name.getPort());
+        assertEquals("ftp://[ ]:2222/test", name.getURI());
+
+        // just some invalid sequences
+        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[:]:2222/test");
+        assertEquals("[:]", name.getHostName());
+        assertEquals(2222, name.getPort());
+        assertEquals("ftp://[:]:2222/test", name.getURI());
+
+        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[:::]:2222/test");
+        assertEquals("[:::]", name.getHostName());
+        assertEquals(2222, name.getPort());
+        assertEquals("ftp://[:::]:2222/test", name.getURI());
+
+        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[xyz]:2222/test");
+        assertEquals("[xyz]", name.getHostName());
+        assertEquals(2222, name.getPort());
+        assertEquals("ftp://[xyz]:2222/test", name.getURI());
+    }
+
+    @Test
+    public void testParseIPv6Uri() throws Exception {
+        GenericURLFileNameParser urlParser = new GenericURLFileNameParser(21);
+
+        // basic case
+        GenericFileName name = (GenericFileName) urlParser.parseUri(
+                null, null, "ftp://[fe80::3dd0:7f8e:57b7:34d5]:2222/test");
+        assertEquals("[fe80::3dd0:7f8e:57b7:34d5]", name.getHostName());
+        assertEquals(2222, name.getPort());
+        assertEquals("/test", name.getPath());
+        assertEquals("ftp://[fe80::3dd0:7f8e:57b7:34d5]:2222/", name.getRootURI());
+        assertEquals("ftp://[fe80::3dd0:7f8e:57b7:34d5]:2222/test", name.getURI());
+
+        // full uri case
+        name = (GenericFileName) urlParser.parseUri(
+                null, null, "http://user:password@[fe80::3dd0:7f8e:57b7:34d5]:2222/test?param1=value1&param2=value2#fragment");
+        assertEquals("[fe80::3dd0:7f8e:57b7:34d5]", name.getHostName());
+        assertEquals(2222, name.getPort());
+        assertEquals("/test", name.getPath());
+        assertEquals("http://user:password@[fe80::3dd0:7f8e:57b7:34d5]:2222/", name.getRootURI());
+        assertEquals(
+                "http://user:password@[fe80::3dd0:7f8e:57b7:34d5]:2222/test?param1=value1&param2=value2#fragment",
+                name.getURI());
+
+        // no trailing zeroes case
+        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[2001:658:22a:cafe::]:2222/test");
+        assertEquals("[2001:658:22a:cafe::]", name.getHostName());
+        assertEquals(2222, name.getPort());
+        assertEquals("ftp://[2001:658:22a:cafe::]:2222/test", name.getURI());
+
+        // the loopback address
+        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[::1]:2222/test");
+        assertEquals("[::1]", name.getHostName());
+        assertEquals(2222, name.getPort());
+        assertEquals("ftp://[::1]:2222/test", name.getURI());
+
+        // the unspecified address
+        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[::]:2222/test");
+        assertEquals("[::]", name.getHostName());
+        assertEquals(2222, name.getPort());
+        assertEquals("ftp://[::]:2222/test", name.getURI());
+
+        // form for a mixed environment of IPv4 and IPv6
+        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[0:0:0:0:0:0:13.1.68.3]:2222/test");
+        assertEquals("[0:0:0:0:0:0:13.1.68.3]", name.getHostName());
+        assertEquals(2222, name.getPort());
+        assertEquals("ftp://[0:0:0:0:0:0:13.1.68.3]:2222/test", name.getURI());
+
+        // compressed form for a mixed environment of IPv4 and IPv6
+        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[::13.1.68.3]:2222/test");
+        assertEquals("[::13.1.68.3]", name.getHostName());
+        assertEquals(2222, name.getPort());
+        assertEquals("ftp://[::13.1.68.3]:2222/test", name.getURI());
+
+        // compressed form for a mixed environment of IPv4 and IPv6
+        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[::FFFF:129.144.52.38]:2222/test");
+        assertEquals("[::ffff:129.144.52.38]", name.getHostName());
+        assertEquals(2222, name.getPort());
+        assertEquals("ftp://[::ffff:129.144.52.38]:2222/test", name.getURI());
+
+        // a multicast address
+        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[FF01::101]:2222/test");
+        assertEquals("[ff01::101]", name.getHostName());
+        assertEquals(2222, name.getPort());
+        assertEquals("ftp://[ff01::101]:2222/test", name.getURI());
+
+        // url without path
+        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[FF01::101]:2222");
+        assertEquals("[ff01::101]", name.getHostName());
+        assertEquals(2222, name.getPort());
+        assertEquals("ftp://[ff01::101]:2222/", name.getURI());
+
+        // url without path and port
+        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[FF01::101]");
+        assertEquals("[ff01::101]", name.getHostName());
+        assertEquals(21, name.getPort());
+        assertEquals("ftp://[ff01::101]/", name.getURI());
+
+        // address with scopeId
+        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[fe80::8b2:d61e:e5c:b333%15]");
+        assertEquals("[fe80::8b2:d61e:e5c:b333%15]", name.getHostName());
+        assertEquals(21, name.getPort());
+        assertEquals("ftp://[fe80::8b2:d61e:e5c:b333%15]/", name.getURI());
+
+        // address with scopeId and escaped characters in the path
+        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[fe80::8b2:d61e:e5c:b333%15]/tests%3A+test+1");
+        assertEquals("[fe80::8b2:d61e:e5c:b333%15]", name.getHostName());
+        assertEquals(21, name.getPort());
+        assertEquals("ftp://[fe80::8b2:d61e:e5c:b333%15]/tests:+test+1", name.getURI());
+    }
+
     /**
      * Tests parsing a URI into its parts.
      */
@@ -182,182 +359,5 @@ public class GenericFileNameTest {
         // name = (GenericFileName) urlParser.parseUri(null, null, "ftp://p0,p1/file");
         // name = (GenericFileName) urlParser.parseUri(null, null, "ftp://p0;p1/file");
         // name = (GenericFileName) urlParser.parseUri(null, null, "ftp://p0=p1/file");
-    }
-
-    @Test
-    public void testParseIPv6Uri() throws Exception {
-        GenericURLFileNameParser urlParser = new GenericURLFileNameParser(21);
-
-        // basic case
-        GenericFileName name = (GenericFileName) urlParser.parseUri(
-                null, null, "ftp://[fe80::3dd0:7f8e:57b7:34d5]:2222/test");
-        assertEquals("[fe80::3dd0:7f8e:57b7:34d5]", name.getHostName());
-        assertEquals(2222, name.getPort());
-        assertEquals("/test", name.getPath());
-        assertEquals("ftp://[fe80::3dd0:7f8e:57b7:34d5]:2222/", name.getRootURI());
-        assertEquals("ftp://[fe80::3dd0:7f8e:57b7:34d5]:2222/test", name.getURI());
-
-        // full uri case
-        name = (GenericFileName) urlParser.parseUri(
-                null, null, "http://user:password@[fe80::3dd0:7f8e:57b7:34d5]:2222/test?param1=value1&param2=value2#fragment");
-        assertEquals("[fe80::3dd0:7f8e:57b7:34d5]", name.getHostName());
-        assertEquals(2222, name.getPort());
-        assertEquals("/test", name.getPath());
-        assertEquals("http://user:password@[fe80::3dd0:7f8e:57b7:34d5]:2222/", name.getRootURI());
-        assertEquals(
-                "http://user:password@[fe80::3dd0:7f8e:57b7:34d5]:2222/test?param1=value1&param2=value2#fragment",
-                name.getURI());
-
-        // no trailing zeroes case
-        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[2001:658:22a:cafe::]:2222/test");
-        assertEquals("[2001:658:22a:cafe::]", name.getHostName());
-        assertEquals(2222, name.getPort());
-        assertEquals("ftp://[2001:658:22a:cafe::]:2222/test", name.getURI());
-
-        // the loopback address
-        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[::1]:2222/test");
-        assertEquals("[::1]", name.getHostName());
-        assertEquals(2222, name.getPort());
-        assertEquals("ftp://[::1]:2222/test", name.getURI());
-
-        // the unspecified address
-        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[::]:2222/test");
-        assertEquals("[::]", name.getHostName());
-        assertEquals(2222, name.getPort());
-        assertEquals("ftp://[::]:2222/test", name.getURI());
-
-        // form for a mixed environment of IPv4 and IPv6
-        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[0:0:0:0:0:0:13.1.68.3]:2222/test");
-        assertEquals("[0:0:0:0:0:0:13.1.68.3]", name.getHostName());
-        assertEquals(2222, name.getPort());
-        assertEquals("ftp://[0:0:0:0:0:0:13.1.68.3]:2222/test", name.getURI());
-
-        // compressed form for a mixed environment of IPv4 and IPv6
-        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[::13.1.68.3]:2222/test");
-        assertEquals("[::13.1.68.3]", name.getHostName());
-        assertEquals(2222, name.getPort());
-        assertEquals("ftp://[::13.1.68.3]:2222/test", name.getURI());
-
-        // compressed form for a mixed environment of IPv4 and IPv6
-        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[::FFFF:129.144.52.38]:2222/test");
-        assertEquals("[::ffff:129.144.52.38]", name.getHostName());
-        assertEquals(2222, name.getPort());
-        assertEquals("ftp://[::ffff:129.144.52.38]:2222/test", name.getURI());
-
-        // a multicast address
-        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[FF01::101]:2222/test");
-        assertEquals("[ff01::101]", name.getHostName());
-        assertEquals(2222, name.getPort());
-        assertEquals("ftp://[ff01::101]:2222/test", name.getURI());
-
-        // url without path
-        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[FF01::101]:2222");
-        assertEquals("[ff01::101]", name.getHostName());
-        assertEquals(2222, name.getPort());
-        assertEquals("ftp://[ff01::101]:2222/", name.getURI());
-
-        // url without path and port
-        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[FF01::101]");
-        assertEquals("[ff01::101]", name.getHostName());
-        assertEquals(21, name.getPort());
-        assertEquals("ftp://[ff01::101]/", name.getURI());
-
-        // address with scopeId
-        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[fe80::8b2:d61e:e5c:b333%15]");
-        assertEquals("[fe80::8b2:d61e:e5c:b333%15]", name.getHostName());
-        assertEquals(21, name.getPort());
-        assertEquals("ftp://[fe80::8b2:d61e:e5c:b333%15]/", name.getURI());
-
-        // address with scopeId and escaped characters in the path
-        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[fe80::8b2:d61e:e5c:b333%15]/tests%3A+test+1");
-        assertEquals("[fe80::8b2:d61e:e5c:b333%15]", name.getHostName());
-        assertEquals(21, name.getPort());
-        assertEquals("ftp://[fe80::8b2:d61e:e5c:b333%15]/tests:+test+1", name.getURI());
-    }
-
-    @Test
-    public void testIPv6BadlyFormedUri() {
-        // address with opening bracket only
-        testBadlyFormedUri("ftp://[", "vfs.provider/unterminated-ipv6-hostname.error");
-
-        // address with closing bracket only (ftp://]) actually currently parses ok, but it's not considered as IPv6 case by parser
-
-        // address with unterminated host name
-        testBadlyFormedUri("ftp://[fe80::8b2:d61e:e5c:b333", "vfs.provider/unterminated-ipv6-hostname.error");
-
-        // address without opening bracket (first ":" considered as port number separator in this case)
-        testBadlyFormedUri("ftp://fe80::8b2:d61e:e5c:b333]", "vfs.provider/missing-port.error");
-
-        // empty address in brackets
-        testBadlyFormedUri("ftp://[]", "vfs.provider/missing-hostname.error");
-
-        // double square brackets
-        // (first "]" considered as terminating bracket, path separator is expected instead of the second "]")
-        testBadlyFormedUri("ftp://[[fe80::8b2:d61e:e5c:b333]]", "vfs.provider/missing-hostname-path-sep.error");
-
-        // two empty strings in brackets
-        testBadlyFormedUri("ftp://[][]", "vfs.provider/missing-hostname.error");
-
-        // two non-empty strings in brackets
-        testBadlyFormedUri("ftp://[fe80::8b2:d61e:e5c:b333][fe80::8b2:d61e:e5c:b333]", "vfs.provider/missing-hostname-path-sep.error");
-    }
-
-    @Test
-    public void testParseIPv6InvalidHostsTolerance() throws Exception {
-        // We don't strictly validate IPv6 host name, if it can be parsed out from URI
-        // Assuming, it'll just fail on connection stage
-
-        GenericURLFileNameParser urlParser = new GenericURLFileNameParser(21);
-
-        // too few segments
-        GenericFileName name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[1:2e]:2222/test");
-        assertEquals("[1:2e]", name.getHostName());
-        assertEquals(2222, name.getPort());
-        assertEquals("ftp://[1:2e]:2222/test", name.getURI());
-
-        // IPv4 address in square brackets
-        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[192.168.1.1]:2222/test");
-        assertEquals("[192.168.1.1]", name.getHostName());
-        assertEquals(2222, name.getPort());
-        assertEquals("ftp://[192.168.1.1]:2222/test", name.getURI());
-
-        // too many segments
-        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[::7:6:5:4:3:2:1:0]:2222/test");
-        assertEquals("[::7:6:5:4:3:2:1:0]", name.getHostName());
-        assertEquals(2222, name.getPort());
-        assertEquals("ftp://[::7:6:5:4:3:2:1:0]:2222/test", name.getURI());
-
-        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[3ffe:0:0:0:0:0:0:0:1]:2222/test");
-        assertEquals("[3ffe:0:0:0:0:0:0:0:1]", name.getHostName());
-        assertEquals(2222, name.getPort());
-        assertEquals("ftp://[3ffe:0:0:0:0:0:0:0:1]:2222/test", name.getURI());
-
-        // segment exceeds 16 bits
-        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[3ffe::10000]:2222/test");
-        assertEquals("[3ffe::10000]", name.getHostName());
-        assertEquals(2222, name.getPort());
-        assertEquals("ftp://[3ffe::10000]:2222/test", name.getURI());
-
-        // whitespace host
-        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[ ]:2222/test");
-        assertEquals("[ ]", name.getHostName());
-        assertEquals(2222, name.getPort());
-        assertEquals("ftp://[ ]:2222/test", name.getURI());
-
-        // just some invalid sequences
-        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[:]:2222/test");
-        assertEquals("[:]", name.getHostName());
-        assertEquals(2222, name.getPort());
-        assertEquals("ftp://[:]:2222/test", name.getURI());
-
-        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[:::]:2222/test");
-        assertEquals("[:::]", name.getHostName());
-        assertEquals(2222, name.getPort());
-        assertEquals("ftp://[:::]:2222/test", name.getURI());
-
-        name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[xyz]:2222/test");
-        assertEquals("[xyz]", name.getHostName());
-        assertEquals(2222, name.getPort());
-        assertEquals("ftp://[xyz]:2222/test", name.getURI());
     }
 }

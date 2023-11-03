@@ -51,20 +51,20 @@ public class SmbProviderTestCase extends AbstractProviderTestConfig implements P
     }
 
     /**
-     * Prepares the file system manager.
-     */
-    @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception {
-        manager.addProvider("smb", new SmbFileProvider());
-    }
-
-    /**
      * Returns the base folder for tests.
      */
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         final String uri = System.getProperty(TEST_URI);
         return manager.resolveFile(uri);
+    }
+
+    /**
+     * Prepares the file system manager.
+     */
+    @Override
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
+        manager.addProvider("smb", new SmbFileProvider());
     }
 
     @org.junit.jupiter.api.Test

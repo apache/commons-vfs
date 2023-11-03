@@ -28,6 +28,14 @@ import junit.framework.Test;
 
 public class FtpProviderIPv6TestCase extends FtpProviderTestCase {
 
+    private static class MockedClientFtpFileProvider extends FtpFileProvider {
+        @Override
+        protected FileSystem doCreateFileSystem(FileName name, FileSystemOptions fileSystemOptions) {
+            final GenericFileName rootName = (GenericFileName) name;
+            return new FtpFileSystem(rootName, Mockito.mock(FtpClient.class), fileSystemOptions);
+        }
+    }
+
     public static Test suite() throws Exception {
         return getSystemTestUriOverride() == null ?
                 suite(new FtpProviderIPv6TestCase(), FtpProviderIPv6TestCase.class, IPv6LocalConnectionTests.class) :
@@ -47,13 +55,5 @@ public class FtpProviderIPv6TestCase extends FtpProviderTestCase {
 
         assertEquals("ftp://[fe80::1c42:dae:8370:aea6%en1]/", fileObject.getFileSystem().getRootURI());
         assertEquals("file.txt", fileObject.getRelPath());
-    }
-
-    private static class MockedClientFtpFileProvider extends FtpFileProvider {
-        @Override
-        protected FileSystem doCreateFileSystem(FileName name, FileSystemOptions fileSystemOptions) {
-            final GenericFileName rootName = (GenericFileName) name;
-            return new FtpFileSystem(rootName, Mockito.mock(FtpClient.class), fileSystemOptions);
-        }
     }
 }

@@ -34,6 +34,34 @@ import junit.framework.Test;
 
 public class SftpProviderIPv6TestCase extends AbstractSftpProviderTestCase {
 
+    private static class MockedClientSftpFileProvider extends SftpFileProvider {
+        @Override
+        protected FileSystem doCreateFileSystem(FileName name, FileSystemOptions fileSystemOptions) {
+            final GenericFileName rootName = (GenericFileName) name;
+
+            final Session sessionMock = Mockito.mock(Session.class);
+            final ChannelExec channelExecMock = Mockito.mock(ChannelExec.class);
+
+            Mockito.when(sessionMock.isConnected()).thenReturn(true);
+
+            try {
+                Mockito.when(sessionMock.openChannel(Mockito.anyString())).thenReturn(channelExecMock);
+            } catch (JSchException e) {
+                throw new AssertionError("Should never happen", e);
+            }
+
+            Mockito.when(channelExecMock.isClosed()).thenReturn(true);
+
+            try {
+                Mockito.when(channelExecMock.getInputStream()).thenReturn(new NullInputStream());
+            } catch (IOException e) {
+                throw new AssertionError("Should never happen", e);
+            }
+
+            return new SftpFileSystem(rootName, sessionMock, fileSystemOptions);
+        }
+    }
+
     public static Test suite() throws Exception {
         return new SftpProviderTestSuite(new SftpProviderIPv6TestCase()) {
             @Override
@@ -68,34 +96,6 @@ public class SftpProviderIPv6TestCase extends AbstractSftpProviderTestCase {
         } finally {
             getManager().removeProvider("sftp");
             getManager().addProvider("sftp", new SftpFileProvider());
-        }
-    }
-
-    private static class MockedClientSftpFileProvider extends SftpFileProvider {
-        @Override
-        protected FileSystem doCreateFileSystem(FileName name, FileSystemOptions fileSystemOptions) {
-            final GenericFileName rootName = (GenericFileName) name;
-
-            final Session sessionMock = Mockito.mock(Session.class);
-            final ChannelExec channelExecMock = Mockito.mock(ChannelExec.class);
-
-            Mockito.when(sessionMock.isConnected()).thenReturn(true);
-
-            try {
-                Mockito.when(sessionMock.openChannel(Mockito.anyString())).thenReturn(channelExecMock);
-            } catch (JSchException e) {
-                throw new AssertionError("Should never happen", e);
-            }
-
-            Mockito.when(channelExecMock.isClosed()).thenReturn(true);
-
-            try {
-                Mockito.when(channelExecMock.getInputStream()).thenReturn(new NullInputStream());
-            } catch (IOException e) {
-                throw new AssertionError("Should never happen", e);
-            }
-
-            return new SftpFileSystem(rootName, sessionMock, fileSystemOptions);
         }
     }
 }

@@ -32,6 +32,50 @@ import org.junit.jupiter.api.Test;
 public class FileNameTest {
 
     /**
+     * Tests error handling in URI parser.
+     *
+     * @throws Exception in case of error
+     */
+    @Test
+    public void testBadlyFormedUri() throws Exception {
+        // Does not start with smb://
+        testBadlyFormedUri("smb:", "vfs.provider/missing-double-slashes.error");
+        testBadlyFormedUri("smb:/", "vfs.provider/missing-double-slashes.error");
+        testBadlyFormedUri("smb:a", "vfs.provider/missing-double-slashes.error");
+
+        // Missing hostname
+        testBadlyFormedUri("smb://", "vfs.provider/missing-hostname.error");
+        testBadlyFormedUri("smb://:21/share", "vfs.provider/missing-hostname.error");
+        testBadlyFormedUri("smb:///share", "vfs.provider/missing-hostname.error");
+
+        // Empty port
+        testBadlyFormedUri("smb://host:", "vfs.provider/missing-port.error");
+        testBadlyFormedUri("smb://host:/share", "vfs.provider/missing-port.error");
+        testBadlyFormedUri("smb://host:port/share/file", "vfs.provider/missing-port.error");
+
+        // Missing absolute path
+        testBadlyFormedUri("smb://host:90a", "vfs.provider/missing-hostname-path-sep.error");
+        testBadlyFormedUri("smb://host?a", "vfs.provider/missing-hostname-path-sep.error");
+
+        // Missing share name
+        testBadlyFormedUri("smb://host", "vfs.provider.smb/missing-share-name.error");
+        testBadlyFormedUri("smb://host/", "vfs.provider.smb/missing-share-name.error");
+        testBadlyFormedUri("smb://host:9090/", "vfs.provider.smb/missing-share-name.error");
+    }
+
+    /**
+     * Assert that parsing a URI fails with the expected error.
+     */
+    private void testBadlyFormedUri(final String uri, final String errorMsg) {
+        try {
+            SmbFileNameParser.getInstance().parseUri(null, null, uri);
+            fail();
+        } catch (final FileSystemException e) {
+            assertSameMessage(errorMsg, uri, e);
+        }
+    }
+
+    /**
      * Tests parsing a URI into its parts.
      *
      * @throws Exception in case of error
@@ -115,49 +159,5 @@ public class FileNameTest {
         assertEquals("", name.getExtension());
         assertEquals("smb://user@hostname/share/", name.getRootURI());
         assertEquals("smb://user@hostname/share/.bashrc", name.getURI());
-    }
-
-    /**
-     * Tests error handling in URI parser.
-     *
-     * @throws Exception in case of error
-     */
-    @Test
-    public void testBadlyFormedUri() throws Exception {
-        // Does not start with smb://
-        testBadlyFormedUri("smb:", "vfs.provider/missing-double-slashes.error");
-        testBadlyFormedUri("smb:/", "vfs.provider/missing-double-slashes.error");
-        testBadlyFormedUri("smb:a", "vfs.provider/missing-double-slashes.error");
-
-        // Missing hostname
-        testBadlyFormedUri("smb://", "vfs.provider/missing-hostname.error");
-        testBadlyFormedUri("smb://:21/share", "vfs.provider/missing-hostname.error");
-        testBadlyFormedUri("smb:///share", "vfs.provider/missing-hostname.error");
-
-        // Empty port
-        testBadlyFormedUri("smb://host:", "vfs.provider/missing-port.error");
-        testBadlyFormedUri("smb://host:/share", "vfs.provider/missing-port.error");
-        testBadlyFormedUri("smb://host:port/share/file", "vfs.provider/missing-port.error");
-
-        // Missing absolute path
-        testBadlyFormedUri("smb://host:90a", "vfs.provider/missing-hostname-path-sep.error");
-        testBadlyFormedUri("smb://host?a", "vfs.provider/missing-hostname-path-sep.error");
-
-        // Missing share name
-        testBadlyFormedUri("smb://host", "vfs.provider.smb/missing-share-name.error");
-        testBadlyFormedUri("smb://host/", "vfs.provider.smb/missing-share-name.error");
-        testBadlyFormedUri("smb://host:9090/", "vfs.provider.smb/missing-share-name.error");
-    }
-
-    /**
-     * Assert that parsing a URI fails with the expected error.
-     */
-    private void testBadlyFormedUri(final String uri, final String errorMsg) {
-        try {
-            SmbFileNameParser.getInstance().parseUri(null, null, uri);
-            fail();
-        } catch (final FileSystemException e) {
-            assertSameMessage(errorMsg, uri, e);
-        }
     }
 }

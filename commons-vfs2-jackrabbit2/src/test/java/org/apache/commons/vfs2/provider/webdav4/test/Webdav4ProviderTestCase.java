@@ -79,14 +79,6 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
 
     private static final boolean DEBUG = Boolean.getBoolean("Webdav4ProviderTestCase.Debug");
 
-    public Webdav4ProviderTestCase() throws IOException {
-        SocketPort = FreeSocketPortUtil.findFreeLocalPort();
-        message("FreeSocketPortUtil.findFreeLocalPort() = " + SocketPort);
-        // Use %40 for @ in a URL
-        // Any user id and password will do with the default Jackrabbit set up.
-        ConnectionUri = String.format("webdav4://%s:%s@localhost:%d/repository/default", USER_ID, PASSWORD, SocketPort);
-    }
-
     static Path createTempDirectory() throws IOException {
         // create base folder
         final Path base = Paths.get("target/test").normalize();
@@ -100,18 +92,6 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
         }
 
         return tempFile;
-    }
-
-    private static void dump(final Path repoDirectory) throws Exception {
-        final TransientRepository repository = getTransientRepository(repoDirectory);
-        try {
-            final Session session = getSession(repository);
-            message("Root node dump:");
-            dump(session.getRootNode());
-            session.logout();
-        } finally {
-            repository.shutdown();
-        }
     }
 
     /** Recursively outputs the contents of the given node. */
@@ -146,6 +126,18 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
         }
     }
 
+    private static void dump(final Path repoDirectory) throws Exception {
+        final TransientRepository repository = getTransientRepository(repoDirectory);
+        try {
+            final Session session = getSession(repository);
+            message("Root node dump:");
+            dump(session.getRootNode());
+            session.logout();
+        } finally {
+            repository.shutdown();
+        }
+    }
+
     private static Session getSession(final TransientRepository repository) throws RepositoryException {
         return repository.login(new SimpleCredentials(USER_ID, PASSWORD_CHARS));
     }
@@ -156,18 +148,6 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
 
     private static TransientRepository getTransientRepository(final Path repoDirectory) {
         return new TransientRepository(repoDirectory.resolve("repository.xml").toString(), repoDirectory.toString());
-    }
-
-    private static void importFiles(final Path repoDirectory, final File sourceDir) throws Exception {
-        final TransientRepository repository = getTransientRepository(repoDirectory);
-        try {
-            final Session session = getSession(repository);
-            importFiles(session.getRootNode(), sourceDir);
-            session.save();
-            session.logout();
-        } finally {
-            repository.shutdown();
-        }
     }
 
     private static void importFiles(final Node parent, final File sourceDir) throws RepositoryException, IOException {
@@ -184,6 +164,18 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
                 final Node folder = JcrUtils.getOrAddFolder(parent, file.getName());
                 importFiles(folder, file);
             }
+        }
+    }
+
+    private static void importFiles(final Path repoDirectory, final File sourceDir) throws Exception {
+        final TransientRepository repository = getTransientRepository(repoDirectory);
+        try {
+            final Session session = getSession(repository);
+            importFiles(session.getRootNode(), sourceDir);
+            session.save();
+            session.logout();
+        } finally {
+            repository.shutdown();
         }
     }
 
@@ -239,6 +231,16 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
     public static Test suite() throws Exception {
         return new Webdav4ProviderTestSuite(new Webdav4ProviderTestCase()) {
             @Override
+            protected void addBaseTests() throws Exception {
+                super.addBaseTests();
+                addTests(Webdav4ProviderTestCase.class);
+
+                if (getSystemTestUriOverride() == null) {
+                    addTests(IPv6LocalConnectionTests.class);
+                }
+            }
+
+            @Override
             protected void setUp() throws Exception {
                 if (getSystemTestUriOverride() == null) {
                     setUpClass();
@@ -253,16 +255,6 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
                     super.setUp();
                 } catch (final Exception e) {
                     e.printStackTrace();
-                }
-            }
-
-            @Override
-            protected void addBaseTests() throws Exception {
-                super.addBaseTests();
-                addTests(Webdav4ProviderTestCase.class);
-
-                if (getSystemTestUriOverride() == null) {
-                    addTests(IPv6LocalConnectionTests.class);
                 }
             }
 
@@ -305,6 +297,14 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
                 RepoDirectory.toFile().deleteOnExit();
             }
         }
+    }
+
+    public Webdav4ProviderTestCase() throws IOException {
+        SocketPort = FreeSocketPortUtil.findFreeLocalPort();
+        message("FreeSocketPortUtil.findFreeLocalPort() = " + SocketPort);
+        // Use %40 for @ in a URL
+        // Any user id and password will do with the default Jackrabbit set up.
+        ConnectionUri = String.format("webdav4://%s:%s@localhost:%d/repository/default", USER_ID, PASSWORD, SocketPort);
     }
 
     /**

@@ -35,6 +35,33 @@ public class IPv6LocalConnectionTests extends AbstractProviderTestCase {
 
     private static final Log log = LogFactory.getLog(IPv6LocalConnectionTests.class);
 
+    private static List<String> getLocalIPv6Addresses() throws SocketException {
+        final Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+        final List<String> result = new ArrayList<>();
+
+        for (NetworkInterface networkInterface : Collections.list(networkInterfaces)) {
+            if (!networkInterface.isUp() || networkInterface.isLoopback()
+                    // utun refers to VPN network interface, we don't expect this connection to work
+                    || networkInterface.getName().startsWith("utun")) {
+
+                continue;
+            }
+
+            for (InetAddress inetAddress : Collections.list(networkInterface.getInetAddresses())) {
+                if (inetAddress instanceof Inet6Address && !inetAddress.isLoopbackAddress() && !inetAddress.isMulticastAddress()) {
+                    result.add(inetAddress.getHostAddress());
+                }
+            }
+        }
+
+        return result;
+    }
+
+    @Override
+    protected Capability[] getRequiredCapabilities() {
+        return new Capability[] {Capability.URI, Capability.READ_CONTENT};
+    }
+
     @Override
     protected void runTest() throws Throwable {
         final List<String> localIPv6Addresses = getLocalIPv6Addresses();
@@ -47,9 +74,30 @@ public class IPv6LocalConnectionTests extends AbstractProviderTestCase {
         super.runTest();
     }
 
-    @Override
-    protected Capability[] getRequiredCapabilities() {
-        return new Capability[] {Capability.URI, Capability.READ_CONTENT};
+    private FileSystemOptions setupConnectionTimeoutHints(FileSystem fileSystem) {
+        // Unfortunately there is no common way to set up timeouts for every protocol
+        // So, we use this hacky approach to make this class generic and formally independent of protocols implementations
+
+        FileSystemOptions result = (FileSystemOptions) fileSystem.getFileSystemOptions().clone();
+
+        Duration timeout = Duration.ofSeconds(5);
+
+        result.setOption(fileSystem.getClass(),
+                "org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.CONNECT_TIMEOUT", timeout);
+        result.setOption(fileSystem.getClass(),
+                "org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.TIMEOUT", timeout);
+
+        result.setOption(fileSystem.getClass(), "http.connection.timeout", timeout);
+        result.setOption(fileSystem.getClass(), "http.socket.timeout", timeout);
+
+        // This actually doesn't affect FtpFileProvider now, but it looks like an issue
+        // This would work, if FtpClientFactory call client.setConnectTimeout() with CONNECT_TIMEOUT value
+        result.setOption(fileSystem.getClass(),
+                "org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder.CONNECT_TIMEOUT", timeout);
+        result.setOption(fileSystem.getClass(),
+                "org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder.SO_TIMEOUT", timeout);
+
+        return result;
     }
 
     @Test
@@ -77,54 +125,6 @@ public class IPv6LocalConnectionTests extends AbstractProviderTestCase {
         }
 
         assertTrue("None of the discovered local IPv6 network addresses has responded for connection", connected);
-    }
-
-    private static List<String> getLocalIPv6Addresses() throws SocketException {
-        final Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
-        final List<String> result = new ArrayList<>();
-
-        for (NetworkInterface networkInterface : Collections.list(networkInterfaces)) {
-            if (!networkInterface.isUp() || networkInterface.isLoopback()
-                    // utun refers to VPN network interface, we don't expect this connection to work
-                    || networkInterface.getName().startsWith("utun")) {
-
-                continue;
-            }
-
-            for (InetAddress inetAddress : Collections.list(networkInterface.getInetAddresses())) {
-                if (inetAddress instanceof Inet6Address && !inetAddress.isLoopbackAddress() && !inetAddress.isMulticastAddress()) {
-                    result.add(inetAddress.getHostAddress());
-                }
-            }
-        }
-
-        return result;
-    }
-
-    private FileSystemOptions setupConnectionTimeoutHints(FileSystem fileSystem) {
-        // Unfortunately there is no common way to set up timeouts for every protocol
-        // So, we use this hacky approach to make this class generic and formally independent of protocols implementations
-
-        FileSystemOptions result = (FileSystemOptions) fileSystem.getFileSystemOptions().clone();
-
-        Duration timeout = Duration.ofSeconds(5);
-
-        result.setOption(fileSystem.getClass(),
-                "org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.CONNECT_TIMEOUT", timeout);
-        result.setOption(fileSystem.getClass(),
-                "org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.TIMEOUT", timeout);
-
-        result.setOption(fileSystem.getClass(), "http.connection.timeout", timeout);
-        result.setOption(fileSystem.getClass(), "http.socket.timeout", timeout);
-
-        // This actually doesn't affect FtpFileProvider now, but it looks like an issue
-        // This would work, if FtpClientFactory call client.setConnectTimeout() with CONNECT_TIMEOUT value
-        result.setOption(fileSystem.getClass(),
-                "org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder.CONNECT_TIMEOUT", timeout);
-        result.setOption(fileSystem.getClass(),
-                "org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder.SO_TIMEOUT", timeout);
-
-        return result;
     }
 
 }

@@ -49,6 +49,11 @@ public class UriParserTest {
     }
 
     @Test
+    public void testIPv6CheckUriEncoding() throws FileSystemException {
+        UriParser.checkUriEncoding("http://[fe80::14b5:1204:5410:64ca%en1]:8080");
+    }
+
+    @Test
     public void testNormalScheme() {
         assertEquals("ftp", UriParser.extractScheme(schemes, "ftp://user:pass@host/some/path/some:file"));
     }
@@ -71,7 +76,6 @@ public class UriParserTest {
         UriParser.extractScheme(schemes, "file:/user:pass@host/some/path/some:file", buffer);
         assertEquals("/user:pass@host/some/path/some:file", buffer.toString());
     }
-
     @Test
     public void testTypeOfNormalizedPath() {
         try {
@@ -94,9 +98,5 @@ public class UriParserTest {
         } catch (FileSystemException e) {
             fail(e);
         }
-    }
-    @Test
-    public void testIPv6CheckUriEncoding() throws FileSystemException {
-        UriParser.checkUriEncoding("http://[fe80::14b5:1204:5410:64ca%en1]:8080");
     }
 }

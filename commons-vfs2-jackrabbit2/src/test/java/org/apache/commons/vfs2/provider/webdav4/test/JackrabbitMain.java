@@ -110,6 +110,112 @@ public class JackrabbitMain {
         command = new DefaultParser().parse(options, args);
     }
 
+    private void backup(File sourceDir) throws Exception {
+        RepositoryConfig source;
+        if (command.hasOption("conf")) {
+            source = RepositoryConfig.create(
+                    new File(command.getOptionValue("conf")), sourceDir);
+        } else {
+            source = RepositoryConfig.create(sourceDir);
+        }
+
+        File targetDir;
+        if (command.hasOption("backup-repo")) {
+            targetDir = new File(command.getOptionValue("backup-repo"));
+        } else {
+            int i = 1;
+            do {
+                targetDir = new File("jackrabbit-backup" + i++);
+            } while (targetDir.exists());
+        }
+
+        RepositoryConfig target;
+        if (command.hasOption("backup-conf")) {
+            target = RepositoryConfig.install(
+                    new File(command.getOptionValue("backup-conf")), targetDir);
+        } else {
+            target = RepositoryConfig.install(targetDir);
+        }
+
+        message("Creating a repository copy in " + targetDir);
+        RepositoryCopier.copy(source, target);
+        message("The repository has been successfully copied.");
+    }
+
+    private void copyToOutput(String resource) throws IOException {
+        InputStream stream = JackrabbitMain.class.getResourceAsStream(resource);
+        try {
+            IOUtils.copy(stream, System.out);
+        } finally {
+            stream.close();
+        }
+    }
+
+    private void message(String message) {
+        if (!command.hasOption("quiet")) {
+            System.out.println(message);
+        }
+    }
+
+    private void prepareAccessLog(File log) {
+        NCSARequestLog ncsa = new NCSARequestLog(
+                new File(log, "access.log.yyyy_mm_dd").getPath());
+        ncsa.setFilenameDateFormat("yyyy-MM-dd");
+        accessLog.setRequestLog(ncsa);
+    }
+
+    private void prepareConnector() {
+        String port = command.getOptionValue("port", "8080");
+        connector.setPort(Integer.parseInt(port));
+        String host = command.getOptionValue("host");
+        if (host != null) {
+            connector.setHost(host);
+        }
+    }
+
+    private void prepareServerLog(File log)
+            throws IOException {
+        System.setProperty(
+                "jackrabbit.log", new File(log, "jackrabbit.log").getPath());
+        System.setProperty(
+                "jetty.log", new File(log, "jetty.log").getPath());
+
+        if (command.hasOption("debug")) {
+            System.setProperty("log.level", "DEBUG");
+        } else {
+            System.setProperty("log.level", "INFO");
+        }
+
+        System.setProperty(
+                "derby.stream.error.file",
+                new File(log, "derby.log").getPath());
+    }
+
+    private void prepareShutdown() {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+                shutdown();
+            }
+        });
+    }
+
+    private void prepareWebapp(File file, File repository, File tmp) {
+        webapp.setContextPath("/");
+        webapp.setWar(file.getPath());
+        webapp.setExtractWAR(true);
+        webapp.setTempDirectory(tmp);
+
+        ServletHolder servlet =
+            new ServletHolder(JackrabbitRepositoryServlet.class);
+        servlet.setInitOrder(1);
+        servlet.setInitParameter("repository.home", repository.getPath());
+        String conf = command.getOptionValue("conf");
+        if (conf != null) {
+            servlet.setInitParameter("repository.config", conf);
+        }
+        webapp.addServlet(servlet, "/repository.properties");
+    }
+
     /**
      * Run this Main application.
      * <P>
@@ -220,112 +326,6 @@ public class JackrabbitMain {
             message("Goodbye from Apache Jackrabbit!");
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    private void backup(File sourceDir) throws Exception {
-        RepositoryConfig source;
-        if (command.hasOption("conf")) {
-            source = RepositoryConfig.create(
-                    new File(command.getOptionValue("conf")), sourceDir);
-        } else {
-            source = RepositoryConfig.create(sourceDir);
-        }
-
-        File targetDir;
-        if (command.hasOption("backup-repo")) {
-            targetDir = new File(command.getOptionValue("backup-repo"));
-        } else {
-            int i = 1;
-            do {
-                targetDir = new File("jackrabbit-backup" + i++);
-            } while (targetDir.exists());
-        }
-
-        RepositoryConfig target;
-        if (command.hasOption("backup-conf")) {
-            target = RepositoryConfig.install(
-                    new File(command.getOptionValue("backup-conf")), targetDir);
-        } else {
-            target = RepositoryConfig.install(targetDir);
-        }
-
-        message("Creating a repository copy in " + targetDir);
-        RepositoryCopier.copy(source, target);
-        message("The repository has been successfully copied.");
-    }
-
-    private void prepareServerLog(File log)
-            throws IOException {
-        System.setProperty(
-                "jackrabbit.log", new File(log, "jackrabbit.log").getPath());
-        System.setProperty(
-                "jetty.log", new File(log, "jetty.log").getPath());
-
-        if (command.hasOption("debug")) {
-            System.setProperty("log.level", "DEBUG");
-        } else {
-            System.setProperty("log.level", "INFO");
-        }
-
-        System.setProperty(
-                "derby.stream.error.file",
-                new File(log, "derby.log").getPath());
-    }
-
-    private void prepareAccessLog(File log) {
-        NCSARequestLog ncsa = new NCSARequestLog(
-                new File(log, "access.log.yyyy_mm_dd").getPath());
-        ncsa.setFilenameDateFormat("yyyy-MM-dd");
-        accessLog.setRequestLog(ncsa);
-    }
-
-    private void prepareWebapp(File file, File repository, File tmp) {
-        webapp.setContextPath("/");
-        webapp.setWar(file.getPath());
-        webapp.setExtractWAR(true);
-        webapp.setTempDirectory(tmp);
-
-        ServletHolder servlet =
-            new ServletHolder(JackrabbitRepositoryServlet.class);
-        servlet.setInitOrder(1);
-        servlet.setInitParameter("repository.home", repository.getPath());
-        String conf = command.getOptionValue("conf");
-        if (conf != null) {
-            servlet.setInitParameter("repository.config", conf);
-        }
-        webapp.addServlet(servlet, "/repository.properties");
-    }
-
-    private void prepareConnector() {
-        String port = command.getOptionValue("port", "8080");
-        connector.setPort(Integer.parseInt(port));
-        String host = command.getOptionValue("host");
-        if (host != null) {
-            connector.setHost(host);
-        }
-    }
-
-    private void prepareShutdown() {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run() {
-                shutdown();
-            }
-        });
-    }
-
-    private void message(String message) {
-        if (!command.hasOption("quiet")) {
-            System.out.println(message);
-        }
-    }
-
-    private void copyToOutput(String resource) throws IOException {
-        InputStream stream = JackrabbitMain.class.getResourceAsStream(resource);
-        try {
-            IOUtils.copy(stream, System.out);
-        } finally {
-            stream.close();
         }
     }
 
