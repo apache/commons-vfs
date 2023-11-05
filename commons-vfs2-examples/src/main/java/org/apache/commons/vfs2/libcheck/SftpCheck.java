@@ -28,6 +28,9 @@ import com.jcraft.jsch.UserInfo;
  * Basic check for SFTP.
  */
 public final class SftpCheck {
+
+    private static final int ARG_COUNT = 4;
+
     /**
      * Invokes this example from the command line.
      *
@@ -35,7 +38,7 @@ public final class SftpCheck {
      * @throws Exception If anything goes wrong.
      */
     public static void main(final String[] args) throws Exception {
-        if (args.length != 4) {
+        if (args.length != ARG_COUNT) {
             throw new IllegalArgumentException("Usage: SftpCheck user pass host dir");
         }
         final String user = args[0];

@@ -27,6 +27,9 @@ import org.apache.commons.net.ftp.FTPReply;
  * Basic check for FTP.
  */
 public final class FtpCheck {
+
+    private static final int MAX_ARG_COUNT = 4;
+
     /**
      * Invokes this example from the command line.
      *
@@ -41,7 +44,7 @@ public final class FtpCheck {
         final String pass = args[1];
         final String host = args[2];
         String dir = null;
-        if (args.length == 4) {
+        if (args.length == MAX_ARG_COUNT) {
             dir = args[3];
         }
 
