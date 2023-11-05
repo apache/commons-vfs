@@ -186,7 +186,10 @@
     <module name="StringLiteralEquality" />
     <module name="SuperClone" />
     <module name="SuperFinalize" />
-    <module name="DeclarationOrder" />
+<!-- Can't customize? -->    
+<!--     <module name="DeclarationOrder" /> -->
+<!--       <property name="ignoreConstructors" value="true" /> -->
+<!--     </module> -->
     <!-- <module name="ExplicitInitialization"/> -->
     <module name="DefaultComesLast" />
     <module name="FallThrough" />
