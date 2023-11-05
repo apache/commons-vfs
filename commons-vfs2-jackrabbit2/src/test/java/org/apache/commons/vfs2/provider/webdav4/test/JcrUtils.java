@@ -33,7 +33,7 @@ import javax.jcr.Value;
  *
  * @since 2.5.0
  */
-class JcrUtils {
+final class JcrUtils {
 
     private static final String NodeType_NT_RESOURCE = "nt:resource";
 

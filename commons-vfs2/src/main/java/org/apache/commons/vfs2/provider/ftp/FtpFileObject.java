@@ -58,7 +58,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     /**
      * An InputStream that monitors for end-of-file.
      */
-    class FtpInputStream extends MonitorInputStream {
+    final class FtpInputStream extends MonitorInputStream {
         private final FtpClient client;
 
         FtpInputStream(final FtpClient client, final InputStream in) {

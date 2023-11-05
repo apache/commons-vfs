@@ -52,7 +52,7 @@ import org.mortbay.jetty.webapp.WebAppContext;
  *
  * @since 2.1
  */
-class JackrabbitMain {
+final class JackrabbitMain {
 
     /**
      * @param args

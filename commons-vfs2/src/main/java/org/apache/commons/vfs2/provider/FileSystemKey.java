@@ -21,7 +21,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 /**
  * Identifies a file system.
  */
-class FileSystemKey implements Comparable<FileSystemKey> {
+final class FileSystemKey implements Comparable<FileSystemKey> {
 
     private static final FileSystemOptions EMPTY_OPTIONS = new FileSystemOptions();
 

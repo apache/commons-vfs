@@ -32,7 +32,7 @@ import jcifs.smb.SmbRandomAccessFile;
 /**
  * RandomAccess for smb files
  */
-class SmbFileRandomAccessContent extends AbstractRandomAccessContent {
+final class SmbFileRandomAccessContent extends AbstractRandomAccessContent {
     private final SmbRandomAccessFile raf;
     private final InputStream rafis;
 
