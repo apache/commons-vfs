@@ -33,44 +33,43 @@ import org.junit.Test;
 
 public class IPv6LocalConnectionTests extends AbstractProviderTestCase {
 
+    private static final String LOOPBACK = "0:0:0:0:0:0:0:1";
     private static final Log log = LogFactory.getLog(IPv6LocalConnectionTests.class);
 
     private static List<String> getLocalIPv6Addresses() throws SocketException {
         final Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
         final List<String> result = new ArrayList<>();
-
         for (NetworkInterface networkInterface : Collections.list(networkInterfaces)) {
             if (!networkInterface.isUp() || networkInterface.isLoopback()
-                    // utun refers to VPN network interface, we don't expect this connection to work
+            // utun refers to VPN network interface, we don't expect this connection to work
                     || networkInterface.getName().startsWith("utun")) {
-
                 continue;
             }
-
             for (InetAddress inetAddress : Collections.list(networkInterface.getInetAddresses())) {
                 if (inetAddress instanceof Inet6Address && !inetAddress.isLoopbackAddress() && !inetAddress.isMulticastAddress()) {
-                    result.add(inetAddress.getHostAddress());
+                    result.add(StringUtils.substringBefore(inetAddress.getHostAddress(), "%"));
                 }
             }
         }
-
+        // Add loopback as backstop, this is needed for some IPv6 setups on Windows.
+        if (!result.contains(LOOPBACK)) {
+            result.add(LOOPBACK);
+        }
         return result;
     }
 
     @Override
     protected Capability[] getRequiredCapabilities() {
-        return new Capability[] {Capability.URI, Capability.READ_CONTENT};
+        return new Capability[] { Capability.URI, Capability.READ_CONTENT };
     }
 
     @Override
     protected void runTest() throws Throwable {
         final List<String> localIPv6Addresses = getLocalIPv6Addresses();
-
         if (localIPv6Addresses.isEmpty()) {
             log.info("Local machine must have IPv6 address to run this test");
             return;
         }
-
         super.runTest();
     }
 
@@ -82,20 +81,16 @@ public class IPv6LocalConnectionTests extends AbstractProviderTestCase {
 
         Duration timeout = Duration.ofSeconds(5);
 
-        result.setOption(fileSystem.getClass(),
-                "org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.CONNECT_TIMEOUT", timeout);
-        result.setOption(fileSystem.getClass(),
-                "org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.TIMEOUT", timeout);
+        result.setOption(fileSystem.getClass(), "org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.CONNECT_TIMEOUT", timeout);
+        result.setOption(fileSystem.getClass(), "org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.TIMEOUT", timeout);
 
         result.setOption(fileSystem.getClass(), "http.connection.timeout", timeout);
         result.setOption(fileSystem.getClass(), "http.socket.timeout", timeout);
 
         // This actually doesn't affect FtpFileProvider now, but it looks like an issue
         // This would work, if FtpClientFactory call client.setConnectTimeout() with CONNECT_TIMEOUT value
-        result.setOption(fileSystem.getClass(),
-                "org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder.CONNECT_TIMEOUT", timeout);
-        result.setOption(fileSystem.getClass(),
-                "org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder.SO_TIMEOUT", timeout);
+        result.setOption(fileSystem.getClass(), "org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder.CONNECT_TIMEOUT", timeout);
+        result.setOption(fileSystem.getClass(), "org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder.SO_TIMEOUT", timeout);
 
         return result;
     }
@@ -103,19 +98,13 @@ public class IPv6LocalConnectionTests extends AbstractProviderTestCase {
     @Test
     public void testConnectIPv6UrlLocal() throws Exception {
         final List<String> localIPv6Addresses = getLocalIPv6Addresses();
-
         boolean connected = false;
-
-        for (String ipv6Address: localIPv6Addresses) {
-            final String ipv6Url = StringUtils.replace(
-                    this.getReadFolder().getURL().toString(), "localhost", "[" + ipv6Address + "]");
-
+        for (String ipv6Address : localIPv6Addresses) {
+            final String ipv6Url = StringUtils.replace(this.getReadFolder().getURL().toString(), "localhost", "[" + ipv6Address + "]");
             try {
                 final FileSystem fileSystem = getFileSystem();
 
-                final FileObject readFolderObject = getManager()
-                        .resolveFile(ipv6Url, setupConnectionTimeoutHints(fileSystem));
-
+                final FileObject readFolderObject = getManager().resolveFile(ipv6Url, setupConnectionTimeoutHints(fileSystem));
                 connected = connected || readFolderObject.resolveFile("file1.txt").getContent().getByteArray() != null;
             } catch (FileSystemException e) {
                 // We don't care, if some of the discovered IPv6 addresses don't work.
@@ -123,8 +112,7 @@ public class IPv6LocalConnectionTests extends AbstractProviderTestCase {
                 log.warn("Failed to connect to some of the local IPv6 network addresses", e);
             }
         }
-
-        assertTrue("None of the discovered local IPv6 network addresses has responded for connection", connected);
+        assertTrue("None of the discovered local IPv6 network addresses has responded for connection: " + localIPv6Addresses, connected);
     }
 
 }
