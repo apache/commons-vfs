@@ -289,7 +289,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * Retrieves the attribute with the specified name. The default implementation simply throws an exception.
+     * Gets the attribute with the specified name. The default implementation simply throws an exception.
      *
      * @param attrName The name of the attribute.
      * @return the Object associated with the attribute or null if no object is.
@@ -305,7 +305,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * Returns a cached file.
+     * Gets a cached file.
      *
      * @param name name to search for.
      * @return file object or null if not found.
@@ -320,7 +320,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * Returns the FileSystemManager used to instantiate this file system.
+     * Gets the FileSystemManager used to instantiate this file system.
      *
      * @return the FileSystemManager.
      */
@@ -330,7 +330,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * Returns the FileSystemOptions used to instantiate this file system.
+     * Gets the FileSystemOptions used to instantiate this file system.
      *
      * @return the FileSystemOptions.
      */
@@ -340,9 +340,9 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * Returns the accuracy of the last modification time.
+     * Gets the accuracy of the last modification time.
      *
-     * @return ms 0 perfectly accurate, {@literal >0} might be off by this value e.g. sftp 1000ms
+     * @return milliseconds, 0 means perfectly accurate, {@code > 0} might be off by this value, for examnple, sftp is 1000 milliseconds.
      */
     @Override
     public double getLastModTimeAccuracy() {
@@ -350,7 +350,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * Returns the parent layer if this is a layered file system.
+     * Gets the parent layer if this is a layered file system.
      *
      * @return The FileObject for the parent layer.
      * @throws FileSystemException if an error occurs.
@@ -361,7 +361,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * Returns the root file of this file system.
+     * Gets the root file of this file system.
      *
      * @return The root FileObject of the FileSystem
      * @throws FileSystemException if an error occurs.
@@ -372,7 +372,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * Returns the name of the root of this file system.
+     * Gets the name of the root of this file system.
      *
      * @return the root FileName.
      */
@@ -382,7 +382,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * Returns the root URI specified for this file System.
+     * Gets the root URI specified for this file System.
      *
      * @return The root URI used in this file system.
      * @since 2.0
@@ -393,7 +393,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * Determines if this file system has a particular capability.
+     * Tests whether this file system has a particular capability.
      *
      * @param capability the Capability to check for.
      * @return true if the FileSystem has the Capability, false otherwise.
@@ -414,7 +414,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * Checks if this file system has open streams.
+     * Tests whether this file system has open streams.
      *
      * @return true if the FileSystem has open streams.
      */
@@ -423,9 +423,9 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * Returns true if no file is using this FileSystem.
+     * Tests whether any files are using this FileSystem.
      *
-     * @return true if no file is using this FileSystem.
+     * @return whether any files are using this FileSystem.
      */
     public boolean isReleaseable() {
         return useCount.get() < 1;
