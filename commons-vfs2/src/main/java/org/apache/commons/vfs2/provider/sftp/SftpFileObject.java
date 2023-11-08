@@ -52,7 +52,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     /**
      * An InputStream that monitors for end-of-file.
      */
-    private class SftpInputStream extends MonitorInputStream {
+    private final class SftpInputStream extends MonitorInputStream {
         private final ChannelSftp channel;
 
         SftpInputStream(final ChannelSftp channel, final InputStream in) {
@@ -77,7 +77,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     /**
      * An OutputStream that wraps an sftp OutputStream, and closes the channel when the stream is closed.
      */
-    private class SftpOutputStream extends MonitorOutputStream {
+    private final class SftpOutputStream extends MonitorOutputStream {
         private final ChannelSftp channel;
 
         SftpOutputStream(final ChannelSftp channel, final OutputStream out) {

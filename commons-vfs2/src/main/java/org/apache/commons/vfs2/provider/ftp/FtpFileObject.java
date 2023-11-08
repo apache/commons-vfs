@@ -103,7 +103,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     /**
      * An OutputStream that monitors for end-of-file.
      */
-    private class FtpOutputStream extends MonitorOutputStream {
+    private final class FtpOutputStream extends MonitorOutputStream {
         private final FtpClient client;
 
         FtpOutputStream(final FtpClient client, final OutputStream outstr) {
