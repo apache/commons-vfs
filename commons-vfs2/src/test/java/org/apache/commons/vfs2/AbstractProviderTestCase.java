@@ -46,19 +46,6 @@ public abstract class AbstractProviderTestCase extends TestCase {
     // Expected contents of test files
     public static final String TEST_FILE_CONTENT = "A test file.";
 
-    protected static Test notConfigured(final Class<?> testClass) {
-        return warning(testClass + " is not configured for tests, skipping");
-    }
-
-    private static Test warning(final String message) {
-        return new TestCase("warning") {
-            @Override
-            protected void runTest() {
-                System.out.println(message);
-            }
-        };
-    }
-
     private boolean addEmptyDir;
     private FileObject baseFolder;
     private DefaultFileSystemManager manager;
