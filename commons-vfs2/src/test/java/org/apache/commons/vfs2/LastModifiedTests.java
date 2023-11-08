@@ -39,7 +39,7 @@ public class LastModifiedTests extends AbstractProviderTestCase {
         // getLastModTimeAccuracy() is not accurate
         final long actualDelta = Math.abs(expectedMillis - actualMillis);
         if (actualDelta > Math.max(deltaMillis, 1000)) {
-            Assertions.fail(String.format("%s expected=%,d (%s), actual=%,d (%s), expected delta=%,d, actual delta=%,d millis", message,
+            Assertions.fail(String.format("%s expected=%,d (%s), actual=%,d (%s), expected delta=%,d millis, actual delta=%,d millis", message,
                     Long.valueOf(expectedMillis), new Date(expectedMillis).toString(), Long.valueOf(actualMillis), new Date(actualMillis).toString(),
                     Long.valueOf(deltaMillis), Long.valueOf(actualDelta)));
         }
