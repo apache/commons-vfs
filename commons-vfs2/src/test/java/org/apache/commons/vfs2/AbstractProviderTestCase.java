@@ -227,9 +227,9 @@ public abstract class AbstractProviderTestCase extends TestCase {
     }
 
     protected FileSystem getFileSystem() {
-        final FileObject rFolder = getReadFolder();
-        Assert.assertNotNull("This test's read folder should not be null", rFolder);
-        return rFolder.getFileSystem();
+        final FileObject readFolder = getReadFolder();
+        Assert.assertNotNull("This test's read folder should not be null", readFolder);
+        return readFolder.getFileSystem();
     }
 
     /**
