@@ -32,24 +32,24 @@ public class LastModifiedTests extends AbstractProviderTestCase {
 
     protected static final Duration ONE_DAY = Duration.ofDays(1);
 
-    protected void assertDeltaMillis(final String message, final long expected, final long actual, final long delta) {
-        if (expected == actual) {
+    protected void assertDeltaMillis(final String message, final long expectedMillis, final long actualMillis, final long deltaMillis) {
+        if (expectedMillis == actualMillis) {
             return;
         }
         // getLastModTimeAccuracy() is not accurate
-        final long actualDelta = Math.abs(expected - actual);
-        if (actualDelta > Math.max(delta, 1000)) {
-            Assertions.fail(String.format("%s expected=%,d (%s), actual=%,d (%s), expected delta=%,d, actual delta=%,d",
-                message, Long.valueOf(expected), new Date(expected).toString(), Long.valueOf(actual),
-                new Date(actual).toString(), Long.valueOf(delta), Long.valueOf(actualDelta)));
+        final long actualDelta = Math.abs(expectedMillis - actualMillis);
+        if (actualDelta > Math.max(deltaMillis, 1000)) {
+            Assertions.fail(String.format("%s expected=%,d (%s), actual=%,d (%s), expected delta=%,d, actual delta=%,d millis", message,
+                    Long.valueOf(expectedMillis), new Date(expectedMillis).toString(), Long.valueOf(actualMillis), new Date(actualMillis).toString(),
+                    Long.valueOf(deltaMillis), Long.valueOf(actualDelta)));
         }
     }
 
-    protected void assertEqualMillis(final String message, final long expected, final long actual) {
-        if (expected != actual) {
-            final long delta = Math.abs(expected - actual);
-            Assertions.fail(String.format("%s expected=%,d (%s), actual=%,d (%s), delta=%,d", message, Long.valueOf(expected),
-                    new Date(expected).toString(), Long.valueOf(actual), new Date(actual).toString(), delta));
+    protected void assertEqualMillis(final String message, final long expectedMillis, final long actualMillis) {
+        if (expectedMillis != actualMillis) {
+            final long delta = Math.abs(expectedMillis - actualMillis);
+            Assertions.fail(String.format("%s expected=%,d (%s), actual=%,d (%s), delta=%,d millis", message, Long.valueOf(expectedMillis),
+                    new Date(expectedMillis).toString(), Long.valueOf(actualMillis), new Date(actualMillis).toString(), delta));
         }
     }
 
