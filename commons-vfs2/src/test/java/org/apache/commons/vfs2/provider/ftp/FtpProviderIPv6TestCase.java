@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.ftp;
 
+import junit.framework.Test;
+
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemOptions;
@@ -23,8 +25,6 @@ import org.apache.commons.vfs2.IPv6LocalConnectionTests;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.GenericFileName;
 import org.mockito.Mockito;
-
-import junit.framework.Test;
 
 public class FtpProviderIPv6TestCase extends FtpProviderTestCase {
 

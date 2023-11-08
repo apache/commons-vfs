@@ -16,6 +16,10 @@
  */
 package org.apache.commons.vfs2.filter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -25,7 +29,6 @@ import org.apache.commons.vfs2.FileFilterSelector;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSystemException;
-import org.junit.Assert;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -106,17 +109,17 @@ public class CanWriteFileFilterTest extends BaseFilterTest {
     @Test
     public void testAcceptCannotWrite() throws FileSystemException {
 
-        Assert.assertFalse(CanWriteFileFilter.CANNOT_WRITE.accept(writableFileInfo));
-        Assert.assertTrue(CanWriteFileFilter.CANNOT_WRITE.accept(readOnlyFileInfo));
-        Assert.assertFalse(CanWriteFileFilter.CANNOT_WRITE.accept(notExistingFileInfo));
+        assertFalse(CanWriteFileFilter.CANNOT_WRITE.accept(writableFileInfo));
+        assertTrue(CanWriteFileFilter.CANNOT_WRITE.accept(readOnlyFileInfo));
+        assertFalse(CanWriteFileFilter.CANNOT_WRITE.accept(notExistingFileInfo));
     }
 
     @Test
     public void testAcceptCanWrite() throws FileSystemException {
 
-        Assert.assertTrue(CanWriteFileFilter.CAN_WRITE.accept(writableFileInfo));
-        Assert.assertFalse(CanWriteFileFilter.CAN_WRITE.accept(readOnlyFileInfo));
-        Assert.assertTrue(CanWriteFileFilter.CAN_WRITE.accept(notExistingFileInfo));
+        assertTrue(CanWriteFileFilter.CAN_WRITE.accept(writableFileInfo));
+        assertFalse(CanWriteFileFilter.CAN_WRITE.accept(readOnlyFileInfo));
+        assertTrue(CanWriteFileFilter.CAN_WRITE.accept(notExistingFileInfo));
     }
 
     @Test
@@ -126,12 +129,12 @@ public class CanWriteFileFilterTest extends BaseFilterTest {
 
         // CAN_WRITE Filter
         files = zipFileObj.findFiles(new FileFilterSelector(CanWriteFileFilter.CAN_WRITE));
-        Assert.assertTrue(files == null || files.length == 0);
+        assertTrue(files == null || files.length == 0);
 
         // CANNOT_WRITE Filter
         files = zipFileObj.findFiles(new FileFilterSelector(CanWriteFileFilter.CANNOT_WRITE));
         assertContains(files, READONLY, WRITABLE);
-        Assert.assertEquals(2, files.length);
+        assertEquals(2, files.length);
     }
 
 }

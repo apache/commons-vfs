@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2;
 
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -27,6 +28,12 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import junit.extensions.TestSetup;
+import junit.framework.Protectable;
+import junit.framework.Test;
+import junit.framework.TestResult;
+import junit.framework.TestSuite;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -34,13 +41,6 @@ import org.apache.commons.vfs2.impl.DefaultFileReplicator;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.impl.PrivilegedFileReplicator;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
-import org.junit.Assert;
-
-import junit.extensions.TestSetup;
-import junit.framework.Protectable;
-import junit.framework.Test;
-import junit.framework.TestResult;
-import junit.framework.TestSuite;
 
 /**
  * The suite of tests for a file system.
@@ -128,7 +128,7 @@ public abstract class AbstractTestSuite extends TestSetup {
      */
     private void checkTempDir(final String assertMsg) {
         if (tempDir.exists()) {
-            Assert.assertTrue(assertMsg + " (" + tempDir.getAbsolutePath() + ")",
+            assertTrue(assertMsg + " (" + tempDir.getAbsolutePath() + ")",
                 tempDir.isDirectory() && ArrayUtils.isEmpty(tempDir.list()));
         }
     }
@@ -270,13 +270,13 @@ public abstract class AbstractTestSuite extends TestSetup {
         writeFolder = baseFolder.resolveFile(WRITE_TESTS_FOLDER);
 
         // Make some assumptions about the read folder
-        Assert.assertTrue("Folder does not exist: " + readFolder, readFolder.exists());
-        Assert.assertNotEquals(readFolder.getName().getPath(), FileName.ROOT_PATH);
+        assertTrue("Folder does not exist: " + readFolder, readFolder.exists());
+        assertNotEquals(readFolder.getName().getPath(), FileName.ROOT_PATH);
 
         // Configure the tests
         final Enumeration<Test> tests = testSuite.tests();
         if (!tests.hasMoreElements()) {
-            Assert.fail("No tests.");
+            fail("No tests.");
         }
         while (tests.hasMoreElements()) {
             final Test test = tests.nextElement();

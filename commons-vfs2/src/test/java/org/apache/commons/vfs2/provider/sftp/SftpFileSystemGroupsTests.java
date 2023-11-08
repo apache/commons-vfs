@@ -16,10 +16,11 @@
  */
 package org.apache.commons.vfs2.provider.sftp;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.apache.commons.vfs2.FileSystemOptions;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -47,7 +48,7 @@ public class SftpFileSystemGroupsTests {
         final StringBuilder builder = new StringBuilder("\n");
         final int[] groups = fileSystem.parseGroupIdOutput(builder);
 
-        Assert.assertEquals("Group ids should be empty", 0, groups.length);
+        assertEquals(0, groups.length, "Group ids should be empty");
     }
 
     @Test
@@ -55,8 +56,8 @@ public class SftpFileSystemGroupsTests {
         final StringBuilder builder = new StringBuilder("1 22 333 4444\n");
         final int[] groups = fileSystem.parseGroupIdOutput(builder);
 
-        Assert.assertEquals("Group ids should not be empty", 4, groups.length);
-        Assert.assertArrayEquals(new int[]{1, 22, 333, 4444}, groups);
+        assertEquals(4, groups.length, "Group ids should not be empty");
+        assertArrayEquals(new int[]{1, 22, 333, 4444}, groups);
     }
 
     @Test

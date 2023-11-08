@@ -18,6 +18,8 @@ package org.apache.commons.vfs2.provider.tar;
 
 import static org.apache.commons.vfs2.VfsTestUtils.getTestResource;
 
+import junit.framework.Test;
+
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -26,8 +28,6 @@ import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.auth.StaticUserAuthenticator;
 import org.apache.commons.vfs2.impl.DefaultFileSystemConfigBuilder;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
-
-import junit.framework.Test;
 
 /**
  * Tests for the Tar file system, using a tar file nested inside another tar file.

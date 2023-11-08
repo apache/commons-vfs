@@ -16,11 +16,11 @@
  */
 package org.apache.commons.vfs2.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -62,7 +62,7 @@ public class DelegatingFileSystemOptionsBuilderTest {
     @Test
     public void testConfiguration() throws Exception {
         for (final String scheme : schemes) {
-            assertTrue("Missing " + scheme + " provider", fsm.hasProvider(scheme));
+            assertTrue(fsm.hasProvider(scheme), () -> "Missing " + scheme + " provider");
         }
     }
 
@@ -99,16 +99,16 @@ public class DelegatingFileSystemOptionsBuilderTest {
         delegate.setConfigClass(opts, "sftp", "userinfo", TrustEveryoneUserInfo.class);
         delegate.setConfigStrings(opts, "sftp", "identities", identityPaths);
 
-        assertEquals("http.proxyHost", HttpFileSystemConfigBuilder.getInstance().getProxyHost(opts), "proxy");
-        assertEquals("http.proxyPort", HttpFileSystemConfigBuilder.getInstance().getProxyPort(opts), 8080);
-        assertSame("sftp.userInfo", SftpFileSystemConfigBuilder.getInstance().getUserInfo(opts).getClass(), TrustEveryoneUserInfo.class);
+        assertEquals(HttpFileSystemConfigBuilder.getInstance().getProxyHost(opts), "proxy", "http.proxyHost");
+        assertEquals(HttpFileSystemConfigBuilder.getInstance().getProxyPort(opts), 8080, "http.proxyPort");
+        assertSame(SftpFileSystemConfigBuilder.getInstance().getUserInfo(opts).getClass(), TrustEveryoneUserInfo.class, "sftp.userInfo");
 
         final File[] identities = SftpFileSystemConfigBuilder.getInstance().getIdentities(opts);
-        assertNotNull("sftp.identities", identities);
-        assertEquals("sftp.identities size", identities.length, identityPaths.length);
+        assertNotNull(identities, "sftp.identities");
+        assertEquals(identities.length, identityPaths.length, "sftp.identities size");
         for (int iterIdentities = 0; iterIdentities < identities.length; iterIdentities++) {
-            assertEquals("sftp.identities #" + iterIdentities, identities[iterIdentities].getAbsolutePath(),
-                    new File(identityPaths[iterIdentities]).getAbsolutePath());
+            assertEquals(identities[iterIdentities].getAbsolutePath(), new File(identityPaths[iterIdentities]).getAbsolutePath(),
+                    "sftp.identities #" + iterIdentities);
         }
     }
 

@@ -16,6 +16,10 @@
  */
 package org.apache.commons.vfs2.filter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -26,7 +30,6 @@ import org.apache.commons.vfs2.FileFilterSelector;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSystemException;
-import org.junit.Assert;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -121,11 +124,11 @@ public class EmptyFileFilterTest extends BaseFilterTest {
 
         final FileFilter testee = EmptyFileFilter.EMPTY;
 
-        Assert.assertFalse(testee.accept(notEmptyFileInfo));
-        Assert.assertTrue(testee.accept(emptyFileInfo));
-        Assert.assertFalse(testee.accept(notEmptyDirInfo));
-        Assert.assertTrue(testee.accept(emptyDirInfo));
-        Assert.assertTrue(testee.accept(notExistingFileInfo));
+        assertFalse(testee.accept(notEmptyFileInfo));
+        assertTrue(testee.accept(emptyFileInfo));
+        assertFalse(testee.accept(notEmptyDirInfo));
+        assertTrue(testee.accept(emptyDirInfo));
+        assertTrue(testee.accept(notExistingFileInfo));
     }
 
     @Test
@@ -133,11 +136,11 @@ public class EmptyFileFilterTest extends BaseFilterTest {
 
         final FileFilter testee = EmptyFileFilter.NOT_EMPTY;
 
-        Assert.assertTrue(testee.accept(notEmptyFileInfo));
-        Assert.assertFalse(testee.accept(emptyFileInfo));
-        Assert.assertTrue(testee.accept(notEmptyDirInfo));
-        Assert.assertFalse(testee.accept(emptyDirInfo));
-        Assert.assertFalse(testee.accept(notExistingFileInfo));
+        assertTrue(testee.accept(notEmptyFileInfo));
+        assertFalse(testee.accept(emptyFileInfo));
+        assertTrue(testee.accept(notEmptyDirInfo));
+        assertFalse(testee.accept(emptyDirInfo));
+        assertFalse(testee.accept(notExistingFileInfo));
     }
 
     @Test
@@ -148,11 +151,11 @@ public class EmptyFileFilterTest extends BaseFilterTest {
 
         files = zipFileObj.findFiles(new FileFilterSelector(EmptyFileFilter.EMPTY));
         assertContains(files, emptyFile.getName());
-        Assert.assertEquals(1, files.length);
+        assertEquals(1, files.length);
 
         files = zipFileObj.findFiles(new FileFilterSelector(EmptyFileFilter.NOT_EMPTY));
         assertContains(files, notEmptyFile.getName(), notEmptyDir.getName());
-        Assert.assertEquals(2, files.length);
+        assertEquals(2, files.length);
     }
 
 }

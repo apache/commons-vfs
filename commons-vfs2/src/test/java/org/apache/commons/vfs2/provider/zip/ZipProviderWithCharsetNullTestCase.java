@@ -20,6 +20,8 @@ import static org.apache.commons.vfs2.VfsTestUtils.getTestResource;
 
 import java.io.File;
 
+import junit.framework.Test;
+
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
@@ -28,8 +30,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.junit.jupiter.api.Assertions;
-
-import junit.framework.Test;
 
 /**
  * Tests for the Zip file system.

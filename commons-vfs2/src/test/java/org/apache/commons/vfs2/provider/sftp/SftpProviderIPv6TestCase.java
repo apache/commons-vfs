@@ -18,6 +18,8 @@ package org.apache.commons.vfs2.provider.sftp;
 
 import java.io.IOException;
 
+import junit.framework.Test;
+
 import org.apache.commons.io.input.NullInputStream;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
@@ -30,7 +32,6 @@ import org.mockito.Mockito;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import junit.framework.Test;
 
 public class SftpProviderIPv6TestCase extends AbstractSftpProviderTestCase {
 

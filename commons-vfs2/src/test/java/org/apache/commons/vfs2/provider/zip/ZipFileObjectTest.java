@@ -16,6 +16,9 @@
  */
 package org.apache.commons.vfs2.provider.zip;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,7 +33,6 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
-import org.junit.Assert;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -60,11 +62,9 @@ public class ZipFileObjectTest {
             throws IOException {
         final String streamData = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
         final String fileObjectString = fileObject.toString();
-        Assert.assertNotNull(fileObjectString, streamData);
-        Assert.assertEquals(
-                fileObjectString, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<Root"
-                        + expectedId + ">foo" + expectedId + "</Root" + expectedId + ">\r\n",
-                streamData);
+        assertNotNull(fileObjectString, streamData);
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<Root" + expectedId + ">foo" + expectedId + "</Root" + expectedId + ">\r\n", streamData,
+                fileObjectString);
     }
 
     private void resolveReadAssert(final FileObject zipFileObject, final String path)
@@ -180,11 +180,11 @@ public class ZipFileObjectTest {
         // test
         try (FileObject fileObject = manager.resolveFile(baseUrl)) {
             // test getChildren() number equal
-            Assert.assertEquals(fileObject.getChildren().length, fileNames.length);
+            assertEquals(fileObject.getChildren().length, fileNames.length);
 
             // test getChild(String)
             for (final String fileName : fileNames) {
-                Assert.assertNotNull("can't read file " + fileName, fileObject.getChild(fileName));
+                assertNotNull(fileObject.getChild(fileName), () -> "can't read file " + fileName);
             }
         }
     }

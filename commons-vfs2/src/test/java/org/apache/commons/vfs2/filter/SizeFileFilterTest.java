@@ -16,6 +16,10 @@
  */
 package org.apache.commons.vfs2.filter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -25,7 +29,6 @@ import org.apache.commons.vfs2.FileFilterSelector;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSystemException;
-import org.junit.Assert;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -103,9 +106,9 @@ public class SizeFileFilterTest extends BaseFilterTest {
     public void testSizeFileFilterLong() throws FileSystemException {
 
         final SizeFileFilter testee = new SizeFileFilter(4);
-        Assert.assertFalse(testee.accept(minFileInfo));
-        Assert.assertTrue(testee.accept(optFileInfo));
-        Assert.assertTrue(testee.accept(maxFileInfo));
+        assertFalse(testee.accept(minFileInfo));
+        assertTrue(testee.accept(optFileInfo));
+        assertTrue(testee.accept(maxFileInfo));
     }
 
     @Test
@@ -114,14 +117,14 @@ public class SizeFileFilterTest extends BaseFilterTest {
         SizeFileFilter testee;
 
         testee = new SizeFileFilter(4, true);
-        Assert.assertFalse(testee.accept(minFileInfo));
-        Assert.assertTrue(testee.accept(optFileInfo));
-        Assert.assertTrue(testee.accept(maxFileInfo));
+        assertFalse(testee.accept(minFileInfo));
+        assertTrue(testee.accept(optFileInfo));
+        assertTrue(testee.accept(maxFileInfo));
 
         testee = new SizeFileFilter(4, false);
-        Assert.assertTrue(testee.accept(minFileInfo));
-        Assert.assertFalse(testee.accept(optFileInfo));
-        Assert.assertFalse(testee.accept(maxFileInfo));
+        assertTrue(testee.accept(minFileInfo));
+        assertFalse(testee.accept(optFileInfo));
+        assertFalse(testee.accept(maxFileInfo));
     }
 
     @Test
@@ -132,31 +135,31 @@ public class SizeFileFilterTest extends BaseFilterTest {
 
         files = zipFileObj.findFiles(new FileFilterSelector(new SizeFileFilter(4, true)));
         assertContains(files, optFile.getName(), maxFile.getName());
-        Assert.assertEquals(2, files.length);
+        assertEquals(2, files.length);
 
         files = zipFileObj.findFiles(new FileFilterSelector(new SizeFileFilter(4, false)));
         assertContains(files, minFile.getName());
-        Assert.assertEquals(1, files.length);
+        assertEquals(1, files.length);
 
         files = zipFileObj.findFiles(new FileFilterSelector(new SizeRangeFileFilter(2, 6)));
         assertContains(files, minFile.getName(), optFile.getName(), maxFile.getName());
-        Assert.assertEquals(3, files.length);
+        assertEquals(3, files.length);
 
         files = zipFileObj.findFiles(new FileFilterSelector(new SizeRangeFileFilter(3, 6)));
         assertContains(files, optFile.getName(), maxFile.getName());
-        Assert.assertEquals(2, files.length);
+        assertEquals(2, files.length);
 
         files = zipFileObj.findFiles(new FileFilterSelector(new SizeRangeFileFilter(2, 5)));
         assertContains(files, minFile.getName(), optFile.getName());
-        Assert.assertEquals(2, files.length);
+        assertEquals(2, files.length);
 
         files = zipFileObj.findFiles(new FileFilterSelector(new SizeRangeFileFilter(3, 5)));
         assertContains(files, optFile.getName());
-        Assert.assertEquals(1, files.length);
+        assertEquals(1, files.length);
 
         files = zipFileObj.findFiles(new FileFilterSelector(new SizeRangeFileFilter(4, 4)));
         assertContains(files, optFile.getName());
-        Assert.assertEquals(1, files.length);
+        assertEquals(1, files.length);
     }
 
     @Test
@@ -165,29 +168,29 @@ public class SizeFileFilterTest extends BaseFilterTest {
         SizeRangeFileFilter testee;
 
         testee = new SizeRangeFileFilter(2, 6);
-        Assert.assertTrue(testee.accept(minFileInfo));
-        Assert.assertTrue(testee.accept(optFileInfo));
-        Assert.assertTrue(testee.accept(maxFileInfo));
+        assertTrue(testee.accept(minFileInfo));
+        assertTrue(testee.accept(optFileInfo));
+        assertTrue(testee.accept(maxFileInfo));
 
         testee = new SizeRangeFileFilter(3, 6);
-        Assert.assertFalse(testee.accept(minFileInfo));
-        Assert.assertTrue(testee.accept(optFileInfo));
-        Assert.assertTrue(testee.accept(maxFileInfo));
+        assertFalse(testee.accept(minFileInfo));
+        assertTrue(testee.accept(optFileInfo));
+        assertTrue(testee.accept(maxFileInfo));
 
         testee = new SizeRangeFileFilter(2, 5);
-        Assert.assertTrue(testee.accept(minFileInfo));
-        Assert.assertTrue(testee.accept(optFileInfo));
-        Assert.assertFalse(testee.accept(maxFileInfo));
+        assertTrue(testee.accept(minFileInfo));
+        assertTrue(testee.accept(optFileInfo));
+        assertFalse(testee.accept(maxFileInfo));
 
         testee = new SizeRangeFileFilter(3, 5);
-        Assert.assertFalse(testee.accept(minFileInfo));
-        Assert.assertTrue(testee.accept(optFileInfo));
-        Assert.assertFalse(testee.accept(maxFileInfo));
+        assertFalse(testee.accept(minFileInfo));
+        assertTrue(testee.accept(optFileInfo));
+        assertFalse(testee.accept(maxFileInfo));
 
         testee = new SizeRangeFileFilter(4, 4);
-        Assert.assertFalse(testee.accept(minFileInfo));
-        Assert.assertTrue(testee.accept(optFileInfo));
-        Assert.assertFalse(testee.accept(maxFileInfo));
+        assertFalse(testee.accept(minFileInfo));
+        assertTrue(testee.accept(optFileInfo));
+        assertFalse(testee.accept(maxFileInfo));
     }
 
 }

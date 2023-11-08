@@ -16,14 +16,14 @@
  */
 package org.apache.commons.vfs2.provider.sftp;
 
+import junit.framework.Test;
+
 import org.apache.commons.vfs2.NamingTests;
 import org.apache.commons.vfs2.PermissionsTests;
 import org.apache.commons.vfs2.ProviderDeleteTests;
 import org.apache.commons.vfs2.ProviderReadTests;
 import org.apache.commons.vfs2.ProviderRenameTests;
 import org.apache.commons.vfs2.ProviderWriteTests;
-
-import junit.framework.Test;
 
 public class SftpProviderClosedExecChannelTestCase extends AbstractSftpProviderTestCase {
 

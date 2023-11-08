@@ -16,7 +16,9 @@
  */
 package org.apache.commons.vfs2.filter;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -38,7 +40,6 @@ import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
-import org.junit.Assert;
 
 /**
  * Base class for test cases.
@@ -53,7 +54,7 @@ public abstract class BaseFilterTest {
      */
     protected static void assertContains(final List<?> list, final Object... objects) {
         for (final Object obj : objects) {
-            Assert.assertTrue("Couldn't find " + obj + " in " + Arrays.asList(objects), list.indexOf(obj) > -1);
+            assertTrue(list.indexOf(obj) > -1, () -> "Couldn't find " + obj + " in " + Arrays.asList(objects));
         }
     }
 
@@ -65,9 +66,9 @@ public abstract class BaseFilterTest {
      */
     protected static void assertContainsOnly(final List<?> list, final Object... objects) {
         for (final Object obj : objects) {
-            Assert.assertTrue("Couldn't find " + obj + " in " + Arrays.asList(objects), list.indexOf(obj) > -1);
+            assertTrue(list.indexOf(obj) > -1, () -> "Couldn't find " + obj + " in " + Arrays.asList(objects));
         }
-        Assert.assertEquals(objects.length, list.size());
+        assertEquals(objects.length, list.size());
     }
 
     /**

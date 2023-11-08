@@ -16,7 +16,7 @@
  */
 package org.apache.commons.vfs2;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -25,13 +25,11 @@ import java.lang.reflect.Method;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
-import org.junit.Assert;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
 
 /**
  * File system test cases, which verifies the structure and naming functionality.
@@ -92,7 +90,7 @@ public abstract class AbstractProviderTestCase extends TestCase {
         }
 
         // Compare
-        assertArrayEquals("same binary content", expectedBin, outstr.toByteArray());
+        assertArrayEquals(expectedBin, outstr.toByteArray(), "same binary content");
     }
 
     /**
@@ -123,7 +121,7 @@ public abstract class AbstractProviderTestCase extends TestCase {
         }
 
         // Compare
-        assertArrayEquals("same binary content", expectedBin, outstr.toByteArray());
+        assertArrayEquals(expectedBin, outstr.toByteArray(), "same binary content");
     }
 
     /**
@@ -215,7 +213,7 @@ public abstract class AbstractProviderTestCase extends TestCase {
 
     protected FileSystem getFileSystem() {
         final FileObject readFolder = getReadFolder();
-        Assert.assertNotNull("This test's read folder should not be null", readFolder);
+        assertNotNull("This test's read folder should not be null", readFolder);
         return readFolder.getFileSystem();
     }
 

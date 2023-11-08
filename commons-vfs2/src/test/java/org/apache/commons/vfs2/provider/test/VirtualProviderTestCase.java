@@ -20,12 +20,12 @@ import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
 
 import java.io.File;
 
+import junit.framework.Test;
+
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.ProviderTestSuite;
-
-import junit.framework.Test;
 
 /**
  * Test cases for the virtual file system provider.

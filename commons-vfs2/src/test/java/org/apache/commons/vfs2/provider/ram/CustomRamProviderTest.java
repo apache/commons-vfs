@@ -16,13 +16,13 @@
  */
 package org.apache.commons.vfs2.provider.ram;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -40,7 +40,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.UriParser;
-import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -142,7 +141,7 @@ public class CustomRamProviderTest {
 
         FileSystemOptions fsOptions = fo1.getFileSystem().getFileSystemOptions();
         long maxFilesystemSize = RamFileSystemConfigBuilder.getInstance().getLongMaxSize(fsOptions);
-        assertEquals("Filesystem option maxSize must be unlimited", Long.MAX_VALUE, maxFilesystemSize);
+        assertEquals(Long.MAX_VALUE, maxFilesystemSize, "Filesystem option maxSize must be unlimited");
 
         // Small FS
         final FileObject fo3 = manager.resolveFile("ram:/fo3", smallSizedFso);
@@ -152,7 +151,7 @@ public class CustomRamProviderTest {
 
         fsOptions = fo3.getFileSystem().getFileSystemOptions();
         maxFilesystemSize = RamFileSystemConfigBuilder.getInstance().getLongMaxSize(fsOptions);
-        assertEquals("Filesystem option maxSize must be set", 10, maxFilesystemSize);
+        assertEquals(10, maxFilesystemSize, "Filesystem option maxSize must be set");
     }
 
     /**
@@ -164,14 +163,14 @@ public class CustomRamProviderTest {
         final FileObject fileSource = manager.resolveFile("ram://virtual/source");
         fileSource.createFile();
         final FileObject fileDest = manager.resolveFile("ram://virtual/dest");
-        Assert.assertTrue(fileSource.canRenameTo(fileDest));
+        assertTrue(fileSource.canRenameTo(fileDest));
         fileSource.moveTo(fileDest);
     }
 
     @Test
     public void testReadEmptyFileByteByByte() throws FileSystemException, IOException {
         final InputStream input = this.createEmptyFile();
-        assertEquals("Empty file didn't return EOF -1", -1, input.read());
+        assertEquals(-1, input.read(),"Empty file didn't return EOF -1");
     }
 
     @Test
@@ -179,26 +178,26 @@ public class CustomRamProviderTest {
         final InputStream input = this.createEmptyFile();
 
         final byte[] buffer = new byte[100];
-        assertEquals("Empty file didn't return when filling buffer", -1, input.read(buffer));
-        assertArrayEquals("Buffer was written too", new byte[100], buffer);
+        assertEquals(-1, input.read(buffer), "Empty file didn't return when filling buffer");
+        assertArrayEquals(new byte[100], buffer, "Buffer was written too");
     }
 
     @Test
     public void testReadEmptyFileIntoBufferWithOffsetAndLength() throws FileSystemException, IOException {
         final InputStream input = this.createEmptyFile();
         final byte[] buffer = new byte[100];
-        assertEquals("Empty file didn't return when filling buffer", -1, input.read(buffer, 10, 90));
-        assertArrayEquals("Buffer was written too", new byte[100], buffer);
+        assertEquals(-1, input.read(buffer, 10, 90), "Empty file didn't return when filling buffer");
+        assertArrayEquals(new byte[100], buffer, "Buffer was written too");
     }
 
     @Test
     public void testReadNonEmptyFileByteByByte() throws FileSystemException, IOException {
         final InputStream input = this.createNonEmptyFile();
 
-        assertEquals("Read 1st byte failed", 1, input.read());
-        assertEquals("Read 2st byte failed", 2, input.read());
-        assertEquals("Read 3st byte failed", 3, input.read());
-        assertEquals("File should be empty", -1, input.read());
+        assertEquals(1, input.read(), "Read 1st byte failed");
+        assertEquals(2, input.read(), "Read 2st byte failed");
+        assertEquals(3, input.read(), "Read 3st byte failed");
+        assertEquals(-1, input.read(), "File should be empty");
     }
 
     @Test
@@ -206,16 +205,16 @@ public class CustomRamProviderTest {
         final InputStream input = this.createNonEmptyFile();
 
         final byte[] buffer = new byte[100];
-        assertEquals("Filling buffer failed when file is not empty", NON_EMPTY_FILE_CONTENT.length, input.read(buffer));
+        assertEquals(NON_EMPTY_FILE_CONTENT.length, input.read(buffer), "Filling buffer failed when file is not empty");
 
         final byte[] expectedBuffer = Arrays.copyOf(NON_EMPTY_FILE_CONTENT, 100);
-        assertArrayEquals("Buffer not filled", expectedBuffer, buffer);
+        assertArrayEquals(expectedBuffer, buffer, "Buffer not filled");
 
         Arrays.fill(buffer, (byte) 0);
         Arrays.fill(expectedBuffer, (byte) 0);
 
-        assertEquals("File should be empty after filling buffer", -1, input.read(buffer));
-        assertArrayEquals("Buffer was written when empty", expectedBuffer, buffer);
+        assertEquals(-1, input.read(buffer), "File should be empty after filling buffer");
+        assertArrayEquals(expectedBuffer, buffer, "Buffer was written when empty");
     }
 
     @Test
@@ -224,17 +223,17 @@ public class CustomRamProviderTest {
 
         final byte[] buffer = new byte[100];
         final int offset = 10;
-        assertEquals("Filling buffer failed when file is not empty", NON_EMPTY_FILE_CONTENT.length,
-                input.read(buffer, offset, 100 - offset));
+        assertEquals(NON_EMPTY_FILE_CONTENT.length,
+                input.read(buffer, offset, 100 - offset), "Filling buffer failed when file is not empty");
 
         final byte[] expectedBuffer = new byte[100];
         System.arraycopy(NON_EMPTY_FILE_CONTENT, 0, expectedBuffer, offset, NON_EMPTY_FILE_CONTENT.length);
-        assertArrayEquals("Buffer not filled", expectedBuffer, buffer);
+        assertArrayEquals(expectedBuffer, buffer, "Buffer not filled");
 
         Arrays.fill(buffer, (byte) 0);
         Arrays.fill(expectedBuffer, (byte) 0);
-        assertEquals("File should be empty after filling buffer", -1, input.read(buffer, 10, 90));
-        assertArrayEquals("Buffer was written when empty", expectedBuffer, buffer);
+        assertEquals(-1, input.read(buffer, 10, 90), "File should be empty after filling buffer");
+        assertArrayEquals(expectedBuffer, buffer, "Buffer was written when empty");
     }
 
     /**
@@ -291,22 +290,22 @@ public class CustomRamProviderTest {
         final FileObject getChildResult = dir.getChild(testFileName);
 
         // validate findFiles returns expected result
-        assertEquals("Unexpected result findFiles: " + Arrays.toString(findFilesResult), 2, findFilesResult.length);
+        assertEquals(2, findFilesResult.length, () -> "Unexpected result findFiles: " + Arrays.toString(findFilesResult));
         String resultName = findFilesResult[0].getName().getPathDecoded();
-        assertEquals("findFiles Child name does not match", expectedName, resultName);
-        assertEquals("Did findFiles but child was no file", FileType.FILE, findFilesResult[0].getType());
+        assertEquals(expectedName, resultName, "findFiles Child name does not match");
+        assertEquals(FileType.FILE, findFilesResult[0].getType(), "Did findFiles but child was no file");
 
         // validate getChildren returns expected result
-        assertEquals("Unexpected result getChildren: " + Arrays.toString(getChildrenResult), 1, getChildrenResult.length);
+        assertEquals(1, getChildrenResult.length, () -> "Unexpected result getChildren: " + Arrays.toString(getChildrenResult));
         resultName = getChildrenResult[0].getName().getPathDecoded();
-        assertEquals("getChildren Child name does not match", expectedName, resultName);
-        assertEquals("Did getChildren but child was no file", FileType.FILE, getChildrenResult[0].getType());
+        assertEquals(expectedName, resultName, "getChildren Child name does not match");
+        assertEquals(FileType.FILE, getChildrenResult[0].getType(), "Did getChildren but child was no file");
 
         // validate getChild returns expected child
-        assertNotNull("Did not find direct child", getChildResult);
+        assertNotNull(getChildResult, "Did not find direct child");
         resultName = getChildResult.getName().getPathDecoded();
-        assertEquals("getChild name does not match", expectedName, resultName);
-        assertEquals("getChild was no file", FileType.FILE, getChildResult.getType());
+        assertEquals(expectedName, resultName, "getChild name does not match");
+        assertEquals(FileType.FILE, getChildResult.getType(), "getChild was no file");
     }
 
     @Test
@@ -355,22 +354,22 @@ public class CustomRamProviderTest {
         final FileObject getChildResult = dir.getChild(UriParser.encode(testFileName, ENC));
 
         // validate findFiles returns expected result
-        assertEquals("Unexpected result findFiles: " + Arrays.toString(findFilesResult), 2, findFilesResult.length);
+        assertEquals(2, findFilesResult.length, () -> "Unexpected result findFiles: " + Arrays.toString(findFilesResult));
         String resultName = findFilesResult[0].getName().getPathDecoded();
-        assertEquals("findFiles Child name does not match", expectedName, resultName);
-        assertEquals("Did findFiles but child was no file", FileType.FILE, findFilesResult[0].getType());
+        assertEquals(expectedName, resultName, "findFiles Child name does not match");
+        assertEquals(FileType.FILE, findFilesResult[0].getType(), "Did findFiles but child was no file");
 
         // validate getChildren returns expected result
-        assertEquals("Unexpected result getChildren: " + Arrays.toString(getChildrenResult), 1, getChildrenResult.length);
+        assertEquals(1, getChildrenResult.length, () -> "Unexpected result getChildren: " + Arrays.toString(getChildrenResult));
         resultName = getChildrenResult[0].getName().getPathDecoded();
-        assertEquals("getChildren Child name does not match", expectedName, resultName);
-        assertEquals("Did getChildren but child was no file", FileType.FILE, getChildrenResult[0].getType());
+        assertEquals(expectedName, resultName, "getChildren Child name does not match");
+        assertEquals(FileType.FILE, getChildrenResult[0].getType(), "Did getChildren but child was no file");
 
         // validate getChild returns expected child
-        assertNotNull("Did not find direct child", getChildResult);
+        assertNotNull(getChildResult, "Did not find direct child");
         resultName = getChildResult.getName().getPathDecoded();
-        assertEquals("getChild name does not match", expectedName, resultName);
-        assertEquals("getChild was no file", FileType.FILE, getChildResult.getType());
+        assertEquals(expectedName, resultName, "getChild name does not match");
+        assertEquals(FileType.FILE, getChildResult.getType(), "getChild was no file");
     }
 
 }

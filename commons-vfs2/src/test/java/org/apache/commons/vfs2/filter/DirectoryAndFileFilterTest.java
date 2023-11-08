@@ -16,6 +16,10 @@
  */
 package org.apache.commons.vfs2.filter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -27,7 +31,6 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSelector;
 import org.apache.commons.vfs2.FileSystemException;
-import org.junit.Assert;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -121,12 +124,12 @@ public class DirectoryAndFileFilterTest extends BaseFilterTest {
             }
         });
         assertContains(files, FILE);
-        Assert.assertEquals(1, files.length);
+        assertEquals(1, files.length);
 
         // DIRECTORY Filter
         files = zipFileObj.findFiles(new FileFilterSelector(DirectoryFileFilter.DIRECTORY));
         assertContains(files, DIR);
-        Assert.assertEquals(1, files.length);
+        assertEquals(1, files.length);
     }
 
     @Test
@@ -134,9 +137,9 @@ public class DirectoryAndFileFilterTest extends BaseFilterTest {
 
         final FileFilter testee = DirectoryFileFilter.DIRECTORY;
 
-        Assert.assertTrue(testee.accept(dirInfo));
-        Assert.assertFalse(testee.accept(fileInfo));
-        Assert.assertFalse(testee.accept(notExistingFileInfo));
+        assertTrue(testee.accept(dirInfo));
+        assertFalse(testee.accept(fileInfo));
+        assertFalse(testee.accept(notExistingFileInfo));
     }
 
     @Test
@@ -144,9 +147,9 @@ public class DirectoryAndFileFilterTest extends BaseFilterTest {
 
         final FileFilter testee = FileFileFilter.FILE;
 
-        Assert.assertTrue(testee.accept(fileInfo));
-        Assert.assertFalse(testee.accept(dirInfo));
-        Assert.assertFalse(testee.accept(notExistingFileInfo));
+        assertTrue(testee.accept(fileInfo));
+        assertFalse(testee.accept(dirInfo));
+        assertFalse(testee.accept(notExistingFileInfo));
     }
 
 }

@@ -16,9 +16,9 @@
  */
 package org.apache.commons.vfs2.provider.tar;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.OutputStream;
@@ -136,7 +136,7 @@ public class LargeTarTest {
 
         assertNotNull(files);
         for (final String expectedFile : expectedFiles) {
-            assertTrue("Expected file not found: " + expectedFile, fileExists(expectedFile, files));
+            assertTrue(fileExists(expectedFile, files), () -> "Expected file not found: " + expectedFile);
         }
     }
 
@@ -184,7 +184,7 @@ public class LargeTarTest {
         assertEquals(1, files.size());
         final FileObject f = files.get(0);
 
-        assertEquals("Expected file not found: " + largeFileName + ".txt", f.getName().getBaseName(), largeFileName + ".txt");
+        assertEquals(f.getName().getBaseName(), largeFileName + ".txt", () -> "Expected file not found: " + largeFileName + ".txt");
     }
 
 }

@@ -16,6 +16,10 @@
  */
 package org.apache.commons.vfs2.filter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -26,7 +30,6 @@ import org.apache.commons.vfs2.FileFilterSelector;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSystemException;
-import org.junit.Assert;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -101,10 +104,10 @@ public class HiddenFileFilterTest extends BaseFilterTest {
 
         final FileFilter testee = HiddenFileFilter.HIDDEN;
 
-        Assert.assertFalse(testee.accept(visibleFileInfo));
+        assertFalse(testee.accept(visibleFileInfo));
         // TODO xxx In Java 6 there is no way to hide a file
         // assertThat(testee.accept(hiddenFileInfo));
-        Assert.assertFalse(testee.accept(notExistingFileInfo));
+        assertFalse(testee.accept(notExistingFileInfo));
     }
 
     @Test
@@ -112,10 +115,10 @@ public class HiddenFileFilterTest extends BaseFilterTest {
 
         final FileFilter testee = HiddenFileFilter.VISIBLE;
 
-        Assert.assertTrue(testee.accept(visibleFileInfo));
+        assertTrue(testee.accept(visibleFileInfo));
         // TODO xxx In Java 6 there is no way to hide a file
         // assertThat(testee.accept(hiddenFileInfo));
-        Assert.assertTrue(testee.accept(notExistingFileInfo));
+        assertTrue(testee.accept(notExistingFileInfo));
     }
 
     @Test
@@ -132,7 +135,7 @@ public class HiddenFileFilterTest extends BaseFilterTest {
 
         files = zipFileObj.findFiles(new FileFilterSelector(HiddenFileFilter.VISIBLE));
         assertContains(files, visibleFile.getName());
-        Assert.assertEquals(1, files.length);
+        assertEquals(1, files.length);
     }
 
 }
