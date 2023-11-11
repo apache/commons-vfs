@@ -94,7 +94,7 @@ public class SmbFileName extends GenericFileName {
     }
 
     /**
-     * Construct the path suitable for SmbFile when used with NtlmPasswordAuthentication.
+     * Constructs the path suitable for SmbFile when used with NtlmPasswordAuthentication.
      *
      * @return caches and return URI with no username/password, never null
      * @throws FileSystemException if any of the invoked methods throw

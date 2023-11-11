@@ -208,7 +208,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
     private final List<String> wildcards;
 
     /**
-     * Construct a new wildcard filter for a list of wildcards specifying
+     * Constructs a new wildcard filter for a list of wildcards specifying
      * case-sensitivity.
      *
      * @param caseSensitivity how to handle case sensitivity, null means
@@ -224,7 +224,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Construct a new wildcard filter for an array of wildcards specifying
+     * Constructs a new wildcard filter for an array of wildcards specifying
      * case-sensitivity.
      *
      * @param caseSensitivity how to handle case sensitivity, null means
@@ -240,7 +240,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Construct a new case-sensitive wildcard filter for a list of wildcards.
+     * Constructs a new case-sensitive wildcard filter for a list of wildcards.
      *
      * @param wildcards the list of wildcards to match, not null
      */
@@ -249,7 +249,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Construct a new case-sensitive wildcard filter for an array of wildcards.
+     * Constructs a new case-sensitive wildcard filter for an array of wildcards.
      * <p>
      * The array is not cloned, so could be changed after constructing the instance.
      * This would be inadvisable however.

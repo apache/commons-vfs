@@ -190,7 +190,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Construct an {@code Http4FileSystemConfigBuilder}.
+     * Constructs an {@code Http4FileSystemConfigBuilder}.
      *
      * @param prefix String for properties of this file system.
      */

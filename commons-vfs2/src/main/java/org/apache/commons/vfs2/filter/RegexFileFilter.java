@@ -57,7 +57,7 @@ public class RegexFileFilter implements FileFilter, Serializable {
     private final Pattern pattern;
 
     /**
-     * Construct a new regular expression filter for a compiled regular expression.
+     * Constructs a new regular expression filter for a compiled regular expression.
      *
      * @param pattern regular expression to match - Cannot be null
      */
@@ -70,7 +70,7 @@ public class RegexFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Construct a new regular expression filter.
+     * Constructs a new regular expression filter.
      *
      * @param pattern regular string expression to match - Cannot be null
      */
@@ -83,7 +83,7 @@ public class RegexFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Construct a new regular expression filter with the specified flags.
+     * Constructs a new regular expression filter with the specified flags.
      *
      * @param pattern regular string expression to match
      * @param flags   pattern flags - e.g. {@link Pattern#CASE_INSENSITIVE}
@@ -96,7 +96,7 @@ public class RegexFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Construct a new regular expression filter with the specified flags case
+     * Constructs a new regular expression filter with the specified flags case
      * sensitivity.
      *
      * @param pattern         regular string expression to match - Cannot be null

@@ -26,7 +26,7 @@ import org.apache.commons.vfs2.provider.http5.Http5FileProvider;
 public class Http5sFileProvider extends Http5FileProvider {
 
     /**
-     * Construct a {@code Http4sFileProvider}.
+     * Constructs a {@code Http4sFileProvider}.
      */
     public Http5sFileProvider() {
         setFileNameParser(Http5sFileNameParser.getInstance());

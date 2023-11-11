@@ -78,7 +78,7 @@ public class JackrabbitMain {
     private final ServerConnector connector = new ServerConnector(server);
 
     /**
-     * Construct Main application instance.
+     * Constructs Main application instance.
      * <P>
      * <EM>Note:</EM> Constructor is protected because other projects such as Commons VFS can extend this for some reasons
      *       (e.g, unit testing against Jackrabbit WebDAV).

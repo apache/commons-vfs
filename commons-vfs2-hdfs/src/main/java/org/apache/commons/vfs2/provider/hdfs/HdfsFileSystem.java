@@ -50,7 +50,7 @@ public class HdfsFileSystem extends AbstractFileSystem {
     private FileSystem fs;
 
     /**
-     * Construct file system.
+     * Constructs file system.
      *
      * @param rootName Name of the root directory of this file system.
      * @param fileSystemOptions options for this file system instance.

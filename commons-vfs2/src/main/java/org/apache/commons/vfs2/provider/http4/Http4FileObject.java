@@ -68,7 +68,7 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
     private HttpResponse lastHeadResponse;
 
     /**
-     * Construct {@code Http4FileObject}.
+     * Constructs {@code Http4FileObject}.
      *
      * @param name file name
      * @param fileSystem file system
@@ -80,7 +80,7 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
     }
 
     /**
-     * Construct {@code Http4FileObject}.
+     * Constructs {@code Http4FileObject}.
      *
      * @param name file name
      * @param fileSystem file system

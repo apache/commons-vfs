@@ -26,7 +26,7 @@ import org.apache.commons.vfs2.provider.http4.Http4FileProvider;
 public class Http4sFileProvider extends Http4FileProvider {
 
     /**
-     * Construct a {@code Http4sFileProvider}.
+     * Constructs a {@code Http4sFileProvider}.
      */
     public Http4sFileProvider() {
         setFileNameParser(Http4sFileNameParser.getInstance());

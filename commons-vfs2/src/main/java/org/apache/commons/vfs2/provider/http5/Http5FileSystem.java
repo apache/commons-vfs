@@ -53,7 +53,7 @@ public class Http5FileSystem extends AbstractFileSystem {
     private final HttpClientContext httpClientContext;
 
     /**
-     * Construct {@code Http4FileSystem}.
+     * Constructs {@code Http4FileSystem}.
      *
      * @param rootName root base name
      * @param fileSystemOptions file system options
