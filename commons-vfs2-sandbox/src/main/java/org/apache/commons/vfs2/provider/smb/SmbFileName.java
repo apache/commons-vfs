@@ -39,7 +39,7 @@ public class SmbFileName extends GenericFileName {
     }
 
     /**
-     * Put {@code domain} before @{code username} if both are set.
+     * Put {@code domain} before {@code username} if both are set.
      * <p>
      * Uses super method to add password or password placeholder.
      */
