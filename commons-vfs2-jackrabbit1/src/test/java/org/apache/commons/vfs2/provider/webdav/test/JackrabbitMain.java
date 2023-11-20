@@ -99,7 +99,7 @@ final class JackrabbitMain {
         }
     }
 
-    /** Try to load a resource with various classloaders. */
+    /** Try to load a resource with various class loaders. */
     private URL getResource(final String name) {
         URL res = Thread.currentThread().getContextClassLoader().getResource(name);
         if (res == null) {
