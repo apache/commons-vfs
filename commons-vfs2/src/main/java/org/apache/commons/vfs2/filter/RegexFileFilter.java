@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
  * </p>
  *
  * <p>
- * For example, to retrieve and print all java files where the name matched the
+ * For example, to retrieve and print all Java files where the name matched the
  * regular expression in the current directory:
  * </p>
  *

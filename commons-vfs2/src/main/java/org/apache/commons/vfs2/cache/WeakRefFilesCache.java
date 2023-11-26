@@ -23,7 +23,7 @@ import java.lang.ref.WeakReference;
 import org.apache.commons.vfs2.FileObject;
 
 /**
- * This implementation caches every file as long as it is strongly reachable by the java vm. As soon as the object is no
+ * This implementation caches every file as long as it is strongly reachable by the Java vm. As soon as the object is no
  * longer reachable it will be discarded. In contrast to the SoftRefFilesCache this implementation might free resources
  * faster as it doesn't wait until a memory limitation.
  *

@@ -39,7 +39,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
  * command lines.
  * </p>
  * <p>
- * For example, to retrieve and print all java files that have the expression
+ * For example, to retrieve and print all Java files that have the expression
  * test in the name in the current directory:
  * </p>
  *

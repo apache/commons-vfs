@@ -326,7 +326,7 @@ public abstract class AbstractTestSuite extends TestSetup {
             final String message = dumpThreadSnapshot(diffThreadSnapshot);
             /*
              * if (providerConfig.checkCleanThreadState()) { // close the manager to do a "not thread safe" release of
-             * all resources // and allow the vm to shutdown manager.close(); fail(message); } else {
+             * all resources // and allow the VM to shutdown manager.close(); fail(message); } else {
              */
             System.out.print(message);
             // }
