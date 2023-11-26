@@ -134,7 +134,6 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
         return new MonitoredHttpResponseContentInputStream(httpResponse, bufferSize);
     }
 
-
     @Override
     protected long doGetLastModifiedTime() throws Exception {
         FileSystemException.requireNonNull(lastHeadResponse, "vfs.provider.http/last-modified.error", getName());

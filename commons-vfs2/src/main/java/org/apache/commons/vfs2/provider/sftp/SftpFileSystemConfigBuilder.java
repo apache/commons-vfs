@@ -269,7 +269,6 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
         return this.getString(options, KEY_EXCHANGE_ALGORITHM);
     }
 
-
     /**
      * @param options The FileSystem options.
      * @return the known hosts File.

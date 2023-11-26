@@ -878,7 +878,6 @@ public class DefaultFileSystemManager implements FileSystemManager {
         return resolveName(root, path, NameScope.FILE_SYSTEM);
     }
 
-
     /**
      * Resolves a name, relative to the root.
      *

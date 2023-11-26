@@ -31,7 +31,6 @@ public class ResourceFileName extends AbstractFileName {
         super(scheme, path, type);
     }
 
-
     /**
      * Builds the root URI for this file name.
      */
