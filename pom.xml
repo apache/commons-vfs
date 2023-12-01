@@ -194,7 +194,7 @@
     <!-- Avoid warnings about being unable to find jars during site building -->
     <dependency.locations.enabled>false</dependency.locations.enabled>
     <hadoop.version>3.3.6</hadoop.version>
-    <httpcore5.version>5.2.3</httpcore5.version>
+    <httpcore5.version>5.2.4</httpcore5.version>
     <httpclient5.version>5.2.1</httpclient5.version>
     <jackrabbit1.version>1.6.5</jackrabbit1.version>
     <!-- Don't use jackrabbit2 2.21.x, it has broken compatibility in the past, and it's labeled "unstable" -->
