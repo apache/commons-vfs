@@ -22,7 +22,7 @@ import org.apache.commons.vfs2.provider.URLFileNameParser;
 /**
  * Implementation for https. set default port to 443.
  *
- * @deprecated Use {@link org.apache.commons.vfs2.provider.http4s}.
+ * @deprecated Use {@link org.apache.commons.vfs2.provider.http5s}.
  */
 @Deprecated
 public class HttpsFileNameParser extends URLFileNameParser {

@@ -31,7 +31,7 @@ import org.apache.commons.vfs2.provider.GenericFileName;
 /**
  * An HTTP file system.
  *
- * @deprecated Use {@link org.apache.commons.vfs2.provider.http4}.
+ * @deprecated Use {@link org.apache.commons.vfs2.provider.http5}.
  */
 @Deprecated
 public class HttpFileSystem extends AbstractFileSystem {

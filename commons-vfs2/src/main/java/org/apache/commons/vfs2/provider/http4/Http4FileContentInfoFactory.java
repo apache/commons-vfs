@@ -33,7 +33,9 @@ import org.apache.http.protocol.HTTP;
  * Creates {@code FileContentInfoFactory} instances for http4 provider.
  *
  * @since 2.3
+ * @deprecated Use {@link org.apache.commons.vfs2.provider.http5}.
  */
+@Deprecated
 public class Http4FileContentInfoFactory implements FileContentInfoFactory {
 
     @SuppressWarnings("unchecked")

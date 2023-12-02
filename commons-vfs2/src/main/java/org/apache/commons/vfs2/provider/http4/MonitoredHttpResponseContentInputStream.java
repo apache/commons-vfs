@@ -24,7 +24,10 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 
 /**
  * An InputStream that cleans up the {@code org.apache.http.client.methods.CloseableHttpResponse} on close.
+ *
+ * @deprecated Use {@link org.apache.commons.vfs2.provider.http5}.
  */
+@Deprecated
 final class MonitoredHttpResponseContentInputStream extends MonitorInputStream {
 
     private final HttpResponse httpResponse;

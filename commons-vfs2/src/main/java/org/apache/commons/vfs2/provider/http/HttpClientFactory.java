@@ -36,7 +36,7 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 /**
  * Create a HttpClient instance.
  *
- * @deprecated Use {@link org.apache.commons.vfs2.provider.http4}.
+ * @deprecated Use {@link org.apache.commons.vfs2.provider.http5}.
  */
 @Deprecated
 public final class HttpClientFactory {

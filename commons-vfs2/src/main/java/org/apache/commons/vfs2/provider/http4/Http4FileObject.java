@@ -48,7 +48,9 @@ import org.apache.http.protocol.HTTP;
  * @param <FS> An {@link Http4FileSystem} subclass
  *
  * @since 2.3
+ * @deprecated Use {@link org.apache.commons.vfs2.provider.http5}.
  */
+@Deprecated
 public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObject<FS> {
 
     /**

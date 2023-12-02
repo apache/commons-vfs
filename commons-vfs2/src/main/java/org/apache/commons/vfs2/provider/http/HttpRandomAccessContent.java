@@ -31,7 +31,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * RandomAccess content using HTTP.
  *
  * @param <FS> Type of HttpFileSystem.
- * @deprecated Use {@link org.apache.commons.vfs2.provider.http4}.
+ * @deprecated Use {@link org.apache.commons.vfs2.provider.http5}.
  */
 @Deprecated
 final class HttpRandomAccessContent<FS extends HttpFileSystem> extends AbstractRandomAccessStreamContent {

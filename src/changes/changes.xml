@@ -167,16 +167,22 @@ The <action> type attribute can be add,update,fix,remove.
         Port assertions to JUnit 5 APIs.
       </action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">
-        Scheme "http" now uses Apache HttpClient 4 instead of HttpClient 3.
+        Scheme "http" now uses Apache HttpClient 5 instead of HttpClient 3.
       </action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">
-        Scheme "https" now uses Apache HttpClient 4 instead of HttpClient 3.
+        Scheme "https" now uses Apache HttpClient 5 instead of HttpClient 3.
       </action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">
-        Deprecate package org.apache.commons.vfs2.provider.http in favor of org.apache.commons.vfs2.provider.http4.
+        Deprecate package org.apache.commons.vfs2.provider.http in favor of org.apache.commons.vfs2.provider.http5.
       </action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">
-        Deprecate package org.apache.commons.vfs2.provider.https in favor of org.apache.commons.vfs2.provider.http4s.
+        Deprecate package org.apache.commons.vfs2.provider.https in favor of org.apache.commons.vfs2.provider.http5s.
+      </action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">
+        Deprecate package org.apache.commons.vfs2.provider.http4 in favor of org.apache.commons.vfs2.provider.http5.
+      </action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">
+        Deprecate package org.apache.commons.vfs2.provider.http4s in favor of org.apache.commons.vfs2.provider.http5s.
       </action>
       <!-- ADD -->
       <action type="add" issue="VFS-848" dev="ggregory" due-to="beise, Gary Gregory">

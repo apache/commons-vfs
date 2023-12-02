@@ -30,7 +30,9 @@ import org.apache.http.cookie.Cookie;
  * Configuration options builder utility for http4 provider.
  *
  * @since 2.3
+ * @deprecated Use {@link org.apache.commons.vfs2.provider.http5}.
  */
+@Deprecated
 public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**

@@ -22,7 +22,7 @@ import org.apache.commons.vfs2.provider.URLFileNameParser;
 /**
  * Implementation for http. set default port to 80
  *
- * @deprecated Use {@link org.apache.commons.vfs2.provider.http4}.
+ * @deprecated Use {@link org.apache.commons.vfs2.provider.http5}.
  */
 @Deprecated
 public class HttpFileNameParser extends URLFileNameParser {

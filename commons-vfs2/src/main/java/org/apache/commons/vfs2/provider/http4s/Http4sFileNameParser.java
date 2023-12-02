@@ -23,7 +23,9 @@ import org.apache.commons.vfs2.provider.GenericURLFileNameParser;
  * {@code FileNameParser} implementation for http4s provider, setting default port to 443.
  *
  * @since 2.3
+ * @deprecated Use {@link org.apache.commons.vfs2.provider.http5}.
  */
+@Deprecated
 public class Http4sFileNameParser extends GenericURLFileNameParser {
 
     private static final int DEFAULT_PORT = 443;

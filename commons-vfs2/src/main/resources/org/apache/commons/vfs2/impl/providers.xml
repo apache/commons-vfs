@@ -56,14 +56,14 @@
         <if-available class-name="org.apache.commons.net.ftp.FTPFile"/>
     </provider>
 
-    <!-- http/https providers based on HttpClient v4 -->
-    <provider class-name="org.apache.commons.vfs2.provider.http4.Http4FileProvider">
+    <!-- http/https providers based on HttpClient v5 -->
+    <provider class-name="org.apache.commons.vfs2.provider.http5.Http5FileProvider">
         <scheme name="http"/>
-        <if-available class-name="org.apache.http.client.HttpClient"/>
+        <if-available class-name="org.apache.hc.client5.http.classic.HttpClient"/>
     </provider>
-    <provider class-name="org.apache.commons.vfs2.provider.http4s.Http4sFileProvider">
+    <provider class-name="org.apache.commons.vfs2.provider.http5s.Http5sFileProvider">
         <scheme name="https"/>
-        <if-available class-name="org.apache.http.client.HttpClient"/>
+        <if-available class-name="org.apache.hc.client5.http.classic.HttpClient"/>
     </provider>
 
     <!-- The default http3/http3s providers based on HttpClient v3 -->

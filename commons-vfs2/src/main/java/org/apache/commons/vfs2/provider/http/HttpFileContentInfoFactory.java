@@ -32,7 +32,7 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
 /**
  * Creates FileContentInfo instances for HTTP.
  *
- * @deprecated Use {@link org.apache.commons.vfs2.provider.http4}.
+ * @deprecated Use {@link org.apache.commons.vfs2.provider.http5}.
  */
 @Deprecated
 public class HttpFileContentInfoFactory implements FileContentInfoFactory {

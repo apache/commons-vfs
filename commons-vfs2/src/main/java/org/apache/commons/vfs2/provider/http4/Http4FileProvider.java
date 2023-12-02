@@ -88,7 +88,9 @@ import org.apache.http.ssl.SSLContextBuilder;
  * {@code FileProvider} implementation using HttpComponents HttpClient library.
  *
  * @since 2.3
+ * @deprecated Use {@link org.apache.commons.vfs2.provider.http5}.
  */
+@Deprecated
 public class Http4FileProvider extends AbstractOriginatingFileProvider {
 
     /** Authenticator information. */

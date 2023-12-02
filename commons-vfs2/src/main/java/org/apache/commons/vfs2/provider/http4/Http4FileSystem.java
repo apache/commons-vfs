@@ -34,7 +34,9 @@ import org.apache.http.client.protocol.HttpClientContext;
  * http4 file system.
  *
  * @since 2.3
+ * @deprecated Use {@link org.apache.commons.vfs2.provider.http5}.
  */
+@Deprecated
 public class Http4FileSystem extends AbstractFileSystem {
 
     /**
