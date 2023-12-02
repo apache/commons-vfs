@@ -28,7 +28,10 @@ import org.apache.commons.vfs2.UserAuthenticator;
 
 /**
  * Configuration options for HTTP.
+ *
+ * @deprecated Use {@link org.apache.commons.vfs2.provider.http4}.
  */
+@Deprecated
 public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**

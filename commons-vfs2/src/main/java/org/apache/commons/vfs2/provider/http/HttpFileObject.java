@@ -47,7 +47,9 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * </p>
  *
  * @param <FS> An {@link HttpFileSystem} subclass
+ * @deprecated Use {@link org.apache.commons.vfs2.provider.http4}.
  */
+@Deprecated
 public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObject<FS> {
 
     /**

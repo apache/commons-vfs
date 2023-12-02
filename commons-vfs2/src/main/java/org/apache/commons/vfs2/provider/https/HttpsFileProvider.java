@@ -20,7 +20,10 @@ import org.apache.commons.vfs2.provider.http.HttpFileProvider;
 
 /**
  * An HTTPS provider that uses commons-httpclient.
+ *
+ * @deprecated Use {@link org.apache.commons.vfs2.provider.http4s}.
  */
+@Deprecated
 public class HttpsFileProvider extends HttpFileProvider {
 
     /**

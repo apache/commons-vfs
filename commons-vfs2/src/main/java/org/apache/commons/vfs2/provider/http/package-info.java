@@ -17,5 +17,7 @@
 
 /**
  * The HTTP File Provider.
+ *
+ * @deprecated Use {@link org.apache.commons.vfs2.provider.http4}.
  */
 package org.apache.commons.vfs2.provider.http;

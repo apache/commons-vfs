@@ -28,7 +28,7 @@ import java.lang.reflect.InvocationTargetException;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
-import org.apache.commons.vfs2.provider.http.HttpFileSystemConfigBuilder;
+import org.apache.commons.vfs2.provider.http4.Http4FileSystemConfigBuilder;
 import org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder;
 import org.apache.commons.vfs2.provider.sftp.TrustEveryoneUserInfo;
 import org.junit.jupiter.api.AfterEach;
@@ -99,8 +99,8 @@ public class DelegatingFileSystemOptionsBuilderTest {
         delegate.setConfigClass(opts, "sftp", "userinfo", TrustEveryoneUserInfo.class);
         delegate.setConfigStrings(opts, "sftp", "identities", identityPaths);
 
-        assertEquals(HttpFileSystemConfigBuilder.getInstance().getProxyHost(opts), "proxy", "http.proxyHost");
-        assertEquals(HttpFileSystemConfigBuilder.getInstance().getProxyPort(opts), 8080, "http.proxyPort");
+        assertEquals(Http4FileSystemConfigBuilder.getInstance().getProxyHost(opts), "proxy", "http.proxyHost");
+        assertEquals(Http4FileSystemConfigBuilder.getInstance().getProxyPort(opts), 8080, "http.proxyPort");
         assertSame(SftpFileSystemConfigBuilder.getInstance().getUserInfo(opts).getClass(), TrustEveryoneUserInfo.class, "sftp.userInfo");
 
         final File[] identities = SftpFileSystemConfigBuilder.getInstance().getIdentities(opts);

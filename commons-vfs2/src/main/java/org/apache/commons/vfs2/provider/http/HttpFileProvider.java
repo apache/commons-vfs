@@ -34,7 +34,10 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 
 /**
  * An HTTP provider that uses commons-httpclient.
+ *
+ * @deprecated Use {@link org.apache.commons.vfs2.provider.http4}.
  */
+@Deprecated
 public class HttpFileProvider extends AbstractOriginatingFileProvider {
 
     /** Authenticator information. */

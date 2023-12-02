@@ -17,5 +17,7 @@
 
 /**
  * The HTTPS File Provider.
+ *
+ * @deprecated Use {@link org.apache.commons.vfs2.provider.http4s}.
  */
 package org.apache.commons.vfs2.provider.https;
