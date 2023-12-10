@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
 import org.apache.commons.io.function.Uncheck;
@@ -152,7 +153,7 @@ public class HdfsFileSystem extends AbstractFileSystem {
         if (null == fileObject) {
             String path;
             try {
-                path = URLDecoder.decode(name.getPath(), "UTF-8");
+                path = URLDecoder.decode(name.getPath(), StandardCharsets.UTF_8.name());
             } catch (final UnsupportedEncodingException e) {
                 path = name.getPath();
             }

@@ -69,7 +69,7 @@ public class FileObjectUtilsTest {
     @Test
     public void testgetContentAsStringString() throws IOException {
         assertEquals("This is a test file.", FileObjectUtils.getContentAsString(
-            VFS.getManager().toFileObject(new File("src/test/resources/test-data/read-tests/file1.txt")), "UTF-8"));
+                VFS.getManager().toFileObject(new File("src/test/resources/test-data/read-tests/file1.txt")), StandardCharsets.UTF_8.name()));
     }
 
     @Test

@@ -174,7 +174,7 @@ public class URIUtils {
     /**
      * The default charset of the protocol.  RFC 2277, 2396
      */
-    private static final String DEFAULT_PROTOCOL_CHARSET = "UTF-8";
+    private static final String DEFAULT_PROTOCOL_CHARSET = StandardCharsets.UTF_8.name();
 
     private static String encode(final String unescaped, final FluentBitSet allowed, final String charset) {
         final byte[] rawdata = URLCodecUtils.encodeUrl(allowed, EncodingUtils.getBytes(unescaped, charset));

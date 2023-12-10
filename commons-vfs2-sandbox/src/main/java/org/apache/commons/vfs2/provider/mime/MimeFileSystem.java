@@ -18,6 +18,7 @@ package org.apache.commons.vfs2.provider.mime;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
 import org.apache.commons.logging.Log;
@@ -40,7 +41,7 @@ import jakarta.mail.internet.MimeMessage;
 public class MimeFileSystem extends AbstractFileSystem {
     static final String NULL_BP_NAME = "_body_part_";
     static final String CONTENT_NAME = "_content";
-    static final String PREAMBLE_CHARSET = "UTF-8";
+    static final String PREAMBLE_CHARSET = StandardCharsets.UTF_8.name();
 
     private final Log log = LogFactory.getLog(MimeFileSystem.class);
 
