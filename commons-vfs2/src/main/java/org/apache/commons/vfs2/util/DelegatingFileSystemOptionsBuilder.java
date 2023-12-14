@@ -90,7 +90,7 @@ public class DelegatingFileSystemOptionsBuilder {
     private final Map<String, Map<String, List<Method>>> beanMethods = new TreeMap<>();
 
     /**
-     * Constructor.
+     * Constructs a new instance.
      * <p>
      * Pass in your fileSystemManager instance.
      * </p>

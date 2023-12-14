@@ -62,7 +62,7 @@ final class RamFileData implements Serializable {
     private final Collection<RamFileData> children;
 
     /**
-     * Constructor.
+     * Constructs a new instance.
      *
      * @param name The file name.
      */
