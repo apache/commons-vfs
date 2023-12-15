@@ -299,8 +299,7 @@ public class VFSClassLoader extends SecureClassLoader {
      * Returns true if we should seal the package where res resides.
      */
     private boolean isSealed(final Resource res) throws FileSystemException {
-        final String sealed = res.getPackageAttribute(Attributes.Name.SEALED);
-        return "true".equalsIgnoreCase(sealed);
+        return Boolean.parseBoolean(res.getPackageAttribute(Attributes.Name.SEALED));
     }
 
     /**
