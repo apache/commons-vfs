@@ -77,7 +77,7 @@ public class MimeFileObject extends AbstractFileObject<MimeFileSystem> implement
      * <p>
      * The map key is a java.lang.String and the value is a:
      * <ul>
-     * <li>{@code java.lang.Strings} for single entries or a</li>
+     * <li>{@link String}s for single entries or a</li>
      * <li>{@code java.utils.List<java.lang.Strings>} for entries with multiple values</li>
      * </ul>
      */
