@@ -236,7 +236,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig {
 
                 addTests(WebdavProviderTestCase.class);
 
-                // Webdav underlying implementation doesn't support link-local IPv6 url (but Webdav4 does)
+                // WebDAV underlying implementation doesn't support link-local IPv6 url (but WebDAV4 does)
                 // if (getSystemTestUriOverride() == null) {
                 //    addTests(IPv6LocalConnectionTests.class);
                 // }

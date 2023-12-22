@@ -32,7 +32,7 @@ import org.apache.jackrabbit.webdav.version.VersionControlledResource;
 import org.junit.Test;
 
 /**
- * Test to verify Webdav Versioning support
+ * Test to verify WebDAV Versioning support
  */
 public class WebdavVersioningTests extends AbstractProviderTestCase {
 

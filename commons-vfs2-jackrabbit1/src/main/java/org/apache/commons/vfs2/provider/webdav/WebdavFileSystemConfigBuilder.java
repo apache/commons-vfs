@@ -45,7 +45,7 @@ public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBui
     }
 
     /**
-     * @return The Webdav FileSystem Class object.
+     * @return The WebDAV FileSystem Class object.
      */
     @Override
     protected Class<? extends FileSystem> getConfigClass() {

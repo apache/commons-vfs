@@ -80,7 +80,7 @@ import org.w3c.dom.Node;
 public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
 
     /**
-     * An OutputStream that writes to a Webdav resource.
+     * An OutputStream that writes to a WebDAV resource.
      * <p>
      * TODO - Use piped stream to avoid temporary file.
      * </p>
@@ -259,7 +259,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
     }
 
     /**
-     * Returns the properties of the Webdav resource.
+     * Returns the properties of the WebDAV resource.
      */
     @Override
     protected Map<String, Object> doGetAttributes() throws Exception {

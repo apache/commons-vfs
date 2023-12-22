@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.provider.GenericURLFileName;
 import org.apache.commons.vfs2.util.URIUtils;
 
 /**
- * Webdav4 file name that represents a URL.
+ * WebDAV 4 file name that represents a URL.
  *
  * @since 2.10.0
  */

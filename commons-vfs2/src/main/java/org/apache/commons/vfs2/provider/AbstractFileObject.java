@@ -808,7 +808,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * Other than {@code doListChildren} you could return FileObject's to e.g. reinitialize the type of the file.
      * </p>
      * <p>
-     * (Introduced for Webdav: "permission denied on resource" during getType())
+     * (Introduced for WebDAV: "permission denied on resource" during getType())
      * </p>
      *
      * @return The children of this FileObject.
