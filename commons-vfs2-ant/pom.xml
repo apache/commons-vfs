@@ -28,27 +28,18 @@
     <relativePath>../</relativePath>
   </parent>
 
-  <name>Apache Commons VFS HDFS</name>
-  <artifactId>commons-vfs2-hdfs</artifactId>
-  <description>Apache Commons VFS is a Virtual File System library - Apache Hadoop HDFS provider.</description>
+  <name>Apache Commons VFS Ant Tasks</name>
+  <artifactId>commons-vfs2-ant</artifactId>
+  <description>Apache Commons VFS Ant Tasks.</description>
 
   <dependencies>
-
+    <dependency>
+      <groupId>ant</groupId>
+      <artifactId>ant</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-vfs2</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-hdfs-client</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-common</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-hdfs</artifactId>
     </dependency>
     <dependency>
        <groupId>org.apache.commons</groupId>
@@ -71,42 +62,14 @@
       <artifactId>log4j-core</artifactId>
       <scope>test</scope>
     </dependency>
-    <!-- Test HDFS with Apache Hadoop -->
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-common</artifactId>
-      <type>test-jar</type>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-         <!-- VFS-606 - tools.jar not available in Java 9
-              This exclusion can be removed after upgrading Hadoop
-              to 2.7.1 or later  
-          -->
-          <groupId>jdk.tools</groupId>
-          <artifactId>jdk.tools</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-hdfs</artifactId>
-      <type>test-jar</type>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <properties>
     <vfs.parent.dir>${basedir}/..</vfs.parent.dir>
-    <commons.packageId>vfs2-hdfs</commons.packageId>
-    <commons.module.name>org.apache.commons.vfs2.hdfs</commons.module.name>
+    <commons.packageId>vfs2-ant</commons.packageId>
+    <commons.module.name>org.apache.commons.vfs2.ant</commons.module.name>
     <commons.osgi.import>
-        org.apache.hadoop.*;resolution:=optional,
+        org.apache.tools.ant.*;resolution:=optional,
         *
     </commons.osgi.import>
     <!-- Hadoop jars contain overlapping packages that blow up JPMS -->
@@ -154,23 +117,6 @@
         </executions>
       </plugin>
       <plugin>
-        <!-- surfire do not honor suite(), see MSUREFIRE-131 why our tests wont work with maven 2 -->
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <systemPropertyVariables>
-            <test.basedir>target/test-classes/test-data</test.basedir>
-            <test.basedir.res>test-data</test.basedir.res>
-            <derby.stream.error.file>target/derby.log</derby.stream.error.file>
-          </systemPropertyVariables>
-          <excludes>
-            <!-- Need to port fully to JUnit 4 or 5. -->
-            <!-- *Tests.java files with @Test methods should not be run since these classes are in fact JUnit 3 classes used in custom JUnit 3 test suites. -->
-            <exclude>**/*Tests.java</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
-      <plugin>
 		<!-- Remove after 2.10.0 -->
         <groupId>com.github.siom79.japicmp</groupId>
         <artifactId>japicmp-maven-plugin</artifactId>
@@ -186,7 +132,7 @@
           <parameter>
             <includes>
               <!--  Package moved to new module here -->
-              <include>org.apache.commons.vfs2.provider.hdfs</include>
+              <include>org.apache.commons.vfs2.provider.ant</include>
             </includes>
           </parameter>
           <dependencies>
@@ -262,26 +208,4 @@
       </plugin>
 	</plugins>
   </reporting>
-  <profiles>
-    <profile>
-      <activation>
-        <os>
-          <family>Windows</family>
-        </os>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <excludes>
-                <exclude>**/Hdfs*Test*.java</exclude>
-              </excludes>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>  
 </project>

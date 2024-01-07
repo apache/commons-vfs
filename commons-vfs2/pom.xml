@@ -39,11 +39,6 @@
       <artifactId>commons-logging</artifactId>
     </dependency>
     <dependency>
-      <groupId>ant</groupId>
-      <artifactId>ant</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
       <groupId>commons-net</groupId>
       <artifactId>commons-net</artifactId>
       <optional>true</optional>
@@ -150,14 +145,17 @@
   <properties>
     <vfs.parent.dir>${basedir}/..</vfs.parent.dir>
     <commons.osgi.import>
-        org.apache.hadoop.*;resolution:=optional,
-        org.apache.tools.ant.*;resolution:=optional,
-        org.apache.commons.httpclient.*;resolution:=optional,
+        org.apache.hc.client5.http.*;resolution:=optional,
         *
     </commons.osgi.import>
   </properties>
 
   <build>
+    <pluginManagement>
+      <plugins>
+      
+      </plugins>
+    </pluginManagement>
     <resources>
       <resource>
         <directory>${basedir}/src/main/resources</directory>

@@ -36,6 +36,7 @@
 
   <modules>
     <module>commons-vfs2</module>
+    <module>commons-vfs2-ant</module>
     <module>commons-vfs2-hdfs</module>
     <module>commons-vfs2-jackrabbit1</module>
     <module>commons-vfs2-jackrabbit2</module>
@@ -168,7 +169,7 @@
     <commons.jira.pid>12310495</commons.jira.pid>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-vfs</commons.scmPubUrl>
     <commons.siteOutputDirectory>${basedir}/../target/site</commons.siteOutputDirectory>
-    <commons.releaseNotesLocation>${basedir}/../RELEASE-NOTES.txt</commons.releaseNotesLocation>
+    <commons.releaseNotesLocation>${vfs.parent.dir}/RELEASE-NOTES.txt</commons.releaseNotesLocation>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
     <commons.release.version>2.10.0</commons.release.version>
     <commons.release.next>2.10.1</commons.release.next>
@@ -264,6 +265,36 @@
             </excludes>
           </configuration>
         </plugin>
+      <plugin>
+        <groupId>com.github.siom79.japicmp</groupId>
+        <artifactId>japicmp-maven-plugin</artifactId>
+        <configuration>
+          <parameter>
+            <overrideCompatibilityChangeParameters>
+              <overrideCompatibilityChangeParameter>
+                <compatibilityChange>METHOD_NEW_DEFAULT</compatibilityChange>
+                <binaryCompatible>true</binaryCompatible>
+                <sourceCompatible>true</sourceCompatible>
+                <semanticVersionLevel>PATCH</semanticVersionLevel>
+              </overrideCompatibilityChangeParameter>
+              <overrideCompatibilityChangeParameter>
+                <!-- BC is maintained, but no SC. -->
+                <compatibilityChange>METHOD_NO_LONGER_THROWS_CHECKED_EXCEPTION</compatibilityChange>
+                <binaryCompatible>true</binaryCompatible>
+                <sourceCompatible>true</sourceCompatible>
+                <semanticVersionLevel>PATCH</semanticVersionLevel>
+              </overrideCompatibilityChangeParameter>
+            </overrideCompatibilityChangeParameters>
+            <excludes>
+              <!-- Remove this section after 2.10.0 -->
+              <!-- Package moved to new module commons-vfs-hdfs -->
+              <exclude>org.apache.commons.vfs2.provider.hdfs</exclude>
+              <!-- Package moved to new module commons-vfs-ant -->
+              <exclude>org.apache.commons.vfs2.tasks</exclude>
+            </excludes>
+          </parameter>
+        </configuration>
+      </plugin>
       </plugins>
     </pluginManagement>
 
@@ -333,29 +364,6 @@
       <plugin>
         <groupId>com.github.siom79.japicmp</groupId>
         <artifactId>japicmp-maven-plugin</artifactId>
-        <configuration>
-          <parameter>
-            <overrideCompatibilityChangeParameters>
-              <overrideCompatibilityChangeParameter>
-                <compatibilityChange>METHOD_NEW_DEFAULT</compatibilityChange>
-                <binaryCompatible>true</binaryCompatible>
-                <sourceCompatible>true</sourceCompatible>
-                <semanticVersionLevel>PATCH</semanticVersionLevel>
-              </overrideCompatibilityChangeParameter>
-              <overrideCompatibilityChangeParameter>
-                <!-- BC is maintained, but no SC. -->
-                <compatibilityChange>METHOD_NO_LONGER_THROWS_CHECKED_EXCEPTION</compatibilityChange>
-                <binaryCompatible>true</binaryCompatible>
-                <sourceCompatible>true</sourceCompatible>
-                <semanticVersionLevel>PATCH</semanticVersionLevel>
-              </overrideCompatibilityChangeParameter>
-            </overrideCompatibilityChangeParameters>
-            <excludes>
-              <!--  Package moved to new module -->
-              <exclude>org.apache.commons.vfs2.provider.hdfs</exclude>
-            </excludes>
-          </parameter>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>com.github.spotbugs</groupId>
@@ -415,22 +423,6 @@
       <plugin>
         <groupId>com.github.siom79.japicmp</groupId>
         <artifactId>japicmp-maven-plugin</artifactId>
-        <configuration>
-          <parameter>
-            <overrideCompatibilityChangeParameters>
-              <overrideCompatibilityChangeParameter>
-                <compatibilityChange>METHOD_NEW_DEFAULT</compatibilityChange>
-                <binaryCompatible>true</binaryCompatible>
-                <sourceCompatible>true</sourceCompatible>
-                <semanticVersionLevel>PATCH</semanticVersionLevel>
-              </overrideCompatibilityChangeParameter>
-            </overrideCompatibilityChangeParameters>
-            <excludes>
-              <!--  Package moved to new module -->
-              <exclude>org.apache.commons.vfs2.provider.hdfs</exclude>
-            </excludes>
-          </parameter>
-        </configuration>
       </plugin>
       <!-- cobertura breaks because it cannot parse annotations in methods. -->
       <!--

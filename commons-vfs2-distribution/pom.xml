@@ -43,12 +43,12 @@ limitations under the License.
     <profile>
       <id>release</id>
       <dependencies>
+        <!-- Core -->
         <dependency>
           <groupId>org.apache.commons</groupId>
           <artifactId>commons-vfs2</artifactId>
           <version>${project.version}</version>
         </dependency>
-
         <dependency>
           <groupId>org.apache.commons</groupId>
           <artifactId>commons-vfs2</artifactId>
@@ -73,13 +73,12 @@ limitations under the License.
           <version>${project.version}</version>
           <classifier>test-sources</classifier>
         </dependency>
-
+        <!-- Examples -->
         <dependency>
           <groupId>org.apache.commons</groupId>
           <artifactId>commons-vfs2-examples</artifactId>
           <version>${project.version}</version>
         </dependency>
-
         <dependency>
           <groupId>org.apache.commons</groupId>
           <artifactId>commons-vfs2-examples</artifactId>

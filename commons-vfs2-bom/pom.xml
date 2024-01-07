@@ -47,6 +47,11 @@
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
+        <artifactId>commons-ant</artifactId>
+        <version>2.10.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
         <artifactId>commons-hdfs</artifactId>
         <version>2.10.0-SNAPSHOT</version>
       </dependency>

@@ -187,6 +187,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="add" issue="VFS-848" dev="ggregory" due-to="beise, Gary Gregory">
         Config option for trailing slash in webdav URI #425.
       </action>
+      <action type="add" dev="ggregory" due-to="Gary Gregory">
+        Split out Apache Ant Tasks into its own Maven module commons-vfs2-ant.
+      </action>
       <action type="add" issue="VFS-851" dev="ggregory" due-to="Gary Gregory">
         Split out HDFS provider into its own Maven module commons-vfs2-hdfs.
       </action>
