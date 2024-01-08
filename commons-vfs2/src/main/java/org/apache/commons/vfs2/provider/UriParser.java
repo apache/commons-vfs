@@ -522,7 +522,10 @@ public final class UriParser {
         }
 
         private void readNonSeparators() {
-            while (readNonSeparator());
+            boolean reading = true;
+            while (reading) {
+                reading = readNonSeparator();
+            }
         }
 
         private void removePreviousElement(int to) throws FileSystemException {
