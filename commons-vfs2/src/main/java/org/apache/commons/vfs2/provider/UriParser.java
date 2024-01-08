@@ -534,8 +534,9 @@ public final class UriParser {
             while (readNonSeparator()) {
                 cursor = cursor - 2;
                 if (cursor < 0) {
-                    // Previous element is missing
-                    throw new FileSystemException("vfs.provider/invalid-relative-path.error");
+                    // Previous element is the first element
+                    cursor = 0;
+                    break;
                 }
             }
             path.delete(cursor, to);
