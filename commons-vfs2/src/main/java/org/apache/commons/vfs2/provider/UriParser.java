@@ -50,9 +50,6 @@ public final class UriParser {
     private static final String URLENCODED_SLASH_LC = "%2f";
     private static final String URLENCODED_SLASH_UC = "%2F";
 
-    private UriParser() {
-    }
-
     /**
      * Encodes and appends a string to a StringBuilder.
      *
