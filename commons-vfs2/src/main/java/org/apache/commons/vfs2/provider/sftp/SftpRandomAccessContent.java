@@ -30,7 +30,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  */
 final class SftpRandomAccessContent extends AbstractRandomAccessStreamContent {
 
-    /** file pointer */
+    /** File pointer */
     protected long filePointer;
 
     private final SftpFileObject fileObject;

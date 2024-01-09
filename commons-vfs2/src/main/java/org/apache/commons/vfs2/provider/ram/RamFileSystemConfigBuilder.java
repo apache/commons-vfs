@@ -25,10 +25,10 @@ import org.apache.commons.vfs2.FileSystemOptions;
  */
 public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
-    /** max size key. */
+    /** Max size key. */
     private static final String MAX_SIZE_KEY = "maxsize";
 
-    /** config builder SINGLETON. */
+    /** Config builder SINGLETON. */
     private static final RamFileSystemConfigBuilder SINGLETON = new RamFileSystemConfigBuilder();
 
     /**

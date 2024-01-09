@@ -34,7 +34,7 @@ import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
  */
 public class RamProviderTestCase extends AbstractProviderTestConfig {
 
-    /** logger */
+    /** Logger */
     private static final Log log = LogFactory.getLog(RamProviderTestCase.class);
 
     /**

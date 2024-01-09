@@ -44,13 +44,13 @@ public enum FileType {
     /** The name of the FileType */
     private final String name;
 
-    /** true if the FileType can have children */
+    /** True if the FileType can have children */
     private final boolean hasChildren;
 
-    /** true if the FileType can have content */
+    /** True if the FileType can have content */
     private final boolean hasContent;
 
-    /** true if the FileType has attributes */
+    /** True if the FileType has attributes */
     private final boolean hasAttrs;
 
     FileType(final String name, final boolean hasChildren, final boolean hasContent, final boolean hasAttrs) {

@@ -32,7 +32,7 @@ final class FileSystemAndNameKey implements Comparable<FileSystemAndNameKey> {
     /** The FileName */
     private final FileName fileName;
 
-    /** hash code to identify this object */
+    /** Hash code to identify this object */
     private final int fileSystemId;
 
     FileSystemAndNameKey(final FileSystem fileSystem, final FileName fileName) {
