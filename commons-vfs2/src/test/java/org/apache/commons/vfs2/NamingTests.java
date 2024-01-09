@@ -104,6 +104,9 @@ public class NamingTests extends AbstractProviderTestCase {
         assertSameName(path, name, path, scope);
         assertSameName(path, name, "../" + name.getBaseName() + "/a", scope);
         assertSameName(path, name, "./a", scope);
+        assertSameName(path, name, "./a/foo/..", scope);
+        assertSameName(path, name, "foo/../a", scope);
+        assertSameName(path, name, "foo%2f..%2fa", scope);
 
         // Test an empty name
         assertBadName(name, "", scope);
