@@ -24,6 +24,7 @@ import org.junit.Test;
  * Test cases for file naming.
  * <p>
  * TODO - Add tests for all FileName methods.
+ * </p>
  */
 public class NamingTests extends AbstractProviderTestCase {
 
