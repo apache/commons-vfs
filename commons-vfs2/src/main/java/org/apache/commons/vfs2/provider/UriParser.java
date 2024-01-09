@@ -47,6 +47,9 @@ public final class UriParser {
 
     private static final char LOW_MASK = 0x0F;
 
+    private static final String URLENCODED_SLASH_LC = "%2f";
+    private static final String URLENCODED_SLASH_UC = "%2F";
+
     /**
      * Encodes and appends a string to a StringBuilder.
      *
@@ -460,6 +463,168 @@ public final class UriParser {
         return changed;
     }
 
+    private static class PathNormalizer {
+        private final StringBuilder path;
+
+        private int cursor;
+        private int lastSeparator;
+        private int end;
+
+        PathNormalizer(StringBuilder path) {
+            this.path = path;
+            this.end = path.length();
+        }
+
+        void run() throws FileSystemException {
+            lastSeparator = cursor;
+            readSeparator();
+            while (cursor < end) {
+                consumeSeparators();
+                if (readDot()) {
+                    if (readDot()) {
+                        int beforeNextSeparator = cursor;
+                        if (readSeparator() || cursor == end) {
+                            // '/../'
+                            removePreviousElement(beforeNextSeparator);
+                        } else {
+                            // '/..other'
+                            readNonSeparators();
+                            lastSeparator = cursor;
+                            readSeparator();
+                        }
+                    } else {
+                        int beforeNextSeparator = cursor;
+                        if (readSeparator() || cursor == end) {
+                            // '/./'
+                            path.delete(lastSeparator, beforeNextSeparator);
+                            cursor = lastSeparator + (cursor - beforeNextSeparator);
+                            this.end = path.length();
+                        } else {
+                            // '/.other'
+                            readNonSeparators();
+                            lastSeparator = cursor;
+                            readSeparator();
+                        }
+                    }
+                } else {
+                    readToNextSeparator();
+                    lastSeparator = cursor;
+                    readSeparator();
+                }
+            }
+        }
+
+        private void consumeSeparators() {
+            boolean consuming = true;
+            while (consuming) {
+                consuming = consumeSeparator();
+            }
+        }
+
+        private void readNonSeparators() {
+            boolean reading = true;
+            while (reading) {
+                reading = readNonSeparator();
+            }
+        }
+
+        private void removePreviousElement(int to) throws FileSystemException {
+            if (lastSeparator == 0) {
+                // Previous element is missing
+                throw new FileSystemException("vfs.provider/invalid-relative-path.error");
+            }
+            cursor = lastSeparator - 1;
+            while (readNonSeparator()) {
+                cursor = cursor - 2;
+                if (cursor < 0) {
+                    // Previous element is the first element
+                    cursor = 0;
+                    break;
+                }
+            }
+            path.delete(cursor, to);
+            lastSeparator = cursor;
+            this.end = path.length();
+            readSeparator();
+        }
+
+        private void readToNextSeparator() {
+            boolean reading = true;
+            while (reading) {
+                reading = readNonSeparator();
+            }
+        }
+
+        private boolean readSeparator() {
+            if (cursor == end) {
+                return false;
+            }
+            if (path.charAt(cursor) == SEPARATOR_CHAR) {
+                cursor++;
+                return true;
+            }
+            if (cursor + 2 >= end) {
+                return false;
+            }
+            String sub = path.substring(cursor, cursor + 3);
+            if (sub.equals(URLENCODED_SLASH_LC) || sub.equals(URLENCODED_SLASH_UC)) {
+                cursor = cursor + 3;
+                return true;
+            }
+            return false;
+        }
+
+        private boolean readDot() {
+            if (cursor == end) {
+                return false;
+            }
+            if (path.charAt(cursor) == '.') {
+                cursor++;
+                return true;
+            }
+            if (cursor + 2 >= end) {
+                return false;
+            }
+            String sub = path.substring(cursor, cursor + 3);
+            if (sub.equals("%2e") || sub.equals("%2E")) {
+                cursor = cursor + 3;
+                return true;
+            }
+            return false;
+        }
+
+        private boolean consumeSeparator() {
+            int from = cursor;
+            if (readSeparator()) {
+                path.delete(from, cursor);
+                cursor = from;
+                this.end = path.length();
+                return true;
+            }
+            return false;
+        }
+
+        private boolean readNonSeparator() {
+            if (cursor == end) {
+                return false;
+            }
+            if (path.charAt(cursor) == SEPARATOR_CHAR) {
+                return false;
+            }
+            if (cursor + 2 >= end) {
+                cursor++;
+                return true;
+            }
+            String sub = path.substring(cursor + 1, cursor + 3);
+            if (sub.equals(URLENCODED_SLASH_UC) || sub.equals(URLENCODED_SLASH_LC)) {
+                return false;
+            }
+            cursor++;
+            return true;
+        }
+
+    }
+
     /**
      * Normalises a path. Does the following:
      * <ul>
@@ -495,64 +660,21 @@ public final class UriParser {
         // Adjust separators
         // fixSeparators(path);
 
-        // Determine the start of the first element
-        int startFirstElem = 0;
-        if (path.charAt(0) == SEPARATOR_CHAR) {
-            if (path.length() == 1) {
-                return fileType;
-            }
-            startFirstElem = 1;
-        }
-
-        // Iterate over each element
-        int startElem = startFirstElem;
-        int maxlen = path.length();
-        while (startElem < maxlen) {
-            // Find the end of the element
-            int endElem = startElem;
-            while (endElem < maxlen && path.charAt(endElem) != SEPARATOR_CHAR) {
-                endElem++;
-            }
-
-            final int elemLen = endElem - startElem;
-            if (elemLen == 0) {
-                // An empty element - axe it
-                path.delete(endElem, endElem + 1);
-                maxlen = path.length();
-                continue;
-            }
-            if (elemLen == 1 && path.charAt(startElem) == '.') {
-                // A '.' element - axe it
-                path.delete(startElem, endElem + 1);
-                maxlen = path.length();
-                continue;
-            }
-            if (elemLen == 2 && path.charAt(startElem) == '.' && path.charAt(startElem + 1) == '.') {
-                // A '..' element - remove the previous element
-                if (startElem == startFirstElem) {
-                    // Previous element is missing
-                    throw new FileSystemException("vfs.provider/invalid-relative-path.error");
-                }
-
-                // Find start of previous element
-                int pos = startElem - 2;
-                while (pos >= 0 && path.charAt(pos) != SEPARATOR_CHAR) {
-                    pos--;
-                }
-                startElem = pos + 1;
-
-                path.delete(startElem, endElem + 1);
-                maxlen = path.length();
-                continue;
-            }
-
-            // A regular element
-            startElem = endElem + 1;
-        }
+        // Resolve double separators, '/./' and '/../':
+        new PathNormalizer(path).run();
 
         // Remove trailing separator
-        if (!VFS.isUriStyle() && maxlen > 1 && path.charAt(maxlen - 1) == SEPARATOR_CHAR) {
-            path.delete(maxlen - 1, maxlen);
+        if (!VFS.isUriStyle()) {
+            int maxlen = path.length();
+            if (maxlen > 1 && path.charAt(maxlen - 1) == SEPARATOR_CHAR) {
+                path.delete(maxlen - 1, maxlen);
+            }
+            if (maxlen > 3) {
+                String sub = path.substring(maxlen - 3);
+                if (sub.equals(URLENCODED_SLASH_UC) || sub.equals(URLENCODED_SLASH_LC)) {
+                    path.delete(maxlen - 3, maxlen);
+                }
+            }
         }
 
         return fileType;
