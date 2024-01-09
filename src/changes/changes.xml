@@ -183,6 +183,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="Gary Gregory">
         Deprecate package org.apache.commons.vfs2.provider.http4s in favor of org.apache.commons.vfs2.provider.http5s.
       </action>
+      <action type="fix" dev="ggregory" due-to="Arnout Engelen, Gary Gregory">
+        Support URLencoding during normalization #396.
+      </action>
       <!-- ADD -->
       <action type="add" issue="VFS-848" dev="ggregory" due-to="beise, Gary Gregory">
         Config option for trailing slash in webdav URI #425.
