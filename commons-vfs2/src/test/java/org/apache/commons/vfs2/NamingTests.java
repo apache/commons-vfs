@@ -240,7 +240,7 @@ public class NamingTests extends AbstractProviderTestCase {
         assertSameName(path, baseName, "some-child", NameScope.DESCENDENT);
 
         // Test compound name
-        path = path + "/grand-child";
+        path += "/grand-child";
         assertSameName(path, baseName, "some-child/grand-child", NameScope.DESCENDENT);
 
         // Test relative names
