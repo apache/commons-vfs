@@ -568,7 +568,7 @@ public final class UriParser {
             }
             String sub = path.substring(cursor, cursor + 3);
             if (sub.equals(URLENCODED_SLASH_LC) || sub.equals(URLENCODED_SLASH_UC)) {
-                cursor = cursor + 3;
+                cursor += 3;
                 return true;
             }
             return false;
@@ -587,7 +587,7 @@ public final class UriParser {
             }
             String sub = path.substring(cursor, cursor + 3);
             if (sub.equals("%2e") || sub.equals("%2E")) {
-                cursor = cursor + 3;
+                cursor += 3;
                 return true;
             }
             return false;

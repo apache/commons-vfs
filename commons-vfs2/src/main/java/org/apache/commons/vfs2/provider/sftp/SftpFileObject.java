@@ -332,7 +332,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
 
             String name = stat.getFilename();
             if (VFS.isUriStyle() && stat.getAttrs().isDir() && name.charAt(name.length() - 1) != '/') {
-                name = name + "/";
+                name += "/";
             }
 
             if (name.equals(".") || name.equals("..") || name.equals("./") || name.equals("../")) {
