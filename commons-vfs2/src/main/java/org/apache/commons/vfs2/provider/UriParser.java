@@ -535,7 +535,7 @@ public final class UriParser {
             }
             cursor = lastSeparator - 1;
             while (readNonSeparator()) {
-                cursor = cursor - 2;
+                cursor -= 2;
                 if (cursor < 0) {
                     // Previous element is the first element
                     cursor = 0;
