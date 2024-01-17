@@ -87,7 +87,7 @@ public class PosixPermissions {
         }
 
         /**
-         * Return the mask for this permission.
+         * Gets the mask for this permission.
          *
          * @return the mask for this permission.
          */

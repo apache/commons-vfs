@@ -268,7 +268,7 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Return keystore file path to be used in SSL connections.
+     * Gets keystore file path to be used in SSL connections.
      * @param opts the file system options to modify
      * @return keystore file path to be used in SSL connections
      */
@@ -277,7 +277,7 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Return keystore pass phrase for SSL connections.
+     * Gets keystore pass phrase for SSL connections.
      * @param opts the file system options to modify
      * @return keystore pass phrase for SSL connections
      */

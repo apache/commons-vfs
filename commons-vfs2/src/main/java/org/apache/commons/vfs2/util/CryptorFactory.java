@@ -31,7 +31,7 @@ public final class CryptorFactory {
     private static Cryptor instance;
 
     /**
-     * Return the Cryptor. If one has not been previously set, create it. The Cryptor class can be set by setting the
+     * Gets the Cryptor. If one has not been previously set, create it. The Cryptor class can be set by setting the
      * "org.apache.commons.vfs2.cryptor" System property to the name of the Cryptor class.
      *
      * @return The Cryptor.

@@ -82,7 +82,7 @@ public class JarFileObject extends ZipFileObject {
     }
 
     /**
-     * Return the certificates of this JarEntry.
+     * Gets the certificates of this JarEntry.
      */
     @Override
     protected Certificate[] doGetCertificates() {

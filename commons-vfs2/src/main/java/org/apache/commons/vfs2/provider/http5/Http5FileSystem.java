@@ -95,7 +95,7 @@ public class Http5FileSystem extends AbstractFileSystem {
     }
 
     /**
-     * Return the internal {@link HttpClient} instance.
+     * Gets the internal {@link HttpClient} instance.
      *
      * @return the internal {@link HttpClient} instance
      */
@@ -104,7 +104,7 @@ public class Http5FileSystem extends AbstractFileSystem {
     }
 
     /**
-     * Return the internal {@link HttpClientContext} instance.
+     * Gets the internal {@link HttpClientContext} instance.
      *
      * @return the internal {@link HttpClientContext} instance
      */
@@ -113,7 +113,7 @@ public class Http5FileSystem extends AbstractFileSystem {
     }
 
     /**
-     * Return the internal base {@code URI} instance.
+     * Gets the internal base {@code URI} instance.
      *
      * @return the internal base {@code URI} instance
      */

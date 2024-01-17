@@ -69,7 +69,7 @@ public class ZipFileProvider extends AbstractLayeredFileProvider {
     }
 
     /**
-     * Return config builder.
+     * Gets config builder.
      *
      * @return A config builder for ZipFileProvider.
      * @see org.apache.commons.vfs2.provider.AbstractFileProvider#getConfigBuilder()

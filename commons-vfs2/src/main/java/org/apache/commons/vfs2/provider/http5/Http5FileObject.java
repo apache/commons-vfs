@@ -194,7 +194,7 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
     }
 
     /**
-     * Return the internal {@code URI} object mapped to this file object.
+     * Gets the internal {@code URI} object mapped to this file object.
      *
      * @return the internal {@code URI} object mapped to this file object
      */
@@ -203,7 +203,7 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
     }
 
     /**
-     * Return the last executed HEAD {@code HttpResponse} object.
+     * Gets the last executed HEAD {@code HttpResponse} object.
      *
      * @return the last executed HEAD {@code HttpResponse} object
      * @throws IOException if IO error occurs
@@ -217,7 +217,7 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
     }
 
     /**
-     * Return URL charset string.
+     * Gets URL charset string.
      * @return URL charset string
      */
     protected String getUrlCharset() {
