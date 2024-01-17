@@ -78,7 +78,7 @@ public final class Webdav4FileSystemConfigBuilder extends Http4FileSystemConfigB
     }
 
     /**
-     * Return the user name to be associated with changes to the file.
+     * Gets the user name to be associated with changes to the file.
      *
      * @param opts The FileSystem options
      * @return The creatorName.

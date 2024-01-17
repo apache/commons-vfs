@@ -63,7 +63,7 @@ public class Webdav4FileSystem extends Http4FileSystem {
     }
 
     /**
-     * Return a URLStreamHandler.
+     * Gets a URLStreamHandler.
      *
      * @return The URLStreamHandler.
      */
