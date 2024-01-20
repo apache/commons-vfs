@@ -54,7 +54,6 @@ import junit.framework.Test;
  * Test cases for the WebDAV4 provider.
  * Do NOT use org.apache.jackrabbit.standalone.Main.
  *
- * @since 2.5.0
  */
 public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
 
