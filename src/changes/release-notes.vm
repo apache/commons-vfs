@@ -17,7 +17,6 @@
 ##
             ${project.name} ${version}
             RELEASE NOTES
-            YYYY-MM-DD
 
 The ${developmentTeam} is pleased to announce the release of ${project.name} ${version}.
 
