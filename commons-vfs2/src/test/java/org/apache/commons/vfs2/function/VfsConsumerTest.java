@@ -25,7 +25,6 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link VfsConsumer}.
- *
  */
 public class VfsConsumerTest {
 

@@ -31,7 +31,6 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests VFS-427 NPE on HttpFileObject.getContent().getContentInfo().
- *
  */
 public class HttpGetContentInfoFunctionalTest {
 

@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests https://issues.apache.org/jira/browse/VFS-426.
- *
  */
 public class HttpFilesCacheTest {
 

@@ -28,7 +28,6 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link StandardFileSystemManager}.
- *
  */
 public class StandardFileSystemManagerTest {
 

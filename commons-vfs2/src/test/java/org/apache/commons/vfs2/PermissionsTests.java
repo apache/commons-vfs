@@ -28,7 +28,6 @@ import org.junit.jupiter.api.Assertions;
  * Additional file permission tests.
  *
  * Used by Local and SFTP File System.
- *
  */
 public class PermissionsTests extends AbstractProviderTestCase {
 

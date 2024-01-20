@@ -33,7 +33,6 @@ import org.junit.Test;
 
 /**
  * Test to verify WebDAV Versioning support
- *
  */
 public class Webdav4VersioningTests extends AbstractProviderTestCase {
 

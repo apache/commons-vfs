@@ -48,7 +48,6 @@ import org.mockito.Mockito;
 
 /**
  * Tests {@link DefaultFileSystemManager}.
- *
  */
 public class DefaultFileSystemManagerTest {
 
