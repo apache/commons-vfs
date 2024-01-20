@@ -29,7 +29,6 @@ import org.junit.jupiter.api.Test;
 /**
  * Check FileSystemOptions.
  *
- * @since 2.1
  */
 public class FileSystemOptionsTest {
 

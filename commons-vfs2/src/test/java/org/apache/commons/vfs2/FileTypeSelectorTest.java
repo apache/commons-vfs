@@ -25,7 +25,6 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests FileTypeSelector.
  *
- * @since 2.1
  */
 public class FileTypeSelectorTest {
 

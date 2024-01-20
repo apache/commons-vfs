@@ -29,7 +29,6 @@ import org.junit.jupiter.api.Assertions;
  *
  * Used by Local and SFTP File System.
  *
- * @since 2.1
  */
 public class PermissionsTests extends AbstractProviderTestCase {
 

@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Test;
 /**
  * Sanity check that a custom enum can be properly serialized and deserialized on a give JRE.
  *
- * @since 2.1
  */
 public class FileTypeTest {
 

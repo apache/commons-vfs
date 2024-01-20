@@ -32,7 +32,6 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests FileExtensionSelector.
  *
- * @since 2.1
  */
 public class FileExtensionSelectorTest {
 

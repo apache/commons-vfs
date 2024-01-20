@@ -27,7 +27,6 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 import org.junit.jupiter.api.Test;
 
 /**
- * @since 2.7.0
  */
 public class LocalFileRandomAccessContentTest {
 

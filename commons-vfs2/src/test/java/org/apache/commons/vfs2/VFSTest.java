@@ -32,7 +32,6 @@ public class VFSTest {
      * Tests {@link FileSystemManager#close()}.
      *
      * @throws FileSystemException
-     * @since 2.5.0
      */
     @Test
     public void testClose() throws FileSystemException {

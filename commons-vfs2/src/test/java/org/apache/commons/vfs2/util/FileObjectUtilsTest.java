@@ -35,7 +35,6 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests {@link FileObjectUtils}.
  *
- * @since 2.4
  */
 public class FileObjectUtilsTest {
 

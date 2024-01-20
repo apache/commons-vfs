@@ -49,7 +49,6 @@ import org.mockito.Mockito;
 /**
  * Tests {@link DefaultFileSystemManager}.
  *
- * @since 2.5.0
  */
 public class DefaultFileSystemManagerTest {
 
