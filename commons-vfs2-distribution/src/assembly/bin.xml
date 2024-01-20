@@ -26,7 +26,11 @@ limitations under the License.
     <dependencySet>
       <includes>
         <include>org.apache.commons:commons-vfs2</include>
+        <include>org.apache.commons:commons-vfs2-ant</include>
         <include>org.apache.commons:commons-vfs2-examples</include>
+        <include>org.apache.commons:commons-vfs2-hdfs</include>
+        <include>org.apache.commons:commons-vfs2-jackrabbit1</include>
+        <include>org.apache.commons:commons-vfs2-jackrabbit2</include>
       </includes>
       <useProjectArtifact>false</useProjectArtifact>
     </dependencySet>

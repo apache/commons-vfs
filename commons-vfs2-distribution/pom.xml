@@ -73,6 +73,36 @@ limitations under the License.
           <version>${project.version}</version>
           <classifier>test-sources</classifier>
         </dependency>
+        <!-- Ant -->
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs2-ant</artifactId>
+          <version>${project.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs2-ant</artifactId>
+          <version>${project.version}</version>
+          <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs2-ant</artifactId>
+          <version>${project.version}</version>
+          <classifier>javadoc</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs2-ant</artifactId>
+          <version>${project.version}</version>
+          <classifier>tests</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs2-ant</artifactId>
+          <version>${project.version}</version>
+          <classifier>test-sources</classifier>
+        </dependency>
         <!-- Examples -->
         <dependency>
           <groupId>org.apache.commons</groupId>
@@ -90,6 +120,96 @@ limitations under the License.
           <artifactId>commons-vfs2-examples</artifactId>
           <version>${project.version}</version>
           <classifier>javadoc</classifier>
+        </dependency>
+        <!-- HDFS -->
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs2-hdfs</artifactId>
+          <version>${project.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs2-hdfs</artifactId>
+          <version>${project.version}</version>
+          <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs2-hdfs</artifactId>
+          <version>${project.version}</version>
+          <classifier>javadoc</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs2-hdfs</artifactId>
+          <version>${project.version}</version>
+          <classifier>tests</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs2-hdfs</artifactId>
+          <version>${project.version}</version>
+          <classifier>test-sources</classifier>
+        </dependency>
+        <!-- Jackrabbit 1 -->
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs2-jackrabbit1</artifactId>
+          <version>${project.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs2-jackrabbit1</artifactId>
+          <version>${project.version}</version>
+          <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs2-jackrabbit1</artifactId>
+          <version>${project.version}</version>
+          <classifier>javadoc</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs2-jackrabbit1</artifactId>
+          <version>${project.version}</version>
+          <classifier>tests</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs2-jackrabbit1</artifactId>
+          <version>${project.version}</version>
+          <classifier>test-sources</classifier>
+        </dependency>
+        <!-- Jackrabbit 2 -->
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs2-jackrabbit2</artifactId>
+          <version>${project.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs2-jackrabbit2</artifactId>
+          <version>${project.version}</version>
+          <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs2-jackrabbit2</artifactId>
+          <version>${project.version}</version>
+          <classifier>javadoc</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs2-jackrabbit2</artifactId>
+          <version>${project.version}</version>
+          <classifier>tests</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs2-jackrabbit2</artifactId>
+          <version>${project.version}</version>
+          <classifier>test-sources</classifier>
         </dependency>
       </dependencies>
 
