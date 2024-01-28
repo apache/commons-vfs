@@ -48,9 +48,7 @@ public class FtpsFileProvider extends FtpFileProvider {
             throws FileSystemException {
         // Create the file system
         final GenericFileName rootName = (GenericFileName) name;
-
         final FtpsClientWrapper ftpClient = new FtpsClientWrapper(rootName, fileSystemOptions);
-
         return new FtpsFileSystem(rootName, ftpClient, fileSystemOptions);
     }
 
