@@ -733,8 +733,7 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <!-- -Xmx64m: increases memory for tests on Travis CI -->
-              <!--  jdk.tls.client.protocols: For use of older protocol since DSA is no longer in the JRE -->
-              <argLine>-Xmx64m -Djdk.tls.client.protocols=TLSv1.2</argLine>
+              <argLine>-Xmx64m</argLine>
             </configuration>
           </plugin>
         </plugins>
