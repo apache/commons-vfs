@@ -31,8 +31,6 @@ import org.apache.commons.vfs2.provider.GenericURLFileName;
  */
 final class URIBitSets {
 
-    // ---------------------- Generous characters for each component validation
-
     /**
      * The percent "%" character always has the reserved purpose of being the escape indicator, it must be escaped as "%25"
      * in order to be used as data within a URI.
@@ -604,7 +602,7 @@ final class URIBitSets {
      */
     static final FluentBitSet URI_REFERENCE = bitSet('#').or(ABSOLUTEURI, RELATIVEURI, FRAGMENT);
 
-    // ---------------------------- Characters disallowed within the URI syntax
+    // Characters disallowed within the URI syntax
     // Excluded US-ASCII Characters are like control, space, delims and unwise
 
     /**
@@ -637,7 +635,7 @@ final class URIBitSets {
      */
     static final FluentBitSet ALLOWED_AUTHORITY = bitSet().or(AUTHORITY).clear('%');
 
-    // ----------------------- Characters allowed within and for each component
+    // Characters allowed within and for each component
 
     /**
      * Those characters that are allowed for the opaque_part.
