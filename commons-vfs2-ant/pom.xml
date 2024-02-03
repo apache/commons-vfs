@@ -74,6 +74,7 @@
     </commons.osgi.import>
     <!-- Hadoop jars contain overlapping packages that blow up JPMS -->
     <moditect.skip>true</moditect.skip>
+    <project.build.outputTimestamp>2024-01-01T00:00:00Z</project.build.outputTimestamp>
   </properties>
 
   <build>
