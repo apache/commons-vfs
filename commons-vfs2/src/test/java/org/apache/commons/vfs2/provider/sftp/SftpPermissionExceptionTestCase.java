@@ -38,14 +38,13 @@ public class SftpPermissionExceptionTestCase extends AbstractSftpProviderTestCas
      * Creates the test suite for the sftp file system.
      */
     public static junit.framework.Test suite() throws Exception {
-        final SftpProviderTestSuite suite = new SftpProviderTestSuite(new SftpPermissionExceptionTestCase()){
+        return new SftpProviderTestSuite(new SftpPermissionExceptionTestCase()){
             @Override
             protected void addBaseTests() throws Exception {
                 // Just tries to read
                 addTests(SftpPermissionExceptionTestCase.class);
             }
         };
-        return suite;
     }
 
     /**
@@ -100,7 +99,7 @@ public class SftpPermissionExceptionTestCase extends AbstractSftpProviderTestCas
                 Assertions.assertFalse(fileObjectCopy.isWriteable());
                 fileObjectCopy.copyFrom(localFileObject, Selectors.SELECT_SELF);
                 Assertions.fail("permission fail");
-            } catch (Exception ex) {
+            } catch (final Exception ex) {
                 // ignore no permission
             }
         }

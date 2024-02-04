@@ -31,7 +31,7 @@ public class SftpProviderClosedExecChannelTestCase extends AbstractSftpProviderT
      * Creates the test suite for the sftp file system.
      */
     public static Test suite() throws Exception {
-        final SftpProviderTestSuite suite = new SftpProviderTestSuite(new SftpProviderClosedExecChannelTestCase()) {
+        return new SftpProviderTestSuite(new SftpProviderClosedExecChannelTestCase()) {
             @Override
             protected void addBaseTests() throws Exception {
                 addTests(ProviderReadTests.class);
@@ -43,7 +43,6 @@ public class SftpProviderClosedExecChannelTestCase extends AbstractSftpProviderT
                 addTests(PermissionsTests.class);
             }
         };
-        return suite;
     }
 
     @Override
