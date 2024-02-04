@@ -35,8 +35,8 @@ public class Webdav4FileNameTest {
     @Test
     public void testWebdavUrlWithoutTrailingSlash() throws FileSystemException {
         @SuppressWarnings("resource")
-        FileSystemOptions fsoptsWithToutrailingSlashDefault = new FileSystemOptions();
-        FileSystemOptions fsoptsWithoutTrailingSlash = new FileSystemOptions();
+        final FileSystemOptions fsoptsWithToutrailingSlashDefault = new FileSystemOptions();
+        final FileSystemOptions fsoptsWithoutTrailingSlash = new FileSystemOptions();
         Webdav4FileSystemConfigBuilder.getInstance().setAppendTrailingSlash(fsoptsWithoutTrailingSlash, false);
         final FileSystemManager fileSystemManager = VFS.getManager();
 
@@ -195,6 +195,7 @@ public class Webdav4FileNameTest {
     @Test
     public void testWebdavUrlWithTrailingSlash() throws FileSystemException {
         @SuppressWarnings("resource")
+        final
         FileSystemOptions fsoptsWithTrailingSlash = new FileSystemOptions();
         Webdav4FileSystemConfigBuilder.getInstance().setAppendTrailingSlash(fsoptsWithTrailingSlash, true);
 

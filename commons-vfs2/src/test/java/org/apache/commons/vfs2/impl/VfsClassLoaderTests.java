@@ -65,7 +65,7 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
 
                 final Object testObject = testClass.getConstructor().newInstance();
                 assertEquals("**PRIVATE**", testObject.toString());
-            } catch (ReflectiveOperationException e) {
+            } catch (final ReflectiveOperationException e) {
                 throw new IllegalStateException(e);
             }
         }

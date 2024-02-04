@@ -30,7 +30,7 @@ import org.apache.commons.vfs2.util.URIUtils;
 public class Webdav4FileName extends GenericURLFileName {
     private static final int BUFFER_SIZE = 250;
 
-    private boolean appendTrailingSlash;
+    private final boolean appendTrailingSlash;
 
     /**
      * Constructs a new instance.
@@ -67,7 +67,7 @@ public class Webdav4FileName extends GenericURLFileName {
      */
     public Webdav4FileName(final String scheme, final String hostName, final int port, final int defaultPort,
                            final String userName, final String password, final String path, final FileType type,
-                           final String queryString, boolean appendTrailingSlash) {
+                           final String queryString, final boolean appendTrailingSlash) {
         super(scheme, hostName, port, defaultPort, userName, password, path, type, queryString);
         this.appendTrailingSlash = appendTrailingSlash;
     }

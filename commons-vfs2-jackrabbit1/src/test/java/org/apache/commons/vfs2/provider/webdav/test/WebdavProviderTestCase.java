@@ -39,7 +39,6 @@ import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
-import org.apache.commons.vfs2.IPv6LocalConnectionTests;
 import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
@@ -286,7 +285,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig {
             message(e);
             try {
                 Files.delete(RepoDirectory);
-            } catch (IOException e1) {
+            } catch (final IOException e1) {
                 message("Directory will be deleted on VM exit " + RepoDirectory);
                 RepoDirectory.toFile().deleteOnExit();
             }

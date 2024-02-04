@@ -290,7 +290,7 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
             message(e);
             try {
                 Files.delete(RepoDirectory);
-            } catch (IOException e1) {
+            } catch (final IOException e1) {
                 message("Directory will be deleted on VM exit " + RepoDirectory);
                 RepoDirectory.toFile().deleteOnExit();
             }
