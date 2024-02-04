@@ -37,7 +37,7 @@ public class SftpProviderIPv6TestCase extends AbstractSftpProviderTestCase {
 
     private static class MockedClientSftpFileProvider extends SftpFileProvider {
         @Override
-        protected FileSystem doCreateFileSystem(FileName name, FileSystemOptions fileSystemOptions) {
+        protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions) {
             final GenericFileName rootName = (GenericFileName) name;
 
             final Session sessionMock = Mockito.mock(Session.class);
@@ -47,7 +47,7 @@ public class SftpProviderIPv6TestCase extends AbstractSftpProviderTestCase {
 
             try {
                 Mockito.when(sessionMock.openChannel(Mockito.anyString())).thenReturn(channelExecMock);
-            } catch (JSchException e) {
+            } catch (final JSchException e) {
                 throw new AssertionError("Should never happen", e);
             }
 
@@ -55,7 +55,7 @@ public class SftpProviderIPv6TestCase extends AbstractSftpProviderTestCase {
 
             try {
                 Mockito.when(channelExecMock.getInputStream()).thenReturn(new NullInputStream());
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 throw new AssertionError("Should never happen", e);
             }
 
