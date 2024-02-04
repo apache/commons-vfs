@@ -82,7 +82,7 @@ public class FileIteratorTest {
             i++;
         }
         i = 0;
-        for (FileObject element : baseFolder) {
+        for (final FileObject element : baseFolder) {
             final FileObject expectedFile = findFiles[i];
             assertEquals(expectedFile, element);
             i++;

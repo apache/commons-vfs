@@ -218,7 +218,7 @@ public class DefaultFileSystemManagerTest {
             assertEquals(FileType.FILE, fileSystemManager.resolveName(baseNameFolder, "../Descendant Folder/../File.").getType());
             assertEquals(FileType.FILE, fileSystemManager.resolveName(baseNameFolder, "../Descendant Folder/../File..").getType());
 
-        } catch (FileSystemException e) {
+        } catch (final FileSystemException e) {
             fail(e);
         }
     }
