@@ -38,8 +38,6 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig {
 
     private static NHttpFileServer server;
 
-    private static int socketPort;
-
     private static final String TEST_URI = "test.http.uri";
 
     /**
@@ -58,7 +56,7 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig {
      */
     private static void setUpClass() throws Exception {
         server = NHttpFileServer.start(0, new File(getTestDirectory()), 5000);
-        socketPort = server.getPort();
+        int socketPort = server.getPort();
         connectionUri = "http://localhost:" + socketPort;
     }
 
