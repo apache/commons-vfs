@@ -34,7 +34,7 @@ import org.apache.commons.vfs2.provider.FileProvider;
  */
 public class SmbFileProvider extends AbstractOriginatingFileProvider implements FileProvider {
     /** Authentication data supported by this provider. */
-    public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[] {
+    public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = {
             UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD, UserAuthenticationData.DOMAIN };
 
     static final Collection<Capability> capabilities = Collections
