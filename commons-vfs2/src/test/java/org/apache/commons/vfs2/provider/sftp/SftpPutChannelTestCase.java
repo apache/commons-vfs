@@ -60,14 +60,13 @@ public class SftpPutChannelTestCase extends AbstractSftpProviderTestCase {
      * Creates the test suite for the sftp file system.
      */
     public static junit.framework.Test suite() throws Exception {
-        final SftpProviderTestSuite suite = new SftpProviderTestSuite(new SftpPutChannelTestCase()) {
+        return new SftpProviderTestSuite(new SftpPutChannelTestCase()) {
             @Override
             protected void addBaseTests() throws Exception {
                 // Just tries to read
                 addTests(SftpPutChannelTestCase.class);
             }
         };
-        return suite;
     }
 
     /**
