@@ -128,7 +128,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
         Arrays.setAll(realURLs, i -> {
             try {
                 return new URL(urls[i]);
-            } catch (MalformedURLException e) {
+            } catch (final MalformedURLException e) {
                 // This should never happen because we save it in the proper form.
                 throw new IllegalArgumentException(urls[i], e);
             }

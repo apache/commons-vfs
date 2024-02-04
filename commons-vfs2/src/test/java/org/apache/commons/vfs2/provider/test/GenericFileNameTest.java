@@ -105,7 +105,7 @@ public class GenericFileNameTest {
         // We don't strictly validate IPv6 host name, if it can be parsed out from URI
         // Assuming, it'll just fail on connection stage
 
-        GenericURLFileNameParser urlParser = new GenericURLFileNameParser(21);
+        final GenericURLFileNameParser urlParser = new GenericURLFileNameParser(21);
 
         // too few segments
         GenericFileName name = (GenericFileName) urlParser.parseUri(null, null, "ftp://[1:2e]:2222/test");
@@ -161,7 +161,7 @@ public class GenericFileNameTest {
 
     @Test
     public void testParseIPv6Uri() throws Exception {
-        GenericURLFileNameParser urlParser = new GenericURLFileNameParser(21);
+        final GenericURLFileNameParser urlParser = new GenericURLFileNameParser(21);
 
         // basic case
         GenericFileName name = (GenericFileName) urlParser.parseUri(

@@ -30,7 +30,7 @@ public class FtpProviderIPv6TestCase extends FtpProviderTestCase {
 
     private static class MockedClientFtpFileProvider extends FtpFileProvider {
         @Override
-        protected FileSystem doCreateFileSystem(FileName name, FileSystemOptions fileSystemOptions) {
+        protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions) {
             final GenericFileName rootName = (GenericFileName) name;
             return new FtpFileSystem(rootName, Mockito.mock(FtpClient.class), fileSystemOptions);
         }

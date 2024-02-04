@@ -155,7 +155,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
                 || ch == '$' || ch == ',';
     }
 
-    private static boolean isIPv6Host(String name) {
+    private static boolean isIPv6Host(final String name) {
         return name.length() > 0 && isIPv6HostHeadingChar(name.charAt(0));
     }
 
