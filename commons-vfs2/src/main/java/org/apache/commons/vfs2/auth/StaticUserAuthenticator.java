@@ -77,9 +77,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
     public int compareTo(final StaticUserAuthenticator other) {
         int result = compareStringOrNull(domain, other.domain);
         result = result == 0 ? compareStringOrNull(userName, other.userName) : result;
-        result = result == 0 ? compareStringOrNull(password, other.password) : result;
-
-        return result;
+        return result == 0 ? compareStringOrNull(password, other.password) : result;
     }
 
     /**
@@ -117,9 +115,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
         int result = 1;
         result = prime * result + (domain == null ? 0 : domain.hashCode());
         result = prime * result + (password == null ? 0 : password.hashCode());
-        result = prime * result + (userName == null ? 0 : userName.hashCode());
-
-        return result;
+        return prime * result + (userName == null ? 0 : userName.hashCode());
     }
 
     @Override
