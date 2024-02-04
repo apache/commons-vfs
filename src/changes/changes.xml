@@ -312,7 +312,10 @@ The <action> type attribute can be add,update,fix,remove.
         Bump hadoop.version from 3.3.1 to 3.3.6 #246, #262, #290, #386, #402.
       </action>
       <action dev="ggregory" due-to="Dependabot" type="update">
-        Bump slf4j.version from 1.7.26 to 1.7.36 #244.
+        Bump org.slf4j:slf4j-simple from 1.7.26 to 2.0.11.
+      </action>
+      <action dev="ggregory" due-to="Dependabot" type="update">
+        Bump slf4j.version from 1.7.26 to 2.0.11.
       </action>
       <action dev="ggregory" due-to="Dependabot, Gary Gregory" type="update">
         Bump commons-parent from 52 to 65 #302, #349, #362.
