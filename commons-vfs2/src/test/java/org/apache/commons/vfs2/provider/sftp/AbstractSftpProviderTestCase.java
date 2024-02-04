@@ -421,8 +421,6 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
         }
     }
 
-    private static int socketPort;
-
     private static final String DEFAULT_USER = "testtest";
 
     protected static String connectionUri;
@@ -545,7 +543,7 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
         server.setFileSystemFactory(new TestFileSystemFactory());
         // HACK End
         server.start();
-        socketPort = server.getPort();
+        int socketPort = server.getPort();
         connectionUri = String.format("sftp://%s@localhost:%d", DEFAULT_USER, socketPort);
         // HACK Start
         // How do we really do simple security?
