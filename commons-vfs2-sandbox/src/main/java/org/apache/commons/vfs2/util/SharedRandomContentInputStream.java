@@ -42,7 +42,7 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
     private long resetCount;
 
     public SharedRandomContentInputStream(final FileObject fo) throws FileSystemException {
-        this(new HashSet<SharedRandomContentInputStream>(), fo, 0, -1, fo.getContent().getInputStream());
+        this(new HashSet<>(), fo, 0, -1, fo.getContent().getInputStream());
     }
 
     private SharedRandomContentInputStream(final Set<SharedRandomContentInputStream> createdStreams,
@@ -69,7 +69,7 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
     }
 
     private boolean checkEnd() {
-        return fileEnd > -1 && (getFilePosition() >= fileEnd);
+        return fileEnd > -1 && getFilePosition() >= fileEnd;
     }
 
     @Override
