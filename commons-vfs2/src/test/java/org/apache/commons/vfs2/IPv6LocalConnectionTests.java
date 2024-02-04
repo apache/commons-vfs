@@ -39,13 +39,13 @@ public class IPv6LocalConnectionTests extends AbstractProviderTestCase {
     private static List<String> getLocalIPv6Addresses() throws SocketException {
         final Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
         final List<String> result = new ArrayList<>();
-        for (NetworkInterface networkInterface : Collections.list(networkInterfaces)) {
+        for (final NetworkInterface networkInterface : Collections.list(networkInterfaces)) {
             if (!networkInterface.isUp() || networkInterface.isLoopback()
             // utun refers to VPN network interface, we don't expect this connection to work
                     || networkInterface.getName().startsWith("utun")) {
                 continue;
             }
-            for (InetAddress inetAddress : Collections.list(networkInterface.getInetAddresses())) {
+            for (final InetAddress inetAddress : Collections.list(networkInterface.getInetAddresses())) {
                 if (inetAddress instanceof Inet6Address && !inetAddress.isLoopbackAddress() && !inetAddress.isMulticastAddress()) {
                     result.add(StringUtils.substringBefore(inetAddress.getHostAddress(), "%"));
                 }
@@ -73,13 +73,13 @@ public class IPv6LocalConnectionTests extends AbstractProviderTestCase {
         super.runTest();
     }
 
-    private FileSystemOptions setupConnectionTimeoutHints(FileSystem fileSystem) {
+    private FileSystemOptions setupConnectionTimeoutHints(final FileSystem fileSystem) {
         // Unfortunately there is no common way to set up timeouts for every protocol
         // So, we use this hacky approach to make this class generic and formally independent of protocols implementations
 
-        FileSystemOptions result = (FileSystemOptions) fileSystem.getFileSystemOptions().clone();
+        final FileSystemOptions result = (FileSystemOptions) fileSystem.getFileSystemOptions().clone();
 
-        Duration timeout = Duration.ofSeconds(5);
+        final Duration timeout = Duration.ofSeconds(5);
 
         result.setOption(fileSystem.getClass(), "org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.CONNECT_TIMEOUT", timeout);
         result.setOption(fileSystem.getClass(), "org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.TIMEOUT", timeout);
@@ -99,14 +99,14 @@ public class IPv6LocalConnectionTests extends AbstractProviderTestCase {
     public void testConnectIPv6UrlLocal() throws Exception {
         final List<String> localIPv6Addresses = getLocalIPv6Addresses();
         boolean connected = false;
-        for (String ipv6Address : localIPv6Addresses) {
+        for (final String ipv6Address : localIPv6Addresses) {
             final String ipv6Url = StringUtils.replace(this.getReadFolder().getURL().toString(), "localhost", "[" + ipv6Address + "]");
             try {
                 final FileSystem fileSystem = getFileSystem();
 
                 final FileObject readFolderObject = getManager().resolveFile(ipv6Url, setupConnectionTimeoutHints(fileSystem));
                 connected = connected || readFolderObject.resolveFile("file1.txt").getContent().getByteArray() != null;
-            } catch (FileSystemException e) {
+            } catch (final FileSystemException e) {
                 // We don't care, if some of the discovered IPv6 addresses don't work.
                 // We just need a single one to work for testing the functionality end-to-end.
                 log.warn("Failed to connect to some of the local IPv6 network addresses", e);
