@@ -927,7 +927,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
         // Reappend the removed trailing / in case of a FOLDER, so that the following calls to
         // 'provider.parseUri(realBase, fullPath)' can determine the correct FileType
         // otherwise the resulting FileType is always fileType.FILE
-        final String trailingPathPart = (fileType == FileType.FOLDER) ? FileName.SEPARATOR : "";
+        final String trailingPathPart = fileType == FileType.FOLDER ? FileName.SEPARATOR : "";
 
         final String fullPath;
         if (scheme != null) {
