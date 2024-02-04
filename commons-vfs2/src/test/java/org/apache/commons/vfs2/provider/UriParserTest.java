@@ -95,7 +95,7 @@ public class UriParserTest {
             assertEquals(FileType.FILE, UriParser.normalisePath(new StringBuilder("./Sub Folder/./File.")));
             assertEquals(FileType.FILE, UriParser.normalisePath(new StringBuilder("./Sub Folder/./File..")));
 
-        } catch (FileSystemException e) {
+        } catch (final FileSystemException e) {
             fail(e);
         }
     }
