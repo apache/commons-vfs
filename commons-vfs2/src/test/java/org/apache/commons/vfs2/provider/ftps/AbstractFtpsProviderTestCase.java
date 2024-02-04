@@ -157,7 +157,7 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         if (embeddedFtpServer.isStopped() || embeddedFtpServer.isSuspended()) {
             try {
                 Thread.sleep(200);
-            } catch (InterruptedException e) {
+            } catch (final InterruptedException e) {
                 e.printStackTrace();
             }
         }
@@ -180,7 +180,7 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
                 System.out.println(String.format("Waiting %,d milliseconds for %s to stop", millis, embeddedFtpServer));
                 try {
                     Thread.sleep(millis);
-                } catch (InterruptedException e) {
+                } catch (final InterruptedException e) {
                     e.printStackTrace();
                 }
             }
