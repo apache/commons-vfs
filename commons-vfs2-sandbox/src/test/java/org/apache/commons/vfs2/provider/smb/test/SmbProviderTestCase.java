@@ -30,8 +30,6 @@ import org.junit.jupiter.api.Assertions;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import junit.framework.Test;
-
 /**
  * Tests for the SMB file system.
  */
