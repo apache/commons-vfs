@@ -156,7 +156,6 @@ public class IdentityInfo implements IdentityProvider {
         final int prime = 31;
         int result = 1;
         result = prime * result + Arrays.hashCode(passphrase);
-        result = prime * result + Objects.hash(privateKey, publicKey);
-        return result;
+        return prime * result + Objects.hash(privateKey, publicKey);
     }
 }
