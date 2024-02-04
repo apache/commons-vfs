@@ -35,7 +35,7 @@ public class SftpProviderStreamProxyModeTestCase extends AbstractSftpProviderTes
     // one test is run (we just test that the input/output are correctly forwarded, and
     // hence if the reading test succeeds/fails the other will also succeed/fail)
     public static Test suite() throws Exception {
-        final SftpProviderTestSuite suite = new SftpProviderTestSuite(new SftpProviderStreamProxyModeTestCase()) {
+        return new SftpProviderTestSuite(new SftpProviderStreamProxyModeTestCase()) {
             @Override
             protected void addBaseTests() throws Exception {
                 // Just tries to read
@@ -44,7 +44,6 @@ public class SftpProviderStreamProxyModeTestCase extends AbstractSftpProviderTes
                 addTests(PermissionsTests.class);
             }
         };
-        return suite;
     }
 
     @Override
