@@ -44,9 +44,9 @@ public class AgeFileFilterTest extends BaseFilterTest {
 
     private static final long NOW_MILLIS = System.currentTimeMillis();
 
-    private static final long TWO_DAYS_AGO_MILLIS = NOW_MILLIS - (2 * DAY_MILLIS);
+    private static final long TWO_DAYS_AGO_MILLIS = NOW_MILLIS - 2 * DAY_MILLIS;
 
-    private static final long TWO_DAYS_LATER_MILLIS = NOW_MILLIS + (2 * DAY_MILLIS);
+    private static final long TWO_DAYS_LATER_MILLIS = NOW_MILLIS + 2 * DAY_MILLIS;
 
     private static File testDir;
 

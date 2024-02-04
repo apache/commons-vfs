@@ -41,7 +41,7 @@ public final class AgeFileFilterExample {
         final FileObject dir = fsManager.toFileObject(new File("."));
 
         // We are interested in files older than one day
-        final long cutoff = System.currentTimeMillis() - (24 * 60 * 60 * 1000);
+        final long cutoff = System.currentTimeMillis() - 24 * 60 * 60 * 1000;
         final AgeFileFilter filter = new AgeFileFilter(cutoff);
 
         final FileObject[] files = dir.findFiles(new FileFilterSelector(filter));

@@ -59,7 +59,7 @@ public class DefaultCryptor implements Cryptor {
             if (id2 == INDEX_NOT_FOUND) {
                 throw new IllegalArgumentException("Character " + chars[index - 1] + " at position " + (index - 1) + " is not a valid hexadecimal character");
             }
-            decoded[i] = (byte) ((id1 << BITS_IN_HALF_BYTE) | id2);
+            decoded[i] = (byte) (id1 << BITS_IN_HALF_BYTE | id2);
         }
         return decoded;
     }
@@ -88,7 +88,7 @@ public class DefaultCryptor implements Cryptor {
         final StringBuilder builder = new StringBuilder();
 
         for (final byte b : bytes) {
-            builder.append(HEX_CHARS[(b >> BITS_IN_HALF_BYTE) & MASK]);
+            builder.append(HEX_CHARS[b >> BITS_IN_HALF_BYTE & MASK]);
             builder.append(HEX_CHARS[b & MASK]);
         }
         return builder.toString();
