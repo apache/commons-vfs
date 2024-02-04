@@ -94,8 +94,7 @@ public final class FileSystemOptions implements Cloneable, Comparable<FileSystem
         public int hashCode() {
             int result;
             result = fileSystemClass.hashCode();
-            result = HASH * result + name.hashCode();
-            return result;
+            return HASH * result + name.hashCode();
         }
 
         @Override
