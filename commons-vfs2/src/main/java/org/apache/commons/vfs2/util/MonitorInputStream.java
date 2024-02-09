@@ -29,7 +29,7 @@ public class MonitorInputStream extends BufferedInputStream {
 
     private static final int EOF_CHAR = -1;
     private final AtomicLong count = new AtomicLong();
-    private final AtomicBoolean closed = new AtomicBoolean(false);
+    private final AtomicBoolean closed = new AtomicBoolean();
 
     /**
      * Constructs a MonitorInputStream from the passed InputStream.

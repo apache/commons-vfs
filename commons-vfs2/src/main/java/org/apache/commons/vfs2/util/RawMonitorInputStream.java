@@ -33,7 +33,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class RawMonitorInputStream extends FilterInputStream {
 
     private static final int EOF_CHAR = -1;
-    private final AtomicBoolean finished = new AtomicBoolean(false);
+    private final AtomicBoolean finished = new AtomicBoolean();
     private final AtomicLong atomicCount = new AtomicLong();
 
 //    @Override
