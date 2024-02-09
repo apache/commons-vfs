@@ -95,7 +95,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     /**
      * open streams counter for this file system
      */
-    private final AtomicInteger openStreams = new AtomicInteger(0);
+    private final AtomicInteger openStreams = new AtomicInteger();
 
     /** Only provided for Serializable subclasses. */
     AbstractFileSystem() {
