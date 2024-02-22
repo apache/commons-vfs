@@ -35,9 +35,24 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.codelibs</groupId>
+      <artifactId>jcifs</artifactId>
+      <version>2.1.32</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.mail</groupId>
+      <artifactId>jakarta.mail</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
     </dependency>
+<!--    <dependency>-->
+<!--      <groupId>ant</groupId>-->
+<!--      <artifactId>ant</artifactId>-->
+<!--      <optional>true</optional>-->
+<!--    </dependency>-->
     <dependency>
       <groupId>commons-net</groupId>
       <artifactId>commons-net</artifactId>
@@ -53,6 +68,20 @@
       <artifactId>commons-collections4</artifactId>
       <optional>true</optional>
     </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.apache.hadoop</groupId>-->
+<!--      <artifactId>hadoop-hdfs-client</artifactId>-->
+<!--    </dependency>-->
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-common</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-hdfs</artifactId>
+      <optional>true</optional>
+    </dependency>
     <dependency>
       <groupId>commons-httpclient</groupId>
       <artifactId>commons-httpclient</artifactId>
@@ -61,11 +90,6 @@
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.httpcomponents.core5</groupId>
-      <artifactId>httpcore5</artifactId>
       <optional>true</optional>
     </dependency>
     <dependency>
@@ -81,7 +105,7 @@
     <!-- Tests -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
+      <artifactId>junit-jupiter-engine</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -140,12 +164,42 @@
       <artifactId>httpcore-nio</artifactId>
       <scope>test</scope>
     </dependency>
+    <!-- Test HDFS with Apache Hadoop -->
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-common</artifactId>
+      <type>test-jar</type>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+         <!-- VFS-606 - tools.jar not available in Java 9
+              This exclusion can be removed after upgrading Hadoop
+              to 2.7.1 or later  
+          -->
+          <groupId>jdk.tools</groupId>
+          <artifactId>jdk.tools</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-hdfs</artifactId>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.ws.rs</groupId>
+      <artifactId>jsr311-api</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <properties>
     <vfs.parent.dir>${basedir}/..</vfs.parent.dir>
     <commons.osgi.import>
-        org.apache.hc.client5.http.*;resolution:=optional,
+        org.apache.hadoop.*;resolution:=optional,
+        org.apache.tools.ant.*;resolution:=optional,
+        org.apache.commons.httpclient.*;resolution:=optional,
         *
     </commons.osgi.import>
     <project.build.outputTimestamp>2024-01-01T00:00:00Z</project.build.outputTimestamp>
