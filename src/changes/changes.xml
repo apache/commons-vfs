@@ -330,7 +330,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump commons.surefire.version from 3.0.0-M5 to 3.0.0-M7.
       </action>
       <action dev="ggregory" due-to="Gary Gregory, Dependabot" type="update">
-        Bump Apache Commons BCEL from 6.5.0 to 6.8.1 #346, #451.
+        Bump Apache Commons BCEL from 6.5.0 to 6.8.2 #346, #451.
       </action>
       <action dev="ggregory" due-to="Dependabot" type="update">
         Bump maven-checkstyle-plugin from 3.1.2 to 3.2.0 #321
