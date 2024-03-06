@@ -17,6 +17,7 @@
    limitations under the License.
   -->
 
+<!--suppress VulnerableLibrariesLocal -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
@@ -30,10 +31,15 @@
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-vfs2-project</artifactId>
     <version>2.10.0-SNAPSHOT</version>
-    <relativePath>../</relativePath>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <dependencies>
+    <dependency>
+      <groupId>com.emc.ecs</groupId>
+      <artifactId>nfs-client</artifactId>
+      <version>1.2.1</version>
+    </dependency>
     <dependency>
       <groupId>org.codelibs</groupId>
       <artifactId>jcifs</artifactId>

@@ -15,6 +15,14 @@
     limitations under the License.
 -->
 <providers>
+    <provider class-name="org.apache.commons.vfs2.provider.smb.SmbFileProvider">
+        <scheme name="smb"/>
+        <if-available class-name="jcifs.smb.SmbFile"/>
+    </provider>
+    <provider class-name="org.apache.commons.vfs2.provider.nfs.NfsFileProvider">
+        <scheme name="nfs"/>
+        <if-available class-name=" com.emc.ecs.nfsclient.nfs.io.Nfs3File"/>
+    </provider>
     <default-provider class-name="org.apache.commons.vfs2.provider.url.UrlFileProvider">
     </default-provider>
     <provider class-name="org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider">

@@ -21,6 +21,10 @@
 		<scheme name="smb"/>
 		<if-available class-name="jcifs.smb.SmbFile"/>
 	</provider>
+	<provider class-name="org.apache.commons.vfs2.provider.nfs.NfsFileProvider">
+		<scheme name="nfs"/>
+		<if-available class-name=" com.emc.ecs.nfsclient.nfs.io.NfsFile"/>
+	</provider>
 
 	<provider class-name="org.apache.commons.vfs2.provider.mime.MimeFileProvider">
 		<scheme name="mime"/>
