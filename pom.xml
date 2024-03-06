@@ -201,8 +201,8 @@
     <!-- Don't use jackrabbit2 2.21.x, it's labeled "unstable" -->
     <jackrabbit2.version>2.20.14</jackrabbit2.version>
     <commons.asm.version>9.4</commons.asm.version>
-    <slf4j.version>2.0.11</slf4j.version>
-    <log4j2.version>2.22.1</log4j2.version>
+    <slf4j.version>2.0.12</slf4j.version>
+    <log4j2.version>2.23.0</log4j2.version>
     <collections4.version>4.4</collections4.version>
     <jsch.version>0.1.55</jsch.version>
     <httpclient3.version>3.1</httpclient3.version>
@@ -231,7 +231,7 @@
             <dependency>
               <groupId>org.apache.bcel</groupId>
               <artifactId>bcel</artifactId>
-              <version>6.8.1</version>
+              <version>6.8.2</version>
             </dependency>
           </dependencies>
         </plugin>
