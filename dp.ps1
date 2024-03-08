@@ -23,10 +23,10 @@ $port = 22
 $user = "root"
 
 
-& mvn -DskipTests=true package -f commons-vfs2/pom.xml
+& mvn -DskipTests=true install -f commons-vfs2/pom.xml
 foreach ($ip in $args) {
     Write-Host "部署: $ip"
-    & scp -rP ${port} .\commons-vfs2\target\commons-vfs2-2.10.0-SNAPSHOT.jar ${user}@${ip}:/home/wbb/code/isid/deps/streamsets-datacollector/streamsets-libs/streamsets-datacollector-basic-lib/lib/commons-vfs2-2.10.0-SNAPSHOT.jar >$null
+    & scp -rP ${port} .\commons-vfs2\target\commons-vfs2-2.10.1-SNAPSHOT.jar ${user}@${ip}:/home/wbb/code/isid/deps/streamsets-datacollector/streamsets-libs/streamsets-datacollector-basic-lib/lib/commons-vfs2-2.10.1-SNAPSHOT.jar >$null
     & ssh -p ${port} ${user}@${ip} "/opt/nsfocus/bin/start_streamsets.sh 2>/dev/null" >$null
 }
 

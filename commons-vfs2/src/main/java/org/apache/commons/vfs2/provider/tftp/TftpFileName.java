@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.nfs;
+package org.apache.commons.vfs2.provider.tftp;
 
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
@@ -22,17 +22,17 @@ import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.provider.GenericFileName;
 
 /**
- * An NFS URI. Adds a share name to the generic URI.
+ * An TFTP URI. Adds a share name to the generic URI.
  */
-public class NfsFileName extends GenericFileName {
+public class TftpFileName extends GenericFileName {
     private static final int DEFAULT_PORT = 2049;
 
     private final String share;
     private final String domain;
     private String uriWithoutAuth;
 
-    protected NfsFileName(final String scheme, final String hostName, final int port, final String userName,
-                          final String password, final String domain, final String share, final String path, final FileType type) {
+    protected TftpFileName(final String scheme, final String hostName, final int port, final String userName,
+                           final String password, final String domain, final String share, final String path, final FileType type) {
         super(scheme, hostName, port, DEFAULT_PORT, userName, password, path, type);
         this.share = share;
         this.domain = domain;
@@ -76,15 +76,15 @@ public class NfsFileName extends GenericFileName {
      *
      * @param path path of file.
      * @param type file or directory
-     * @return new NfsFileName object, never null.
+     * @return new TftpFileName object, never null.
      */
     @Override
     public FileName createName(final String path, final FileType type) {
-        return new NfsFileName(getScheme(), getHostName(), getPort(), getUserName(), getPassword(), domain, share, path, type);
+        return new TftpFileName(getScheme(), getHostName(), getPort(), getUserName(), getPassword(), domain, share, path, type);
     }
 
     /**
-     * Construct the path suitable for Nfs3File when used with NtlmPasswordAuthentication.
+     * Construct the path suitable for TFTPFile when used with NtlmPasswordAuthentication.
      *
      * @return caches and return URI with no username/password, never null
      * @throws FileSystemException if any of the invoked methods throw

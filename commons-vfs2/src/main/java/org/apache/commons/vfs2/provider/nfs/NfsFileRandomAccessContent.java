@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.nfs;
 
+import com.emc.ecs.nfsclient.nfs.io.Nfs3File;
 import com.emc.ecs.nfsclient.nfs.io.NfsFile;
 import jcifs.smb.SmbException;
 import jcifs.smb.SmbFile;
@@ -35,7 +36,7 @@ class NfsFileRandomAccessContent extends AbstractRandomAccessContent {
     private final SmbRandomAccessFile raf;
     private final InputStream rafis;
 
-    NfsFileRandomAccessContent(final NfsFile nfsFile, final RandomAccessMode mode) throws FileSystemException, SmbException, MalformedURLException {
+    NfsFileRandomAccessContent(final Nfs3File nfsFile, final RandomAccessMode mode) throws FileSystemException, SmbException, MalformedURLException {
         super(mode);
 
         raf = new SmbRandomAccessFile(new SmbFile(nfsFile.getPath()), mode.getModeString());

@@ -14,36 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.nfs;
+package org.apache.commons.vfs2.provider.tftp;
 
-import com.emc.ecs.nfsclient.nfs.NfsException;
-import com.emc.ecs.nfsclient.nfs.NfsStatus;
-import com.emc.ecs.nfsclient.nfs.io.Nfs3File;
-import com.emc.ecs.nfsclient.nfs.io.NfsFile;
-import com.emc.ecs.nfsclient.nfs.io.NfsFileInputStream;
-import com.emc.ecs.nfsclient.nfs.io.NfsFileOutputStream;
-import com.emc.ecs.nfsclient.nfs.nfs3.Nfs3;
-import com.emc.ecs.nfsclient.rpc.CredentialUnix;
-import org.apache.commons.vfs2.*;
+import org.apache.commons.net.tftp.TFTPClient;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileType;
+import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
-import org.apache.commons.vfs2.provider.UriParser;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.List;
 
 /**
- * A file in an NFS file system.
+ * A file in an TFTP file system.
  */
-public class NfsFileObject extends AbstractFileObject<NfsFileSystem> {
+public class TftpFileObject extends AbstractFileObject<TftpFileSystem> {
     // private final String fileName;
-    private Nfs3File file;
+    private TFTPClient client;
 
 
-    protected NfsFileObject(final AbstractFileName name, final NfsFileSystem fileSystem) throws IOException {
+    protected TftpFileObject(final AbstractFileName name, final TftpFileSystem fileSystem) throws IOException {
         super(name, fileSystem);
         // this.fileName = UriParser.decode(name.getURI());
     }
@@ -53,26 +46,17 @@ public class NfsFileObject extends AbstractFileObject<NfsFileSystem> {
      */
     @Override
     protected void doAttach() throws Exception {
-        // Defer creation of the Nfs3File to here
-        if (file == null) {
-            file = createNfsFile(getName());
+        // Defer creation of the TftpClient to here
+        if (client == null) {
+            client = new TFTPClient();
+            client.open();
         }
     }
 
     @Override
     protected void doDetach() throws Exception {
         // file closed through content-streams
-        file = null;
-    }
-
-    private Nfs3File createNfsFile(final FileName fileName) throws IOException {
-        final NfsFileName nfsFileName = (NfsFileName) fileName;
-
-//        final String path = nfsFileName.getUriWithoutAuth();
-        Nfs3 nfs3 = new Nfs3("10.65.10.146:/srv/nfs", new CredentialUnix(0, 0, null), 3);
-
-        return new Nfs3File(nfs3, "/");
-
+        client = null;
     }
 
     /**
@@ -80,17 +64,7 @@ public class NfsFileObject extends AbstractFileObject<NfsFileSystem> {
      */
     @Override
     protected FileType doGetType() throws Exception {
-        if (!file.exists()) {
-            return FileType.IMAGINARY;
-        }
-        if (file.isDirectory()) {
-            return FileType.FOLDER;
-        }
-        if (file.isFile()) {
-            return FileType.FILE;
-        }
-
-        throw new FileSystemException("vfs.provider.nfs/get-type.error", getName());
+        return FileType.FILE;
     }
 
     /**
@@ -98,12 +72,7 @@ public class NfsFileObject extends AbstractFileObject<NfsFileSystem> {
      */
     @Override
     protected String[] doListChildren() throws Exception {
-        // VFS-210: do not try to get listing for anything else than directories
-        if (!file.isDirectory()) {
-            return null;
-        }
-        List<String> list = file.list();
-        return UriParser.encode(list.toArray(new String[0]));
+        return new String[0];
     }
 
     /**
@@ -119,12 +88,12 @@ public class NfsFileObject extends AbstractFileObject<NfsFileSystem> {
      */
     @Override
     protected void doDelete() throws Exception {
-        file.delete();
+
     }
 
     @Override
     protected void doRename(final FileObject newfile) throws Exception {
-        file.renameTo(createNfsFile(newfile.getName()));
+
     }
 
     /**
@@ -132,8 +101,6 @@ public class NfsFileObject extends AbstractFileObject<NfsFileSystem> {
      */
     @Override
     protected void doCreateFolder() throws Exception {
-        file.mkdir();
-        file = createNfsFile(getName());
     }
 
     /**
@@ -141,15 +108,16 @@ public class NfsFileObject extends AbstractFileObject<NfsFileSystem> {
      */
     @Override
     protected long doGetContentSize() throws Exception {
-        return file.length();
+        return client.getTotalBytesReceived();
     }
 
+    private static final long DEFAULT_TIMESTAMP = 0L;
     /**
      * Returns the last modified time of this file.
      */
     @Override
     protected long doGetLastModifiedTime() throws Exception {
-        return file.lastModified();
+        return DEFAULT_TIMESTAMP;
     }
 
     /**
@@ -157,21 +125,7 @@ public class NfsFileObject extends AbstractFileObject<NfsFileSystem> {
      */
     @Override
     protected InputStream doGetInputStream(final int bufferSize) throws Exception {
-        if (!getType().hasContent()) {
-            throw new FileSystemException("vfs.provider/read-not-file.error", getName());
-        }
-        try {
-            return new NfsFileInputStream(file);
-        } catch (final NfsException e) {
-            if (e.getStatus() == NfsStatus.NFS3ERR_NOENT) {
-                throw new FileNotFoundException(getName());
-            }
-            if (file.isDirectory()) {
-                throw new FileTypeHasNoContentException(getName());
-            }
-
-            throw e;
-        }
+        throw new TftpException("not supported");
     }
 
     /**
@@ -179,7 +133,7 @@ public class NfsFileObject extends AbstractFileObject<NfsFileSystem> {
      */
     @Override
     protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
-        return new NfsFileOutputStream(file);
+        throw new TftpException("not supported");
     }
 
     /**
@@ -187,12 +141,11 @@ public class NfsFileObject extends AbstractFileObject<NfsFileSystem> {
      */
     @Override
     protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception {
-        return new NfsFileRandomAccessContent(file, mode);
+        throw new TftpException("not supported");
     }
 
     @Override
     protected boolean doSetLastModifiedTime(final long modtime) throws Exception {
-        file.setLastModified(modtime);
-        return true;
+        throw new TftpException("not supported");
     }
 }

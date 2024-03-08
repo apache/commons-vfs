@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-vfs2-project</artifactId>
-    <version>2.10.0-SNAPSHOT</version>
+    <version>2.10.1-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
   <artifactId>commons-vfs2-bom</artifactId>
@@ -33,37 +33,37 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-vfs2</artifactId>
-        <version>2.10.0-SNAPSHOT</version>
+        <version>2.10.1-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-vfs2-distribution</artifactId>
-        <version>2.10.0-SNAPSHOT</version>
+        <version>2.10.1-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-vfs2-examples</artifactId>
-        <version>2.10.0-SNAPSHOT</version>
+        <version>2.10.1-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-ant</artifactId>
-        <version>2.10.0-SNAPSHOT</version>
+        <version>2.10.1-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-hdfs</artifactId>
-        <version>2.10.0-SNAPSHOT</version>
+        <version>2.10.1-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-vfs2-jackrabbit1</artifactId>
-        <version>2.10.0-SNAPSHOT</version>
+        <version>2.10.1-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-vfs2-jackrabbit2</artifactId>
-        <version>2.10.0-SNAPSHOT</version>
+        <version>2.10.1-SNAPSHOT</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
