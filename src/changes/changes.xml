@@ -46,7 +46,7 @@ The <action> type attribute can be add,update,fix,remove.
     <author email="dev@commons.apache.org">Apache Commons Developers</author>
   </properties>
   <body>
-    <release version="2.10.0" date="2024-03-03" description="Maintenance release. Requires Java 8 or above.">
+    <release version="2.10.0" date="YYYY-MM-DD" description="Maintenance release. Requires Java 8 or above.">
       <!-- FIX -->
       <action type="fix" dev="ggregory" due-to="Seth Falco">
         Replace package.html with package-info.java #206. 
