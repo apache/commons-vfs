@@ -34,6 +34,8 @@ import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
 import javax.jcr.Value;
 
+import junit.framework.Test;
+
 import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
@@ -47,8 +49,6 @@ import org.apache.commons.vfs2.provider.webdav4.Webdav4FileProvider;
 import org.apache.commons.vfs2.provider.webdav4.Webdav4FileSystemConfigBuilder;
 import org.apache.commons.vfs2.util.FreeSocketPortUtil;
 import org.apache.jackrabbit.core.TransientRepository;
-
-import junit.framework.Test;
 
 /**
  * Test cases for the WebDAV4 provider.
