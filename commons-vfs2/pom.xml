@@ -143,12 +143,12 @@
   </dependencies>
 
   <properties>
-    <vfs.parent.dir>${basedir}/..</vfs.parent.dir>
+    <commons.parent.dir>${basedir}/..</commons.parent.dir>
     <commons.osgi.import>
         org.apache.hc.client5.http.*;resolution:=optional,
         *
     </commons.osgi.import>
-    <project.build.outputTimestamp>2024-01-01T00:00:00Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2024-03-03T15:45:26Z</project.build.outputTimestamp>
   </properties>
 
   <build>
@@ -163,7 +163,7 @@
       </resource>
       <!-- include NOTICE/LICENSE in generated jar -->
       <resource>
-        <directory>${vfs.parent.dir}</directory>
+        <directory>${commons.parent.dir}</directory>
         <targetPath>META-INF</targetPath>
         <includes>
           <include>NOTICE.txt</include>
@@ -178,7 +178,7 @@
       </testResource>
       <!-- include NOTICE/LICENSE in generated test jar -->
       <testResource>
-        <directory>${vfs.parent.dir}</directory>
+        <directory>${commons.parent.dir}</directory>
         <targetPath>META-INF</targetPath>
         <includes>
           <include>NOTICE.txt</include>

@@ -35,9 +35,9 @@ limitations under the License.
   <properties>
     <!--  dist module contains no code and no checkstyle config -->
     <checkstyle.skip>true</checkstyle.skip>
-    <vfs.parent.dir>${basedir}/..</vfs.parent.dir>
+    <commons.parent.dir>${basedir}/..</commons.parent.dir>
     <commons.release.isDistModule>true</commons.release.isDistModule>
-    <project.build.outputTimestamp>2024-01-01T00:00:00Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2024-03-03T15:45:26Z</project.build.outputTimestamp>
   </properties>
 
   <profiles>
@@ -225,7 +225,7 @@ limitations under the License.
                    naming the final artifact as -src not -source-release.
               -->
               <execution>
-                <id>vfs-source-release-assembly</id>
+                <id>src</id>
                 <phase>package</phase>
                 <goals>
                   <goal>single</goal>
@@ -239,7 +239,7 @@ limitations under the License.
                 </configuration>
               </execution>
               <execution>
-                <id>binary</id>
+                <id>bin</id>
                 <configuration>
                   <finalName>commons-vfs-${project.version}</finalName>
                   <descriptors>

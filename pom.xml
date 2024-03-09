@@ -41,8 +41,8 @@
     <module>commons-vfs2-jackrabbit1</module>
     <module>commons-vfs2-jackrabbit2</module>
     <module>commons-vfs2-examples</module>
-    <module>commons-vfs2-distribution</module>
     <module>commons-vfs2-bom</module>
+    <module>commons-vfs2-distribution</module>
   </modules>
   <!-- commons-vfs2-sandbox is in profile include-sandbox -->
 
@@ -168,8 +168,8 @@
     <commons.jira.id>VFS</commons.jira.id>
     <commons.jira.pid>12310495</commons.jira.pid>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-vfs</commons.scmPubUrl>
-    <commons.siteOutputDirectory>${basedir}/../target/site</commons.siteOutputDirectory>
-    <commons.releaseNotesLocation>${vfs.parent.dir}/RELEASE-NOTES.txt</commons.releaseNotesLocation>
+    <commons.siteOutputDirectory>${basedir}/target/site</commons.siteOutputDirectory>
+    <commons.releaseNotesLocation>${commons.parent.dir}/RELEASE-NOTES.txt</commons.releaseNotesLocation>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
     <commons.release.version>2.10.0</commons.release.version>
     <commons.release.next>2.10.1</commons.release.next>
@@ -185,8 +185,9 @@
     <commons.rc.version>RC1</commons.rc.version>
     <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
     <commons.release.desc>(requires Java 8 or above)</commons.release.desc>
+    <commons.release.isDistModule>false</commons.release.isDistModule>
 
-    <vfs.parent.dir>${basedir}</vfs.parent.dir>
+    <commons.parent.dir>${basedir}</commons.parent.dir>
     <!-- make sure bundle plugin has dependency informations for 'optional' -->
     <commons.osgi.excludeDependencies />
     <commons.osgi.import>
@@ -240,9 +241,9 @@
           <artifactId>maven-checkstyle-plugin</artifactId>
           <!-- Keep build/reporting in sync -->
           <configuration>
-            <!--<propertiesLocation>${vfs.parent.dir}/checkstyle.properties</propertiesLocation> -->
-            <configLocation>${vfs.parent.dir}/checkstyle.xml</configLocation>
-            <suppressionsLocation>${vfs.parent.dir}/checkstyle-suppressions.xml</suppressionsLocation>
+            <!--<propertiesLocation>${commons.parent.dir}/checkstyle.properties</propertiesLocation> -->
+            <configLocation>${commons.parent.dir}/checkstyle.xml</configLocation>
+            <suppressionsLocation>${commons.parent.dir}/checkstyle-suppressions.xml</suppressionsLocation>
             <enableRulesSummary>false</enableRulesSummary>
             <propertyExpansion>basedir=${basedir}</propertyExpansion>
             <!-- <includeTestSourceDirectory>true</includeTestSourceDirectory> -->
@@ -336,7 +337,7 @@
             <configuration>
               <target>
                 <copy todir="${project.build.directory}/apidocs/META-INF">
-                  <fileset dir="${vfs.parent.dir}">
+                  <fileset dir="${commons.parent.dir}">
                     <include name="LICENSE.txt" />
                     <include name="NOTICE.txt" />
                   </fileset>
@@ -372,7 +373,7 @@
         <configuration>
           <threshold>Normal</threshold>
           <effort>Default</effort>
-          <excludeFilterFile>${vfs.parent.dir}/findbugs-exclude-filter.xml</excludeFilterFile>
+          <excludeFilterFile>${commons.parent.dir}/findbugs-exclude-filter.xml</excludeFilterFile>
         </configuration>
       </plugin>
     </plugins>
@@ -410,7 +411,7 @@
         <configuration>
           <threshold>Normal</threshold>
           <effort>Default</effort>
-          <excludeFilterFile>${vfs.parent.dir}/findbugs-exclude-filter.xml</excludeFilterFile>
+          <excludeFilterFile>${commons.parent.dir}/findbugs-exclude-filter.xml</excludeFilterFile>
         </configuration>
       </plugin>
       <plugin>

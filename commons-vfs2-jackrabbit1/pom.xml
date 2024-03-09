@@ -117,7 +117,7 @@
   </dependencies>
 
   <properties>
-    <vfs.parent.dir>${basedir}/..</vfs.parent.dir>
+    <commons.parent.dir>${basedir}/..</commons.parent.dir>
     <commons.packageId>vfs2-jackrabbit1</commons.packageId>
     <commons.module.name>org.apache.commons.vfs2.jackrabbit1</commons.module.name>
     <commons.osgi.import>
@@ -125,7 +125,7 @@
         org.apache.commons.httpclient.*;resolution:=optional,
         *
     </commons.osgi.import>
-    <project.build.outputTimestamp>2024-01-01T00:00:00Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2024-03-03T15:45:26Z</project.build.outputTimestamp>
   </properties>
 
   <build>
@@ -134,7 +134,7 @@
         <directory>${project.basedir}/src/main/resources</directory>
       </resource>
       <resource>
-        <directory>${vfs.parent.dir}</directory>
+        <directory>${commons.parent.dir}</directory>
         <targetPath>META-INF</targetPath>
         <includes>
           <include>NOTICE.txt</include>
@@ -148,7 +148,7 @@
         <directory>${project.basedir}/src/test/resources</directory>
       </testResource>
       <testResource>
-        <directory>${vfs.parent.dir}</directory>
+        <directory>${commons.parent.dir}</directory>
         <targetPath>META-INF</targetPath>
         <includes>
           <include>NOTICE.txt</include>

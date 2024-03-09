@@ -88,7 +88,7 @@
 
   <properties>
     <commons.componentid>vfs-sandbox</commons.componentid>
-    <vfs.parent.dir>${basedir}/..</vfs.parent.dir>
+    <commons.parent.dir>${basedir}/..</commons.parent.dir>
   </properties>
 
   <build>
@@ -97,7 +97,7 @@
         <directory>${project.basedir}/src/main/resources</directory>
       </resource>
       <resource>
-        <directory>${vfs.parent.dir}</directory>
+        <directory>${commons.parent.dir}</directory>
         <targetPath>META-INF</targetPath>
         <includes>
           <include>NOTICE.txt</include>
@@ -108,7 +108,7 @@
      <!-- include NOTICE/LICENSE in generated test jar -->
     <testResources>
       <testResource>
-        <directory>${vfs.parent.dir}</directory>
+        <directory>${commons.parent.dir}</directory>
         <targetPath>META-INF</targetPath>
         <includes>
           <include>NOTICE.txt</include>
