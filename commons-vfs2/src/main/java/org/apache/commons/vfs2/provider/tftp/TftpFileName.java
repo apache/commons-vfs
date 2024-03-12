@@ -27,24 +27,13 @@ import org.apache.commons.vfs2.provider.GenericFileName;
 public class TftpFileName extends GenericFileName {
     private static final int DEFAULT_PORT = 2049;
 
-    private final String share;
     private final String domain;
     private String uriWithoutAuth;
 
     protected TftpFileName(final String scheme, final String hostName, final int port, final String userName,
-                           final String password, final String domain, final String share, final String path, final FileType type) {
+                           final String password, final String domain, final String path, final FileType type) {
         super(scheme, hostName, port, DEFAULT_PORT, userName, password, path, type);
-        this.share = share;
         this.domain = domain;
-    }
-
-    /**
-     * Returns the share name.
-     *
-     * @return share name
-     */
-    public String getShare() {
-        return share;
     }
 
     /**
@@ -54,7 +43,6 @@ public class TftpFileName extends GenericFileName {
     protected void appendRootUri(final StringBuilder buffer, final boolean addPassword) {
         super.appendRootUri(buffer, addPassword);
         buffer.append('/');
-        buffer.append(share);
     }
 
     /**
@@ -80,7 +68,7 @@ public class TftpFileName extends GenericFileName {
      */
     @Override
     public FileName createName(final String path, final FileType type) {
-        return new TftpFileName(getScheme(), getHostName(), getPort(), getUserName(), getPassword(), domain, share, path, type);
+        return new TftpFileName(getScheme(), getHostName(), getPort(), getUserName(), getPassword(), domain, path, type);
     }
 
     /**
@@ -103,7 +91,6 @@ public class TftpFileName extends GenericFileName {
             sb.append(getPort());
         }
         sb.append("/");
-        sb.append(getShare());
         sb.append(getPathDecoded());
         uriWithoutAuth = sb.toString();
         return uriWithoutAuth;

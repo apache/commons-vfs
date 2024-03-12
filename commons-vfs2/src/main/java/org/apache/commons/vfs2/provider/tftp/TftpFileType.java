@@ -17,7 +17,7 @@
 package org.apache.commons.vfs2.provider.tftp;
 
 /**
- * The NFS file types.
+ * The tftp file types.
  *
  * @since 2.1
  */
@@ -39,23 +39,23 @@ public enum TftpFileType {
     LOCAL(3);
 
     /**
-     * The Apache Commons Net NFS file type.
+     * The Apache Commons Net tftp file type.
      */
     private final int value;
 
     /**
      * Constructs a file type.
      *
-     * @param fileType The Apache Commons Net NFS file type.
+     * @param fileType The Apache Commons Net tftp file type.
      */
     TftpFileType(final int fileType) {
         this.value = fileType;
     }
 
     /**
-     * Gets the Apache Commons Net NFS file type.
+     * Gets the Apache Commons Net TFTP file type.
      *
-     * @return The Apache Commons Net SMB file type.
+     * @return The Apache Commons Net TFTP file type.
      */
     int getValue() {
         return this.value;

@@ -23,6 +23,10 @@
         <scheme name="nfs"/>
         <if-available class-name="com.emc.ecs.nfsclient.nfs.io.Nfs3File"/>
     </provider>
+    <provider class-name="org.apache.commons.vfs2.provider.tftp.TftpFileProvider">
+        <scheme name="tftp"/>
+        <if-available class-name="org.apache.commons.net.tftp.TFTPClient"/>
+    </provider>
     <default-provider class-name="org.apache.commons.vfs2.provider.url.UrlFileProvider">
     </default-provider>
     <provider class-name="org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider">

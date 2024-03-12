@@ -66,19 +66,13 @@ public class TftpFileNameParser extends GenericURLFileNameParser {
         UriParser.canonicalizePath(name, 0, name.length(), this);
         UriParser.fixSeparators(name);
 
-        // Extract the share
-        final String share = UriParser.extractFirstElement(name);
-        if (share == null || share.isEmpty()) {
-            throw new FileSystemException("vfs.provider.tftp/missing-share-name.error", filename);
-        }
-
         // Normalise the path. Do this after extracting the share name,
         // to deal with things like tftp://hostname/share/..
         final FileType fileType = UriParser.normalisePath(name);
         final String path = name.toString();
 
         return new TftpFileName(auth.getScheme(), auth.getHostName(), auth.getPort(), username, auth.getPassword(),
-                domain, share, path, fileType);
+                domain, path, fileType);
     }
 
     private String extractDomain(final String username) {

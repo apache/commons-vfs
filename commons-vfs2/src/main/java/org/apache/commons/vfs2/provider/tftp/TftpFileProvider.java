@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * A provider for NFS
+ * A provider for tftp
  */
 public class TftpFileProvider extends AbstractOriginatingFileProvider implements FileProvider {
     /**

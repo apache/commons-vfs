@@ -29,7 +29,7 @@ import java.time.Duration;
 import java.util.List;
 
 /**
- * The config builder for various SMB configuration options.
+ * The config builder for various TFTP configuration options.
  */
 public class TftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
@@ -410,7 +410,7 @@ public class TftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Sets the control keep alive timeout for the SMB client.
+     * Sets the control keep alive timeout for the TFTP client.
      * <p>
      * Set the {@code controlKeepAliveTimeout} to ensure the socket be alive after download huge file.
      * </p>
@@ -424,9 +424,9 @@ public class TftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Set the data timeout for the SMB client.
+     * Set the data timeout for the TFTP client.
      * <p>
-     * If you set the {@code dataTimeout} to {@code null}, no dataTimeout will be set on the SMB client.
+     * If you set the {@code dataTimeout} to {@code null}, no dataTimeout will be set on the TFTP client.
      * </p>
      *
      * @param options  The FileSystemOptions.
@@ -438,9 +438,9 @@ public class TftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Set the data timeout for the SMB client.
+     * Set the data timeout for the TFTP client.
      * <p>
-     * If you set the {@code dataTimeout} to {@code null}, no dataTimeout will be set on the SMB client.
+     * If you set the {@code dataTimeout} to {@code null}, no dataTimeout will be set on the TFTP client.
      * </p>
      *
      * @param options  The FileSystemOptions.
@@ -490,15 +490,15 @@ public class TftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Sets the file type parameter.
      *
      * @param options     The FileSystemOptions.
-     * @param smbFileType A TftpFileType
+     * @param tftpFileType A TftpFileType
      * @since 2.1
      */
-    public void setFileType(final FileSystemOptions options, final TftpFileType smbFileType) {
-        setParam(options, FILE_TYPE, smbFileType);
+    public void setFileType(final FileSystemOptions options, final TftpFileType tftpFileType) {
+        setParam(options, FILE_TYPE, tftpFileType);
     }
 
     /**
-     * Sets the option to use SMB MDTM for {@link FileContent#getLastModifiedTime()}.
+     * Sets the option to use tftp MDTM for {@link FileContent#getLastModifiedTime()}.
      *
      * @param options The FileSystemOptions.
      * @param mdtm    true if MDTM should be used.
@@ -587,9 +587,9 @@ public class TftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Sets the socket timeout for the SMB client.
+     * Sets the socket timeout for the tftp client.
      * <p>
-     * If you set the {@code soTimeout} to {@code null}, no socket timeout will be set on the SMB client.
+     * If you set the {@code soTimeout} to {@code null}, no socket timeout will be set on the tftp client.
      * </p>
      *
      * @param options The FileSystem options.
@@ -601,9 +601,9 @@ public class TftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Sets the socket timeout for the SMB client.
+     * Sets the socket timeout for the tftp client.
      * <p>
-     * If you set the {@code soTimeout} to {@code null}, no socket timeout will be set on the SMB client.
+     * If you set the {@code soTimeout} to {@code null}, no socket timeout will be set on the tftp client.
      * </p>
      *
      * @param options The FileSystem options.

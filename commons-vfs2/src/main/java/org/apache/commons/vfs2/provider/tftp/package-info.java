@@ -16,6 +16,6 @@
  */
 
 /**
- * VFS (Sandbox) NFS File Provider.
+ * VFS (Sandbox) TFTP File Provider.
  */
 package org.apache.commons.vfs2.provider.tftp;

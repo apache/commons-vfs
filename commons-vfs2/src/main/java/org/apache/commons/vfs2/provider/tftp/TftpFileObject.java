@@ -88,12 +88,12 @@ public class TftpFileObject extends AbstractFileObject<TftpFileSystem> {
      */
     @Override
     protected void doDelete() throws Exception {
-
+        throw new TftpException("Delete not supported");
     }
 
     @Override
     protected void doRename(final FileObject newfile) throws Exception {
-
+        throw new TftpException("Rename not supported");
     }
 
     /**
@@ -101,6 +101,7 @@ public class TftpFileObject extends AbstractFileObject<TftpFileSystem> {
      */
     @Override
     protected void doCreateFolder() throws Exception {
+        throw new TftpException("CreateFolder not supported");
     }
 
     /**
@@ -125,7 +126,7 @@ public class TftpFileObject extends AbstractFileObject<TftpFileSystem> {
      */
     @Override
     protected InputStream doGetInputStream(final int bufferSize) throws Exception {
-        throw new TftpException("not supported");
+        throw new TftpException("GetInputStream not supported");
     }
 
     /**
@@ -133,7 +134,7 @@ public class TftpFileObject extends AbstractFileObject<TftpFileSystem> {
      */
     @Override
     protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
-        throw new TftpException("not supported");
+        throw new TftpException("GetOutputStream not supported");
     }
 
     /**
@@ -141,11 +142,11 @@ public class TftpFileObject extends AbstractFileObject<TftpFileSystem> {
      */
     @Override
     protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception {
-        throw new TftpException("not supported");
+        throw new TftpException("GetRandomAccessContent not supported");
     }
 
     @Override
     protected boolean doSetLastModifiedTime(final long modtime) throws Exception {
-        throw new TftpException("not supported");
+        throw new TftpException("SetLastModifiedTime not supported");
     }
 }
