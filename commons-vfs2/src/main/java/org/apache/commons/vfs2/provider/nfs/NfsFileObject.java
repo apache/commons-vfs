@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A file in an NFS file system.
@@ -41,11 +42,13 @@ import java.util.List;
 public class NfsFileObject extends AbstractFileObject<NfsFileSystem> {
     // private final String fileName;
     private Nfs3File file;
+    private final String sharePath;
 
 
     protected NfsFileObject(final AbstractFileName name, final NfsFileSystem fileSystem) throws IOException {
         super(name, fileSystem);
-        // this.fileName = UriParser.decode(name.getURI());
+        final NfsFileSystemConfigBuilder builder = NfsFileSystemConfigBuilder.getInstance();
+        this.sharePath = builder.getSharePath(super.getFileSystem().getFileSystemOptions());
     }
 
     /**
@@ -67,11 +70,14 @@ public class NfsFileObject extends AbstractFileObject<NfsFileSystem> {
 
     private Nfs3File createNfsFile(final FileName fileName) throws IOException {
         final NfsFileName nfsFileName = (NfsFileName) fileName;
-
-//        final String path = nfsFileName.getUriWithoutAuth();
-        Nfs3 nfs3 = new Nfs3("10.65.10.146:/srv/nfs", new CredentialUnix(0, 0, null), 3);
-
-        return new Nfs3File(nfs3, "/");
+        String host = nfsFileName.getHostName();
+        Nfs3 nfs3 = new Nfs3(String.format("%s:%s", host, this.sharePath), new CredentialUnix(0, 0, null), 3);
+        String[] protoAndPathArray = nfsFileName.getUriWithoutAuth().split(String.format("%s%s", host, sharePath));
+        String path = "/";
+        if (protoAndPathArray.length > 1) {
+            path = protoAndPathArray[1];
+        }
+        return new Nfs3File(nfs3, path);
 
     }
 

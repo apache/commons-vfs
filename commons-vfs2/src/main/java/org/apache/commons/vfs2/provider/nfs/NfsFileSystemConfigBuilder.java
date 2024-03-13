@@ -57,6 +57,7 @@ public class NfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT";
     private static final String TRANSFER_ABORTED_OK_REPLY_CODES = _PREFIX + ".TRANSFER_ABORTED_OK_REPLY_CODES";
     private static final String MDTM_LAST_MODIFED_TIME = _PREFIX + ".MDTM_LAST_MODIFED_TIME";
+    private static final String SHARE_PATH = _PREFIX + ".SHARE_PATH";
 
     private NfsFileSystemConfigBuilder() {
         super("nfs.");
@@ -225,6 +226,18 @@ public class NfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public Boolean getMdtmLastModifiedTime(final FileSystemOptions options) {
         return getBoolean(options, MDTM_LAST_MODIFED_TIME);
     }
+
+    /**
+     * Gets the option to use NFS share path.
+     *
+     * @param options The FileSystemOptions.
+     * @return share path for nfs
+     * @since 2.8.0
+     */
+    public String getSharePath(final FileSystemOptions options) {
+        return getString(options, SHARE_PATH);
+    }
+
 
     /**
      * @param options The FileSystemOptions.
@@ -507,6 +520,18 @@ public class NfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public void setMdtmLastModifiedTime(final FileSystemOptions options, final boolean mdtm) {
         setParam(options, MDTM_LAST_MODIFED_TIME, toBooleanObject(mdtm));
     }
+
+    /**
+     * Sets the option to use NFS sharePath
+     *
+     * @param options   The FileSystemOptions.
+     * @param sharePath NFS share path
+     * @since 2.8.0
+     */
+    public void setSharePath(final FileSystemOptions options, final String sharePath) {
+        setParam(options, SHARE_PATH, sharePath);
+    }
+
 
     /**
      * Enter into passive mode.
