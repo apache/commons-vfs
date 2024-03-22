@@ -101,7 +101,7 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
                 fail("should not accept root " + name);
             } catch (final FileSystemException ex) {
                 assertEquals("vfs.provider/invalid-absolute-uri.error", ex.getCode());
-                assertTrue(ex.toString().indexOf(name) >= 0);
+                assertTrue(ex.toString().contains(name));
             }
         }
     }
