@@ -19,7 +19,6 @@ package org.apache.commons.vfs2.provider.nfs;
 import com.emc.ecs.nfsclient.nfs.NfsException;
 import com.emc.ecs.nfsclient.nfs.NfsStatus;
 import com.emc.ecs.nfsclient.nfs.io.Nfs3File;
-import com.emc.ecs.nfsclient.nfs.io.NfsFile;
 import com.emc.ecs.nfsclient.nfs.io.NfsFileInputStream;
 import com.emc.ecs.nfsclient.nfs.io.NfsFileOutputStream;
 import com.emc.ecs.nfsclient.nfs.nfs3.Nfs3;
@@ -34,7 +33,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A file in an NFS file system.

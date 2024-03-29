@@ -16,29 +16,56 @@
  */
 package org.apache.commons.vfs2.provider.tftp;
 
+import org.apache.commons.net.tftp.TFTP;
 import org.apache.commons.net.tftp.TFTPClient;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 /**
  * A file in an TFTP file system.
  */
 public class TftpFileObject extends AbstractFileObject<TftpFileSystem> {
-    // private final String fileName;
     private TFTPClient client;
-
+    private final String host;
+    private final int port;
 
     protected TftpFileObject(final AbstractFileName name, final TftpFileSystem fileSystem) throws IOException {
         super(name, fileSystem);
-        // this.fileName = UriParser.decode(name.getURI());
+        this.host = ((TftpFileName) name).getHostName();
+        this.port = ((TftpFileName) name).getPort();
+    }
+
+    public class TFTPFileOutputStream extends OutputStream {
+        private final TFTPClient tftpClient;
+        private final String remoteFilePath;
+        private final OutputStream outputStream;
+
+        public TFTPFileOutputStream(TFTPClient tftpClient, String remoteFilePath) throws IOException {
+            this.tftpClient = tftpClient;
+            this.remoteFilePath = remoteFilePath;
+            this.outputStream = new ByteArrayOutputStream(); // 创建一个内存输出流，用于暂存数据
+        }
+
+        @Override
+        public void write(int b) throws IOException {
+            outputStream.write(b); // 将数据写入内存输出流
+        }
+
+        @Override
+        public void close() throws IOException {
+            super.close();
+            byte[] data = ((ByteArrayOutputStream) outputStream).toByteArray(); // 将内存输出流中的数据转换为字节数组
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(data); // 创建一个基于内存的输入流
+            tftpClient.sendFile(remoteFilePath, TFTPClient.BINARY_MODE, byteArrayInputStream, host, port); // 发送数据到TFTP服务器
+            outputStream.close(); // 关闭内存输出流
+        }
     }
 
     /**
@@ -113,6 +140,7 @@ public class TftpFileObject extends AbstractFileObject<TftpFileSystem> {
     }
 
     private static final long DEFAULT_TIMESTAMP = 0L;
+
     /**
      * Returns the last modified time of this file.
      */
@@ -126,7 +154,12 @@ public class TftpFileObject extends AbstractFileObject<TftpFileSystem> {
      */
     @Override
     protected InputStream doGetInputStream(final int bufferSize) throws Exception {
-        throw new TftpException("GetInputStream not supported");
+        if (!getType().hasContent()) {
+            throw new FileSystemException("vfs.provider/read-not-file.error", getName());
+        }
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(1024);
+        client.receiveFile(getName().getPath().substring(1), TFTP.BINARY_MODE, outputStream, this.host, this.port);
+        return new ByteArrayInputStream(outputStream.toByteArray());
     }
 
     /**
@@ -134,7 +167,7 @@ public class TftpFileObject extends AbstractFileObject<TftpFileSystem> {
      */
     @Override
     protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
-        throw new TftpException("GetOutputStream not supported");
+        return new TFTPFileOutputStream(client, getName().getPath().substring(1));
     }
 
     /**
@@ -149,4 +182,5 @@ public class TftpFileObject extends AbstractFileObject<TftpFileSystem> {
     protected boolean doSetLastModifiedTime(final long modtime) throws Exception {
         throw new TftpException("SetLastModifiedTime not supported");
     }
+
 }
