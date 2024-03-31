@@ -162,8 +162,7 @@ public class FileSystemException extends IOException {
      */
     public FileSystemException(final String code, final Throwable cause, final Object... info) {
         super(code, cause);
-
-        if (info == null) {
+        if (ArrayUtils.isEmpty(info)) {
             this.info = ArrayUtils.EMPTY_STRING_ARRAY;
         } else {
             this.info = new String[info.length];
