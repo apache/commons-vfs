@@ -344,7 +344,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump httpclient from 4.5.13 to 4.5.14 #344.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">
-        Bump commons-io:commons-io from 2.11.0 to 2.15.1.
+        Bump commons-io:commons-io from 2.11.0 to 2.16.1 #515.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">
         Bump commons-codec:commons-codec from 1.15 to 1.16.1 #480.
