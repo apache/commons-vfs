@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import org.apache.commons.lang3.SystemProperties;
 import org.apache.commons.lang3.SystemUtils;
 
 /**
@@ -79,9 +80,9 @@ public final class Os {
      */
     public static final OsFamily OS_FAMILY_OSX = new OsFamily("osx", new OsFamily[] {OS_FAMILY_UNIX, OS_FAMILY_MAC});
 
-    private static final String OS_NAME = System.getProperty("os.name").toLowerCase(Locale.US);
-    private static final String OS_ARCH = System.getProperty("os.arch").toLowerCase(Locale.US);
-    private static final String OS_VERSION = System.getProperty("os.version").toLowerCase(Locale.US);
+    private static final String OS_NAME = SystemProperties.getOsName().toLowerCase(Locale.US);
+    private static final String OS_ARCH = SystemProperties.getOsArch().toLowerCase(Locale.US);
+    private static final String OS_VERSION = SystemProperties.getOsVersion().toLowerCase(Locale.US);
     private static final String PATH_SEP = File.pathSeparator;
     private static final OsFamily OS_FAMILY;
     private static final OsFamily[] OS_ALL_FAMILIES;
