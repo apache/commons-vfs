@@ -22,6 +22,7 @@ import java.time.Duration;
 import java.util.Objects;
 import java.util.Properties;
 
+import org.apache.commons.lang3.SystemProperties;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.time.DurationUtils;
 import org.apache.commons.logging.Log;
@@ -293,14 +294,14 @@ public final class SftpClientFactory {
             }
         }
 
-        File sshDir = new File(System.getProperty("user.home"), SSH_DIR_NAME);
+        File sshDir = new File(SystemProperties.getUserHome(), SSH_DIR_NAME);
         if (sshDir.exists()) {
             return sshDir;
         }
 
         if (SystemUtils.IS_OS_WINDOWS) {
             // TODO - this may not be true
-            final String userName = System.getProperty("user.name");
+            final String userName = SystemProperties.getUserName();
             sshDir = new File("C:\\cygwin\\home\\" + userName + "\\" + SSH_DIR_NAME);
             if (sshDir.exists()) {
                 return sshDir;

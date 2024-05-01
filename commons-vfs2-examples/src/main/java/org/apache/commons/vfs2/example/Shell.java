@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.SystemProperties;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
@@ -118,7 +119,7 @@ public final class Shell {
         if (cmd.length > 1) {
             path = cmd[1];
         } else {
-            path = System.getProperty("user.home");
+            path = SystemProperties.getUserHome();
         }
 
         // Locate and validate the folder
