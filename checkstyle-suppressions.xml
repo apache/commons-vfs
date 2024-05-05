@@ -1,9 +1,4 @@
 <?xml version="1.0"?>
-
-<!DOCTYPE suppressions PUBLIC
-    "-//Checkstyle//DTD SuppressionFilter Configuration 1.0//EN"
-    "https://checkstyle.org/dtds/suppressions_1_0.dtd">
-
 <!--
    Licensed to the Apache Software Foundation (ASF) under one or more
    contributor license agreements.  See the NOTICE file distributed with
@@ -20,40 +15,34 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-
-<!-- Exceptions for Checkstyle -->
-
+<!DOCTYPE suppressions PUBLIC
+    "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+    "https://checkstyle.org/dtds/suppressions_1_2.dtd">
 <suppressions>
-    <!-- Disable some checks in tests -->
-    <suppress checks="JavadocPackage" files="src[/\\]test[/\\]java[/\\]" />
-    <suppress checks="JavadocMethod" files="src[/\\]test[/\\]java[/\\]" />
-    <suppress checks="JavadocVariable" files="src[/\\]test[/\\]java[/\\]" />
-    <suppress checks="MissingJavadocMethod" files="src[/\\]test[/\\]java[/\\]" />
-    
-    <!-- Disable the warnings for the generated classes -->
-    <suppress checks=".*" files="ParseException.java"/>
-    <suppress checks=".*" files="PropertyListParser.java"/>
-    <suppress checks=".*" files="PropertyListParserConstants.java"/>
-    <suppress checks=".*" files="PropertyListParserTokenManager.java"/>
-    <suppress checks=".*" files="SimpleCharStream.java"/>
-    <suppress checks=".*" files="Token.java"/>
-    <suppress checks=".*" files="TokenMgrError.java"/>
-    
-    <suppress checks="LineLength" files=".*\.properties"/>
-
-    <!-- Can't make class final without breaking binary compatibility. -->
-    <suppress checks="FinalClass" files="URIUtils.java"/>
-    <suppress checks="FinalClass" files="ZipFileSystemConfigBuilder.java"/>
-    
-    <!-- Can't change method name without breaking binary compatibility. -->
-    <suppress checks="MethodName" files="DefaultFileSystemManager.java" lines="185"/>
-    
-    <!-- Use of literals here is reasonable. -->
-    <suppress checks="MagicNumber" files="URIUtils.java" lines="143, 152, 162"/>
-    <suppress checks="MagicNumber" files="RamFileRandomAccessContent.java"/>
-    <suppress checks="MagicNumber" files="FtpCheck.java" lines="48, 28"/>
-    <suppress checks="MagicNumber" files="SftpCheck.java" lines="42, 28"/>
-    
-    <!-- FileSystemOptions is a subclass of Object and uses the copy constructor pattern. -->
-    <suppress checks="SuperClone" files="FileSystemOptions.java"/>
+  <!-- Disable some checks in tests -->
+  <suppress checks="JavadocPackage" files="src[/\\]test[/\\]java[/\\]" />
+  <suppress checks="JavadocMethod" files="src[/\\]test[/\\]java[/\\]" />
+  <suppress checks="JavadocVariable" files="src[/\\]test[/\\]java[/\\]" />
+  <suppress checks="MissingJavadocMethod" files="src[/\\]test[/\\]java[/\\]" />
+  <!-- Disable the warnings for the generated classes -->
+  <suppress checks=".*" files="ParseException.java"/>
+  <suppress checks=".*" files="PropertyListParser.java"/>
+  <suppress checks=".*" files="PropertyListParserConstants.java"/>
+  <suppress checks=".*" files="PropertyListParserTokenManager.java"/>
+  <suppress checks=".*" files="SimpleCharStream.java"/>
+  <suppress checks=".*" files="Token.java"/>
+  <suppress checks=".*" files="TokenMgrError.java"/>
+  <suppress checks="LineLength" files=".*\.properties"/>
+  <!-- Can't make class final without breaking binary compatibility. -->
+  <suppress checks="FinalClass" files="URIUtils.java"/>
+  <suppress checks="FinalClass" files="ZipFileSystemConfigBuilder.java"/>
+  <!-- Can't change method name without breaking binary compatibility. -->
+  <suppress checks="MethodName" files="DefaultFileSystemManager.java" lines="185"/>
+  <!-- Use of literals here is reasonable. -->
+  <suppress checks="MagicNumber" files="URIUtils.java" lines="143, 152, 162"/>
+  <suppress checks="MagicNumber" files="RamFileRandomAccessContent.java"/>
+  <suppress checks="MagicNumber" files="FtpCheck.java" lines="48, 28"/>
+  <suppress checks="MagicNumber" files="SftpCheck.java" lines="42, 28"/>
+  <!-- FileSystemOptions is a subclass of Object and uses the copy constructor pattern. -->
+  <suppress checks="SuperClone" files="FileSystemOptions.java"/>
 </suppressions>
