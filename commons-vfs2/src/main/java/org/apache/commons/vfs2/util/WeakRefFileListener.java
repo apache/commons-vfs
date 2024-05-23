@@ -40,6 +40,7 @@ public class WeakRefFileListener implements FileListener {
     public static void installListener(final FileObject file, final FileListener listener) {
         file.getFileSystem().addListener(file, new WeakRefFileListener(file, new WeakRefFileListener(file, listener)));
     }
+
     private final FileSystem fs;
     private final FileName name;
 
