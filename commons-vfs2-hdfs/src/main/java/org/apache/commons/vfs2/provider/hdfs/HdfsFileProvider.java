@@ -16,10 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.hdfs;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-
+import java.util.List;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystem;
@@ -36,22 +34,27 @@ import org.apache.commons.vfs2.provider.http.HttpFileNameParser;
  */
 public class HdfsFileProvider extends AbstractOriginatingFileProvider {
 
-    static final Collection<Capability> CAPABILITIES = Collections
-            .unmodifiableCollection(Arrays.asList(Capability.GET_TYPE, Capability.READ_CONTENT,
-                    Capability.CREATE,
-                    Capability.DELETE,
-                    Capability.RENAME,
-                    Capability.WRITE_CONTENT,
-                    Capability.URI, Capability.GET_LAST_MODIFIED,
-                    Capability.SET_LAST_MODIFIED_FILE,
-                    Capability.ATTRIBUTES, Capability.RANDOM_ACCESS_READ, Capability.DIRECTORY_READ_CONTENT,
-                    Capability.LIST_CHILDREN));
+    private static final Collection<Capability> CAPABILITIES = List.of(
+        Capability.GET_TYPE,
+        Capability.READ_CONTENT,
+        Capability.CREATE,
+        Capability.DELETE,
+        Capability.RENAME,
+        Capability.WRITE_CONTENT,
+        Capability.URI,
+        Capability.GET_LAST_MODIFIED,
+        Capability.SET_LAST_MODIFIED_FILE,
+        Capability.ATTRIBUTES,
+        Capability.RANDOM_ACCESS_READ,
+        Capability.DIRECTORY_READ_CONTENT,
+        Capability.LIST_CHILDREN
+    );
 
     /**
      * Constructs a new HdfsFileProvider.
      */
     public HdfsFileProvider() {
-        this.setFileNameParser(HttpFileNameParser.getInstance());
+        setFileNameParser(HttpFileNameParser.getInstance());
     }
 
     /**
@@ -59,16 +62,17 @@ public class HdfsFileProvider extends AbstractOriginatingFileProvider {
      *
      * @param rootName Name of the root file.
      * @param fileSystemOptions Configuration options for this instance.
-     * @throws FileSystemException if error occurred.
+     * @return a new HdfsFileSystem instance
+     * @throws FileSystemException if an error occurs.
      */
     @Override
-    protected FileSystem doCreateFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
+    protected FileSystem doCreateFileSystem(FileName rootName, FileSystemOptions fileSystemOptions)
             throws FileSystemException {
         return new HdfsFileSystem(rootName, fileSystemOptions);
     }
 
     /**
-     * Gets Capabilities of HdfsFileSystem.
+     * Gets the capabilities of HdfsFileSystem.
      *
      * @return The capabilities (unmodifiable).
      */
@@ -78,14 +82,12 @@ public class HdfsFileProvider extends AbstractOriginatingFileProvider {
     }
 
     /**
-     * Gets the config builder.
+     * Gets the configuration builder for HdfsFileSystems.
      *
-     * @return The config builder for HdfsFileSystems.
-     * @see org.apache.commons.vfs2.provider.AbstractFileProvider#getConfigBuilder()
+     * @return The configuration builder.
      */
     @Override
     public FileSystemConfigBuilder getConfigBuilder() {
         return HdfsFileSystemConfigBuilder.getInstance();
     }
-
 }
