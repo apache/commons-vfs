@@ -47,6 +47,9 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
     <release version="2.10.0" date="YYYY-MM-DD" description="Maintenance release. Requires Java 8 or above.">
       <!-- FIX -->
+      <action type="fix" issue="VFS-853" dev="ecki" due-to="Bernd Eckenfels">
+        Double wrapped weak FileListener can lose change notification with DelegateFileObject.
+      </action>
       <action type="fix" dev="ggregory" due-to="Seth Falco">
         Replace package.html with package-info.java #206. 
       </action>
