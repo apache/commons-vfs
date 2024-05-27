@@ -22,9 +22,13 @@ import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
 import java.io.File;
 
 import org.apache.commons.vfs2.AbstractProviderTestCase;
+import org.apache.commons.vfs2.FileChangeEvent;
+import org.apache.commons.vfs2.FileListener;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.provider.DelegateFileObject;
+import org.apache.commons.vfs2.util.WeakRefFileListener;
 import org.junit.Test;
 
 /**
@@ -92,6 +96,52 @@ public class JunctionTests extends AbstractProviderTestCase {
         }
     }
 
+    /**
+     * Checks that change events from delegatedd files are fired.
+     */
+    public void testEvent() throws Exception {
+        // we use the VirtualFileSystem to check change event propagation of DecoratedFileObject
+        final FileSystem fs = getManager().createVirtualFileSystem("vfs://").getFileSystem();
+        final FileObject baseDir = getBaseDir().resolveFile("junctiontest");
+
+        // Add the junction
+        fs.addJunction("/a", baseDir);
+
+        // Make sure the file at the junction point and its ancestors exist
+        FileObject file = fs.resolveFile("/a/hardref.txt");
+        assertSame("VirtualFileSystem does not use DelegateFO anymore?", file.getClass(), DelegateFileObject.class);
+
+        // Do with a hard reference listener
+        FileListener listener1 = new DebugFileListener();
+        file.getFileSystem().addListener(file, listener1);
+        FileObject real1 = baseDir.resolveFile("hardref.txt");
+        real1.createFile();
+        assertEquals("Strong Listener was not notified (create)", "Listener false true false", listener1.toString());
+        real1.delete();
+        assertEquals("Strong Listener was not notified (delete)", "Listener false true true", listener1.toString());
+
+        FileObject file2 = fs.resolveFile("/a/weakref.txt");
+        assertSame("VirtualFileSystem does not use DelegateFO anymore?", file2.getClass(), DelegateFileObject.class);
+        // repeat with Weak reference listener
+        FileListener listener2 = new DebugFileListener();
+        // since we hold the listener2 reference it should not get GC
+        WeakRefFileListener.installListener(file2, listener2);
+
+        // force the WekRefFileListener reference to (not) clear
+        System.gc();
+        Thread.sleep(1000);
+        System.gc();
+        Thread.sleep(1000);
+        System.gc();
+        Thread.sleep(1000);
+        System.gc();
+        Thread.sleep(1000);
+
+        FileObject real2 = baseDir.resolveFile("weakref.txt");
+        real2.createFile();
+        assertEquals("Weak Listener was abandoned", "Listener false true false", listener2.toString());
+    }
+
     // Check that file @ junction point exists only when backing file exists
     // Add 2 junctions with common parent
     // Compare real and virtual files
@@ -99,3 +149,30 @@ public class JunctionTests extends AbstractProviderTestCase {
     // Remove junctions
 
 }
+
+class DebugFileListener implements FileListener {
+    private boolean changed;
+    private boolean created;
+    private boolean deleted;
+
+    @Override
+    public void fileChanged(FileChangeEvent event) throws Exception {
+        changed = true;
+    }
+
+    @Override
+    public void fileCreated(FileChangeEvent event) throws Exception {
+        created = true;
+    }
+
+    @Override
+    public void fileDeleted(FileChangeEvent event) throws Exception {
+        deleted = true;
+    }
+    
+    @Override
+    public String toString() {
+        return "Listener " + changed + " " + created + " " + deleted;
+    }
+} // class DebugListener
+

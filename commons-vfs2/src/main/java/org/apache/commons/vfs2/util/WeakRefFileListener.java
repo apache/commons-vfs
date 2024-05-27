@@ -32,13 +32,24 @@ import org.apache.commons.vfs2.FileSystem;
 public class WeakRefFileListener implements FileListener {
 
     /**
-     * Installs the {@code listener} at the given {@code file}.
+     * Install the {@code listener} at the given {@code file}.
+     * <p>
+     * This installs a wrapper with a weak reference, so the listener can
+     * be collected. The reference to the listener is removed when the
+     * first event can't be delivered.
+     * <p>
+     * Warning: you cannot remove the listener with
+     * {@code fs.removeListener(file, listener)} as you do'nt have the wrapper
+     * instance at hand.
+     * <p>
+     * Method is used by {@link org.apache.commons.vfs2.provider.DelegateFileObject},
+     * as used for {@link org.apache.commons.vfs2.impl.VirtualFileSystem}.
      *
      * @param file The FileObject to listen on.
      * @param listener The FileListener
      */
     public static void installListener(final FileObject file, final FileListener listener) {
-        file.getFileSystem().addListener(file, new WeakRefFileListener(file, new WeakRefFileListener(file, listener)));
+        file.getFileSystem().addListener(file, new WeakRefFileListener(file, listener));
     }
 
     private final FileSystem fs;
