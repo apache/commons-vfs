@@ -18,6 +18,7 @@ package org.apache.commons.vfs2.provider;
 
 import java.util.Arrays;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
@@ -652,14 +653,14 @@ public final class UriParser {
 
         // '/' or '.' or '..' or anyPath/..' or 'anyPath/.'  should always be a path
         if (path.charAt(path.length() - 1) != '/'
-                && path.lastIndexOf("/..") != path.length() - 3
-                && path.lastIndexOf("/.") != path.length() - 2
-                && path.lastIndexOf("%2f") != path.length() - 3
-                && path.lastIndexOf("%2F") != path.length() - 3
-                && path.lastIndexOf("%2f..") != path.length() - 5
-                && path.lastIndexOf("%2F..") != path.length() - 5
-                && path.lastIndexOf("%2f.") != path.length() - 4
-                && path.lastIndexOf("%2F.") != path.length() - 4
+                && !StringUtils.endsWith(path, "/..")
+                && !StringUtils.endsWith(path, "/.")
+                && !StringUtils.endsWith(path, "%2f")
+                && !StringUtils.endsWith(path, "%2F")
+                && !StringUtils.endsWith(path, "%2f..")
+                && !StringUtils.endsWith(path, "%2F..")
+                && !StringUtils.endsWith(path, "%2f.")
+                && !StringUtils.endsWith(path, "%2F.")
                 && path.lastIndexOf("..") != 0
                 && path.lastIndexOf(".") != 0
         ) {
