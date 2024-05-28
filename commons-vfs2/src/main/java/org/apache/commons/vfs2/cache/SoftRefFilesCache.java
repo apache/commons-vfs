@@ -105,7 +105,7 @@ public class SoftRefFilesCache extends AbstractFilesCache {
      */
     private synchronized void close(final FileSystem fileSystem) {
         if (log.isDebugEnabled()) {
-            log.debug("Close FileSystem: " + fileSystem.getRootName());
+            log.debug("Close FileSystem: " + fileSystem.getRootName().getFriendlyURI());
         }
 
         fileSystemCache.remove(fileSystem);

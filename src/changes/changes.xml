@@ -47,6 +47,9 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
     <release version="2.10.0" date="YYYY-MM-DD" description="Maintenance release. Requires Java 8 or above.">
       <!-- FIX -->
+      <action type="fix" issue="VFS-854" dev="ecki" due-to="Andrey Turbanov">
+        Avoid debug-logging URL credentials.
+      </action>
       <action type="fix" issue="VFS-853" dev="ecki" due-to="Bernd Eckenfels">
         Double wrapped weak FileListener can lose change notification with DelegateFileObject.
       </action>
@@ -370,7 +373,7 @@ The <action> type attribute can be add,update,fix,remove.
     </release>
     <release version="2.9.0" date="2021-06-16" description="Maintenance release. Requires Java 8 or above.">
       <!-- ADDS -->
-      <action type="fix" dev="ggregory" due-to="Gary Gregory">
+      <action type="add" dev="ggregory" due-to="Gary Gregory">
         Add and use FileOperationProvider.EMPTY_ARRAY.
       </action>      
       <!-- FIXES -->

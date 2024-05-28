@@ -238,7 +238,7 @@ public class SftpFileSystem extends AbstractFileSystem {
             }
             return channel;
         } catch (final JSchException e) {
-            throw new FileSystemException("vfs.provider.sftp/connect.error", getRootName(), e);
+            throw new FileSystemException("vfs.provider.sftp/connect.error", getRootName().getFriendlyURI(), e);
         }
     }
 
