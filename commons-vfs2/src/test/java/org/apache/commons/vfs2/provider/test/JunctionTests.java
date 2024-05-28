@@ -31,6 +31,32 @@ import org.apache.commons.vfs2.provider.DelegateFileObject;
 import org.apache.commons.vfs2.util.WeakRefFileListener;
 import org.junit.Test;
 
+class DebugFileListener implements FileListener {
+    private boolean changed;
+    private boolean created;
+    private boolean deleted;
+
+    @Override
+    public void fileChanged(FileChangeEvent event) throws Exception {
+        changed = true;
+    }
+
+    @Override
+    public void fileCreated(FileChangeEvent event) throws Exception {
+        created = true;
+    }
+
+    @Override
+    public void fileDeleted(FileChangeEvent event) throws Exception {
+        deleted = true;
+    }
+    
+    @Override
+    public String toString() {
+        return "Listener " + changed + " " + created + " " + deleted;
+    }
+} // class DebugListener
+
 /**
  * Additional junction test cases.
  */
@@ -68,32 +94,6 @@ public class JunctionTests extends AbstractProviderTestCase {
         assertTrue("Does not exist", file.exists());
         file = file.getParent();
         assertTrue("Does not exist", file.exists());
-    }
-
-    /**
-     * Checks nested junctions are not supported.
-     */
-    @Test
-    public void testNestedJunction() throws Exception {
-        final FileSystem fs = getManager().createVirtualFileSystem("vfs:").getFileSystem();
-        final FileObject baseDir = getBaseDir();
-        fs.addJunction("/a", baseDir);
-
-        // Nested
-        try {
-            fs.addJunction("/a/b", baseDir);
-            fail();
-        } catch (final Exception e) {
-            assertSameMessage("vfs.impl/nested-junction.error", "vfs:/a/b", e);
-        }
-
-        // At same point
-        try {
-            fs.addJunction("/a", baseDir);
-            fail();
-        } catch (final Exception e) {
-            assertSameMessage("vfs.impl/nested-junction.error", "vfs:/a", e);
-        }
     }
 
     /**
@@ -142,6 +142,32 @@ public class JunctionTests extends AbstractProviderTestCase {
         assertEquals("Weak Listener was abandoned", "Listener false true false", listener2.toString());
     }
 
+    /**
+     * Checks nested junctions are not supported.
+     */
+    @Test
+    public void testNestedJunction() throws Exception {
+        final FileSystem fs = getManager().createVirtualFileSystem("vfs:").getFileSystem();
+        final FileObject baseDir = getBaseDir();
+        fs.addJunction("/a", baseDir);
+
+        // Nested
+        try {
+            fs.addJunction("/a/b", baseDir);
+            fail();
+        } catch (final Exception e) {
+            assertSameMessage("vfs.impl/nested-junction.error", "vfs:/a/b", e);
+        }
+
+        // At same point
+        try {
+            fs.addJunction("/a", baseDir);
+            fail();
+        } catch (final Exception e) {
+            assertSameMessage("vfs.impl/nested-junction.error", "vfs:/a", e);
+        }
+    }
+
     // Check that file @ junction point exists only when backing file exists
     // Add 2 junctions with common parent
     // Compare real and virtual files
@@ -149,30 +175,4 @@ public class JunctionTests extends AbstractProviderTestCase {
     // Remove junctions
 
 }
-
-class DebugFileListener implements FileListener {
-    private boolean changed;
-    private boolean created;
-    private boolean deleted;
-
-    @Override
-    public void fileChanged(FileChangeEvent event) throws Exception {
-        changed = true;
-    }
-
-    @Override
-    public void fileCreated(FileChangeEvent event) throws Exception {
-        created = true;
-    }
-
-    @Override
-    public void fileDeleted(FileChangeEvent event) throws Exception {
-        deleted = true;
-    }
-    
-    @Override
-    public String toString() {
-        return "Listener " + changed + " " + created + " " + deleted;
-    }
-} // class DebugListener
 
