@@ -665,11 +665,10 @@ public final class UriParser {
             if (maxlen > 1 && path.charAt(maxlen - 1) == SEPARATOR_CHAR) {
                 path.delete(maxlen - 1, maxlen);
             }
-            if (maxlen > 3) {
-                if (path.charAt(maxlen - 3) == '%' && path.charAt(maxlen - 2) == '2' &&
+            if (maxlen > 3 &&
+                    path.charAt(maxlen - 3) == '%' && path.charAt(maxlen - 2) == '2' &&
                     (path.charAt(maxlen - 1) == 'F' || path.charAt(maxlen - 1) == 'f')) {
-                    path.delete(maxlen - 3, maxlen);
-                }
+                path.delete(maxlen - 3, maxlen);
             }
         }
 
