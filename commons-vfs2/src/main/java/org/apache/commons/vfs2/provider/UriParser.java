@@ -89,7 +89,7 @@ public final class UriParser {
                 cursor++;
                 return true;
             }
-            final String sub = path.substring(cursor + 1, cursor + 3);
+            final String sub = path.substring(cursor, cursor + 3);
             if (sub.equals(URLENCODED_SLASH_UC) || sub.equals(URLENCODED_SLASH_LC)) {
                 return false;
             }
@@ -117,7 +117,10 @@ public final class UriParser {
             }
             final String sub = path.substring(cursor, cursor + 3);
             if (sub.equals(URLENCODED_SLASH_LC) || sub.equals(URLENCODED_SLASH_UC)) {
-                cursor += 3;
+                path.setCharAt(cursor, SEPARATOR_CHAR);
+                path.delete(cursor + 1, cursor + 3);
+                end -= 2;
+                cursor++;
                 return true;
             }
             return false;
@@ -651,6 +654,12 @@ public final class UriParser {
         if (path.charAt(path.length() - 1) != '/'
                 && path.lastIndexOf("/..") != path.length() - 3
                 && path.lastIndexOf("/.") != path.length() - 2
+                && path.lastIndexOf("%2f") != path.length() - 3
+                && path.lastIndexOf("%2F") != path.length() - 3
+                && path.lastIndexOf("%2f..") != path.length() - 5
+                && path.lastIndexOf("%2F..") != path.length() - 5
+                && path.lastIndexOf("%2f.") != path.length() - 4
+                && path.lastIndexOf("%2F.") != path.length() - 4
                 && path.lastIndexOf("..") != 0
                 && path.lastIndexOf(".") != 0
         ) {
