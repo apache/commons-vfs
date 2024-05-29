@@ -75,7 +75,7 @@ public enum IOCase {
      * @throws IllegalArgumentException if the name is invalid
      */
     public static IOCase forName(final String name) {
-        for (final IOCase ioCase : IOCase.values()) {
+        for (final IOCase ioCase : values()) {
             if (ioCase.getName().equals(name)) {
                 return ioCase;
             }
