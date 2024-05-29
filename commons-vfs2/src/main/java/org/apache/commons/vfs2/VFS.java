@@ -124,7 +124,7 @@ public final class VFS {
      * @since 2.2
      */
     public static synchronized void setManager(final FileSystemManager manager) {
-        VFS.instance = manager;
+        instance = manager;
     }
 
     /**
