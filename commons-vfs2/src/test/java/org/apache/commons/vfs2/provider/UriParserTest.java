@@ -102,7 +102,7 @@ public class UriParserTest {
     }
 
     @Test
-    public void testPathOfNormalizedPath() {
+    public void testPathOfNormalizedPath() throws FileSystemException {
         checkNormalizedPath("./Sub Folder/", "/Sub Folder");
         checkNormalizedPath("./Sub Folder/../", "/");
         checkNormalizedPath("./Sub Folder%2f..%2f", "/");
@@ -111,13 +111,9 @@ public class UriParserTest {
         checkNormalizedPath("./Sub Folder%2F.%2FFile.txt", "/Sub Folder/File.txt");
     }
 
-    private void checkNormalizedPath(String path, String normalized) {
-        StringBuilder pathBuilder = new StringBuilder(path);
-        try {
-            UriParser.normalisePath(pathBuilder);
-            assertEquals(normalized, pathBuilder.toString());
-        } catch (final FileSystemException e) {
-            fail(e);
-        }
+    private void checkNormalizedPath(String path, String normalized) throws FileSystemException {
+        final StringBuilder pathBuilder = new StringBuilder(path);
+        UriParser.normalisePath(pathBuilder);
+        assertEquals(normalized, pathBuilder.toString());
     }
 }
