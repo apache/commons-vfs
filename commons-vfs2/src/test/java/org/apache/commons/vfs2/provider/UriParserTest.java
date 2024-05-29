@@ -56,6 +56,7 @@ public class UriParserTest {
     @Test
     public void testBracketUriDecoding() throws FileSystemException {
         assertEquals("http://[fe80::14b5:1204:5410:64ca%en1]:8080", UriParser.decode("http://[fe80::14b5:1204:5410:64ca%en1]:8080"));
+        assertEquals("http://username@[fe80::14b5:1204:5410:64ca%en1]:8080", UriParser.decode("http://username@[fe80::14b5:1204:5410:64ca%en1]:8080"));
         assertEquals("file:/user/file [with brackets].txt", UriParser.decode("file:/user/file%20[with%20brackets].txt"));
     }
 
