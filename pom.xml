@@ -57,104 +57,6 @@
     <url>https://gitbox.apache.org/repos/asf?p=commons-vfs.git</url>
     <tag>commons-vfs-project-2.9.0</tag>
   </scm>
-
-  <developers>
-    <developer>
-      <name>Adam Murdoch</name>
-      <id>adammurdoch</id>
-      <email>adammurdoch -at- apache.org</email>
-      <organization />
-    </developer>
-    <developer>
-      <name>James Strachan</name>
-      <id>jstrachan</id>
-      <email>jstrachan -at- apache.org</email>
-      <organization>SpiritSoft, Inc.</organization>
-    </developer>
-    <developer>
-      <name>Mario Ivankovits</name>
-      <id>imario</id>
-      <email>imario -at- apache.org</email>
-      <organization>OPS EDV Gmbh</organization>
-    </developer>
-    <developer>
-      <name>Rahul Akolkar</name>
-      <id>rahul</id>
-      <email>rahul -at- apache.org</email>
-      <organization>The Apache Software Foundation</organization>
-    </developer>
-    <developer>
-      <name>James Carman</name>
-      <id>jcarman</id>
-      <email>jcarman -at- apache.org</email>
-      <organization>The Apache Software Foundation</organization>
-    </developer>
-    <developer>
-      <name>Ralph Goers</name>
-      <id>rgoers</id>
-      <email>rgoers -at- apache.org</email>
-      <organization>Intuit</organization>
-    </developer>
-    <developer>
-      <name>Joerg Schaible</name>
-      <id>joehni</id>
-      <email>joehni -at- apache.org</email>
-    </developer>
-    <developer>
-      <id>ggregory</id>
-      <name>Gary Gregory</name>
-      <email>ggregory at apache.org</email>
-      <url>https://www.garygregory.com</url>
-      <organization>The Apache Software Foundation</organization>
-      <organizationUrl>https://www.apache.org/</organizationUrl>      
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-      <timezone>America/New_York</timezone>
-      <properties>
-        <picUrl>https://people.apache.org/~ggregory/img/garydgregory80.png</picUrl>
-      </properties>
-    </developer>
-    <developer>
-      <name>Bernd Eckenfels</name>
-      <id>ecki</id>
-      <email>ecki -at- apache.org</email>
-      <url>https://bernd.eckenfels.net</url>
-      <timezone>+1</timezone>
-    </developer>
-  </developers>
-
-  <contributors>
-    <contributor>
-      <name>Rami Ojares</name>
-      <email>rami.ojares -at- elisa.fi</email>
-    </contributor>
-    <contributor>
-      <name>Anthony Goubard</name>
-      <email>anthony.goubard -at- japplis.com</email>
-    </contributor>
-    <contributor>
-      <name>Christopher Ottley</name>
-      <email>xknight -at- users.sourceforge.net</email>
-    </contributor>
-    <contributor>
-      <name>Dave Marion</name>
-      <email>dlmarion -at- apache.org</email>
-    </contributor>
-    <contributor>
-      <name>Scott Bjerstedt</name>
-      <email>jcottbjer -at- gmail.com</email>
-    </contributor>
-    <contributor>
-      <name>Jose Juan Montiel</name>
-      <email>josejuan.montiel -at- gmail.com</email>
-    </contributor>
-    <contributor>
-      <name>Otto Fowler</name>
-      <email>otto -at- apache.org</email>
-    </contributor>
-  </contributors>
-
   <properties>
     <commons.encoding>UTF-8</commons.encoding>
 
@@ -723,5 +625,99 @@
       </build>
     </profile>
   </profiles>
-
+  <developers>
+    <developer>
+      <name>Adam Murdoch</name>
+      <id>adammurdoch</id>
+      <email>adammurdoch -at- apache.org</email>
+      <organization />
+    </developer>
+    <developer>
+      <name>James Strachan</name>
+      <id>jstrachan</id>
+      <email>jstrachan -at- apache.org</email>
+      <organization>SpiritSoft, Inc.</organization>
+    </developer>
+    <developer>
+      <name>Mario Ivankovits</name>
+      <id>imario</id>
+      <email>imario -at- apache.org</email>
+      <organization>OPS EDV Gmbh</organization>
+    </developer>
+    <developer>
+      <name>Rahul Akolkar</name>
+      <id>rahul</id>
+      <email>rahul -at- apache.org</email>
+      <organization>The Apache Software Foundation</organization>
+    </developer>
+    <developer>
+      <name>James Carman</name>
+      <id>jcarman</id>
+      <email>jcarman -at- apache.org</email>
+      <organization>The Apache Software Foundation</organization>
+    </developer>
+    <developer>
+      <name>Ralph Goers</name>
+      <id>rgoers</id>
+      <email>rgoers -at- apache.org</email>
+      <organization>Intuit</organization>
+    </developer>
+    <developer>
+      <name>Joerg Schaible</name>
+      <id>joehni</id>
+      <email>joehni -at- apache.org</email>
+    </developer>
+    <developer>
+      <id>ggregory</id>
+      <name>Gary Gregory</name>
+      <email>ggregory at apache.org</email>
+      <url>https://www.garygregory.com</url>
+      <organization>The Apache Software Foundation</organization>
+      <organizationUrl>https://www.apache.org/</organizationUrl>      
+      <roles>
+        <role>PMC Member</role>
+      </roles>
+      <timezone>America/New_York</timezone>
+      <properties>
+        <picUrl>https://people.apache.org/~ggregory/img/garydgregory80.png</picUrl>
+      </properties>
+    </developer>
+    <developer>
+      <name>Bernd Eckenfels</name>
+      <id>ecki</id>
+      <email>ecki -at- apache.org</email>
+      <url>https://bernd.eckenfels.net</url>
+      <timezone>+1</timezone>
+    </developer>
+  </developers>
+  <contributors>
+    <contributor>
+      <name>Rami Ojares</name>
+      <email>rami.ojares -at- elisa.fi</email>
+    </contributor>
+    <contributor>
+      <name>Anthony Goubard</name>
+      <email>anthony.goubard -at- japplis.com</email>
+    </contributor>
+    <contributor>
+      <name>Christopher Ottley</name>
+      <email>xknight -at- users.sourceforge.net</email>
+    </contributor>
+    <contributor>
+      <name>Dave Marion</name>
+      <email>dlmarion -at- apache.org</email>
+    </contributor>
+    <contributor>
+      <name>Scott Bjerstedt</name>
+      <email>jcottbjer -at- gmail.com</email>
+    </contributor>
+    <contributor>
+      <name>Jose Juan Montiel</name>
+      <email>josejuan.montiel -at- gmail.com</email>
+    </contributor>
+    <contributor>
+      <name>Otto Fowler</name>
+      <email>otto -at- apache.org</email>
+    </contributor>
+  </contributors>
 </project>
