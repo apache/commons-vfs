@@ -347,7 +347,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
             children.add(fo);
         }
 
-        return children.toArray(FileObject.EMPTY_ARRAY);
+        return children.toArray(EMPTY_ARRAY);
     }
 
     /**
