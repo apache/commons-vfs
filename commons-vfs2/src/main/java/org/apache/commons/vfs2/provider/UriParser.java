@@ -328,7 +328,7 @@ public final class UriParser {
         boolean ipv6Host = false;
         for (; count > 0; count--, index++) {
             final char ch = buffer.charAt(index);
-            if (ch == '[') {
+            if (ch == '[' && buffer.lastIndexOf("://", index) == index - 3) {
                 ipv6Host = true;
             }
             if (ch == ']') {
