@@ -329,7 +329,7 @@ public final class UriParser {
         for (; count > 0; count--, index++) {
             final char ch = buffer.charAt(index);
             if (ch == '[' &&
-                    (buffer.lastIndexOf("://", index) == index - 3 || buffer.lastIndexOf("@", index) == index - 1)) {
+                    (buffer.substring(0, index).matches("\\w+://([^/]+@)?"))) {
                 ipv6Host = true;
             }
             if (ch == ']') {
