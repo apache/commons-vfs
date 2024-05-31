@@ -21,14 +21,21 @@ import org.openjdk.jmh.annotations.*;
 
 @BenchmarkMode(Mode.Throughput)
 @Warmup(iterations = 2)
-@Measurement(iterations = 5)
+@Measurement(iterations = 2)
+@Fork(2)
 public class UriParserBenchmark {
 
     private static final String PATH_TO_NORMALIZE = "file:///this/../is/a%2flong%2Fpath/./for testing/normlisePath%2fmethod.txt";
+    private static final String[] SCHEMES = {"file", "ftp", "ftps", "webdav", "temp", "ram", "http", "https", "sftp", "zip", "jar", "tgz", "gz"};
 
     @Benchmark
     public void normalisePath() throws FileSystemException {
         StringBuilder path = new StringBuilder(PATH_TO_NORMALIZE);
         UriParser.normalisePath(path);
+    }
+
+    @Benchmark
+    public void extractScheme() throws FileSystemException {
+        UriParser.extractScheme(SCHEMES, PATH_TO_NORMALIZE);
     }
 }

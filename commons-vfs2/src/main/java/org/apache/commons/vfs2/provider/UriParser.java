@@ -599,7 +599,7 @@ public final class UriParser {
             buffer.append(uri);
         }
         for (final String scheme : schemes) {
-            if (uri.startsWith(scheme + ":")) {
+            if (uri.startsWith(scheme) && uri.length() > scheme.length() && uri.charAt(scheme.length()) == ':') {
                 if (buffer != null) {
                     buffer.delete(0, uri.indexOf(':') + 1);
                 }
