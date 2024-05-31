@@ -211,9 +211,6 @@ public final class UriParser {
     private static final int BITS_IN_HALF_BYTE = 4;
 
     private static final char LOW_MASK = 0x0F;
-    private static final String URLENCODED_SLASH_LC = "%2f";
-
-    private static final String URLENCODED_SLASH_UC = "%2F";
 
     /**
      * Encodes and appends a string to a StringBuilder.
