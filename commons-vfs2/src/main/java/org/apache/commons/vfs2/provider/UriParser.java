@@ -385,9 +385,9 @@ public final class UriParser {
         }
         final StringBuilder buffer = new StringBuilder(decodedStr);
         encode(buffer, 0, buffer.length(), reserved);
-        /*if (buffer.length() == decodedStr.length()) { // No encoding happened
+        if (buffer.length() == decodedStr.length()) { // No encoding happened
             return decodedStr;
-        }*/
+        }
         return buffer.toString();
     }
 
