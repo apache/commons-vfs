@@ -341,7 +341,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump commons-compress from 1.21 to 1.26.2 #329, #385, $498, #535.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
-        Bump commons-net:commons-net from 3.8.0 to 3.10.0.
+        Bump commons-net:commons-net from 3.8.0 to 3.11.0 #546.
       </action>
       <action dev="ggregory" due-to="Dependabot" type="update">
         Bump httpclient from 4.5.13 to 4.5.14 #344.
