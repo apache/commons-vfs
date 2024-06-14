@@ -102,7 +102,7 @@
     <httpclient5.version>5.4-alpha2</httpclient5.version>
     <jackrabbit1.version>1.6.5</jackrabbit1.version>
     <!-- Don't use jackrabbit2 2.21.x, it's labeled "unstable" -->
-    <jackrabbit2.version>2.20.15</jackrabbit2.version>
+    <jackrabbit2.version>2.22.0</jackrabbit2.version>
     <commons.asm.version>9.4</commons.asm.version>
     <slf4j.version>2.0.13</slf4j.version>
     <log4j2.version>2.23.1</log4j2.version>
