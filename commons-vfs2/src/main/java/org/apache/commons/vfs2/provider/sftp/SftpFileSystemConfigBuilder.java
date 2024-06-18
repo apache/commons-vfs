@@ -545,7 +545,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Sets the identity files (your private key files).
      * <p>
-     * We use {@link java.io.File} because JSch cannot deal with VFS FileObjects.
+     * We use {@link File} because JSch cannot deal with VFS FileObjects.
      * </p>
      *
      * @param options          The FileSystem options.
@@ -614,7 +614,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Sets the known_hosts file. e.g. {@code /home/user/.ssh/known_hosts2}.
      * <p>
-     * We use {@link java.io.File} because JSch cannot deal with VFS FileObjects.
+     * We use {@link File} because JSch cannot deal with VFS FileObjects.
      * </p>
      *
      * @param options       The FileSystem options.

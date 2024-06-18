@@ -28,7 +28,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSystemException;
 
 /**
- * A {@link java.io.FileFilter} providing conditional OR logic across a list of
+ * A {@link FileFilter} providing conditional OR logic across a list of
  * file filters. This filter returns {@code true} if any filters in the list
  * return {@code true}. Otherwise, it returns {@code false}. Checking of the
  * file filter list stops when the first filter returns {@code true}.
