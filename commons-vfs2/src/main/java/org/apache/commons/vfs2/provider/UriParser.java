@@ -67,14 +67,6 @@ public final class UriParser {
                 cursor++;
                 return true;
             }
-            if (cursor + 2 >= end) {
-                return false;
-            }
-            final String sub = path.substring(cursor, cursor + 3);
-            if (sub.equals("%2e") || sub.equals("%2E")) {
-                cursor += 3;
-                return true;
-            }
             return false;
         }
 
@@ -83,14 +75,6 @@ public final class UriParser {
                 return false;
             }
             if (path.charAt(cursor) == SEPARATOR_CHAR) {
-                return false;
-            }
-            if (cursor + 2 >= end) {
-                cursor++;
-                return true;
-            }
-            final String sub = path.substring(cursor + 1, cursor + 3);
-            if (sub.equals(URLENCODED_SLASH_UC) || sub.equals(URLENCODED_SLASH_LC)) {
                 return false;
             }
             cursor++;
@@ -110,14 +94,6 @@ public final class UriParser {
             }
             if (path.charAt(cursor) == SEPARATOR_CHAR) {
                 cursor++;
-                return true;
-            }
-            if (cursor + 2 >= end) {
-                return false;
-            }
-            final String sub = path.substring(cursor, cursor + 3);
-            if (sub.equals(URLENCODED_SLASH_LC) || sub.equals(URLENCODED_SLASH_UC)) {
-                cursor += 3;
                 return true;
             }
             return false;
@@ -208,9 +184,6 @@ public final class UriParser {
     private static final int BITS_IN_HALF_BYTE = 4;
 
     private static final char LOW_MASK = 0x0F;
-    private static final String URLENCODED_SLASH_LC = "%2f";
-
-    private static final String URLENCODED_SLASH_UC = "%2F";
 
     /**
      * Encodes and appends a string to a StringBuilder.
@@ -614,12 +587,23 @@ public final class UriParser {
      */
     public static boolean fixSeparators(final StringBuilder name) {
         boolean changed = false;
-        final int maxlen = name.length();
+        int maxlen = name.length();
         for (int i = 0; i < maxlen; i++) {
             final char ch = name.charAt(i);
             if (ch == TRANS_SEPARATOR) {
                 name.setCharAt(i, SEPARATOR_CHAR);
                 changed = true;
+            }
+            if (i < maxlen - 2 && name.charAt(i) == '%' && name.charAt(i + 1) == '2') {
+                if (name.charAt(i + 2) == 'f' || name.charAt(i + 2) == 'F') {
+                    name.setCharAt(i, SEPARATOR_CHAR);
+                    name.delete(i + 1, i + 3);
+                    maxlen -= 2;
+                } else if (name.charAt(i + 2) == 'e' || name.charAt(i + 2) == 'E') {
+                    name.setCharAt(i, '.');
+                    name.delete(i + 1, i + 3);
+                    maxlen -= 2;
+                }
             }
         }
         return changed;
@@ -668,12 +652,6 @@ public final class UriParser {
             final int maxlen = path.length();
             if (maxlen > 1 && path.charAt(maxlen - 1) == SEPARATOR_CHAR) {
                 path.delete(maxlen - 1, maxlen);
-            }
-            if (maxlen > 3) {
-                final String sub = path.substring(maxlen - 3);
-                if (sub.equals(URLENCODED_SLASH_UC) || sub.equals(URLENCODED_SLASH_LC)) {
-                    path.delete(maxlen - 3, maxlen);
-                }
             }
         }
 
