@@ -191,6 +191,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="Arnout Engelen, Gary Gregory">
         Support URLencoding during normalization #396.
       </action>
+      <action type="fix" dev="ggregory" due-to="Arnout Engelen, Gary Gregory">
+        Add some documentation to make the unit tests easier to follow #556.
+      </action>
       <!-- ADD -->
       <action type="add" issue="VFS-848" dev="ggregory" due-to="beise, Gary Gregory">
         Config option for trailing slash in webdav URI #425.
