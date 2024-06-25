@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider.sftp;
 
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
+import static org.apache.sshd.sftp.subsystem.SftpConstants.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.lang.annotation.Native;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.file.Files;
@@ -45,22 +47,20 @@ import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.sshd.SshServer;
-import org.apache.sshd.common.NamedFactory;
-import org.apache.sshd.common.Session;
-import org.apache.sshd.common.SshException;
+import org.apache.sshd.common.*;
+import org.apache.sshd.common.file.FileSystemFactory;
+import org.apache.sshd.common.file.FileSystemView;
+import org.apache.sshd.common.file.SshFile;
+import org.apache.sshd.common.file.nativefs.NativeFileSystemView;
+import org.apache.sshd.common.file.nativefs.NativeSshFile;
 import org.apache.sshd.common.session.AbstractSession;
 import org.apache.sshd.common.util.Buffer;
 import org.apache.sshd.common.util.SecurityUtils;
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
-import org.apache.sshd.server.FileSystemFactory;
-import org.apache.sshd.server.FileSystemView;
-import org.apache.sshd.server.ForwardingFilter;
-import org.apache.sshd.server.SshFile;
 import org.apache.sshd.server.auth.UserAuthNone;
 import org.apache.sshd.server.command.ScpCommandFactory;
-import org.apache.sshd.server.filesystem.NativeSshFile;
 import org.apache.sshd.server.keyprovider.PEMGeneratorHostKeyProvider;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.apache.sshd.server.session.ServerSession;
@@ -122,7 +122,7 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
         }
 
         @Override
-        protected void writeAttrs(final Buffer buffer, final SshFile file, final int flags) throws IOException {
+        protected void writeAttrs(final Buffer buffer, final SshFile file, final boolean followLinks) throws IOException {
             if (!file.doesExist()) {
                 throw new FileNotFoundException(file.getAbsolutePath());
             }
@@ -388,16 +388,22 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
         }
 
         @Override
+        public FileSystemView getNormalizedView() {
+            return this;
+        }
+
+        @Override
         public SshFile getFile(final String file) {
             return this.getFile(homeDirStr, file);
         }
 
         protected SshFile getFile(final String dir, final String file) {
             final String home = removePrefix(NativeSshFile.normalizeSeparateChar(homeDirStr));
+            NativeFileSystemView nativeFileSystemView = new NativeFileSystemView(userName);
             String userFileName = removePrefix(NativeSshFile.normalizeSeparateChar(file));
             final File sshFile = userFileName.startsWith(home) ? new File(userFileName) : new File(home, userFileName);
             userFileName = removePrefix(NativeSshFile.normalizeSeparateChar(sshFile.getAbsolutePath()));
-            return new TestNativeSshFile(userFileName, sshFile, userName);
+            return new TestNativeSshFile(nativeFileSystemView, userFileName, sshFile, userName);
         }
 
         private String removePrefix(final String s) {
@@ -416,8 +422,8 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
      * implementation for testing.
      */
     static class TestNativeSshFile extends NativeSshFile {
-        TestNativeSshFile(final String fileName, final File file, final String userName) {
-            super(fileName, file, userName);
+        TestNativeSshFile(final NativeFileSystemView nativeFileSystemView, final String fileName, final File file, final String userName) {
+            super(nativeFileSystemView, fileName, file, userName);
         }
     }
 
@@ -515,24 +521,24 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
         server.setSubsystemFactories(list);
         server.setPasswordAuthenticator((username, password, session) -> StringUtils.equals(username, password));
         server.setPublickeyAuthenticator((username, key, session) -> true);
-        server.setForwardingFilter(new ForwardingFilter() {
+        server.setTcpipForwardingFilter(new ForwardingFilter() {
             @Override
-            public boolean canConnect(final InetSocketAddress address, final ServerSession session) {
+            public boolean canConnect(SshdSocketAddress address, Session session) {
                 return true;
             }
 
             @Override
-            public boolean canForwardAgent(final ServerSession session) {
+            public boolean canForwardAgent(Session session) {
                 return true;
             }
 
             @Override
-            public boolean canForwardX11(final ServerSession session) {
+            public boolean canForwardX11(Session session) {
                 return true;
             }
 
             @Override
-            public boolean canListen(final InetSocketAddress address, final ServerSession session) {
+            public boolean canListen(SshdSocketAddress address, Session session) {
                 return true;
             }
         });
