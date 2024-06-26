@@ -108,6 +108,8 @@ public class NamingTests extends AbstractProviderTestCase {
         assertSameName(path, name, "./a/foo/..", scope);
         assertSameName(path, name, "foo/../a", scope);
         assertSameName(path, name, "foo%2f..%2fa", scope);
+        assertSameName(path, name, "foo%2f/..%2fa", scope);
+        assertSameName(path, name, "foo/%2f..%2fa", scope);
 
         // Test an empty name
         assertBadName(name, "", scope);
@@ -123,6 +125,8 @@ public class NamingTests extends AbstractProviderTestCase {
         assertBadName(name, "a/..", scope);
         assertBadName(name, "%2e%2e/ab", scope);
         assertBadName(name, "..%2f../ab", scope);
+        assertBadName(name, "foo%2f..%2f..%2fa", scope);
+        assertBadName(name, "foo%2f..%2f..%2fnone-child%2fa", scope);
 
         // Test absolute names
         assertBadName(name, "/", scope);
