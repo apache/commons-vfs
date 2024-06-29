@@ -101,8 +101,9 @@
     <httpcore5.version>5.3-beta1</httpcore5.version>
     <httpclient5.version>5.4-beta1</httpclient5.version>
     <jackrabbit1.version>1.6.5</jackrabbit1.version>
-    <!-- Don't use jackrabbit2 2.21.x, it's labeled "unstable" -->
-    <jackrabbit2.version>2.20.15</jackrabbit2.version>
+    <!-- Don't use jackrabbit2 2.21.x, it's labeled "unstable". -->
+    <!-- 2.22.0 requires Java 11. -->
+    <jackrabbit2.version>2.20.16</jackrabbit2.version>
     <commons.asm.version>9.4</commons.asm.version>
     <slf4j.version>2.0.13</slf4j.version>
     <log4j2.version>2.23.1</log4j2.version>
