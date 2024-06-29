@@ -370,6 +370,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" type="update" due-to="Gary Gregory">
         Bump org.apache.commons:commons-collections4 from 4.4 to 4.5.0-M2.
       </action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory">
+        Bump ant:ant 1.6.5 to org.apache.ant:ant 1.10.14.
+      </action>
     </release>
     <release version="2.9.0" date="2021-06-16" description="Maintenance release. Requires Java 8 or above.">
       <!-- ADDS -->

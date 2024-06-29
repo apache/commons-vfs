@@ -110,7 +110,7 @@
     <collections4.version>4.5.0-M2</collections4.version>
     <jsch.version>0.1.55</jsch.version>
     <httpclient3.version>3.1</httpclient3.version>
-    <ant.version>1.6.5</ant.version>
+    <ant.version>1.10.14</ant.version>
     <!-- For VFS, somehow, SPDX >= 0.6.0 requires Java 11 (maybe because it's a multi-module project). -->
     <commons.spdx.version>0.5.5</commons.spdx.version>
 
@@ -421,7 +421,7 @@
         <version>1.26.2</version>
       </dependency>
       <dependency>
-        <groupId>ant</groupId>
+        <groupId>org.apache.ant</groupId>
         <artifactId>ant</artifactId>
         <version>${ant.version}</version>
       </dependency>
