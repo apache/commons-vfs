@@ -278,7 +278,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump jackrabbit2.version to 2.20.15. Never use 2.21.x, it is "unstable".
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">
-        Bump org.apache.httpcomponents.client5:httpclient5 from 5.1 to 5.3.1.
+        Bump org.apache.httpcomponents.client5:httpclient5 from 5.1 to 5.4-beta1 #561.
       </action>
       <action type="update" dev="ggregory" due-to="Dependabot">
         Bump org.apache.httpcomponents.core5:httpcore5 from 5.1.5 to 5.3-beta1 #369, #399, #429, #447, #559.
@@ -366,9 +366,6 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="ggregory" type="update" due-to="Gary Gregory">
         Bump org.codehaus.mojo:exec-maven-plugin from 3.1.1 to 3.2.0 #494.
-      </action>
-      <action dev="ggregory" type="update" due-to="Gary Gregory">
-        Bump httpclient5 from 5.3.1 to 5.4-alpha2.
       </action>
     </release>
     <release version="2.9.0" date="2021-06-16" description="Maintenance release. Requires Java 8 or above.">
