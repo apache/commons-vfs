@@ -16,6 +16,9 @@
  */
 package org.apache.commons.vfs2;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import org.apache.commons.vfs2.cache.SoftRefFilesCache;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 
@@ -29,6 +32,14 @@ public abstract class AbstractProviderTestConfig extends AbstractProviderTestCas
     public static final String MIME_TYPE_APPLICATION_X_TAR = "application/x-tar";
 
     public static final String MIME_TYPE_APPLICATION_ZIP = "application/zip";
+
+    public static String getLocalCanonicalHostName() throws UnknownHostException {
+        return InetAddress.getLocalHost().getCanonicalHostName();
+    }
+
+    public static String getLocalHostUriString(final String scheme, final int socketPort) throws UnknownHostException {
+        return scheme + "://" + getLocalCanonicalHostName() + ":" + socketPort;
+    }
 
     private FilesCache filesCache;
 

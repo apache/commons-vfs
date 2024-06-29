@@ -61,7 +61,7 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
     private static void setUpClass() throws Exception {
         server = NHttpFileServer.start(0, new File(getTestDirectory()), 5000);
         final int socketPort = server.getPort();
-        connectionUri = "http4://localhost:" + socketPort;
+        connectionUri = getLocalHostUriString("http4", server.getPort());
     }
 
     /**
