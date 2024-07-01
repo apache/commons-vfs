@@ -86,6 +86,7 @@ public class UriParserTest {
             assertEquals(FileType.FOLDER, UriParser.normalisePath(new StringBuilder("./Sub Folder/")));
             assertEquals(FileType.FOLDER, UriParser.normalisePath(new StringBuilder("./Sub Folder/.")));
             assertEquals(FileType.FOLDER, UriParser.normalisePath(new StringBuilder("./Sub Folder/./")));
+            assertEquals(FileType.FOLDER, UriParser.normalisePath(new StringBuilder("./Sub Folder%2f.%2f")));
 
             assertEquals(FileType.FILE, UriParser.normalisePath(new StringBuilder("File.txt")));
             assertEquals(FileType.FILE, UriParser.normalisePath(new StringBuilder("/File.txt")));
@@ -98,5 +99,21 @@ public class UriParserTest {
         } catch (final FileSystemException e) {
             fail(e);
         }
+    }
+
+    @Test
+    public void testPathOfNormalizedPath() throws FileSystemException {
+        checkNormalizedPath("./Sub Folder/", "/Sub Folder");
+        checkNormalizedPath("./Sub Folder/../", "/");
+        checkNormalizedPath("./Sub Folder%2f..%2f", "/");
+        checkNormalizedPath("File.txt", "File.txt");
+        checkNormalizedPath("./Sub Folder/./File.txt", "/Sub Folder/File.txt");
+        checkNormalizedPath("./Sub Folder%2F.%2FFile.txt", "/Sub Folder/File.txt");
+    }
+
+    private void checkNormalizedPath(String path, String normalized) throws FileSystemException {
+        final StringBuilder pathBuilder = new StringBuilder(path);
+        UriParser.normalisePath(pathBuilder);
+        assertEquals(normalized, pathBuilder.toString());
     }
 }
