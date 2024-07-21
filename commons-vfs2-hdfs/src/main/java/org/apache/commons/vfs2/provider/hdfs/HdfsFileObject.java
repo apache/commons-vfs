@@ -55,14 +55,14 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
      * @param name FileName
      * @param fs HdfsFileSystem instance
      * @param hdfs Hadoop FileSystem instance
-     * @param p Path to the file in HDFS
+     * @param path Path to the file in HDFS
      */
     protected HdfsFileObject(final AbstractFileName name, final HdfsFileSystem fs, final FileSystem hdfs,
-            final Path p) {
+            final Path path) {
         super(name, fs);
         this.fs = fs;
         this.hdfs = hdfs;
-        this.path = p;
+        this.path = path;
     }
 
     /**
