@@ -35,17 +35,17 @@ final class FileContentThreadData {
     }
 
     void add(final InputStream inputStream) {
-        if (this.inputStreamList == null) {
-            this.inputStreamList = new ArrayList<>();
+        if (inputStreamList == null) {
+            inputStreamList = new ArrayList<>();
         }
-        this.inputStreamList.add(inputStream);
+        inputStreamList.add(inputStream);
     }
 
     void add(final RandomAccessContent randomAccessContent) {
-        if (this.randomAccessContentList == null) {
-            this.randomAccessContentList = new ArrayList<>();
+        if (randomAccessContentList == null) {
+            randomAccessContentList = new ArrayList<>();
         }
-        this.randomAccessContentList.add(randomAccessContent);
+        randomAccessContentList.add(randomAccessContent);
     }
 
     /**
@@ -59,11 +59,11 @@ final class FileContentThreadData {
     }
 
     DefaultFileContent.FileContentOutputStream getOutputStream() {
-        return this.outputStream;
+        return outputStream;
     }
 
     boolean hasInputStream() {
-        return this.inputStreamList != null && !this.inputStreamList.isEmpty();
+        return inputStreamList != null && !inputStreamList.isEmpty();
     }
 
     boolean hasRandomAccessContent() {
@@ -85,23 +85,23 @@ final class FileContentThreadData {
         // be a leak because the input stream won't be removed from the original thread's `inputStreamList`.
         // See https://github.com/apache/commons-vfs/pull/166 for more context.
         // TODO: fix this problem
-        if (this.inputStreamList != null) {
-            this.inputStreamList.remove(inputStream);
+        if (inputStreamList != null) {
+            inputStreamList.remove(inputStream);
         }
     }
 
     void remove(final RandomAccessContent randomAccessContent) {
-        if (this.randomAccessContentList != null) {
-            this.randomAccessContentList.remove(randomAccessContent);
+        if (randomAccessContentList != null) {
+            randomAccessContentList.remove(randomAccessContent);
         }
     }
 
     InputStream removeInputStream(final int pos) {
-        return this.inputStreamList.remove(pos);
+        return inputStreamList.remove(pos);
     }
 
     Object removeRandomAccessContent(final int pos) {
-        return this.randomAccessContentList.remove(pos);
+        return randomAccessContentList.remove(pos);
     }
 
     void setOutputStream(final DefaultFileContent.FileContentOutputStream outputStream) {

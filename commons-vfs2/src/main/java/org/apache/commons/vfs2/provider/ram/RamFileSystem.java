@@ -56,12 +56,12 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
      */
     protected RamFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions) {
         super(rootName, null, fileSystemOptions);
-        this.cache = Collections.synchronizedMap(new HashMap<>());
+        cache = Collections.synchronizedMap(new HashMap<>());
         // create root
         final RamFileData rootData = new RamFileData(rootName);
         rootData.setType(FileType.FOLDER);
         rootData.setLastModified(System.currentTimeMillis());
-        this.cache.put(rootName, rootData);
+        cache.put(rootName, rootData);
     }
 
     /*
@@ -83,7 +83,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
         if (ramFileObject.getName() == null) {
             throw new IllegalArgumentException("Null argument");
         }
-        RamFileData data = this.cache.get(ramFileObject.getName());
+        RamFileData data = cache.get(ramFileObject.getName());
         if (data == null) {
             data = new RamFileData(ramFileObject.getName());
         }
@@ -95,7 +95,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
      */
     @Override
     public void close() {
-        this.cache.clear();
+        cache.clear();
         super.close();
     }
 
@@ -120,7 +120,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
         FileSystemException.requireNonNull(file.getParent(), "unable to delete root");
 
         // Remove reference from cache
-        this.cache.remove(file.getName());
+        cache.remove(file.getName());
         // Notify the parent
         final RamFileObject parent = (RamFileObject) this.resolveFile(file.getParent().getName());
         parent.getData().removeChild(file.getData());
@@ -138,7 +138,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
      */
     public void importTree(final File file) throws FileSystemException {
         final FileObject fileFo = getFileSystemManager().toFileObject(file);
-        this.toRamFileObject(fileFo, fileFo);
+        toRamFileObject(fileFo, fileFo);
     }
 
     /**
@@ -146,7 +146,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
      * @return children The names of the children.
      */
     String[] listChildren(final FileName name) {
-        final RamFileData data = this.cache.get(name);
+        final RamFileData data = cache.get(name);
         if (data == null || !data.getType().hasChildren()) {
             return null;
         }
@@ -163,7 +163,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
      * @throws FileSystemException if an error occurs.
      */
     void rename(final RamFileObject from, final RamFileObject to) throws FileSystemException {
-        if (!this.cache.containsKey(from.getName())) {
+        if (!cache.containsKey(from.getName())) {
             throw new FileSystemException("File does not exist: " + from.getName());
         }
         // Copy data
@@ -172,8 +172,8 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
         to.getData().setLastModified(from.getData().getLastModified());
         to.getData().setType(from.getData().getType());
 
-        this.save(to);
-        this.delete(from);
+        save(to);
+        delete(from);
     }
 
     /**
@@ -191,7 +191,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
 
         // Add to the parent
         if (file.getName().getDepth() > 0) {
-            final RamFileData parentData = this.cache.get(file.getParent().getName());
+            final RamFileData parentData = cache.get(file.getParent().getName());
             // Only if not already added
             if (!parentData.hasChildren(file.getData())) {
                 final RamFileObject parent = (RamFileObject) file.getParent();
@@ -230,7 +230,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
             // Import recursively
             final FileObject[] fos = fo.getChildren();
             for (final FileObject child : fos) {
-                this.toRamFileObject(child, root);
+                toRamFileObject(child, root);
             }
         } else if (fo.isFile()) {
             // Copy bytes

@@ -52,7 +52,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
         @Override
         public int compareTo(final ProxyType pType) {
-            return this.proxyType.compareTo(pType.proxyType);
+            return proxyType.compareTo(pType.proxyType);
         }
 
         @Override
@@ -63,7 +63,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
             if (obj == null || this.getClass() != obj.getClass()) {
                 return false;
             }
-            return Objects.equals(this.proxyType, ((ProxyType) obj).proxyType);
+            return Objects.equals(proxyType, ((ProxyType) obj).proxyType);
         }
 
         /**
@@ -72,7 +72,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
          */
         @Override
         public int hashCode() {
-            return this.proxyType.hashCode();
+            return proxyType.hashCode();
         }
     }
 
@@ -517,7 +517,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     @Deprecated
     public void setConnectTimeoutMillis(final FileSystemOptions options, final Integer timeout) {
-        this.setConnectTimeout(options, Duration.ofMillis(timeout));
+        setConnectTimeout(options, Duration.ofMillis(timeout));
     }
 
     /**
@@ -759,7 +759,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     @Deprecated
     public void setSessionTimeoutMillis(final FileSystemOptions options, final Integer timeout) {
-        this.setSessionTimeout(options, Duration.ofMillis(timeout));
+        setSessionTimeout(options, Duration.ofMillis(timeout));
     }
 
     /**

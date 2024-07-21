@@ -39,7 +39,7 @@ public class VerifyingFileSelector extends Assertions implements FileSelector {
     private final List<Set<String>> stack = new ArrayList<>();
 
     public VerifyingFileSelector(final FileInfo fileInfo) {
-        this.rootFile = fileInfo;
+        rootFile = fileInfo;
         children = new HashSet<>();
         children.add(rootFile.baseName);
     }

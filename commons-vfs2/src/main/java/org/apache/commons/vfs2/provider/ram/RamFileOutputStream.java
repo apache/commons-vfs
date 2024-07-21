@@ -55,7 +55,7 @@ public class RamFileOutputStream extends OutputStream {
         if (exception != null) {
             throw exception;
         }
-        this.closed = true;
+        closed = true;
     }
 
     @Override
@@ -69,14 +69,14 @@ public class RamFileOutputStream extends OutputStream {
      */
     @Override
     public void write(final byte[] b, final int off, final int len) throws IOException {
-        final RamFileData data = this.file.getData();
+        final RamFileData data = file.getData();
         final int size = data.size();
         final int newSize = size + len;
         // Store the Exception in order to notify the client again on close()
         try {
-            this.file.resize(newSize);
+            file.resize(newSize);
         } catch (final IOException e) {
-            this.exception = e;
+            exception = e;
             throw e;
         }
         System.arraycopy(b, off, data.getContent(), size, len);

@@ -88,7 +88,7 @@ public class SftpProviderStreamProxyModeTestCase extends AbstractSftpProviderTes
         }
 
         final FileObject fileObject = manager.resolveFile(uri, fileSystemOptions);
-        this.fileSystem = (SftpFileSystem) fileObject.getFileSystem();
+        fileSystem = (SftpFileSystem) fileObject.getFileSystem();
         return fileObject;
     }
 

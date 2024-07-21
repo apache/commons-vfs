@@ -301,7 +301,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     FileSystemKey getCacheKey() {
-        return this.cacheKey;
+        return cacheKey;
     }
 
     /**

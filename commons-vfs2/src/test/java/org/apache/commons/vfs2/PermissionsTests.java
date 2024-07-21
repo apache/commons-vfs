@@ -68,7 +68,7 @@ public class PermissionsTests extends AbstractProviderTestCase {
      * Returns true if the file system is a LocalFileSystem on Windows
      */
     private boolean isWindows() {
-        return SystemUtils.IS_OS_WINDOWS && this.getFileSystem() instanceof LocalFileSystem;
+        return SystemUtils.IS_OS_WINDOWS && getFileSystem() instanceof LocalFileSystem;
     }
 
     /**

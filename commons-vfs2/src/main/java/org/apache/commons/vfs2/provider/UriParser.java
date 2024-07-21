@@ -38,7 +38,7 @@ public final class UriParser {
 
         PathNormalizer(final StringBuilder path) {
             this.path = path;
-            this.end = path.length();
+            end = path.length();
         }
 
         private boolean consumeSeparator() {
@@ -46,7 +46,7 @@ public final class UriParser {
             if (readSeparator()) {
                 path.delete(from, cursor);
                 cursor = from;
-                this.end = path.length();
+                end = path.length();
                 return true;
             }
             return false;
@@ -146,7 +146,7 @@ public final class UriParser {
             }
             path.delete(cursor, to);
             lastSeparator = cursor;
-            this.end = path.length();
+            end = path.length();
             readSeparator();
         }
 
@@ -173,7 +173,7 @@ public final class UriParser {
                             // '/./'
                             path.delete(lastSeparator, beforeNextSeparator);
                             cursor = lastSeparator + cursor - beforeNextSeparator;
-                            this.end = path.length();
+                            end = path.length();
                         } else {
                             // '/.other'
                             readNonSeparators();

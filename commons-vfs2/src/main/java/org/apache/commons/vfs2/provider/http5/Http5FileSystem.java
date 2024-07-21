@@ -70,7 +70,7 @@ public class Http5FileSystem extends AbstractFileSystem {
 
         // if scheme is 'http*s' or 'HTTP*S', then the internal base URI should be 'https'. 'http' otherwise.
         final String scheme  = lastCharOfScheme == 's' || lastCharOfScheme == 'S' ? "https" : "http";
-        this.internalBaseURI = URI.create(scheme + rootURI.substring(offset));
+        internalBaseURI = URI.create(scheme + rootURI.substring(offset));
         this.httpClient = httpClient;
         this.httpClientContext = httpClientContext;
     }

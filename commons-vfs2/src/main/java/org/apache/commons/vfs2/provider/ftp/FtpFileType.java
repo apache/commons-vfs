@@ -65,6 +65,6 @@ public enum FtpFileType {
      * @return The Apache Commons Net FTP file type.
      */
     int getValue() {
-        return this.value;
+        return value;
     }
 }

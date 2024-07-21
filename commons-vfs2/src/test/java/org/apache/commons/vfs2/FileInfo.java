@@ -33,7 +33,7 @@ public class FileInfo {
     public FileInfo(final String name, final FileType type) {
         baseName = name;
         this.type = type;
-        this.content = null;
+        content = null;
     }
 
     public FileInfo(final String name, final FileType type, final String content) {

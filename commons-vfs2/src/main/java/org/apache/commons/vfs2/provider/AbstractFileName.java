@@ -100,11 +100,11 @@ public abstract class AbstractFileName implements FileName {
      * @param type the file type.
      */
     public AbstractFileName(final String scheme, final String absolutePath, final FileType type) {
-        this.rootUri = null;
+        rootUri = null;
         this.scheme = scheme;
         this.type = type;
         if (StringUtils.isEmpty(absolutePath)) {
-            this.absPath = ROOT_PATH;
+            absPath = ROOT_PATH;
         } else if (absolutePath.length() > 1 && absolutePath.endsWith("/")) {
             this.absPath = absolutePath.substring(0, absolutePath.length() - 1);
         } else {
@@ -505,7 +505,7 @@ public abstract class AbstractFileName implements FileName {
     @Override
     public boolean isFile() throws FileSystemException {
         // Use equals instead of == to avoid any class loader worries.
-        return FileType.FILE.equals(this.getType());
+        return FileType.FILE.equals(getType());
     }
 
     /**

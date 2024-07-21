@@ -70,7 +70,7 @@ public class ZipFileSystem extends AbstractFileSystem {
 
         // Make a local copy of the file
         file = parentLayer.getFileSystem().replicateFile(parentLayer, Selectors.SELECT_SELF);
-        this.charset = ZipFileSystemConfigBuilder.getInstance().getCharset(fileSystemOptions);
+        charset = ZipFileSystemConfigBuilder.getInstance().getCharset(fileSystemOptions);
 
         // Open the Zip file
         if (!file.exists()) {
@@ -136,8 +136,8 @@ public class ZipFileSystem extends AbstractFileSystem {
     }
 
     protected ZipFile getZipFile() throws FileSystemException {
-        if (zipFile == null && this.file.exists()) {
-            this.zipFile = createZipFile(this.file);
+        if (zipFile == null && file.exists()) {
+            zipFile = createZipFile(file);
         }
 
         return zipFile;
