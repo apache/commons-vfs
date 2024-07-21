@@ -195,7 +195,7 @@ The <action> type attribute can be add,update,fix,remove.
         Add some documentation to make the unit tests easier to follow #556.
       </action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">
-        Fix or address PMD warnings UnnecessaryReturn, UnusedLocalVariable, and so on.
+        Fix or address PMD warnings UnnecessaryReturn, UnusedLocalVariable, UnnecessaryFullyQualifiedName, UnnecessaryImport, and so on.
       </action>
       <!-- ADD -->
       <action type="add" issue="VFS-848" dev="ggregory" due-to="beise, Gary Gregory">
