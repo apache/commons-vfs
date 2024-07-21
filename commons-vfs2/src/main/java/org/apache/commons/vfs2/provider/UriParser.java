@@ -192,7 +192,7 @@ public final class UriParser {
     }
 
     /**
-     * The set of valid separators. These are all converted to the normalized one. Does <i>not</i> contain the
+     * The set of valid separators. These are all converted to the normalized one. Does <em>not</em> contain the
      * normalized separator
      */
     // public static final char[] separators = {'\\'};

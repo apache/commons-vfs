@@ -26,7 +26,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * This filter accepts {@code File}s that are hidden.
  * <p>
  * Example, showing how to print out a list of the current directory's
- * <i>hidden</i> files:
+ * <em>hidden</em> files:
  * </p>
  *
  * <pre>
@@ -40,7 +40,7 @@ import org.apache.commons.vfs2.FileSystemException;
  *
  * <p>
  * Example, showing how to print out a list of the current directory's
- * <i>visible</i> (i.e. not hidden) files:
+ * <em>visible</em> (i.e. not hidden) files:
  * </p>
  *
  * <pre>
@@ -58,10 +58,10 @@ import org.apache.commons.vfs2.FileSystemException;
  */
 public class HiddenFileFilter implements FileFilter, Serializable {
 
-    /** Singleton instance of <i>hidden</i> filter. */
+    /** Singleton instance of <em>hidden</em> filter. */
     public static final FileFilter HIDDEN = new HiddenFileFilter();
 
-    /** Singleton instance of <i>visible</i> filter. */
+    /** Singleton instance of <em>visible</em> filter. */
     public static final FileFilter VISIBLE = new NotFileFilter(HIDDEN);
 
     private static final long serialVersionUID = 1L;
@@ -77,7 +77,7 @@ public class HiddenFileFilter implements FileFilter, Serializable {
      *
      * @param fileSelectInfo the File to check
      *
-     * @return {@code true} if the file is <i>hidden</i>, otherwise {@code false}.
+     * @return {@code true} if the file is <em>hidden</em>, otherwise {@code false}.
      * @throws FileSystemException Thrown for file system errors.
      */
     @Override

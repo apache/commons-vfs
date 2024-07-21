@@ -72,7 +72,7 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
  * fm.start();
  * </pre>
  *
- * <i>(where CustomFileListener is a class that implements the FileListener interface.)</i>
+ * <em>(where CustomFileListener is a class that implements the FileListener interface.)</em>
  */
 // TODO Add a Builder so we can construct and start.
 public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable {
