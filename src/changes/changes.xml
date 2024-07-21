@@ -211,7 +211,7 @@ The <action> type attribute can be add,update,fix,remove.
         Generate JPMS module info files when building on Java 11 or greater, except for commons-vfs2-hdfs due to Hadoop libraries' overlapping packages.
       </action>
       <action type="add" dev="ggregory" due-to="Seth Falco">
-        Add vscode files to gitignore #205.
+        Add Visual Studio Code files to gitignore #205.
       </action>
       <action type="add" dev="ggregory" due-to="Gary Gregory">
         Add DefaultFileMonitor.setDelay(Duration), getDelayDuration() and deprecate setDelay(long), getDelay().
