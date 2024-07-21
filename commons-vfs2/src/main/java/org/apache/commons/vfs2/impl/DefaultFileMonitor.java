@@ -88,9 +88,9 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
         private long timestamp;
         private Map<FileName, Object> children;
 
-        private FileMonitorAgent(final DefaultFileMonitor fm, final FileObject file) {
-            this.defaultFileMonitor = fm;
-            this.fileObject = file;
+        private FileMonitorAgent(final DefaultFileMonitor defaultFileMonitor, final FileObject fileObject) {
+            this.defaultFileMonitor = defaultFileMonitor;
+            this.fileObject = fileObject;
 
             refresh();
             resetChildrenList();

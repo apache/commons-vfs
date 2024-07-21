@@ -47,7 +47,7 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
 
     @Override
     public void close() throws IOException {
-        this.rac.close();
+        rac.close();
     }
 
     private void deleteTempFile(final File tempFile) {
@@ -62,22 +62,22 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
 
     @Override
     public long getFilePointer() throws IOException {
-        return this.rac.getFilePointer();
+        return rac.getFilePointer();
     }
 
     @Override
     public InputStream getInputStream() throws IOException {
-        return this.rac.getInputStream();
+        return rac.getInputStream();
     }
 
     @Override
     public long length() throws IOException {
-        return this.rac.length();
+        return rac.length();
     }
 
     @Override
     public final int read() throws IOException {
-        final byte[] buf = this.singleByteBuf;
+        final byte[] buf = singleByteBuf;
         final int count = read(buf, 0, 1);
         return count < 0 ? -1 : buf[0] & 0xFF;
     }
@@ -89,13 +89,13 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
 
     @Override
     public int read(final byte[] b, final int off, final int len) throws IOException {
-        this.rac.readFully(b, off, len);
+        rac.readFully(b, off, len);
         return len;
     }
 
     @Override
     public void seek(final long pos) throws IOException {
-        this.rac.seek(pos);
+        rac.seek(pos);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
 
     @Override
     public int skipBytes(final int n) throws IOException {
-        return this.rac.skipBytes(n);
+        return rac.skipBytes(n);
     }
 
     @Override
@@ -115,12 +115,12 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
 
     @Override
     public void write(final byte[] b, final int off, final int len) throws IOException {
-        this.rac.write(b, off, len);
+        rac.write(b, off, len);
     }
 
     @Override
     public final void write(final int b) throws IOException {
-        final byte[] buf = this.singleByteBuf;
+        final byte[] buf = singleByteBuf;
         buf[0] = (byte) b;
         write(buf, 0, 1);
     }

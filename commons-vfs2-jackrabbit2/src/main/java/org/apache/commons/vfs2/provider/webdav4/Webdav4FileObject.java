@@ -201,7 +201,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                     }
                 }
             }
-            ((DefaultFileContent) this.file.getContent()).resetAttributes();
+            ((DefaultFileContent) file.getContent()).resetAttributes();
         }
 
         private void setUserName(final GenericURLFileName fileName, final String urlStr) throws IOException {
@@ -574,7 +574,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
         try {
             final GenericURLFileName newFile = new GenericURLFileName(getInternalURI().getScheme(), name.getHostName(), name.getPort(), name.getDefaultPort(),
                     null, null, name.getPath(), name.getType(), name.getQueryString());
-            return newFile.getURIEncoded(this.getUrlCharset());
+            return newFile.getURIEncoded(getUrlCharset());
         } catch (final Exception e) {
             return name.getURI();
         }
@@ -656,7 +656,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
             final GenericURLFileName newFile = new Webdav4FileName(getInternalURI().getScheme(), name.getHostName(), name.getPort(), name.getDefaultPort(),
                     user, password, name.getPath(), name.getType(), name.getQueryString(),
                     builder.getAppendTrailingSlash(getFileSystem().getFileSystemOptions()));
-            return newFile.getURIEncoded(this.getUrlCharset());
+            return newFile.getURIEncoded(getUrlCharset());
         } catch (final Exception e) {
             return name.getURI();
         }

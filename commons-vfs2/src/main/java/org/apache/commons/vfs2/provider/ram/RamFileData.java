@@ -220,10 +220,10 @@ final class RamFileData implements Serializable {
     }
 
     /**
-     * @param lastModified The lastModified to set.
+     * @param lastModifiedMillis The lastModified to set.
      */
-    void setLastModified(final long lastModified) {
-        this.lastModifiedMillis = lastModified;
+    void setLastModified(final long lastModifiedMillis) {
+        this.lastModifiedMillis = lastModifiedMillis;
     }
 
     /**

@@ -97,7 +97,7 @@ public class HdfsFileSystem extends AbstractFileSystem {
     @Override
     public FileObject resolveFile(final FileName name) throws FileSystemException {
         synchronized (this) {
-            if (this.fs == null) {
+            if (fs == null) {
                 final String hdfsUri = name.getRootURI();
                 final HdfsFileSystemConfigBuilder builder = HdfsFileSystemConfigBuilder.getInstance();
                 final FileSystemOptions options = getFileSystemOptions();
@@ -161,7 +161,7 @@ public class HdfsFileSystem extends AbstractFileSystem {
             fileObject = new HdfsFileObject((AbstractFileName) name, this, fs, filePath);
             fileObject = decorateFileObject(fileObject);
             if (useCache) {
-                this.putFileToCache(fileObject);
+                putFileToCache(fileObject);
             }
         }
         /*

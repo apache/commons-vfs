@@ -74,7 +74,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
             return false;
         }
         try {
-            return this.hdfs.getFileStatus(new Path(newfile.getName().getPath())) == null;
+            return hdfs.getFileStatus(new Path(newfile.getName().getPath())) == null;
         } catch (final FileNotFoundException e) {
             return false;
         } catch (final IOException e) {
@@ -88,9 +88,9 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
     @Override
     protected void doAttach() throws Exception {
         try {
-            this.stat = this.hdfs.getFileStatus(this.path);
+            stat = hdfs.getFileStatus(path);
         } catch (final FileNotFoundException e) {
-            this.stat = null;
+            stat = null;
         }
     }
 
@@ -100,7 +100,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
      */
     @Override
     protected void doCreateFolder() throws Exception {
-        hdfs.mkdirs(this.path);
+        hdfs.mkdirs(path);
     }
 
     /**
@@ -109,7 +109,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
      */
     @Override
     protected void doDelete() throws Exception {
-        hdfs.delete(this.path, true);
+        hdfs.delete(path, true);
     }
 
     /**
@@ -117,17 +117,17 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
      */
     @Override
     protected Map<String, Object> doGetAttributes() throws Exception {
-        if (null == this.stat) {
+        if (null == stat) {
             return super.doGetAttributes();
         }
         final Map<String, Object> attrs = new HashMap<>();
-        attrs.put(HdfsFileAttributes.LAST_ACCESS_TIME.toString(), this.stat.getAccessTime());
-        attrs.put(HdfsFileAttributes.BLOCK_SIZE.toString(), this.stat.getBlockSize());
-        attrs.put(HdfsFileAttributes.GROUP.toString(), this.stat.getGroup());
-        attrs.put(HdfsFileAttributes.OWNER.toString(), this.stat.getOwner());
-        attrs.put(HdfsFileAttributes.PERMISSIONS.toString(), this.stat.getPermission().toString());
-        attrs.put(HdfsFileAttributes.LENGTH.toString(), this.stat.getLen());
-        attrs.put(HdfsFileAttributes.MODIFICATION_TIME.toString(), this.stat.getModificationTime());
+        attrs.put(HdfsFileAttributes.LAST_ACCESS_TIME.toString(), stat.getAccessTime());
+        attrs.put(HdfsFileAttributes.BLOCK_SIZE.toString(), stat.getBlockSize());
+        attrs.put(HdfsFileAttributes.GROUP.toString(), stat.getGroup());
+        attrs.put(HdfsFileAttributes.OWNER.toString(), stat.getOwner());
+        attrs.put(HdfsFileAttributes.PERMISSIONS.toString(), stat.getPermission().toString());
+        attrs.put(HdfsFileAttributes.LENGTH.toString(), stat.getLen());
+        attrs.put(HdfsFileAttributes.MODIFICATION_TIME.toString(), stat.getModificationTime());
         return attrs;
     }
 
@@ -144,7 +144,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
      */
     @Override
     protected InputStream doGetInputStream(final int bufferSize) throws Exception {
-        return this.hdfs.open(this.path, bufferSize);
+        return hdfs.open(path, bufferSize);
     }
 
     /**
@@ -153,8 +153,8 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
     @Override
     protected long doGetLastModifiedTime() throws Exception {
         doAttach();
-        if (null != this.stat) {
-            return this.stat.getModificationTime();
+        if (null != stat) {
+            return stat.getModificationTime();
         }
         return -1;
     }
@@ -166,9 +166,9 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
     @Override
     protected OutputStream doGetOutputStream(final boolean append) throws Exception {
         if (append) {
-            throw new FileSystemException("vfs.provider/write-append-not-supported.error", this.path.getName());
+            throw new FileSystemException("vfs.provider/write-append-not-supported.error", path.getName());
         }
-        return hdfs.create(this.path);
+        return hdfs.create(path);
     }
 
     /**
@@ -180,7 +180,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
         if (mode.equals(RandomAccessMode.READWRITE)) {
             throw new UnsupportedOperationException();
         }
-        return new HdfsRandomAccessContent(this.path, this.hdfs);
+        return new HdfsRandomAccessContent(path, hdfs);
     }
 
     /**
@@ -231,11 +231,11 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
      */
     @Override
     protected String[] doListChildren() throws Exception {
-        if (this.doGetType() != FileType.FOLDER) {
+        if (doGetType() != FileType.FOLDER) {
             throw new FileNotFolderException(this);
         }
 
-        final FileStatus[] fileStatuses = this.hdfs.listStatus(this.path);
+        final FileStatus[] fileStatuses = hdfs.listStatus(path);
         return Stream.of(fileStatuses).filter(Objects::nonNull).map(status -> status.getPath().getName()).toArray(String[]::new);
     }
 
@@ -244,14 +244,14 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
      */
     @Override
     protected FileObject[] doListChildrenResolved() throws Exception {
-        if (this.doGetType() != FileType.FOLDER) {
+        if (doGetType() != FileType.FOLDER) {
             return null;
         }
         final String[] children = doListChildren();
         final FileObject[] fo = new FileObject[children.length];
         for (int i = 0; i < children.length; i++) {
-            final Path p = new Path(this.path, children[i]);
-            fo[i] = this.fs.resolveFile(p.toUri().toString());
+            final Path p = new Path(path, children[i]);
+            fo[i] = fs.resolveFile(p.toUri().toString());
         }
         return fo;
     }
@@ -270,7 +270,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
      */
     @Override
     protected void doRename(final FileObject newfile) throws Exception {
-        hdfs.rename(this.path, new Path(newfile.getName().getPath()));
+        hdfs.rename(path, new Path(newfile.getName().getPath()));
     }
 
     /**
@@ -287,7 +287,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
     @Override
     protected boolean doSetLastModifiedTime(final long modtime) throws Exception {
         try {
-            hdfs.setTimes(this.path, modtime, System.currentTimeMillis());
+            hdfs.setTimes(path, modtime, System.currentTimeMillis());
         } catch (final IOException ioe) {
             throw new FileSystemException(ioe);
         }
@@ -302,7 +302,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
     public boolean exists() throws FileSystemException {
         try {
             doAttach();
-            return this.stat != null;
+            return stat != null;
         } catch (final FileNotFoundException fne) {
             return false;
         } catch (final Exception e) {
