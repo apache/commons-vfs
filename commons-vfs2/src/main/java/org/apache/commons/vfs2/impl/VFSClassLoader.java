@@ -239,10 +239,11 @@ public class VFSClassLoader extends SecureClassLoader {
         final List<URL> result = new ArrayList<>(2);
 
         for (final FileObject baseFile : resources) {
-            try (FileObject file = baseFile.resolveFile(name, NameScope.DESCENDENT_OR_SELF)) {
-                if (FileObjectUtils.exists(file)) {
-                    result.add(new Resource(name, baseFile, file).getURL());
-                }
+            final FileObject file = baseFile.resolveFile(name, NameScope.DESCENDENT_OR_SELF);
+            if (FileObjectUtils.exists(file)) {
+                result.add(new Resource(name, baseFile, file).getURL());
+            } else {
+                file.close();
             }
         }
 
@@ -311,10 +312,11 @@ public class VFSClassLoader extends SecureClassLoader {
      */
     private Resource loadResource(final String name) throws FileSystemException {
         for (final FileObject baseFile : resources) {
-            try (FileObject file = baseFile.resolveFile(name, NameScope.DESCENDENT_OR_SELF)) {
-                if (FileObjectUtils.exists(file)) {
-                    return new Resource(name, baseFile, file);
-                }
+            final FileObject file = baseFile.resolveFile(name, NameScope.DESCENDENT_OR_SELF);
+            if (FileObjectUtils.exists(file)) {
+                return new Resource(name, baseFile, file);
+            } else {
+                file.close();
             }
         }
         return null;
