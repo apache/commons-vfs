@@ -30,7 +30,7 @@ import com.jcraft.jsch.TestIdentityRepositoryFactory;
 
 public class SftpProviderStreamProxyModeTestCase extends AbstractSftpProviderTestCase {
 
-    // --- VFS-440: stream proxy test suite
+    // VFS-440: stream proxy test suite
     // We override the addBaseTests method so that only
     // one test is run (we just test that the input/output are correctly forwarded, and
     // hence if the reading test succeeds/fails the other will also succeed/fail)
