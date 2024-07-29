@@ -258,9 +258,9 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
     /**
      * The command factory for the SSH server: Handles these commands
      * <p>
-     * <li><code>id -u</code> (permissions test)</li>
-     * <li><code>id -G</code> (permission tests)</li>
-     * <li><code>nc -q 0 localhost port</code> (Stream proxy tests)</li>
+     * <li>{@code id -u} (permissions test)</li>
+     * <li>{@code id -G} (permission tests)</li>
+     * <li>{@code nc -q 0 localhost port} (Stream proxy tests)</li>
      * </p>
      */
     private static class TestCommandFactory extends ScpCommandFactory {
