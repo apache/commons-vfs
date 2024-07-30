@@ -28,7 +28,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSystemException;
 
 /**
- * A {@link java.io.FileFilter} providing conditional OR logic across a list of
+ * A {@link FileFilter} providing conditional OR logic across a list of
  * file filters. This filter returns {@code true} if any filters in the list
  * return {@code true}. Otherwise, it returns {@code false}. Checking of the
  * file filter list stops when the first filter returns {@code true}.
@@ -48,7 +48,7 @@ public class OrFileFilter implements FileFilter, ConditionalFileFilter, Serializ
      * Default constructor.
      */
     public OrFileFilter() {
-        this.fileFilters = new ArrayList<>();
+        fileFilters = new ArrayList<>();
     }
 
     /**
@@ -65,7 +65,7 @@ public class OrFileFilter implements FileFilter, ConditionalFileFilter, Serializ
                 throw new IllegalArgumentException("Null filters are not allowed");
             }
         }
-        this.fileFilters = new ArrayList<>(Arrays.asList(filters));
+        fileFilters = new ArrayList<>(Arrays.asList(filters));
     }
 
     /**
@@ -94,17 +94,17 @@ public class OrFileFilter implements FileFilter, ConditionalFileFilter, Serializ
 
     @Override
     public void addFileFilter(final FileFilter fileFilter) {
-        this.fileFilters.add(fileFilter);
+        fileFilters.add(fileFilter);
     }
 
     @Override
     public List<FileFilter> getFileFilters() {
-        return Collections.unmodifiableList(this.fileFilters);
+        return Collections.unmodifiableList(fileFilters);
     }
 
     @Override
     public boolean removeFileFilter(final FileFilter fileFilter) {
-        return this.fileFilters.remove(fileFilter);
+        return fileFilters.remove(fileFilter);
     }
 
     @Override

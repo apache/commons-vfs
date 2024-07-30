@@ -92,7 +92,7 @@ public class PosixPermissions {
          * @return the mask for this permission.
          */
         public int getMask() {
-            return this.mask;
+            return mask;
         }
 
     }
@@ -132,7 +132,7 @@ public class PosixPermissions {
      * @return The new permissions.
      */
     private int computeNewPermissions(final Map<Type, Boolean> values) {
-        int newPerms = this.permissions;
+        int newPerms = permissions;
         for (final Map.Entry<Type, Boolean> entry : values.entrySet()) {
             final Type type = entry.getKey();
             if (entry.getValue()) {
@@ -150,7 +150,7 @@ public class PosixPermissions {
      * @return whether the bit corresponding to the permission is set.
      */
     private boolean get(final Type type) {
-        return (type.getMask() & this.permissions) != 0;
+        return (type.getMask() & permissions) != 0;
     }
 
     /**
@@ -159,7 +159,7 @@ public class PosixPermissions {
      * @return permissions.
      */
     public int getPermissions() {
-        return this.permissions;
+        return permissions;
     }
 
     /**
@@ -168,13 +168,13 @@ public class PosixPermissions {
      * @return whether the permissions are executable.
      */
     public boolean isExecutable() {
-        if (this.isOwner) {
-            return this.get(Type.UserExecutable);
+        if (isOwner) {
+            return get(Type.UserExecutable);
         }
-        if (this.isInGroup) {
-            return this.get(Type.GroupExecutable);
+        if (isInGroup) {
+            return get(Type.GroupExecutable);
         }
-        return this.get(Type.OtherExecutable);
+        return get(Type.OtherExecutable);
     }
 
     /**
@@ -183,13 +183,13 @@ public class PosixPermissions {
      * @return whether the permissions are readable.
      */
     public boolean isReadable() {
-        if (this.isOwner) {
-            return this.get(Type.UserReadable);
+        if (isOwner) {
+            return get(Type.UserReadable);
         }
-        if (this.isInGroup) {
-            return this.get(Type.GroupReadable);
+        if (isInGroup) {
+            return get(Type.GroupReadable);
         }
-        return this.get(Type.OtherReadable);
+        return get(Type.OtherReadable);
     }
 
     /**
@@ -198,13 +198,13 @@ public class PosixPermissions {
      * @return whether the permissions are writable.
      */
     public boolean isWritable() {
-        if (this.isOwner) {
-            return this.get(Type.UserWritable);
+        if (isOwner) {
+            return get(Type.UserWritable);
         }
-        if (this.isInGroup) {
-            return this.get(Type.GroupWritable);
+        if (isInGroup) {
+            return get(Type.GroupWritable);
         }
-        return this.get(Type.OtherWritable);
+        return get(Type.OtherWritable);
     }
 
     /**
@@ -221,7 +221,7 @@ public class PosixPermissions {
             map.put(Type.GroupExecutable, executable);
             map.put(Type.OtherExecutable, executable);
         }
-        return this.computeNewPermissions(map);
+        return computeNewPermissions(map);
     }
 
     /**
@@ -238,7 +238,7 @@ public class PosixPermissions {
             map.put(Type.GroupReadable, readable);
             map.put(Type.OtherReadable, readable);
         }
-        return this.computeNewPermissions(map);
+        return computeNewPermissions(map);
     }
 
     /**
@@ -255,6 +255,6 @@ public class PosixPermissions {
             map.put(Type.GroupWritable, writable);
             map.put(Type.OtherWritable, writable);
         }
-        return this.computeNewPermissions(map);
+        return computeNewPermissions(map);
     }
 }

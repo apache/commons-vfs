@@ -51,7 +51,7 @@ public class FileDepthSelector implements FileSelector {
      * @param maxDepth maximum depth
      */
     public FileDepthSelector(final int minDepth, final int maxDepth) {
-        this.range = Range.between(minDepth, maxDepth);
+        range = Range.between(minDepth, maxDepth);
     }
 
     /**

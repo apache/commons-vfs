@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * This filter accepts {@code File}s that can be written to.
  * <p>
  * Example, showing how to print out a list of the current directory's
- * <i>writable</i> files:
+ * <em>writable</em> files:
  * </p>
  *
  * <pre>
@@ -43,7 +43,7 @@ import org.apache.commons.vfs2.FileSystemException;
  *
  * <p>
  * Example, showing how to print out a list of the current directory's
- * <i>un-writable</i> files:
+ * <em>un-writable</em> files:
  * </p>
  *
  * <pre>
@@ -66,10 +66,10 @@ import org.apache.commons.vfs2.FileSystemException;
  */
 public class CanWriteFileFilter implements FileFilter, Serializable {
 
-    /** Singleton instance of <i>writable</i> filter. */
+    /** Singleton instance of <em>writable</em> filter. */
     public static final FileFilter CAN_WRITE = new CanWriteFileFilter();
 
-    /** Singleton instance of not <i>writable</i> filter. */
+    /** Singleton instance of not <em>writable</em> filter. */
     public static final FileFilter CANNOT_WRITE = new NotFileFilter(CAN_WRITE);
 
     private static final long serialVersionUID = 1L;

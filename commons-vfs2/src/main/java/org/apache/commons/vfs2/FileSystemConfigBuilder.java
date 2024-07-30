@@ -43,7 +43,7 @@ public abstract class FileSystemConfigBuilder {
      * @since 1.0
      */
     protected FileSystemConfigBuilder() {
-        this.prefix = PREFIX;
+        prefix = PREFIX;
     }
 
     /**
@@ -54,7 +54,7 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.0
      */
     protected FileSystemConfigBuilder(final String component) {
-        this.prefix = PREFIX + component;
+        prefix = PREFIX + component;
     }
 
     /**
@@ -718,7 +718,7 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.1
      */
     private String toPropertyKey(final String name) {
-        return this.prefix + name;
+        return prefix + name;
     }
 
 }

@@ -58,8 +58,8 @@ public class FtpsMultipleConnectionTest {
 
     @Test
     public void testUnderlyingConnect() throws SocketException, IOException {
-        final FTPSClient client1 = this.init(new FTPSClient(true));
-        final FTPSClient client2 = this.init(new FTPSClient(true));
+        final FTPSClient client1 = init(new FTPSClient(true));
+        final FTPSClient client2 = init(new FTPSClient(true));
         try {
             final String hostname = "localhost";
             client1.connect(hostname, AbstractFtpsProviderTestCase.getSocketPort());

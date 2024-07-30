@@ -26,7 +26,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * This filter accepts {@code File}s that can be read.
  * <p>
  * Example, showing how to print out a list of the current directory's
- * <i>readable</i> files:
+ * <em>readable</em> files:
  * </p>
  *
  * <pre>
@@ -40,7 +40,7 @@ import org.apache.commons.vfs2.FileSystemException;
  *
  * <p>
  * Example, showing how to print out a list of the current directory's
- * <i>un-readable</i> files:
+ * <em>un-readable</em> files:
  * </p>
  *
  * <pre>
@@ -54,7 +54,7 @@ import org.apache.commons.vfs2.FileSystemException;
  *
  * <p>
  * Example, showing how to print out a list of the current directory's
- * <i>read-only</i> files:
+ * <em>read-only</em> files:
  * </p>
  *
  * <pre>
@@ -72,13 +72,13 @@ import org.apache.commons.vfs2.FileSystemException;
  */
 public class CanReadFileFilter implements FileFilter, Serializable {
 
-    /** Singleton instance of <i>readable</i> filter. */
+    /** Singleton instance of <em>readable</em> filter. */
     public static final FileFilter CAN_READ = new CanReadFileFilter();
 
-    /** Singleton instance of not <i>readable</i> filter. */
+    /** Singleton instance of not <em>readable</em> filter. */
     public static final FileFilter CANNOT_READ = new NotFileFilter(CAN_READ);
 
-    /** Singleton instance of <i>read-only</i> filter. */
+    /** Singleton instance of <em>read-only</em> filter. */
     public static final FileFilter READ_ONLY = new AndFileFilter(CAN_READ, CanWriteFileFilter.CANNOT_WRITE);
 
     private static final long serialVersionUID = 1L;

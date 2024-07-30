@@ -75,7 +75,7 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
     @Override
     protected long doGetContentSize() throws Exception {
         final URLConnection conn = url.openConnection();
-        try (InputStream in = conn.getInputStream()) {
+        try (InputStream unused = conn.getInputStream()) {
             return conn.getContentLength();
         }
     }
@@ -94,7 +94,7 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
     @Override
     protected long doGetLastModifiedTime() throws Exception {
         final URLConnection conn = url.openConnection();
-        try (InputStream in = conn.getInputStream()) {
+        try (InputStream unused = conn.getInputStream()) {
             return conn.getLastModified();
         }
     }
@@ -107,7 +107,7 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
         try {
             // Attempt to connect & check status
             final URLConnection conn = url.openConnection();
-            try (InputStream in = conn.getInputStream()) {
+            try (InputStream unused = conn.getInputStream()) {
                 if (conn instanceof HttpURLConnection) {
                     final int status = ((HttpURLConnection) conn).getResponseCode();
                     // 200 is good, maybe add more later...

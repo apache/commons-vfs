@@ -79,7 +79,7 @@ public abstract class AbstractFileName implements FileName {
         throw new IllegalArgumentException();
     }
     private final String scheme;
-    private final String absPath;
+    private final String absolutePath;
 
     private FileType type;
     // Cached attributes
@@ -100,15 +100,15 @@ public abstract class AbstractFileName implements FileName {
      * @param type the file type.
      */
     public AbstractFileName(final String scheme, final String absolutePath, final FileType type) {
-        this.rootUri = null;
+        rootUri = null;
         this.scheme = scheme;
         this.type = type;
         if (StringUtils.isEmpty(absolutePath)) {
-            this.absPath = ROOT_PATH;
+            this.absolutePath = ROOT_PATH;
         } else if (absolutePath.length() > 1 && absolutePath.endsWith("/")) {
-            this.absPath = absolutePath.substring(0, absolutePath.length() - 1);
+            this.absolutePath = absolutePath.substring(0, absolutePath.length() - 1);
         } else {
-            this.absPath = absolutePath;
+            this.absolutePath = absolutePath;
         }
     }
 
@@ -148,7 +148,7 @@ public abstract class AbstractFileName implements FileName {
     private String createURI(final boolean useAbsolutePath, final boolean usePassword) {
         final StringBuilder buffer = new StringBuilder();
         appendRootUri(buffer, usePassword);
-        buffer.append(handleURISpecialCharacters(useAbsolutePath ? absPath : getPath()));
+        buffer.append(handleURISpecialCharacters(useAbsolutePath ? absolutePath : getPath()));
         return buffer.toString();
     }
 
@@ -280,9 +280,9 @@ public abstract class AbstractFileName implements FileName {
     @Override
     public String getPath() {
         if (VFS.isUriStyle()) {
-            return absPath + getUriTrailer();
+            return absolutePath + getUriTrailer();
         }
-        return absPath;
+        return absolutePath;
     }
 
     /**
@@ -505,7 +505,7 @@ public abstract class AbstractFileName implements FileName {
     @Override
     public boolean isFile() throws FileSystemException {
         // Use equals instead of == to avoid any class loader worries.
-        return FileType.FILE.equals(this.getType());
+        return FileType.FILE.equals(getType());
     }
 
     /**
@@ -518,7 +518,6 @@ public abstract class AbstractFileName implements FileName {
         if (type != FileType.FOLDER && type != FileType.FILE && type != FileType.FILE_OR_FOLDER) {
             throw new FileSystemException("vfs.provider/filename-type.error");
         }
-
         this.type = type;
     }
 

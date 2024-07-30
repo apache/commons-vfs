@@ -191,6 +191,15 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="Arnout Engelen, Gary Gregory">
         Support URLencoding during normalization #396.
       </action>
+      <action type="fix" dev="ggregory" due-to="Arnout Engelen, Gary Gregory">
+        Add some documentation to make the unit tests easier to follow #556.
+      </action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">
+        Fix or address PMD warnings UnnecessaryReturn, UnusedLocalVariable, UnnecessaryFullyQualifiedName, UnnecessaryImport, and so on.
+      </action>
+      <action type="fix" dev="ggregory" due-to="Arnout Engelen">
+        Simplify UriParser #558.
+      </action>
       <!-- ADD -->
       <action type="add" issue="VFS-848" dev="ggregory" due-to="beise, Gary Gregory">
         Config option for trailing slash in webdav URI #425.
@@ -205,7 +214,7 @@ The <action> type attribute can be add,update,fix,remove.
         Generate JPMS module info files when building on Java 11 or greater, except for commons-vfs2-hdfs due to Hadoop libraries' overlapping packages.
       </action>
       <action type="add" dev="ggregory" due-to="Seth Falco">
-        Add vscode files to gitignore #205.
+        Add Visual Studio Code files to gitignore #205.
       </action>
       <action type="add" dev="ggregory" due-to="Gary Gregory">
         Add DefaultFileMonitor.setDelay(Duration), getDelayDuration() and deprecate setDelay(long), getDelay().
@@ -272,13 +281,13 @@ The <action> type attribute can be add,update,fix,remove.
         Bump spotbugs-maven-plugin from 4.3.0 to 4.7.3.0, #229, #236. #264, #282, #331, #333.
       </action>
       <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">
-        Bump jackrabbit2.version to 2.20.15. Never use 2.21.x, it is "unstable".
+        Bump org.apache.jackrabbit:jackrabbit-standalone-components from 2.21.7 to 2.20.16, 2.21.x is beta only.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">
-        Bump org.apache.httpcomponents.client5:httpclient5 from 5.1 to 5.3.1.
+        Bump org.apache.httpcomponents.client5:httpclient5 from 5.1 to 5.4-beta1 #561.
       </action>
       <action type="update" dev="ggregory" due-to="Dependabot">
-        Bump org.apache.httpcomponents.core5:httpcore5 from 5.1.5 to 5.2.4 #369, #399, #429, #447.
+        Bump org.apache.httpcomponents.core5:httpcore5 from 5.1.5 to 5.3-beta1 #369, #399, #429, #447, #559.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">
         Bump org.apache.mina:mina-core from 2.1.4 to 2.1.8.
@@ -320,7 +329,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump slf4j.version from 1.7.26 to 2.0.13 #484, #486, #524.
       </action>
       <action dev="ggregory" due-to="Dependabot, Gary Gregory" type="update">
-        Bump org.apache.commons:commons-parent from 52 to 67 #497.
+        Bump org.apache.commons:commons-parent from 52 to 71 #497.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Bump org.ow2.asm:asm from 9.2 to 9.4.
@@ -332,16 +341,16 @@ The <action> type attribute can be add,update,fix,remove.
         Bump commons.surefire.version from 3.0.0-M5 to 3.0.0-M7.
       </action>
       <action dev="ggregory" due-to="Gary Gregory, Dependabot" type="update">
-        Bump Apache Commons BCEL from 6.5.0 to 6.9.0 #346, #451, #522.
+        Bump Apache Commons BCEL from 6.5.0 to 6.10.0 #346, #451, #522, #569.
       </action>
       <action dev="ggregory" due-to="Dependabot" type="update">
         Bump maven-checkstyle-plugin from 3.1.2 to 3.2.0 #321
       </action>
       <action dev="ggregory" due-to="Dependabot, Gary Gregory" type="update">
-        Bump commons-compress from 1.21 to 1.26.1 #329, #385, $498.
+        Bump commons-compress from 1.21 to 1.26.2 #329, #385, $498, #535.
       </action>
-      <action dev="ggregory" due-to="Gary Gregory" type="update">
-        Bump commons-net:commons-net from 3.8.0 to 3.10.0.
+      <action dev="ggregory" due-to="Gary Gregory, Dependabot" type="update">
+        Bump commons-net:commons-net from 3.8.0 to 3.11.1 #546, #548.
       </action>
       <action dev="ggregory" due-to="Dependabot" type="update">
         Bump httpclient from 4.5.13 to 4.5.14 #344.
@@ -350,25 +359,25 @@ The <action> type attribute can be add,update,fix,remove.
         Bump commons-io:commons-io from 2.11.0 to 2.16.1 #515.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">
-        Bump commons-codec:commons-codec from 1.15 to 1.17.0 #480, #530.
+        Bump commons-codec:commons-codec from 1.15 to 1.17.1 #480, #530, #567.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">
-        Bump commons-lang3 from 3.12.0 to 3.14.0.
+        Bump org.apache.commons:commons-lang3 from 3.12.0 to 3.15.0 #568.
       </action>
       <action type="update" dev="ggregory" due-to="Dependabot">
-        Bump org.codehaus.mojo:exec-maven-plugin from 3.1.0 to 3.1.1 #445.
+        Bump org.codehaus.mojo:exec-maven-plugin from 3.1.0 to 3.3.0 #445, #536.
       </action>
       <action dev="ggregory" type="update" due-to="Gary Gregory">
-        Bump commons-logging:commons-logging from 1.2 to 1.3.2, #531.
+        Bump commons-logging:commons-logging from 1.2 to 1.3.3, #531, #563.
       </action>
       <action dev="ggregory" type="update" due-to="Gary Gregory">
         Bump org.codehaus.mojo:exec-maven-plugin from 3.1.1 to 3.2.0 #494.
       </action>
       <action dev="ggregory" type="update" due-to="Gary Gregory">
-        Bump httpcore5 from 5.2.4 to 5.3-alpha2.
+        Bump org.apache.commons:commons-collections4 from 4.4 to 4.5.0-M2.
       </action>
       <action dev="ggregory" type="update" due-to="Gary Gregory">
-        Bump httpclient5 from 5.3.1 to 5.4-alpha2.
+        Bump ant:ant 1.6.5 to org.apache.ant:ant 1.10.14.
       </action>
     </release>
     <release version="2.9.0" date="2021-06-16" description="Maintenance release. Requires Java 8 or above.">

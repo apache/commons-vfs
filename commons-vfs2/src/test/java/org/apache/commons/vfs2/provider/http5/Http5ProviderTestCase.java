@@ -60,8 +60,7 @@ public class Http5ProviderTestCase extends AbstractProviderTestConfig {
      */
     private static void setUpClass() throws Exception {
         server = NHttpFileServer.start(0, new File(getTestDirectory()), 5000);
-        final int socketPort = server.getPort();
-        connectionUri = "http5://localhost:" + socketPort;
+        connectionUri = getLocalHostUriString("http5", server.getPort());
     }
 
     /**
@@ -138,7 +137,7 @@ public class Http5ProviderTestCase extends AbstractProviderTestConfig {
     public void ignoreTestHttp405() throws FileSystemException {
         final FileObject fileObject = VFS.getManager()
                 .resolveFile("http5://www.w3schools.com/webservices/tempconvert.asmx?action=WSDL");
-        assert !fileObject.getContent().isEmpty();
+        Assertions.assertFalse(fileObject.getContent().isEmpty(), "Content should not be empty");
     }
 
     /**

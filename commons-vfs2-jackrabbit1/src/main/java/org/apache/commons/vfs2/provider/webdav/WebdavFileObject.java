@@ -191,7 +191,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
                     log(e);
                 }
             }
-            ((DefaultFileContent) this.file.getContent()).resetAttributes();
+            ((DefaultFileContent) file.getContent()).resetAttributes();
         }
 
         private void setUserName(final URLFileName fileName, final String urlStr) throws IOException {
@@ -544,7 +544,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
         final URLFileName newFile = new URLFileName("http", name.getHostName(), name.getPort(), name.getDefaultPort(),
                 null, null, name.getPath(), name.getType(), name.getQueryString());
         try {
-            return newFile.getURIEncoded(this.getUrlCharset());
+            return newFile.getURIEncoded(getUrlCharset());
         } catch (final Exception e) {
             return name.getURI();
         }
@@ -598,9 +598,9 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
      */
     @Override
     protected void setupMethod(final HttpMethod method) throws FileSystemException, URIException {
-        final String pathEncoded = ((URLFileName) getName()).getPathQueryEncoded(this.getUrlCharset());
+        final String pathEncoded = ((URLFileName) getName()).getPathQueryEncoded(getUrlCharset());
         method.setPath(pathEncoded);
-        method.setFollowRedirects(this.getFollowRedirect());
+        method.setFollowRedirects(getFollowRedirect());
         method.setRequestHeader("User-Agent", "Jakarta-Commons-VFS");
         method.addRequestHeader("Cache-control", "no-cache");
         method.addRequestHeader("Cache-store", "no-store");
@@ -629,7 +629,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
         final URLFileName newFile = new URLFileName("http", name.getHostName(), name.getPort(), name.getDefaultPort(),
                 user, password, name.getPath(), name.getType(), name.getQueryString());
         try {
-            return newFile.getURIEncoded(this.getUrlCharset());
+            return newFile.getURIEncoded(getUrlCharset());
         } catch (final Exception e) {
             return name.getURI();
         }

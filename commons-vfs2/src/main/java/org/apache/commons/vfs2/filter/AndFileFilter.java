@@ -49,7 +49,7 @@ public class AndFileFilter implements FileFilter, ConditionalFileFilter, Seriali
      * Default constructor.
      */
     public AndFileFilter() {
-        this.fileFilters = new ArrayList<>();
+        fileFilters = new ArrayList<>();
     }
 
     /**
@@ -66,7 +66,7 @@ public class AndFileFilter implements FileFilter, ConditionalFileFilter, Seriali
                 throw new IllegalArgumentException("Null filters are not allowed");
             }
         }
-        this.fileFilters = new ArrayList<>(Arrays.asList(filters));
+        fileFilters = new ArrayList<>(Arrays.asList(filters));
     }
 
     /**
@@ -85,7 +85,7 @@ public class AndFileFilter implements FileFilter, ConditionalFileFilter, Seriali
 
     @Override
     public boolean accept(final FileSelectInfo fileSelectInfo) throws FileSystemException {
-        if (this.fileFilters.isEmpty()) {
+        if (fileFilters.isEmpty()) {
             return false;
         }
         for (final FileFilter fileFilter : fileFilters) {
@@ -98,17 +98,17 @@ public class AndFileFilter implements FileFilter, ConditionalFileFilter, Seriali
 
     @Override
     public void addFileFilter(final FileFilter fileFilter) {
-        this.fileFilters.add(fileFilter);
+        fileFilters.add(fileFilter);
     }
 
     @Override
     public List<FileFilter> getFileFilters() {
-        return Collections.unmodifiableList(this.fileFilters);
+        return Collections.unmodifiableList(fileFilters);
     }
 
     @Override
     public boolean removeFileFilter(final FileFilter fileFilter) {
-        return this.fileFilters.remove(fileFilter);
+        return fileFilters.remove(fileFilter);
     }
 
     @Override

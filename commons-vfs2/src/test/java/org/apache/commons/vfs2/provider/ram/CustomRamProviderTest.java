@@ -68,7 +68,7 @@ public class CustomRamProviderTest {
      * Closes the given {@link Closeable} during the tearDown phase.
      */
     private <C extends Closeable> C closeOnTearDown(final C closeable) {
-        this.closeables.add(closeable);
+        closeables.add(closeable);
         return closeable;
     }
 
@@ -122,7 +122,7 @@ public class CustomRamProviderTest {
 
     @AfterEach
     public void tearDown() {
-        for (final Closeable closeable : this.closeables) {
+        for (final Closeable closeable : closeables) {
             try {
                 closeable.close();
             } catch (final Exception e) {
@@ -169,13 +169,13 @@ public class CustomRamProviderTest {
 
     @Test
     public void testReadEmptyFileByteByByte() throws FileSystemException, IOException {
-        final InputStream input = this.createEmptyFile();
+        final InputStream input = createEmptyFile();
         assertEquals(-1, input.read(),"Empty file didn't return EOF -1");
     }
 
     @Test
     public void testReadEmptyFileIntoBuffer() throws FileSystemException, IOException {
-        final InputStream input = this.createEmptyFile();
+        final InputStream input = createEmptyFile();
 
         final byte[] buffer = new byte[100];
         assertEquals(-1, input.read(buffer), "Empty file didn't return when filling buffer");
@@ -184,7 +184,7 @@ public class CustomRamProviderTest {
 
     @Test
     public void testReadEmptyFileIntoBufferWithOffsetAndLength() throws FileSystemException, IOException {
-        final InputStream input = this.createEmptyFile();
+        final InputStream input = createEmptyFile();
         final byte[] buffer = new byte[100];
         assertEquals(-1, input.read(buffer, 10, 90), "Empty file didn't return when filling buffer");
         assertArrayEquals(new byte[100], buffer, "Buffer was written too");
@@ -192,7 +192,7 @@ public class CustomRamProviderTest {
 
     @Test
     public void testReadNonEmptyFileByteByByte() throws FileSystemException, IOException {
-        final InputStream input = this.createNonEmptyFile();
+        final InputStream input = createNonEmptyFile();
 
         assertEquals(1, input.read(), "Read 1st byte failed");
         assertEquals(2, input.read(), "Read 2st byte failed");
@@ -202,7 +202,7 @@ public class CustomRamProviderTest {
 
     @Test
     public void testReadNonEmptyFileIntoBuffer() throws FileSystemException, IOException {
-        final InputStream input = this.createNonEmptyFile();
+        final InputStream input = createNonEmptyFile();
 
         final byte[] buffer = new byte[100];
         assertEquals(NON_EMPTY_FILE_CONTENT.length, input.read(buffer), "Filling buffer failed when file is not empty");
@@ -219,7 +219,7 @@ public class CustomRamProviderTest {
 
     @Test
     public void testReadNonEmptyFileIntoBufferWithOffsetAndLength() throws FileSystemException, IOException {
-        final InputStream input = this.createNonEmptyFile();
+        final InputStream input = createNonEmptyFile();
 
         final byte[] buffer = new byte[100];
         final int offset = 10;

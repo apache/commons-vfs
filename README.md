@@ -44,7 +44,6 @@ Apache Commons VFS Project
 ===================
 
 [![Java CI](https://github.com/apache/commons-vfs/actions/workflows/maven.yml/badge.svg)](https://github.com/apache/commons-vfs/actions/workflows/maven.yml)
-[![Coverage Status](https://codecov.io/gh/apache/commons-vfs/branch/master/graph/badge.svg)](https://app.codecov.io/gh/apache/commons-vfs)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-vfs2/badge.svg?gav=true)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-vfs2/?gav=true)
 [![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-vfs2/2.10.0.svg)](https://javadoc.io/doc/org.apache.commons/commons-vfs2/2.10.0)
 [![CodeQL](https://github.com/apache/commons-vfs/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/apache/commons-vfs/actions/workflows/codeql-analysis.yml)

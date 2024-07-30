@@ -48,7 +48,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent {
         super(RandomAccessMode.READ);
         this.fs = fs;
         this.path = path;
-        this.fis = this.fs.open(this.path);
+        fis = this.fs.open(this.path);
     }
 
     /**
@@ -56,7 +56,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent {
      */
     @Override
     public void close() throws IOException {
-        this.fis.close();
+        fis.close();
     }
 
     /**
@@ -64,7 +64,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent {
      */
     @Override
     public long getFilePointer() throws IOException {
-        return this.fis.getPos();
+        return fis.getPos();
     }
 
     /**
@@ -72,7 +72,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent {
      */
     @Override
     public InputStream getInputStream() throws IOException {
-        return this.fis;
+        return fis;
     }
 
     /**
@@ -80,7 +80,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent {
      */
     @Override
     public long length() throws IOException {
-        return this.fs.getFileStatus(this.path).getLen();
+        return fs.getFileStatus(path).getLen();
     }
 
     /**
@@ -88,7 +88,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent {
      */
     @Override
     public boolean readBoolean() throws IOException {
-        return this.fis.readBoolean();
+        return fis.readBoolean();
     }
 
     /**
@@ -96,7 +96,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent {
      */
     @Override
     public byte readByte() throws IOException {
-        return this.fis.readByte();
+        return fis.readByte();
     }
 
     /**
@@ -104,7 +104,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent {
      */
     @Override
     public char readChar() throws IOException {
-        return this.fis.readChar();
+        return fis.readChar();
     }
 
     /**
@@ -112,7 +112,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent {
      */
     @Override
     public double readDouble() throws IOException {
-        return this.fis.readDouble();
+        return fis.readDouble();
     }
 
     /**
@@ -120,7 +120,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent {
      */
     @Override
     public float readFloat() throws IOException {
-        return this.fis.readFloat();
+        return fis.readFloat();
     }
 
     /**
@@ -144,7 +144,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent {
      */
     @Override
     public int readInt() throws IOException {
-        return this.fis.readInt();
+        return fis.readInt();
     }
 
     /**
@@ -153,7 +153,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent {
     @Override
     @SuppressWarnings("deprecation")
     public String readLine() throws IOException {
-        return this.fis.readLine();
+        return fis.readLine();
     }
 
     /**
@@ -161,7 +161,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent {
      */
     @Override
     public long readLong() throws IOException {
-        return this.fis.readLong();
+        return fis.readLong();
     }
 
     /**
@@ -169,7 +169,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent {
      */
     @Override
     public short readShort() throws IOException {
-        return this.fis.readShort();
+        return fis.readShort();
     }
 
     /**
@@ -177,7 +177,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent {
      */
     @Override
     public int readUnsignedByte() throws IOException {
-        return this.fis.readUnsignedByte();
+        return fis.readUnsignedByte();
     }
 
     /**
@@ -185,7 +185,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent {
      */
     @Override
     public int readUnsignedShort() throws IOException {
-        return this.fis.readUnsignedShort();
+        return fis.readUnsignedShort();
     }
 
     /**
@@ -193,7 +193,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent {
      */
     @Override
     public String readUTF() throws IOException {
-        return this.fis.readUTF();
+        return fis.readUTF();
     }
 
     /**
@@ -201,7 +201,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent {
      */
     @Override
     public void seek(final long pos) throws IOException {
-        this.fis.seek(pos);
+        fis.seek(pos);
     }
 
     /**

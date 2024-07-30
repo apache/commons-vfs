@@ -118,7 +118,7 @@ public abstract class AbstractTestSuite extends TestSetup {
             final AbstractProviderTestCase testCase = (AbstractProviderTestCase) testClass.getConstructor().newInstance();
             testCase.setMethod(method);
             testCase.setName(prefix + method.getName());
-            testCase.addEmptyDir(this.addEmptyDir);
+            testCase.addEmptyDir(addEmptyDir);
             testSuite.addTest(testCase);
         }
     }
