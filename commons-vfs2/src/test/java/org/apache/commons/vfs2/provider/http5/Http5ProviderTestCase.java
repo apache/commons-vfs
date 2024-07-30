@@ -137,7 +137,7 @@ public class Http5ProviderTestCase extends AbstractProviderTestConfig {
     public void ignoreTestHttp405() throws FileSystemException {
         final FileObject fileObject = VFS.getManager()
                 .resolveFile("http5://www.w3schools.com/webservices/tempconvert.asmx?action=WSDL");
-        assert !fileObject.getContent().isEmpty();
+        Assertions.assertFalse(fileObject.getContent().isEmpty(), "Content should not be empty");
     }
 
     /**

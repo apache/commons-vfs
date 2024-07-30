@@ -24,6 +24,7 @@ jobs:
   build:
 
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 20 # jobs generally take 10 mins
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
