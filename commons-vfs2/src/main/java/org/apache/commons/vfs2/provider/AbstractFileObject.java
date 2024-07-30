@@ -995,7 +995,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public FileObject[] findFiles(final FileSelector selector) throws FileSystemException {
         final List<FileObject> list = this.listFiles(selector);
-        return list == null ? null : list.toArray(FileObject.EMPTY_ARRAY);
+        return list == null ? null : list.toArray(EMPTY_ARRAY);
     }
 
     /**
@@ -1835,7 +1835,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public FileObject resolveFile(final String name, final NameScope scope) throws FileSystemException {
         // return fs.resolveFile(this.name.resolveName(name, scope));
-        return fileSystem.resolveFile(fileSystem.getFileSystemManager().resolveName(this.fileName, name, scope));
+        return fileSystem.resolveFile(fileSystem.getFileSystemManager().resolveName(fileName, name, scope));
     }
 
     private FileObject[] resolveFiles(final FileName[] children) throws FileSystemException {

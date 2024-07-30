@@ -71,7 +71,7 @@ public abstract class AbstractSyncTask extends VfsTask {
     private String destDirUrl;
     private String srcDirUrl;
     private boolean srcDirIsBase;
-    private boolean failonerror = true;
+    private boolean failOnError = true;
 
     private String filesList;
 
@@ -346,7 +346,7 @@ public abstract class AbstractSyncTask extends VfsTask {
      * @return true if the operation should fail if there was an error.
      */
     public boolean isFailonerror() {
-        return failonerror;
+        return failOnError;
     }
 
     protected void logOrDie(final String message, final int level) {
@@ -360,28 +360,28 @@ public abstract class AbstractSyncTask extends VfsTask {
     /**
      * Sets the destination directory.
      *
-     * @param destDir The destination directory.
+     * @param destDirUrl The destination directory.
      */
-    public void setDestDir(final String destDir) {
-        this.destDirUrl = destDir;
+    public void setDestDir(final String destDirUrl) {
+        this.destDirUrl = destDirUrl;
     }
 
     /**
      * Sets the destination file.
      *
-     * @param destFile The destination file name.
+     * @param destFileUrl The destination file name.
      */
-    public void setDestFile(final String destFile) {
-        this.destFileUrl = destFile;
+    public void setDestFile(final String destFileUrl) {
+        this.destFileUrl = destFileUrl;
     }
 
     /**
      * Sets whether we should fail if there was an error or not.
      *
-     * @param failonerror true if the operation should fail if there is an error.
+     * @param failOnError true if the operation should fail if there is an error.
      */
-    public void setFailonerror(final boolean failonerror) {
-        this.failonerror = failonerror;
+    public void setFailonerror(final boolean failOnError) {
+        this.failOnError = failOnError;
     }
 
     /**
@@ -407,10 +407,10 @@ public abstract class AbstractSyncTask extends VfsTask {
     /**
      * Sets the source directory.
      *
-     * @param srcDir The source directory.
+     * @param srcDirUrl The source directory.
      */
-    public void setSrcDir(final String srcDir) {
-        this.srcDirUrl = srcDir;
+    public void setSrcDir(final String srcDirUrl) {
+        this.srcDirUrl = srcDirUrl;
     }
 
     /**

@@ -89,12 +89,12 @@ public class PatternFileSelector implements FileSelector {
      */
     @Override
     public boolean includeFile(final FileSelectInfo fileInfo) throws Exception {
-        return this.pattern.matcher(fileInfo.getFile().getName().getPath()).matches();
+        return pattern.matcher(fileInfo.getFile().getName().getPath()).matches();
     }
 
     @Override
     public String toString() {
-        return this.pattern.toString();
+        return pattern.toString();
     }
 
     /**

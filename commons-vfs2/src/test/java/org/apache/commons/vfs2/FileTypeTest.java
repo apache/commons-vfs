@@ -33,7 +33,7 @@ public class FileTypeTest {
         private final FileType fileType = FileType.FILE;
 
         public FileType getFileType() {
-            return this.fileType;
+            return fileType;
         }
 
     }

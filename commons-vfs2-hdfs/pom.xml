@@ -202,7 +202,7 @@
              <version>${jsch.version}</version>
             </dependency>
             <dependency>
-              <groupId>ant</groupId>
+              <groupId>org.apache.ant</groupId>
               <artifactId>ant</artifactId>
              <version>${ant.version}</version>
             </dependency>

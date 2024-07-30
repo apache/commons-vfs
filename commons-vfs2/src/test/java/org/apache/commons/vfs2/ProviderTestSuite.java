@@ -20,6 +20,10 @@ import org.apache.commons.vfs2.impl.VfsClassLoaderTests;
 
 /**
  * The suite of tests for a file system.
+ * <p>
+ * To be ran in the context of a provider using a wrapper such as
+ * {@link org.apache.commons.vfs2.provider.local.LocalProviderTestCase}
+ * </p>
  */
 public class ProviderTestSuite extends AbstractTestSuite {
 

@@ -511,7 +511,7 @@ public final class DefaultFileContent implements FileContent {
     }
 
     private FileContentThreadData getFileContentThreadData() {
-        return this.threadLocal.get();
+        return threadLocal.get();
     }
 
     /**

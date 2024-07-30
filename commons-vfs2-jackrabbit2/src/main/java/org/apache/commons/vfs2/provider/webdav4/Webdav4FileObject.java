@@ -96,7 +96,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
             try {
                 final HttpVersionControl request = setupRequest(new HttpVersionControl(urlStr));
                 // AutoClose the underlying HTTP connection which is held by the response object
-                try (CloseableHttpResponse res = (CloseableHttpResponse) executeRequest(request)) {
+                try (CloseableHttpResponse unused = (CloseableHttpResponse) executeRequest(request)) {
                     return true;
                 }
             } catch (final Exception ex) {
@@ -138,7 +138,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                     try {
                         final HttpCheckout request = setupRequest(new HttpCheckout(urlStr));
                         // AutoClose the underlying HTTP connection which is held by the response object
-                        try (CloseableHttpResponse res = (CloseableHttpResponse) executeRequest(request)) {
+                        try (CloseableHttpResponse unused = (CloseableHttpResponse) executeRequest(request)) {
                             isCheckedIn = false;
                         }
                     } catch (final FileSystemException ex) {
@@ -151,7 +151,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                     request.setEntity(entity);
                     setupRequest(request);
                     // AutoClose the underlying HTTP connection which is held by the response object
-                    try (CloseableHttpResponse res = (CloseableHttpResponse) executeRequest(request)) {
+                    try (CloseableHttpResponse unused = (CloseableHttpResponse) executeRequest(request)) {
                         setUserName(fileName, urlStr);
                     }
                 } catch (final FileSystemException ex) {
@@ -160,7 +160,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                             final HttpCheckin request = new HttpCheckin(urlStr);
                             setupRequest(request);
                             // AutoClose the underlying HTTP connection which is held by the response object
-                            try (CloseableHttpResponse res = (CloseableHttpResponse) executeRequest(request)) {
+                            try (CloseableHttpResponse unused = (CloseableHttpResponse) executeRequest(request)) {
                                 isCheckedIn = true;
                             }
                         } catch (final Exception e) {
@@ -183,7 +183,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                     final HttpCheckin request = new HttpCheckin(urlStr);
                     setupRequest(request);
                     // AutoClose the underlying HTTP connection which is held by the response object
-                    try (CloseableHttpResponse res = (CloseableHttpResponse) executeRequest(request)) {
+                    try (CloseableHttpResponse unused = (CloseableHttpResponse) executeRequest(request)) {
                         isCheckedIn = true;
                     }
                 }
@@ -192,7 +192,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                 request.setEntity(entity);
                 setupRequest(request);
                 // AutoClose the underlying HTTP connection which is held by the response object
-                try (CloseableHttpResponse res = (CloseableHttpResponse) executeRequest(request)) {
+                try (CloseableHttpResponse unused = (CloseableHttpResponse) executeRequest(request)) {
                     try {
                         setUserName(fileName, urlStr);
                     } catch (final IOException e) {
@@ -201,7 +201,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                     }
                 }
             }
-            ((DefaultFileContent) this.file.getContent()).resetAttributes();
+            ((DefaultFileContent) file.getContent()).resetAttributes();
         }
 
         private void setUserName(final GenericURLFileName fileName, final String urlStr) throws IOException {
@@ -574,7 +574,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
         try {
             final GenericURLFileName newFile = new GenericURLFileName(getInternalURI().getScheme(), name.getHostName(), name.getPort(), name.getDefaultPort(),
                     null, null, name.getPath(), name.getType(), name.getQueryString());
-            return newFile.getURIEncoded(this.getUrlCharset());
+            return newFile.getURIEncoded(getUrlCharset());
         } catch (final Exception e) {
             return name.getURI();
         }
@@ -656,7 +656,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
             final GenericURLFileName newFile = new Webdav4FileName(getInternalURI().getScheme(), name.getHostName(), name.getPort(), name.getDefaultPort(),
                     user, password, name.getPath(), name.getType(), name.getQueryString(),
                     builder.getAppendTrailingSlash(getFileSystem().getFileSystemOptions()));
-            return newFile.getURIEncoded(this.getUrlCharset());
+            return newFile.getURIEncoded(getUrlCharset());
         } catch (final Exception e) {
             return name.getURI();
         }

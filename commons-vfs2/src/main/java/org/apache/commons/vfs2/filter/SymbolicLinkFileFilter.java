@@ -26,7 +26,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * This filter accepts {@code File}s that are symbolic links.
  * <p>
  * Example, showing how to print out a list of the current directory's
- * <i>symbolic link</i> files:
+ * <em>symbolic link</em> files:
  * </p>
  *
  * <pre>
@@ -40,7 +40,7 @@ import org.apache.commons.vfs2.FileSystemException;
  *
  * <p>
  * Example, showing how to print out a list of the current directory's
- * <i>actual</i> (i.e. symbolic link) files:
+ * <em>actual</em> (i.e. symbolic link) files:
  * </p>
  *
  * <pre>
@@ -56,10 +56,10 @@ import org.apache.commons.vfs2.FileSystemException;
  */
 public class SymbolicLinkFileFilter implements FileFilter, Serializable {
 
-    /** Singleton instance of <i>hidden</i> filter. */
+    /** Singleton instance of <em>hidden</em> filter. */
     public static final FileFilter SYMBOLIC = new SymbolicLinkFileFilter();
 
-    /** Singleton instance of <i>visible</i> filter. */
+    /** Singleton instance of <em>visible</em> filter. */
     public static final FileFilter ACTUAL = new NotFileFilter(SYMBOLIC);
 
     private static final long serialVersionUID = 1L;
@@ -75,7 +75,7 @@ public class SymbolicLinkFileFilter implements FileFilter, Serializable {
      *
      * @param fileSelectInfo the file to check
      *
-     * @return {@code true} if the file is <i>symbolic link</i>, otherwise {@code false}.
+     * @return {@code true} if the file is <em>symbolic link</em>, otherwise {@code false}.
      * @throws FileSystemException Thrown for file system errors.
      */
     @Override

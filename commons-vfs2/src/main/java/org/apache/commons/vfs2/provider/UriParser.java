@@ -29,173 +29,8 @@ import org.apache.commons.vfs2.VFS;
  */
 public final class UriParser {
 
-    private static class PathNormalizer {
-        private final StringBuilder path;
-
-        private int cursor;
-        private int lastSeparator;
-        private int end;
-
-        PathNormalizer(final StringBuilder path) {
-            this.path = path;
-            this.end = path.length();
-        }
-
-        private boolean consumeSeparator() {
-            final int from = cursor;
-            if (readSeparator()) {
-                path.delete(from, cursor);
-                cursor = from;
-                this.end = path.length();
-                return true;
-            }
-            return false;
-        }
-
-        private void consumeSeparators() {
-            boolean consuming = true;
-            while (consuming) {
-                consuming = consumeSeparator();
-            }
-        }
-
-        private boolean readDot() {
-            if (cursor == end) {
-                return false;
-            }
-            if (path.charAt(cursor) == '.') {
-                cursor++;
-                return true;
-            }
-            if (cursor + 2 >= end) {
-                return false;
-            }
-            if (path.charAt(cursor) == '%' && path.charAt(cursor + 1) == '2' &&
-                    (path.charAt(cursor + 2) == 'E' || path.charAt(cursor + 2) == 'e')) {
-                cursor += 3;
-                return true;
-            }
-            return false;
-        }
-
-        private boolean readNonSeparator() {
-            if (cursor == end) {
-                return false;
-            }
-            if (path.charAt(cursor) == SEPARATOR_CHAR) {
-                return false;
-            }
-            if (cursor + 2 >= end) {
-                cursor++;
-                return true;
-            }
-            if (isCursorAtUrlEncodedSlash()) {
-                return false;
-            }
-            cursor++;
-            return true;
-        }
-
-        private void readNonSeparators() {
-            boolean reading = true;
-            while (reading) {
-                reading = readNonSeparator();
-            }
-        }
-
-        private boolean readSeparator() {
-            if (cursor == end) {
-                return false;
-            }
-            if (path.charAt(cursor) == SEPARATOR_CHAR) {
-                cursor++;
-                return true;
-            }
-            if (cursor + 2 >= end) {
-                return false;
-            }
-            if (isCursorAtUrlEncodedSlash()) {
-                cursor += 3;
-                return true;
-            }
-            return false;
-        }
-
-        private void readToNextSeparator() {
-            boolean reading = true;
-            while (reading) {
-                reading = readNonSeparator();
-            }
-        }
-
-        private boolean isCursorAtUrlEncodedSlash() {
-            return path.charAt(cursor) == '%' && path.charAt(cursor + 1) == '2' &&
-                    (path.charAt(cursor + 2) == 'F' || path.charAt(cursor + 2) == 'f');
-        }
-
-        private void removePreviousElement(final int to) throws FileSystemException {
-            if (lastSeparator == 0) {
-                // Previous element is missing
-                throw new FileSystemException("vfs.provider/invalid-relative-path.error");
-            }
-            cursor = lastSeparator - 1;
-            while (readNonSeparator()) {
-                cursor -= 2;
-                if (cursor < 0) {
-                    // Previous element is the first element
-                    cursor = 0;
-                    break;
-                }
-            }
-            path.delete(cursor, to);
-            lastSeparator = cursor;
-            this.end = path.length();
-            readSeparator();
-        }
-
-        void run() throws FileSystemException {
-            lastSeparator = cursor;
-            readSeparator();
-            while (cursor < end) {
-                consumeSeparators();
-                if (readDot()) {
-                    if (readDot()) {
-                        final int beforeNextSeparator = cursor;
-                        if (readSeparator() || cursor == end) {
-                            // '/../'
-                            removePreviousElement(beforeNextSeparator);
-                        } else {
-                            // '/..other'
-                            readNonSeparators();
-                            lastSeparator = cursor;
-                            readSeparator();
-                        }
-                    } else {
-                        final int beforeNextSeparator = cursor;
-                        if (readSeparator() || cursor == end) {
-                            // '/./'
-                            path.delete(lastSeparator, beforeNextSeparator);
-                            cursor = lastSeparator + cursor - beforeNextSeparator;
-                            this.end = path.length();
-                        } else {
-                            // '/.other'
-                            readNonSeparators();
-                            lastSeparator = cursor;
-                            readSeparator();
-                        }
-                    }
-                } else {
-                    readToNextSeparator();
-                    lastSeparator = cursor;
-                    readSeparator();
-                }
-            }
-        }
-
-    }
-
     /**
-     * The set of valid separators. These are all converted to the normalized one. Does <i>not</i> contain the
+     * The set of valid separators. These are all converted to the normalized one. Does <em>not</em> contain the
      * normalized separator
      */
     // public static final char[] separators = {'\\'};
@@ -211,9 +46,6 @@ public final class UriParser {
     private static final int BITS_IN_HALF_BYTE = 4;
 
     private static final char LOW_MASK = 0x0F;
-    private static final String URLENCODED_SLASH_LC = "%2f";
-
-    private static final String URLENCODED_SLASH_UC = "%2F";
 
     /**
      * Encodes and appends a string to a StringBuilder.
@@ -617,12 +449,25 @@ public final class UriParser {
      */
     public static boolean fixSeparators(final StringBuilder name) {
         boolean changed = false;
-        final int maxlen = name.length();
+        int maxlen = name.length();
         for (int i = 0; i < maxlen; i++) {
             final char ch = name.charAt(i);
             if (ch == TRANS_SEPARATOR) {
                 name.setCharAt(i, SEPARATOR_CHAR);
                 changed = true;
+            }
+            if (i < maxlen - 2 && name.charAt(i) == '%' && name.charAt(i + 1) == '2') {
+                if (name.charAt(i + 2) == 'f' || name.charAt(i + 2) == 'F') {
+                    name.setCharAt(i, SEPARATOR_CHAR);
+                    name.delete(i + 1, i + 3);
+                    maxlen -= 2;
+                    changed = true;
+                } else if (name.charAt(i + 2) == 'e' || name.charAt(i + 2) == 'E') {
+                    name.setCharAt(i, '.');
+                    name.delete(i + 1, i + 3);
+                    maxlen -= 2;
+                    changed = true;
+                }
             }
         }
         return changed;
@@ -663,20 +508,64 @@ public final class UriParser {
         // Adjust separators
         // fixSeparators(path);
 
-        // Resolve double separators, '/./' and '/../':
-        new PathNormalizer(path).run();
+        // Determine the start of the first element
+        int startFirstElem = 0;
+        if (path.charAt(0) == SEPARATOR_CHAR) {
+            if (path.length() == 1) {
+                return fileType;
+            }
+            startFirstElem = 1;
+        }
+
+        // Iterate over each element
+        int startElem = startFirstElem;
+        int maxlen = path.length();
+        while (startElem < maxlen) {
+            // Find the end of the element
+            int endElem = startElem;
+            while (endElem < maxlen && path.charAt(endElem) != SEPARATOR_CHAR) {
+                endElem++;
+            }
+
+            final int elemLen = endElem - startElem;
+            if (elemLen == 0) {
+                // An empty element - axe it
+                path.deleteCharAt(endElem);
+                maxlen = path.length();
+                continue;
+            }
+            if (elemLen == 1 && path.charAt(startElem) == '.') {
+                // A '.' element - axe it
+                path.deleteCharAt(startElem);
+                maxlen = path.length();
+                continue;
+            }
+            if (elemLen == 2 && path.charAt(startElem) == '.' && path.charAt(startElem + 1) == '.') {
+                // A '..' element - remove the previous element
+                if (startElem == startFirstElem) {
+                    // Previous element is missing
+                    throw new FileSystemException("vfs.provider/invalid-relative-path.error");
+                }
+
+                // Find start of previous element
+                int pos = startElem - 2;
+                while (pos >= 0 && path.charAt(pos) != SEPARATOR_CHAR) {
+                    pos--;
+                }
+                startElem = pos + 1;
+
+                path.delete(startElem, endElem + 1);
+                maxlen = path.length();
+                continue;
+            }
+
+            // A regular element
+            startElem = endElem + 1;
+        }
 
         // Remove trailing separator
-        if (!VFS.isUriStyle()) {
-            final int maxlen = path.length();
-            if (maxlen > 1 && path.charAt(maxlen - 1) == SEPARATOR_CHAR) {
-                path.delete(maxlen - 1, maxlen);
-            }
-            if (maxlen > 3 &&
-                    path.charAt(maxlen - 3) == '%' && path.charAt(maxlen - 2) == '2' &&
-                    (path.charAt(maxlen - 1) == 'F' || path.charAt(maxlen - 1) == 'f')) {
-                path.delete(maxlen - 3, maxlen);
-            }
+        if (!VFS.isUriStyle() && maxlen > 1 && path.charAt(maxlen - 1) == SEPARATOR_CHAR) {
+            path.deleteCharAt(maxlen - 1);
         }
 
         return fileType;

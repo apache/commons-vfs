@@ -290,7 +290,7 @@ public class ProviderReadTests extends AbstractProviderTestCase {
      */
     @Test
     public void testRoot() throws FileSystemException {
-        if (!this.getProviderConfig().isFileSystemRootAccessible()) {
+        if (!getProviderConfig().isFileSystemRootAccessible()) {
             return;
         }
         final FileSystem fs = getFileSystem();

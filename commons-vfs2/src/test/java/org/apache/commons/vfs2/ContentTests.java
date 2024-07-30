@@ -61,7 +61,7 @@ public class ContentTests extends AbstractProviderTestCase {
      */
     @Test
     public void testAttributes() throws FileSystemException {
-        this.getReadFolder().getContent().getAttributes();
+        getReadFolder().getContent().getAttributes();
     }
 
     /**
@@ -352,7 +352,7 @@ public class ContentTests extends AbstractProviderTestCase {
      */
     @Test
     public void testRootAPI() throws FileSystemException {
-        if (!this.getProviderConfig().isFileSystemRootAccessible()) {
+        if (!getProviderConfig().isFileSystemRootAccessible()) {
             return;
         }
         testRoot(getFileSystem().getRoot());
@@ -363,7 +363,7 @@ public class ContentTests extends AbstractProviderTestCase {
      */
     @Test
     public void testRootURI() throws FileSystemException {
-        if (!this.getProviderConfig().isFileSystemRootAccessible()) {
+        if (!getProviderConfig().isFileSystemRootAccessible()) {
             return;
         }
         final FileSystem fileSystem = getFileSystem();

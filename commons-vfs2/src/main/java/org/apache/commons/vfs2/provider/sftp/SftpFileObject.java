@@ -278,7 +278,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     @Override
     protected FileObject[] doListChildrenResolved() throws Exception {
         // should not require a round-trip because type is already set.
-        if (this.isFile()) {
+        if (isFile()) {
             return null;
         }
         // List the contents of the folder
@@ -347,7 +347,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
             children.add(fo);
         }
 
-        return children.toArray(FileObject.EMPTY_ARRAY);
+        return children.toArray(EMPTY_ARRAY);
     }
 
     /**

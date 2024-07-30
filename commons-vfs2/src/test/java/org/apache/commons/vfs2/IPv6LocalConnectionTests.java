@@ -100,7 +100,7 @@ public class IPv6LocalConnectionTests extends AbstractProviderTestCase {
         final List<String> localIPv6Addresses = getLocalIPv6Addresses();
         boolean connected = false;
         for (final String ipv6Address : localIPv6Addresses) {
-            final String ipv6Url = StringUtils.replace(this.getReadFolder().getURL().toString(), "localhost", "[" + ipv6Address + "]");
+            final String ipv6Url = StringUtils.replace(getReadFolder().getURL().toString(), "localhost", "[" + ipv6Address + "]");
             try {
                 final FileSystem fileSystem = getFileSystem();
 

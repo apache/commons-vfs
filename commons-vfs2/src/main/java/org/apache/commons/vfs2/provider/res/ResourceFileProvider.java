@@ -90,6 +90,6 @@ public class ResourceFileProvider extends AbstractFileProvider {
 
     @Override
     public FileSystemConfigBuilder getConfigBuilder() {
-        return org.apache.commons.vfs2.provider.res.ResourceFileSystemConfigBuilder.getInstance();
+        return ResourceFileSystemConfigBuilder.getInstance();
     }
 }

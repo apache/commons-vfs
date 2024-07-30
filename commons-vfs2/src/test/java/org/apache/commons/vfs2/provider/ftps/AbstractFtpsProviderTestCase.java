@@ -51,7 +51,7 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
 
         public FtpProviderTestSuite(final AbstractFtpsProviderTestCase providerConfig) throws Exception {
             super(providerConfig);
-            this.implicit = providerConfig.isImplicit();
+            implicit = providerConfig.isImplicit();
         }
 
         @Override

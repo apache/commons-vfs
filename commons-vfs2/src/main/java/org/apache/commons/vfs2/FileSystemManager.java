@@ -45,7 +45,7 @@ import org.apache.commons.vfs2.operations.FileOperationProvider;
  * character. For example, the following file names are the same: {@code c:\somedir\somefile.xml} and
  * {@code c:/somedir/somefile.xml}.</li>
  * <li>Relative path. For example: {@code ../somefile} or {@code somedir/file.txt}. The file system manager resolves
- * relative paths against its <i>base file</i>. Elements in the relative path can be separated using {@code /},
+ * relative paths against its <em>base file</em>. Elements in the relative path can be separated using {@code /},
  * {@code \}, or file system specific separator characters. Relative paths may also contain {@code ..} and {@code .}
  * elements. See {@link FileObject#resolveFile} for more details.</li>
  * </ul>
@@ -242,7 +242,7 @@ public interface FileSystemManager extends AutoCloseable {
      * Locates a file by name. See {@link #resolveFile(FileObject, String)} for details.
      *
      * @param baseFile The base file to use to resolve relative paths. Must not be {@code null}, not even if the
-     *            <i>name</i> is absolute.
+     *            <em>name</em> is absolute.
      * @param name The name of the file.
      * @return The file. Never returns null.
      * @throws FileSystemException On error parsing the file name.

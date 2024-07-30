@@ -93,12 +93,12 @@ public class SftpFileSystem extends AbstractFileSystem {
         final FileSystemOptions fileSystemOptions) {
         super(rootName, null, fileSystemOptions);
         this.session = Objects.requireNonNull(session, "session");
-        this.connectTimeout = SftpFileSystemConfigBuilder.getInstance().getConnectTimeout(fileSystemOptions);
+        connectTimeout = SftpFileSystemConfigBuilder.getInstance().getConnectTimeout(fileSystemOptions);
 
         if (SftpFileSystemConfigBuilder.getInstance().isDisableDetectExecChannel(fileSystemOptions)) {
-            this.execDisabled = true;
+            execDisabled = true;
         } else {
-            this.execDisabled = detectExecDisabled();
+            execDisabled = detectExecDisabled();
         }
     }
 
@@ -260,7 +260,7 @@ public class SftpFileSystem extends AbstractFileSystem {
                     if (code != 0) {
                         throw new JSchException("Could not get the groups id of the current user (error code: " + code + ")");
                     }
-                    this.groupsIds = parseGroupIdOutput(output);
+                    groupsIds = parseGroupIdOutput(output);
                 }
             }
         }
@@ -283,16 +283,16 @@ public class SftpFileSystem extends AbstractFileSystem {
      * @throws FileSystemException if a session cannot be created.
      */
     private Session getSession() throws FileSystemException {
-        if (!this.session.isConnected()) {
+        if (!session.isConnected()) {
             synchronized (this) {
-                if (!this.session.isConnected()) {
+                if (!session.isConnected()) {
                     doCloseCommunicationLink();
-                    this.session = SftpFileProvider.createSession((GenericFileName) getRootName(),
+                    session = SftpFileProvider.createSession((GenericFileName) getRootName(),
                         getFileSystemOptions());
                 }
             }
         }
-        return this.session;
+        return session;
     }
 
     /**
