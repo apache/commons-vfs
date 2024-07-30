@@ -49,7 +49,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem> {
      */
     protected RamFileObject(final AbstractFileName name, final RamFileSystem fs) {
         super(name, fs);
-        this.getAbstractFileSystem().attach(this);
+        getAbstractFileSystem().attach(this);
     }
 
     /*
@@ -59,7 +59,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem> {
      */
     @Override
     protected void doAttach() throws Exception {
-        this.getAbstractFileSystem().attach(this);
+        getAbstractFileSystem().attach(this);
     }
 
     /*
@@ -69,8 +69,8 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem> {
      */
     @Override
     protected void doCreateFolder() throws Exception {
-        this.injectType(FileType.FOLDER);
-        this.save();
+        injectType(FileType.FOLDER);
+        save();
     }
 
     /*
@@ -81,8 +81,8 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem> {
     @Override
     protected void doDelete() throws Exception {
 
-        if (this.isContentOpen()) {
-            throw new FileSystemException(this.getName() + " cannot be deleted while the file is open");
+        if (isContentOpen()) {
+            throw new FileSystemException(getName() + " cannot be deleted while the file is open");
         }
         getAbstractFileSystem().delete(this);
     }
@@ -94,7 +94,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem> {
      */
     @Override
     protected long doGetContentSize() throws Exception {
-        return this.size();
+        return size();
     }
 
     /*
@@ -109,7 +109,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem> {
             throw new FileSystemException("vfs.provider/read-not-file.error", getName());
         }
 
-        return new ByteArrayInputStream(this.data.getContent());
+        return new ByteArrayInputStream(data.getContent());
     }
 
     /*
@@ -130,7 +130,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem> {
     @Override
     protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
         if (!bAppend) {
-            this.data.setContent(ArrayUtils.EMPTY_BYTE_ARRAY);
+            data.setContent(ArrayUtils.EMPTY_BYTE_ARRAY);
         }
         return new RamFileOutputStream(this);
     }
@@ -163,7 +163,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem> {
      */
     @Override
     protected String[] doListChildren() throws Exception {
-        return this.getAbstractFileSystem().listChildren(this.getName());
+        return getAbstractFileSystem().listChildren(getName());
     }
 
     /*
@@ -197,7 +197,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem> {
     @Override
     protected void endOutput() throws Exception {
         super.endOutput();
-        this.save();
+        save();
     }
 
     /**
@@ -214,7 +214,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem> {
      */
     @Override
     protected void injectType(final FileType fileType) {
-        this.data.setType(fileType);
+        data.setType(fileType);
         super.injectType(fileType);
     }
 
@@ -227,15 +227,15 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem> {
         final FileSystemOptions afsOptions = afs.getFileSystemOptions();
         if (afsOptions != null) {
             final long maxSize = RamFileSystemConfigBuilder.getInstance().getLongMaxSize(afsOptions);
-            if (afs.size() + newSize - this.size() > maxSize) {
+            if (afs.size() + newSize - size() > maxSize) {
                 throw new IOException("FileSystem capacity (" + maxSize + ") exceeded.");
             }
         }
-        this.data.resize(newSize);
+        data.resize(newSize);
     }
 
     private void save() throws FileSystemException {
-        this.getAbstractFileSystem().save(this);
+        getAbstractFileSystem().save(this);
     }
 
     /**

@@ -32,7 +32,7 @@ public class ProviderDeleteTests extends AbstractProviderTestCase {
 
         @Override
         public boolean includeFile(final FileSelectInfo fileInfo) throws Exception {
-            return this.baseName.equals(fileInfo.getFile().getName().getBaseName());
+            return baseName.equals(fileInfo.getFile().getName().getBaseName());
         }
 
         @Override

@@ -41,7 +41,7 @@ public class JarFileProvider extends ZipFileProvider {
     static final Collection<Capability> CAPABILITIES;
 
     static {
-        final Collection<Capability> combined = new ArrayList<>(ZipFileProvider.capabilities);
+        final Collection<Capability> combined = new ArrayList<>(capabilities);
         combined.addAll(Arrays.asList(Capability.ATTRIBUTES, Capability.FS_ATTRIBUTES, Capability.SIGNING,
                 Capability.MANIFEST_ATTRIBUTES, Capability.VIRTUAL));
         CAPABILITIES = Collections.unmodifiableCollection(combined);

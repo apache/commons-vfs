@@ -56,10 +56,10 @@ public class JarURLConnectionImpl extends JarURLConnection {
         // This is because JarURLConnection SUCKS!!
         super(new URL(HACK_URL));
 
-        this.url = jarFileObject.getURL();
+        url = jarFileObject.getURL();
         this.fileContent = fileContent;
-        this.parentURL = jarFileObject.getURL();
-        this.entryName = jarFileObject.getName().getPath();
+        parentURL = jarFileObject.getURL();
+        entryName = jarFileObject.getName().getPath();
         this.jarFileObject = jarFileObject;
     }
 

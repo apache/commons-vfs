@@ -120,8 +120,8 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
     @Override
     public InputStream newStream(final long start, final long end) {
         try {
-            final long newFileStart = this.fileStart + start;
-            final long newFileEnd = end < 0 ? this.fileEnd : this.fileStart + end;
+            final long newFileStart = fileStart + start;
+            final long newFileEnd = end < 0 ? fileEnd : fileStart + end;
 
             final RandomAccessContent rac = fo.getContent().getRandomAccessContent(RandomAccessMode.READ);
             rac.seek(newFileStart);

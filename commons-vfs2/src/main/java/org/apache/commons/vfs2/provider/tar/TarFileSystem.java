@@ -159,7 +159,7 @@ public class TarFileSystem extends AbstractFileSystem {
     }
 
     protected TarArchiveInputStream getTarFile() throws FileSystemException {
-        if (tarFile == null && this.file.exists()) {
+        if (tarFile == null && file.exists()) {
             recreateTarFile();
         }
         return tarFile;
@@ -225,15 +225,15 @@ public class TarFileSystem extends AbstractFileSystem {
      */
 
     private void recreateTarFile() throws FileSystemException {
-        if (this.tarFile != null) {
+        if (tarFile != null) {
             try {
-                this.tarFile.close();
+                tarFile.close();
             } catch (final IOException e) {
                 throw new FileSystemException("vfs.provider.tar/close-tar-file.error", file, e);
             }
             tarFile = null;
         }
-        this.tarFile = createTarFile(this.file);
+        tarFile = createTarFile(file);
     }
 
     /**
@@ -248,7 +248,7 @@ public class TarFileSystem extends AbstractFileSystem {
         // Reading specific entries requires skipping through the tar file from the beginning
         // Not especially elegant, but we don't have the ability to seek to specific positions
         // with an input stream.
-        if (this.file.exists()) {
+        if (file.exists()) {
             recreateTarFile();
         }
     }

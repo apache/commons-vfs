@@ -67,8 +67,8 @@ final class RamFileData implements Serializable {
      * @param name The file name.
      */
     RamFileData(final FileName name) {
-        this.children = Collections.synchronizedCollection(new ArrayList<>());
-        this.clear();
+        children = Collections.synchronizedCollection(new ArrayList<>());
+        clear();
         if (name == null) {
             throw new IllegalArgumentException("name can not be null");
         }
@@ -82,28 +82,28 @@ final class RamFileData implements Serializable {
      * @throws FileSystemException if an error occurs.
      */
     void addChild(final RamFileData data) throws FileSystemException {
-        if (!this.getType().hasChildren()) {
+        if (!getType().hasChildren()) {
             throw new FileSystemException("A child can only be added in a folder");
         }
 
         FileSystemException.requireNonNull(data, "No child can be null");
 
-        if (this.children.contains(data)) {
+        if (children.contains(data)) {
             throw new FileSystemException("Child already exists. " + data);
         }
 
-        this.children.add(data);
+        children.add(data);
         updateLastModified();
     }
 
     /**
      */
     void clear() {
-        this.content = ArrayUtils.EMPTY_BYTE_ARRAY;
+        content = ArrayUtils.EMPTY_BYTE_ARRAY;
         updateLastModified();
-        this.type = FileType.IMAGINARY;
-        this.children.clear();
-        this.name = null;
+        type = FileType.IMAGINARY;
+        children.clear();
+        name = null;
     }
 
     /*
@@ -120,7 +120,7 @@ final class RamFileData implements Serializable {
             return false;
         }
         final RamFileData data = (RamFileData) o;
-        return this.getName().equals(data.getName());
+        return getName().equals(data.getName());
     }
 
     /**
@@ -162,7 +162,7 @@ final class RamFileData implements Serializable {
     }
 
     boolean hasChildren(final RamFileData data) {
-        return this.children.contains(data);
+        return children.contains(data);
     }
 
     /*
@@ -172,7 +172,7 @@ final class RamFileData implements Serializable {
      */
     @Override
     public int hashCode() {
-        return this.getName().hashCode();
+        return getName().hashCode();
     }
 
     /**
@@ -182,13 +182,13 @@ final class RamFileData implements Serializable {
      * @throws FileSystemException if an error occurs.
      */
     void removeChild(final RamFileData data) throws FileSystemException {
-        if (!this.getType().hasChildren()) {
+        if (!getType().hasChildren()) {
             throw new FileSystemException("A child can only be removed from a folder");
         }
-        if (!this.children.contains(data)) {
+        if (!children.contains(data)) {
             throw new FileSystemException("Child not found. " + data);
         }
-        this.children.remove(data);
+        children.remove(data);
         updateLastModified();
     }
 
@@ -204,10 +204,10 @@ final class RamFileData implements Serializable {
                     String.format("newSize(%d) > Integer.MAX_VALUE(%d)", newSize, Integer.MAX_VALUE));
         }
         final int resize = (int) newSize;
-        final int size = this.size();
+        final int size = size();
         final byte[] newBuf = new byte[resize];
-        System.arraycopy(this.content, 0, newBuf, 0, Math.min(resize, size));
-        this.content = newBuf;
+        System.arraycopy(content, 0, newBuf, 0, Math.min(resize, size));
+        content = newBuf;
         updateLastModified();
     }
 
@@ -220,10 +220,10 @@ final class RamFileData implements Serializable {
     }
 
     /**
-     * @param lastModified The lastModified to set.
+     * @param lastModifiedMillis The lastModified to set.
      */
-    void setLastModified(final long lastModified) {
-        this.lastModifiedMillis = lastModified;
+    void setLastModified(final long lastModifiedMillis) {
+        this.lastModifiedMillis = lastModifiedMillis;
     }
 
     /**
@@ -247,11 +247,11 @@ final class RamFileData implements Serializable {
      */
     @Override
     public String toString() {
-        return this.name.toString();
+        return name.toString();
     }
 
     void updateLastModified() {
-        this.lastModifiedMillis = System.currentTimeMillis();
+        lastModifiedMillis = System.currentTimeMillis();
     }
 
 }

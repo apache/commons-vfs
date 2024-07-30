@@ -137,7 +137,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
     public RamFileRandomAccessContent(final RamFileObject file, final RandomAccessMode mode) {
         Objects.requireNonNull(file, "file");
         Objects.requireNonNull(mode, "mode");
-        this.buf = file.getData().getContent();
+        buf = file.getData().getContent();
         this.file = file;
 
         rafis = new InputStream() {
@@ -200,7 +200,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
      */
     @Override
     public long getFilePointer() throws IOException {
-        return this.filePointer;
+        return filePointer;
     }
 
     @Override
@@ -229,7 +229,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
      */
     @Override
     public boolean readBoolean() throws IOException {
-        return this.readUnsignedByte() != 0;
+        return readUnsignedByte() != 0;
     }
 
     /*
@@ -239,7 +239,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
      */
     @Override
     public byte readByte() throws IOException {
-        return (byte) this.readUnsignedByte();
+        return (byte) readUnsignedByte();
     }
 
     /*
@@ -249,8 +249,8 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
      */
     @Override
     public char readChar() throws IOException {
-        final int ch1 = this.readUnsignedByte();
-        final int ch2 = this.readUnsignedByte();
+        final int ch1 = readUnsignedByte();
+        final int ch2 = readUnsignedByte();
         return (char) ((ch1 << 8) + (ch2 << 0));
     }
 
@@ -261,7 +261,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
      */
     @Override
     public double readDouble() throws IOException {
-        return Double.longBitsToDouble(this.readLong());
+        return Double.longBitsToDouble(readLong());
     }
 
     /*
@@ -271,7 +271,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
      */
     @Override
     public float readFloat() throws IOException {
-        return Float.intBitsToFloat(this.readInt());
+        return Float.intBitsToFloat(readInt());
     }
 
     /*
@@ -295,9 +295,9 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
             throw new IndexOutOfBoundsException("Length is lower than 0");
         }
 
-        if (len > this.getLeftBytes()) {
+        if (len > getLeftBytes()) {
             throw new IndexOutOfBoundsException(
-                    "Read length (" + len + ") is higher than buffer left bytes (" + this.getLeftBytes() + ") ");
+                    "Read length (" + len + ") is higher than buffer left bytes (" + getLeftBytes() + ") ");
         }
 
         System.arraycopy(buf, filePointer, b, off, len);
@@ -391,13 +391,13 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
         if (pos < 0) {
             throw new IOException("Attempt to position before the start of the file");
         }
-        this.filePointer = (int) pos;
+        filePointer = (int) pos;
     }
 
     @Override
     public void setLength(final long newLength) throws IOException {
-        this.file.resize(newLength);
-        this.buf = this.file.getData().getContent();
+        file.resize(newLength);
+        buf = file.getData().getContent();
     }
 
     /*
@@ -439,13 +439,13 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
      */
     @Override
     public void write(final byte[] b, final int off, final int len) throws IOException {
-        if (this.getLeftBytes() < len) {
-            final int newSize = this.buf.length + len - this.getLeftBytes();
-            this.file.resize(newSize);
-            this.buf = this.file.getData().getContent();
+        if (getLeftBytes() < len) {
+            final int newSize = buf.length + len - getLeftBytes();
+            file.resize(newSize);
+            buf = file.getData().getContent();
         }
-        System.arraycopy(b, off, this.buf, filePointer, len);
-        this.filePointer += len;
+        System.arraycopy(b, off, buf, filePointer, len);
+        filePointer += len;
     }
 
     /*

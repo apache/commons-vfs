@@ -33,7 +33,7 @@ public class ProviderRandomSetLengthTests extends AbstractProviderTestCase {
      * Sets up a scratch folder for the test to use.
      */
     protected FileObject createScratchFolder() throws Exception {
-        final FileObject scratchFolder = this.getWriteFolder();
+        final FileObject scratchFolder = getWriteFolder();
 
         // Make sure the test folder is empty
         scratchFolder.delete(Selectors.EXCLUDE_SELF);
@@ -56,7 +56,7 @@ public class ProviderRandomSetLengthTests extends AbstractProviderTestCase {
      */
     @Test
     public void testRandomSetLength() throws Exception {
-        try (FileObject file = this.createScratchFolder().resolveFile("random_write.txt")) {
+        try (FileObject file = createScratchFolder().resolveFile("random_write.txt")) {
             file.createFile();
             final String fileString = file.toString();
             final RandomAccessContent ra = file.getContent().getRandomAccessContent(RandomAccessMode.READWRITE);

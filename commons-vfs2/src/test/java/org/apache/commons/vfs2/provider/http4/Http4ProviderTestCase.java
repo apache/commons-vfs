@@ -61,7 +61,7 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
     private static void setUpClass() throws Exception {
         server = NHttpFileServer.start(0, new File(getTestDirectory()), 5000);
         final int socketPort = server.getPort();
-        connectionUri = "http4://localhost:" + socketPort;
+        connectionUri = getLocalHostUriString("http4", server.getPort());
     }
 
     /**
@@ -139,7 +139,7 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
         @SuppressWarnings("resource") // getManager() returns a global.
         final FileObject fileObject = VFS.getManager()
                 .resolveFile("http4://www.w3schools.com/webservices/tempconvert.asmx?action=WSDL");
-        assert !fileObject.getContent().isEmpty();
+        Assertions.assertFalse(fileObject.getContent().isEmpty(), "Content should not be empty");
     }
 
     /**

@@ -58,8 +58,8 @@ public class WeakRefFileListener implements FileListener {
     private final WeakReference<FileListener> listener;
 
     protected WeakRefFileListener(final FileObject file, final FileListener listener) {
-        this.fs = file.getFileSystem();
-        this.name = file.getName();
+        fs = file.getFileSystem();
+        name = file.getName();
         this.listener = new WeakReference<>(listener);
     }
 

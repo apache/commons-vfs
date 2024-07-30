@@ -72,7 +72,7 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
  * fm.start();
  * </pre>
  *
- * <i>(where CustomFileListener is a class that implements the FileListener interface.)</i>
+ * <em>(where CustomFileListener is a class that implements the FileListener interface.)</em>
  */
 // TODO Add a Builder so we can construct and start.
 public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable {
@@ -88,74 +88,74 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
         private long timestamp;
         private Map<FileName, Object> children;
 
-        private FileMonitorAgent(final DefaultFileMonitor fm, final FileObject file) {
-            this.defaultFileMonitor = fm;
-            this.fileObject = file;
+        private FileMonitorAgent(final DefaultFileMonitor defaultFileMonitor, final FileObject fileObject) {
+            this.defaultFileMonitor = defaultFileMonitor;
+            this.fileObject = fileObject;
 
-            this.refresh();
-            this.resetChildrenList();
+            refresh();
+            resetChildrenList();
 
             try {
-                this.exists = this.fileObject.exists();
+                exists = fileObject.exists();
             } catch (final FileSystemException fse) {
-                this.exists = false;
-                this.timestamp = -1;
+                exists = false;
+                timestamp = -1;
             }
 
-            if (this.exists) {
+            if (exists) {
                 try {
-                    this.timestamp = this.fileObject.getContent().getLastModifiedTime();
+                    timestamp = fileObject.getContent().getLastModifiedTime();
                 } catch (final FileSystemException fse) {
-                    this.timestamp = -1;
+                    timestamp = -1;
                 }
             }
         }
 
         private void check() {
-            this.refresh();
+            refresh();
 
             try {
                 // If the file existed and now doesn't
-                if (this.exists && !this.fileObject.exists()) {
-                    this.exists = this.fileObject.exists();
-                    this.timestamp = -1;
+                if (exists && !fileObject.exists()) {
+                    exists = fileObject.exists();
+                    timestamp = -1;
 
                     // Fire delete event
 
-                    ((AbstractFileSystem) this.fileObject.getFileSystem()).fireFileDeleted(this.fileObject);
+                    ((AbstractFileSystem) fileObject.getFileSystem()).fireFileDeleted(fileObject);
 
                     // Remove listener in case file is re-created. Don't want to fire twice.
-                    if (this.defaultFileMonitor.getFileListener() != null) {
-                        this.fileObject.getFileSystem().removeListener(this.fileObject, this.defaultFileMonitor.getFileListener());
+                    if (defaultFileMonitor.getFileListener() != null) {
+                        fileObject.getFileSystem().removeListener(fileObject, defaultFileMonitor.getFileListener());
                     }
 
                     // Remove from map
-                    this.defaultFileMonitor.queueRemoveFile(this.fileObject);
-                } else if (this.exists && this.fileObject.exists()) {
+                    defaultFileMonitor.queueRemoveFile(fileObject);
+                } else if (exists && fileObject.exists()) {
 
                     // Check the timestamp to see if it has been modified
-                    if (this.timestamp != this.fileObject.getContent().getLastModifiedTime()) {
-                        this.timestamp = this.fileObject.getContent().getLastModifiedTime();
+                    if (timestamp != fileObject.getContent().getLastModifiedTime()) {
+                        timestamp = fileObject.getContent().getLastModifiedTime();
                         // Fire change event
 
                         // Don't fire if it's a folder because new file children
                         // and deleted files in a folder have their own event triggered.
-                        if (!this.fileObject.getType().hasChildren()) {
-                            ((AbstractFileSystem) this.fileObject.getFileSystem()).fireFileChanged(this.fileObject);
+                        if (!fileObject.getType().hasChildren()) {
+                            ((AbstractFileSystem) fileObject.getFileSystem()).fireFileChanged(fileObject);
                         }
                     }
 
-                } else if (!this.exists && this.fileObject.exists()) {
-                    this.exists = this.fileObject.exists();
-                    this.timestamp = this.fileObject.getContent().getLastModifiedTime();
+                } else if (!exists && fileObject.exists()) {
+                    exists = fileObject.exists();
+                    timestamp = fileObject.getContent().getLastModifiedTime();
                     // Don't fire if it's a folder because new file children
                     // and deleted files in a folder have their own event triggered.
-                    if (!this.fileObject.getType().hasChildren()) {
-                        ((AbstractFileSystem) this.fileObject.getFileSystem()).fireFileCreated(this.fileObject);
+                    if (!fileObject.getType().hasChildren()) {
+                        ((AbstractFileSystem) fileObject.getFileSystem()).fireFileCreated(fileObject);
                     }
                 }
 
-                this.checkForNewChildren();
+                checkForNewChildren();
 
             } catch (final FileSystemException fse) {
                 LOG.error(fse.getLocalizedMessage(), fse);
@@ -167,9 +167,9 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
          */
         private void checkForNewChildren() {
             try {
-                if (this.fileObject.getType().hasChildren()) {
-                    final FileObject[] newChildren = this.fileObject.getChildren();
-                    if (this.children != null) {
+                if (fileObject.getType().hasChildren()) {
+                    final FileObject[] newChildren = fileObject.getChildren();
+                    if (children != null) {
                         // See which new children are not listed in the current children map.
                         final Map<FileName, Object> newChildrenMap = new HashMap<>();
                         final Stack<FileObject> missingChildren = new Stack<>();
@@ -177,27 +177,27 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
                         for (final FileObject element : newChildren) {
                             newChildrenMap.put(element.getName(), new Object()); // null ?
                             // If the child's not there
-                            if (!this.children.containsKey(element.getName())) {
+                            if (!children.containsKey(element.getName())) {
                                 missingChildren.push(element);
                             }
                         }
 
-                        this.children = newChildrenMap;
+                        children = newChildrenMap;
 
                         // If there were missing children
                         if (!missingChildren.empty()) {
 
                             while (!missingChildren.empty()) {
-                                this.fireAllCreate(missingChildren.pop());
+                                fireAllCreate(missingChildren.pop());
                             }
                         }
 
                     } else if (newChildren.length > 0) {
                         // First set of children - Break out the cigars
-                        this.children = new HashMap<>();
+                        children = new HashMap<>();
                         for (final FileObject element : newChildren) {
-                            this.children.put(element.getName(), new Object()); // null?
-                            this.fireAllCreate(element);
+                            children.put(element.getName(), new Object()); // null?
+                            fireAllCreate(element);
                         }
                     }
                 }
@@ -214,21 +214,21 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
          */
         private void fireAllCreate(final FileObject child) {
             // Add listener so that it can be triggered
-            if (this.defaultFileMonitor.getFileListener() != null) {
-                child.getFileSystem().addListener(child, this.defaultFileMonitor.getFileListener());
+            if (defaultFileMonitor.getFileListener() != null) {
+                child.getFileSystem().addListener(child, defaultFileMonitor.getFileListener());
             }
 
             ((AbstractFileSystem) child.getFileSystem()).fireFileCreated(child);
 
             // Remove it because a listener is added in the queueAddFile
-            if (this.defaultFileMonitor.getFileListener() != null) {
-                child.getFileSystem().removeListener(child, this.defaultFileMonitor.getFileListener());
+            if (defaultFileMonitor.getFileListener() != null) {
+                child.getFileSystem().removeListener(child, defaultFileMonitor.getFileListener());
             }
 
-            this.defaultFileMonitor.queueAddFile(child); // Add
+            defaultFileMonitor.queueAddFile(child); // Add
 
             try {
-                if (this.defaultFileMonitor.isRecursive() && child.getType().hasChildren()) {
+                if (defaultFileMonitor.isRecursive() && child.getType().hasChildren()) {
                     Stream.of(child.getChildren()).forEach(this::fireAllCreate);
                 }
             } catch (final FileSystemException fse) {
@@ -241,7 +241,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
          */
         private void refresh() {
             try {
-                this.fileObject.refresh();
+                fileObject.refresh();
             } catch (final FileSystemException fse) {
                 LOG.error(fse.getLocalizedMessage(), fse);
             }
@@ -249,14 +249,14 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
 
         private void resetChildrenList() {
             try {
-                if (this.fileObject.getType().hasChildren()) {
-                    this.children = new HashMap<>();
-                    for (final FileObject element : this.fileObject.getChildren()) {
-                        this.children.put(element.getName(), new Object()); // null?
+                if (fileObject.getType().hasChildren()) {
+                    children = new HashMap<>();
+                    for (final FileObject element : fileObject.getChildren()) {
+                        children.put(element.getName(), new Object()); // null?
                     }
                 }
             } catch (final FileSystemException fse) {
-                this.children = null;
+                children = null;
             }
         }
 
@@ -329,16 +329,16 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
      */
     @Override
     public void addFile(final FileObject file) {
-        synchronized (this.monitorMap) {
-            if (this.monitorMap.get(file.getName()) == null) {
-                this.monitorMap.put(file.getName(), new FileMonitorAgent(this, file));
+        synchronized (monitorMap) {
+            if (monitorMap.get(file.getName()) == null) {
+                monitorMap.put(file.getName(), new FileMonitorAgent(this, file));
 
                 try {
-                    if (this.listener != null) {
-                        file.getFileSystem().addListener(file, this.listener);
+                    if (listener != null) {
+                        file.getFileSystem().addListener(file, listener);
                     }
 
-                    if (file.getType().hasChildren() && this.recursive) {
+                    if (file.getType().hasChildren() && recursive) {
                         // Traverse the children
                         // Add depth first
                         Stream.of(file.getChildren()).forEach(this::addFile);
@@ -354,15 +354,15 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
 
     @Override
     public void close() {
-        this.runFlag = false;
-        if (this.monitorThread != null) {
-            this.monitorThread.interrupt();
+        runFlag = false;
+        if (monitorThread != null) {
+            monitorThread.interrupt();
             try {
-                this.monitorThread.join();
+                monitorThread.join();
             } catch (final InterruptedException e) {
                 // ignore
             }
-            this.monitorThread = null;
+            monitorThread = null;
         }
     }
 
@@ -401,7 +401,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
      * @return The FileListener.
      */
     FileListener getFileListener() {
-        return this.listener;
+        return listener;
     }
 
     /**
@@ -410,7 +410,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
      * @return true if monitoring is enabled for children.
      */
     public boolean isRecursive() {
-        return this.recursive;
+        return recursive;
     }
 
     /**
@@ -419,7 +419,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
      * @param file The FileObject to add.
      */
     protected void queueAddFile(final FileObject file) {
-        this.addStack.push(file);
+        addStack.push(file);
     }
 
     /**
@@ -428,7 +428,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
      * @param file The FileObject to be removed from being monitored.
      */
     protected void queueRemoveFile(final FileObject file) {
-        this.deleteStack.push(file);
+        deleteStack.push(file);
     }
 
     /**
@@ -438,9 +438,9 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
      */
     @Override
     public void removeFile(final FileObject file) {
-        synchronized (this.monitorMap) {
+        synchronized (monitorMap) {
             final FileName fn = file.getName();
-            if (this.monitorMap.get(fn) != null) {
+            if (monitorMap.get(fn) != null) {
                 FileObject parent;
                 try {
                     parent = file.getParent();
@@ -448,10 +448,10 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
                     parent = null;
                 }
 
-                this.monitorMap.remove(fn);
+                monitorMap.remove(fn);
 
                 if (parent != null) { // Not the root
-                    final FileMonitorAgent parentAgent = this.monitorMap.get(parent.getName());
+                    final FileMonitorAgent parentAgent = monitorMap.get(parent.getName());
                     if (parentAgent != null) {
                         parentAgent.resetChildrenList();
                     }
@@ -465,17 +465,17 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
      */
     @Override
     public void run() {
-        mainloop: while (!monitorThread.isInterrupted() && this.runFlag) {
+        mainloop: while (!monitorThread.isInterrupted() && runFlag) {
             // For each entry in the map
             final Object[] fileNames;
-            synchronized (this.monitorMap) {
-                fileNames = this.monitorMap.keySet().toArray();
+            synchronized (monitorMap) {
+                fileNames = monitorMap.keySet().toArray();
             }
             for (int iterFileNames = 0; iterFileNames < fileNames.length; iterFileNames++) {
                 final FileName fileName = (FileName) fileNames[iterFileNames];
                 final FileMonitorAgent agent;
-                synchronized (this.monitorMap) {
-                    agent = this.monitorMap.get(fileName);
+                synchronized (monitorMap) {
+                    agent = monitorMap.get(fileName);
                 }
                 if (agent != null) {
                     agent.check();
@@ -489,17 +489,17 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
                     }
                 }
 
-                if (monitorThread.isInterrupted() || !this.runFlag) {
+                if (monitorThread.isInterrupted() || !runFlag) {
                     continue mainloop;
                 }
             }
 
-            while (!this.addStack.empty()) {
-                this.addFile(this.addStack.pop());
+            while (!addStack.empty()) {
+                addFile(addStack.pop());
             }
 
-            while (!this.deleteStack.empty()) {
-                this.removeFile(this.deleteStack.pop());
+            while (!deleteStack.empty()) {
+                removeFile(deleteStack.pop());
             }
 
             try {
@@ -509,7 +509,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
             }
         }
 
-        this.runFlag = true;
+        runFlag = true;
     }
 
     /**
@@ -548,19 +548,19 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
      * @param newRecursive true if monitoring should be enabled for children.
      */
     public void setRecursive(final boolean newRecursive) {
-        this.recursive = newRecursive;
+        recursive = newRecursive;
     }
 
     /**
      * Starts monitoring the files that have been added.
      */
     public synchronized void start() {
-        if (this.monitorThread == null) {
-            this.monitorThread = new Thread(this);
-            this.monitorThread.setDaemon(true);
-            this.monitorThread.setPriority(Thread.MIN_PRIORITY);
+        if (monitorThread == null) {
+            monitorThread = new Thread(this);
+            monitorThread.setDaemon(true);
+            monitorThread.setPriority(Thread.MIN_PRIORITY);
         }
-        this.monitorThread.start();
+        monitorThread.start();
     }
 
     /**

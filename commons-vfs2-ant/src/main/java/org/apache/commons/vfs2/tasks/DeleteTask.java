@@ -88,9 +88,9 @@ public class DeleteTask extends VfsTask {
     /**
      * Sets the source directory.
      *
-     * @param srcDir The source directory.
+     * @param srcDirUrl The source directory.
      */
-    public void setSrcDir(final String srcDir) {
-        this.srcDirUrl = srcDir;
+    public void setSrcDir(final String srcDirUrl) {
+        this.srcDirUrl = srcDirUrl;
     }
 }

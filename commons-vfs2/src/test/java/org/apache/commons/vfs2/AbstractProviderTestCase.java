@@ -36,6 +36,9 @@ import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
  * <p>
  * Works from a base folder, and assumes a particular structure under that base folder.
  * </p>
+ * <p>
+ * Not intended to be executed individually, but instead to be part of a {@link ProviderTestSuite}.
+ * </p>
  */
 public abstract class AbstractProviderTestCase extends TestCase {
 

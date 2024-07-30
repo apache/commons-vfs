@@ -62,10 +62,10 @@ import org.apache.commons.vfs2.FileType;
  */
 public class EmptyFileFilter implements FileFilter, Serializable {
 
-    /** Singleton instance of <i>empty</i> filter. */
+    /** Singleton instance of <em>empty</em> filter. */
     public static final FileFilter EMPTY = new EmptyFileFilter();
 
-    /** Singleton instance of <i>not-empty</i> filter. */
+    /** Singleton instance of <em>not-empty</em> filter. */
     public static final FileFilter NOT_EMPTY = new NotFileFilter(EMPTY);
 
     private static final long serialVersionUID = 1L;
@@ -81,7 +81,7 @@ public class EmptyFileFilter implements FileFilter, Serializable {
      *
      * @param fileSelectInfo the file or directory to check
      *
-     * @return {@code true} if the file or directory is <i>empty</i>, otherwise {@code false}.
+     * @return {@code true} if the file or directory is <em>empty</em>, otherwise {@code false}.
      * @throws FileSystemException Thrown for file system errors.
      */
     @Override

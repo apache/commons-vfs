@@ -190,7 +190,7 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
     /**
      * Removes a file from the copies list. Will be used for cleanup.
      * <p>
-     * Notice: The system awaits that the returning object can be cast to a {@link java.io.File}.
+     * Notice: The system awaits that the returning object can be cast to a {@link File}.
      *
      * @return the File that was removed.
      */

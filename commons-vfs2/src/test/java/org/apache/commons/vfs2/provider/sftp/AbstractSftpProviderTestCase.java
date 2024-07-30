@@ -111,7 +111,7 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
 
                 case SSH_FXP_INIT: {
                     // Just grab the version here
-                    this._version = id;
+                    _version = id;
                     break;
                 }
             }
@@ -229,8 +229,8 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
 
         public SftpProviderTestSuite(final AbstractSftpProviderTestCase providerConfig) throws Exception {
             super(providerConfig);
-            this.isExecChannelClosed = providerConfig.isExecChannelClosed();
-            this.sessionFactory = providerConfig.sessionFactory();
+            isExecChannelClosed = providerConfig.isExecChannelClosed();
+            sessionFactory = providerConfig.sessionFactory();
         }
 
         @Override
@@ -258,9 +258,9 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
     /**
      * The command factory for the SSH server: Handles these commands
      * <p>
-     * <li><code>id -u</code> (permissions test)</li>
-     * <li><code>id -G</code> (permission tests)</li>
-     * <li><code>nc -q 0 localhost port</code> (Stream proxy tests)</li>
+     * <li>{@code id -u} (permissions test)</li>
+     * <li>{@code id -G} (permission tests)</li>
+     * <li>{@code nc -q 0 localhost port} (Stream proxy tests)</li>
      * </p>
      */
     private static class TestCommandFactory extends ScpCommandFactory {
@@ -543,7 +543,7 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
         server.setFileSystemFactory(new TestFileSystemFactory());
         // HACK End
         server.start();
-        int socketPort = server.getPort();
+        final int socketPort = server.getPort();
         connectionUri = String.format("sftp://%s@localhost:%d", DEFAULT_USER, socketPort);
         // HACK Start
         // How do we really do simple security?
@@ -588,7 +588,7 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
         builder.setSessionTimeout(fileSystemOptions, Duration.ofSeconds(60));
 
         final FileObject fileObject = manager.resolveFile(uri, fileSystemOptions);
-        this.fileSystem = (SftpFileSystem) fileObject.getFileSystem();
+        fileSystem = (SftpFileSystem) fileObject.getFileSystem();
         return fileObject;
     }
 

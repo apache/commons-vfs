@@ -58,14 +58,14 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      *
      * @param fileName the file name.
      * @param fileSystem the file system.
-     * @param file My file object.
+     * @param fileObject My file object.
      * @throws FileSystemException For subclasses to throw.
      */
-    public DelegateFileObject(final AbstractFileName fileName, final AFS fileSystem, final FileObject file) throws FileSystemException {
+    public DelegateFileObject(final AbstractFileName fileName, final AFS fileSystem, final FileObject fileObject) throws FileSystemException {
         super(fileName, fileSystem);
-        this.fileObject = file;
-        if (file != null) {
-            WeakRefFileListener.installListener(file, this);
+        this.fileObject = fileObject;
+        if (fileObject != null) {
+            WeakRefFileListener.installListener(fileObject, this);
         }
     }
 
@@ -410,16 +410,15 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
     /**
      * Attaches or detaches the target file.
      *
-     * @param file The FileObject.
+     * @param fileObject The FileObject.
      * @throws Exception if an error occurs.
      */
-    public void setFile(final FileObject file) throws Exception {
+    public void setFile(final FileObject fileObject) throws Exception {
         final FileType oldType = doGetType();
-
-        if (file != null) {
-            WeakRefFileListener.installListener(file, this);
+        if (fileObject != null) {
+            WeakRefFileListener.installListener(fileObject, this);
         }
-        this.fileObject = file;
+        this.fileObject = fileObject;
         maybeTypeChanged(oldType);
     }
 }
