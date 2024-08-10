@@ -28,6 +28,13 @@ public class UriParserTest {
 
     private static final String[] schemes = {"ftp", "file"};
 
+    private void checkNormalizedPath(String path, String normalized) throws FileSystemException {
+        final StringBuilder pathBuilder = new StringBuilder(path);
+        UriParser.fixSeparators(pathBuilder);
+        UriParser.normalisePath(pathBuilder);
+        assertEquals(normalized, pathBuilder.toString());
+    }
+
     @Test
     public void testColonInFileName() {
         assertNull(UriParser.extractScheme("some/path/some:file"));
@@ -69,13 +76,23 @@ public class UriParserTest {
     public void testOneSlashScheme() {
         assertEquals("file", UriParser.extractScheme(schemes, "file:/user:pass@host/some/path/some:file"));
     }
-
     @Test
     public void testOneSlashSchemeWithBuffer() {
         final StringBuilder buffer = new StringBuilder();
         UriParser.extractScheme(schemes, "file:/user:pass@host/some/path/some:file", buffer);
         assertEquals("/user:pass@host/some/path/some:file", buffer.toString());
     }
+
+    @Test
+    public void testPathOfNormalizedPath() throws FileSystemException {
+        checkNormalizedPath("./Sub Folder/", "Sub Folder");
+        checkNormalizedPath("./Sub Folder/../", "");
+        checkNormalizedPath("./Sub Folder%2f..%2f", "");
+        checkNormalizedPath("File.txt", "File.txt");
+        checkNormalizedPath("./Sub Folder/./File.txt", "Sub Folder/File.txt");
+        checkNormalizedPath("./Sub Folder%2F.%2FFile.txt", "Sub Folder/File.txt");
+    }
+
     @Test
     public void testTypeOfNormalizedPath() {
         try {
@@ -98,22 +115,5 @@ public class UriParserTest {
         } catch (final FileSystemException e) {
             fail(e);
         }
-    }
-
-    @Test
-    public void testPathOfNormalizedPath() throws FileSystemException {
-        checkNormalizedPath("./Sub Folder/", "Sub Folder");
-        checkNormalizedPath("./Sub Folder/../", "");
-        checkNormalizedPath("./Sub Folder%2f..%2f", "");
-        checkNormalizedPath("File.txt", "File.txt");
-        checkNormalizedPath("./Sub Folder/./File.txt", "Sub Folder/File.txt");
-        checkNormalizedPath("./Sub Folder%2F.%2FFile.txt", "Sub Folder/File.txt");
-    }
-
-    private void checkNormalizedPath(String path, String normalized) throws FileSystemException {
-        final StringBuilder pathBuilder = new StringBuilder(path);
-        UriParser.fixSeparators(pathBuilder);
-        UriParser.normalisePath(pathBuilder);
-        assertEquals(normalized, pathBuilder.toString());
     }
 }
