@@ -28,7 +28,7 @@ public class UriParserTest {
 
     private static final String[] schemes = {"ftp", "file"};
 
-    private void checkNormalizedPath(String path, String normalized) throws FileSystemException {
+    private void checkNormalizedPath(final String path, final String normalized) throws FileSystemException {
         final StringBuilder pathBuilder = new StringBuilder(path);
         UriParser.fixSeparators(pathBuilder);
         UriParser.normalisePath(pathBuilder);

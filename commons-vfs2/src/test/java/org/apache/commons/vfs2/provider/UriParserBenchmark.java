@@ -32,7 +32,7 @@ public class UriParserBenchmark {
 
     @Benchmark
     public void normalisePath() throws FileSystemException {
-        StringBuilder path = new StringBuilder(PATH_TO_NORMALIZE);
+        final StringBuilder path = new StringBuilder(PATH_TO_NORMALIZE);
         UriParser.fixSeparators(path);
         UriParser.normalisePath(path);
     }
