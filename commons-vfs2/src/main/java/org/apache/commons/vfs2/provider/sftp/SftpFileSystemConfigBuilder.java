@@ -39,11 +39,15 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Proxy type.
      */
     public static final class ProxyType implements Serializable, Comparable<ProxyType> {
+
         /**
          * serialVersionUID format is YYYYMMDD for the date of the last binary change.
          */
         private static final long serialVersionUID = 20101208L;
 
+        /**
+         * The proxy type.
+         */
         private final String proxyType;
 
         private ProxyType(final String proxyType) {

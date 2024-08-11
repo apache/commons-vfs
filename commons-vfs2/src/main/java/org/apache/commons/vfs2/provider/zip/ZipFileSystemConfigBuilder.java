@@ -23,6 +23,9 @@ import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
 import org.apache.commons.vfs2.FileSystemOptions;
 
+/**
+ * Configures {@link FileSystemOptions}s.
+ */
 public class ZipFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     private static final String PREFIX = ZipFileSystemConfigBuilder.class.getName();

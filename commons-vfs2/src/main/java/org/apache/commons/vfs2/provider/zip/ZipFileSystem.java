@@ -123,6 +123,10 @@ public class ZipFileSystem extends AbstractFileSystem {
         }
     }
 
+    /**
+     * Gets the Charset.
+     * @return the Charset.
+     */
     protected Charset getCharset() {
         return charset;
     }

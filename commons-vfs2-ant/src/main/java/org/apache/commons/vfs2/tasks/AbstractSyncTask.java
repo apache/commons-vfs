@@ -349,6 +349,12 @@ public abstract class AbstractSyncTask extends VfsTask {
         return failOnError;
     }
 
+    /**
+     * Logs a message or throws a {@link BuildException} depending on {@link #isFailonerror()}.
+     *
+     * @param message The message to using in logging or BuildException.
+     * @param level The log level.
+     */
     protected void logOrDie(final String message, final int level) {
         if (!isFailonerror()) {
             log(message, level);

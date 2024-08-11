@@ -32,7 +32,10 @@ public class SizeRangeFileFilter implements FileFilter, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final FileFilter filter;
+    /**
+     * File filter for min/max.
+     */
+    private final FileFilter fileFilter;
 
     /**
      * Constructor with sizes.
@@ -43,12 +46,12 @@ public class SizeRangeFileFilter implements FileFilter, Serializable {
     public SizeRangeFileFilter(final long minSizeInclusive, final long maxSizeInclusive) {
         final FileFilter minimumFilter = new SizeFileFilter(minSizeInclusive, true);
         final FileFilter maximumFilter = new SizeFileFilter(maxSizeInclusive + 1L, false);
-        filter = new AndFileFilter(minimumFilter, maximumFilter);
+        fileFilter = new AndFileFilter(minimumFilter, maximumFilter);
     }
 
     @Override
     public boolean accept(final FileSelectInfo fileSelectInfo) throws FileSystemException {
-        return filter.accept(fileSelectInfo);
+        return fileFilter.accept(fileSelectInfo);
     }
 
 }

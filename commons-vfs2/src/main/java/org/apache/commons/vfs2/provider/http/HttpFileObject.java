@@ -86,9 +86,16 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
         this(name, fileSystem, HttpFileSystemConfigBuilder.getInstance());
     }
 
-    protected HttpFileObject(final AbstractFileName name, final FS fileSystem,
+    /**
+     * Constructs a new instance.
+     *
+     * @param fileName the file name.
+     * @param fileSystem the file system.
+     * @param builder Configuration options for HTTP.
+     */
+    protected HttpFileObject(final AbstractFileName fileName, final FS fileSystem,
             final HttpFileSystemConfigBuilder builder) {
-        super(name, fileSystem);
+        super(fileName, fileSystem);
         final FileSystemOptions fileSystemOptions = fileSystem.getFileSystemOptions();
         urlCharset = builder.getUrlCharset(fileSystemOptions);
         userAgent = builder.getUserAgent(fileSystemOptions);

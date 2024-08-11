@@ -27,6 +27,7 @@ import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.DefaultURLStreamHandler;
 import org.apache.commons.vfs2.provider.GenericFileName;
 import org.apache.commons.vfs2.provider.http.HttpFileSystem;
+import org.apache.http.client.protocol.HttpClientContext;
 
 /**
  * A WebDAV file system.
@@ -35,9 +36,16 @@ import org.apache.commons.vfs2.provider.http.HttpFileSystem;
  */
 public class WebdavFileSystem extends HttpFileSystem {
 
-    protected WebdavFileSystem(final GenericFileName rootName, final HttpClient client,
+    /**
+     * Constructs a new instance.
+     *
+     * @param rootName root base name
+     * @param httpClient {@link HttpClient} instance
+     * @param fileSystemOptions Options to build this file system.
+     */
+    protected WebdavFileSystem(final GenericFileName rootName, final HttpClient httpClient,
             final FileSystemOptions fileSystemOptions) {
-        super(rootName, client, fileSystemOptions);
+        super(rootName, httpClient, fileSystemOptions);
     }
 
     /**

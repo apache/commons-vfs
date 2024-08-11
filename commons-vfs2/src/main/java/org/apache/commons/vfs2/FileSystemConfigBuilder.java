@@ -24,7 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationUtils;
 
 /**
- * Abstract class which has the right to fill FileSystemOptions.
+ * Abstracts configuring {@link FileSystemOptions}s.
  */
 public abstract class FileSystemConfigBuilder {
 
