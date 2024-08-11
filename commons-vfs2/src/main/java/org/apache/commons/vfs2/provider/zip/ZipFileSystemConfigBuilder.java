@@ -18,6 +18,7 @@
 package org.apache.commons.vfs2.provider.zip;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
@@ -49,13 +50,13 @@ public class ZipFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Gets the Charset from the FileSystemOptions.
+     * Gets the Charset from the FileSystemOptions or {@link StandardCharsets#UTF_8} if absent.
      *
      * @param fileSystemOptions The source FileSystemOptions.
      * @return the Charset from the FileSystemOptions.
      */
     public Charset getCharset(final FileSystemOptions fileSystemOptions) {
-        return getParam(fileSystemOptions, KEY_CHARSET);
+        return getParamOrDefault(fileSystemOptions, KEY_CHARSET, StandardCharsets.UTF_8);
     }
 
     @Override

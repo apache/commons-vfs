@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider.zip;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -98,14 +99,13 @@ public class ZipFileSystem extends AbstractFileSystem {
 
     protected ZipFile createZipFile(final File file) throws FileSystemException {
         try {
-            return charset == null ? new ZipFile(file) : new ZipFile(file, charset);
+            return new ZipFile(file, charset);
         } catch (final IOException ioe) {
             throw new FileSystemException("vfs.provider.zip/open-zip-file.error", file, ioe);
         }
     }
 
-    protected ZipFileObject createZipFileObject(final AbstractFileName name, final ZipEntry entry)
-            throws FileSystemException {
+    protected ZipFileObject createZipFileObject(final AbstractFileName name, final ZipEntry entry) throws FileSystemException {
         return new ZipFileObject(name, entry, this, true);
     }
 
@@ -124,7 +124,8 @@ public class ZipFileSystem extends AbstractFileSystem {
     }
 
     /**
-     * Gets the Charset.
+     * Gets the Charset, defaults to {@link StandardCharsets#UTF_8}, the value used in {@link ZipFile}.
+     *
      * @return the Charset.
      */
     protected Charset getCharset() {

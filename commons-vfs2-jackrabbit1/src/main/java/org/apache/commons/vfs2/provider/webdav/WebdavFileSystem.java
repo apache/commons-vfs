@@ -27,7 +27,6 @@ import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.DefaultURLStreamHandler;
 import org.apache.commons.vfs2.provider.GenericFileName;
 import org.apache.commons.vfs2.provider.http.HttpFileSystem;
-import org.apache.http.client.protocol.HttpClientContext;
 
 /**
  * A WebDAV file system.

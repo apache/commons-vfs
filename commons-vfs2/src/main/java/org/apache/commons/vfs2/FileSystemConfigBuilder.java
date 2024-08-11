@@ -514,6 +514,21 @@ public abstract class FileSystemConfigBuilder {
      * @param <T> The expected return type.
      * @param fileSystemOptions file system options to query, may be null.
      * @param name get option with this name
+     * @param defaultValue The default value if absent.
+     * @return the named option or {@code defaultValue}.
+     *
+     * @since 2.10.0
+     */
+    protected <T> T getParamOrDefault(final FileSystemOptions fileSystemOptions, final String name, final T defaultValue) {
+        return fileSystemOptions == null ? defaultValue : fileSystemOptions.getOptionOrDefault(getConfigClass(), name, defaultValue);
+    }
+
+    /**
+     * Gets a named parameter.
+     *
+     * @param <T> The expected return type.
+     * @param fileSystemOptions file system options to query, may be null.
+     * @param name get option with this name
      * @param defaultValue value to use if the system property value is null.
      * @param function Builds an instance of T from a system property String value.
      * @return the named option or null
