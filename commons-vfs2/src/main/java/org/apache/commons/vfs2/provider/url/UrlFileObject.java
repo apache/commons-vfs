@@ -43,8 +43,14 @@ import org.apache.commons.vfs2.provider.URLFileName;
 public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
     private URL url;
 
-    protected UrlFileObject(final UrlFileSystem fs, final AbstractFileName fileName) {
-        super(fileName, fs);
+    /**
+     * Constructs a new instance.
+     *
+     * @param fileSystem the file system.
+     * @param fileName the file name.
+     */
+    protected UrlFileObject(final UrlFileSystem fileSystem, final AbstractFileName fileName) {
+        super(fileName, fileSystem);
     }
 
     protected URL createURL(final FileName name) throws MalformedURLException, FileSystemException, URIException {

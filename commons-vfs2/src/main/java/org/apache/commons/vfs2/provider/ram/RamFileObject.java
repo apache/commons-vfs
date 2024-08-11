@@ -44,11 +44,13 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem> {
     private RamFileData data;
 
     /**
-     * @param name The name of the file.
-     * @param fs The FileSystem.
+     * Constructs a new instance.
+     *
+     * @param fileName the file name.
+     * @param fileSystem the file system.
      */
-    protected RamFileObject(final AbstractFileName name, final RamFileSystem fs) {
-        super(name, fs);
+    protected RamFileObject(final AbstractFileName fileName, final RamFileSystem fileSystem) {
+        super(fileName, fileSystem);
         getAbstractFileSystem().attach(this);
     }
 

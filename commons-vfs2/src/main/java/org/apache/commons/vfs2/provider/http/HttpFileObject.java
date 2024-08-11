@@ -82,8 +82,14 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
     private final boolean followRedirect;
     private HeadMethod method;
 
-    protected HttpFileObject(final AbstractFileName name, final FS fileSystem) {
-        this(name, fileSystem, HttpFileSystemConfigBuilder.getInstance());
+    /**
+     * Constructs a new instance.
+     *
+     * @param fileName the file name.
+     * @param fileSystem the file system.
+     */
+    protected HttpFileObject(final AbstractFileName fileName, final FS fileSystem) {
+        this(fileName, fileSystem, HttpFileSystemConfigBuilder.getInstance());
     }
 
     /**

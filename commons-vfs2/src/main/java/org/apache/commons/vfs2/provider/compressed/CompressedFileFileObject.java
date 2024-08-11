@@ -43,8 +43,15 @@ public abstract class CompressedFileFileObject<FS extends CompressedFileFileSyst
     private final FileObject container;
     private final String[] children;
 
-    protected CompressedFileFileObject(final AbstractFileName name, final FileObject container, final FS fs) {
-        super(name, fs);
+    /**
+     * Constructs a new instance.
+     *
+     * @param fileName the file name.
+     * @param container the container.
+     * @param fileSystem the file system.
+     */
+    protected CompressedFileFileObject(final AbstractFileName fileName, final FileObject container, final FS fileSystem) {
+        super(fileName, fileSystem);
         this.container = container;
 
         // TODO, add getBaseName(String) to FileName
