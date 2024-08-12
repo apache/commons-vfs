@@ -40,9 +40,17 @@ import org.apache.commons.vfs2.provider.zip.ZipFileSystem;
 public class JarFileSystem extends ZipFileSystem {
     private Attributes attributes;
 
-    protected JarFileSystem(final AbstractFileName rootName, final FileObject file,
-            final FileSystemOptions fileSystemOptions) throws FileSystemException {
-        super(rootName, file, fileSystemOptions);
+    /**
+     * Constructs a new instance.
+     *
+     * @param rootFileName The root file name of this file system.
+     * @param parentLayer The parent layer of this file system.
+     * @param fileSystemOptions Options to build this file system.
+     * @throws FileSystemException If the parent layer does not exist, or on error replicating the file.
+     */
+    protected JarFileSystem(final AbstractFileName rootFileName, final FileObject parentLayer, final FileSystemOptions fileSystemOptions)
+            throws FileSystemException {
+        super(rootFileName, parentLayer, fileSystemOptions);
     }
 
     // @Override

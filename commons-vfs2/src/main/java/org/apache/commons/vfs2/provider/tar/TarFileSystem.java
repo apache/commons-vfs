@@ -61,6 +61,14 @@ public class TarFileSystem extends AbstractFileSystem {
      */
     private final Map<FileName, FileObject> cache = new HashMap<>();
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param rootName The root file name of this file system.
+     * @param parentLayer The parent layer of this file system.
+     * @param fileSystemOptions Options to build this file system.
+     * @throws FileSystemException if a file system error occurs.
+     */
     protected TarFileSystem(final AbstractFileName rootName, final FileObject parentLayer,
         final FileSystemOptions fileSystemOptions) throws FileSystemException {
         super(rootName, parentLayer, fileSystemOptions);

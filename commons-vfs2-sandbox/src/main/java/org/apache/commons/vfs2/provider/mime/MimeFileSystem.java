@@ -47,8 +47,14 @@ public class MimeFileSystem extends AbstractFileSystem {
 
     private InputStream mimeStream;
 
-    protected MimeFileSystem(final FileName rootName, final FileObject parentLayer,
-            final FileSystemOptions fileSystemOptions) {
+    /**
+     * Constructs a new instance.
+     *
+     * @param rootName The root file name of this file system.
+     * @param parentLayer The parent layer of this file system.
+     * @param fileSystemOptions Options to build this file system.
+     */
+    protected MimeFileSystem(final FileName rootName, final FileObject parentLayer, final FileSystemOptions fileSystemOptions) {
         super(rootName, parentLayer, fileSystemOptions);
     }
 
