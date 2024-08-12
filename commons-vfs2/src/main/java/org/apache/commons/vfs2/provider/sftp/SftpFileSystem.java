@@ -89,6 +89,13 @@ public class SftpFileSystem extends AbstractFileSystem {
      */
     private final boolean execDisabled;
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param rootName The root file name of this file system.
+     * @param session The session.
+     * @param fileSystemOptions Options to build this file system.
+     */
     protected SftpFileSystem(final GenericFileName rootName, final Session session, final FileSystemOptions fileSystemOptions) {
         super(rootName, null, fileSystemOptions);
         this.session = Objects.requireNonNull(session, "session");

@@ -44,6 +44,7 @@ import org.apache.commons.vfs2.provider.UriParser;
  * A read-only file system for ZIP and JAR files.
  */
 public class ZipFileSystem extends AbstractFileSystem {
+
     private static final char[] ENC = {'!'};
 
     private static final Log LOG = LogFactory.getLog(ZipFileSystem.class);
@@ -97,6 +98,13 @@ public class ZipFileSystem extends AbstractFileSystem {
         return new ZipFileObject(name, null, this, false);
     }
 
+    /**
+     * Creates a Zip file.
+     *
+     * @param file the underlying file. 
+     * @return a Zip file.
+     * @throws FileSystemException if a file system error occurs.
+     */
     protected ZipFile createZipFile(final File file) throws FileSystemException {
         try {
             return new ZipFile(file, charset);
@@ -105,8 +113,16 @@ public class ZipFileSystem extends AbstractFileSystem {
         }
     }
 
-    protected ZipFileObject createZipFileObject(final AbstractFileName name, final ZipEntry entry) throws FileSystemException {
-        return new ZipFileObject(name, entry, this, true);
+    /**
+     * Creates a new Zip file object.
+     *
+     * @param fileName the underlying file. 
+     * @param entry the Zip entry.
+     * @return a new ZipFileObject.
+     * @throws FileSystemException if a file system error occurs.
+     */
+    protected ZipFileObject createZipFileObject(final AbstractFileName fileName, final ZipEntry entry) throws FileSystemException {
+        return new ZipFileObject(fileName, entry, this, true);
     }
 
     @Override
@@ -133,18 +149,23 @@ public class ZipFileSystem extends AbstractFileSystem {
     }
 
     /**
-     * Returns a cached file.
+     * Gets a cached file.
      */
     @Override
     protected FileObject getFileFromCache(final FileName name) {
         return cache.get(name);
     }
 
+    /**
+     * Gets the zip file.
+     *
+     * @return the zip file.
+     * @throws FileSystemException if a file system error occurs.
+     */
     protected ZipFile getZipFile() throws FileSystemException {
         if (zipFile == null && file.exists()) {
             zipFile = createZipFile(file);
         }
-
         return zipFile;
     }
 
