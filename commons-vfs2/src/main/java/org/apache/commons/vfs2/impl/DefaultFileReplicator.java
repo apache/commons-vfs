@@ -37,6 +37,7 @@ import org.apache.commons.vfs2.util.Messages;
  * A simple file replicator and temporary file store.
  */
 public class DefaultFileReplicator extends AbstractVfsComponent implements FileReplicator, TemporaryFileStore {
+
     private static final Log log = LogFactory.getLog(DefaultFileReplicator.class);
     private static final int MASK = 0xffff;
 
@@ -45,7 +46,7 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
     private static final char[] TMP_RESERVED_CHARS = {'?', '/', '\\', ' ', '&', '"', '\'', '*', '#', ';', ':', '<', '>', '|'};
 
     private final ArrayList<Object> copies = new ArrayList<>();
-    private long filecount;
+    private long fileCount;
     private File tempDir;
     private boolean tempDirMessageLogged;
 
@@ -64,6 +65,11 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
         this.tempDir = tempDir;
     }
 
+    /**
+     * Adds a file.
+     *
+     * @param file the file to add.
+     */
     protected void addFile(final Object file) {
         synchronized (copies) {
             copies.add(file);
@@ -82,7 +88,7 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
         // Create a unique-ish file name
         final String actualBaseName = createFilename(baseName);
         synchronized (this) {
-            filecount++;
+            fileCount++;
         }
 
         return createAndAddFile(tempDir, actualBaseName);
@@ -110,12 +116,18 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
         }
     }
 
+    /**
+     * Adds a file.
+     *
+     * @param parent ignored.
+     * @param baseName the base file name.
+     * @return a File.
+     * @throws FileSystemException if a file system error occurs.
+     */
     protected File createAndAddFile(final File parent, final String baseName) throws FileSystemException {
         final File file = createFile(tempDir, baseName);
-
         // Keep track to delete later
         addFile(file);
-
         return file;
     }
 
@@ -162,8 +174,13 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
         }
     }
 
+    /**
+     * Gets the file count.
+     *
+     * @return the file count.
+     */
     protected long getFilecount() {
-        return filecount;
+        return fileCount;
     }
 
     /**
@@ -177,7 +194,7 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
             tempDir = new File(FileUtils.getTempDirectoryPath(), "vfs_cache").getAbsoluteFile();
         }
 
-        filecount = RANDOM.nextInt() & MASK;
+        fileCount = RANDOM.nextInt() & MASK;
 
         if (!tempDirMessageLogged) {
             final String message = Messages.getString("vfs.impl/temp-dir.debug", tempDir);

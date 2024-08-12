@@ -43,13 +43,13 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
      */
     private final Map<FileSystemKey, FileSystem> fileSystemMap = new TreeMap<>(); // @GuardedBy("self")
 
-    private FileNameParser parser;
+    private FileNameParser fileNameParser;
 
     /**
      * Constructs a new instance.
      */
     public AbstractFileProvider() {
-        parser = GenericFileNameParser.getInstance();
+        fileNameParser = GenericFileNameParser.getInstance();
     }
 
     /**
@@ -158,8 +158,13 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
         return null;
     }
 
+    /**
+     * Gets the file name parser.
+     *
+     * @return the file name parser.
+     */
     protected FileNameParser getFileNameParser() {
-        return parser;
+        return fileNameParser;
     }
 
     /**
@@ -179,7 +184,12 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
         throw new FileSystemException("vfs.provider/filename-parser-missing.error");
     }
 
+    /**
+     * Sets the file name parser.
+     *
+     * @param parser a file name parser.
+     */
     protected void setFileNameParser(final FileNameParser parser) {
-        this.parser = parser;
+        this.fileNameParser = parser;
     }
 }

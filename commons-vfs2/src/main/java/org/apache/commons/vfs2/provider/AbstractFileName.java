@@ -141,6 +141,11 @@ public abstract class AbstractFileName implements FileName {
      */
     public abstract FileName createName(String absolutePath, FileType fileType);
 
+    /**
+     * Creates a URI.
+     *
+     * @return a URI.
+     */
     protected String createURI() {
         return createURI(false, true);
     }
@@ -429,6 +434,11 @@ public abstract class AbstractFileName implements FileName {
         return uriString;
     }
 
+    /**
+     * Gets the string to end a URI.
+     *
+     * @return the string to end a URI
+     */
     protected String getUriTrailer() {
         return getType().hasChildren() ? "/" : "";
     }
