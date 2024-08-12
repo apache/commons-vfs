@@ -102,6 +102,13 @@ public class TarFileSystem extends AbstractFileSystem {
         return new TarFileObject(name, null, this, false);
     }
 
+    /**
+     * Creates a new TarArchiveInputStream.
+     *
+     * @param file the file.
+     * @return a new TarArchiveInputStream.
+     * @throws FileSystemException if a file system error occurs.
+     */
     protected TarArchiveInputStream createTarFile(final File file) throws FileSystemException {
         try {
             if ("tgz".equalsIgnoreCase(getRootName().getScheme())) {
@@ -117,8 +124,15 @@ public class TarFileSystem extends AbstractFileSystem {
         }
     }
 
-    protected TarFileObject createTarFileObject(final AbstractFileName name, final TarArchiveEntry entry) {
-        return new TarFileObject(name, entry, this, true);
+    /**
+     * Creates a new TarFileObject.
+     *
+     * @param fileName the file name.
+     * @param entry the archive entry.
+     * @return a new TarFileObject.
+     */
+    protected TarFileObject createTarFileObject(final AbstractFileName fileName, final TarArchiveEntry entry) {
+        return new TarFileObject(fileName, entry, this, true);
     }
 
     @Override
