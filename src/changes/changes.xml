@@ -203,6 +203,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="Gary Gregory">
         ZipFileSystemConfigBuilder.getCharset(FileSystemOptions) returns UTF-8 instead of null when absent.
       </action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">
+        org.apache.commons.vfs2.provider.http.HttpFileObject.doListChildren() now throws UnsupportedOperationException instead of Exception.
+      </action>
       <!-- ADD -->
       <action type="add" issue="VFS-848" dev="ggregory" due-to="beise, Gary Gregory">
         Config option for trailing slash in webdav URI #425.

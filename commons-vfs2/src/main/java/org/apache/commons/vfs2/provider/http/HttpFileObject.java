@@ -198,28 +198,53 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
     }
 
     /**
-     * Lists the children of this file.
+     * Throws UnsupportedOperationException.
+     *
+     * @throws UnsupportedOperationException always thrown.
      */
     @Override
     protected String[] doListChildren() throws Exception {
-        throw new Exception("Not implemented.");
+        throw new UnsupportedOperationException("Not implemented.");
     }
 
-    protected String encodePath(final String decodedPath) throws URIException {
-        return URIUtil.encodePath(decodedPath);
+    /**
+     * Encodes the given path.
+     *
+     * @param unescaped An unescaped path.
+     * @return the encoded path.
+     * @throws URIException if the default protocol charset is not supported
+     */
+    protected String encodePath(final String unescaped) throws URIException {
+        return URIUtil.encodePath(unescaped);
     }
 
+    /**
+     * Gets a new FileContentInfoFactory.
+     *
+     * @return a new FileContentInfoFactory.
+     */
     @Override
     protected FileContentInfoFactory getFileContentInfoFactory() {
         return new HttpFileContentInfoFactory();
     }
 
+    /**
+     * Gets whether to follow redirects.
+     *
+     * @return whether to follow redirects.
+     */
     protected boolean getFollowRedirect() {
         return followRedirect;
     }
 
+    /**
+     * Gets a new HeadMethod.
+     *
+     * @return a new HeadMethod.
+     * @throws IOException if an IO error occurs.
+     */
     HeadMethod getHeadMethod() throws IOException {
-        // need to synchronize on the filesystem as the detach method will clear out "method"
+        // need to synchronize on the file system as the detach method will clear out "method"
         synchronized (getFileSystem()) {
             if (method != null) {
                 return method;
@@ -236,10 +261,20 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
         }
     }
 
+    /**
+     * Gets the URL charset name.
+     *
+     * @return the URL charset name.
+     */
     protected String getUrlCharset() {
         return urlCharset;
     }
 
+    /**
+     * Gets the user agent.
+     *
+     * @return the user agent.
+     */
     protected String getUserAgent() {
         return userAgent;
     }
