@@ -32,6 +32,18 @@ public class GenericFileName extends AbstractFileName {
     private final String password;
     private final int port;
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param scheme the scheme.
+     * @param hostName the host name.
+     * @param port the port.
+     * @param defaultPort the default port.
+     * @param userName the user name.
+     * @param password the password.
+     * @param path the absolute path, maybe empty or null.
+     * @param type the file type.
+     */
     protected GenericFileName(final String scheme, final String hostName, final int port, final int defaultPort,
         final String userName, final String password, final String path, final FileType type) {
         super(scheme, path, type);

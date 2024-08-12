@@ -17,13 +17,12 @@
 package org.apache.commons.vfs2.provider.url;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.apache.commons.httpclient.URIException;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
@@ -53,7 +52,14 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
         super(fileName, fileSystem);
     }
 
-    protected URL createURL(final FileName name) throws MalformedURLException, FileSystemException, URIException {
+    /**
+     * Creates a URL from the given file name.
+     *
+     * @param name the file name.
+     * @return a new URL.
+     * @throws IOException if an I/O error occurs.
+     */
+    protected URL createURL(final FileName name) throws IOException {
         if (name instanceof URLFileName) {
             final URLFileName urlName = (URLFileName) getName();
 
