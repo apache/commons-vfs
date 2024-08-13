@@ -12,35 +12,38 @@
 #WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #See the License for the specific language governing permissions and
 #limitations under the License.
-$ENV_DICT = @{
-    # 'key' = @("外板IP", "内板IP", 1: 强制使用透明模式)
-    'private' = @("10.65.10.146", "10.65.10.146", 0)
-    '101' = @("10.65.77.102", "10.65.77.101", 0)
-    '105' = @("10.65.77.106", "10.65.77.105", 0)
-    '47' = @("10.65.77.48", "10.65.77.47", 0)
-    '49' = @("10.65.77.50", "10.65.77.49", 0)
-    '83' = @("10.65.77.84", "10.65.77.83", 0)
-    '51' = @("10.65.77.52", "10.65.77.51", 0)
-    '129' = @("10.65.77.130", "10.65.77.129", 0)
-    '145' = @("10.65.77.146", "10.65.77.145", 0)
-}
-if ($null -eq $args[0] -or "" -eq $args[0]) {
-    $key = "private"
-} else {
-    $key = [string]$args[0]
-}
-$args = $ENV_DICT[$key]
-Write-Host $args
-$TRANSPARENT = $args[2]
-$args = @($args[0])
+$ErrorActionPreference = "Stop"
+& chcp 65001 >$null
 $port = 22
-$user = "root"
+$user = "develop"
+$sdc_bin_home = "D:\home\wbb\code\isid\deps\streamsets-datacollector"
 
-#& mvn -DskipTests=true install -f pom.xml
+function log {
+    param ([string]$l = "INFO", [string]$m, [string]$f = "log.txt")
+    # 获取当前日期和时间
+    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss.fff"
+    # 创建日志条目
+    $l = $l.ToUpper()
+    $content = "$timestamp $l $m"
+    # 在控制台输出日志条目（可选）
+    Write-Host $content
+    # 将日志条目写入日志文件
+    # $content | Out-File -Append -FilePath $logFile
+}
+
+log info "开始编译"
+$ips = @()
+foreach ($arg in $args) {$ips += $arg}
+if ($ips.Count -eq 0) {
+    $ips = @("10.65.10.146")
+    $user = "root"
+}
+
+log info "commons-vfs2"
 & mvn -DskipTests=true install -f commons-vfs2/pom.xml
 foreach ($ip in $args) {
-    Write-Host "部署: $ip"
-    & scp -rP ${port} .\commons-vfs2\target\commons-vfs2-2.10.1-SNAPSHOT.jar ${user}@${ip}:/home/wbb/code/isid/deps/streamsets-datacollector/streamsets-libs/streamsets-datacollector-basic-lib/lib/commons-vfs2-2.10.1-SNAPSHOT.jar >$null
+    log info "部署: $ip"
+    & scp -rP ${port} commons-vfs2/target/commons-vfs2-2.10.1-SNAPSHOT.jar ${user}@${ip}:/opt/nsfocus/deps/streamsets-datacollector/streamsets-libs/streamsets-datacollector-basic-lib/lib/commons-vfs2-2.10.1-SNAPSHOT.jar >$null
     & ssh -p ${port} ${user}@${ip} "/opt/nsfocus/bin/start_streamsets.sh 2>/dev/null" >$null
 }
 
