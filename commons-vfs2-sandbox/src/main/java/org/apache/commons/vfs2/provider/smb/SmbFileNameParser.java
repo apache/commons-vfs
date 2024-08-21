@@ -88,7 +88,7 @@ public class SmbFileNameParser extends URLFileNameParser {
         }
 
         // Normalise the path. Do this after extracting the share name,
-        // to deal with things like smb://hostname/share/..
+        // to deal with things like {@code smb://hostname/share/..}
         final FileType fileType = UriParser.normalisePath(name);
         final String path = name.toString();
 
