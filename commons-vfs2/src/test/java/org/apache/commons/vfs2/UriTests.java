@@ -44,6 +44,7 @@ public class UriTests extends AbstractProviderTestCase {
         // Try fetching base folder again by its URI
         final String uri = readFolder.getName().getURI();
         FileObject file = getManager().resolveFile(uri, readFolder.getFileSystem().getFileSystemOptions());
+        assertEquals("file object", readFolder, file);
         assertSame("file object", readFolder, file);
 
         // Try fetching the filesystem root by its URI
