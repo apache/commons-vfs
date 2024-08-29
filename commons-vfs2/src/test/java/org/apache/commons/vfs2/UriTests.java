@@ -62,8 +62,8 @@ public class UriTests extends AbstractProviderTestCase {
         assertEquals(readFolder.isWriteable(), file.isWriteable());
         assertEquals(readFolder.toString(), file.toString());
         // compare objects
-        assertEquals("file object", readFolder, file);
-        assertSame("file object", readFolder, file);
+        assertEquals("file object " + readFolder.getClass() + ", " + file.getClass(), readFolder, file);
+        assertSame("file object " + readFolder.getClass() + ", " + file.getClass(), readFolder, file);
         // Try fetching the filesystem root by its URI
         final String rootUri = readFolder.getName().getRootURI();
         file = getManager().resolveFile(rootUri, readFolder.getFileSystem().getFileSystemOptions());
