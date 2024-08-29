@@ -40,13 +40,30 @@ public class UriTests extends AbstractProviderTestCase {
     @Test
     public void testAbsoluteURI() throws Exception {
         final FileObject readFolder = getReadFolder();
-
         // Try fetching base folder again by its URI
         final String uri = readFolder.getName().getURI();
         FileObject file = getManager().resolveFile(uri, readFolder.getFileSystem().getFileSystemOptions());
+        // assert properties
+        assertEquals(readFolder.exists(), file.exists());
+        assertEquals(readFolder.getName(), file.getName());
+        assertEquals(readFolder.getPath(), file.getPath());
+        assertEquals(readFolder.getPublicURIString(), file.getPublicURIString());
+        assertEquals(readFolder.getType(), file.getType());
+        assertEquals(readFolder.getURI(), file.getURI());
+        assertEquals(readFolder.getURL(), file.getURL());
+        assertEquals(readFolder.isAttached(), file.isAttached());
+        assertEquals(readFolder.isContentOpen(), file.isContentOpen());
+        assertEquals(readFolder.isExecutable(), file.isExecutable());
+        assertEquals(readFolder.isFile(), file.isFile());
+        assertEquals(readFolder.isFolder(), file.isFolder());
+        assertEquals(readFolder.isHidden(), file.isHidden());
+        assertEquals(readFolder.isReadable(), file.isReadable());
+        assertEquals(readFolder.isSymbolicLink(), file.isSymbolicLink());
+        assertEquals(readFolder.isWriteable(), file.isWriteable());
+        assertEquals(readFolder.toString(), file.toString());
+        // compare objects
         assertEquals("file object", readFolder, file);
         assertSame("file object", readFolder, file);
-
         // Try fetching the filesystem root by its URI
         final String rootUri = readFolder.getName().getRootURI();
         file = getManager().resolveFile(rootUri, readFolder.getFileSystem().getFileSystemOptions());
