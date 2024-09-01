@@ -39,9 +39,9 @@ public class GzipTest {
         try (FileObject localFileObject = manager.resolveFile(gzFile.getAbsolutePath());
                 FileObject gzFileObjectDir = manager.createFileSystem(localFileObject);
                 FileObject gzFileObject = gzFileObjectDir.resolveFile("好.txt")) {
-            Assertions.assertTrue(gzFileObjectDir instanceof GzipFileObject);
+            Assertions.assertInstanceOf(GzipFileObject.class, gzFileObjectDir);
             Assertions.assertTrue(gzFileObjectDir.isFolder());
-            Assertions.assertTrue(gzFileObject instanceof GzipFileObject);
+            Assertions.assertInstanceOf(GzipFileObject.class, gzFileObject);
             Assertions.assertFalse(gzFileObject.isFolder());
             try (FileContent content = gzFileObject.getContent()) {
                 Assertions.assertEquals("aaa", content.getString(StandardCharsets.UTF_8));
