@@ -17,7 +17,7 @@
 package org.apache.commons.vfs2.provider.webdav4;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -40,7 +40,7 @@ public class Webdav4FileObjectTest {
 
         try (final FileObject file = fsm.resolveFile(WEBDAV4_URL)) {
             assertEquals(WEBDAV4_URL, file.getURL().toString());
-            assertTrue(file instanceof Webdav4FileObject);
+            assertInstanceOf(Webdav4FileObject.class, file);
 
             final Webdav4FileObject webdav4File = (Webdav4FileObject) file;
             assertEquals(INTERNAL_WEBDAV4_URL, webdav4File.toUrlString((GenericURLFileName) webdav4File.getName()));
@@ -53,7 +53,7 @@ public class Webdav4FileObjectTest {
 
         try (final FileObject file = fsm.resolveFile(WEBDAV4S_URL)) {
             assertEquals(WEBDAV4S_URL, file.getURL().toString());
-            assertTrue(file instanceof Webdav4FileObject);
+            assertInstanceOf(Webdav4FileObject.class, file);
 
             final Webdav4FileObject webdav4File = (Webdav4FileObject) file;
             assertEquals(INTERNAL_WEBDAV4S_URL, webdav4File.toUrlString((GenericURLFileName) webdav4File.getName()));
