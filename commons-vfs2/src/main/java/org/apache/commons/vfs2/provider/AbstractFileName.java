@@ -55,26 +55,25 @@ public abstract class AbstractFileName implements FileName {
             // All good
             return true;
         }
-
         if (!path.startsWith(basePath)) {
             return false;
         }
-
         int baseLen = basePath.length();
         if (VFS.isUriStyle()) {
             // strip the trailing "/"
             baseLen--;
         }
-
-        if (scope == NameScope.CHILD) {
-            return path.length() != baseLen && (baseLen <= 1 || path.charAt(baseLen) == SEPARATOR_CHAR)
-                    && path.indexOf(SEPARATOR_CHAR, baseLen + 1) == -1;
-        }
-        if (scope == NameScope.DESCENDENT) {
-            return path.length() != baseLen && (baseLen <= 1 || path.charAt(baseLen) == SEPARATOR_CHAR);
-        }
-        if (scope == NameScope.DESCENDENT_OR_SELF) {
-            return baseLen <= 1 || path.length() <= baseLen || path.charAt(baseLen) == SEPARATOR_CHAR;
+        if (scope != null) {
+            switch (scope) {
+            case CHILD:
+                return path.length() != baseLen && (baseLen <= 1 || path.charAt(baseLen) == SEPARATOR_CHAR) && path.indexOf(SEPARATOR_CHAR, baseLen + 1) == -1;
+            case DESCENDENT:
+                return path.length() != baseLen && (baseLen <= 1 || path.charAt(baseLen) == SEPARATOR_CHAR);
+            case DESCENDENT_OR_SELF:
+                return baseLen <= 1 || path.length() <= baseLen || path.charAt(baseLen) == SEPARATOR_CHAR;
+            default:
+                break;
+            }
         }
         throw new IllegalArgumentException();
     }
