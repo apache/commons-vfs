@@ -263,6 +263,9 @@ The <action> type attribute can be add,update,fix,remove.
         Add FileSystemConfigBuilder.getParamOrDefault(FileSystemOptions, String, T).
       </action>
       <!-- UPDATE -->
+      <action dev="ggregory" due-to="Dependabot, Gary Gregory" type="update">
+        Bump org.apache.commons:commons-parent from 52 to 76 #497, #588, #592, #600, #608.
+      </action>
       <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">
         Bump actions/cache and others.
       </action>
@@ -337,9 +340,6 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="ggregory" due-to="Dependabot" type="update">
         Bump slf4j.version from 1.7.26 to 2.0.16 #484, #486, #524, #575, #580, #585.
-      </action>
-      <action dev="ggregory" due-to="Dependabot, Gary Gregory" type="update">
-        Bump org.apache.commons:commons-parent from 52 to 75 #497, #588, #592, #600.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Bump org.ow2.asm:asm from 9.2 to 9.4.
