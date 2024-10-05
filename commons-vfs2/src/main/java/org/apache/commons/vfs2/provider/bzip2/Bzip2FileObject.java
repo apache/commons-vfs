@@ -51,8 +51,15 @@ public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem> {
         return new BZip2CompressorInputStream(inputStream);
     }
 
-    protected Bzip2FileObject(final AbstractFileName name, final FileObject container, final Bzip2FileSystem fs) {
-        super(name, container, fs);
+    /**
+     * Constructs a new instance.
+     *
+     * @param fileName the file name.
+     * @param container the container.
+     * @param fileSystem the file system.
+     */
+    protected Bzip2FileObject(final AbstractFileName fileName, final FileObject container, final Bzip2FileSystem fileSystem) {
+        super(fileName, container, fileSystem);
     }
 
     /**

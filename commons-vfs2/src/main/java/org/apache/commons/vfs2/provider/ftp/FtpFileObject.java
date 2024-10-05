@@ -146,10 +146,18 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
 
     private final AtomicBoolean inRefresh = new AtomicBoolean();
 
-    protected FtpFileObject(final AbstractFileName name, final FtpFileSystem fileSystem, final FileName rootName)
+    /**
+     * Constructs a new instance.
+     *
+     * @param fileName the file name.
+     * @param fileSystem the file system.
+     * @param rootName the root name.
+     * @throws FileSystemException if an file system error occurs.
+     */
+    protected FtpFileObject(final AbstractFileName fileName, final FtpFileSystem fileSystem, final FileName rootName)
             throws FileSystemException {
-        super(name, fileSystem);
-        final String relPath = UriParser.decode(rootName.getRelativeName(name));
+        super(fileName, fileSystem);
+        final String relPath = UriParser.decode(rootName.getRelativeName(fileName));
         if (".".equals(relPath)) {
             // do not use the "." as path against the ftp-server
             // e.g. the uu.net ftp-server do a recursive listing then

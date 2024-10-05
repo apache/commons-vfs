@@ -30,7 +30,16 @@ import org.apache.commons.vfs2.provider.VfsComponentContext;
  */
 public abstract class LocalFileNameParser extends AbstractFileNameParser {
 
-    protected abstract FileName createFileName(String scheme, String rootFile, String path, FileType type);
+    /**
+     * Creates a FileName.
+     *
+     * @param scheme The scheme.
+     * @param rootFile the root file.
+     * @param path the path.
+     * @param fileType the file type.
+     * @return a FileName.
+     */
+    protected abstract FileName createFileName(String scheme, String rootFile, String path, FileType fileType);
 
     /**
      * Pops the root prefix off a URI, which has had the scheme removed.

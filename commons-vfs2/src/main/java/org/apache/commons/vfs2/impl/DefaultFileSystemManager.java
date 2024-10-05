@@ -295,6 +295,11 @@ public class DefaultFileSystemManager implements FileSystemManager {
         }
     }
 
+    /**
+     * Adds a scheme.
+     *
+     * @param rootUri the URI containing the scheme to add.
+     */
     protected void addVirtualFileSystemScheme(String rootUri) {
         if (rootUri.indexOf(':') != -1) {
             rootUri = rootUri.substring(0, rootUri.indexOf(':'));

@@ -55,7 +55,7 @@ public class Http4FileSystem extends AbstractFileSystem {
     private final HttpClientContext httpClientContext;
 
     /**
-     * Constructs {@code Http4FileSystem}.
+     * Constructs a new instance.
      *
      * @param rootName root base name
      * @param fileSystemOptions file system options

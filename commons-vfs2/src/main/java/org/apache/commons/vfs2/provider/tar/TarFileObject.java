@@ -38,9 +38,17 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem> {
     private final HashSet<String> children = new HashSet<>();
     private FileType type;
 
-    protected TarFileObject(final AbstractFileName name, final TarArchiveEntry entry, final TarFileSystem fs,
+    /**
+     * Constructs a new instance.
+     *
+     * @param fileName the file name.
+     * @param entry the archive entry.
+     * @param fileSystem the file system.
+     * @param tarExists whether the tar file exists.
+     */
+    protected TarFileObject(final AbstractFileName fileName, final TarArchiveEntry entry, final TarFileSystem fileSystem,
             final boolean tarExists) {
-        super(name, fs);
+        super(fileName, fileSystem);
         setTarEntry(entry);
         if (!tarExists) {
             type = FileType.IMAGINARY;

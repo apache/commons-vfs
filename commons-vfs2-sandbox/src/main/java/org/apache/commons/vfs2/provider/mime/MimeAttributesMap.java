@@ -23,9 +23,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -120,10 +120,7 @@ public class MimeAttributesMap implements Map<String, Object> {
             }
         }
 
-        // add all simple get/is results (with obj. prefix)
-        final Iterator<Entry<String, Method>> iterEntries = mimeMessageGetters.entrySet().iterator();
-        while (iterEntries.hasNext()) {
-            final Map.Entry<String, Method> entry = iterEntries.next();
+        for (final Entry<String, Method> entry : mimeMessageGetters.entrySet()) {
             final String name = entry.getKey();
             final Method method = entry.getValue();
 

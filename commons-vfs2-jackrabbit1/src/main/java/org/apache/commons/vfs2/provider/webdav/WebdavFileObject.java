@@ -224,12 +224,23 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
 
     private final WebdavFileSystem fileSystem;
 
-    protected WebdavFileObject(final AbstractFileName name, final WebdavFileSystem fileSystem) {
-        super(name, fileSystem, WebdavFileSystemConfigBuilder.getInstance());
+    /**
+     * Constructs a new instance.
+     *
+     * @param fileName the file name.
+     * @param fileSystem the file system.
+     */
+    protected WebdavFileObject(final AbstractFileName fileName, final WebdavFileSystem fileSystem) {
+        super(fileName, fileSystem, WebdavFileSystemConfigBuilder.getInstance());
         this.fileSystem = fileSystem;
         builder = (WebdavFileSystemConfigBuilder) WebdavFileSystemConfigBuilder.getInstance();
     }
 
+    /**
+     * Configures the given HttpMethodBase.
+     *
+     * @param httpMethod The HttpMethodBase to configure.
+     */
     protected void configureMethod(final HttpMethodBase httpMethod) {
         httpMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, WebdavMethodRetryHandler.getInstance());
     }

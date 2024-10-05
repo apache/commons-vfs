@@ -17,7 +17,7 @@
 package org.apache.commons.vfs2.provider.ftp;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.provider.GenericFileName;
@@ -34,7 +34,7 @@ public class FtpFileNameParserTest {
     public void testGenericFileName1() throws Exception {
         final String uri = "ftp://blanks:blanks@localhost/path/file_b%20lanks";
         final FileName n = FtpFileNameParser.getInstance().parseUri(null, null, uri);
-        assertTrue(n instanceof GenericFileName);
+        assertInstanceOf(GenericFileName.class, n);
         final String genericUri = n.getURI();
         assertEquals(genericUri, uri.toString());
     }
@@ -43,7 +43,7 @@ public class FtpFileNameParserTest {
     public void testGenericFileName2() throws Exception {
         final String uri = "ftp://b%20lanks:b%20lanks@localhost/path/file";
         final FileName n = FtpFileNameParser.getInstance().parseUri(null, null, uri);
-        assertTrue(n instanceof GenericFileName);
+        assertInstanceOf(GenericFileName.class, n);
         final String genericUri = n.getURI();
         assertEquals(genericUri, uri.toString());
     }

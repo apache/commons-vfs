@@ -24,7 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationUtils;
 
 /**
- * Abstract class which has the right to fill FileSystemOptions.
+ * Abstracts configuring {@link FileSystemOptions}s.
  */
 public abstract class FileSystemConfigBuilder {
 
@@ -506,6 +506,21 @@ public abstract class FileSystemConfigBuilder {
      */
     protected <T> T getParam(final FileSystemOptions fileSystemOptions, final String name) {
         return fileSystemOptions == null ? null : fileSystemOptions.getOption(getConfigClass(), name);
+    }
+
+    /**
+     * Gets a named parameter.
+     *
+     * @param <T> The expected return type.
+     * @param fileSystemOptions file system options to query, may be null.
+     * @param name get option with this name
+     * @param defaultValue The default value if absent.
+     * @return the named option or {@code defaultValue}.
+     *
+     * @since 2.10.0
+     */
+    protected <T> T getParamOrDefault(final FileSystemOptions fileSystemOptions, final String name, final T defaultValue) {
+        return fileSystemOptions == null ? defaultValue : fileSystemOptions.getOptionOrDefault(getConfigClass(), name, defaultValue);
     }
 
     /**

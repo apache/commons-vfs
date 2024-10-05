@@ -21,6 +21,7 @@ import static org.apache.commons.vfs2.VfsTestUtils.assertSameMessage;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
@@ -318,7 +319,7 @@ public class ProviderReadTests extends AbstractProviderTestCase {
 
         // Compare actual and expected list of files
         final List<FileObject> expectedFiles = selector.finish();
-        expectedFiles.sort(null);
+        Collections.sort(expectedFiles);
         assertEquals(expectedFiles.size(), actualFiles.length);
         final int count = expectedFiles.size();
         for (int i = 0; i < count; i++) {

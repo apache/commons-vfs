@@ -22,11 +22,9 @@ limitations under the License.
     <format>tar.gz</format>
     <format>zip</format>
   </formats>
-  <includeBaseDirectory>false</includeBaseDirectory>
   <includeSiteDirectory>false</includeSiteDirectory>
-  <moduleSets>
-    <moduleSet>
-      <useAllReactorProjects>false</useAllReactorProjects>
+  <dependencySets>
+    <dependencySet>
       <includes>
         <include>org.apache.commons:commons-vfs2</include>
         <include>org.apache.commons:commons-vfs2-ant</include>
@@ -36,8 +34,9 @@ limitations under the License.
         <include>org.apache.commons:commons-vfs2-jackrabbit2</include>
         <include>org.apache.commons:commons-vfs2-bom</include>
       </includes>
-    </moduleSet>
-  </moduleSets>
+      <useProjectArtifact>false</useProjectArtifact>
+    </dependencySet>
+  </dependencySets>
   <fileSets>
     <fileSet>
       <directory>..</directory>

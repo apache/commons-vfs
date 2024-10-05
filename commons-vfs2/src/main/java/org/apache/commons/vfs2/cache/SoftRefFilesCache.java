@@ -114,8 +114,15 @@ public class SoftRefFilesCache extends AbstractFilesCache {
         }
     }
 
-    protected Reference<FileObject> createReference(final FileObject file, final ReferenceQueue<FileObject> refqueue) {
-        return new SoftReference<>(file, refqueue);
+    /**
+     * Creates a new Reference.
+     *
+     * @param file a file object.
+     * @param referenceQueue a ReferenceQueue.
+     * @return a new Reference on the given input.
+     */
+    protected Reference<FileObject> createReference(final FileObject file, final ReferenceQueue<FileObject> referenceQueue) {
+        return new SoftReference<>(file, referenceQueue);
     }
 
     private synchronized void endThread() {
@@ -142,11 +149,16 @@ public class SoftRefFilesCache extends AbstractFilesCache {
         return fo;
     }
 
+    /**
+     * Gets or creates a new Map.
+     *
+     * @param fileSystem the key.
+     * @return an existing or new Map.
+     */
     protected synchronized Map<FileName, Reference<FileObject>> getOrCreateFilesystemCache(final FileSystem fileSystem) {
         if (fileSystemCache.isEmpty()) {
             startThread();
         }
-
         return fileSystemCache.computeIfAbsent(fileSystem, k -> new HashMap<>());
     }
 

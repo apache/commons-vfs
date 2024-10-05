@@ -61,6 +61,14 @@ public class TarFileSystem extends AbstractFileSystem {
      */
     private final Map<FileName, FileObject> cache = new HashMap<>();
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param rootName The root file name of this file system.
+     * @param parentLayer The parent layer of this file system.
+     * @param fileSystemOptions Options to build this file system.
+     * @throws FileSystemException if a file system error occurs.
+     */
     protected TarFileSystem(final AbstractFileName rootName, final FileObject parentLayer,
         final FileSystemOptions fileSystemOptions) throws FileSystemException {
         super(rootName, parentLayer, fileSystemOptions);
@@ -94,6 +102,13 @@ public class TarFileSystem extends AbstractFileSystem {
         return new TarFileObject(name, null, this, false);
     }
 
+    /**
+     * Creates a new TarArchiveInputStream.
+     *
+     * @param file the file.
+     * @return a new TarArchiveInputStream.
+     * @throws FileSystemException if a file system error occurs.
+     */
     protected TarArchiveInputStream createTarFile(final File file) throws FileSystemException {
         try {
             if ("tgz".equalsIgnoreCase(getRootName().getScheme())) {
@@ -109,8 +124,15 @@ public class TarFileSystem extends AbstractFileSystem {
         }
     }
 
-    protected TarFileObject createTarFileObject(final AbstractFileName name, final TarArchiveEntry entry) {
-        return new TarFileObject(name, entry, this, true);
+    /**
+     * Creates a new TarFileObject.
+     *
+     * @param fileName the file name.
+     * @param entry the archive entry.
+     * @return a new TarFileObject.
+     */
+    protected TarFileObject createTarFileObject(final AbstractFileName fileName, final TarArchiveEntry entry) {
+        return new TarFileObject(fileName, entry, this, true);
     }
 
     @Override
@@ -158,6 +180,12 @@ public class TarFileSystem extends AbstractFileSystem {
         }
     }
 
+    /**
+     * Gets the TarArchiveInputStream.
+     *
+     * @return the TarArchiveInputStream.
+     * @throws FileSystemException if a file system error occurs.
+     */
     protected TarArchiveInputStream getTarFile() throws FileSystemException {
         if (tarFile == null && file.exists()) {
             recreateTarFile();
@@ -223,7 +251,6 @@ public class TarFileSystem extends AbstractFileSystem {
      * will be called after all file-objects closed their streams. protected void notifyAllStreamsClosed() {
      * closeCommunicationLink(); }
      */
-
     private void recreateTarFile() throws FileSystemException {
         if (tarFile != null) {
             try {
@@ -244,6 +271,11 @@ public class TarFileSystem extends AbstractFileSystem {
         cache.remove(name);
     }
 
+    /**
+     * Resets the tar file.
+     *
+     * @throws FileSystemException if a file system error occurs.
+     */
     protected void resetTarFile() throws FileSystemException {
         // Reading specific entries requires skipping through the tar file from the beginning
         // Not especially elegant, but we don't have the ability to seek to specific positions
