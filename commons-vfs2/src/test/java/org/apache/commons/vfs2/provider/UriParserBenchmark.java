@@ -25,8 +25,7 @@ import org.openjdk.jmh.annotations.Warmup;
 
 @BenchmarkMode(Mode.Throughput)
 @Warmup(iterations = 2)
-@Measurement(iterations = 2)
-@Fork(2)
+@Measurement(iterations = 5)
 public class UriParserBenchmark {
 
     private static final String PATH_TO_NORMALIZE = "file:///this/../is/a%2flong%2Fpath/./for testing/normlisePath%2fmethod.txt";
