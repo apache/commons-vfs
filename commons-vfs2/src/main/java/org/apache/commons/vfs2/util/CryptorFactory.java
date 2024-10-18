@@ -17,7 +17,7 @@
 package org.apache.commons.vfs2.util;
 
 /**
- * Factory to create an instance of a Cryptor.
+ * Creates an instance of {@link Cryptor}.
  *
  * @since 2.0
  */
