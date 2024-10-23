@@ -265,6 +265,16 @@
   </reporting>
   <profiles>
     <profile>
+      <!-- Java 23 and up -->
+      <id>java-23-up</id>
+      <activation>
+        <jdk>[23,)</jdk>
+      </activation>
+      <properties>
+        <java.security.manager>allow</java.security.manager>
+      </properties>
+    </profile>
+    <profile>
       <activation>
         <os>
           <family>Windows</family>
