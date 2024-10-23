@@ -299,8 +299,8 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">
         Bump org.apache.httpcomponents.client5:httpclient5 from 5.1 to 5.4 #561, #602.
       </action>
-      <action type="update" dev="ggregory" due-to="Dependabot">
-        Bump org.apache.httpcomponents.core5:httpcore5 from 5.1.5 to 5.3 #369, #399, #429, #447, #559, #597.
+      <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">
+        Bump org.apache.httpcomponents.core5:httpcore5 from 5.1.5 to 5.3.1 #369, #399, #429, #447, #559, #597, #624.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">
         Bump org.apache.mina:mina-core from 2.1.4 to 2.1.8.
