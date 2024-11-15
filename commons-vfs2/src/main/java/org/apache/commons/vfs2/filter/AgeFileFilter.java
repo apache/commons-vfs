@@ -162,8 +162,8 @@ public class AgeFileFilter implements FileFilter, Serializable {
      * Checks to see if the last modification of the file matches cutoff favorably.
      * <p>
      * If last modification time equals cutoff and newer files are required, file
-     * <b>IS NOT</b> selected. If last modification time equals cutoff and older
-     * files are required, file <b>IS</b> selected.
+     * <strong>IS NOT</strong> selected. If last modification time equals cutoff and older
+     * files are required, file <strong>IS</strong> selected.
      * </p>
      *
      * @param fileInfo the File to check

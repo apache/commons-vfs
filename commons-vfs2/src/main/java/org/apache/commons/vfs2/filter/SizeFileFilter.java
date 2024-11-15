@@ -85,9 +85,9 @@ public class SizeFileFilter implements FileFilter, Serializable {
     /**
      * Checks to see if the size of the file is favorable.
      * <p>
-     * If size equals threshold and smaller files are required, file <b>IS NOT</b>
+     * If size equals threshold and smaller files are required, file <strong>IS NOT</strong>
      * selected. If size equals threshold and larger files are required, file
-     * <b>IS</b> selected.
+     * <strong>IS</strong> selected.
      * </p>
      * <p>
      * Non-existing files return always false (will never be accepted).

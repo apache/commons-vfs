@@ -56,7 +56,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * </pre>
  *
  * <p>
- * <b>N.B.</b> For read-only files, use
+ * <strong>N.B.</strong> For read-only files, use
  * {@code CanReadFileFilter.READ_ONLY}.
  * </p>
  *
