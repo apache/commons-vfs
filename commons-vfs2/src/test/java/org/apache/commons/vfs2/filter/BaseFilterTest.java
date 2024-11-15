@@ -196,14 +196,7 @@ public abstract class BaseFilterTest {
      * @return List of child entries of the directory.
      */
     private static File[] listFiles(final File srcDir, final FileFilter filter) {
-
-        final File[] files;
-        if (filter == null) {
-            files = srcDir.listFiles();
-        } else {
-            files = srcDir.listFiles(filter);
-        }
-        return files;
+        return srcDir.listFiles(filter);
     }
 
     /**
@@ -222,7 +215,6 @@ public abstract class BaseFilterTest {
      */
     public static void zipDir(final File srcDir, final FileFilter filter, final String destPath, final File destFile)
             throws IOException {
-
         if (srcDir == null) {
             throw new IllegalArgumentException("srcDir cannot be null");
         }
@@ -235,7 +227,6 @@ public abstract class BaseFilterTest {
         if (destFile == null) {
             throw new IllegalArgumentException("destFile cannot be null");
         }
-
         try (ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(Files.newOutputStream(destFile.toPath())))) {
             zipDir(srcDir, filter, destPath, out);
         }
