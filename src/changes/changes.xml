@@ -207,6 +207,7 @@ The <action> type attribute can be add,update,fix,remove.
         org.apache.commons.vfs2.provider.http.HttpFileObject.doListChildren() now throws UnsupportedOperationException instead of Exception.
       </action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Pick up exec-maven-plugin version from parent POM.</action>
+      <action type="fix" dev="ggregory" due-to="Anthony Goubard">Fixed commons-vfs2-sandbox module not compiling due to missing imports and library #634.</action> 
       <!-- ADD -->
       <action type="add" issue="VFS-848" dev="ggregory" due-to="beise, Gary Gregory">
         Config option for trailing slash in webdav URI #425.
