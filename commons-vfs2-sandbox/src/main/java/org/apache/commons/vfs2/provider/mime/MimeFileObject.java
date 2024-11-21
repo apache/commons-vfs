@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.mime;
 
+import jakarta.mail.Header;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Multipart;
+import jakarta.mail.Part;
 import jakarta.mail.internet.MimeMultipart;
 
 /**
@@ -64,7 +66,7 @@ public class MimeFileObject extends AbstractFileObject<MimeFileSystem> implement
                 return;
             }
 
-            setPart(((MimeFileSystem) getFileSystem()).createCommunicationLink());
+            setPart((Part) ((MimeFileSystem) getFileSystem()).createCommunicationLink());
         }
     }
 
