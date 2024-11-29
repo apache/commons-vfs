@@ -74,7 +74,6 @@ public final class FileObjectUtils {
      * @param file Gets the contents of this file object.
      * @return The content as a byte array.
      * @throws IOException if the file content cannot be accessed.
-     *
      * @since 2.6.0
      */
     public static byte[] getContentAsByteArray(final FileObject file) throws IOException {

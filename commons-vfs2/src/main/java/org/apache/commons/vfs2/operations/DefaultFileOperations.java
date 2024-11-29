@@ -102,7 +102,6 @@ public class DefaultFileOperations implements FileOperations {
     /**
      * @param operationClass the operation's class.
      * @return true if the operation of specified class is supported for current FileObject and false otherwise.
-     *
      * @throws FileSystemException if an error occurs.
      */
     @Override

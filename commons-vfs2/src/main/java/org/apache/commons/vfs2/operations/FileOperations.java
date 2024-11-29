@@ -22,7 +22,6 @@ import org.apache.commons.vfs2.FileSystemException;
  * FileOperations interface provides API to work with operations.
  *
  * @see FileOperation on what an operation in the context of VFS is.
- *
  * @since 0.1
  */
 public interface FileOperations {

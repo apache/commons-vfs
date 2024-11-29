@@ -84,7 +84,6 @@ public class CanWriteFileFilter implements FileFilter, Serializable {
      * Checks to see if the file can be written to.
      *
      * @param fileSelectInfo the File to check
-     *
      * @return {@code true} if the file can be written to, otherwise {@code false}.
      * @throws FileSystemException Thrown for file system errors.
      */

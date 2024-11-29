@@ -94,7 +94,6 @@ public class SizeFileFilter implements FileFilter, Serializable {
      * </p>
      *
      * @param fileSelectInfo the File to check
-     *
      * @return true if the file name matches
      * @throws FileSystemException Thrown for file system errors.
      */

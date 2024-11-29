@@ -67,7 +67,6 @@ public interface FileSystemManager extends AutoCloseable {
 
     /**
      * @see FileSystemManager#addOperationProvider(String, org.apache.commons.vfs2.operations.FileOperationProvider)
-     *
      * @param schemes The schemes that will be associated with the provider.
      * @param operationProvider The FileOperationProvider to add.
      * @throws FileSystemException if an error occurs.
@@ -199,7 +198,6 @@ public interface FileSystemManager extends AutoCloseable {
      * Gets Providers for file operations.
      *
      * @param scheme the scheme for which we want to get the list af registered providers.
-     *
      * @return the registered FileOperationProviders for the specified scheme. If there were no providers registered for
      *         the scheme, it returns null.
      *

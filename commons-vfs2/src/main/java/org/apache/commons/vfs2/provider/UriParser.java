@@ -486,7 +486,6 @@ public final class UriParser {
      * @param path The path to normalize.
      * @return The FileType.
      * @throws FileSystemException if an error occurs.
-     *
      * @see #fixSeparators
      */
     public static FileType normalisePath(final StringBuilder path) throws FileSystemException {

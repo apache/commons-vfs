@@ -229,7 +229,6 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * @see FileSystemManager#addOperationProvider(String, org.apache.commons.vfs2.operations.FileOperationProvider)
-     *
      * @param schemes The array of schemes the provider should apply to.
      * @param operationProvider The FileOperationProvider.
      * @throws FileSystemException if an error occurs.
@@ -597,7 +596,6 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * @param scheme the scheme for which we want to get the list af registered providers.
-     *
      * @return the registered FileOperationProviders for the specified scheme. If there were no providers registered for
      *         the scheme, it returns null.
      *

@@ -62,7 +62,6 @@ public final class Webdav4FileSystemConfigBuilder extends Http4FileSystemConfigB
      * @param opts The FileSystem options.
      * @return {@code true} to follow redirects, {@code false} not to.
      * @see #setAppendTrailingSlash
-     *
      * @since 2.10.0
      */
     public boolean getAppendTrailingSlash(final FileSystemOptions opts) {
@@ -114,7 +113,6 @@ public final class Webdav4FileSystemConfigBuilder extends Http4FileSystemConfigB
      *
      * @param opts The FileSystem options.
      * @param appendTrailingSlash {@code true} to append slash, {@code false} not to.
-     *
      * @since 2.10.0
      */
     public void setAppendTrailingSlash(final FileSystemOptions opts, final boolean appendTrailingSlash) {

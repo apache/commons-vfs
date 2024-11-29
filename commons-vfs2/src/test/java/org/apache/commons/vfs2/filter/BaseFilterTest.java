@@ -163,7 +163,6 @@ public abstract class BaseFilterTest {
      * Returns a subdirectory of the temporary directory.
      *
      * @param name Name of the subdirectory.
-     *
      * @return Subdirectory of java.io.tmpdir.
      */
     protected static File getTestDir(final String name) {
@@ -176,9 +175,7 @@ public abstract class BaseFilterTest {
      * Returns a ZIP file object.
      *
      * @param file File to resolve.
-     *
      * @return File object.
-     *
      * @throws FileSystemException Error resolving the file.
      */
     protected static FileObject getZipFileObject(final File file) throws FileSystemException {
@@ -192,7 +189,6 @@ public abstract class BaseFilterTest {
      * @param srcDir Directory to list the files for - Cannot be {@code null}
      *               and must be a valid directory.
      * @param filter Filter or {@code null} for all files.
-     *
      * @return List of child entries of the directory.
      */
     private static File[] listFiles(final File srcDir, final FileFilter filter) {
@@ -210,7 +206,6 @@ public abstract class BaseFilterTest {
      * @param destPath Path to use for the ZIP archive - May be {@code null} or
      *                 an empty string.
      * @param destFile Target ZIP file - Cannot be {@code null}.
-     *
      * @throws IOException Error writing to the output stream.
      */
     public static void zipDir(final File srcDir, final FileFilter filter, final String destPath, final File destFile)
@@ -242,7 +237,6 @@ public abstract class BaseFilterTest {
      * @param destPath Path to use for the ZIP archive - May be {@code null} or
      *                 an empty string.
      * @param out      Destination stream - Cannot be {@code null}.
-     *
      * @throws IOException Error writing to the output stream.
      */
     private static void zipDir(final File srcDir, final FileFilter filter, final String destPath,
@@ -268,7 +262,6 @@ public abstract class BaseFilterTest {
      * @param destPath Path to use for the ZIP archive - May be {@code null} or
      *                 an empty string.
      * @param destFile Target ZIP file - Cannot be {@code null}.
-     *
      * @throws IOException Error writing to the output stream.
      */
     public static void zipDir(final File srcDir, final String destPath, final File destFile) throws IOException {
@@ -282,7 +275,6 @@ public abstract class BaseFilterTest {
      * @param srcFile  File to add - Cannot be {@code null}.
      * @param destPath Path to use for the file - May be {@code null} or empty.
      * @param out      Destination stream - Cannot be {@code null}.
-     *
      * @throws IOException Error writing to the output stream.
      */
     private static void zipFile(final File srcFile, final String destPath, final ZipOutputStream out)

@@ -25,7 +25,6 @@ import org.apache.commons.vfs2.FileSystemException;
  * A {@link java.util.function.Consumer} that throws {@link FileSystemException}.
  *
  * @param <T> the type of the input to the operation
- *
  * @since 2.5.0
  */
 @FunctionalInterface

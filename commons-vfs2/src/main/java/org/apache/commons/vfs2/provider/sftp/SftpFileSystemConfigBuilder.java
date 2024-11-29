@@ -450,7 +450,6 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param options The FileSystemOptions.
      * @return {@code true} if detection of exec channel should be disabled.
-     *
      * @see #setDisableDetectExecChannel(FileSystemOptions, boolean)
      * @since 2.7.0
      */
