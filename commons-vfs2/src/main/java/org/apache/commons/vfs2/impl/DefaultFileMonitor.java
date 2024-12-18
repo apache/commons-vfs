@@ -79,7 +79,7 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
 // TODO Add a Builder so we can construct and start.
 public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable {
 
-    private static final ThreadFactory threadFactory = new BasicThreadFactory.Builder().daemon(true).priority(Thread.MIN_PRIORITY).build();
+    private static final ThreadFactory THREAD_FACTORY = new BasicThreadFactory.Builder().daemon(true).priority(Thread.MIN_PRIORITY).build();
 
     /**
      * File monitor agent.
@@ -560,7 +560,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
      */
     public synchronized void start() {
         if (monitorThread == null) {
-            monitorThread = threadFactory.newThread(this);
+            monitorThread = THREAD_FACTORY.newThread(this);
         }
         monitorThread.start();
     }
