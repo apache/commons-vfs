@@ -332,7 +332,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump org.apache.httpcomponents:httpcore-nio from 4.4.14 to 4.4.16, #341.
       </action>
       <action dev="ggregory" due-to="Gary Gregory, Dependabot" type="update">
-        Bump Apache Log4j 2.14.1 to 2.24.2 [Tests] #226, #230, #305, #378, #448, #461, #487, #499, #598, #610, #635.
+        Bump Apache Log4j 2.14.1 to 2.24.3 [Tests] #226, #230, #305, #378, #448, #461, #487, #499, #598, #610, #635, #642.
       </action>
       <action dev="ggregory" due-to="XenoAmess" type="update">
         Bump ftpserver-core from 1.1.1 to 1.1.2 #235.
