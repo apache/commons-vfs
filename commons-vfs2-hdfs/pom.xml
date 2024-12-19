@@ -24,7 +24,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-vfs2-project</artifactId>
-    <version>2.10.0-SNAPSHOT</version>
+    <version>2.10.0</version>
   </parent>
 
   <name>Apache Commons VFS HDFS</name>
@@ -110,7 +110,7 @@
     </commons.osgi.import>
     <!-- Hadoop jars contain overlapping packages that blow up JPMS -->
     <moditect.skip>true</moditect.skip>
-    <project.build.outputTimestamp>2024-03-03T15:45:26Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2024-12-19T03:21:13Z</project.build.outputTimestamp>
   </properties>
 
   <build>
