@@ -45,7 +45,7 @@ The <action> type attribute can be add,update,fix,remove.
     <author email="dev@commons.apache.org">Apache Commons Developers</author>
   </properties>
   <body>
-    <release version="2.10.0" date="2024-08-10" description="Maintenance release. Requires Java 8 or above.">
+    <release version="2.10.0" date="YYYY-MM-DD" description="Maintenance release. Requires Java 8 or above.">
       <!-- FIX -->
       <action type="fix" issue="VFS-854" dev="ecki" due-to="Andrey Turbanov">
         Avoid debug-logging URL credentials.
@@ -390,6 +390,9 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="ggregory" type="update" due-to="Gary Gregory">
         Bump ant:ant 1.6.5 to org.apache.ant:ant 1.10.14.
+      </action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory">
+        Bump org.apache.mina:mina-core from 2.1.8 to 2.1.9.
       </action>
     </release>
     <release version="2.9.0" date="2021-06-16" description="Maintenance release. Requires Java 8 or above.">
