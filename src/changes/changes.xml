@@ -305,7 +305,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump org.apache.httpcomponents.core5:httpcore5 from 5.1.5 to 5.3.1 #369, #399, #429, #447, #559, #597, #624.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">
-        Bump org.apache.mina:mina-core from 2.1.4 to 2.1.8.
+        Bump org.apache.mina:mina-core from 2.1.4 to 2.1.10 #646.
       </action>
       <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">
         Bump maven-pmd-plugin from 3.14.0 to 3.19.0 #223, #294, #304.
