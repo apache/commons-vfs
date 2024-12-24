@@ -33,6 +33,13 @@ public class CopyTask extends AbstractSyncTask {
     private boolean preserveLastModified = true;
 
     /**
+     * Constructs a new instance.
+     */
+    public CopyTask() {
+        // empty
+    }
+
+    /**
      * Handles an out-of-date file.
      *
      * @param srcFile The source FileObject.
@@ -64,6 +71,8 @@ public class CopyTask extends AbstractSyncTask {
     }
 
     /**
+     * Tests whether overwrite is enabled.
+     *
      * @return the current value of overwrite
      */
     public boolean isOverwrite() {
@@ -71,6 +80,8 @@ public class CopyTask extends AbstractSyncTask {
     }
 
     /**
+     * Tests whether preserve last modified is enabled.
+     *
      * @return the current value of preserveLastModified
      */
     public boolean isPreserveLastModified() {
@@ -87,7 +98,7 @@ public class CopyTask extends AbstractSyncTask {
     }
 
     /**
-     * Enable/disable preserving last modified time of copied files.
+     * Sets preserving last modified time of copied files.
      *
      * @param preserveLastModified true if the last modified time should be preserved.
      */

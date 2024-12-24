@@ -32,6 +32,13 @@ import org.apache.tools.ant.Task;
 public class VfsTask extends Task {
 
     /**
+     * Constructs a new instance.
+     */
+    public VfsTask() {
+        // empty
+    }
+
+    /**
      * A commons-logging wrapper for Ant logging.
      */
     private final class AntLogger implements Log {

@@ -314,8 +314,27 @@
               <head>To Do:</head>
             </tag>
           </tags>
-          <aggregate>true</aggregate>
         </configuration>
+        <reportSets>
+          <reportSet>
+            <id>non-aggregate</id>
+            <configuration>
+              <!-- Specific configuration for the non aggregate report -->
+            </configuration>
+            <reports>
+              <report>javadoc</report>
+            </reports>
+          </reportSet>
+          <reportSet>
+            <id>aggregate</id>
+            <configuration>
+              <!-- Specific configuration for the aggregate report -->
+            </configuration>
+            <reports>
+              <report>aggregate</report>
+            </reports>
+          </reportSet>
+        </reportSets>
       </plugin>
       <plugin>
         <groupId>com.github.spotbugs</groupId>

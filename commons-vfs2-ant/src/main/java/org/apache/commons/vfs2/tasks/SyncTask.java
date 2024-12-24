@@ -24,6 +24,13 @@ import org.apache.commons.vfs2.FileObject;
 public class SyncTask extends CopyTask {
 
     /**
+     * Constructs a new instance.
+     */
+    public SyncTask() {
+        // empty
+    }
+
+    /**
      * Check if this task cares about destination files with a missing source file.
      */
     @Override
