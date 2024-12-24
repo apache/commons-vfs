@@ -23,6 +23,7 @@
 
   <name>Apache Commons VFS</name>
   <artifactId>commons-vfs2</artifactId>
+  <packaging>jar</packaging>
   <description>Apache Commons VFS is a Virtual File System library.</description>
   <url>https://commons.apache.org/proper/commons-vfs/</url>
 
@@ -30,6 +31,7 @@
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-vfs2-project</artifactId>
     <version>2.10.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <dependencies>
