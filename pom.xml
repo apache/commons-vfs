@@ -110,9 +110,6 @@
     <jsch.version>0.1.55</jsch.version>
     <httpclient3.version>3.1</httpclient3.version>
     <ant.version>1.10.15</ant.version>
-    <!-- For VFS, somehow, SPDX >= 0.6.0 requires Java 11 (maybe because it's a multi-module project). -->
-    <commons.spdx.version>0.5.5</commons.spdx.version>
-
     <clirr.skip>true</clirr.skip>
     <japicmp.skip>false</japicmp.skip>
     <jacoco.skip>false</jacoco.skip>
