@@ -19,10 +19,8 @@ package org.apache.commons.vfs2.operations.vcs;
 import org.apache.commons.vfs2.operations.FileOperation;
 
 /**
- * <p>
  * Restores pristine working copy file and cancels all local modifications. In other words, VcsRevert replaces working
  * copy file with the latest version from the repository.
- * </p>
  *
  * @since 0.1
  */

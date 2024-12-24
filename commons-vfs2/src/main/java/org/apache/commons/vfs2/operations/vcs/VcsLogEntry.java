@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.operations.vcs;
 import java.util.Calendar;
 
 /**
+ * A VFS log entry.
  *
  * @since 0.1
  */
@@ -66,6 +67,7 @@ public class VcsLogEntry {
     }
 
     /**
+     * Gets the author.
      *
      * @return The author.
      */
@@ -74,6 +76,7 @@ public class VcsLogEntry {
     }
 
     /**
+     * Gets the date.
      *
      * @return The date.
      */
@@ -82,6 +85,7 @@ public class VcsLogEntry {
     }
 
     /**
+     * Gets the message.
      *
      * @return The message.
      */
@@ -90,6 +94,7 @@ public class VcsLogEntry {
     }
 
     /**
+     * Gets the path.
      *
      * @return The path.
      */
@@ -98,6 +103,7 @@ public class VcsLogEntry {
     }
 
     /**
+     * Gets the revision.
      *
      * @return The revision.
      */

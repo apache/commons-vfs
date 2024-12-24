@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.operations.vcs;
 import org.apache.commons.vfs2.operations.FileOperation;
 
 /**
+ * The VCS add file operation.
  *
  * @since 0.1
  */

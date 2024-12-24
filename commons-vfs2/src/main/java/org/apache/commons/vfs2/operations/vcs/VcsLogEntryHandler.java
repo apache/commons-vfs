@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.operations.vcs;
 import org.apache.commons.vfs2.FileSystemException;
 
 /**
+ * Handles VCS log entries.
  *
  * @since 0.1
  */

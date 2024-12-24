@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.operations.vcs;
 
 /**
+ * The VCS commit listener.
  *
  * @since 0.1
  */

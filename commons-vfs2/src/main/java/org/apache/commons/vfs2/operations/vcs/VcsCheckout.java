@@ -20,6 +20,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.operations.FileOperation;
 
 /**
+ * The VCS checkout file operation.
  *
  * @since 0.1
  */

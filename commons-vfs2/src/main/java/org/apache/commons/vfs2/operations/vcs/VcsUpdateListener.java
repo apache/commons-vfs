@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.operations.vcs;
 
 /**
+ * Handles VCS updates.
  *
  * @since 0.1
  */
