@@ -35,6 +35,13 @@ public class HdfsFileContentInfoFactory implements FileContentInfoFactory {
     private static final String ENCODING = StandardCharsets.UTF_8.name();
 
     /**
+     * Constructs a new instance.
+     */
+    public HdfsFileContentInfoFactory() {
+        // empty
+    }
+
+    /**
      * Creates a FileContentInfo for the given FileContent.
      *
      * @param fileContent Use this FileContent to create a matching FileContentInfo

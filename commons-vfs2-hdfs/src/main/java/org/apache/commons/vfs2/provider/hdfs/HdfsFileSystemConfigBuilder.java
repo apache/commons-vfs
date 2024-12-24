@@ -44,6 +44,8 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String KEY_CONFIG_CONF = "configConf";
 
     /**
+     * Gets the singleton instance.
+     *
      * @return HdfsFileSystemConfigBuilder instance
      */
     public static HdfsFileSystemConfigBuilder getInstance() {
