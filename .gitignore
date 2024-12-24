@@ -13,3 +13,5 @@ target/
 .vscode/
 *.code-workspace
 .history/
+.externalToolBuilders/
+maven-eclipse.xml
