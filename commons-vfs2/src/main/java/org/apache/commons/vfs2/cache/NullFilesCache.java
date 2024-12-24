@@ -32,6 +32,13 @@ import org.apache.commons.vfs2.FileSystem;
  */
 public class NullFilesCache extends AbstractFilesCache {
 
+    /**
+     * Constructs a new instance.
+     */
+    public NullFilesCache() {
+        // empty
+    }
+
     @Override
     public void clear(final FileSystem filesystem) {
         // empty

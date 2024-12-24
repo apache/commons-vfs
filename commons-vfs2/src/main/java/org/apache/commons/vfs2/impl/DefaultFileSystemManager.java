@@ -175,6 +175,13 @@ public class DefaultFileSystemManager implements FileSystemManager {
     private boolean init;
 
     /**
+     * Constructs a new instance.
+     */
+    public DefaultFileSystemManager() {
+        // empty
+    }
+
+    /**
      * Closes the given file system.
      * <p>
      * If you use VFS as singleton it is VERY dangerous to call this method

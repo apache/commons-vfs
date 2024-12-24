@@ -37,6 +37,13 @@ public class GenericFileNameParser extends LocalFileNameParser {
         return INSTANCE;
     }
 
+    /**
+     * Constructs a new instance.
+     */
+    public GenericFileNameParser() {
+        // empty
+    }
+
     /*
      * ... this is why need this: here the rootFileName can only be "/" (see above) put this "/" is also in the
      * path name so its of no value for the LocalFileName instance

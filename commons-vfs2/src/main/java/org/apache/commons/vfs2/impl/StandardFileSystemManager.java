@@ -54,6 +54,13 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
     private ClassLoader classLoader;
 
     /**
+     * Constructs a new instance.
+     */
+    public StandardFileSystemManager() {
+        // empty
+    }
+
+    /**
      * Adds an extension map.
      *
      * @param map containing the Elements.

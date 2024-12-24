@@ -50,6 +50,13 @@ public class DefaultFilesCache extends AbstractFilesCache {
     /** The FileSystem cache. Keeps one Map for each FileSystem. */
     private final ConcurrentMap<FileSystem, ConcurrentMap<FileName, FileObject>> fileSystemCache = new ConcurrentHashMap<>(10);
 
+    /**
+     * Constructs a new instance.
+     */
+    public DefaultFilesCache() {
+        // empty
+    }
+
     @Override
     public void clear(final FileSystem filesystem) {
         // avoid keeping a reference to the FileSystem (key) object

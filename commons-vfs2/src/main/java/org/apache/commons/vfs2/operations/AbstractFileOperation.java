@@ -30,6 +30,8 @@ public abstract class AbstractFileOperation implements FileOperation {
     private final FileObject fileObject;
 
     /**
+     * Constructs a new instance for subclasses.
+     *
      * @param file The FileObject.
      */
     public AbstractFileOperation(final FileObject file) {

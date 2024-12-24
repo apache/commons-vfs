@@ -37,7 +37,7 @@
   <suppress checks="FinalClass" files="URIUtils.java"/>
   <suppress checks="FinalClass" files="ZipFileSystemConfigBuilder.java"/>
   <!-- Can't change method name without breaking binary compatibility. -->
-  <suppress checks="MethodName" files="DefaultFileSystemManager.java" lines="185"/>
+  <suppress checks="MethodName" files="DefaultFileSystemManager.java" lines="192"/>
   <!-- Use of literals here is reasonable. -->
   <suppress checks="MagicNumber" files="URIUtils.java" lines="143, 152, 162"/>
   <suppress checks="MagicNumber" files="RamFileRandomAccessContent.java"/>

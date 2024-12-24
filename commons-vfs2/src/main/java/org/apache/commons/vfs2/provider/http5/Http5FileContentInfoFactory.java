@@ -36,6 +36,13 @@ import org.apache.hc.core5.http.HttpResponse;
  */
 public class Http5FileContentInfoFactory implements FileContentInfoFactory {
 
+    /**
+     * Constructs a new instance.
+     */
+    public Http5FileContentInfoFactory() {
+        // empty
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public FileContentInfo create(final FileContent fileContent) throws FileSystemException {

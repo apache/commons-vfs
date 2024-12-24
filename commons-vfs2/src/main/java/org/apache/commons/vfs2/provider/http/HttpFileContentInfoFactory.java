@@ -37,6 +37,13 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
 @Deprecated
 public class HttpFileContentInfoFactory implements FileContentInfoFactory {
 
+    /**
+     * Constructs a new instance.
+     */
+    public HttpFileContentInfoFactory() {
+        // empty
+    }
+
     @Override
     public FileContentInfo create(final FileContent fileContent) throws FileSystemException {
 

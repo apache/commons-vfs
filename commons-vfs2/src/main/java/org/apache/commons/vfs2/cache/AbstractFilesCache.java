@@ -26,6 +26,13 @@ import org.apache.commons.vfs2.provider.AbstractVfsComponent;
 public abstract class AbstractFilesCache extends AbstractVfsComponent implements FilesCache {
 
     /**
+     * Constructs a new instance for subclasses.
+     */
+    public AbstractFilesCache() {
+        // empty
+    }
+
+    /**
      * Default implementation is a NOOP.
      *
      * @param file touch this file.

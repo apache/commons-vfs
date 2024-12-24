@@ -92,7 +92,7 @@ public abstract class AbstractFileName implements FileName {
     private String key;
 
     /**
-     * Constructs a new instance.
+     * Constructs a new instance for subclasses.
      *
      * @param scheme The scheme.
      * @param absolutePath the absolute path, maybe empty or null.

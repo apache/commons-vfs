@@ -46,7 +46,7 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
     private FileNameParser fileNameParser;
 
     /**
-     * Constructs a new instance.
+     * Constructs a new instance for subclasses.
      */
     public AbstractFileProvider() {
         fileNameParser = GenericFileNameParser.getInstance();

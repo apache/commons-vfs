@@ -36,6 +36,13 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
     private final Collection<Class<? extends FileOperation>> operations = new ArrayList<>();
 
     /**
+     * Constructs a new instance for subclasses.
+     */
+    public AbstractFileOperationProvider() {
+        // empty
+    }
+
+    /**
      * Add new FileOperation to list of known operations.
      *
      * @param operationClass a class implementing FileOperation.

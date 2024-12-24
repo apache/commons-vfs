@@ -31,6 +31,13 @@ import org.apache.commons.vfs2.provider.VfsComponentContext;
 public abstract class LocalFileNameParser extends AbstractFileNameParser {
 
     /**
+     * Constructs a new instance.
+     */
+    public LocalFileNameParser() {
+        // empty
+    }
+
+    /**
      * Creates a FileName.
      *
      * @param scheme The scheme.

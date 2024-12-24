@@ -52,6 +52,9 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
         return BUILDER;
     }
 
+    /**
+     * Constructs a new instance.
+     */
     private HdfsFileSystemConfigBuilder() {
         super("hdfs.");
     }

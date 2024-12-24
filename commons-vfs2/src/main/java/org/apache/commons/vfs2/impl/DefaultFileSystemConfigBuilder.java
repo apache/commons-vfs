@@ -25,6 +25,7 @@ import org.apache.commons.vfs2.UserAuthenticator;
  * Default options usable for all file systems.
  */
 public class DefaultFileSystemConfigBuilder extends FileSystemConfigBuilder {
+
     /**
      * Dummy class that implements FileSystem.
      */
@@ -41,6 +42,13 @@ public class DefaultFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public static DefaultFileSystemConfigBuilder getInstance() {
         return BUILDER;
+    }
+
+    /**
+     * Constructs a new instance.
+     */
+    public DefaultFileSystemConfigBuilder() {
+        // empty
     }
 
     @Override
