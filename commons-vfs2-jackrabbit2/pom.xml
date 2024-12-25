@@ -28,7 +28,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <name>Apache Commons VFS Jackrabbit 2</name>
+  <name>Apache Commons VFS Jackrabbit 2.x</name>
   <artifactId>commons-vfs2-jackrabbit2</artifactId>
   <packaging>jar</packaging>
   <description>Apache Commons VFS is a Virtual File System library - Jackrabbit2-based WebDAV provider.</description>

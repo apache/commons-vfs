@@ -28,7 +28,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <name>Apache Commons VFS Jackrabbit 1</name>
+  <name>Apache Commons VFS Jackrabbit 1.x</name>
   <artifactId>commons-vfs2-jackrabbit1</artifactId>
   <packaging>jar</packaging>
   <description>Apache Commons VFS is a Virtual File System library - Jackrabbit-based WebDAV provider.</description>
@@ -211,7 +211,7 @@
   <profiles>
     <profile>
       <id>java14</id>
-        <!-- Jackrabbit 1 does not run on Java 14 and above. -->
+        <!-- Jackrabbit 1.x does not run on Java 14 and above. -->
         <activation>
           <jdk>[14,)</jdk>
         </activation>
