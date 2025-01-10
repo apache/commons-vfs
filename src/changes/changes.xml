@@ -37,9 +37,9 @@ and commit
 
 The <action> type attribute can be add,update,fix,remove.
 -->
-<document xmlns="http://maven.apache.org/changes/1.0.0"
+<document xmlns="http://maven.apache.org/changes/2.0.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
+          xsi:schemaLocation="http://maven.apache.org/changes/2.0.0 https://maven.apache.org/xsd/changes-2.0.0.xsd">
   <properties>
     <title>Apache Commons VFS Release Notes</title>
     <author email="dev@commons.apache.org">Apache Commons Developers</author>
@@ -266,7 +266,7 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <!-- UPDATE -->
       <action dev="ggregory" due-to="Dependabot, Gary Gregory" type="update">
-        Bump org.apache.commons:commons-parent from 52 to 78 #497, #588, #592, #600, #608, #615, #623.
+        Bump org.apache.commons:commons-parent from 52 to 79 #497, #588, #592, #600, #608, #615, #623.
       </action>
       <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">
         Bump actions/cache and others.
