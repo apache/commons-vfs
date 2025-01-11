@@ -65,6 +65,7 @@
   <properties>
     <commons.parent.dir>${basedir}/..</commons.parent.dir>
 	<checkstyle.skip>true</checkstyle.skip>
+    <!-- project.build.outputTimestamp is managed by Maven plugins, see https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
     <project.build.outputTimestamp>2024-03-03T15:45:26Z</project.build.outputTimestamp>
   </properties>
 </project>

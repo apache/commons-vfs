@@ -75,6 +75,7 @@
     </commons.osgi.import>
     <!-- Hadoop jars contain overlapping packages that blow up JPMS -->
     <moditect.skip>true</moditect.skip>
+    <!-- project.build.outputTimestamp is managed by Maven plugins, see https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
     <project.build.outputTimestamp>2024-03-03T15:45:26Z</project.build.outputTimestamp>
   </properties>
 
