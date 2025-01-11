@@ -29,11 +29,17 @@ import org.openjdk.jmh.annotations.Warmup;
 public class UriParserBenchmark {
 
     private static final String PATH_TO_NORMALIZE = "file:///this/../is/a%2flong%2Fpath/./for testing/normlisePath%2fmethod.txt";
+    private static final String[] SCHEMES = {"file", "ftp", "ftps", "webdav", "temp", "ram", "http", "https", "sftp", "zip", "jar", "tgz", "gz"};
 
     @Benchmark
     public void normalisePath() throws FileSystemException {
         final StringBuilder path = new StringBuilder(PATH_TO_NORMALIZE);
         UriParser.fixSeparators(path);
         UriParser.normalisePath(path);
+    }
+
+    @Benchmark
+    public void extractScheme() throws FileSystemException {
+        UriParser.extractScheme(SCHEMES, PATH_TO_NORMALIZE);
     }
 }
