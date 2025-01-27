@@ -45,8 +45,8 @@ public abstract class AbstractFileName implements FileName {
     /**
      * Checks whether a path fits in a particular scope of another path.
      *
-     * @param basePath An absolute, normalised path.
-     * @param path An absolute, normalised path.
+     * @param basePath An absolute, normalized path.
+     * @param path An absolute, normalized path.
      * @param scope The NameScope.
      * @return true if the path fits in the scope, false otherwise.
      */

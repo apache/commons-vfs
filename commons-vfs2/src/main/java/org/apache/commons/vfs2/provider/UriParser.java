@@ -37,7 +37,7 @@ public final class UriParser {
     public static final char TRANS_SEPARATOR = '\\';
 
     /**
-     * The normalised separator to use.
+     * The normalized separator to use.
      */
     private static final char SEPARATOR_CHAR = FileName.SEPARATOR_CHAR;
 
