@@ -209,6 +209,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="Gary Gregory">Pick up exec-maven-plugin version from parent POM.</action>
       <action type="fix" dev="ggregory" due-to="Anthony Goubard">Fixed commons-vfs2-sandbox module not compiling due to missing imports and library #634.</action>
       <action type="fix" dev="ggregory" due-to="Marek Sunda, Gary Gregory, Arnout Engelen">FtpFileObject.getChildren() should throw org.apache.commons.vfs2.FileNotFoundException instead of java.io.FileNotFoundException #638.</action> 
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Remove -nouses directive from maven-bundle-plugin. OSGi package imports now state 'uses' definitions for package imports, this doesn't affect JPMS (from org.apache.commons:commons-parent:80).</action>
       <!-- ADD -->
       <action type="add" issue="VFS-848" dev="ggregory" due-to="beise, Gary Gregory">
         Config option for trailing slash in webdav URI #425.
@@ -266,7 +267,7 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <!-- UPDATE -->
       <action dev="ggregory" due-to="Dependabot, Gary Gregory" type="update">
-        Bump org.apache.commons:commons-parent from 52 to 79 #497, #588, #592, #600, #608, #615, #623.
+        Bump org.apache.commons:commons-parent from 52 to 80 #497, #588, #592, #600, #608, #615, #623.
       </action>
       <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">
         Bump actions/cache and others.
