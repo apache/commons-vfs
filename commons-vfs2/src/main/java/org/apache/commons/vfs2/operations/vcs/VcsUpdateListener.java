@@ -24,6 +24,7 @@ package org.apache.commons.vfs2.operations.vcs;
 public interface VcsUpdateListener {
 
     /**
+     * Handles update events.
      *
      * @param path The path.
      * @param revision The revision number.

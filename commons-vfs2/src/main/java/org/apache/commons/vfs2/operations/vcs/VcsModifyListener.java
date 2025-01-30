@@ -24,6 +24,7 @@ package org.apache.commons.vfs2.operations.vcs;
 public interface VcsModifyListener {
 
     /**
+     * Handles a modified event.
      *
      * @param path The path String.
      * @param contentStatus The content status.

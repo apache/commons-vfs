@@ -26,24 +26,28 @@ import org.apache.commons.vfs2.operations.FileOperation;
 public interface VcsCommit extends FileOperation {
 
     /**
+     * Sets the listener that is given control when a commit occurs.
      *
      * @param listener Listener that is given control when a commit occurs.
      */
     void addCommitListener(VcsCommitListener listener);
 
     /**
+     * Removes the listener that is given control when a commit occurs.
      *
      * @param listener The Listener.
      */
     void removeCommitListener(VcsCommitListener listener);
 
     /**
+     * Sets the message.
      *
      * @param message The message.
      */
     void setMessage(String message);
 
     /**
+     * Sets whether directories should be traversed.
      *
      * @param isRecursive true if directories should be traversed.
      */

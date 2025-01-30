@@ -24,6 +24,7 @@ package org.apache.commons.vfs2.operations.vcs;
 public interface VcsCommitListener {
 
     /**
+     * Handles commit events.
      *
      * @param path The path.
      * @param contentStatus The status;

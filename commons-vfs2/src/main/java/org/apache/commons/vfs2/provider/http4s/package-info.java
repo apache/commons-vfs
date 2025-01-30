@@ -18,6 +18,6 @@
 /**
  * The HTTP4S File Provider.
  *
- * @deprecated Use {@link org.apache.commons.vfs2.provider.http5s}.
+ * Deprecated: Use {@link org.apache.commons.vfs2.provider.http5s}.
  */
 package org.apache.commons.vfs2.provider.http4s;

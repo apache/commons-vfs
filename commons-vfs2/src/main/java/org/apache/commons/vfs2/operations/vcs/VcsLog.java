@@ -26,18 +26,21 @@ import org.apache.commons.vfs2.operations.FileOperation;
 public interface VcsLog extends FileOperation {
 
     /**
+     * Sets the end revision.
      *
      * @param endRev The end revision.
      */
     void setEndRevision(long endRev);
 
     /**
+     * Sets the LogEntry handler.
      *
      * @param handler The LogEntry handler.
      */
     void setLogEntryHandler(VcsLogEntryHandler handler);
 
     /**
+     * Sets the start revision.
      *
      * @param startRev The start revision.
      */

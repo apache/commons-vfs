@@ -26,6 +26,7 @@ import org.apache.commons.vfs2.operations.FileOperation;
 public interface VcsDelete extends FileOperation {
 
     /**
+     * Sets whether the delete should be unconditional.
      *
      * @param force true if the delete should be unconditional.
      */

@@ -27,18 +27,21 @@ import org.apache.commons.vfs2.operations.FileOperation;
 public interface VcsRevert extends FileOperation {
 
     /**
+     * Add a modify listener.
      *
      * @param listener The Listener to add.
      */
     void addModifyListener(VcsModifyListener listener);
 
     /**
+     * Removes a modify listener.
      *
      * @param listener The Listener to remove.
      */
     void removeModifyListener(VcsModifyListener listener);
 
     /**
+     * Sets whether children should be processed.
      *
      * @param recursive true if children should be processed.
      */

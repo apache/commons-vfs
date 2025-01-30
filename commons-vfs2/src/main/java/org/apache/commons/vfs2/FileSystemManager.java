@@ -66,6 +66,8 @@ public interface FileSystemManager extends AutoCloseable {
     void addOperationProvider(String scheme, FileOperationProvider operationProvider) throws FileSystemException;
 
     /**
+     * Adds an operation provider.
+     *
      * @see FileSystemManager#addOperationProvider(String, org.apache.commons.vfs2.operations.FileOperationProvider)
      * @param schemes The schemes that will be associated with the provider.
      * @param operationProvider The FileOperationProvider to add.

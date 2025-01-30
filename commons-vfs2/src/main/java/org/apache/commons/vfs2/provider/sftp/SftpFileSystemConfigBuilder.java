@@ -147,6 +147,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
+     * Gets the names of the compression algorithms, comma-separated.
+     *
      * @param options The FileSystem options.
      * @return The names of the compression algorithms, comma-separated.
      * @see #setCompression
@@ -264,8 +266,10 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
+     * Gets the option value for specific key exchange algorithm.
+     *
      * @param options The FileSystem options.
-     * @return the option value for specific key exchange algorithm
+     * @return the option value for specific key exchange algorithm.
      * @see #setKeyExchangeAlgorithm(FileSystemOptions, String)
      * @since 2.4
      */
@@ -274,6 +278,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
+     * Gets the known hosts File.
+     *
      * @param options The FileSystem options.
      * @return the known hosts File.
      * @see #setKnownHosts
@@ -380,6 +386,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
+     * Gets the session timeout value in milliseconds.
+     *
      * @param options The FileSystem options.
      * @return The session timeout value in milliseconds.
      * @see #setSessionTimeout
@@ -390,6 +398,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
+     * Gets the session timeout value in milliseconds.
+     *
      * @param options The FileSystem options.
      * @return The session timeout value in milliseconds.
      * @see #setSessionTimeoutMillis
@@ -402,6 +412,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
+     * Gets the option value The host key checking.
+     *
      * @param options The FileSystem options.
      * @return the option value The host key checking.
      * @see #setStrictHostKeyChecking(FileSystemOptions, String)
@@ -411,6 +423,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
+     * Gets the timeout value in milliseconds.
+     *
      * @param options The FileSystem options.
      * @return The timeout value in milliseconds.
      * @see #setTimeout
@@ -422,7 +436,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Returns {@link Boolean#TRUE} if VFS should treat the user directory as the root directory. Defaults to
+     * Gets {@link Boolean#TRUE} if VFS should treat the user directory as the root directory. Defaults to
      * {@code Boolean.TRUE} if the method {@link #setUserDirIsRoot(FileSystemOptions, boolean)} has not been
      * invoked.
      *
@@ -435,6 +449,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
+     * Gets the UserInfo.
+     *
      * @param options The FileSystem options.
      * @return The UserInfo.
      * @see #setUserInfo

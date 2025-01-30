@@ -50,6 +50,7 @@ public class VcsLogEntry {
     private final String path;
 
     /**
+     * Constructs a new instance.
      *
      * @param author The author.
      * @param revision The revision.

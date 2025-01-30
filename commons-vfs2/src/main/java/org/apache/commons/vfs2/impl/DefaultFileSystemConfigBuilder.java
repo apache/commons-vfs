@@ -57,9 +57,11 @@ public class DefaultFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
+     * Gets the UserAuthenticator parameter.
+     *
      * @see #setUserAuthenticator
      * @param opts The FileSystemOptions.
-     * @return The UserAuthenticator.
+     * @return The UserAuthenticator parameter..
      */
     public UserAuthenticator getUserAuthenticator(final FileSystemOptions opts) {
         return getParam(opts, "userAuthenticator");

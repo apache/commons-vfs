@@ -23,6 +23,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 
 /**
+ * Abstracts implementations of {@link FileOperationProvider}.
  *
  * @since 0.1
  */
