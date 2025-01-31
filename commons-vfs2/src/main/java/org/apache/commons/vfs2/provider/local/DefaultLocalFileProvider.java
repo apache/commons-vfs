@@ -58,6 +58,8 @@ public class DefaultLocalFileProvider extends AbstractOriginatingFileProvider im
 
     /**
      * Creates the file system.
+     *
+     * @return a new FileSystem, never null.
      */
     @Override
     protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
@@ -89,11 +91,8 @@ public class DefaultLocalFileProvider extends AbstractOriginatingFileProvider im
     @Override
     public FileObject findLocalFile(final String name) throws FileSystemException {
         final String scheme = "file:";
-        final StringBuilder uri = new StringBuilder(name.length() + scheme.length());
-        uri.append(scheme);
-        uri.append(name);
-        final FileName fileName = parseUri(null, uri.toString());
-        return findFile(fileName, null);
+        final StringBuilder builder = new StringBuilder(name.length() + scheme.length());
+        return findFile(parseUri(null, builder.append(scheme).append(name).toString()), null);
     }
 
     @Override

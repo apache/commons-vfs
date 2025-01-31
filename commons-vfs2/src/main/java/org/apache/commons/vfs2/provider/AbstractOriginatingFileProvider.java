@@ -39,7 +39,7 @@ public abstract class AbstractOriginatingFileProvider extends AbstractFileProvid
      *
      * @param rootFileName The name of the root file of the file system to create.
      * @param fileSystemOptions The FileSystem options.
-     * @return The FileSystem.
+     * @return The FileSystem, never null.
      * @throws FileSystemException if an error occurs.
      */
     protected abstract FileSystem doCreateFileSystem(FileName rootFileName, FileSystemOptions fileSystemOptions) throws FileSystemException;
@@ -56,11 +56,8 @@ public abstract class AbstractOriginatingFileProvider extends AbstractFileProvid
             throws FileSystemException {
         // Check in the cache for the file system
         final FileName rootName = getContext().getFileSystemManager().resolveName(fileName, FileName.ROOT_PATH);
-
-        final FileSystem fs = getFileSystem(rootName, fileSystemOptions);
-
         // Locate the file
-        // return fs.resolveFile(name.getPath());
+        final FileSystem fs = getFileSystem(rootName, fileSystemOptions);
         return fs.resolveFile(fileName);
     }
 
