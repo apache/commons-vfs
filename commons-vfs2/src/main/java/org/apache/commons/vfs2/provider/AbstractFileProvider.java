@@ -180,7 +180,6 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
         if (getFileNameParser() != null) {
             return getFileNameParser().parseUri(getContext(), base, uri);
         }
-
         throw new FileSystemException("vfs.provider/filename-parser-missing.error");
     }
 
