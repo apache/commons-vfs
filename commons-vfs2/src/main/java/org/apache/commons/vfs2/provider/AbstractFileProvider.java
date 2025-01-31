@@ -65,10 +65,8 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
     protected void addFileSystem(final Comparable<?> key, final FileSystem fs) throws FileSystemException {
         // Add to the container and initialize
         addComponent(fs);
-
         final FileSystemKey treeKey = new FileSystemKey(key, fs.getFileSystemOptions());
         ((AbstractFileSystem) fs).setCacheKey(treeKey);
-
         synchronized (fileSystemMap) {
             fileSystemMap.put(treeKey, fs);
         }

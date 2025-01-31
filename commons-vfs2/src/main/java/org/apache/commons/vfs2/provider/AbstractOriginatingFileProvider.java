@@ -49,7 +49,7 @@ public abstract class AbstractOriginatingFileProvider extends AbstractFileProvid
      *
      * @param fileName The file name.
      * @param fileSystemOptions FileSystem options.
-     * @return A FileObject associated with the file.
+     * @return A FileObject associated with the file, never null.
      * @throws FileSystemException if an error occurs.
      */
     protected FileObject findFile(final FileName fileName, final FileSystemOptions fileSystemOptions)
@@ -57,8 +57,7 @@ public abstract class AbstractOriginatingFileProvider extends AbstractFileProvid
         // Check in the cache for the file system
         final FileName rootName = getContext().getFileSystemManager().resolveName(fileName, FileName.ROOT_PATH);
         // Locate the file
-        final FileSystem fs = getFileSystem(rootName, fileSystemOptions);
-        return fs.resolveFile(fileName);
+        return getFileSystem(rootName, fileSystemOptions).resolveFile(fileName);
     }
 
     /**
@@ -80,7 +79,6 @@ public abstract class AbstractOriginatingFileProvider extends AbstractFileProvid
         } catch (final FileSystemException exc) {
             throw new FileSystemException("vfs.provider/invalid-absolute-uri.error", uri, exc);
         }
-
         // Locate the file
         return findFile(name, fileSystemOptions);
     }
@@ -90,7 +88,7 @@ public abstract class AbstractOriginatingFileProvider extends AbstractFileProvid
      *
      * @param rootFileName The root path.
      * @param fileSystemOptions The FileSystem options.
-     * @return The FileSystem.
+     * @return The FileSystem, never null.
      * @throws FileSystemException if an error occurs.
      * @since 2.0
      */

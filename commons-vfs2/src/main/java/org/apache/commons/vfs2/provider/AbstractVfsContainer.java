@@ -58,11 +58,10 @@ public abstract class AbstractVfsContainer extends AbstractVfsComponent {
                     vfsComponent.setContext(getContext());
                     vfsComponent.init();
                 }
-
                 // Keep track of component, to close it later
                 components.add(component);
             }
-        } // synchronized
+        }
     }
 
     /**
@@ -75,7 +74,6 @@ public abstract class AbstractVfsContainer extends AbstractVfsComponent {
             toclose = components.toArray();
             components.clear();
         }
-
         // Close all components
         Stream.of(toclose).filter(VfsComponent.class::isInstance)
                           .forEach(component -> ((VfsComponent) component).close());
