@@ -60,11 +60,12 @@ public class GenericFileNameParser extends LocalFileNameParser {
     @Override
     protected String extractRootPrefix(final String uri, final StringBuilder name) throws FileSystemException {
         // TODO - this class isn't generic at all. Need to fix this
-        // Looking for <sep>
-        if (StringUtils.isEmpty(name) || name.charAt(0) != '/') {
+        // Looking for "/"
+        final String prefix = "/";
+        if (!StringUtils.startsWith(name, prefix)) {
             throw new FileSystemException("vfs.provider.local/not-absolute-file-name.error", uri);
         }
         // do not strip the separator, BUT also return it ...
-        return "/";
+        return prefix;
     }
 }
