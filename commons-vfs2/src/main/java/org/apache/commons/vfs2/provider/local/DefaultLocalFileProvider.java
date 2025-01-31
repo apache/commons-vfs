@@ -77,7 +77,6 @@ public class DefaultLocalFileProvider extends AbstractOriginatingFileProvider im
     @Override
     public FileObject findLocalFile(final File file) throws FileSystemException {
         return findLocalFile(UriParser.encode(file.getAbsolutePath()));
-        // return findLocalFile(file.getAbsolutePath());
     }
 
     /**
