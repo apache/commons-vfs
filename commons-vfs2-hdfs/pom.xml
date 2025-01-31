@@ -34,7 +34,6 @@
   <description>Apache Commons VFS is a Virtual File System library - Apache Hadoop HDFS provider.</description>
 
   <dependencies>
-
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-vfs2</artifactId>
@@ -50,6 +49,11 @@
     <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-hdfs</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j2-impl</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
        <groupId>org.apache.commons</groupId>
