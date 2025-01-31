@@ -266,6 +266,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="add" dev="ggregory" due-to="Gary Gregory">
         Add FileSystemConfigBuilder.getParamOrDefault(FileSystemOptions, String, T).
       </action>
+      <action type="add" dev="ggregory" due-to="Gary Gregory">Add FileSystemManager.toFileObject(Path).</action>
       <!-- UPDATE -->
       <action dev="ggregory" due-to="Dependabot, Gary Gregory" type="update">
         Bump org.apache.commons:commons-parent from 52 to 81 #497, #588, #592, #600, #608, #615, #623.

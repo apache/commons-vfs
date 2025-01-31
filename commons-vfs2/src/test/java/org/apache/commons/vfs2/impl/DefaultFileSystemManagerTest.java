@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.apache.commons.vfs2.CacheStrategy;
@@ -86,7 +87,10 @@ public class DefaultFileSystemManagerTest {
             VFS.setManager(null);
         }
         assertNotNull(VFS.getManager());
-        assertFalse(VFS.getManager().resolveFile(Paths.get("DoesNotExist.not").toUri()).exists());
+        final Path path = Paths.get("DoesNotExist.not");
+        assertFalse(VFS.getManager().resolveFile(path.toUri()).exists());
+        assertFalse(VFS.getManager().toFileObject(path.toFile()).exists());
+        assertFalse(VFS.getManager().toFileObject(path).exists());
     }
 
     @Test
@@ -94,9 +98,18 @@ public class DefaultFileSystemManagerTest {
         testCreateFileSystem("src/test/resources/test-data/bla.txt.bz2", Bzip2FileObject.class);
     }
 
-    private void testCreateFileSystem(final String path, final Class<?> clazz) throws FileSystemException {
+    private void testCreateFileSystem(final String fileStr, final Class<?> clazz) throws FileSystemException {
         final FileSystemManager manager = VFS.getManager();
-        try (FileObject localFileObject = manager.resolveFile(new File(path).getAbsolutePath());
+        final Path path = Paths.get(fileStr);
+        try (FileObject localFileObject = manager.toFileObject(path);
+                FileObject fileObject = manager.createFileSystem(localFileObject)) {
+            assertEquals(clazz, fileObject.getClass());
+        }
+        try (FileObject localFileObject = manager.toFileObject(path.toFile());
+                FileObject fileObject = manager.createFileSystem(localFileObject)) {
+            assertEquals(clazz, fileObject.getClass());
+        }
+        try (FileObject localFileObject = manager.resolveFile(new File(fileStr).getAbsolutePath());
                 FileObject fileObject = manager.createFileSystem(localFileObject)) {
             assertEquals(clazz, fileObject.getClass());
         }
