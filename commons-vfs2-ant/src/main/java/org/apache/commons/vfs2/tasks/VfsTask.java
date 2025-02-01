@@ -32,13 +32,6 @@ import org.apache.tools.ant.Task;
 public class VfsTask extends Task {
 
     /**
-     * Constructs a new instance.
-     */
-    public VfsTask() {
-        // empty
-    }
-
-    /**
      * A commons-logging wrapper for Ant logging.
      */
     private final class AntLogger implements Log {
@@ -184,6 +177,13 @@ public class VfsTask extends Task {
     }
 
     private static StandardFileSystemManager manager;
+
+    /**
+     * Constructs a new instance.
+     */
+    public VfsTask() {
+        // empty
+    }
 
     /**
      * Close the manager
