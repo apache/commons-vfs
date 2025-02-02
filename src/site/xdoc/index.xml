@@ -129,6 +129,13 @@
 
         <section name="News">
           <p>
+            Apache Commons VFS 2.10.0 is a new features and bug fix release. Version 2.10.0 adds the modules
+            <a href="commons-vfs2-ant/index.html"><code>commons-vfs2-ant</code></a>, 
+            <a href="commons-vfs2-bom/index.html"><code>commons-vfs2-bom</code></a> and
+            <a href="commons-vfs2-bom/index.html"><code>commons-vfs2-hdfs</code></a>
+            containing classes previously delivered in <a href="commons-vfs2/index.html"><code>commons-vfs2</code></a>
+          </p>
+          <p>
             Apache Commons VFS 2.5.0 is a new features and bug fix release. Version 2.5.0 adds the modules
             <a href="commons-vfs2-jackrabbit1/index.html"><code>commons-vfs2-jackrabbit1</code></a>
             and 
