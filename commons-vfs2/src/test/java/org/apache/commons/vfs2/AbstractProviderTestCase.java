@@ -262,7 +262,7 @@ public abstract class AbstractProviderTestCase extends TestCase {
      * Runs the test. This implementation short-circuits the test if the provider being tested does not have the
      * capabilities required by this test.
      * <p>
-     * TODO - Handle negative caps as well - ie, only run a test if the provider does not have certain caps.
+     * TODO - Handle negative caps as well: Only run a test if the provider does not have certain caps.
      * </p>
      * <p>
      * TODO - Figure out how to remove the test from the TestResult if the test is skipped.

@@ -38,6 +38,13 @@ import org.apache.http.protocol.HTTP;
 @Deprecated
 public class Http4FileContentInfoFactory implements FileContentInfoFactory {
 
+    /**
+     * Constructs a new instance.
+     */
+    public Http4FileContentInfoFactory() {
+        // empty
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public FileContentInfo create(final FileContent fileContent) throws FileSystemException {

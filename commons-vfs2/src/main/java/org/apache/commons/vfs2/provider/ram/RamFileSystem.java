@@ -51,8 +51,10 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
     private final Map<FileName, RamFileData> cache;
 
     /**
-     * @param rootName The root file name.
-     * @param fileSystemOptions The FileSystem options.
+     * Constructs a new instance.
+     *
+     * @param rootName The root file name of this file system.
+     * @param fileSystemOptions Options to build this file system.
      */
     protected RamFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions) {
         super(rootName, null, fileSystemOptions);

@@ -332,11 +332,9 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
     protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
             throws FileSystemException {
         final GenericFileName rootName = (GenericFileName) name;
-
         UserAuthenticationData authData = null;
         HttpClient httpClient;
         HttpClientContext httpClientContext;
-
         try {
             final Http5FileSystemConfigBuilder builder = Http5FileSystemConfigBuilder.getInstance();
             authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, AUTHENTICATOR_TYPES);
@@ -345,7 +343,6 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
         } finally {
             UserAuthenticatorUtils.cleanup(authData);
         }
-
         return new Http5FileSystem(rootName, fileSystemOptions, httpClient, httpClientContext);
     }
 

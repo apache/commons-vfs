@@ -25,6 +25,8 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 /**
+ * A specialization of a resource bundle.
+ *
  * @since 2.0
  */
 public class CombinedResources extends ResourceBundle {
@@ -78,17 +80,24 @@ public class CombinedResources extends ResourceBundle {
         return properties.get(key);
     }
 
+    /**
+     * Initializes this instance.
+     */
     protected void init() {
         if (inited) {
             return;
         }
-
         loadResources(getResourceName());
         loadResources(Locale.getDefault());
         loadResources(getLocale());
         inited = true;
     }
 
+    /**
+     * Loads resources.
+     *
+     * @param locale a Locale.
+     */
     protected void loadResources(final Locale locale) {
         if (locale == null) {
             return;
@@ -108,6 +117,11 @@ public class CombinedResources extends ResourceBundle {
         }
     }
 
+    /**
+     * Loads a resource.
+     *
+     * @param resourceName the resource to load.
+     */
     protected void loadResources(String resourceName) {
         ClassLoader loader = getClass().getClassLoader();
         if (loader == null) {

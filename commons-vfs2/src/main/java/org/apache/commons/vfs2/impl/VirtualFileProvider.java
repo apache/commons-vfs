@@ -31,6 +31,13 @@ import org.apache.commons.vfs2.provider.AbstractVfsContainer;
 public class VirtualFileProvider extends AbstractVfsContainer {
 
     /**
+     * Constructs a new instance.
+     */
+    public VirtualFileProvider() {
+        // empty
+    }
+
+    /**
      * Close a VirtualFileSystem by removing it from the {@code #components} list of this provider.
      * <p>
      * This gets called from DefaultFileManager#_closeFileSystem.

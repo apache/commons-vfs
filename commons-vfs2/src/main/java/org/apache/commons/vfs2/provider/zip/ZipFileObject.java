@@ -38,9 +38,16 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem> {
     private final HashSet<String> children = new HashSet<>();
     private FileType type;
 
-    protected ZipFileObject(final AbstractFileName name, final ZipEntry entry, final ZipFileSystem fs,
-            final boolean zipExists) {
-        super(name, fs);
+    /**
+     * Constructs a new instance.
+     *
+     * @param fileName the file name.
+     * @param entry The zip entry.
+     * @param fileSystem the file system.
+     * @param zipExists whether the zip file exists.
+     */
+    protected ZipFileObject(final AbstractFileName fileName, final ZipEntry entry, final ZipFileSystem fileSystem, final boolean zipExists) {
+        super(fileName, fileSystem);
         setZipEntry(entry);
         if (!zipExists) {
             type = FileType.IMAGINARY;

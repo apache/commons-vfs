@@ -17,12 +17,14 @@
 package org.apache.commons.vfs2.operations.vcs;
 
 /**
+ * Handles VCS updates.
  *
  * @since 0.1
  */
 public interface VcsUpdateListener {
 
     /**
+     * Handles update events.
      *
      * @param path The path.
      * @param revision The revision number.

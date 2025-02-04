@@ -26,7 +26,7 @@ import org.apache.commons.vfs2.FileObject;
 public abstract class AbstractFileChangeEvent extends FileChangeEvent {
 
     /**
-     * Constructs a new instance.
+     * Constructs a new instance for subclasses.
      *
      * @param fileObject the file object.
      */

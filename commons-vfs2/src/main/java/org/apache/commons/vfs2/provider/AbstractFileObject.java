@@ -137,7 +137,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     private FileOperations operations;
 
     /**
-     * Constructs a new instance.
+     * Constructs a new instance for subclasses.
      *
      * @param fileName the file name.
      * @param fileSystem the file system.
@@ -416,7 +416,6 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         for (final FileObject fileObject : files) {
             final AbstractFileObject file = FileObjectUtils.getAbstractFileObject(fileObject);
             // file.attach();
-
             // VFS-210: It seems impossible to me that findFiles will return a list with hidden files/directories
             // in it, else it would not be hidden. Checking for the file-type seems ok in this case
             // If the file is a folder, make sure all its children have been deleted
@@ -424,13 +423,11 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 // Skip - as the selector forced us not to delete all files
                 continue;
             }
-
             // Delete the file
             if (file.deleteSelf()) {
                 nuofDeleted++;
             }
         }
-
         return nuofDeleted;
     }
 
@@ -1491,6 +1488,11 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         objects.add(strongRef);
     }
 
+    /**
+     * Sets the file type.
+     *
+     * @param fileType the file type.
+     */
     protected void injectType(final FileType fileType) {
         setFileType(fileType);
     }

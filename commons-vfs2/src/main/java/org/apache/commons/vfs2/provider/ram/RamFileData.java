@@ -70,7 +70,7 @@ final class RamFileData implements Serializable {
         children = Collections.synchronizedCollection(new ArrayList<>());
         clear();
         if (name == null) {
-            throw new IllegalArgumentException("name can not be null");
+            throw new IllegalArgumentException("name cannot be null");
         }
         this.name = name;
     }

@@ -29,9 +29,17 @@ import org.apache.tools.ant.BuildException;
  * </p>
  */
 public class DeleteTask extends VfsTask {
+
     private String file;
     private String srcDirUrl;
     private String filesList;
+
+    /**
+     * Constructs a new instance.
+     */
+    public DeleteTask() {
+        // empty
+    }
 
     /**
      * Executes this task.

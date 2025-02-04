@@ -28,7 +28,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 public abstract class AbstractLayeredFileProvider extends AbstractFileProvider {
 
     /**
-     * Constructs a new instance.
+     * Constructs a new instance for subclasses.
      */
     public AbstractLayeredFileProvider() {
         setFileNameParser(LayeredFileNameParser.getInstance());

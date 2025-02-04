@@ -66,7 +66,7 @@ public final class Os {
     public static final OsFamily OS_FAMILY_NETWARE = new OsFamily("netware");
 
     /**
-     * All UNIX based OSes.
+     * All Unix based OSes.
      */
     public static final OsFamily OS_FAMILY_UNIX = new OsFamily("unix");
 

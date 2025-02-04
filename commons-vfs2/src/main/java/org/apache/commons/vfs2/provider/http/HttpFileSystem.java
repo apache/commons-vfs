@@ -36,12 +36,19 @@ import org.apache.commons.vfs2.provider.GenericFileName;
 @Deprecated
 public class HttpFileSystem extends AbstractFileSystem {
 
-    private final HttpClient client;
+    private final HttpClient httpClient;
 
-    protected HttpFileSystem(final GenericFileName rootName, final HttpClient client,
+    /**
+     * Constructs a new instance.
+     *
+     * @param rootName root base name
+     * @param httpClient {@link HttpClient} instance
+     * @param fileSystemOptions Options to build this file system.
+     */
+    protected HttpFileSystem(final GenericFileName rootName, final HttpClient httpClient,
             final FileSystemOptions fileSystemOptions) {
         super(rootName, null, fileSystemOptions);
-        this.client = client;
+        this.httpClient = httpClient;
     }
 
     /**
@@ -71,7 +78,12 @@ public class HttpFileSystem extends AbstractFileSystem {
         return new HttpFileObject<>(name, this);
     }
 
+    /**
+     * Gets the HTTP client.
+     *
+     * @return the HttpClient.
+     */
     protected HttpClient getClient() {
-        return client;
+        return httpClient;
     }
 }

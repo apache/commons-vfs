@@ -30,6 +30,13 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
  * An SMB file system.
  */
 public class SmbFileSystem extends AbstractFileSystem {
+
+    /**
+     * Constructs a new instance.
+     *
+     * @param rootName The root file name of this file system.
+     * @param fileSystemOptions Options to build this file system.
+     */
     protected SmbFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions) {
         super(rootName, null, fileSystemOptions);
     }

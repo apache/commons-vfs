@@ -14,8 +14,9 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<document>
-
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 https://maven.apache.org/xsd/xdoc-2.0.xsd">
     <properties>
         <title>Supported File Systems</title>
         <author email="dev@commons.apache.org">Apache Commons Developers</author>
@@ -524,20 +525,20 @@
             </p>
             <p>
                  <b>File System Options</b>
-                 <ul>
-                   <li><b>proxyHost</b> The proxy host to connect through.</li>
-                   <li><b>proxyPort</b> The proxy port to use.</li>
-                   <li><b>proxyScheme</b> The proxy scheme (http/https) to use.</li>
-                   <li><b>cookies</b> An array of Cookies to add to the request.</li>
-                   <li><b>maxConnectionsPerHost</b> The maximum number of connections allowed to
-                     a specific host and port. The default is 5.</li>
-                   <li><b>maxTotalConnections</b> The maximum number of connections allowed to
-                     all hosts. The default is 50.</li>
-                   <li><b>keystoreFile</b> The keystore file for SSL connections.</li>
-                   <li><b>keystorePass</b> The keystore password.</li>
-                   <li><b>keystoreType</b> The keystore type.</li>
-                 </ul>
             </p>
+            <ul>
+              <li><b>proxyHost</b> The proxy host to connect through.</li>
+              <li><b>proxyPort</b> The proxy port to use.</li>
+              <li><b>proxyScheme</b> The proxy scheme (http/https) to use.</li>
+              <li><b>cookies</b> An array of Cookies to add to the request.</li>
+              <li><b>maxConnectionsPerHost</b> The maximum number of connections allowed to
+                a specific host and port. The default is 5.</li>
+              <li><b>maxTotalConnections</b> The maximum number of connections allowed to
+                all hosts. The default is 50.</li>
+              <li><b>keystoreFile</b> The keystore file for SSL connections.</li>
+              <li><b>keystorePass</b> The keystore password.</li>
+              <li><b>keystoreType</b> The keystore type.</li>
+             </ul>
 
             <p>
                 <b>Examples</b>
@@ -577,12 +578,12 @@
 
             <p>
                 <b>File System Options</b>
-                <ul>
-                  <li><b>versioning</b> true if versioning should be enabled</li>
-                  <li><b>creatorName</b> the user name to be identified with changes to a file. If
-                      not set the user name used to authenticate will be used.</li>
-                </ul>
             </p>
+            <ul>
+              <li><b>versioning</b> true if versioning should be enabled</li>
+              <li><b>creatorName</b> the user name to be identified with changes to a file. If
+                  not set the user name used to authenticate will be used.</li>
+             </ul>
 
             <p>
                 <b>Examples</b>
@@ -807,10 +808,10 @@
 
             <p>
                 <b>File System Options</b>
+            </p>
                 <ul>
                    <li><b>maxsize</b> Maximum filesystem size (total bytes of all file contents).</li>
                 </ul>
-            </p>
 
             <p>
                 <b>Examples</b>

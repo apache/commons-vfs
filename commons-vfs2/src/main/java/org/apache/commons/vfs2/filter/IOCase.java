@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.filter;
 
 import java.io.File;
+import java.util.Objects;
 
 /**
  * Enumeration of IO case sensitivity.
@@ -112,9 +113,8 @@ public enum IOCase {
      * @throws NullPointerException if either string is null
      */
     public int checkCompareTo(final String str1, final String str2) {
-        if (str1 == null || str2 == null) {
-            throw new NullPointerException("The strings must not be null");
-        }
+        Objects.requireNonNull(str1, "str1");
+        Objects.requireNonNull(str2, "str2");
         return sensitive ? str1.compareTo(str2) : str1.compareToIgnoreCase(str2);
     }
 

@@ -19,30 +19,35 @@ package org.apache.commons.vfs2.operations.vcs;
 import org.apache.commons.vfs2.operations.FileOperation;
 
 /**
+ * The VCS update file operation.
  *
  * @since 0.1
  */
 public interface VcsUpdate extends FileOperation {
 
     /**
+     * Adds an update listener.
      *
      * @param listener The UpdateListener.
      */
     void addUpdateListener(VcsUpdateListener listener);
 
     /**
+     * Removes an update listener.
      *
      * @param listener The UpdateListener.
      */
     void removeUpdateListener(VcsUpdateListener listener);
 
     /**
+     * Sets whether to recurse.
      *
      * @param isRecursive true if recursive.
      */
     void setRecursive(boolean isRecursive);
 
     /**
+     * Sets revision number.
      *
      * @param revision The revision number.
      */

@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 public abstract class AbstractOriginatingFileProvider extends AbstractFileProvider {
 
     /**
-     * Constructs a new instance.
+     * Constructs a new instance for subclasses.
      */
     public AbstractOriginatingFileProvider() {
     }
@@ -39,7 +39,7 @@ public abstract class AbstractOriginatingFileProvider extends AbstractFileProvid
      *
      * @param rootFileName The name of the root file of the file system to create.
      * @param fileSystemOptions The FileSystem options.
-     * @return The FileSystem.
+     * @return The FileSystem, never null.
      * @throws FileSystemException if an error occurs.
      */
     protected abstract FileSystem doCreateFileSystem(FileName rootFileName, FileSystemOptions fileSystemOptions) throws FileSystemException;
@@ -49,19 +49,15 @@ public abstract class AbstractOriginatingFileProvider extends AbstractFileProvid
      *
      * @param fileName The file name.
      * @param fileSystemOptions FileSystem options.
-     * @return A FileObject associated with the file.
+     * @return A FileObject associated with the file, never null.
      * @throws FileSystemException if an error occurs.
      */
     protected FileObject findFile(final FileName fileName, final FileSystemOptions fileSystemOptions)
             throws FileSystemException {
         // Check in the cache for the file system
         final FileName rootName = getContext().getFileSystemManager().resolveName(fileName, FileName.ROOT_PATH);
-
-        final FileSystem fs = getFileSystem(rootName, fileSystemOptions);
-
         // Locate the file
-        // return fs.resolveFile(name.getPath());
-        return fs.resolveFile(fileName);
+        return getFileSystem(rootName, fileSystemOptions).resolveFile(fileName);
     }
 
     /**
@@ -83,7 +79,6 @@ public abstract class AbstractOriginatingFileProvider extends AbstractFileProvid
         } catch (final FileSystemException exc) {
             throw new FileSystemException("vfs.provider/invalid-absolute-uri.error", uri, exc);
         }
-
         // Locate the file
         return findFile(name, fileSystemOptions);
     }
@@ -93,7 +88,7 @@ public abstract class AbstractOriginatingFileProvider extends AbstractFileProvid
      *
      * @param rootFileName The root path.
      * @param fileSystemOptions The FileSystem options.
-     * @return The FileSystem.
+     * @return The FileSystem, never null.
      * @throws FileSystemException if an error occurs.
      * @since 2.0
      */

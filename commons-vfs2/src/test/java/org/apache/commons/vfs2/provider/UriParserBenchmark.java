@@ -17,7 +17,11 @@
 package org.apache.commons.vfs2.provider;
 
 import org.apache.commons.vfs2.FileSystemException;
-import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Measurement;
+import org.openjdk.jmh.annotations.Mode;
+import org.openjdk.jmh.annotations.Warmup;
 
 @BenchmarkMode(Mode.Throughput)
 @Warmup(iterations = 2)
@@ -28,7 +32,7 @@ public class UriParserBenchmark {
 
     @Benchmark
     public void normalisePath() throws FileSystemException {
-        StringBuilder path = new StringBuilder(PATH_TO_NORMALIZE);
+        final StringBuilder path = new StringBuilder(PATH_TO_NORMALIZE);
         UriParser.fixSeparators(path);
         UriParser.normalisePath(path);
     }

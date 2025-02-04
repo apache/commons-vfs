@@ -264,7 +264,6 @@ public class WildcardFileFilter implements FileFilter, Serializable {
      * Checks to see if the file name matches one of the wildcards.
      *
      * @param fileSelectInfo the file to check
-     *
      * @return true if the file name matches one of the wildcards
      */
     @Override

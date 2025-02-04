@@ -19,18 +19,21 @@ package org.apache.commons.vfs2.operations.vcs;
 import org.apache.commons.vfs2.operations.FileOperation;
 
 /**
+ * The VCS add file operation.
  *
  * @since 0.1
  */
 public interface VcsAdd extends FileOperation {
 
     /**
+     * Sets whether directories should be created.
      *
      * @param makedir true if directories should be created, false otherwise.
      */
     void setMakedir(boolean makedir);
 
     /**
+     * Sets whether subdirectories should be processed.
      *
      * @param recursive true if subdirectories should be processed.
      */

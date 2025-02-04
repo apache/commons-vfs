@@ -6,7 +6,7 @@
  (the "License"); you may not use this file except in compliance with
  the License.  You may obtain a copy of the License at
 
-      http://www.apache.org/licenses/LICENSE-2.0
+      https://www.apache.org/licenses/LICENSE-2.0
 
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
@@ -41,9 +41,8 @@
 Contributing to Apache Commons VFS Project
 ======================
 
-You have found a bug or you have an idea for a cool new feature? Contributing code is a great way to give something back to
-the open source community. Before you dig right into the code there are a few guidelines that we need contributors to
-follow so that we can have a chance of keeping on top of things.
+Have you found a bug or have an idea for a cool new feature? Contributing code is a great way to give something back to the open-source community.
+Before you dig right into the code, we need contributors to follow a few guidelines to have a chance of keeping on top of things.
 
 Getting Started
 ---------------
@@ -61,18 +60,21 @@ Making Changes
 --------------
 
 + Create a _topic branch_ for your isolated work.
-  * Usually you should base your branch on the `master` branch.
-  * A good topic branch name can be the JIRA bug id plus a keyword, e.g. `VFS-123-InputStream`.
+  * Usually you should base your branch from the `master` branch.
+  * A good topic branch name can be the JIRA bug ID plus a keyword, e.g. `VFS-123-InputStream`.
   * If you have submitted multiple JIRA issues, try to maintain separate branches and pull requests.
 + Make commits of logical units.
   * Make sure your commit messages are meaningful and in the proper format. Your commit message should contain the key of the JIRA issue.
-  * e.g. `VFS-123: Close input stream earlier`
+  * For example, `[VFS-123] Close input stream sooner`
 + Respect the original code style:
-  + Only use spaces for indentation.
+  + Only use spaces for indentation; you can check for unnecessary whitespace with `git diff` before committing.
   + Create minimal diffs - disable _On Save_ actions like _Reformat Source Code_ or _Organize Imports_. If you feel the source code should be reformatted create a separate PR for this change first.
-  + Check for unnecessary whitespace with `git diff` -- check before committing.
-+ Make sure you have added the necessary tests for your changes, typically in `src/test/java`.
-+ Run all the tests with `mvn clean verify` to assure nothing else was accidentally broken.
++ Write unit tests that match behavioral changes, where the tests fail if the changes to the runtime are not applied. This may not always be possible but is a best-practice.
+Unit tests are typically in the `src/test/java` directory.
++ Run a successful build using the default [Maven](https://maven.apache.org/) goal with `mvn`; that's `mvn` on the command line by itself.
++ Write a pull request description that is detailed enough to understand what the pull request does, how, and why.
++ Each commit in the pull request should have a meaningful subject line and body. Note that commits might be squashed by a maintainer on merge.
+
 
 Making Trivial Changes
 ----------------------
@@ -80,20 +82,8 @@ Making Trivial Changes
 The JIRA tickets are used to generate the changelog for the next release.
 
 For changes of a trivial nature to comments and documentation, it is not always necessary to create a new ticket in JIRA.
-In this case, it is appropriate to start the first line of a commit with '(doc)' instead of a ticket number.
+In this case, it is appropriate to start the first line of a commit with '[doc]' or '[javadoc]' instead of a ticket number.
 
-Testing
--------
-
-Please add unit tests for any fixes or new features.
-
-When running individual tests, tests that extend `AbstractProviderTestCase`
-(such as `NamingTests`) cannot be run in isolation: instead, you can run them
-'in the context of' a provider, for example from `LocalProviderTestCase`.
-These configure a `ProviderTestSuite` with the tests to run.
-
-This could likely be simplified, we are tracking that possible
-improvement in https://issues.apache.org/jira/browse/VFS-855 .
 
 Submitting Changes
 ------------------

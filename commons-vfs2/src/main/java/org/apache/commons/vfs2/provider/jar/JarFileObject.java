@@ -39,16 +39,25 @@ public class JarFileObject extends ZipFileObject {
 
     private Attributes attributes;
 
-    protected JarFileObject(final AbstractFileName name, final ZipEntry entry, final JarFileSystem fs,
+    /**
+     * Constructs a new instance.
+     *
+     * @param fileName the file name.
+     * @param entry the zip entry.
+     * @param fileSystem the file system.
+     * @param zipExists Whether the zip file exists.
+     * @throws FileSystemException if a file system error occurs.
+     */
+    protected JarFileObject(final AbstractFileName fileName, final ZipEntry entry, final JarFileSystem fileSystem,
         final boolean zipExists) throws FileSystemException {
-        super(name, entry, fs, zipExists);
+        super(fileName, entry, fileSystem, zipExists);
         if (entry != null) {
             // For Java 9 and up: Force the certificates to be read and cached now. This avoids an
             // IllegalStateException in java.util.jar.JarFile.isMultiRelease() when it tries
             // to read the certificates and the file is closed.
             ((JarEntry) entry).getCertificates();
         }
-        this.fs = fs;
+        this.fs = fileSystem;
 
         try {
             getAttributes(); // early get the attributes as the zip file might be closed

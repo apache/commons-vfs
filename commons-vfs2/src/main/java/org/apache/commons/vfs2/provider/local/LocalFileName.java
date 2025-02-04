@@ -29,6 +29,14 @@ public class LocalFileName extends AbstractFileName {
 
     private final String rootFile;
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param scheme the scheme.
+     * @param rootFile the root file.
+     * @param path the absolute path, maybe empty or null.
+     * @param type the file type.
+     */
     protected LocalFileName(final String scheme, final String rootFile, final String path, final FileType type) {
         super(scheme, path, type);
         this.rootFile = rootFile;

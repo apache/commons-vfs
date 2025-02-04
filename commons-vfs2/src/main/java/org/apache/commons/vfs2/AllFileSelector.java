@@ -22,6 +22,13 @@ package org.apache.commons.vfs2;
 public class AllFileSelector implements FileSelector {
 
     /**
+     * Constructs a new instance.
+     */
+    public AllFileSelector() {
+        // empty
+    }
+
+    /**
      * Determines if a file or folder should be selected.
      *
      * @param fileInfo The file selection information.

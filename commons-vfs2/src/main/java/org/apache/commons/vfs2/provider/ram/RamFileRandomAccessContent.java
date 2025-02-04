@@ -131,6 +131,8 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
     private final InputStream rafis;
 
     /**
+     * Constructs a new instance.
+     *
      * @param file The file to access.
      * @param mode The access mode.
      */

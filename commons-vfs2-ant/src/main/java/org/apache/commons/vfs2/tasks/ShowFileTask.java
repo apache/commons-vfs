@@ -38,6 +38,13 @@ public class ShowFileTask extends VfsTask {
     private boolean recursive;
 
     /**
+     * Constructs a new instance.
+     */
+    public ShowFileTask() {
+        // empty
+    }
+
+    /**
      * Executes the task.
      *
      * @throws BuildException if any exception is thrown.

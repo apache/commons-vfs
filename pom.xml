@@ -17,11 +17,11 @@
    limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>71</version>
+    <version>81</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -55,9 +55,10 @@
     <connection>scm:git:https://gitbox.apache.org/repos/asf/commons-vfs.git</connection>
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-vfs.git</developerConnection>
     <url>https://gitbox.apache.org/repos/asf?p=commons-vfs.git</url>
-    <tag>commons-vfs-project-2.9.0</tag>
+    <tag>HEAD</tag>
   </scm>
   <properties>
+    <commons.parent.dir>${basedir}</commons.parent.dir>
     <commons.encoding>UTF-8</commons.encoding>
 
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -89,7 +90,6 @@
     <commons.release.desc>(requires Java 8 or above)</commons.release.desc>
     <commons.release.isDistModule>false</commons.release.isDistModule>
 
-    <commons.parent.dir>${basedir}</commons.parent.dir>
     <!-- make sure bundle plugin has dependency informations for 'optional' -->
     <commons.osgi.excludeDependencies />
     <commons.osgi.import>
@@ -97,27 +97,24 @@
     </commons.osgi.import>
     <!-- Avoid warnings about being unable to find jars during site building -->
     <dependency.locations.enabled>false</dependency.locations.enabled>
-    <hadoop.version>3.4.0</hadoop.version>
-    <httpcore5.version>5.3-beta1</httpcore5.version>
-    <httpclient5.version>5.4-beta1</httpclient5.version>
+    <hadoop.version>3.4.1</hadoop.version>
+    <httpcore5.version>5.3.3</httpcore5.version>
+    <httpclient5.version>5.4.1</httpclient5.version>
     <jackrabbit1.version>1.6.5</jackrabbit1.version>
     <!-- Don't use jackrabbit2 2.21.x, it's labeled "unstable". -->
     <!-- 2.22.0 requires Java 11. -->
     <jackrabbit2.version>2.20.16</jackrabbit2.version>
-    <commons.asm.version>9.4</commons.asm.version>
-    <slf4j.version>2.0.13</slf4j.version>
-    <log4j2.version>2.23.1</log4j2.version>
-    <collections4.version>4.5.0-M2</collections4.version>
+    <slf4j.version>2.0.16</slf4j.version>
+    <log4j2.version>2.24.3</log4j2.version>
+    <collections4.version>4.5.0-M3</collections4.version>
     <jsch.version>0.1.55</jsch.version>
     <httpclient3.version>3.1</httpclient3.version>
-    <ant.version>1.10.14</ant.version>
-    <!-- For VFS, somehow, SPDX >= 0.6.0 requires Java 11 (maybe because it's a multi-module project). -->
-    <commons.spdx.version>0.5.5</commons.spdx.version>
-
+    <ant.version>1.10.15</ant.version>
     <clirr.skip>true</clirr.skip>
     <japicmp.skip>false</japicmp.skip>
     <jacoco.skip>false</jacoco.skip>
-    <project.build.outputTimestamp>2024-01-01T00:00:00Z</project.build.outputTimestamp>
+    <!-- project.build.outputTimestamp is managed by Maven plugins, see https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
+    <project.build.outputTimestamp>2025-02-01T21:47:58Z</project.build.outputTimestamp>
   </properties>
 
   <build>
@@ -125,20 +122,6 @@
     <defaultGoal>clean verify apache-rat:check japicmp:cmp javadoc:javadoc spotbugs:check pmd:check checkstyle:check</defaultGoal>
     <pluginManagement>
       <plugins>
-        <plugin>
-          <!--  Fixes org.apache.bcel.classfile.ClassFormatException: Invalid byte tag in constant pool: 19 -->
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>${commons.project-info.version}</version>
-          <dependencies>
-            <!-- Fix org.apache.bcel.classfile.ClassFormatException: Invalid byte tag in constant pool: 19 -->
-            <dependency>
-              <groupId>org.apache.bcel</groupId>
-              <artifactId>bcel</artifactId>
-              <version>6.10.0</version>
-            </dependency>
-          </dependencies>
-        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
@@ -261,10 +244,13 @@
         </executions>
       </plugin>
       <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-            <!-- to increase memory for tests on Travis CI -->
             <argLine>-Xmx64m</argLine>
         </configuration>
       </plugin>
@@ -315,8 +301,19 @@
               <head>To Do:</head>
             </tag>
           </tags>
-          <aggregate>true</aggregate>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>jxr-no-fork</report>
+              <report>test-jxr-no-fork</report>
+            </reports>
+          </reportSet>
+        </reportSets>
       </plugin>
       <plugin>
         <groupId>com.github.spotbugs</groupId>
@@ -332,21 +329,19 @@
         <artifactId>maven-pmd-plugin</artifactId>
         <configuration>
           <targetJdk>${maven.compiler.target}</targetJdk>
-          <aggregate>true</aggregate>
         </configuration>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>pmd</report>
+            </reports>
+          </reportSet>
+        </reportSets>
       </plugin>
       <plugin>
         <groupId>com.github.siom79.japicmp</groupId>
         <artifactId>japicmp-maven-plugin</artifactId>
       </plugin>
-      <!-- cobertura breaks because it cannot parse annotations in methods. -->
-      <!--
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>${commons.cobertura.version}</version>
-      </plugin>
-      -->
       <!-- javancss breaks because it cannot parse annotations in methods. -->
       <!--
       <plugin>
@@ -388,12 +383,12 @@
       <dependency>
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging</artifactId>
-        <version>1.3.3</version>
+        <version>1.3.4</version>
       </dependency>
       <dependency>
         <groupId>commons-codec</groupId>
         <artifactId>commons-codec</artifactId>
-        <version>1.17.1</version>
+        <version>1.18.0</version>
       </dependency>
       <dependency>
         <groupId>commons-net</groupId>
@@ -428,7 +423,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
-        <version>1.26.2</version>
+        <version>1.27.1</version>
       </dependency>
       <dependency>
         <groupId>org.apache.ant</groupId>
@@ -453,7 +448,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.15.0</version>
+        <version>3.17.0</version>
       </dependency>
       <!-- HDFS -->
       <dependency>
@@ -494,7 +489,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>4.11.0</version>
+        <version>${commons.mockito.version}</version>
       </dependency>
       <!-- Test FTP with Apache FTP Server (MINA) -->
       <dependency>
@@ -521,7 +516,7 @@
       <dependency>
         <groupId>org.apache.mina</groupId>
         <artifactId>mina-core</artifactId>
-        <version>2.1.8</version>
+        <version>2.1.10</version>
       </dependency>
       <dependency>
         <groupId>org.bouncycastle</groupId>
@@ -531,7 +526,7 @@
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
-        <version>2.16.1</version>
+        <version>2.18.0</version>
       </dependency>
       <!-- Test HTTP with Apache HttpComponent Core -->
       <dependency>
@@ -562,15 +557,10 @@
       </dependency>
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-slf4j-impl</artifactId>
+        <artifactId>log4j-bom</artifactId>
         <version>${log4j2.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-core</artifactId>
-        <version>${log4j2.version}</version>
-        <scope>test</scope>
+        <scope>import</scope>
+        <type>pom</type>
       </dependency>
       <!-- HDFS test dependencies -->
       <dependency>
@@ -637,13 +627,32 @@
           <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
             <executions>
-              <!-- Don't build the archives here. They are constructed in the dist project -->
+              <!-- Don't build the archives here. They are constructed in the distribution project -->
               <execution>
                 <configuration>
                   <skipAssembly>true</skipAssembly>
                 </configuration>
               </execution>
             </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>java17</id>
+      <activation>
+        <jdk>[17,)</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <!-- For AbstractTestSuite output of debug information. -->
+              <!-- ${argLine} must be there for JaCoCo. -->
+              <argLine>${argLine} --add-opens java.base/java.lang=ALL-UNNAMED</argLine>
+            </configuration>
           </plugin>
         </plugins>
       </build>
@@ -697,7 +706,7 @@
       <email>ggregory at apache.org</email>
       <url>https://www.garygregory.com</url>
       <organization>The Apache Software Foundation</organization>
-      <organizationUrl>https://www.apache.org/</organizationUrl>      
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>PMC Member</role>
       </roles>

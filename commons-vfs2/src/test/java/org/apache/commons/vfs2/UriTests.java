@@ -18,6 +18,7 @@ package org.apache.commons.vfs2;
 
 import java.net.URI;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.junit.Test;
 
 /**
@@ -26,12 +27,12 @@ import org.junit.Test;
 public class UriTests extends AbstractProviderTestCase {
 
     /**
-     * Returns the capabilities required by the tests of this test case. The tests are not run if the provider being
-     * tested does not support all the required capabilities. Return null or an empty array to always run the tests.
+     * Returns the capabilities required by the tests of this test case. The tests are not run if the provider being tested does not support all the required
+     * capabilities. Return null or an empty array to always run the tests.
      */
     @Override
     protected Capability[] getRequiredCapabilities() {
-        return new Capability[] {Capability.URI};
+        return new Capability[] { Capability.URI };
     }
 
     /**
@@ -40,16 +41,34 @@ public class UriTests extends AbstractProviderTestCase {
     @Test
     public void testAbsoluteURI() throws Exception {
         final FileObject readFolder = getReadFolder();
-
         // Try fetching base folder again by its URI
         final String uri = readFolder.getName().getURI();
         FileObject file = getManager().resolveFile(uri, readFolder.getFileSystem().getFileSystemOptions());
-        assertSame("file object", readFolder, file);
-
+        // assert properties
+        assertEquals(readFolder.exists(), file.exists());
+        assertEquals(readFolder.getName(), file.getName());
+        // Needs JRE file providers
+        // assertEquals(readFolder.getPath(), file.getPath());
+        assertEquals(readFolder.getPublicURIString(), file.getPublicURIString());
+        assertEquals(readFolder.getType(), file.getType());
+        assertEquals(readFolder.getURI(), file.getURI());
+        assertEquals(readFolder.getURL(), file.getURL());
+        assertEquals(readFolder.isAttached(), file.isAttached());
+        assertEquals(readFolder.isContentOpen(), file.isContentOpen());
+        assertEquals(readFolder.isExecutable(), file.isExecutable());
+        assertEquals(readFolder.isFile(), file.isFile());
+        assertEquals(readFolder.isFolder(), file.isFolder());
+        assertEquals(readFolder.isHidden(), file.isHidden());
+        assertEquals(readFolder.isReadable(), file.isReadable());
+        assertEquals(readFolder.isSymbolicLink(), file.isSymbolicLink());
+        assertEquals(readFolder.isWriteable(), file.isWriteable());
+        assertEquals(readFolder.toString(), file.toString());
+        assertEquals(String.format("file object %s %s, %s %s", readFolder.getClass(), ObjectUtils.identityHashCodeHex(readFolder), file.getClass(),
+                ObjectUtils.identityHashCodeHex(file)), readFolder.toString(), file.toString());
         // Try fetching the filesystem root by its URI
         final String rootUri = readFolder.getName().getRootURI();
         file = getManager().resolveFile(rootUri, readFolder.getFileSystem().getFileSystemOptions());
-        assertSame(readFolder.getFileSystem().getRoot(), file);
+        assertEquals(readFolder.getFileSystem().getRoot().toString(), file.toString());
         assertEquals(rootUri, file.getName().getRootURI());
         assertEquals(rootUri, file.getName().getURI());
         assertEquals(FileName.ROOT_PATH, file.getName().getPath());
@@ -99,8 +118,7 @@ public class UriTests extends AbstractProviderTestCase {
         final FileObject f2 = getManager().resolveFile(uriStr, options);
 
         assertEquals("Two files resolved by URI must be equals on " + uriStr, f1, f2);
-        assertSame("Resolving two times should not produce new filesystem on " + uriStr, f1.getFileSystem(),
-            f2.getFileSystem());
+        assertSame("Resolving two times should not produce new filesystem on " + uriStr, f1.getFileSystem(), f2.getFileSystem());
     }
 
 }

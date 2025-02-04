@@ -74,7 +74,7 @@ public interface FileName extends Comparable<FileName> {
     /**
      * Gets a "friendly path", this is a path without a password.
      * <p>
-     * This path can not be used to resolve the path again.
+     * This path cannot be used to resolve the path again.
      * </p>
      *
      * @return the friendly URI as a String.

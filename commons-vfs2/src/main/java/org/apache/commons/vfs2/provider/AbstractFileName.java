@@ -45,8 +45,8 @@ public abstract class AbstractFileName implements FileName {
     /**
      * Checks whether a path fits in a particular scope of another path.
      *
-     * @param basePath An absolute, normalised path.
-     * @param path An absolute, normalised path.
+     * @param basePath An absolute, normalized path.
+     * @param path An absolute, normalized path.
      * @param scope The NameScope.
      * @return true if the path fits in the scope, false otherwise.
      */
@@ -55,26 +55,25 @@ public abstract class AbstractFileName implements FileName {
             // All good
             return true;
         }
-
         if (!path.startsWith(basePath)) {
             return false;
         }
-
         int baseLen = basePath.length();
         if (VFS.isUriStyle()) {
             // strip the trailing "/"
             baseLen--;
         }
-
-        if (scope == NameScope.CHILD) {
-            return path.length() != baseLen && (baseLen <= 1 || path.charAt(baseLen) == SEPARATOR_CHAR)
-                    && path.indexOf(SEPARATOR_CHAR, baseLen + 1) == -1;
-        }
-        if (scope == NameScope.DESCENDENT) {
-            return path.length() != baseLen && (baseLen <= 1 || path.charAt(baseLen) == SEPARATOR_CHAR);
-        }
-        if (scope == NameScope.DESCENDENT_OR_SELF) {
-            return baseLen <= 1 || path.length() <= baseLen || path.charAt(baseLen) == SEPARATOR_CHAR;
+        if (scope != null) {
+            switch (scope) {
+            case CHILD:
+                return path.length() != baseLen && (baseLen <= 1 || path.charAt(baseLen) == SEPARATOR_CHAR) && path.indexOf(SEPARATOR_CHAR, baseLen + 1) == -1;
+            case DESCENDENT:
+                return path.length() != baseLen && (baseLen <= 1 || path.charAt(baseLen) == SEPARATOR_CHAR);
+            case DESCENDENT_OR_SELF:
+                return baseLen <= 1 || path.length() <= baseLen || path.charAt(baseLen) == SEPARATOR_CHAR;
+            default:
+                break;
+            }
         }
         throw new IllegalArgumentException();
     }
@@ -93,7 +92,7 @@ public abstract class AbstractFileName implements FileName {
     private String key;
 
     /**
-     * Constructs a new instance.
+     * Constructs a new instance for subclasses.
      *
      * @param scheme The scheme.
      * @param absolutePath the absolute path, maybe empty or null.
@@ -141,6 +140,11 @@ public abstract class AbstractFileName implements FileName {
      */
     public abstract FileName createName(String absolutePath, FileType fileType);
 
+    /**
+     * Creates a URI.
+     *
+     * @return a URI.
+     */
     protected String createURI() {
         return createURI(false, true);
     }
@@ -429,6 +433,11 @@ public abstract class AbstractFileName implements FileName {
         return uriString;
     }
 
+    /**
+     * Gets the string to end a URI.
+     *
+     * @return the string to end a URI
+     */
     protected String getUriTrailer() {
         return getType().hasChildren() ? "/" : "";
     }

@@ -16,7 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.tar;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,7 +48,7 @@ public class CreateFileSystemTest {
 
         final String testFilePath = "src/test/resources/test-data/test.tar";
         try (FileObject fileObject = createFileSystem(testFilePath)) {
-            assertTrue(fileObject instanceof TarFileObject);
+            assertInstanceOf(TarFileObject.class, fileObject);
         }
     }
 
@@ -57,7 +57,7 @@ public class CreateFileSystemTest {
 
         final String testFilePath = "src/test/resources/test-data/test.tbz2";
         try (FileObject fileObject = createFileSystem(testFilePath)) {
-            assertTrue(fileObject instanceof TarFileObject);
+            assertInstanceOf(TarFileObject.class, fileObject);
         }
     }
 
@@ -66,7 +66,7 @@ public class CreateFileSystemTest {
 
         final String testFilePath = "src/test/resources/test-data/test.tgz";
         try (FileObject fileObject = createFileSystem(testFilePath)) {
-            assertTrue(fileObject instanceof TarFileObject);
+            assertInstanceOf(TarFileObject.class, fileObject);
         }
     }
 

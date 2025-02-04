@@ -32,6 +32,13 @@ public class FileContentInfoFilenameFactory implements FileContentInfoFactory {
 
     private static final FileContentInfo NULL_INSTANCE = new DefaultFileContentInfo(null, null);
 
+    /**
+     * Constructs a new instance.
+     */
+    public FileContentInfoFilenameFactory() {
+        // empty
+    }
+
     @Override
     public FileContentInfo create(final FileContent fileContent) {
         String contentType = null;

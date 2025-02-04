@@ -97,7 +97,9 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      */
     private final AtomicInteger openStreams = new AtomicInteger();
 
-    /** Only provided for Serializable subclasses. */
+    /**
+     * Only provided for Serializable subclasses.
+     */
     AbstractFileSystem() {
         this(null, null, null);
     }
@@ -183,6 +185,13 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      */
     protected abstract FileObject createFile(AbstractFileName name) throws Exception;
 
+    /**
+     * Decorates the given file object.
+     *
+     * @param file the file object.
+     * @return the decorated file object.
+     * @throws FileSystemException if a file system error occurs.
+     */
     protected FileObject decorateFileObject(FileObject file) throws FileSystemException {
         if (getFileSystemManager().getCacheStrategy().equals(CacheStrategy.ON_CALL)) {
             file = new OnCallRefreshFileObject(file);

@@ -37,7 +37,7 @@ public final class UriParser {
     public static final char TRANS_SEPARATOR = '\\';
 
     /**
-     * The normalised separator to use.
+     * The normalized separator to use.
      */
     private static final char SEPARATOR_CHAR = FileName.SEPARATOR_CHAR;
 
@@ -486,7 +486,6 @@ public final class UriParser {
      * @param path The path to normalize.
      * @return The FileType.
      * @throws FileSystemException if an error occurs.
-     *
      * @see #fixSeparators
      */
     public static FileType normalisePath(final StringBuilder path) throws FileSystemException {

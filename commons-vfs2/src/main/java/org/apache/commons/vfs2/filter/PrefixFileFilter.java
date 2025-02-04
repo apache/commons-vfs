@@ -111,7 +111,6 @@ public class PrefixFileFilter implements FileFilter, Serializable {
      * Checks to see if the file name starts with the prefix.
      *
      * @param fileSelectInfo the File to check
-     *
      * @return true if the file name starts with one of our prefixes
      */
     @Override

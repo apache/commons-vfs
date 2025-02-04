@@ -47,11 +47,18 @@ public class FTPClientWrapper implements FtpClient {
      */
     protected final FileSystemOptions fileSystemOptions;
     private FTPClient ftpClient;
-    private final GenericFileName root;
+    private final GenericFileName rootFileName;
 
-    protected FTPClientWrapper(final GenericFileName root, final FileSystemOptions fileSystemOptions)
+    /**
+     * Constructs a new instance.
+     *
+     * @param rootFileName the root file name.
+     * @param fileSystemOptions the file system options.
+     * @throws FileSystemException if a file system error occurs.
+     */
+    protected FTPClientWrapper(final GenericFileName rootFileName, final FileSystemOptions fileSystemOptions)
         throws FileSystemException {
-        this.root = root;
+        this.rootFileName = rootFileName;
         this.fileSystemOptions = fileSystemOptions;
         getFtpClient(); // fail-fast
     }
@@ -104,14 +111,21 @@ public class FTPClientWrapper implements FtpClient {
         }
     }
 
-    protected FTPClient createClient(final GenericFileName rootName, final UserAuthenticationData authData)
+    /**
+     * Creates an FTPClient.
+     * @param rootFileName the root file name.
+     * @param authData authentication data.
+     * @return an FTPClient.
+     * @throws FileSystemException if a file system error occurs.
+     */
+    protected FTPClient createClient(final GenericFileName rootFileName, final UserAuthenticationData authData)
         throws FileSystemException {
-        return FtpClientFactory.createConnection(rootName.getHostName(), rootName.getPort(),
+        return FtpClientFactory.createConnection(rootFileName.getHostName(), rootFileName.getPort(),
             UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
-                UserAuthenticatorUtils.toChar(rootName.getUserName())),
+                UserAuthenticatorUtils.toChar(rootFileName.getUserName())),
             UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
-                UserAuthenticatorUtils.toChar(rootName.getPassword())),
-            rootName.getPath(), getFileSystemOptions());
+                UserAuthenticatorUtils.toChar(rootFileName.getPassword())),
+            rootFileName.getPath(), getFileSystemOptions());
     }
 
     @Override
@@ -174,7 +188,7 @@ public class FTPClientWrapper implements FtpClient {
      * @return  the root file name.
      */
     public GenericFileName getRoot() {
-        return root;
+        return rootFileName;
     }
 
     /**

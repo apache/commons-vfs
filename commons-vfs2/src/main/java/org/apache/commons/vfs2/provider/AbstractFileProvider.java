@@ -43,13 +43,13 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
      */
     private final Map<FileSystemKey, FileSystem> fileSystemMap = new TreeMap<>(); // @GuardedBy("self")
 
-    private FileNameParser parser;
+    private FileNameParser fileNameParser;
 
     /**
-     * Constructs a new instance.
+     * Constructs a new instance for subclasses.
      */
     public AbstractFileProvider() {
-        parser = GenericFileNameParser.getInstance();
+        fileNameParser = GenericFileNameParser.getInstance();
     }
 
     /**
@@ -65,10 +65,8 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
     protected void addFileSystem(final Comparable<?> key, final FileSystem fs) throws FileSystemException {
         // Add to the container and initialize
         addComponent(fs);
-
         final FileSystemKey treeKey = new FileSystemKey(key, fs.getFileSystemOptions());
         ((AbstractFileSystem) fs).setCacheKey(treeKey);
-
         synchronized (fileSystemMap) {
             fileSystemMap.put(treeKey, fs);
         }
@@ -158,8 +156,13 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
         return null;
     }
 
+    /**
+     * Gets the file name parser.
+     *
+     * @return the file name parser.
+     */
     protected FileNameParser getFileNameParser() {
-        return parser;
+        return fileNameParser;
     }
 
     /**
@@ -175,11 +178,15 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
         if (getFileNameParser() != null) {
             return getFileNameParser().parseUri(getContext(), base, uri);
         }
-
         throw new FileSystemException("vfs.provider/filename-parser-missing.error");
     }
 
+    /**
+     * Sets the file name parser.
+     *
+     * @param parser a file name parser.
+     */
     protected void setFileNameParser(final FileNameParser parser) {
-        this.parser = parser;
+        this.fileNameParser = parser;
     }
 }

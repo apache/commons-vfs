@@ -37,15 +37,15 @@ and commit
 
 The <action> type attribute can be add,update,fix,remove.
 -->
-<document xmlns="http://maven.apache.org/changes/1.0.0"
+<document xmlns="http://maven.apache.org/changes/2.0.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
+          xsi:schemaLocation="http://maven.apache.org/changes/2.0.0 https://maven.apache.org/xsd/changes-2.0.0.xsd">
   <properties>
     <title>Apache Commons VFS Release Notes</title>
     <author email="dev@commons.apache.org">Apache Commons Developers</author>
   </properties>
   <body>
-    <release version="2.10.0" date="YYYY-MM-DD" description="Maintenance release. Requires Java 8 or above.">
+    <release version="2.10.0" date="2025-02-01" description="Maintenance release. Requires Java 8 or above.">
       <!-- FIX -->
       <action type="fix" issue="VFS-854" dev="ecki" due-to="Andrey Turbanov">
         Avoid debug-logging URL credentials.
@@ -200,6 +200,17 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="Arnout Engelen">
         Simplify UriParser #558.
       </action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">
+        ZipFileSystemConfigBuilder.getCharset(FileSystemOptions) returns UTF-8 instead of null when absent.
+      </action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">
+        org.apache.commons.vfs2.provider.http.HttpFileObject.doListChildren() now throws UnsupportedOperationException instead of Exception.
+      </action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Pick up exec-maven-plugin version from parent POM.</action>
+      <action type="fix" dev="ggregory" due-to="Anthony Goubard">Fixed commons-vfs2-sandbox module not compiling due to missing imports and library #634.</action>
+      <action type="fix" dev="ggregory" due-to="Marek Sunda, Gary Gregory, Arnout Engelen">FtpFileObject.getChildren() should throw org.apache.commons.vfs2.FileNotFoundException instead of java.io.FileNotFoundException #638.</action> 
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Remove -nouses directive from maven-bundle-plugin. OSGi package imports now state 'uses' definitions for package imports, this doesn't affect JPMS (from org.apache.commons:commons-parent:80).</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory">Tests should depend on the Apache Log4j BOM POM instead of individual components in the parent POM.</action>
       <!-- ADD -->
       <action type="add" issue="VFS-848" dev="ggregory" due-to="beise, Gary Gregory">
         Config option for trailing slash in webdav URI #425.
@@ -252,7 +263,14 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="add" dev="ggregory" due-to="Gary Gregory">
         Add a BOM POM commons-vfs2-bom.
       </action>
+      <action type="add" dev="ggregory" due-to="Gary Gregory">
+        Add FileSystemConfigBuilder.getParamOrDefault(FileSystemOptions, String, T).
+      </action>
+      <action type="add" dev="ggregory" due-to="Gary Gregory">Add FileSystemManager.toFileObject(Path).</action>
       <!-- UPDATE -->
+      <action dev="ggregory" due-to="Dependabot, Gary Gregory" type="update">
+        Bump org.apache.commons:commons-parent from 52 to 81 #497, #588, #592, #600, #608, #615, #623.
+      </action>
       <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">
         Bump actions/cache and others.
       </action>
@@ -284,13 +302,13 @@ The <action> type attribute can be add,update,fix,remove.
         Bump org.apache.jackrabbit:jackrabbit-standalone-components from 2.21.7 to 2.20.16, 2.21.x is beta only.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">
-        Bump org.apache.httpcomponents.client5:httpclient5 from 5.1 to 5.4-beta1 #561.
+        Bump org.apache.httpcomponents.client5:httpclient5 from 5.1 to 5.4.1 #561, #602, #2778.
       </action>
-      <action type="update" dev="ggregory" due-to="Dependabot">
-        Bump org.apache.httpcomponents.core5:httpcore5 from 5.1.5 to 5.3-beta1 #369, #399, #429, #447, #559.
+      <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">
+        Bump org.apache.httpcomponents.core5:httpcore5 from 5.1.5 to 5.3.3 #369, #399, #429, #447, #559, #597, #624, #650, #657.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">
-        Bump org.apache.mina:mina-core from 2.1.4 to 2.1.8.
+        Bump org.apache.mina:mina-core from 2.1.4 to 2.1.10 #646.
       </action>
       <action type="update" dev="ggregory" due-to="Dependabot, Gary Gregory">
         Bump maven-pmd-plugin from 3.14.0 to 3.19.0 #223, #294, #304.
@@ -317,19 +335,16 @@ The <action> type attribute can be add,update,fix,remove.
         Bump org.apache.httpcomponents:httpcore-nio from 4.4.14 to 4.4.16, #341.
       </action>
       <action dev="ggregory" due-to="Gary Gregory, Dependabot" type="update">
-        Bump Apache Log4j 2.14.1 to 2.23.1 [Tests] #226, #230, #305, #378, #448, #461, #487, #499.
+        Bump Apache Log4j 2.14.1 to 2.24.3 [Tests] #226, #230, #305, #378, #448, #461, #487, #499, #598, #610, #635, #642.
       </action>
       <action dev="ggregory" due-to="XenoAmess" type="update">
         Bump ftpserver-core from 1.1.1 to 1.1.2 #235.
       </action>
       <action dev="ggregory" due-to="Dependabot" type="update">
-        Bump hadoop.version from 3.3.1 to 3.3.6 #246, #262, #290, #386, #402.
+        Bump hadoop.version from 3.3.1 to 3.4.1 #246, #262, #290, #386, #402, #620.
       </action>
       <action dev="ggregory" due-to="Dependabot" type="update">
-        Bump slf4j.version from 1.7.26 to 2.0.13 #484, #486, #524.
-      </action>
-      <action dev="ggregory" due-to="Dependabot, Gary Gregory" type="update">
-        Bump org.apache.commons:commons-parent from 52 to 71 #497.
+        Bump slf4j.version from 1.7.26 to 2.0.16 #484, #486, #524, #575, #580, #585.
       </action>
       <action dev="ggregory" due-to="Gary Gregory" type="update">
         Bump org.ow2.asm:asm from 9.2 to 9.4.
@@ -347,7 +362,7 @@ The <action> type attribute can be add,update,fix,remove.
         Bump maven-checkstyle-plugin from 3.1.2 to 3.2.0 #321
       </action>
       <action dev="ggregory" due-to="Dependabot, Gary Gregory" type="update">
-        Bump commons-compress from 1.21 to 1.26.2 #329, #385, $498, #535.
+        Bump commons-compress from 1.21 to 1.27.1 #329, #385, $498, #535, #579, #590.
       </action>
       <action dev="ggregory" due-to="Gary Gregory, Dependabot" type="update">
         Bump commons-net:commons-net from 3.8.0 to 3.11.1 #546, #548.
@@ -356,28 +371,28 @@ The <action> type attribute can be add,update,fix,remove.
         Bump httpclient from 4.5.13 to 4.5.14 #344.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">
-        Bump commons-io:commons-io from 2.11.0 to 2.16.1 #515.
+        Bump commons-io:commons-io from 2.11.0 to 2.18.0 #515, #601, #633.
+      </action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">
+        Bump commons-codec:commons-codec from 1.15 to 1.18.0 #480, #530, #567, #654.
       </action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">
-        Bump commons-codec:commons-codec from 1.15 to 1.17.1 #480, #530, #567.
-      </action>
-      <action type="update" dev="ggregory" due-to="Gary Gregory">
-        Bump org.apache.commons:commons-lang3 from 3.12.0 to 3.15.0 #568.
+        Bump org.apache.commons:commons-lang3 from 3.12.0 to 3.17.0 #568, #577, #594.
       </action>
       <action type="update" dev="ggregory" due-to="Dependabot">
-        Bump org.codehaus.mojo:exec-maven-plugin from 3.1.0 to 3.3.0 #445, #536.
+        Bump org.codehaus.mojo:exec-maven-plugin from 3.1.0 to 3.4.0 #445, #536, #576.
       </action>
       <action dev="ggregory" type="update" due-to="Gary Gregory">
-        Bump commons-logging:commons-logging from 1.2 to 1.3.3, #531, #563.
+        Bump commons-logging:commons-logging from 1.2 to 1.3.4, #531, #563, #589.
       </action>
       <action dev="ggregory" type="update" due-to="Gary Gregory">
-        Bump org.codehaus.mojo:exec-maven-plugin from 3.1.1 to 3.2.0 #494.
+        Bump org.codehaus.mojo:exec-maven-plugin from 3.1.1 to 3.4.1 #494, #586.
       </action>
       <action dev="ggregory" type="update" due-to="Gary Gregory">
-        Bump org.apache.commons:commons-collections4 from 4.4 to 4.5.0-M2.
+        Bump org.apache.commons:commons-collections4 from 4.4 to 4.5.0-M3 #643.
       </action>
       <action dev="ggregory" type="update" due-to="Gary Gregory">
-        Bump ant:ant 1.6.5 to org.apache.ant:ant 1.10.14.
+        Bump ant:ant 1.6.5 to org.apache.ant:ant 1.10.15.
       </action>
     </release>
     <release version="2.9.0" date="2021-06-16" description="Maintenance release. Requires Java 8 or above.">

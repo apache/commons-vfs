@@ -57,6 +57,9 @@ public class FileSystemManagerFactoryTest {
         // File
         final FileObject file = manager.toFileObject(jarFile);
         check(manager, file);
+        // Path
+        final FileObject path = manager.toFileObject(jarFile.toPath());
+        check(manager, file);
         // URI
         final FileObject file2 = manager.resolveFile(jarFile.toURI());
         check(manager, file2);

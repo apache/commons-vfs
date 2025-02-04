@@ -60,19 +60,19 @@ public class FtpFileProvider extends AbstractOriginatingFileProvider {
 
     /**
      * Creates the file system.
+     *
+     * @return a new FileSystem, never null.
      */
     @Override
     protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
             throws FileSystemException {
         // Create the file system
         final GenericFileName rootName = (GenericFileName) name;
-
         final FTPClientWrapper ftpClient = new FTPClientWrapper(rootName, fileSystemOptions);
         /*
          * FTPClient ftpClient = FtpClientFactory.createConnection(rootName.getHostName(), rootName.getPort(),
          * rootName.getUserName(), rootName.getPassword(), rootName.getPath(), fileSystemOptions);
          */
-
         return new FtpFileSystem(rootName, ftpClient, fileSystemOptions);
     }
 

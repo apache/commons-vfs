@@ -17,6 +17,8 @@
 package org.apache.commons.vfs2.util;
 
 /**
+ * Encrypts and decrypts Strings.
+ *
  * @since 2.0
  */
 public interface Cryptor {
