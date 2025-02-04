@@ -20,8 +20,10 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
+import java.util.concurrent.ThreadFactory;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.FileListener;
@@ -64,11 +66,11 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
  *
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();
- * FileObject listendir = fsManager.resolveFile("/home/username/monitored/");
+ * FileObject listenDir = fsManager.resolveFile("/home/username/monitored/");
  *
  * DefaultFileMonitor fm = new DefaultFileMonitor(new CustomFileListener());
  * fm.setRecursive(true);
- * fm.addFile(listendir);
+ * fm.addFile(listenDir);
  * fm.start();
  * </pre>
  *
@@ -81,9 +83,9 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
      * File monitor agent.
      */
     private static final class FileMonitorAgent {
+
         private final FileObject fileObject;
         private final DefaultFileMonitor defaultFileMonitor;
-
         private boolean exists;
         private long timestamp;
         private Map<FileName, Object> children;
@@ -261,6 +263,8 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
         }
 
     }
+
+    private static final ThreadFactory THREAD_FACTORY = new BasicThreadFactory.Builder().daemon(true).priority(Thread.MIN_PRIORITY).build();
 
     private static final Log LOG = LogFactory.getLog(DefaultFileMonitor.class);
 
@@ -556,9 +560,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
      */
     public synchronized void start() {
         if (monitorThread == null) {
-            monitorThread = new Thread(this);
-            monitorThread.setDaemon(true);
-            monitorThread.setPriority(Thread.MIN_PRIORITY);
+            monitorThread = THREAD_FACTORY.newThread(this);
         }
         monitorThread.start();
     }

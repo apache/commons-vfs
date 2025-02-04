@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider.zip;
 import static org.apache.commons.vfs2.VfsTestUtils.getTestResource;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 
 import junit.framework.Test;
 
@@ -57,9 +58,9 @@ public class ZipProviderWithCharsetNullTestCase extends AbstractProviderTestConf
         final String uri = "zip:file:" + zipFile.getAbsolutePath() + "!/";
         final FileObject resolvedFile = manager.resolveFile(uri, opts);
         final FileSystem fileSystem = resolvedFile.getFileSystem();
-        Assertions.assertTrue(fileSystem instanceof ZipFileSystem);
+        Assertions.assertInstanceOf(ZipFileSystem.class, fileSystem);
         final ZipFileSystem zipFileSystem = (ZipFileSystem) fileSystem;
-        Assertions.assertNull(zipFileSystem.getCharset());
+        Assertions.assertEquals(StandardCharsets.UTF_8, zipFileSystem.getCharset());
         return resolvedFile;
     }
 

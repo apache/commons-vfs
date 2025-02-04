@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.zip;
 
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -58,7 +59,7 @@ public class Jira733Test {
         final String nestedPath = "zip:" + file.getAbsolutePath() + "!/read-tests/file1.txt";
         try (FileObject fileObject = VFS.getManager().resolveFile(nestedPath);
                 final FileObject wrappedFileObject = new OnCallRefreshFileObject(fileObject)) {
-            assertTrue(fileObject instanceof ZipFileObject);
+            assertInstanceOf(ZipFileObject.class, fileObject);
             @SuppressWarnings({ "unused", "resource" })
             final
             ZipFileObject zipFileObject = (ZipFileObject) fileObject;

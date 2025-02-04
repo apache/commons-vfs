@@ -28,6 +28,13 @@ public abstract class AbstractVfsComponent implements VfsComponent {
     private Log log;
 
     /**
+     * Constructs a new instance for subclasses.
+     */
+    public AbstractVfsComponent() {
+        // empty
+    }
+
+    /**
      * Closes the provider. This implementation does nothing.
      */
     @Override

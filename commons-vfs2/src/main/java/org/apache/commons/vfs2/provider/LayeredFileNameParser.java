@@ -40,6 +40,13 @@ public class LayeredFileNameParser extends AbstractFileNameParser {
     }
 
     /**
+     * Constructs a new instance.
+     */
+    public LayeredFileNameParser() {
+        // empty
+    }
+
+    /**
      * Determines if a character should be encoded.
      *
      * @param ch The character to check.

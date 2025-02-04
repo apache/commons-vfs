@@ -60,7 +60,6 @@ public class FileFileFilter implements FileFilter, Serializable {
      * Checks to see if the file is a file.
      *
      * @param fileSelectInfo the File to check
-     *
      * @return true if the file is a file
      * @throws FileSystemException Thrown for file system errors.
      */

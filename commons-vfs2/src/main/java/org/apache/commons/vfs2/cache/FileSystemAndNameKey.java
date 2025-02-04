@@ -26,6 +26,7 @@ import org.apache.commons.vfs2.FileSystem;
  * </p>
  */
 final class FileSystemAndNameKey implements Comparable<FileSystemAndNameKey> {
+
     /** The FileSystem */
     private final FileSystem fileSystem;
 
@@ -38,7 +39,6 @@ final class FileSystemAndNameKey implements Comparable<FileSystemAndNameKey> {
     FileSystemAndNameKey(final FileSystem fileSystem, final FileName fileName) {
         this.fileSystem = fileSystem;
         this.fileSystemId = System.identityHashCode(fileSystem);
-
         this.fileName = fileName;
     }
 
@@ -50,7 +50,6 @@ final class FileSystemAndNameKey implements Comparable<FileSystemAndNameKey> {
         if (fileSystemId > other.fileSystemId) {
             return 1;
         }
-
         return fileName.compareTo(other.fileName);
     }
 

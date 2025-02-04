@@ -25,6 +25,13 @@ import org.apache.commons.vfs2.FileType;
  */
 public class WindowsFileNameParser extends LocalFileNameParser {
 
+    /**
+     * Constructs a new instance.
+     */
+    public WindowsFileNameParser() {
+        // empty
+    }
+
     @Override
     protected FileName createFileName(final String scheme, final String rootFile, final String path,
             final FileType type) {

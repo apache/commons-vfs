@@ -150,7 +150,7 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
         }
 
         if (fileEnd > -1 && calcFilePosition(len) > fileEnd) {
-            // we can not read past our end
+            // we cannot read past our end
             len = (int) (fileEnd - getFilePosition());
         }
 
@@ -174,7 +174,7 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
         }
 
         if (fileEnd > -1 && calcFilePosition(n) > fileEnd) {
-            // we can not skip past our end
+            // we cannot skip past our end
             n = fileEnd - getFilePosition();
         }
 

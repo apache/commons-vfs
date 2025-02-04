@@ -21,7 +21,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * UNIX permissions.
+ * Unix permissions.
  *
  * @since 2.1
  */

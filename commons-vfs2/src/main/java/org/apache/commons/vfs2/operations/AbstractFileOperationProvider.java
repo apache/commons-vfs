@@ -23,6 +23,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 
 /**
+ * Abstracts implementations of {@link FileOperationProvider}.
  *
  * @since 0.1
  */
@@ -34,6 +35,13 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
      * and Collection of operations that are available for that scheme.
      */
     private final Collection<Class<? extends FileOperation>> operations = new ArrayList<>();
+
+    /**
+     * Constructs a new instance for subclasses.
+     */
+    public AbstractFileOperationProvider() {
+        // empty
+    }
 
     /**
      * Add new FileOperation to list of known operations.

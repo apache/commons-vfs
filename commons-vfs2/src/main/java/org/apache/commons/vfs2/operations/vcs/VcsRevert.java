@@ -19,28 +19,29 @@ package org.apache.commons.vfs2.operations.vcs;
 import org.apache.commons.vfs2.operations.FileOperation;
 
 /**
- * <p>
  * Restores pristine working copy file and cancels all local modifications. In other words, VcsRevert replaces working
  * copy file with the latest version from the repository.
- * </p>
  *
  * @since 0.1
  */
 public interface VcsRevert extends FileOperation {
 
     /**
+     * Add a modify listener.
      *
      * @param listener The Listener to add.
      */
     void addModifyListener(VcsModifyListener listener);
 
     /**
+     * Removes a modify listener.
      *
      * @param listener The Listener to remove.
      */
     void removeModifyListener(VcsModifyListener listener);
 
     /**
+     * Sets whether children should be processed.
      *
      * @param recursive true if children should be processed.
      */

@@ -21,6 +21,13 @@ package org.apache.commons.vfs2.provider;
  */
 public abstract class AbstractFileNameParser implements FileNameParser {
 
+    /**
+     * Constructs a new instance for subclasses.
+     */
+    public AbstractFileNameParser() {
+        // empty
+    }
+
     @Override
     public boolean encodeCharacter(final char ch) {
         return ch == '%';

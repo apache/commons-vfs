@@ -25,10 +25,12 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 
 /**
+ * The default implementations for {@link FileOperations}.
  *
  * @since 0.1
  */
 public class DefaultFileOperations implements FileOperations {
+
     /**
      */
     private final FileSystemManager fsmanager;
@@ -38,6 +40,7 @@ public class DefaultFileOperations implements FileOperations {
     private final FileObject fileObject;
 
     /**
+     * Constructs a new instance.
      *
      * @param file The file.
      */
@@ -102,7 +105,6 @@ public class DefaultFileOperations implements FileOperations {
     /**
      * @param operationClass the operation's class.
      * @return true if the operation of specified class is supported for current FileObject and false otherwise.
-     *
      * @throws FileSystemException if an error occurs.
      */
     @Override

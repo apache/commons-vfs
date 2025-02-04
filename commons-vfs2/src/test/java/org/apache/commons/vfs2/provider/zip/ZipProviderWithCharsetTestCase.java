@@ -58,7 +58,7 @@ public class ZipProviderWithCharsetTestCase extends AbstractProviderTestConfig {
         final String uri = "zip:file:" + zipFile.getAbsolutePath() + "!/";
         final FileObject resolvedFile = manager.resolveFile(uri, opts);
         final FileSystem fileSystem = resolvedFile.getFileSystem();
-        Assertions.assertTrue(fileSystem instanceof ZipFileSystem);
+        Assertions.assertInstanceOf(ZipFileSystem.class, fileSystem);
         final ZipFileSystem zipFileSystem = (ZipFileSystem) fileSystem;
         Assertions.assertEquals(StandardCharsets.UTF_8, zipFileSystem.getCharset());
         return resolvedFile;

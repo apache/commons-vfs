@@ -56,7 +56,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * </pre>
  *
  * <p>
- * <b>N.B.</b> For read-only files, use
+ * <strong>N.B.</strong> For read-only files, use
  * {@code CanReadFileFilter.READ_ONLY}.
  * </p>
  *
@@ -84,7 +84,6 @@ public class CanWriteFileFilter implements FileFilter, Serializable {
      * Checks to see if the file can be written to.
      *
      * @param fileSelectInfo the File to check
-     *
      * @return {@code true} if the file can be written to, otherwise {@code false}.
      * @throws FileSystemException Thrown for file system errors.
      */

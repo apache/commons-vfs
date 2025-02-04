@@ -23,9 +23,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -33,7 +33,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import jakarta.mail.Address;
+import jakarta.mail.Header;
+import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
+import jakarta.mail.Part;
 import jakarta.mail.internet.MimeMessage;
 
 /**
@@ -120,10 +123,7 @@ public class MimeAttributesMap implements Map<String, Object> {
             }
         }
 
-        // add all simple get/is results (with obj. prefix)
-        final Iterator<Entry<String, Method>> iterEntries = mimeMessageGetters.entrySet().iterator();
-        while (iterEntries.hasNext()) {
-            final Map.Entry<String, Method> entry = iterEntries.next();
+        for (final Entry<String, Method> entry : mimeMessageGetters.entrySet()) {
             final String name = entry.getKey();
             final Method method = entry.getValue();
 
@@ -139,19 +139,19 @@ public class MimeAttributesMap implements Map<String, Object> {
         if (part instanceof MimeMessage) {
             final MimeMessage message = (MimeMessage) part;
             try {
-                final Address[] address = message.getRecipients(RecipientType.BCC);
+                final Address[] address = message.getRecipients(Message.RecipientType.BCC);
                 ret.put(OBJECT_PREFIX + "Recipients.BCC", address);
             } catch (final MessagingException e) {
                 log.debug(e.getLocalizedMessage(), e);
             }
             try {
-                final Address[] address = message.getRecipients(RecipientType.CC);
+                final Address[] address = message.getRecipients(Message.RecipientType.CC);
                 ret.put(OBJECT_PREFIX + "Recipients.CC", address);
             } catch (final MessagingException e) {
                 log.debug(e.getLocalizedMessage(), e);
             }
             try {
-                final Address[] address = message.getRecipients(RecipientType.TO);
+                final Address[] address = message.getRecipients(Message.RecipientType.TO);
                 ret.put(OBJECT_PREFIX + "Recipients.TO", address);
             } catch (final MessagingException e) {
                 log.debug(e.getLocalizedMessage(), e);

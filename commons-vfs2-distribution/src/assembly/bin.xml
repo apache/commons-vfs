@@ -16,17 +16,15 @@ limitations under the License.
 -->
 <assembly xmlns="http://maven.apache.org/ASSEMBLY/2.2.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.2.0 http://maven.apache.org/xsd/assembly-2.2.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.2.0 https://maven.apache.org/xsd/assembly-2.2.0.xsd">
   <id>bin</id>
   <formats>
     <format>tar.gz</format>
     <format>zip</format>
   </formats>
-  <includeBaseDirectory>false</includeBaseDirectory>
   <includeSiteDirectory>false</includeSiteDirectory>
-  <moduleSets>
-    <moduleSet>
-      <useAllReactorProjects>false</useAllReactorProjects>
+  <dependencySets>
+    <dependencySet>
       <includes>
         <include>org.apache.commons:commons-vfs2</include>
         <include>org.apache.commons:commons-vfs2-ant</include>
@@ -36,8 +34,9 @@ limitations under the License.
         <include>org.apache.commons:commons-vfs2-jackrabbit2</include>
         <include>org.apache.commons:commons-vfs2-bom</include>
       </includes>
-    </moduleSet>
-  </moduleSets>
+      <useProjectArtifact>false</useProjectArtifact>
+    </dependencySet>
+  </dependencySets>
   <fileSets>
     <fileSet>
       <directory>..</directory>

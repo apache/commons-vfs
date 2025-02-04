@@ -50,6 +50,13 @@ public class DefaultFilesCache extends AbstractFilesCache {
     /** The FileSystem cache. Keeps one Map for each FileSystem. */
     private final ConcurrentMap<FileSystem, ConcurrentMap<FileName, FileObject>> fileSystemCache = new ConcurrentHashMap<>(10);
 
+    /**
+     * Constructs a new instance.
+     */
+    public DefaultFilesCache() {
+        // empty
+    }
+
     @Override
     public void clear(final FileSystem filesystem) {
         // avoid keeping a reference to the FileSystem (key) object
@@ -76,11 +83,17 @@ public class DefaultFilesCache extends AbstractFilesCache {
         return files.get(name); // or null
     }
 
-    protected ConcurrentMap<FileName, FileObject> getOrCreateFilesystemCache(final FileSystem filesystem) {
-        ConcurrentMap<FileName, FileObject> files = fileSystemCache.get(filesystem);
+    /**
+     * Gets or creates a Map.
+     *
+     * @param fileSystem the key
+     * @return an existing or new Map.
+     */
+    protected ConcurrentMap<FileName, FileObject> getOrCreateFilesystemCache(final FileSystem fileSystem) {
+        ConcurrentMap<FileName, FileObject> files = fileSystemCache.get(fileSystem);
         // we loop to make sure we never return null even when concurrent clean is called
         while (files == null) {
-            files = fileSystemCache.computeIfAbsent(filesystem,
+            files = fileSystemCache.computeIfAbsent(fileSystem,
                 k -> new ConcurrentHashMap<>(INITIAL_CAPACITY, LOAD_FACTOR, Math.max(2, Runtime.getRuntime().availableProcessors()) / 2));
         }
         return files;

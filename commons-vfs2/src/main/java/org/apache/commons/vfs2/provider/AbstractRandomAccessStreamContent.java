@@ -27,10 +27,21 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  */
 public abstract class AbstractRandomAccessStreamContent extends AbstractRandomAccessContent {
 
+    /**
+     * Constructs a new instance for subclasses.
+     *
+     * @param mode the RandomAccessMode.
+     */
     protected AbstractRandomAccessStreamContent(final RandomAccessMode mode) {
         super(mode);
     }
 
+    /**
+     * Gets a DataInputStream.
+     *
+     * @return a DataInputStream.
+     * @throws IOException if an IO error occurs.
+     */
     protected abstract DataInputStream getDataInputStream() throws IOException;
 
     @Override

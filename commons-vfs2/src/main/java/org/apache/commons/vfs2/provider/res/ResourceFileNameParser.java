@@ -30,12 +30,19 @@ public class ResourceFileNameParser extends GenericFileNameParser {
     private static final ResourceFileNameParser INSTANCE = new ResourceFileNameParser();
 
     /**
-     * retrieve an instance to this parser.
+     * Gets the singleton instance.
      *
-     * @return the parser
+     * @return the singleton instance.
      */
     public static GenericFileNameParser getInstance() {
         return INSTANCE;
+    }
+
+    /**
+     * Constructs a new instance.
+     */
+    public ResourceFileNameParser() {
+        // empty
     }
 
     @Override

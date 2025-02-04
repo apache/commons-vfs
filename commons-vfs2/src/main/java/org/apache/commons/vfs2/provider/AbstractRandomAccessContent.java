@@ -31,6 +31,11 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  */
 public abstract class AbstractRandomAccessContent implements RandomAccessContent {
 
+    /**
+     * Constructs a new instance for subclasses.
+     *
+     * @param mode the RandomAccessMode.
+     */
     protected AbstractRandomAccessContent(final RandomAccessMode mode) {
         Objects.requireNonNull(mode, "mode");
     }

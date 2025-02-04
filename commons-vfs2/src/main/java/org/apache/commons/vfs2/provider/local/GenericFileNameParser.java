@@ -29,7 +29,7 @@ public class GenericFileNameParser extends LocalFileNameParser {
     private static final GenericFileNameParser INSTANCE = new GenericFileNameParser();
 
     /**
-     * Gets the singleton instance.
+     * Gets the singleton instance, never null.
      *
      * @return the singleton instance.
      */
@@ -37,8 +37,15 @@ public class GenericFileNameParser extends LocalFileNameParser {
         return INSTANCE;
     }
 
+    /**
+     * Constructs a new instance.
+     */
+    public GenericFileNameParser() {
+        // empty
+    }
+
     /*
-     * ... this is why need this: here the rootFileName can only be "/" (see above) put this "/" is also in the
+     * Here the rootFileName can only be "/" (see above) put this "/" is also in the
      * path name so its of no value for the LocalFileName instance
      */
     @Override
@@ -53,13 +60,12 @@ public class GenericFileNameParser extends LocalFileNameParser {
     @Override
     protected String extractRootPrefix(final String uri, final StringBuilder name) throws FileSystemException {
         // TODO - this class isn't generic at all. Need to fix this
-
-        // Looking for <sep>
-        if (StringUtils.isEmpty(name) || name.charAt(0) != '/') {
+        // Looking for "/"
+        final String prefix = "/";
+        if (!StringUtils.startsWith(name, prefix)) {
             throw new FileSystemException("vfs.provider.local/not-absolute-file-name.error", uri);
         }
-
         // do not strip the separator, BUT also return it ...
-        return "/";
+        return prefix;
     }
 }

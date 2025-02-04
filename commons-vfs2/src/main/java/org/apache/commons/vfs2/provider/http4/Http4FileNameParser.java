@@ -42,7 +42,7 @@ public class Http4FileNameParser extends GenericURLFileNameParser {
     }
 
     /**
-     * Creates a new instance with the default port 80.
+     * Constructs a new instance with the default port 80.
      */
     public Http4FileNameParser() {
         super(DEFAULT_PORT);

@@ -17,29 +17,26 @@
 package org.apache.commons.vfs2.provider;
 
 import org.apache.commons.vfs2.FileSystemException;
-import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Measurement;
+import org.openjdk.jmh.annotations.Mode;
+import org.openjdk.jmh.annotations.Warmup;
 
 @BenchmarkMode(Mode.Throughput)
 @Warmup(iterations = 2)
-@Measurement(iterations = 2)
-@Fork(2)
+@Measurement(iterations = 5)
 public class UriParserBenchmark {
 
     private static final String PATH_TO_NORMALIZE = "file:///this/../is/a%2flong%2Fpath/./for testing/normlisePath%2fmethod.txt";
-    private static final String[] SCHEMES = {"file", "ftp", "ftps", "webdav", "temp", "ram", "http", "https", "sftp", "zip", "jar", "tgz", "gz"};
     private static final String PATH_TO_ENCODE = "file:///this/is/path/to/encode/for/testing/encode.perf";
     private static final char[] ENCODE_RESERVED = new char[] {' ', '#'};
 
     @Benchmark
     public void normalisePath() throws FileSystemException {
-        StringBuilder path = new StringBuilder(PATH_TO_NORMALIZE);
+        final StringBuilder path = new StringBuilder(PATH_TO_NORMALIZE);
         UriParser.fixSeparators(path);
         UriParser.normalisePath(path);
-    }
-
-    @Benchmark
-    public void extractScheme() throws FileSystemException {
-        UriParser.extractScheme(SCHEMES, PATH_TO_NORMALIZE);
     }
 
     @Benchmark

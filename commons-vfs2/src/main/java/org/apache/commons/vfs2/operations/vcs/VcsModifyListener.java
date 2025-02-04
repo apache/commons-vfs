@@ -17,12 +17,14 @@
 package org.apache.commons.vfs2.operations.vcs;
 
 /**
+ * Handles VFS file modifications.
  *
  * @since 0.1
  */
 public interface VcsModifyListener {
 
     /**
+     * Handles a modified event.
      *
      * @param path The path String.
      * @param contentStatus The content status.

@@ -27,6 +27,13 @@ import com.jcraft.jsch.UserInfo;
 public class TrustEveryoneUserInfo implements UserInfo {
     private static final Log log = LogFactory.getLog(TrustEveryoneUserInfo.class);
 
+    /**
+     * Constructs a new instance.
+     */
+    public TrustEveryoneUserInfo() {
+        // empty
+    }
+
     @Override
     public String getPassphrase() {
         return null;

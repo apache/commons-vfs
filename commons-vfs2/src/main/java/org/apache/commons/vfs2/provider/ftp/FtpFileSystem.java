@@ -47,6 +47,8 @@ public class FtpFileSystem extends AbstractFileSystem {
     private final AtomicReference<FtpClient> idleClient = new AtomicReference<>();
 
     /**
+     * Constructs a new instance.
+     *
      * @param rootName The root of the file system.
      * @param ftpClient The FtpClient.
      * @param fileSystemOptions The FileSystemOptions.

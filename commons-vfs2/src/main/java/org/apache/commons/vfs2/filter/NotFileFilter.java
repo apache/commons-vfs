@@ -53,7 +53,6 @@ public class NotFileFilter implements FileFilter, Serializable {
      * File.
      *
      * @param fileSelectInfo the File to check
-     *
      * @return {@code true} if the filter returns {@code false}
      * @throws FileSystemException Thrown for file system errors.
      */

@@ -44,7 +44,6 @@ public class GzipFileObject extends CompressedFileFileObject<GzipFileSystem> {
      * @param name Abstract file name.
      * @param container My container.
      * @param fs My file system.
-     *
      * @deprecated Use {@link #GzipFileObject(AbstractFileName, FileObject, GzipFileSystem)} instead.
      */
     @Deprecated
@@ -53,8 +52,15 @@ public class GzipFileObject extends CompressedFileFileObject<GzipFileSystem> {
         super(name, container, cast(fs));
     }
 
-    protected GzipFileObject(final AbstractFileName name, final FileObject container, final GzipFileSystem fs) {
-        super(name, container, fs);
+    /**
+     * Constructs a new instance.
+     *
+     * @param fileName the file name.
+     * @param container the container.
+     * @param fileSystem the file system.
+     */
+    protected GzipFileObject(final AbstractFileName fileName, final FileObject container, final GzipFileSystem fileSystem) {
+        super(fileName, container, fileSystem);
     }
 
     @Override

@@ -17,12 +17,14 @@
 package org.apache.commons.vfs2.operations.vcs;
 
 /**
+ * The VCS commit listener.
  *
  * @since 0.1
  */
 public interface VcsCommitListener {
 
     /**
+     * Handles commit events.
      *
      * @param path The path.
      * @param contentStatus The status;

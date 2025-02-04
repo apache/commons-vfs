@@ -36,6 +36,14 @@ import org.apache.http.client.protocol.HttpClientContext;
  */
 public class Webdav4FileSystem extends Http4FileSystem {
 
+    /**
+     * Constructs a new instance.
+     *
+     * @param rootName root base name
+     * @param fileSystemOptions file system options
+     * @param httpClient {@link HttpClient} instance
+     * @param httpClientContext {@link HttpClientContext} instance
+     */
     protected Webdav4FileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions,
             final HttpClient httpClient, final HttpClientContext httpClientContext) {
         super(rootName, fileSystemOptions, httpClient, httpClientContext);

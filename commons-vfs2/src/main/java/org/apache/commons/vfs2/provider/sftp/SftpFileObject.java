@@ -99,9 +99,16 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
 
     private final String relPath;
 
-    protected SftpFileObject(final AbstractFileName name, final SftpFileSystem fileSystem) throws FileSystemException {
-        super(name, fileSystem);
-        relPath = UriParser.decode(fileSystem.getRootName().getRelativeName(name));
+    /**
+     * Constructs a new instance.
+     *
+     * @param fileName the file name.
+     * @param fileSystem the file system.
+     * @throws FileSystemException if a file system error occurs.
+     */
+    protected SftpFileObject(final AbstractFileName fileName, final SftpFileSystem fileSystem) throws FileSystemException {
+        super(fileName, fileSystem);
+        relPath = UriParser.decode(fileSystem.getRootName().getRelativeName(fileName));
     }
 
     /**

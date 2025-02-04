@@ -224,7 +224,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     void findFiles(FileSelector selector, boolean depthwise, List<FileObject> selected) throws FileSystemException;
 
     /**
-     * Returns a child of this file. Note that this method returns {@code null} when the child does not exist. This
+     * Gets a child of this file. Note that this method returns {@code null} when the child does not exist. This
      * differs from {@link #resolveFile(String, NameScope)} which never returns null.
      *
      * @param name The name of the child.
@@ -235,7 +235,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     FileObject getChild(String name) throws FileSystemException;
 
     /**
-     * Lists the children of this file.
+     * Gets a lists of children of this file.
      *
      * @return An array containing the children of this file. The array is unordered. If the file does not have any
      *         children, a zero-length array is returned. This method never returns null.
@@ -245,7 +245,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     FileObject[] getChildren() throws FileSystemException;
 
     /**
-     * Returns this file's content. The {@link FileContent} returned by this method can be used to read and write the
+     * Gets this file's content. The {@link FileContent} returned by this method can be used to read and write the
      * content of the file.
      *
      * <p>
@@ -259,27 +259,29 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     FileContent getContent() throws FileSystemException;
 
     /**
+     * Gets this instance's FileOperations.
+     *
      * @return FileOperations interface that provides access to the operations API.
      * @throws FileSystemException if an error occurs.
      */
     FileOperations getFileOperations() throws FileSystemException;
 
     /**
-     * Returns the file system that contains this file.
+     * Gets the file system that contains this file.
      *
      * @return The file system.
      */
     FileSystem getFileSystem();
 
     /**
-     * Returns the name of this file.
+     * Gets the name of this file.
      *
      * @return the FileName.
      */
     FileName getName();
 
     /**
-     * Returns the folder that contains this file.
+     * Gets the folder that contains this file.
      *
      * @return The folder that contains this file. Returns null if this file is the root of a file system.
      * @throws FileSystemException On error finding the file's parent.
@@ -287,7 +289,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     FileObject getParent() throws FileSystemException;
 
     /**
-     * Returns a Path representing this file.
+     * Gets a Path representing this file.
      *
      * @return the Path for the file.
      * @since 2.7.0
@@ -297,14 +299,14 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     }
 
     /**
-     * Returns the receiver as a URI String for public display, like, without a password.
+     * Gets the receiver as a URI String for public display, like, without a password.
      *
      * @return A URI String without a password, never {@code null}.
      */
     String getPublicURIString();
 
     /**
-     * Returns this file's type.
+     * Gets this file's type.
      *
      * @return One of the {@link FileType} constants. Never returns null.
      * @throws FileSystemException On error determining the file's type.
@@ -312,7 +314,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     FileType getType() throws FileSystemException;
 
     /**
-     * Returns a URI representing this file.
+     * Gets a URI representing this file.
      *
      * @return the URI for the file.
      * @since 2.7.0
@@ -322,7 +324,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     }
 
     /**
-     * Returns a URL representing this file.
+     * Gets a URL representing this file.
      *
      * @return the URL for the file.
      * @throws FileSystemException if an error occurs.

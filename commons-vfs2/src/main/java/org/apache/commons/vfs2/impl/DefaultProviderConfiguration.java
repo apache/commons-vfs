@@ -20,6 +20,14 @@ package org.apache.commons.vfs2.impl;
  * Same as {@link ProviderConfiguration} but for the default provider.
  */
 public class DefaultProviderConfiguration extends ProviderConfiguration {
+
+    /**
+     * Constructs a new instance.
+     */
+    public DefaultProviderConfiguration() {
+        // empty
+    }
+
     @Override
     public boolean isDefault() {
         return true;
