@@ -42,7 +42,7 @@ public class SmbFileNameParser extends URLFileNameParser {
     }
 
     /**
-     * Creates a new instance with the default port 139.
+     * Constructs a new instance with the default port 139.
      */
     public SmbFileNameParser() {
         super(SMB_PORT);

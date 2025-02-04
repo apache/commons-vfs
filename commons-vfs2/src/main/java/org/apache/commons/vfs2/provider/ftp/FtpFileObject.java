@@ -16,7 +16,6 @@
  */
 package org.apache.commons.vfs2.provider.ftp;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -37,6 +36,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileNotFolderException;
+import org.apache.commons.vfs2.FileNotFoundException;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;

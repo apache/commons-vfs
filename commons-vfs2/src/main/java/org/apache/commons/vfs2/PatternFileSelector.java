@@ -56,7 +56,6 @@ public class PatternFileSelector implements FileSelector {
      * </p>
      *
      * @param regex The regular expressed used by this selector.
-     *
      * @see Pattern#compile(String, int)
      */
     public PatternFileSelector(final String regex) {
@@ -71,7 +70,6 @@ public class PatternFileSelector implements FileSelector {
      *
      * @param regex The expression to be compiled
      * @param flags Match flags, a bit mask.
-     *
      * @see Pattern#compile(String, int)
      */
     public PatternFileSelector(final String regex, final int flags) {

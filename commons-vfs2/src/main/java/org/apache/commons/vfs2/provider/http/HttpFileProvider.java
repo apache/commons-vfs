@@ -57,22 +57,21 @@ public class HttpFileProvider extends AbstractOriginatingFileProvider {
 
     /**
      * Creates a {@link FileSystem}.
+     *
+     * @return a new FileSystem, never null.
      */
     @Override
     protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
             throws FileSystemException {
         // Create the file system
         final GenericFileName rootName = (GenericFileName) name;
-
         UserAuthenticationData authData = null;
         HttpClient httpClient;
         try {
             authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, AUTHENTICATOR_TYPES);
-
             final String fileScheme = rootName.getScheme();
             final char lastChar = fileScheme.charAt(fileScheme.length() - 1);
             final String internalScheme = lastChar == 's' || lastChar == 'S' ? "https" : "http";
-
             httpClient = HttpClientFactory.createConnection(internalScheme, rootName.getHostName(),
                     rootName.getPort(),
                     UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
@@ -83,7 +82,6 @@ public class HttpFileProvider extends AbstractOriginatingFileProvider {
         } finally {
             UserAuthenticatorUtils.cleanup(authData);
         }
-
         return new HttpFileSystem(rootName, httpClient, fileSystemOptions);
     }
 

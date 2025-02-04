@@ -179,6 +179,13 @@ public class VfsTask extends Task {
     private static StandardFileSystemManager manager;
 
     /**
+     * Constructs a new instance.
+     */
+    public VfsTask() {
+        // empty
+    }
+
+    /**
      * Close the manager
      */
     protected void closeManager() {

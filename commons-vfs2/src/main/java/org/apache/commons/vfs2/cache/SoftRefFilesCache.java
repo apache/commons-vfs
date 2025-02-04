@@ -115,7 +115,7 @@ public class SoftRefFilesCache extends AbstractFilesCache {
     }
 
     /**
-     * Creates a new Reference.
+     * Constructs a new Reference.
      *
      * @param file a file object.
      * @param referenceQueue a ReferenceQueue.

@@ -19,12 +19,14 @@ package org.apache.commons.vfs2.operations.vcs;
 import org.apache.commons.vfs2.FileSystemException;
 
 /**
+ * Handles VCS log entries.
  *
  * @since 0.1
  */
 public interface VcsLogEntryHandler {
 
     /**
+     * Handles VCS log entries.
      *
      * @param entry The log entry.
      * @throws FileSystemException if an error occurs.

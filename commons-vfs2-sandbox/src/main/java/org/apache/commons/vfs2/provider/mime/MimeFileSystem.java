@@ -33,6 +33,7 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.util.SharedRandomContentInputStream;
 
 import jakarta.mail.MessagingException;
+import jakarta.mail.Part;
 import jakarta.mail.internet.MimeMessage;
 
 /**

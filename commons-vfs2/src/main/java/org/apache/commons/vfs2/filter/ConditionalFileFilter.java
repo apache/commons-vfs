@@ -48,7 +48,6 @@ public interface ConditionalFileFilter {
      * Removes the specified file filter.
      *
      * @param fileFilter filter to be removed
-     *
      * @return {@code true} if the filter was found in the list, {@code false}
      *         otherwise
      */

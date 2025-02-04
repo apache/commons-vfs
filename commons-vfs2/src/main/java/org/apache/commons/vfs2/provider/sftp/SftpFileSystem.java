@@ -331,6 +331,8 @@ public class SftpFileSystem extends AbstractFileSystem {
     }
 
     /**
+     * Tests whether the exec channel is disabled.
+     *
      * @return Whether the exec channel is disabled.
      * @see SftpFileSystem#execDisabled
      */

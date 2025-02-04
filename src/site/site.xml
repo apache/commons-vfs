@@ -1,60 +1,64 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!--
- Licensed to the Apache Software Foundation (ASF) under one or more
- contributor license agreements.  See the NOTICE file distributed with
- this work for additional information regarding copyright ownership.
- The ASF licenses this file to You under the Apache License, Version 2.0
- (the "License"); you may not use this file except in compliance with
- the License.  You may obtain a copy of the License at
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License.  You may obtain a copy of the License at
 
-      http://www.apache.org/licenses/LICENSE-2.0
+    https://www.apache.org/licenses/LICENSE-2.0
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License.
 -->
-<project name="Apache&#xA0;Commons&#xA0;VFS">
-
-  <bannerRight>
-    <name>Commons&#xA0;VFS</name>
-    <src>/images/vfs-logo-white.png</src>
-    <href>/index.html</href>
+<site xmlns="http://maven.apache.org/SITE/2.0.0" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SITE/2.0.0 https://maven.apache.org/xsd/site-2.0.0.xsd"
+  name="Apache Commons VFS">
+  <bannerRight name="Commons VFS" href="/index.html">
+    <image src="/images/logo.png"/>
   </bannerRight>
-
   <body>
-
-    <menu name="Commons VFS" inherit="top">
-      <item name="Overview"                href="/index.html"/>
-      <item name="Download"                href="/download_vfs.html"/>
+    <menu name="Commons VFS">
+      <!-- Start: For all components. -->
+      <item name="About" href="/index.html" />
+      <item name="Asking Questions" href="/mail-lists.html" />
+      <item name="Release History" href="/changes.html" />
+      <item name="Issue Tracking" href="/issue-management.html" />
+      <item name="Dependency Management" href="/dependency-info.html" />
+      <item name="Sources" href="/scm.html" />
+      <item name="Security" href="/security.html" />
+      <item name="License" href="https://www.apache.org/licenses/LICENSE-2.0" />
+      <item name="Code of Conduct" href="https://www.apache.org/foundation/policies/conduct.html" />
+      <item name="Download" href="/download_vfs.cgi" />
+      <item name="Javadoc">
+        <item name="Javadoc Current" href="/commons-vfs2/apidocs/index.html" />
+        <item name="Javadoc Archive" href="https://javadoc.io/doc/org.apache.commons/commons-vfs2/latest/index.html" />
+      </item>
+      <!-- End: For all components. -->
+      <!-- Specific to this component: -->
       <item name="Build"                   href="/build.html"/>
       <item name="Using the API"           href="/api.html"/>
-      <item name="Javadocs"                href="/commons-vfs2/apidocs/index.html"/>
-      <item name="Javadocs Archive"        href="https://javadoc.io/doc/org.apache.commons/commons-vfs2/latest/index.html"/>
       <item name="File Systems"            href="/filesystems.html"/>
       <item name="Ant Tasks"               href="/anttasks.html"/>
+      <item name="Testing"                 href="/testing.html"/>
       <item name="Wiki"                    href="https://cwiki.apache.org/confluence/display/commons/VFS"/>
     </menu>
-
     <menu name="Commons VFS Modules" inherit="top">
       <item name="VFS Ant" href="commons-vfs2-ant/index.html"/>
       <item name="VFS Core" href="commons-vfs2/index.html"/>
       <item name="VFS Examples" href="commons-vfs2-examples/index.html"/>
       <item name="VFS HDFS" href="commons-vfs2-hdfs/index.html"/>
-      <item name="VFS Jackrabbit 1" href="commons-vfs2-jackrabbit1/index.html"/>
-      <item name="VFS Jackrabbit 2" href="commons-vfs2-jackrabbit2/index.html"/>
+      <item name="VFS Jackrabbit 1.x" href="commons-vfs2-jackrabbit1/index.html"/>
+      <item name="VFS Jackrabbit 2.x" href="commons-vfs2-jackrabbit2/index.html"/>
       <item name="VFS Sandbox" href="commons-vfs2-sandbox/index.html"/>
     </menu>
-
-    <menu name="Commons VFS Development" inherit="top">
-      <item name="Testing"                 href="/testing.html"/>
-      <item name="Mailing Lists"           href="/mail-lists.html"/>
-      <item name="Issue Tracking"          href="/issue-tracking.html"/>
-      <item name="Source Repository"       href="/scm.html"/>
-    </menu>
-
     <menu ref="reports"/>
   </body>
-
-</project>
+</site>

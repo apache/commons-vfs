@@ -40,7 +40,7 @@ public class Http5sFileNameParser extends GenericURLFileNameParser {
     }
 
     /**
-     * Creates a new instance with the default port 443.
+     * Constructs a new instance with the default port 443.
      */
     public Http5sFileNameParser() {
         super(DEFAULT_PORT);

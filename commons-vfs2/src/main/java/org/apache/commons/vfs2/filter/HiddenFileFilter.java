@@ -76,7 +76,6 @@ public class HiddenFileFilter implements FileFilter, Serializable {
      * Checks to see if the file is hidden. Non-existing files won't be accepted.
      *
      * @param fileSelectInfo the File to check
-     *
      * @return {@code true} if the file is <em>hidden</em>, otherwise {@code false}.
      * @throws FileSystemException Thrown for file system errors.
      */

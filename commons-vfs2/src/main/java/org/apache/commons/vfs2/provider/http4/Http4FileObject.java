@@ -46,7 +46,6 @@ import org.apache.http.protocol.HTTP;
  * A file object backed by Apache HttpComponents HttpClient.
  *
  * @param <FS> An {@link Http4FileSystem} subclass
- *
  * @since 2.3
  * @deprecated Use {@link org.apache.commons.vfs2.provider.http5}.
  */
@@ -183,7 +182,6 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
      * @param httpRequest {@code HttpUriRequest} object
      * @return {@code HttpResponse} from the execution
      * @throws IOException if IO error occurs
-     *
      * @since 2.5.0
      */
     protected HttpResponse executeHttpUriRequest(final HttpUriRequest httpRequest) throws IOException {

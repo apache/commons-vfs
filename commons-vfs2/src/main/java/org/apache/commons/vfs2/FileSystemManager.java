@@ -21,6 +21,7 @@ import java.lang.reflect.Constructor;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLStreamHandlerFactory;
+import java.nio.file.Path;
 import java.util.Collection;
 
 import org.apache.commons.logging.Log;
@@ -66,8 +67,9 @@ public interface FileSystemManager extends AutoCloseable {
     void addOperationProvider(String scheme, FileOperationProvider operationProvider) throws FileSystemException;
 
     /**
-     * @see FileSystemManager#addOperationProvider(String, org.apache.commons.vfs2.operations.FileOperationProvider)
+     * Adds an operation provider.
      *
+     * @see FileSystemManager#addOperationProvider(String, org.apache.commons.vfs2.operations.FileOperationProvider)
      * @param schemes The schemes that will be associated with the provider.
      * @param operationProvider The FileOperationProvider to add.
      * @throws FileSystemException if an error occurs.
@@ -199,7 +201,6 @@ public interface FileSystemManager extends AutoCloseable {
      * Gets Providers for file operations.
      *
      * @param scheme the scheme for which we want to get the list af registered providers.
-     *
      * @return the registered FileOperationProviders for the specified scheme. If there were no providers registered for
      *         the scheme, it returns null.
      *
@@ -350,5 +351,17 @@ public interface FileSystemManager extends AutoCloseable {
      * @throws FileSystemException On error converting the file.
      */
     FileObject toFileObject(File file) throws FileSystemException;
+
+    /**
+     * Converts a local path into a {@link FileObject}.
+     *
+     * @param path The path to convert.
+     * @return The {@link FileObject} that represents the local file. Never returns null.
+     * @throws FileSystemException On error converting the file.
+     * @since 2.10.0
+     */
+    default FileObject toFileObject(final Path path) throws FileSystemException {
+        return toFileObject(path.toFile());
+    }
 
 }

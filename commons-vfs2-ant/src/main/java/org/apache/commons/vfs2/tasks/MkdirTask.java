@@ -29,6 +29,13 @@ public class MkdirTask extends VfsTask {
     private String dirName;
 
     /**
+     * Constructs a new instance.
+     */
+    public MkdirTask() {
+        // empty
+    }
+
+    /**
      * Executes the task.
      *
      * @throws BuildException if an exception occurs.

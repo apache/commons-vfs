@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.operations.vcs;
 
 /**
+ * Enumerates VFS status.
  *
  * @since 0.1
  */
@@ -134,6 +135,7 @@ public enum VcsStatus {
     }
 
     /**
+     * Gets the status.
      *
      * @return the status of FileObject
      */

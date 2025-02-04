@@ -46,6 +46,13 @@ public class HostFileNameParser extends AbstractFileNameParser {
         private String userName;
 
         /**
+         * Constructs a new instance.
+         */
+        public Authority() {
+            // empty
+        }
+
+        /**
          * Gets the host name.
          *
          * @return the host name.

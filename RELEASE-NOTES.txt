@@ -1,5 +1,309 @@
-Apache Commons VFS Project 2.10.0
-RELEASE NOTES
+Apache Commons VFS Project 2.10.0 Release Notes
+-----------------------------------------------
+
+The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.10.0.
+
+Apache Commons VFS is a Virtual File System library.
+
+Maintenance release. Requires Java 8 or above.
+
+Changes in this version
+-----------------------
+
+New features
+------------
+
+* VFS-848:  Config option for trailing slash in webdav URI #425. Thanks to beise, Gary Gregory.
+*           Split out Apache Ant Tasks into its own Maven module commons-vfs2-ant. Thanks to Gary Gregory.
+* VFS-851:  Split out HDFS provider into its own Maven module commons-vfs2-hdfs. Thanks to Gary Gregory.
+*           Generate JPMS module info files when building on Java 11 or greater, except for commons-vfs2-hdfs due to Hadoop libraries' overlapping packages. Thanks to Gary Gregory.
+*           Add Visual Studio Code files to gitignore #205. Thanks to Seth Falco.
+*           Add DefaultFileMonitor.setDelay(Duration), getDelayDuration() and deprecate setDelay(long), getDelay(). Thanks to Gary Gregory.
+*           DefaultFileMonitor implements AutoCloseable. Thanks to Gary Gregory.
+*           Add FalseFileFilter.INSTANCE and deprecate FalseFileFilter.FALSE. Thanks to Gary Gregory.
+*           Add TrueFileFilter.INSTANCE and deprecate TrueFileFilter.TRUE. Thanks to Gary Gregory.
+*           FileSystemOptions implements Comparable. Thanks to Gary Gregory.
+*           Add RandomAccessMode.from(AccessMode) and toAccessModes(). Thanks to Gary Gregory.
+*           Extract the layer separator character constant into LayeredFileName.LAYER_SEPARATOR. Thanks to Gary Gregory.
+*           Add github/codeql-action.
+* VFS-821:  Deprecate FileSelector#traverseDescendents in favor of traverseDescendants. Thanks to Marc Wrobel, Gary Gregory.
+* VFS-821:  Add active port range configuration for FTP client factory #318. Thanks to Maksym Perevertov, Gary Gregory.
+* VFS-833:  Make constructor FileSystemOptions(Map) public. Thanks to Kannan Ramamoorthy, Bernd Eckenfels, Gary Gregory.
+*           Add a BOM POM commons-vfs2-bom. Thanks to Gary Gregory.
+*           Add FileSystemConfigBuilder.getParamOrDefault(FileSystemOptions, String, T). Thanks to Gary Gregory.
+*           Add FileSystemManager.toFileObject(Path). Thanks to Gary Gregory.
+
+Fixed Bugs:
+* VFS-854:  Avoid debug-logging URL credentials. Thanks to Andrey Turbanov.
+* VFS-853:  Double wrapped weak FileListener can lose change notification with DelegateFileObject. Thanks to Bernd Eckenfels.
+*           Replace package.html with package-info.java #206. Thanks to Seth Falco.
+* VFS-807:  LocalFile.doGetOutputStream(boolean) for an existing file no longer truncates the file. Thanks to Gary Gregory, L.
+*           Update the Javadoc link to not lead to 404. #218. Thanks to wodencafe.
+* VFS-810:  Percent encoded backslashes in authority of URLs aren't allowed for WebDav. Thanks to Jan Aelbrecht, Gary Gregory.
+* VFS-793:  GenericFileName.getURI() returns invalid URI. Thanks to Vitali Nashkevich, Gary Gregory.
+*           Fix typos in error messages. Thanks to Gary Gregory.
+*           LocalFile: Fix exception message "Unknown message with code" and use an actual message code. Thanks to Gary Gregory.
+* VFS-778:  SFTP channel isn't returned to the pool when SftpFileObject.doGetOutputStream throws an exception. #215. Thanks to zhouwenqing, Gary Gregory.
+*           Fix OSGi "Unused Import-Package instructions". Thanks to Gary Gregory.
+* VFS-813:  NullPointerException needs a better message in SftpClientFactory when connect with private key. Thanks to Andrey Turbanov, Gary Gregory.
+* VFS-811:  Javadoc API links are broken in the commons-vfs project site #227. Thanks to Woonsan Ko, Gary Gregory.
+* VFS-812:  Don't throw FileSystemException when closing file content output stream using a BufferedOutputStream #228. Thanks to XenoAmess, Gary Gregory.
+* VFS-814:  FtpFileObject: re-fetch MDTM after refresh #238. Thanks to Luke Wood, Gary Gregory.
+*           Simplify conditions and avoid extra checks #253. Thanks to Arturo Bernal.
+*           Refactor AbstractFileObject#getOutputStream() #151. Thanks to Boris Petrov, Gary Gregory.
+* VFS-770:  FileSystemManager.createFileSystem(FileObject) fails on Gzip files. #92. Thanks to Thomas BELOT, PeterAlfredLee, Gary Gregory.
+*           Simplify/remove redundant operations. #258. Thanks to Arturo Bernal.
+*           SFTP: Memory leak because AbstractFileProvider#findFileSystem. Thanks to Tobias Gierke, Gary Gregory.
+*           Fix typos #275, #276, #277. Thanks to Marc Wrobel.
+*           Fix links in Javadoc and documentations #284. Thanks to Marc Wrobel.
+*           [SFTP] Handle the case where a user does not have any groups #280. Thanks to Mark van der Walle, Gary Gregory.
+*           The dependency hadoop-hdfs-client is not set as optional #291. Thanks to ymenager.
+*           AbstractFileObject uses the wrong exception for "cause" #316. Thanks to Boris Petrov.
+*           JUnit5 assertThrows SftpFileSystemGroupsTests #323. Thanks to John Patrick.
+* VFS-825:  Fix for GZip input and output stream results in StackOverflowError #322. Thanks to Anthony Goubard.
+*           MonitorInputStream.read(byte[], int, int) and read() should be synchronized like the superclass BufferedInputStream. Thanks to Gary Gregory.
+* VFS-683:  Class loader thread safety #367. Thanks to Daryl Odnert, Otto Fowler, Bernd Eckenfels, Dave MacDonald, Ivan Bella, Gary Gregory.
+* VFS-832:  Sftp channel not put back in doGetInputStream #370. Thanks to Wangerry, Gary Gregory.
+*           [StepSecurity] ci: Harden GitHub Actions #401. Thanks to step-security-bot, Gary Gregory.
+* VFS-846:  Resolve a FileName to correct FileType #424. Thanks to beise, Gary Gregory.
+* VFS-844:  Prevent that source files urlString is twice URIEncoded #423. Thanks to beise, Gary Gregory.
+* VFS-843:  Close the HttpConnection after consuming the entire HttpEntity #421. Thanks to beise, Gary Gregory.
+* VFS-841:  Copy the Main class for testing with Jackrabbit Standalone Components instead of reusing #409. Thanks to Woonsan Ko, Gary Gregory.
+* VFS-849:  HttpConnection resources not properly cleaned up in webdav request #428. Thanks to beise, Gary Gregory.
+*           Don't use deprecated methods in org.apache.commons.vfs2.provider.ftp.FtpClientFactory. Thanks to Gary Gregory.
+*           Reduce deprecated calls in org.apache.commons.vfs2.provider.http5. Thanks to Gary Gregory.
+*           DelegatingFileSystemOptionsBuilder.setConfigClass[es](FileSystemOptions, String, String, Class) now throw the more general ReflectiveOperationException instead of 2 subclasses. Thanks to Gary Gregory.
+* VFS-524:  A URI with an IPv6 address can't be parsed out correctly #438. Thanks to Alex, Fedor Yudanov, Gary Gregory.
+*           Port assertions to JUnit 5 APIs. Thanks to Gary Gregory.
+*           Scheme "http" now uses Apache HttpClient 5 instead of HttpClient 3. Thanks to Gary Gregory.
+*           Scheme "https" now uses Apache HttpClient 5 instead of HttpClient 3. Thanks to Gary Gregory.
+*           Deprecate package org.apache.commons.vfs2.provider.http in favor of org.apache.commons.vfs2.provider.http5. Thanks to Gary Gregory.
+*           Deprecate package org.apache.commons.vfs2.provider.https in favor of org.apache.commons.vfs2.provider.http5s. Thanks to Gary Gregory.
+*           Deprecate package org.apache.commons.vfs2.provider.http4 in favor of org.apache.commons.vfs2.provider.http5. Thanks to Gary Gregory.
+*           Deprecate package org.apache.commons.vfs2.provider.http4s in favor of org.apache.commons.vfs2.provider.http5s. Thanks to Gary Gregory.
+*           Support URLencoding during normalization #396. Thanks to Arnout Engelen, Gary Gregory.
+*           Add some documentation to make the unit tests easier to follow #556. Thanks to Arnout Engelen, Gary Gregory.
+*           Fix or address PMD warnings UnnecessaryReturn, UnusedLocalVariable, UnnecessaryFullyQualifiedName, UnnecessaryImport, and so on. Thanks to Gary Gregory.
+*           Simplify UriParser #558. Thanks to Arnout Engelen.
+*           ZipFileSystemConfigBuilder.getCharset(FileSystemOptions) returns UTF-8 instead of null when absent. Thanks to Gary Gregory.
+*           org.apache.commons.vfs2.provider.http.HttpFileObject.doListChildren() now throws UnsupportedOperationException instead of Exception. Thanks to Gary Gregory.
+*           Pick up exec-maven-plugin version from parent POM. Thanks to Gary Gregory.
+*           Fixed commons-vfs2-sandbox module not compiling due to missing imports and library #634. Thanks to Anthony Goubard.
+*           FtpFileObject.getChildren() should throw org.apache.commons.vfs2.FileNotFoundException instead of java.io.FileNotFoundException #638. Thanks to Marek Sunda, Gary Gregory, Arnout Engelen.
+*           Remove -nouses directive from maven-bundle-plugin. OSGi package imports now state 'uses' definitions for package imports, this doesn't affect JPMS (from org.apache.commons:commons-parent:80). Thanks to Gary Gregory.
+*           Tests should depend on the Apache Log4j BOM POM instead of individual components in the parent POM. Thanks to Gary Gregory.
+
+Changes
+-------
+
+*           Bump org.apache.commons:commons-parent from 52 to 81 #497, #588, #592, #600, #608, #615, #623. Thanks to Dependabot, Gary Gregory.
+*           Bump actions/cache and others. Thanks to Dependabot, Gary Gregory.
+*           Bump actions/checkout #217, #220, #245, #315, and others. Thanks to Dependabot, Gary Gregory.
+*           Bump actions/setup-java #324, and others. Thanks to Gary Gregory, Dependabot.
+*           Bump actions/upload-artifact from #327, and others. Thanks to Dependabot.
+*           Bump jakarta.mail from 1.6.7 to 2.0.1 #200. Thanks to Dependabot.
+*           Bump commons.animal-sniffer.version from 1.19 to 1.21. Thanks to Gary Gregory.
+*           Bump com.puppycrawl.tools:checkstyle from 8.44 to 9.3 #211. Thanks to Gary Gregory.
+*           Bump com.github.spotbugs:spotbugs from 4.3.0 to 4.7.3 #216, #269, #319. Thanks to Dependabot, Gary Gregory.
+*           Bump spotbugs-maven-plugin from 4.3.0 to 4.7.3.0, #229, #236. #264, #282, #331, #333. Thanks to Gary Gregory, Dependabot.
+*           Bump org.apache.jackrabbit:jackrabbit-standalone-components from 2.21.7 to 2.20.16, 2.21.x is beta only. Thanks to Dependabot, Gary Gregory.
+*           Bump org.apache.httpcomponents.client5:httpclient5 from 5.1 to 5.4.1 #561, #602, #2778. Thanks to Gary Gregory, Dependabot.
+*           Bump org.apache.httpcomponents.core5:httpcore5 from 5.1.5 to 5.3.3 #369, #399, #429, #447, #559, #597, #624, #650, #657. Thanks to Dependabot, Gary Gregory.
+*           Bump org.apache.mina:mina-core from 2.1.4 to 2.1.10 #646. Thanks to Gary Gregory, Dependabot.
+*           Bump maven-pmd-plugin from 3.14.0 to 3.19.0 #223, #294, #304. Thanks to Dependabot, Gary Gregory.
+*           Bump net.sourceforge.pmd:pmd-* from 6.36.0 to 6.53.0 #208, #247, #256, #261, #266, #270, #283, #339, #361. Thanks to Dependabot, Gary Gregory.
+*           Bump org.mockito:mockito-core from 3.11.2 to 4.11.0 #263, #292, #308, #337, #355, #359. Thanks to Gary Gregory, Dependabot.
+*           Bump maven-javadoc-plugin from 3.3.0 to 3.4.1, #293. Thanks to Gary Gregory, Dependabot.
+*           Bump biz.aQute.bnd:biz.aQute.bndlib from 5.3.0 to 6.3.1. Thanks to Gary Gregory.
+*           Bump commons.japicmp.version from 0.15.3 to 0.16.0. Thanks to Gary Gregory.
+*           Replace JUnit 4.13.2 with 5.9.1 #281, #306. Thanks to Gary Gregory, John Patrick, Dependabot.
+*           Bump org.apache.httpcomponents:httpcore-nio from 4.4.14 to 4.4.16, #341. Thanks to Gary Gregory, Dependabot.
+*           Bump Apache Log4j 2.14.1 to 2.24.3 [Tests] #226, #230, #305, #378, #448, #461, #487, #499, #598, #610, #635, #642. Thanks to Gary Gregory, Dependabot.
+*           Bump ftpserver-core from 1.1.1 to 1.1.2 #235. Thanks to XenoAmess.
+*           Bump hadoop.version from 3.3.1 to 3.4.1 #246, #262, #290, #386, #402, #620. Thanks to Dependabot.
+*           Bump slf4j.version from 1.7.26 to 2.0.16 #484, #486, #524, #575, #580, #585. Thanks to Dependabot.
+*           Bump org.ow2.asm:asm from 9.2 to 9.4. Thanks to Gary Gregory.
+*           Bump commons.jacoco.version from 0.8.7 to 0.8.8. Thanks to Gary Gregory.
+*           Bump commons.surefire.version from 3.0.0-M5 to 3.0.0-M7. Thanks to Gary Gregory.
+*           Bump Apache Commons BCEL from 6.5.0 to 6.10.0 #346, #451, #522, #569. Thanks to Gary Gregory, Dependabot.
+*           Bump maven-checkstyle-plugin from 3.1.2 to 3.2.0 #321 Thanks to Dependabot.
+*           Bump commons-compress from 1.21 to 1.27.1 #329, #385, $498, #535, #579, #590. Thanks to Dependabot, Gary Gregory.
+*           Bump commons-net:commons-net from 3.8.0 to 3.11.1 #546, #548. Thanks to Gary Gregory, Dependabot.
+*           Bump httpclient from 4.5.13 to 4.5.14 #344. Thanks to Dependabot.
+*           Bump commons-io:commons-io from 2.11.0 to 2.18.0 #515, #601, #633. Thanks to Gary Gregory.
+*           Bump commons-codec:commons-codec from 1.15 to 1.18.0 #480, #530, #567, #654. Thanks to Gary Gregory, Dependabot.
+*           Bump org.apache.commons:commons-lang3 from 3.12.0 to 3.17.0 #568, #577, #594. Thanks to Gary Gregory.
+*           Bump org.codehaus.mojo:exec-maven-plugin from 3.1.0 to 3.4.0 #445, #536, #576. Thanks to Dependabot.
+*           Bump commons-logging:commons-logging from 1.2 to 1.3.4, #531, #563, #589. Thanks to Gary Gregory.
+*           Bump org.codehaus.mojo:exec-maven-plugin from 3.1.1 to 3.4.1 #494, #586. Thanks to Gary Gregory.
+*           Bump org.apache.commons:commons-collections4 from 4.4 to 4.5.0-M3 #643. Thanks to Gary Gregory.
+*           Bump ant:ant 1.6.5 to org.apache.ant:ant 1.10.15. Thanks to Gary Gregory.
+
+
+Historical list of changes: https://commons.apache.org/proper/commons-vfs/changes.html
+
+For complete information on Apache Commons VFS Project, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Commons VFS Project website:
+
+https://commons.apache.org/proper/commons-vfs/
+
+Download page: https://commons.apache.org/proper/commons-vfs/download_vfs.cgi
+
+-----------------------------------------------------------------------------
+
+Apache Commons VFS Project 2.10.0 Release Notes
+-----------------------------------------------
+
+The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.10.0.
+
+Apache Commons VFS is a Virtual File System library.
+
+Maintenance release. Requires Java 8 or above.
+
+Changes in this version
+-----------------------
+
+New features
+------------
+
+* VFS-848:  Config option for trailing slash in webdav URI #425. Thanks to beise, Gary Gregory.
+*           Split out Apache Ant Tasks into its own Maven module commons-vfs2-ant. Thanks to Gary Gregory.
+* VFS-851:  Split out HDFS provider into its own Maven module commons-vfs2-hdfs. Thanks to Gary Gregory.
+*           Generate JPMS module info files when building on Java 11 or greater, except for commons-vfs2-hdfs due to Hadoop libraries' overlapping packages. Thanks to Gary Gregory.
+*           Add Visual Studio Code files to gitignore #205. Thanks to Seth Falco.
+*           Add DefaultFileMonitor.setDelay(Duration), getDelayDuration() and deprecate setDelay(long), getDelay(). Thanks to Gary Gregory.
+*           DefaultFileMonitor implements AutoCloseable. Thanks to Gary Gregory.
+*           Add FalseFileFilter.INSTANCE and deprecate FalseFileFilter.FALSE. Thanks to Gary Gregory.
+*           Add TrueFileFilter.INSTANCE and deprecate TrueFileFilter.TRUE. Thanks to Gary Gregory.
+*           FileSystemOptions implements Comparable. Thanks to Gary Gregory.
+*           Add RandomAccessMode.from(AccessMode) and toAccessModes(). Thanks to Gary Gregory.
+*           Extract the layer separator character constant into LayeredFileName.LAYER_SEPARATOR. Thanks to Gary Gregory.
+*           Add github/codeql-action.
+* VFS-821:  Deprecate FileSelector#traverseDescendents in favor of traverseDescendants. Thanks to Marc Wrobel, Gary Gregory.
+* VFS-821:  Add active port range configuration for FTP client factory #318. Thanks to Maksym Perevertov, Gary Gregory.
+* VFS-833:  Make constructor FileSystemOptions(Map) public. Thanks to Kannan Ramamoorthy, Bernd Eckenfels, Gary Gregory.
+*           Add a BOM POM commons-vfs2-bom. Thanks to Gary Gregory.
+*           Add FileSystemConfigBuilder.getParamOrDefault(FileSystemOptions, String, T). Thanks to Gary Gregory.
+
+Fixed Bugs:
+* VFS-854:  Avoid debug-logging URL credentials. Thanks to Andrey Turbanov.
+* VFS-853:  Double wrapped weak FileListener can lose change notification with DelegateFileObject. Thanks to Bernd Eckenfels.
+*           Replace package.html with package-info.java #206. Thanks to Seth Falco.
+* VFS-807:  LocalFile.doGetOutputStream(boolean) for an existing file no longer truncates the file. Thanks to Gary Gregory, L.
+*           Update the Javadoc link to not lead to 404. #218. Thanks to wodencafe.
+* VFS-810:  Percent encoded backslashes in authority of URLs aren't allowed for WebDav. Thanks to Jan Aelbrecht, Gary Gregory.
+* VFS-793:  GenericFileName.getURI() returns invalid URI. Thanks to Vitali Nashkevich, Gary Gregory.
+*           Fix typos in error messages. Thanks to Gary Gregory.
+*           LocalFile: Fix exception message "Unknown message with code" and use an actual message code. Thanks to Gary Gregory.
+* VFS-778:  SFTP channel isn't returned to the pool when SftpFileObject.doGetOutputStream throws an exception. #215. Thanks to zhouwenqing, Gary Gregory.
+*           Fix OSGi "Unused Import-Package instructions". Thanks to Gary Gregory.
+* VFS-813:  NullPointerException needs a better message in SftpClientFactory when connect with private key. Thanks to Andrey Turbanov, Gary Gregory.
+* VFS-811:  Javadoc API links are broken in the commons-vfs project site #227. Thanks to Woonsan Ko, Gary Gregory.
+* VFS-812:  Don't throw FileSystemException when closing file content output stream using a BufferedOutputStream #228. Thanks to XenoAmess, Gary Gregory.
+* VFS-814:  FtpFileObject: re-fetch MDTM after refresh #238. Thanks to Luke Wood, Gary Gregory.
+*           Simplify conditions and avoid extra checks #253. Thanks to Arturo Bernal.
+*           Refactor AbstractFileObject#getOutputStream() #151. Thanks to Boris Petrov, Gary Gregory.
+* VFS-770:  FileSystemManager.createFileSystem(FileObject) fails on Gzip files. #92. Thanks to Thomas BELOT, PeterAlfredLee, Gary Gregory.
+*           Simplify/remove redundant operations. #258. Thanks to Arturo Bernal.
+*           SFTP: Memory leak because AbstractFileProvider#findFileSystem. Thanks to Tobias Gierke, Gary Gregory.
+*           Fix typos #275, #276, #277. Thanks to Marc Wrobel.
+*           Fix links in Javadoc and documentations #284. Thanks to Marc Wrobel.
+*           [SFTP] Handle the case where a user does not have any groups #280. Thanks to Mark van der Walle, Gary Gregory.
+*           The dependency hadoop-hdfs-client is not set as optional #291. Thanks to ymenager.
+*           AbstractFileObject uses the wrong exception for "cause" #316. Thanks to Boris Petrov.
+*           JUnit5 assertThrows SftpFileSystemGroupsTests #323. Thanks to John Patrick.
+* VFS-825:  Fix for GZip input and output stream results in StackOverflowError #322. Thanks to Anthony Goubard.
+*           MonitorInputStream.read(byte[], int, int) and read() should be synchronized like the superclass BufferedInputStream. Thanks to Gary Gregory.
+* VFS-683:  Class loader thread safety #367. Thanks to Daryl Odnert, Otto Fowler, Bernd Eckenfels, Dave MacDonald, Ivan Bella, Gary Gregory.
+* VFS-832:  Sftp channel not put back in doGetInputStream #370. Thanks to Wangerry, Gary Gregory.
+*           [StepSecurity] ci: Harden GitHub Actions #401. Thanks to step-security-bot, Gary Gregory.
+* VFS-846:  Resolve a FileName to correct FileType #424. Thanks to beise, Gary Gregory.
+* VFS-844:  Prevent that source files urlString is twice URIEncoded #423. Thanks to beise, Gary Gregory.
+* VFS-843:  Close the HttpConnection after consuming the entire HttpEntity #421. Thanks to beise, Gary Gregory.
+* VFS-841:  Copy the Main class for testing with Jackrabbit Standalone Components instead of reusing #409. Thanks to Woonsan Ko, Gary Gregory.
+* VFS-849:  HttpConnection resources not properly cleaned up in webdav request #428. Thanks to beise, Gary Gregory.
+*           Don't use deprecated methods in org.apache.commons.vfs2.provider.ftp.FtpClientFactory. Thanks to Gary Gregory.
+*           Reduce deprecated calls in org.apache.commons.vfs2.provider.http5. Thanks to Gary Gregory.
+*           DelegatingFileSystemOptionsBuilder.setConfigClass[es](FileSystemOptions, String, String, Class) now throw the more general ReflectiveOperationException instead of 2 subclasses. Thanks to Gary Gregory.
+* VFS-524:  A URI with an IPv6 address can't be parsed out correctly #438. Thanks to Alex, Fedor Yudanov, Gary Gregory.
+*           Port assertions to JUnit 5 APIs. Thanks to Gary Gregory.
+*           Scheme "http" now uses Apache HttpClient 5 instead of HttpClient 3. Thanks to Gary Gregory.
+*           Scheme "https" now uses Apache HttpClient 5 instead of HttpClient 3. Thanks to Gary Gregory.
+*           Deprecate package org.apache.commons.vfs2.provider.http in favor of org.apache.commons.vfs2.provider.http5. Thanks to Gary Gregory.
+*           Deprecate package org.apache.commons.vfs2.provider.https in favor of org.apache.commons.vfs2.provider.http5s. Thanks to Gary Gregory.
+*           Deprecate package org.apache.commons.vfs2.provider.http4 in favor of org.apache.commons.vfs2.provider.http5. Thanks to Gary Gregory.
+*           Deprecate package org.apache.commons.vfs2.provider.http4s in favor of org.apache.commons.vfs2.provider.http5s. Thanks to Gary Gregory.
+*           Support URLencoding during normalization #396. Thanks to Arnout Engelen, Gary Gregory.
+*           Add some documentation to make the unit tests easier to follow #556. Thanks to Arnout Engelen, Gary Gregory.
+*           Fix or address PMD warnings UnnecessaryReturn, UnusedLocalVariable, UnnecessaryFullyQualifiedName, UnnecessaryImport, and so on. Thanks to Gary Gregory.
+*           Simplify UriParser #558. Thanks to Arnout Engelen.
+*           ZipFileSystemConfigBuilder.getCharset(FileSystemOptions) returns UTF-8 instead of null when absent. Thanks to Gary Gregory.
+*           org.apache.commons.vfs2.provider.http.HttpFileObject.doListChildren() now throws UnsupportedOperationException instead of Exception. Thanks to Gary Gregory.
+*           Pick up exec-maven-plugin version from parent POM. Thanks to Gary Gregory.
+*           Fixed commons-vfs2-sandbox module not compiling due to missing imports and library #634. Thanks to Anthony Goubard.
+*           FtpFileObject.getChildren() should throw org.apache.commons.vfs2.FileNotFoundException instead of java.io.FileNotFoundException #638. Thanks to Marek Sunda, Gary Gregory, Arnout Engelen.
+
+Changes
+-------
+
+*           Bump org.apache.commons:commons-parent from 52 to 78 #497, #588, #592, #600, #608, #615, #623. Thanks to Dependabot, Gary Gregory.
+*           Bump actions/cache and others. Thanks to Dependabot, Gary Gregory.
+*           Bump actions/checkout #217, #220, #245, #315, and others. Thanks to Dependabot, Gary Gregory.
+*           Bump actions/setup-java #324, and others. Thanks to Gary Gregory, Dependabot.
+*           Bump actions/upload-artifact from #327, and others. Thanks to Dependabot.
+*           Bump jakarta.mail from 1.6.7 to 2.0.1 #200. Thanks to Dependabot.
+*           Bump commons.animal-sniffer.version from 1.19 to 1.21. Thanks to Gary Gregory.
+*           Bump com.puppycrawl.tools:checkstyle from 8.44 to 9.3 #211. Thanks to Gary Gregory.
+*           Bump com.github.spotbugs:spotbugs from 4.3.0 to 4.7.3 #216, #269, #319. Thanks to Dependabot, Gary Gregory.
+*           Bump spotbugs-maven-plugin from 4.3.0 to 4.7.3.0, #229, #236. #264, #282, #331, #333. Thanks to Gary Gregory, Dependabot.
+*           Bump org.apache.jackrabbit:jackrabbit-standalone-components from 2.21.7 to 2.20.16, 2.21.x is beta only. Thanks to Dependabot, Gary Gregory.
+*           Bump org.apache.httpcomponents.client5:httpclient5 from 5.1 to 5.4.1 #561, #602, #2778. Thanks to Gary Gregory, Dependabot.
+*           Bump org.apache.httpcomponents.core5:httpcore5 from 5.1.5 to 5.3.1 #369, #399, #429, #447, #559, #597, #624. Thanks to Dependabot, Gary Gregory.
+*           Bump org.apache.mina:mina-core from 2.1.4 to 2.1.8. Thanks to Gary Gregory, Dependabot.
+*           Bump maven-pmd-plugin from 3.14.0 to 3.19.0 #223, #294, #304. Thanks to Dependabot, Gary Gregory.
+*           Bump net.sourceforge.pmd:pmd-* from 6.36.0 to 6.53.0 #208, #247, #256, #261, #266, #270, #283, #339, #361. Thanks to Dependabot, Gary Gregory.
+*           Bump org.mockito:mockito-core from 3.11.2 to 4.11.0 #263, #292, #308, #337, #355, #359. Thanks to Gary Gregory, Dependabot.
+*           Bump maven-javadoc-plugin from 3.3.0 to 3.4.1, #293. Thanks to Gary Gregory, Dependabot.
+*           Bump biz.aQute.bnd:biz.aQute.bndlib from 5.3.0 to 6.3.1. Thanks to Gary Gregory.
+*           Bump commons.japicmp.version from 0.15.3 to 0.16.0. Thanks to Gary Gregory.
+*           Replace JUnit 4.13.2 with 5.9.1 #281, #306. Thanks to Gary Gregory, John Patrick, Dependabot.
+*           Bump org.apache.httpcomponents:httpcore-nio from 4.4.14 to 4.4.16, #341. Thanks to Gary Gregory, Dependabot.
+*           Bump Apache Log4j 2.14.1 to 2.24.3 [Tests] #226, #230, #305, #378, #448, #461, #487, #499, #598, #610, #635, #642. Thanks to Gary Gregory, Dependabot.
+*           Bump ftpserver-core from 1.1.1 to 1.1.2 #235. Thanks to XenoAmess.
+*           Bump hadoop.version from 3.3.1 to 3.4.1 #246, #262, #290, #386, #402, #620. Thanks to Dependabot.
+*           Bump slf4j.version from 1.7.26 to 2.0.16 #484, #486, #524, #575, #580, #585. Thanks to Dependabot.
+*           Bump org.ow2.asm:asm from 9.2 to 9.4. Thanks to Gary Gregory.
+*           Bump commons.jacoco.version from 0.8.7 to 0.8.8. Thanks to Gary Gregory.
+*           Bump commons.surefire.version from 3.0.0-M5 to 3.0.0-M7. Thanks to Gary Gregory.
+*           Bump Apache Commons BCEL from 6.5.0 to 6.10.0 #346, #451, #522, #569. Thanks to Gary Gregory, Dependabot.
+*           Bump maven-checkstyle-plugin from 3.1.2 to 3.2.0 #321 Thanks to Dependabot.
+*           Bump commons-compress from 1.21 to 1.27.1 #329, #385, $498, #535, #579, #590. Thanks to Dependabot, Gary Gregory.
+*           Bump commons-net:commons-net from 3.8.0 to 3.11.1 #546, #548. Thanks to Gary Gregory, Dependabot.
+*           Bump httpclient from 4.5.13 to 4.5.14 #344. Thanks to Dependabot.
+*           Bump commons-io:commons-io from 2.11.0 to 2.18.0 #515, #601, #633. Thanks to Gary Gregory.
+*           Bump commons-codec:commons-codec from 1.15 to 1.17.1 #480, #530, #567. Thanks to Gary Gregory.
+*           Bump org.apache.commons:commons-lang3 from 3.12.0 to 3.17.0 #568, #577, #594. Thanks to Gary Gregory.
+*           Bump org.codehaus.mojo:exec-maven-plugin from 3.1.0 to 3.4.0 #445, #536, #576. Thanks to Dependabot.
+*           Bump commons-logging:commons-logging from 1.2 to 1.3.4, #531, #563, #589. Thanks to Gary Gregory.
+*           Bump org.codehaus.mojo:exec-maven-plugin from 3.1.1 to 3.4.1 #494, #586. Thanks to Gary Gregory.
+*           Bump org.apache.commons:commons-collections4 from 4.4 to 4.5.0-M3 #643. Thanks to Gary Gregory.
+*           Bump ant:ant 1.6.5 to org.apache.ant:ant 1.10.14. Thanks to Gary Gregory.
+*           Bump org.apache.mina:mina-core from 2.1.8 to 2.1.9. Thanks to Gary Gregory.
+
+
+Historical list of changes: https://commons.apache.org/proper/commons-vfs/changes-report.html
+
+For complete information on Apache Commons VFS Project, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Commons VFS Project website:
+
+https://commons.apache.org/proper/commons-vfs/
+
+Download page: https://commons.apache.org/proper/commons-vfs/download_vfs.cgi
+
+-----------------------------------------------------------------------------
+
+Apache Commons VFS Project 2.10.0 Release Notes
+-----------------------------------------------
 
 The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.10.0.
 
@@ -142,9 +446,10 @@ Download page: https://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------
 
-            Apache Commons VFS Project 2.9.0
-            RELEASE NOTES
-            2021-07-16
+Apache Commons VFS Project 2.9.0 Release Notes
+----------------------------------------------
+
+2021-07-16
 
 The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.9.0.
 
@@ -328,9 +633,10 @@ Download page: https://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------
 
-            Apache Commons VFS Project 2.7.0
-            RELEASE NOTES
-            2020-10-19
+Apache Commons VFS Project 2.7.0 Release Notes
+----------------------------------------------
+
+2020-10-19
 
 The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.7.0.
 
@@ -405,9 +711,10 @@ Download page: https://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------
 
-            Apache Commons VFS Project 2.6.0
-            RELEASE NOTES
-            2020-01-06
+Apache Commons VFS Project 2.6.0 Release Notes
+----------------------------------------------
+
+2020-01-06
 
 The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.6.0.
 
@@ -440,9 +747,10 @@ Download page: https://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------
 
-            Apache Commons VFS 2.5.0
-            RELEASE NOTES
-            2019-12-24
+Apache Commons VFS 2.5.0 Release Notes
+--------------------------------------
+
+2019-12-24
 
 The Apache Commons VFS team is pleased to announce the release of Apache Commons VFS 2.5.0.
 
@@ -499,9 +807,10 @@ Download it from https://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------
 
-            Apache Commons VFS 2.4.1
-            RELEASE NOTES
-            2019-08-10    
+Apache Commons VFS 2.4.1 Release Notes
+--------------------------------------
+
+2019-08-10
 
 The Apache Commons VFS team is pleased to announce the release of Apache Commons VFS 2.4.1
 
@@ -529,8 +838,8 @@ Download it from https://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------
 
-            Apache Commons VFS 2.4
-            RELEASE NOTES
+Apache Commons VFS 2.4 Release Notes
+------------------------------------
 
 The Apache Commons VFS team is pleased to announce the release of Apache Commons VFS 2.4.
 
@@ -597,8 +906,8 @@ Download it from https://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------
 
-              Apache Commons VFS 2.3
-                  RELEASE NOTES
+Apache Commons VFS 2.3 Release Notes
+------------------------------------
 
 The Apache Commons VFS team is pleased to announce the release of Apache Commons VFS 2.3.
 
@@ -660,8 +969,8 @@ Download it from https://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------
 
-              Apache Commons VFS 2.2
-                  RELEASE NOTES
+Apache Commons VFS 2.2 Release Notes
+------------------------------------
 
 The Apache Commons VFS team is pleased to announce the release of Apache Commons VFS 2.2.
 
@@ -710,8 +1019,8 @@ Download it from https://commons.apache.org/proper/commons-vfs/download_vfs.cgi
 
 -----------------------------------------------------------------------------
 
-              Apache Commons VFS 2.1
-                  RELEASE NOTES
+Apache Commons VFS 2.1 Release Notes
+--------------------------------------
 
 The Apache Commons VFS team is pleased to announce the release of Apache Commons VFS 2.1.
 

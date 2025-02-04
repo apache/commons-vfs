@@ -137,7 +137,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     private FileOperations operations;
 
     /**
-     * Constructs a new instance.
+     * Constructs a new instance for subclasses.
      *
      * @param fileName the file name.
      * @param fileSystem the file system.

@@ -18,6 +18,6 @@
 /**
  * The HTTP4 File Provider.
  *
- * @deprecated Use {@link org.apache.commons.vfs2.provider.http5}.
+ * Deprecated: Use {@link org.apache.commons.vfs2.provider.http5}.
  */
 package org.apache.commons.vfs2.provider.http4;

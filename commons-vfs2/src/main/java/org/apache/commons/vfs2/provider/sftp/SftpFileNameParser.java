@@ -38,7 +38,7 @@ public class SftpFileNameParser extends URLFileNameParser {
     }
 
     /**
-     * Creates a new instance with the default port 22.
+     * Constructs a new instance with the default port 22.
      */
     public SftpFileNameParser() {
         super(DEFAULT_PORT);

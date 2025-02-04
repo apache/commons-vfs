@@ -40,6 +40,8 @@ public class RamFileOutputStream extends OutputStream {
     private IOException exception;
 
     /**
+     * Constructs a new instance.
+     *
      * @param file The base file.
      */
     public RamFileOutputStream(final RamFileObject file) {

@@ -46,7 +46,6 @@ import org.apache.hc.core5.http.HttpStatus;
  * A file object backed by Apache HttpComponents HttpClient v5.
  *
  * @param <FS> An {@link Http5FileSystem} subclass
- *
  * @since 2.5.0
  */
 public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObject<FS> {

@@ -25,6 +25,8 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 /**
+ * A specialization of a resource bundle.
+ *
  * @since 2.0
  */
 public class CombinedResources extends ResourceBundle {

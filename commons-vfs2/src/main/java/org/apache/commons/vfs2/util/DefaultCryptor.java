@@ -41,6 +41,13 @@ public class DefaultCryptor implements Cryptor {
 
     private static final char MASK = 0x0f;
 
+    /**
+     * Constructs a new instance.
+     */
+    public DefaultCryptor() {
+        // empty
+    }
+
     /** Decodes Hex-Bytes. */
     private byte[] decode(final String str) {
         final char[] chars = str.toCharArray();

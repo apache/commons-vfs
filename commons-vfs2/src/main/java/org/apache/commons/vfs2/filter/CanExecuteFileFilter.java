@@ -75,7 +75,6 @@ public class CanExecuteFileFilter implements FileFilter, Serializable {
      * Checks to see if the file can be executed.
      *
      * @param fileSelectInfo the File to check.
-     *
      * @return {@code true} if the file can be executed, otherwise {@code false}.
      * @throws FileSystemException Thrown for file system errors.
      */

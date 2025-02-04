@@ -19,12 +19,14 @@ package org.apache.commons.vfs2.operations.vcs;
 import org.apache.commons.vfs2.operations.FileOperation;
 
 /**
+ * The VCS delete file operation.
  *
  * @since 0.1
  */
 public interface VcsDelete extends FileOperation {
 
     /**
+     * Sets whether the delete should be unconditional.
      *
      * @param force true if the delete should be unconditional.
      */

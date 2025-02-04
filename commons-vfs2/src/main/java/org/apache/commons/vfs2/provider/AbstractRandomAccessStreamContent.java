@@ -28,7 +28,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 public abstract class AbstractRandomAccessStreamContent extends AbstractRandomAccessContent {
 
     /**
-     * Constructs a new instance.
+     * Constructs a new instance for subclasses.
      *
      * @param mode the RandomAccessMode.
      */

@@ -41,7 +41,7 @@ public class HttpFileNameParser extends URLFileNameParser {
     }
 
     /**
-     * Creates a new instance with the default port 80.
+     * Constructs a new instance with the default port 80.
      */
     public HttpFileNameParser() {
         super(DEFAULT_PORT);

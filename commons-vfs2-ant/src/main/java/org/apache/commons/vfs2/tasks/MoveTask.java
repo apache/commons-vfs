@@ -28,7 +28,15 @@ import org.apache.commons.vfs2.Selectors;
  * </p>
  */
 public class MoveTask extends CopyTask {
+
     private boolean tryRename;
+
+    /**
+     * Constructs a new instance.
+     */
+    public MoveTask() {
+        // empty
+    }
 
     /**
      * Handles a single source file.

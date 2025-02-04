@@ -51,11 +51,20 @@ import org.apache.tools.ant.Project;
  * </ul>
  */
 public abstract class AbstractSyncTask extends VfsTask {
+
     /**
      * Information about a source file.
      */
     public static class SourceInfo {
+
         private String file;
+
+        /**
+         * Constructs a new instance.
+         */
+        public SourceInfo() {
+            // empty
+        }
 
         /**
          * Sets the file.
@@ -74,6 +83,13 @@ public abstract class AbstractSyncTask extends VfsTask {
     private boolean failOnError = true;
 
     private String filesList;
+
+    /**
+     * Constructs a new instance.
+     */
+    public AbstractSyncTask() {
+        // empty
+    }
 
     /**
      * Adds a nested &lt;src&gt; element.

@@ -17,7 +17,7 @@
    limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
@@ -25,11 +25,12 @@
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-vfs2-project</artifactId>
     <version>2.10.0-SNAPSHOT</version>
-    <relativePath>../</relativePath>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <name>Apache Commons VFS Ant Tasks</name>
   <artifactId>commons-vfs2-ant</artifactId>
+  <packaging>jar</packaging>
   <description>Apache Commons VFS Ant Tasks.</description>
 
   <dependencies>
@@ -74,6 +75,7 @@
     </commons.osgi.import>
     <!-- Hadoop jars contain overlapping packages that blow up JPMS -->
     <moditect.skip>true</moditect.skip>
+    <!-- project.build.outputTimestamp is managed by Maven plugins, see https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
     <project.build.outputTimestamp>2024-03-03T15:45:26Z</project.build.outputTimestamp>
   </properties>
 

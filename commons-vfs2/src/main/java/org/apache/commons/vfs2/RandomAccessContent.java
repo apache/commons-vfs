@@ -52,7 +52,7 @@ public interface RandomAccessContent extends DataOutput, DataInput, Closeable {
     /**
      * Gets the input stream.
      * <p>
-     * <b>Notice: If you use {@link #seek(long)} you have to re-get the InputStream</b>
+     * <strong>Notice: If you use {@link #seek(long)} you have to re-get the InputStream</strong>
      * </p>
      *
      * @return the InputStream.
