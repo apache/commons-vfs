@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.impl;
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
@@ -218,11 +219,23 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
     public void testLoadResource() throws Exception {
         final VFSClassLoader loader = createClassLoader();
 
-        final URL resource = loader.getResource("read-tests/file1.txt");
+        final URL resource1 = loader.getResource("read-tests/file1.txt");
+        assertNotNull(resource1);
+        final URLConnection urlCon1 = resource1.openConnection();
+        final InputStream instr1 = urlCon1.getInputStream();
 
-        assertNotNull(resource);
-        final URLConnection urlCon = resource.openConnection();
-        assertSameURLContent(FILE1_CONTENT, urlCon);
+        // VFS-834: testing that getting the resource again does not close out the previous input stream.
+        final URL resource2 = loader.getResource("read-tests/file1.txt");
+        assertNotNull(resource2);
+        final URLConnection urlCon2 = resource2.openConnection();
+
+        assertSameURLContent(FILE1_CONTENT, instr1, urlCon1);
+
+        // For tar files, getting the second input stream will reset the input (see TarFileSystem.resetTarFile())
+        // hence we need to actually get the input stream after asserting the contents of the first one.
+        final InputStream instr2 = urlCon2.getInputStream();
+
+        assertSameURLContent(FILE1_CONTENT, instr2, urlCon2);
     }
 
     /**
