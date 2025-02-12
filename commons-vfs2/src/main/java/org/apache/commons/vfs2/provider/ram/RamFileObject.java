@@ -203,7 +203,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem> {
     }
 
     /**
-     * @return Returns the data.
+     * @return the data.
      */
     RamFileData getData() {
         return data;
@@ -248,7 +248,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem> {
     }
 
     /**
-     * @return Returns the size of the {@link RamFileData}.
+     * @return the size of the {@link RamFileData}.
      */
     int size() {
         return data == null ? 0 : data.size();
