@@ -45,7 +45,12 @@ The <action> type attribute can be add,update,fix,remove.
     <author email="dev@commons.apache.org">Apache Commons Developers</author>
   </properties>
   <body>
-    <release version="2.10.0" date="2025-02-01" description="Maintenance release. Requires Java 8 or above.">
+    <release version="2.10.1" date="YYYY-MM-DD" description="This is a feature and maintenance release. Java 8 or later is required.">
+      <!-- FIX -->
+      <!-- ADD -->
+      <!-- UPDATE -->
+    </release>
+    <release version="2.10.0" date="2025-02-01" description="This is a feature and maintenance release. Java 8 or later is required.">
       <!-- FIX -->
       <action type="fix" issue="VFS-854" dev="ecki" due-to="Andrey Turbanov">
         Avoid debug-logging URL credentials.
