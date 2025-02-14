@@ -49,6 +49,8 @@ The <action> type attribute can be add,update,fix,remove.
       <!-- FIX -->
       <!-- ADD -->
       <!-- UPDATE -->
+      <action dev="ggregory" type="update" due-to="Gary Gregory">Bump org.apache.ftpserver:ftpserver-core from 1.2.0 to 1.2.1.</action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory">Bump org.apache.mina:mina-core from 1.2.0 to 1.2.1.</action>
     </release>
     <release version="2.10.0" date="2025-02-01" description="This is a feature and maintenance release. Java 8 or later is required.">
       <!-- FIX -->
