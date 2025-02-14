@@ -140,7 +140,11 @@ public class JunctionTests extends AbstractProviderTestCase {
 
         final FileObject real2 = baseDir.resolveFile("weakref.txt");
         real2.createFile();
-        assertEquals("Weak Listener was abandoned", "Listener false true false", listener2.toString());
+        try {
+            assertEquals("Weak Listener was abandoned", "Listener false true false", listener2.toString());
+        } finally {
+            assertTrue("Don't contaminate the fs for the next time the test runs", file2.delete());
+        }
     }
 
     /**
