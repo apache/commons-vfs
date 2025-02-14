@@ -124,7 +124,7 @@ final class RamFileData implements Serializable {
     }
 
     /**
-     * @return Returns the children.
+     * @return the children.
      */
     Collection<RamFileData> getChildren() {
         if (name == null) {
@@ -134,28 +134,28 @@ final class RamFileData implements Serializable {
     }
 
     /**
-     * @return Returns the buffer.
+     * @return the buffer.
      */
     byte[] getContent() {
         return content;
     }
 
     /**
-     * @return Returns the lastModified.
+     * @return the lastModified.
      */
     long getLastModified() {
         return lastModifiedMillis;
     }
 
     /**
-     * @return Returns the name.
+     * @return the name.
      */
     FileName getName() {
         return name;
     }
 
     /**
-     * @return Returns the type.
+     * @return the type.
      */
     FileType getType() {
         return type;
@@ -234,7 +234,7 @@ final class RamFileData implements Serializable {
     }
 
     /**
-     * @return Returns the size of the buffer
+     * @return the size of the buffer
      */
     int size() {
         return content.length;

@@ -208,7 +208,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
     }
 
     /**
-     * @return Returns the size of the FileSystem
+     * @return the size of the FileSystem
      */
     long size() {
         synchronized (cache) {

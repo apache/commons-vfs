@@ -1890,7 +1890,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     /**
      * Returns the URI as a String.
      *
-     * @return Returns the URI as a String.
+     * @return the URI as a String.
      */
     @Override
     public String toString() {
