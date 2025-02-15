@@ -75,7 +75,7 @@ public class SftpPermissionExceptionTestCase extends AbstractSftpProviderTestCas
     }
 
     /**
-     * Test SftpFileObject.doGetOutputStream return the channel to pool, when there is an exception in channel.put .
+     * Test SftpFileObject.doGetOutputStream return the channel to pool, when there is an exception in channel.put.
      */
     @Test
     public void testGetOutputStreamException() throws Exception {
