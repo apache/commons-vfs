@@ -16,10 +16,11 @@
  */
 package org.apache.commons.vfs2;
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
+
+import org.apache.commons.lang3.ArrayFill;
 
 /**
  * Contains various authentication data.
@@ -103,13 +104,9 @@ public class UserAuthenticationData {
     public void cleanup() {
         // step 1: nullify character buffers
         for (final char[] data : authenticationData.values()) {
-            if (data == null) {
-                continue;
-            }
-
-            Arrays.fill(data, (char) 0);
+            ArrayFill.fill(data, (char) 0);
         }
-        // step 2: allow data itself to gc
+        // step 2: allow data itself to GC
         authenticationData.clear();
     }
 

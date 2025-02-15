@@ -51,7 +51,6 @@ public final class UserAuthenticatorUtils {
         if (auth == null) {
             return null;
         }
-
         return auth.requestAuthentication(authenticatorTypes);
     }
 
@@ -67,24 +66,20 @@ public final class UserAuthenticatorUtils {
     }
 
     /**
-     * Gets data of given type from the UserAuthenticationData or null if there is no data or data of this type
-     * available.
+     * Gets a copy of the data of a given type from the UserAuthenticationData or null if there is no data or data of this type available.
      *
-     * @param data The UserAuthenticationData.
-     * @param type The type of the element to retrieve.
+     * @param data            The UserAuthenticationData.
+     * @param type            The type of the element to retrieve.
      * @param overriddenValue The default value.
      * @return The data of the given type as a character array or null if the data is not available.
      */
-    public static char[] getData(final UserAuthenticationData data, final UserAuthenticationData.Type type,
-            final char[] overriddenValue) {
+    public static char[] getData(final UserAuthenticationData data, final UserAuthenticationData.Type type, final char[] overriddenValue) {
         if (overriddenValue != null) {
             return overriddenValue;
         }
-
         if (data == null) {
             return null;
         }
-
         return data.getData(type);
     }
 
@@ -98,7 +93,6 @@ public final class UserAuthenticatorUtils {
         if (string == null) {
             return null;
         }
-
         return string.toCharArray();
     }
 
@@ -112,7 +106,6 @@ public final class UserAuthenticatorUtils {
         if (data == null) {
             return null;
         }
-
         return new String(data);
     }
 
