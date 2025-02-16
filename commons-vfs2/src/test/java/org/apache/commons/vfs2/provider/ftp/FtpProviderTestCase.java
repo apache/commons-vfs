@@ -23,14 +23,13 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
-import junit.framework.Test;
-
 import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.ProviderTestSuite;
+import org.apache.commons.vfs2.impl.DecoratedFileObject;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.ftpserver.FtpServer;
 import org.apache.ftpserver.FtpServerFactory;
@@ -43,6 +42,8 @@ import org.apache.ftpserver.usermanager.Md5PasswordEncryptor;
 import org.apache.ftpserver.usermanager.PropertiesUserManagerFactory;
 import org.apache.ftpserver.usermanager.impl.BaseUser;
 import org.junit.jupiter.api.Assertions;
+
+import junit.framework.Test;
 
 /**
  * Tests for FTP file systems.
@@ -202,7 +203,16 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         final FileSystemOptions options = new FileSystemOptions();
         final FtpFileSystemConfigBuilder builder = FtpFileSystemConfigBuilder.getInstance();
         init(builder, options);
-        return manager.resolveFile(uri, options);
+        // OPTS UTF-8
+        final FileObject remoteFolder = manager.resolveFile(uri, options);
+        final FtpFileObject ftpFileObject = remoteFolder instanceof DecoratedFileObject
+                ? (FtpFileObject) ((DecoratedFileObject) remoteFolder).getDecoratedFileObject()
+                : (FtpFileObject) remoteFolder;
+        final FtpFileSystem ftpFileSystem = (FtpFileSystem) ftpFileObject.getFileSystem();
+        final FTPClientWrapper client = (FTPClientWrapper) ftpFileSystem.getClient();
+        // TODO Needs Apache Commons Net 3.12.0
+        // client.sendOptions("UTF-8", "NLST");
+        return remoteFolder;
     }
 
     /**

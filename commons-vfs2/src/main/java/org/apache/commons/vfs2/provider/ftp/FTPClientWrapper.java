@@ -24,6 +24,7 @@ import java.time.Instant;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPConnectionClosedException;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.vfs2.FileSystemException;
@@ -94,17 +95,14 @@ public class FTPClientWrapper implements FtpClient {
         if (ftpClient != null) {
             return getFtpClient().completePendingCommand();
         }
-
         return true;
     }
 
     private FTPClient createClient() throws FileSystemException {
         final GenericFileName rootName = getRoot();
-
         UserAuthenticationData authData = null;
         try {
             authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, FtpFileProvider.AUTHENTICATOR_TYPES);
-
             return createClient(rootName, authData);
         } finally {
             UserAuthenticatorUtils.cleanup(authData);
@@ -168,7 +166,6 @@ public class FTPClientWrapper implements FtpClient {
         if (ftpClient == null) {
             ftpClient = createClient();
         }
-
         return ftpClient;
     }
 
@@ -326,6 +323,32 @@ public class FTPClientWrapper implements FtpClient {
             client.setRestartOffset(restartOffset);
             return client.retrieveFileStream(relPath);
         }
+    }
+
+    /**
+     * A convenience method to send the FTP OPTS command to the server, receive the reply, and return the reply code.
+     * <p>
+     * FTP request Syntax:
+     * </p>
+     * <pre>{@code
+     * opts             = opts-cmd SP command-name
+     *                         [ SP command-options ] CRLF
+     * opts-cmd         = "opts"
+     * command-name     = <any FTP command which allows option setting>
+     * command-options  = <format specified by individual FTP command>
+     * }</pre>
+     * @param commandName The OPTS command name.
+     * @param commandOptions The OPTS command options.
+     * @return The reply code received from the server.
+     * @throws FTPConnectionClosedException If the FTP server prematurely closes the connection as a result of the client being idle or some other reason
+     *                                      causing the server to send FTP reply code 421. This exception may be caught either as an IOException or
+     *                                      independently as itself.
+     * @throws IOException                  If an I/O error occurs while either sending the command or receiving the server reply.
+     */
+    public int sendOptions(final String commandName, String commandOptions) throws IOException {
+        // Commons Net 3.12.0
+        // return getFtpClient().opts(commandName, commandOptions);
+        return getFtpClient().sendCommand("OPTS", commandName + ' ' + commandOptions);
     }
 
     @Override
