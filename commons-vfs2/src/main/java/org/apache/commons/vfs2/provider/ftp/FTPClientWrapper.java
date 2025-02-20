@@ -344,6 +344,7 @@ public class FTPClientWrapper implements FtpClient {
      *                                      causing the server to send FTP reply code 421. This exception may be caught either as an IOException or
      *                                      independently as itself.
      * @throws IOException                  If an I/O error occurs while either sending the command or receiving the server reply.
+     * @since 2.11.0
      */
     public int sendOptions(final String commandName, String commandOptions) throws IOException {
         // Commons Net 3.12.0

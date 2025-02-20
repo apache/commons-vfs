@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2;
 
+import java.nio.charset.Charset;
 import java.time.Duration;
 import java.util.Objects;
 import java.util.function.Function;
@@ -96,7 +97,7 @@ public abstract class FileSystemConfigBuilder {
      */
     protected Boolean getBoolean(final FileSystemOptions fileSystemOptions, final String name,
         final Boolean defaultValue) {
-        return getParam(fileSystemOptions, name, defaultValue, Boolean::valueOf);
+        return getParam(fileSystemOptions, name, defaultValue, Boolean::valueOf, Boolean.class);
     }
 
     /**
@@ -136,7 +137,7 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.0
      */
     protected Byte getByte(final FileSystemOptions fileSystemOptions, final String name, final Byte defaultValue) {
-        return getParam(fileSystemOptions, name, defaultValue, Byte::valueOf);
+        return getParam(fileSystemOptions, name, defaultValue, Byte::valueOf, Byte.class);
     }
 
     /**
@@ -189,6 +190,32 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
+     * Gets a named option as a Charset.
+     *
+     * @param fileSystemOptions file system options to query, may be null.
+     * @param name the option name
+     * @return the option in {@code opts} or system properties, otherwise null
+     * @see #getCharset(FileSystemOptions, String, Charset)
+     * @since 2.11.0
+     */
+    protected Charset getCharset(final FileSystemOptions fileSystemOptions, final String name) {
+        return getCharset(fileSystemOptions, name, null);
+    }
+
+    /**
+     * Gets a named option as a Charset.
+     *
+     * @param fileSystemOptions file system options to query, may be null.
+     * @param name the option name
+     * @param defaultValue value to return if option is not present
+     * @return the option in {@code opts} or system properties, otherwise {@code defaultValue}
+     * @since 2.11.0
+     */
+    protected Charset getCharset(final FileSystemOptions fileSystemOptions, final String name, final Charset defaultValue) {
+        return getParam(fileSystemOptions, name, defaultValue, Charset::forName, Charset.class);
+    }
+
+    /**
      * Gets the target of this configuration.
      *
      * @return the specific file system class
@@ -235,7 +262,7 @@ public abstract class FileSystemConfigBuilder {
      */
     protected Double getDouble(final FileSystemOptions fileSystemOptions, final String name,
         final Double defaultValue) {
-        return getParam(fileSystemOptions, name, defaultValue, Double::valueOf);
+        return getParam(fileSystemOptions, name, defaultValue, Double::valueOf, Double.class);
     }
 
     /**
@@ -262,7 +289,7 @@ public abstract class FileSystemConfigBuilder {
      */
     protected Duration getDuration(final FileSystemOptions fileSystemOptions, final String name,
         final Duration defaultValue) {
-        return getParam(fileSystemOptions, name, defaultValue, Duration::parse);
+        return getParam(fileSystemOptions, name, defaultValue, Duration::parse, Duration.class);
     }
 
     /**
@@ -289,7 +316,7 @@ public abstract class FileSystemConfigBuilder {
      */
     protected Integer getDurationInteger(final FileSystemOptions fileSystemOptions, final String name,
         final Duration defaultValue) {
-        return DurationUtils.toMillisInt(getParam(fileSystemOptions, name, defaultValue, Duration::parse));
+        return DurationUtils.toMillisInt(getParam(fileSystemOptions, name, defaultValue, Duration::parse, Duration.class));
     }
 
     /**
@@ -375,7 +402,7 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.0
      */
     protected Float getFloat(final FileSystemOptions fileSystemOptions, final String name, final Float defaultValue) {
-        return getParam(fileSystemOptions, name, defaultValue, Float::valueOf);
+        return getParam(fileSystemOptions, name, defaultValue, Float::valueOf, Float.class);
     }
 
     /**
@@ -419,7 +446,7 @@ public abstract class FileSystemConfigBuilder {
      */
     protected Integer getInteger(final FileSystemOptions fileSystemOptions, final String name,
         final Integer defaultValue) {
-        return getParam(fileSystemOptions, name, defaultValue, Integer::valueOf);
+        return getParam(fileSystemOptions, name, defaultValue, Integer::valueOf, Integer.class);
     }
 
     /**
@@ -462,7 +489,7 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.0
      */
     protected Long getLong(final FileSystemOptions fileSystemOptions, final String name, final Long defaultValue) {
-        return getParam(fileSystemOptions, name, defaultValue, Long::valueOf);
+        return getParam(fileSystemOptions, name, defaultValue, Long::valueOf, Long.class);
     }
 
     /**
@@ -486,22 +513,21 @@ public abstract class FileSystemConfigBuilder {
      * @param name get option with this name
      * @param defaultValue value to use if the system property value is null.
      * @param function Builds an instance of T from a system property String value.
+     * @param returnType TODO
      * @return the named option or null
      * @since 2.8.0
      */
-    private <T> T getParam(final FileSystemOptions fileSystemOptions, final String name, final T defaultValue,
-        final Function<String, T> function) {
+    private <T> T getParam(final FileSystemOptions fileSystemOptions, final String name, final T defaultValue, final Function<String, T> function,
+            final Class<T> returnType) {
         T value = getParam(fileSystemOptions, name);
         if (value == null) {
             final String str = getProperty(name);
             if (str == null) {
                 return defaultValue;
             }
-            if (function != null) {
-                value = function.apply(str);
-            }
+            value = function.apply(str);
         }
-        return value;
+        return returnType == null ? null : returnType.isInstance(value) ? value : function.apply(Objects.toString(value));
     }
 
     /**
@@ -580,7 +606,7 @@ public abstract class FileSystemConfigBuilder {
      * @since 2.0
      */
     protected Short getShort(final FileSystemOptions fileSystemOptions, final String name, final Short defaultValue) {
-        return getParam(fileSystemOptions, name, defaultValue, Short::valueOf);
+        return getParam(fileSystemOptions, name, defaultValue, Short::valueOf, Short.class);
     }
 
     /**
@@ -607,7 +633,7 @@ public abstract class FileSystemConfigBuilder {
      */
     protected String getString(final FileSystemOptions fileSystemOptions, final String name,
         final String defaultValue) {
-        return getParam(fileSystemOptions, name, defaultValue, String::valueOf);
+        return getParam(fileSystemOptions, name, defaultValue, String::valueOf, String.class);
     }
 
     /**

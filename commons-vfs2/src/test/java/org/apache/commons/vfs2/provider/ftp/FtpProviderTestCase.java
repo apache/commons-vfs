@@ -20,6 +20,7 @@ import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
@@ -252,7 +253,14 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         // FtpFileType.BINARY is the default
         builder.setFileType(options, FtpFileType.BINARY);
         builder.setConnectTimeout(options, Duration.ofSeconds(10));
-        builder.setControlEncoding(options, StandardCharsets.UTF_8.name());
+        final Charset charset = StandardCharsets.UTF_8;
+        final String charsetName = charset.name();
+        builder.setControlEncoding(options, charsetName);
+        assertEquals(charset, builder.getControlEncodingCharset(options));
+        assertEquals(charsetName, builder.getControlEncoding(options));
+        builder.setControlEncoding(options, charset);
+        assertEquals(charset, builder.getControlEncodingCharset(options));
+        assertEquals(charsetName, builder.getControlEncoding(options));
         builder.setControlKeepAliveReplyTimeout(options, Duration.ofSeconds(35));
         builder.setControlKeepAliveTimeout(options, Duration.ofSeconds(30));
         builder.setMdtmLastModifiedTime(options, mdtmLastModifiedTime);

@@ -45,10 +45,14 @@ The <action> type attribute can be add,update,fix,remove.
     <author email="dev@commons.apache.org">Apache Commons Developers</author>
   </properties>
   <body>
-    <release version="2.10.1" date="YYYY-MM-DD" description="This is a feature and maintenance release. Java 8 or later is required.">
+    <release version="2.11.0" date="YYYY-MM-DD" description="This is a feature and maintenance release. Java 8 or later is required.">
       <!-- FIX -->
       <!-- ADD -->
       <action dev="ggregory" type="update" due-to="Gary Gregory">Add org.apache.commons.vfs2.provider.ftp.FTPClientWrapper.sendOptions(String, String).</action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory">Add FtpFileSystemConfigBuilder.getControlEncodingCharset(FileSystemOptions) and deprecate getControlEncoding(FileSystemOptions).</action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory">Add FtpFileSystemConfigBuilder.setControlEncoding(FileSystemOptions, Charset) and deprecate setControlEncoding(FileSystemOptions, String).</action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory">Add FileSystemConfigBuilder.getCharset(FileSystemOptions, String).</action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory">Add FileSystemConfigBuilder.getCharset(FileSystemOptions, String, Charset).</action>
       <!-- UPDATE -->
       <action dev="ggregory" type="update" due-to="Gary Gregory">Bump org.apache.ftpserver:ftpserver-core from 1.2.0 to 1.2.1.</action>
       <action dev="ggregory" type="update" due-to="Gary Gregory">Bump org.apache.mina:mina-core from 2.1.10 to 2.2.4.</action>
