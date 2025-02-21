@@ -98,6 +98,12 @@ public class FTPClientWrapper implements FtpClient {
         return true;
     }
 
+    /**
+     * Creates an FTP client.
+     *
+     * @return a new FTP client.
+     * @throws FileSystemException if an error occurs while establishing a connection.
+     */
     private FTPClient createClient() throws FileSystemException {
         final GenericFileName rootName = getRoot();
         UserAuthenticationData authData = null;
@@ -111,10 +117,11 @@ public class FTPClientWrapper implements FtpClient {
 
     /**
      * Creates an FTPClient.
+     *
      * @param rootFileName the root file name.
      * @param authData authentication data.
      * @return an FTPClient.
-     * @throws FileSystemException if a file system error occurs.
+     * @throws FileSystemException if an error occurs while establishing a connection.
      */
     protected FTPClient createClient(final GenericFileName rootFileName, final UserAuthenticationData authData)
         throws FileSystemException {
@@ -162,7 +169,13 @@ public class FTPClientWrapper implements FtpClient {
         return fileSystemOptions;
     }
 
-    private FTPClient getFtpClient() throws FileSystemException {
+    /**
+     * Package-private for debugging only, consider private.
+     *
+     * @return the actual FTP client.
+     * @throws FileSystemException if an error occurs while establishing a connection.
+     */
+    FTPClient getFtpClient() throws FileSystemException {
         if (ftpClient == null) {
             ftpClient = createClient();
         }

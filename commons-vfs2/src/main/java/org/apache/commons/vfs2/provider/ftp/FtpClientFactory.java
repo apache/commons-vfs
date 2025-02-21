@@ -123,7 +123,7 @@ public final class FtpClientFactory {
          * @param workingDirectory The working directory.
          * @param fileSystemOptions Options to create the connection.
          * @return A new connection.
-         * @throws FileSystemException if an error occurs while connecting.
+         * @throws FileSystemException if an error occurs while establishing a connection.
          */
         public C createConnection(final String hostname, final int port, char[] username, char[] password,
                 final String workingDirectory, final FileSystemOptions fileSystemOptions) throws FileSystemException {
@@ -277,7 +277,7 @@ public final class FtpClientFactory {
      * @param workingDirectory The base directory.
      * @param fileSystemOptions The FileSystemOptions.
      * @return An FTPClient.
-     * @throws FileSystemException if an error occurs while connecting.
+     * @throws FileSystemException if an error occurs while establishing a connection.
      */
     public static FTPClient createConnection(final String hostname, final int port, final char[] username,
             final char[] password, final String workingDirectory, final FileSystemOptions fileSystemOptions)
