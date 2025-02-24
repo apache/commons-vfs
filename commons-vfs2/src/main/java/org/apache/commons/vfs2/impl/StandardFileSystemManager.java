@@ -28,6 +28,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileSystemException;
@@ -207,13 +208,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
         } catch (final Exception e) {
             throw new FileSystemException("vfs.impl/load-config.error", configUri.toString(), e);
         } finally {
-            if (configStream != null) {
-                try {
-                    configStream.close();
-                } catch (final IOException e) {
-                    getLogger().warn(e.getLocalizedMessage(), e);
-                }
-            }
+            IOUtils.closeQuietly(configStream, e -> getLogger().warn(e.getLocalizedMessage(), e));
         }
     }
 

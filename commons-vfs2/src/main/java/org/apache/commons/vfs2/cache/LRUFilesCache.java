@@ -25,12 +25,12 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.commons.collections4.map.AbstractLinkedMap;
 import org.apache.commons.collections4.map.LRUMap;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
-import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.VfsLog;
 import org.apache.commons.vfs2.util.Messages;
 
@@ -77,18 +77,12 @@ public class LRUFilesCache extends AbstractFilesCache {
 
                 // System.err.println(">>> " + size() + " removeLRU:" + linkEntry.getKey().toString());
                 if (super.removeLRU(linkEntry)) {
-                    try {
-                        // force detach
-                        fileObject.close();
-                    } catch (final FileSystemException e) {
-                        VfsLog.warn(getLogger(), log, Messages.getString("vfs.impl/LRUFilesCache-remove-ex.warn"), e);
-                    }
-
+                    // force detach
+                    IOUtils.closeQuietly(fileObject, e -> VfsLog.warn(getLogger(), log, Messages.getString("vfs.impl/LRUFilesCache-remove-ex.warn"), e));
                     final Map<?, ?> files = fileSystemCache.get(filesystem);
                     if (files.isEmpty()) {
                         fileSystemCache.remove(filesystem);
                     }
-
                     return true;
                 }
 

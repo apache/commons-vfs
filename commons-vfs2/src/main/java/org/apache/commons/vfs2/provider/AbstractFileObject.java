@@ -33,8 +33,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.function.Uncheck;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileContent;
@@ -220,28 +222,21 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      */
     @Override
     public void close() throws FileSystemException {
-        FileSystemException exc = null;
-
+        AtomicReference<Exception> ref = new AtomicReference<>();
         synchronized (fileSystem) {
             // Close the content
-            if (content != null) {
-                try {
-                    content.close();
-                    content = null;
-                } catch (final FileSystemException e) {
-                    exc = e;
-                }
+            IOUtils.closeQuietly(content, ref::set);
+            if (ref.get() != null) {
+                content = null;
             }
-
             // Detach from the file
             try {
                 detach();
             } catch (final Exception e) {
-                exc = new FileSystemException("vfs.provider/close.error", fileName, e);
+                ref.set(e);
             }
-
-            if (exc != null) {
-                throw exc;
+            if (ref.get() != null) {
+                throw new FileSystemException("vfs.provider/close.error", fileName, ref.get());
             }
         }
     }
