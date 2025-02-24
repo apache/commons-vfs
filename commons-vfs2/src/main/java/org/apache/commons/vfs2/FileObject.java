@@ -104,6 +104,19 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     FileObject[] EMPTY_ARRAY = {};
 
     /**
+     * Closes the given file object.
+     *
+     * @param fileObject a file object, may be null.
+     * @throws FileSystemException See {@link FileObject#close()}.
+     * @since 2.11.0
+     */
+    static void close(final FileObject fileObject) throws FileSystemException {
+        if (fileObject != null) {
+            fileObject.close();
+        }
+    }
+
+    /**
      * Queries the file if it is possible to rename it to newfile.
      *
      * @param newfile the new file(-name)

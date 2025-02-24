@@ -53,6 +53,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" type="update" due-to="Gary Gregory">Add FtpFileSystemConfigBuilder.setControlEncoding(FileSystemOptions, Charset) and deprecate setControlEncoding(FileSystemOptions, String).</action>
       <action dev="ggregory" type="update" due-to="Gary Gregory">Add FileSystemConfigBuilder.getCharset(FileSystemOptions, String).</action>
       <action dev="ggregory" type="update" due-to="Gary Gregory">Add FileSystemConfigBuilder.getCharset(FileSystemOptions, String, Charset).</action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory">Add FileObject.close(FileObject).</action>
       <!-- UPDATE -->
       <action dev="ggregory" type="update" due-to="Gary Gregory">Bump org.apache.ftpserver:ftpserver-core from 1.2.0 to 1.2.1.</action>
       <action dev="ggregory" type="update" due-to="Gary Gregory">Bump org.apache.mina:mina-core from 2.1.10 to 2.2.4.</action>
