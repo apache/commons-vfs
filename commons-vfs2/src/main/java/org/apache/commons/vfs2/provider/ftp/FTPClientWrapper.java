@@ -71,7 +71,6 @@ public class FTPClientWrapper implements FtpClient {
             // it should be better to really "abort" the transfer, but
             // currently I didn't manage to make it work - so lets "abort" the hard way.
             // return getFtpClient().abort();
-
             disconnect();
             return true;
         } catch (final IOException e) {
@@ -145,17 +144,19 @@ public class FTPClientWrapper implements FtpClient {
 
     @Override
     public void disconnect() throws IOException {
-        try {
-            getFtpClient().quit();
-        } catch (final IOException e) {
-            LOG.debug("I/O exception while trying to quit, probably it's a timed out connection, ignoring.", e);
-        } finally {
+        if (ftpClient != null) {
             try {
-                getFtpClient().disconnect();
+                ftpClient.quit();
             } catch (final IOException e) {
-                LOG.warn("I/O exception while trying to disconnect, probably it's a closed connection, ignoring.", e);
+                LOG.debug("I/O exception while trying to quit, connection likely timed out, ignoring.", e);
             } finally {
-                ftpClient = null;
+                try {
+                    getFtpClient().disconnect();
+                } catch (final IOException e) {
+                    LOG.warn("I/O exception while trying to disconnect, connection likely closed, ignoring.", e);
+                } finally {
+                    ftpClient = null;
+                }
             }
         }
     }
