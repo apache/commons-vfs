@@ -71,31 +71,15 @@ public abstract class AbstractProviderTestCase extends TestCase {
         assertTrue(fileObject.exists());
         assertSame(FileType.FILE, fileObject.getType());
         assertTrue(fileObject.isFile());
-
         // Get file content as a binary stream
         final byte[] expectedBytes = expected.getBytes(StandardCharsets.UTF_8);
-
         // Check lengths
         final FileContent content = fileObject.getContent();
         assertEquals("same content length", expectedBytes.length, content.getSize());
-
-        // Read content into byte array
-        final InputStream instr = content.getInputStream();
-        final ByteArrayOutputStream outstr;
-        try {
-            outstr = new ByteArrayOutputStream(expectedBytes.length);
-            final byte[] buffer = new byte[256];
-            int nread = 0;
-            while (nread >= 0) {
-                outstr.write(buffer, 0, nread);
-                nread = instr.read(buffer);
-            }
-        } finally {
-            instr.close();
+        // Compare input streams
+        try (InputStream in = content.getInputStream()) {
+            assertTrue(IOUtils.contentEquals(UnsynchronizedByteArrayInputStream.builder().setByteArray(expectedBytes).get(), in));
         }
-
-        // Compare
-        assertArrayEquals(expectedBytes, outstr.toByteArray(), "same binary content");
     }
 
     /**
@@ -108,20 +92,10 @@ public abstract class AbstractProviderTestCase extends TestCase {
         final byte[] expectedBytes = expected.getBytes(StandardCharsets.UTF_8);
         // Check lengths
         assertEquals("same content length", expectedBytes.length, urlConnection.getContentLength());
-        // Read content into byte array
-//        final ByteArrayOutputStream outstr;
+        // Compare input streams
         try (InputStream in = urlConnection.getInputStream()) {
-//            outstr = new ByteArrayOutputStream();
-//            final byte[] buffer = new byte[256];
-//            int nread = 0;
-//            while (nread >= 0) {
-//                outstr.write(buffer, 0, nread);
-//                nread = instr.read(buffer);
-//            }
             assertTrue(IOUtils.contentEquals(UnsynchronizedByteArrayInputStream.builder().setByteArray(expectedBytes).get(), in));
         }
-        // Compare
-        // assertArrayEquals(expectedBin, outstr.toByteArray(), "same binary content");
     }
 
     /**
