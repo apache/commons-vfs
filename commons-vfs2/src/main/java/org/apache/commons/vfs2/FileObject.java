@@ -289,7 +289,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Gets the name of this file.
      *
-     * @return the FileName.
+     * @return the FileName, not {@code null}.
      */
     FileName getName();
 
@@ -329,7 +329,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Gets a URI representing this file.
      *
-     * @return the URI for the file.
+     * @return the URI for the file, not {@code null}.
      * @since 2.7.0
      */
     default URI getURI() {
@@ -345,21 +345,21 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     URL getURL() throws FileSystemException;
 
     /**
-     * Checks if the fileObject is attached.
+     * Tests whether the fileObject is attached.
      *
      * @return true if the FileObject is attached.
      */
     boolean isAttached();
 
     /**
-     * Checks if someone reads/write to this file.
+     * Tests whether someone reads/write to this file.
      *
      * @return true if the file content is open.
      */
     boolean isContentOpen();
 
     /**
-     * Determines if this file is executable.
+     * Tests whether this file is executable.
      *
      * @return {@code true} if this file is executable, {@code false} if not.
      * @throws FileSystemException On error determining if this file exists.
@@ -367,7 +367,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     boolean isExecutable() throws FileSystemException;
 
     /**
-     * Checks if this file is a regular file.
+     * Tests whether this file is a regular file.
      *
      * @return true if this file is a regular file.
      * @throws FileSystemException if an error occurs.
@@ -378,7 +378,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     boolean isFile() throws FileSystemException;
 
     /**
-     * Checks if this file is a folder.
+     * Tests whether this file is a folder.
      *
      * @return true if this file is a folder.
      * @throws FileSystemException if an error occurs.
@@ -389,7 +389,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     boolean isFolder() throws FileSystemException;
 
     /**
-     * Determines if this file is hidden.
+     * Tests whether this file is hidden.
      *
      * @return {@code true} if this file is hidden, {@code false} if not.
      * @throws FileSystemException On error determining if this file exists.
@@ -397,7 +397,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     boolean isHidden() throws FileSystemException;
 
     /**
-     * Determines if this file can be read.
+     * Tests whether this file can be read.
      *
      * @return {@code true} if this file is readable, {@code false} if not.
      * @throws FileSystemException On error determining if this file exists.
@@ -405,7 +405,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     boolean isReadable() throws FileSystemException;
 
     /**
-     * Determines if this file is a symbolic link.
+     * Tests whether this file is a symbolic link.
      *
      * @return {@code true} if this file is a symbolic link, {@code false} if not.
      * @throws FileSystemException On error determining if this file exists.
@@ -417,7 +417,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     }
 
     /**
-     * Determines if this file can be written to.
+     * Tests whether this file can be written to.
      *
      * @return {@code true} if this file is writable, {@code false} if not.
      * @throws FileSystemException On error determining if this file exists.
