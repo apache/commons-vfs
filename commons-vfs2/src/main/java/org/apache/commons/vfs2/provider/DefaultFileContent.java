@@ -217,7 +217,7 @@ public final class DefaultFileContent implements FileContent {
     /**
      * The default buffer size for {@link #write(OutputStream)}.
      */
-    private static final int WRITE_BUFFER_SIZE = 4096;
+    private static final int WRITE_BUFFER_SIZE = IOUtils.DEFAULT_BUFFER_SIZE;
     private final AbstractFileObject<?> fileObject;
 
     private Map<String, Object> attrs;
