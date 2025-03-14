@@ -107,7 +107,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
      * allowing control over case-sensitivity.
      * <p>
      * The wildcard matcher uses the characters '?' and '*' to represent a single or
-     * multiple (zero or more) wildcard characters. N.B. the sequence "*?" does not
+     * multiple (zero or more) wildcard characters. The sequence "*?" does not
      * work properly at present in match strings.
      * </p>
      *
