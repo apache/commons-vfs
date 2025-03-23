@@ -180,7 +180,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * Queries the object if a simple rename to the file name of {@code newfile} is possible.
+     * Tests if a simple rename to the file name of {@code newfile} is possible.
      *
      * @param newfile the new file name
      * @return true if rename is possible
