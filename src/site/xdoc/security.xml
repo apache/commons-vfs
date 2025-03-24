@@ -45,7 +45,11 @@
       </p>
     </section>
     <section name="Security Vulnerabilities">
-      <p>None.</p>
+      <p>The following have been fixed in 2.10.0:</p>
+      <ul>
+      <li><a href="https://www.cve.org/CVERecord?id=CVE-2025-27553">CVE-2025-27553</a>: Apache Commons VFS: Possible path traversal issue when using NameScope.DESCENDENT</li>
+      <li><a href="https://www.cve.org/CVERecord?id=CVE-2025-30474">CVE-2025-30474</a>: Apache Commons VFS: Failing to find an FTP file can reveal the URI's password in an error message</li>
+      </ul>
     </section>
   </body>
 </document>
