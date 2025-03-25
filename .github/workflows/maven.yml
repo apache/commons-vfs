@@ -32,22 +32,22 @@ jobs:
         java: [ 8, 11, 17, 21 ]
         experimental: [false]
         include:
-          - java: 23
+          - java: 24
             os: ubuntu-latest
             experimental: true
-          - java: 23
+          - java: 24
             os: windows-latest
             experimental: true
-          - java: 23
+          - java: 24
             os: macos-latest
             experimental: true
-          - java: 24-ea
+          - java: 25-ea
             os: ubuntu-latest
             experimental: true
-          - java: 24-ea
+          - java: 25-ea
             os: windows-latest
             experimental: true
-          - java: 24-ea
+          - java: 25-ea
             os: macos-latest
             experimental: true
       fail-fast: false
