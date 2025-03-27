@@ -181,10 +181,11 @@ public abstract class AbstractTestSuite extends TestSetup {
                 threadTargetField = FieldUtils.getDeclaredField(Thread.class, "holder", true);
                 if (threadTargetField == null) {
                     System.err.println("Test suite cannot show you a thread snapshot (Thread.holder)");
-                }
-                threadTargetField = FieldUtils.getDeclaredField(threadTargetField.getClass(), "task", true);
-                if (threadTargetField == null) {
-                    System.err.println("Test suite cannot show you a thread snapshot (Thread.holder.task)");
+                } else {
+                    threadTargetField = FieldUtils.getDeclaredField(threadTargetField.getClass(), "task", true);
+                    if (threadTargetField == null) {
+                        System.err.println("Test suite cannot show you a thread snapshot (Thread.holder.task)");
+                    }
                 }
             }
         } catch (final Exception e) {
