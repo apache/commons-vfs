@@ -19,13 +19,14 @@ package org.apache.commons.vfs2.cache;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.commons.collections4.map.AbstractLinkedMap;
 import org.apache.commons.collections4.map.LRUMap;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.concurrent.locks.LockingVisitors;
+import org.apache.commons.lang3.concurrent.locks.LockingVisitors.ReadWriteLockVisitor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.FileName;
@@ -64,9 +65,7 @@ public class LRUFilesCache extends AbstractFilesCache {
             synchronized (LRUFilesCache.this) {
                 @SuppressWarnings("resource") // FileObject allocated elsewhere.
                 final FileObject fileObject = linkEntry.getValue();
-
                 // System.err.println(">>> " + size() + " check removeLRU:" + linkEntry.getKey().toString());
-
                 if (fileObject.isAttached() || fileObject.isContentOpen()) {
                     // do not allow open or attached files to be removed
                     // System.err.println(">>> " + size() + " VETO removeLRU:" +
@@ -74,7 +73,6 @@ public class LRUFilesCache extends AbstractFilesCache {
                     // file.isContentOpen() + ")");
                     return false;
                 }
-
                 // System.err.println(">>> " + size() + " removeLRU:" + linkEntry.getKey().toString());
                 if (super.removeLRU(linkEntry)) {
                     // force detach
@@ -85,7 +83,6 @@ public class LRUFilesCache extends AbstractFilesCache {
                     }
                     return true;
                 }
-
                 return false;
             }
         }
@@ -122,16 +119,10 @@ public class LRUFilesCache extends AbstractFilesCache {
 
     @Override
     public void clear(final FileSystem filesystem) {
-        final Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
-
-        writeLock().lock();
-        try {
-            files.clear();
-
+        createLockingVisitors(filesystem).acceptReadLocked(m -> {
+            m.clear();
             fileSystemCache.remove(filesystem);
-        } finally {
-            writeLock().unlock();
-        }
+        });
     }
 
     @Override
@@ -140,15 +131,17 @@ public class LRUFilesCache extends AbstractFilesCache {
         fileSystemCache.clear();
     }
 
+    private ReadWriteLockVisitor<Map<FileName, FileObject>> createLockingVisitors(final FileObject file) {
+        return createLockingVisitors(file.getFileSystem());
+    }
+
+    private ReadWriteLockVisitor<Map<FileName, FileObject>> createLockingVisitors(final FileSystem filesystem) {
+        return LockingVisitors.create(getOrCreateFilesystemCache(filesystem), rwLock);
+    }
+
     @Override
     public FileObject getFile(final FileSystem filesystem, final FileName name) {
-        final Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
-        readLock().lock();
-        try {
-            return files.get(name);
-        } finally {
-            readLock().unlock();
-        }
+        return createLockingVisitors(filesystem).applyReadLocked(m -> m.get(name));
     }
 
     /**
@@ -163,55 +156,27 @@ public class LRUFilesCache extends AbstractFilesCache {
 
     @Override
     public void putFile(final FileObject file) {
-        final Map<FileName, FileObject> files = getOrCreateFilesystemCache(file.getFileSystem());
-
-        writeLock().lock();
-        try {
-            files.put(file.getName(), file);
-        } finally {
-            writeLock().unlock();
-        }
+        createLockingVisitors(file).acceptWriteLocked(m -> m.put(file.getName(), file));
     }
 
     @Override
     public boolean putFileIfAbsent(final FileObject file) {
-        final Map<FileName, FileObject> files = getOrCreateFilesystemCache(file.getFileSystem());
-
-        writeLock().lock();
-        try {
-            return files.putIfAbsent(file.getName(), file) == null;
-        } finally {
-            writeLock().unlock();
-        }
-    }
-
-    private Lock readLock() {
-        return rwLock.readLock();
+        return createLockingVisitors(file).applyWriteLocked(m -> m.putIfAbsent(file.getName(), file) == null);
     }
 
     @Override
     public void removeFile(final FileSystem filesystem, final FileName name) {
-        final Map<?, ?> files = getOrCreateFilesystemCache(filesystem);
-
-        writeLock().lock();
-        try {
-            files.remove(name);
-
-            if (files.isEmpty()) {
+        createLockingVisitors(filesystem).acceptWriteLocked(m -> {
+            m.remove(name);
+            if (m.isEmpty()) {
                 fileSystemCache.remove(filesystem);
             }
-        } finally {
-            writeLock().unlock();
-        }
+        });
     }
 
     @Override
     public void touchFile(final FileObject file) {
         // this moves the file back on top
         getFile(file.getFileSystem(), file.getName());
-    }
-
-    private Lock writeLock() {
-        return rwLock.writeLock();
     }
 }
