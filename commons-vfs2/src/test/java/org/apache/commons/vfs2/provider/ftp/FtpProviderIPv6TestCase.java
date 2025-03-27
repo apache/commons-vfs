@@ -50,9 +50,7 @@ public class FtpProviderIPv6TestCase extends FtpProviderTestCase {
     @org.junit.Test
     public void testResolveIPv6Url() throws Exception {
         final String ipv6Url = "ftp://[fe80::1c42:dae:8370:aea6%en1]/file.txt";
-
         final FtpFileObject fileObject = (FtpFileObject) getManager().resolveFile(ipv6Url, new FileSystemOptions());
-
         assertEquals("ftp://[fe80::1c42:dae:8370:aea6%en1]/", fileObject.getFileSystem().getRootURI());
         assertEquals("file.txt", fileObject.getRelPath());
     }
