@@ -34,35 +34,22 @@
   <description>Apache Commons VFS Ant Tasks.</description>
 
   <dependencies>
+
     <dependency>
       <groupId>org.apache.ant</groupId>
       <artifactId>ant</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-vfs2</artifactId>
     </dependency>
-    <dependency>
-       <groupId>org.apache.commons</groupId>
-       <artifactId>commons-vfs2</artifactId>
-       <type>test-jar</type>
-       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-core</artifactId>
-      <scope>test</scope>
-    </dependency>
+
   </dependencies>
 
   <properties>

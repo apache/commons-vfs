@@ -36,10 +36,8 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.hdfs.DFSConfigKeys;
 import org.apache.hadoop.hdfs.MiniDFSCluster;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.hadoop.hdfs.client.HdfsClientConfigKeys;
 import org.junit.Assume;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.condition.DisabledOnOs;
@@ -93,7 +91,6 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
         protected void setUp() throws Exception {
             Assume.assumeFalse(SystemUtils.IS_OS_WINDOWS);
             System.setProperty("test.basedir", "../commons-vfs2/target/test-classes/test-data");
-            Logger.getRootLogger().setLevel(Level.OFF);
 
             // Put the MiniDFSCluster directory in the target directory
             final File data = new File("target/test/hdfstestcasedata").getAbsoluteFile();
@@ -105,7 +102,7 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
             conf = new Configuration();
             conf.set(FileSystem.FS_DEFAULT_NAME_KEY, HDFS_URI);
             conf.set("hadoop.security.token.service.use_ip", "true");
-            conf.setLong(DFSConfigKeys.DFS_BLOCK_SIZE_KEY, 1024 * 1024); // 1M block size
+            conf.setLong(HdfsClientConfigKeys.DFS_BLOCK_SIZE_KEY, 1024 * 1024); // 1M block size
 
             HdfsFileProviderTest.setUmask(conf);
 

@@ -34,49 +34,62 @@
   <description>Apache Commons VFS is a Virtual File System library - Apache Hadoop HDFS provider.</description>
 
   <dependencies>
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-vfs2</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-hdfs-client</artifactId>
-    </dependency>
+
     <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-common</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>com.sun.jersey</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.avro</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
+
     <dependency>
       <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-hdfs</artifactId>
+      <artifactId>hadoop-hdfs-client</artifactId>
+      <scope>runtime</scope>
     </dependency>
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-slf4j2-impl</artifactId>
-      <scope>test</scope>
-    </dependency>
+
+    <!--
+      ~ Tests: compile dependencies
+      -->
     <dependency>
        <groupId>org.apache.commons</groupId>
        <artifactId>commons-vfs2</artifactId>
        <type>test-jar</type>
        <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-core</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <!-- Test HDFS with Apache Hadoop -->
+
     <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-common</artifactId>
@@ -84,26 +97,63 @@
       <scope>test</scope>
       <exclusions>
         <exclusion>
-         <!-- VFS-606 - tools.jar not available in Java 9
-              This exclusion can be removed after upgrading Hadoop
-              to 2.7.1 or later  
-          -->
-          <groupId>jdk.tools</groupId>
-          <artifactId>jdk.tools</artifactId>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
+
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-hdfs</artifactId>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-hdfs</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
+      <exclusions>
+        <!-- Remove unused dependencies with vulnerabilities -->
+        <exclusion>
+          <groupId>io.netty</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
+
     <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!--
+     ~ Tests: runtime dependencies
+     -->
+    <dependency>
+      <!-- Runtime dependency of `hadoop-hdfs:test-jar` -->
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-common</artifactId>
+      <type>test-jar</type>
+      <scope>test</scope>
+      <exclusions>
+        <!-- Remove unused dependencies with vulnerabilities -->
+        <exclusion>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <!-- Runtime dependency of `hadoop-hdfs:test-jar` -->
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
       <scope>test</scope>
     </dependency>
+
   </dependencies>
 
   <properties>
@@ -218,6 +268,23 @@
             </dependency>
 		  </dependencies>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>verify-undeclared-deps</id>
+            <configuration>
+              <!-- Runtime-only test dependencies go here -->
+              <ignoredUnusedDeclaredDependencies combine.children="append">
+                <dependency>org.apache.hadoop:hadoop-common:test-jar</dependency>
+                <dependency>org.mockito:mockito-core</dependency>
+              </ignoredUnusedDeclaredDependencies>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

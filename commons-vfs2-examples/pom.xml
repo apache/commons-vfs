@@ -34,30 +34,35 @@
   </parent>
 
   <dependencies>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-vfs2</artifactId>
     </dependency>
 
+    <!-- Optional dependencies -->
     <dependency>
       <groupId>commons-net</groupId>
       <artifactId>commons-net</artifactId>
       <optional>true</optional>
     </dependency>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-collections4</artifactId>
-      <optional>true</optional>
-    </dependency>
+
     <dependency>
       <groupId>com.jcraft</groupId>
       <artifactId>jsch</artifactId>
       <optional>true</optional>
     </dependency>
+
   </dependencies>
 
   <properties>
     <commons.parent.dir>${basedir}/..</commons.parent.dir>
+    <commons.module.name>org.apache.commons.vfs2.examples</commons.module.name>
     <japicmp.skip>true</japicmp.skip>
     <commons.osgi.import>
         *
@@ -136,6 +141,26 @@
           <scope>runtime</scope>
         </dependency>
       </dependencies>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>verify-undeclared-deps</id>
+                <configuration>
+                  <!-- Runtime-only dependencies go here -->
+                  <ignoredUnusedDeclaredDependencies combine.children="append">
+                    <dependency>commons-httpclient:commons-httpclient</dependency>
+                  </ignoredUnusedDeclaredDependencies>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
 
     <profile>
@@ -153,6 +178,26 @@
           <scope>runtime</scope>
         </dependency>
       </dependencies>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>verify-undeclared-deps</id>
+                <configuration>
+                  <!-- Runtime-only dependencies go here -->
+                  <ignoredUnusedDeclaredDependencies combine.children="append">
+                    <dependency>org.apache.httpcomponents:httpclient</dependency>
+                  </ignoredUnusedDeclaredDependencies>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
 
     <profile>
@@ -170,6 +215,27 @@
           <scope>runtime</scope>
         </dependency>
       </dependencies>
+
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>verify-undeclared-deps</id>
+                <configuration>
+                  <!-- Runtime-only dependencies go here -->
+                  <ignoredUnusedDeclaredDependencies combine.children="append">
+                    <dependency>org.apache.httpcomponents.client5:httpclient5</dependency>
+                  </ignoredUnusedDeclaredDependencies>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
 
     <profile>

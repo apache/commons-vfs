@@ -39,10 +39,8 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.hdfs.DFSConfigKeys;
 import org.apache.hadoop.hdfs.MiniDFSCluster;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.hadoop.hdfs.client.HdfsClientConfigKeys;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -109,7 +107,6 @@ public class HdfsFileProviderTest {
     @BeforeAll
     public static void setUp() throws Exception {
         System.setProperty("test.basedir", "../commons-vfs2/target/test-classes/test-data");
-        Logger.getRootLogger().setLevel(Level.ERROR);
 
         // Put the MiniDFSCluster directory in the target directory
         final File data = new File("target/test/hdfstestdata").getAbsoluteFile();
@@ -121,7 +118,7 @@ public class HdfsFileProviderTest {
         conf = new Configuration();
         conf.set(FileSystem.FS_DEFAULT_NAME_KEY, HDFS_URI);
         conf.set("hadoop.security.token.service.use_ip", "true");
-        conf.setLong(DFSConfigKeys.DFS_BLOCK_SIZE_KEY, 1024 * 1024); // 1M block size
+        conf.setLong(HdfsClientConfigKeys.DFS_BLOCK_SIZE_KEY, 1024 * 1024); // 1M block size
 
         setUmask(conf);
 
