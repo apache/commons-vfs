@@ -31,7 +31,7 @@ import org.apache.commons.lang3.ArraySorter;
 public enum RandomAccessMode {
 
     /**
-     * Read access mode.
+     * The read access mode.
      */
     READ(true, false) {
 
@@ -45,7 +45,7 @@ public enum RandomAccessMode {
     },
 
     /**
-     * Read-write access mode.
+     * The read-write access mode.
      */
     READWRITE(true, true) {
 
