@@ -98,7 +98,7 @@
       <property name="allowUnknownTags" value="true" />
     </module>
     <module name="JavadocVariable">
-      <property name="scope" value="protected" />
+      <property name="accessModifiers" value="protected" />
     </module>
     <module name="JavadocStyle">
       <property name="scope" value="public" />
