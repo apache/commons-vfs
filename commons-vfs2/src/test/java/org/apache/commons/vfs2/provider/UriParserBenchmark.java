@@ -29,6 +29,7 @@ import org.openjdk.jmh.annotations.Warmup;
 public class UriParserBenchmark {
 
     private static final String PATH_TO_NORMALIZE = "file:///this/../is/a%2flong%2Fpath/./for testing/normlisePath%2fmethod.txt";
+    private static final String[] SCHEMES = {"file", "ftp", "ftps", "webdav", "temp", "ram", "http", "https", "sftp", "zip", "jar", "tgz", "gz"};
     private static final String PATH_TO_ENCODE = "file:///this/is/path/to/encode/for/testing/encode.perf";
     private static final char[] ENCODE_RESERVED = new char[] {' ', '#'};
 
@@ -40,6 +41,10 @@ public class UriParserBenchmark {
     }
 
     @Benchmark
+    public void extractScheme() throws FileSystemException {
+        UriParser.extractScheme(SCHEMES, PATH_TO_NORMALIZE);
+    }
+
     public void encode() throws FileSystemException {
         UriParser.encode(PATH_TO_ENCODE, ENCODE_RESERVED);
     }
