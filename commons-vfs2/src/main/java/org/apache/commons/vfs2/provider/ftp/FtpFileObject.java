@@ -94,7 +94,6 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
             } finally {
                 getAbstractFileSystem().putClient(client);
             }
-
             if (!ok) {
                 throw new FileSystemException("vfs.provider.ftp/finish-get.error", getName());
             }
@@ -122,7 +121,6 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
             } finally {
                 getAbstractFileSystem().putClient(client);
             }
-
             if (!ok) {
                 throw new FileSystemException("vfs.provider.ftp/finish-put.error", getName());
             }
@@ -130,9 +128,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     }
 
     private static final long DEFAULT_TIMESTAMP = 0L;
-    private static final Map<String, FTPFile> EMPTY_FTP_FILE_MAP = Collections
-            .unmodifiableMap(new TreeMap<>());
-
+    private static final Map<String, FTPFile> EMPTY_FTP_FILE_MAP = Collections.unmodifiableMap(new TreeMap<>());
     private static final FTPFile UNKNOWN = new FTPFile();
 
     private static final Log log = LogFactory.getLog(FtpFileObject.class);
@@ -190,7 +186,6 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         } finally {
             getAbstractFileSystem().putClient(client);
         }
-
         if (!ok) {
             throw new FileSystemException("vfs.provider.ftp/create-folder.error", getName());
         }
@@ -214,7 +209,6 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
                 } finally {
                     getAbstractFileSystem().putClient(ftpClient);
                 }
-
                 if (!ok) {
                     throw new FileSystemException("vfs.provider.ftp/delete-file.error", getName());
                 }
@@ -243,26 +237,22 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         if (childMap != null) {
             return;
         }
-
         final FtpClient client = getAbstractFileSystem().getClient();
         try {
             final String path = ftpFile != null && ftpFile.isSymbolicLink()
-                    ? getFileSystem().getFileSystemManager().resolveName(getParent().getName(), ftpFile.getLink())
-                            .getPath()
+                    ? getFileSystem().getFileSystemManager().resolveName(getParent().getName(), ftpFile.getLink()).getPath()
                     : relPath;
             final FTPFile[] tmpChildren = client.listFiles(path);
             if (ArrayUtils.isEmpty(tmpChildren)) {
                 childMap = EMPTY_FTP_FILE_MAP;
             } else {
                 childMap = new TreeMap<>();
-
                 // Remove '.' and '..' elements
                 for (int i = 0; i < tmpChildren.length; i++) {
                     final FTPFile child = tmpChildren[i];
                     if (child == null) {
                         if (log.isDebugEnabled()) {
-                            log.debug(Messages.getString("vfs.provider.ftp/invalid-directory-entry.debug",
-                                    Integer.valueOf(i), relPath));
+                            log.debug(Messages.getString("vfs.provider.ftp/invalid-directory-entry.debug", Integer.valueOf(i), relPath));
                         }
                         continue;
                     }
@@ -503,7 +493,6 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         } catch (final Exception ex) {
             throw new FileNotFolderException(getName(), ex);
         }
-
         try {
             /*
              * Wrap our parent implementation, noting that we're refreshing so that we don't refresh() ourselves and

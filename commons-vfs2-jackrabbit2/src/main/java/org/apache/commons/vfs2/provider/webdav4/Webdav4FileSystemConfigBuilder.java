@@ -130,7 +130,7 @@ public final class Webdav4FileSystemConfigBuilder extends Http4FileSystemConfigB
     }
 
     /**
-     * Whether to use versioning.
+     * Sets whether to use versioning.
      *
      * @param opts The FileSystem options.
      * @param versioning true if versioning should be enabled.

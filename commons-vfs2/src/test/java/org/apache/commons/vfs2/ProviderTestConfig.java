@@ -43,7 +43,7 @@ public interface ProviderTestConfig {
     FilesCache getFilesCache();
 
     /**
-     * Whether or not the root of test file system is accessible.
+     * Tests whether or not the root of test file system is accessible.
      *
      * For example, with the default Jackrabbit (WebDAV) server, the root is not accessible, but deeper paths are OK.
      *

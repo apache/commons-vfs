@@ -84,7 +84,7 @@ public final class FtpsClientFactory {
      * @param workingDirectory The directory to use.
      * @param fileSystemOptions The FileSystemOptions.
      * @return The FTPSClient.
-     * @throws FileSystemException if an error occurs.
+     * @throws FileSystemException if an error occurs while establishing a connection.
      */
     public static FTPSClient createConnection(final String hostname, final int port, final char[] username,
             final char[] password, final String workingDirectory, final FileSystemOptions fileSystemOptions)

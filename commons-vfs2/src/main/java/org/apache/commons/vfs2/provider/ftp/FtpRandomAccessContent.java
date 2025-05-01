@@ -20,6 +20,7 @@ import java.io.DataInputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.provider.AbstractRandomAccessStreamContent;
 import org.apache.commons.vfs2.util.RandomAccessMode;
@@ -116,14 +117,10 @@ final class FtpRandomAccessContent extends AbstractRandomAccessStreamContent {
             // no change
             return;
         }
-
         if (pos < 0) {
             throw new FileSystemException("vfs.provider/random-access-invalid-position.error", Long.valueOf(pos));
         }
-        if (dis != null) {
-            close();
-        }
-
+        IOUtils.close(dis);
         filePointer = pos;
     }
 }

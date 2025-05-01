@@ -18,6 +18,8 @@ package org.apache.commons.vfs2.provider.ftp;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
 import org.apache.commons.lang3.Range;
@@ -38,13 +40,27 @@ public class FtpFileSystemConfigBuilderTest {
     }
 
     @Test
+    public void testControlEncoding() {
+        final FileSystemOptions options = new FileSystemOptions();
+        final FtpFileSystemConfigBuilder builder = FtpFileSystemConfigBuilder.getInstance();
+        final Charset charset = StandardCharsets.UTF_8;
+        final String charsetName = charset.name();
+        builder.setControlEncoding(options, charsetName);
+        assertEquals(charset, builder.getControlEncodingCharset(options));
+        assertEquals(charsetName, builder.getControlEncoding(options));
+        builder.setControlEncoding(options, charset);
+        assertEquals(charset, builder.getControlEncodingCharset(options));
+        assertEquals(charsetName, builder.getControlEncoding(options));
+    }
+
+    @Test
     public void testControlKeepAliveReplyTimeout() {
         final FtpFileSystemConfigBuilder instance = FtpFileSystemConfigBuilder.getInstance();
         final FileSystemOptions options = new FileSystemOptions();
         instance.setControlKeepAliveReplyTimeout(options, Duration.ofSeconds(10));
         assertEquals(Duration.ofSeconds(10), instance.getControlKeepAliveReplyTimeout(options));
     }
-
+    
     @Test
     public void testControlKeepAliveTimeout() {
         final FtpFileSystemConfigBuilder instance = FtpFileSystemConfigBuilder.getInstance();

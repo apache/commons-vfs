@@ -54,9 +54,7 @@ public class ZipFileSystemTest {
                     fileObject = manager.resolveFile(fileUri);
                     assertTrue(fileObject.exists());
                 } finally {
-                    if (fileObject != null) {
-                        fileObject.close();
-                    }
+                    FileObject.close(fileObject);
                     fileObject = null;
                 }
                 // every 200 times suggest one gc

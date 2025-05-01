@@ -27,6 +27,8 @@ import java.nio.charset.StandardCharsets;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.input.UnsynchronizedByteArrayInputStream;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
@@ -64,36 +66,20 @@ public abstract class AbstractProviderTestCase extends TestCase {
      * then reads the content as a byte stream and compares the result with the expected content. Assumes files are
      * encoded using UTF-8.
      */
-    protected void assertSameContent(final String expected, final FileObject file) throws Exception {
+    protected void assertSameContent(final String expected, final FileObject fileObject) throws Exception {
         // Check the file exists, and is a file
-        assertTrue(file.exists());
-        assertSame(FileType.FILE, file.getType());
-        assertTrue(file.isFile());
-
+        assertTrue(fileObject.exists());
+        assertSame(FileType.FILE, fileObject.getType());
+        assertTrue(fileObject.isFile());
         // Get file content as a binary stream
-        final byte[] expectedBin = expected.getBytes(StandardCharsets.UTF_8);
-
+        final byte[] expectedBytes = expected.getBytes(StandardCharsets.UTF_8);
         // Check lengths
-        final FileContent content = file.getContent();
-        assertEquals("same content length", expectedBin.length, content.getSize());
-
-        // Read content into byte array
-        final InputStream instr = content.getInputStream();
-        final ByteArrayOutputStream outstr;
-        try {
-            outstr = new ByteArrayOutputStream(expectedBin.length);
-            final byte[] buffer = new byte[256];
-            int nread = 0;
-            while (nread >= 0) {
-                outstr.write(buffer, 0, nread);
-                nread = instr.read(buffer);
-            }
-        } finally {
-            instr.close();
+        final FileContent content = fileObject.getContent();
+        assertEquals("same content length", expectedBytes.length, content.getSize());
+        // Compare input streams
+        try (InputStream in = content.getInputStream()) {
+            assertTrue(IOUtils.contentEquals(UnsynchronizedByteArrayInputStream.builder().setByteArray(expectedBytes).get(), in));
         }
-
-        // Compare
-        assertArrayEquals(expectedBin, outstr.toByteArray(), "same binary content");
     }
 
     /**
@@ -101,30 +87,15 @@ public abstract class AbstractProviderTestCase extends TestCase {
      * correct, then reads the content as a byte stream and compares the result with the expected content. Assumes files
      * are encoded using UTF-8.
      */
-    protected void assertSameURLContent(final String expected, final URLConnection connection) throws Exception {
+    protected void assertSameURLContent(final String expected, final URLConnection urlConnection) throws Exception {
         // Get file content as a binary stream
-        final byte[] expectedBin = expected.getBytes(StandardCharsets.UTF_8);
-
+        final byte[] expectedBytes = expected.getBytes(StandardCharsets.UTF_8);
         // Check lengths
-        assertEquals("same content length", expectedBin.length, connection.getContentLength());
-
-        // Read content into byte array
-        final InputStream instr = connection.getInputStream();
-        final ByteArrayOutputStream outstr;
-        try {
-            outstr = new ByteArrayOutputStream();
-            final byte[] buffer = new byte[256];
-            int nread = 0;
-            while (nread >= 0) {
-                outstr.write(buffer, 0, nread);
-                nread = instr.read(buffer);
-            }
-        } finally {
-            instr.close();
+        assertEquals("same content length", expectedBytes.length, urlConnection.getContentLength());
+        // Compare input streams
+        try (InputStream in = urlConnection.getInputStream()) {
+            assertTrue(IOUtils.contentEquals(UnsynchronizedByteArrayInputStream.builder().setByteArray(expectedBytes).get(), in));
         }
-
-        // Compare
-        assertArrayEquals(expectedBin, outstr.toByteArray(), "same binary content");
     }
 
     /**

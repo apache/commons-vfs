@@ -24,7 +24,7 @@ import org.apache.commons.vfs2.FileFilter;
  * Defines operations for conditional file filters.
  *
  * @author This code was originally ported from Apache Commons IO File Filter
- * @see "https://commons.apache.org/proper/commons-io/"
+ * @see <a href="https://commons.apache.org/proper/commons-io/">Apache Commons IO</a>
  * @since 2.4
  */
 public interface ConditionalFileFilter {
@@ -38,7 +38,7 @@ public interface ConditionalFileFilter {
     void addFileFilter(FileFilter fileFilter);
 
     /**
-     * Returns this conditional file filter's list of file filters.
+     * Gets this conditional file filter's list of file filters.
      *
      * @return the file filter list
      */

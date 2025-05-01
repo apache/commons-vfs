@@ -45,7 +45,26 @@ The <action> type attribute can be add,update,fix,remove.
     <author email="dev@commons.apache.org">Apache Commons Developers</author>
   </properties>
   <body>
-    <release version="2.10.0" date="2025-02-01" description="Maintenance release. Requires Java 8 or above.">
+    <release version="2.11.0" date="YYYY-MM-DD" description="This is a feature and maintenance release. Java 8 or later is required.">
+      <!-- FIX -->
+      <action dev="ggregory" type="fix" due-to="Gary Gregory">Rework FTPClientWrapper.disconnect() to remove any chance of a new connection being created on demand.</action>
+      <action dev="ggregory" type="fix" due-to="Gary Gregory">The write buffer size in DefaultFileContent is now 8K instead of 4K.</action>
+      <action dev="ggregory" type="fix" due-to="Anthony Goubard">Improve performance of encoding URIs #660.</action>
+      <!-- ADD -->
+      <action dev="ggregory" type="add" due-to="Gary Gregory">Add org.apache.commons.vfs2.provider.ftp.FTPClientWrapper.sendOptions(String, String).</action>
+      <action dev="ggregory" type="add" due-to="Gary Gregory">Add FtpFileSystemConfigBuilder.getControlEncodingCharset(FileSystemOptions) and deprecate getControlEncoding(FileSystemOptions).</action>
+      <action dev="ggregory" type="add" due-to="Gary Gregory">Add FtpFileSystemConfigBuilder.setControlEncoding(FileSystemOptions, Charset) and deprecate setControlEncoding(FileSystemOptions, String).</action>
+      <action dev="ggregory" type="add" due-to="Gary Gregory">Add FileSystemConfigBuilder.getCharset(FileSystemOptions, String).</action>
+      <action dev="ggregory" type="add" due-to="Gary Gregory">Add FileSystemConfigBuilder.getCharset(FileSystemOptions, String, Charset).</action>
+      <action dev="ggregory" type="add" due-to="Gary Gregory">Add FileObject.close(FileObject).</action>
+      <!-- UPDATE -->
+      <action dev="ggregory" type="update" due-to="Gary Gregory">Bump org.apache.ftpserver:ftpserver-core from 1.2.0 to 1.2.1.</action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory">Bump org.apache.mina:mina-core from 2.1.10 to 2.2.4.</action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory, Dependabot">Bump org.apache.httpcomponents.client5:httpclient5 from 5.4.1 to 5.4.2 #658.</action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory, Dependabot">Bump org.slf4j:slf4j-simple from 2.0.16 to 2.0.17 #671.</action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory, Dependabot">Bump org.apache.httpcomponents.core5:httpcore5 from 5.3.3 to 5.3.4 #673.</action>
+    </release>
+    <release version="2.10.0" date="2025-02-01" description="This is a feature and maintenance release. Java 8 or later is required.">
       <!-- FIX -->
       <action type="fix" issue="VFS-854" dev="ecki" due-to="Andrey Turbanov">
         Avoid debug-logging URL credentials.

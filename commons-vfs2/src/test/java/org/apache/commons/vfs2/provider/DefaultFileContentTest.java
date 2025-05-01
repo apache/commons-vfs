@@ -31,6 +31,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.function.FailableFunction;
@@ -195,11 +196,7 @@ public class DefaultFileContentTest {
             final T stream = getStream.apply(file.getContent());
             final AtomicBoolean check = new AtomicBoolean();
             final Thread thread = new Thread(() -> {
-                try {
-                    stream.close();
-                } catch (final IOException exception) {
-                    // ignore
-                }
+                IOUtils.closeQuietly(stream);
                 check.set(true);
             });
             thread.start();

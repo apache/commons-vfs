@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileContentInfo;
@@ -216,7 +217,7 @@ public final class DefaultFileContent implements FileContent {
     /**
      * The default buffer size for {@link #write(OutputStream)}.
      */
-    private static final int WRITE_BUFFER_SIZE = 4096;
+    private static final int WRITE_BUFFER_SIZE = IOUtils.DEFAULT_BUFFER_SIZE;
     private final AbstractFileObject<?> fileObject;
 
     private Map<String, Object> attrs;
@@ -848,29 +849,18 @@ public final class DefaultFileContent implements FileContent {
     }
 
     /**
-     * Writes this content to an OutputStream.
+     * Copies this content to an OutputStream.
      *
      * @param output The target OutputStream.
      * @param bufferSize The buffer size to write data chunks.
-     * @return the total number of bytes written
+     * @return the total number of bytes written.
      * @throws IOException if an error occurs writing the file.
      * @since 2.1
      */
     @Override
     public long write(final OutputStream output, final int bufferSize) throws IOException {
-        final InputStream input = getInputStream();
-        long count = 0;
-        try {
-            // This read/write code from Apache Commons IO
-            final byte[] buffer = new byte[bufferSize];
-            int n;
-            while (-1 != (n = input.read(buffer))) {
-                output.write(buffer, 0, n);
-                count += n;
-            }
-        } finally {
-            input.close();
+        try (InputStream inputStream = getInputStream()) {
+            return IOUtils.copyLarge(inputStream, output, new byte[bufferSize]);
         }
-        return count;
     }
 }

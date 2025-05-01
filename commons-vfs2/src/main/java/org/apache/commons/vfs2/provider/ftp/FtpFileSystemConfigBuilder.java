@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider.ftp;
 
 import java.net.Proxy;
+import java.nio.charset.Charset;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -153,9 +154,22 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param options The FileSystemOptions.
      * @return The control encoding.
      * @since 2.0
+     * @deprecated Use {@link #getControlEncodingCharset(FileSystemOptions)}.
      */
+    @Deprecated
     public String getControlEncoding(final FileSystemOptions options) {
         return getString(options, ENCODING);
+    }
+
+    /**
+     * Gets the control encoding.
+     *
+     * @param options The FileSystemOptions.
+     * @return The control encoding.
+     * @since 2.11.0
+     */
+    public Charset getControlEncodingCharset(final FileSystemOptions options) {
+        return getCharset(options, ENCODING);
     }
 
     /**
@@ -440,8 +454,21 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param options The FileSystemOptions.
      * @param encoding the encoding to use
-     * @since 2.0
+     * @since 2.11.0
      */
+    public void setControlEncoding(final FileSystemOptions options, final Charset encoding) {
+        setParam(options, ENCODING, encoding);
+    }
+
+    /**
+     * See {@link org.apache.commons.net.ftp.FTP#setControlEncoding} for details and examples.
+     *
+     * @param options The FileSystemOptions.
+     * @param encoding the encoding to use
+     * @since 2.0
+     * @deprecated Use {@link #setControlEncoding(FileSystemOptions, Charset)}.
+     */
+    @Deprecated
     public void setControlEncoding(final FileSystemOptions options, final String encoding) {
         setParam(options, ENCODING, encoding);
     }

@@ -20,10 +20,9 @@ import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-
-import junit.framework.Test;
 
 import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
@@ -31,6 +30,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.ProviderTestSuite;
+import org.apache.commons.vfs2.impl.DecoratedFileObject;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.ftpserver.FtpServer;
 import org.apache.ftpserver.FtpServerFactory;
@@ -39,9 +39,12 @@ import org.apache.ftpserver.ftplet.FileSystemFactory;
 import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.ftpserver.ftplet.UserManager;
 import org.apache.ftpserver.listener.ListenerFactory;
+import org.apache.ftpserver.usermanager.Md5PasswordEncryptor;
 import org.apache.ftpserver.usermanager.PropertiesUserManagerFactory;
 import org.apache.ftpserver.usermanager.impl.BaseUser;
 import org.junit.jupiter.api.Assertions;
+
+import junit.framework.Test;
 
 /**
  * Tests for FTP file systems.
@@ -88,6 +91,8 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         }
         final FtpServerFactory serverFactory = new FtpServerFactory();
         final PropertiesUserManagerFactory propertiesUserManagerFactory = new PropertiesUserManagerFactory();
+        // TODO Update to SHA512
+        propertiesUserManagerFactory.setPasswordEncryptor(new Md5PasswordEncryptor());
         final URL userPropsResource = ClassLoader.getSystemClassLoader().getResource(USER_PROPS_RES);
         Assertions.assertNotNull(userPropsResource, USER_PROPS_RES);
         propertiesUserManagerFactory.setUrl(userPropsResource);
@@ -199,7 +204,16 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         final FileSystemOptions options = new FileSystemOptions();
         final FtpFileSystemConfigBuilder builder = FtpFileSystemConfigBuilder.getInstance();
         init(builder, options);
-        return manager.resolveFile(uri, options);
+        // OPTS UTF-8
+        final FileObject remoteFolder = manager.resolveFile(uri, options);
+        final FtpFileObject ftpFileObject = remoteFolder instanceof DecoratedFileObject
+                ? (FtpFileObject) ((DecoratedFileObject) remoteFolder).getDecoratedFileObject()
+                : (FtpFileObject) remoteFolder;
+        final FtpFileSystem ftpFileSystem = (FtpFileSystem) ftpFileObject.getFileSystem();
+        final FTPClientWrapper client = (FTPClientWrapper) ftpFileSystem.getClient();
+        // TODO Needs Apache Commons Net 3.12.0
+        // client.sendOptions("UTF-8", "NLST");
+        return remoteFolder;
     }
 
     /**
@@ -239,7 +253,14 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
         // FtpFileType.BINARY is the default
         builder.setFileType(options, FtpFileType.BINARY);
         builder.setConnectTimeout(options, Duration.ofSeconds(10));
-        builder.setControlEncoding(options, StandardCharsets.UTF_8.name());
+        final Charset charset = StandardCharsets.UTF_8;
+        final String charsetName = charset.name();
+        builder.setControlEncoding(options, charsetName);
+        assertEquals(charset, builder.getControlEncodingCharset(options));
+        assertEquals(charsetName, builder.getControlEncoding(options));
+        builder.setControlEncoding(options, charset);
+        assertEquals(charset, builder.getControlEncodingCharset(options));
+        assertEquals(charsetName, builder.getControlEncoding(options));
         builder.setControlKeepAliveReplyTimeout(options, Duration.ofSeconds(35));
         builder.setControlKeepAliveTimeout(options, Duration.ofSeconds(30));
         builder.setMdtmLastModifiedTime(options, mdtmLastModifiedTime);

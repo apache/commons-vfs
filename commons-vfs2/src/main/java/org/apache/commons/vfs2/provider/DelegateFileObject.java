@@ -92,10 +92,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
     @Override
     public void close() throws FileSystemException {
         super.close();
-
-        if (fileObject != null) {
-            fileObject.close();
-        }
+        FileObject.close(fileObject);
     }
 
     /**

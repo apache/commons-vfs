@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.Capability;
@@ -129,10 +130,8 @@ public class ZipFileSystem extends AbstractFileSystem {
     protected void doCloseCommunicationLink() {
         // Release the zip file
         try {
-            if (zipFile != null) {
-                zipFile.close();
-                zipFile = null;
-            }
+            IOUtils.close(zipFile);
+            zipFile = null;
         } catch (final IOException e) {
             // getLogger().warn("vfs.provider.zip/close-zip-file.error :" + file, e);
             VfsLog.warn(getLogger(), LOG, "vfs.provider.zip/close-zip-file.error :" + file, e);
