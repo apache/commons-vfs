@@ -30,6 +30,9 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  */
 final class FtpRandomAccessContent extends AbstractRandomAccessStreamContent {
 
+    /**
+     * The random access file pointer.
+     */
     protected long filePointer;
 
     private final FtpFileObject fileObject;

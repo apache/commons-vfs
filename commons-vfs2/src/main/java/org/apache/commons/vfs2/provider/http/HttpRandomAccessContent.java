@@ -36,6 +36,9 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 @Deprecated
 final class HttpRandomAccessContent<FS extends HttpFileSystem> extends AbstractRandomAccessStreamContent {
 
+    /**
+     * The random access file pointer.
+     */
     protected long filePointer;
 
     private final HttpFileObject<FS> fileObject;

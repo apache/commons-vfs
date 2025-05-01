@@ -37,6 +37,9 @@ import org.apache.http.client.methods.HttpGet;
 @Deprecated
 final class Http4RandomAccessContent<FS extends Http4FileSystem> extends AbstractRandomAccessStreamContent {
 
+    /**
+     * The random access file pointer.
+     */
     protected long filePointer;
 
     private final Http4FileObject<FS> fileObject;

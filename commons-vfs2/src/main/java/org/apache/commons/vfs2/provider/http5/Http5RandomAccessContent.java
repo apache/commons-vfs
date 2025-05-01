@@ -35,6 +35,9 @@ import org.apache.hc.core5.http.ClassicHttpResponse;
  */
 final class Http5RandomAccessContent<FS extends Http5FileSystem> extends AbstractRandomAccessStreamContent {
 
+    /**
+     * The random access file pointer.
+     */
     protected long filePointer;
 
     private final Http5FileObject<FS> fileObject;
