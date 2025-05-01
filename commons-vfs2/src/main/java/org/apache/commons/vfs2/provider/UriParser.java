@@ -433,10 +433,12 @@ public final class UriParser {
             buffer.setLength(0);
             buffer.append(uri);
         }
+        final int uriLength = uri.length();
         for (final String scheme : schemes) {
-            if (uri.startsWith(scheme) && uri.length() > scheme.length() && uri.charAt(scheme.length()) == ':') {
+            final int schemeLen = scheme.length();
+            if (uri.startsWith(scheme) && uriLength > schemeLen && uri.charAt(schemeLen) == ':') {
                 if (buffer != null) {
-                    buffer.delete(0, uri.indexOf(':') + 1);
+                    buffer.delete(0, schemeLen + 1);
                 }
                 return scheme;
             }
@@ -445,7 +447,7 @@ public final class UriParser {
     }
 
     /**
-     * Normalises the separators in a name.
+     * Normalizes the separators in a name.
      *
      * @param name The StringBuilder containing the name
      * @return true if the StringBuilder was modified.
@@ -477,14 +479,15 @@ public final class UriParser {
     }
 
     /**
-     * Normalises a path. Does the following:
+     * Normalizes a path. Does the following:
      * <ul>
      * <li>Removes empty path elements.
      * <li>Handles '.' and '..' elements.
      * <li>Removes trailing separator.
      * </ul>
-     *
+     * <p>
      * Its assumed that the separators are already fixed.
+     * </p>
      *
      * @param path The path to normalize.
      * @return The FileType.
