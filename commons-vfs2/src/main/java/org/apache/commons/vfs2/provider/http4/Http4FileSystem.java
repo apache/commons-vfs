@@ -90,9 +90,7 @@ public class Http4FileSystem extends AbstractFileSystem {
     @Override
     protected void doCloseCommunicationLink() {
         if (httpClient instanceof Closeable) {
-            // TODO "Error closing HttpClient" Commons IO
-            // Uncheck.run(() -> ((Closeable) httpClient).close(), () -> "Error closing HttpClient");
-            Uncheck.run(() -> ((Closeable) httpClient).close());
+            Uncheck.run(() -> ((Closeable) httpClient).close(), () -> "Error closing HttpClient");
         }
     }
 
