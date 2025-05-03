@@ -77,11 +77,13 @@ public class Http4FileSystem extends AbstractFileSystem {
         this.httpClientContext = httpClientContext;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void addCapabilities(final Collection<Capability> caps) {
         caps.addAll(Http4FileProvider.CAPABILITIES);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected FileObject createFile(final AbstractFileName name) throws Exception {
         return new Http4FileObject<>(name, this);
