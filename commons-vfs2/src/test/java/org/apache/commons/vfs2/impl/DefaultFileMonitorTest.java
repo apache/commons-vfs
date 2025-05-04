@@ -229,20 +229,18 @@ public class DefaultFileMonitorTest {
 
     @Test
     public void testFileMonitorRestarted() throws Exception {
-        try (FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString())) {
-            final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
+        try (FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI().toString());
+                DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener())) {
             try {
                 // TestFileListener manipulates status
                 monitor.setDelay(DELAY_MILLIS);
                 monitor.addFile(fileObject);
-
                 monitor.start();
                 writeToFile(testFile);
                 Thread.sleep(DELAY_MILLIS * 5);
             } finally {
                 monitor.stop();
             }
-
             monitor.start();
             try {
                 testFile.delete();
@@ -255,23 +253,22 @@ public class DefaultFileMonitorTest {
 
     @Test
     public void testFileRecreated() throws Exception {
-        try (FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI())) {
-            try (DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener())) {
-                // TestFileListener manipulates status
-                monitor.setDelay(DELAY_MILLIS);
-                monitor.addFile(fileObject);
-                monitor.start();
-                writeToFile(testFile);
-                waitFor(Status.CREATED, DELAY_MILLIS * 10, PeekLocation.LAST);
-                resetStatus();
-                testFile.delete();
-                waitFor(Status.DELETED, DELAY_MILLIS * 10, PeekLocation.LAST);
-                resetStatus();
-                Thread.sleep(DELAY_MILLIS * 5);
-                monitor.addFile(fileObject);
-                writeToFile(testFile);
-                waitFor(Status.CREATED, DELAY_MILLIS * 10, PeekLocation.LAST);
-            }
+        try (FileObject fileObject = fileSystemManager.resolveFile(testFile.toURI());
+                DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener())) {
+            // TestFileListener manipulates status
+            monitor.setDelay(DELAY_MILLIS);
+            monitor.addFile(fileObject);
+            monitor.start();
+            writeToFile(testFile);
+            waitFor(Status.CREATED, DELAY_MILLIS * 10, PeekLocation.LAST);
+            resetStatus();
+            testFile.delete();
+            waitFor(Status.DELETED, DELAY_MILLIS * 10, PeekLocation.LAST);
+            resetStatus();
+            Thread.sleep(DELAY_MILLIS * 5);
+            monitor.addFile(fileObject);
+            writeToFile(testFile);
+            waitFor(Status.CREATED, DELAY_MILLIS * 10, PeekLocation.LAST);
         }
     }
 
