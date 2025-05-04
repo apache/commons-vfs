@@ -55,8 +55,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
         }
 
         @Override
-        public int compareTo(final ProxyType pType) {
-            return proxyType.compareTo(pType.proxyType);
+        public int compareTo(final ProxyType other) {
+            return proxyType.compareTo(other.proxyType);
         }
 
         @Override

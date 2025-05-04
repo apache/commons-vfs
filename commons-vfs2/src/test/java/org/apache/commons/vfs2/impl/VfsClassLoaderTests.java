@@ -281,14 +281,14 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
         if (!exceptions.isEmpty()) {
             final StringBuilder exceptionMsg = new StringBuilder();
             final StringBuilderWriter writer = new StringBuilderWriter(exceptionMsg);
-            final PrintWriter pWriter = new PrintWriter(writer);
+            final PrintWriter printWriter = new PrintWriter(writer);
             for (final Throwable t : exceptions) {
-                pWriter.write(t.getMessage());
-                pWriter.write('\n');
-                t.printStackTrace(pWriter);
-                pWriter.write('\n');
+                printWriter.write(t.getMessage());
+                printWriter.write('\n');
+                t.printStackTrace(printWriter);
+                printWriter.write('\n');
             }
-            pWriter.flush();
+            printWriter.flush();
             assertTrue(exceptions.size() + " threads failed: " + exceptionMsg, exceptions.isEmpty());
         }
     }
