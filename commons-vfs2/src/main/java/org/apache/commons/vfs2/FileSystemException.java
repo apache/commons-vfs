@@ -189,7 +189,7 @@ public class FileSystemException extends IOException {
     }
 
     /**
-     * Retrieves error code of the exception. Could be used as key for internationalization.
+     * Gets error code of the exception. Could be used as key for internationalization.
      *
      * @return the code.
      */
@@ -198,7 +198,7 @@ public class FileSystemException extends IOException {
     }
 
     /**
-     * Retrieves array of complementary info (context). Could be used as parameter for internationalization.
+     * Gets array of complementary info (context). Could be used as parameter for internationalization.
      *
      * @return the context info.
      */
@@ -207,7 +207,7 @@ public class FileSystemException extends IOException {
     }
 
     /**
-     * Retrieves message from bundle.
+     * Gets message from bundle.
      *
      * @return The exception message.
      */

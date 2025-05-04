@@ -93,7 +93,7 @@ public class JarFileSystem extends ZipFileSystem {
     }
 
     /**
-     * Retrieves the attribute with the specified name. The default implementation simply throws an exception.
+     * Gets the attribute with the specified name. The default implementation simply throws an exception.
      *
      * @param attrName The attribute's name.
      * @return The value of the attribute.

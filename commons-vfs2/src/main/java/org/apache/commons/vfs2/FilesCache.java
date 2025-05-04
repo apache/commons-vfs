@@ -34,7 +34,7 @@ public interface FilesCache {
     void close();
 
     /**
-     * Retrieves a FileObject from the cache by name.
+     * Gets a FileObject from the cache by name.
      *
      * @param fileSystem The FileSystem.
      * @param fileName the name
