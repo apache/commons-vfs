@@ -34,6 +34,7 @@ import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
 import org.apache.commons.compress.utils.IOUtils;
+import org.apache.commons.lang3.ArrayFill;
 import org.apache.commons.vfs2.CacheStrategy;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.cache.SoftRefFilesCache;
@@ -72,8 +73,7 @@ public class LargeTarTest {
             final PipedInputStream inTarFileStream = new PipedInputStream(outTarFileStream);
 
             final Thread source = new Thread(() -> {
-                final byte[] ba_1k = new byte[(int) _1K];
-                Arrays.fill(ba_1k, (byte) 'a');
+                final byte[] ba_1k = ArrayFill.fill(new byte[(int) _1K], (byte) 'a');
                 try {
                     final TarArchiveOutputStream outTarStream = (TarArchiveOutputStream) new ArchiveStreamFactory()
                             .createArchiveOutputStream(ArchiveStreamFactory.TAR, outTarFileStream);
