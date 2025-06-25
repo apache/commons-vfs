@@ -22,7 +22,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.url.UrlFileSystem;
 
 /**
- * Configuration options builder utility for resources access.
+ * Configuration options builder for resources access.
  */
 public final class ResourceFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
