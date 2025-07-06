@@ -23,17 +23,14 @@
     <artifactId>commons-parent</artifactId>
     <version>85</version>
   </parent>
-
   <modelVersion>4.0.0</modelVersion>
   <artifactId>commons-vfs2-project</artifactId>
   <name>Apache Commons VFS Project</name>
   <description>Apache Commons VFS is a Virtual File System library.</description>
   <packaging>pom</packaging>
   <version>2.11.0-SNAPSHOT</version>
-
   <url>https://commons.apache.org/proper/commons-vfs/</url>
   <inceptionYear>2002</inceptionYear>
-
   <modules>
     <module>commons-vfs2</module>
     <module>commons-vfs2-ant</module>
@@ -45,12 +42,10 @@
     <module>commons-vfs2-distribution</module>
   </modules>
   <!-- commons-vfs2-sandbox is in profile include-sandbox -->
-
   <issueManagement>
     <system>jira</system>
     <url>https://issues.apache.org/jira/browse/VFS</url>
   </issueManagement>
-
   <scm>
     <connection>scm:git:https://gitbox.apache.org/repos/asf/commons-vfs.git</connection>
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-vfs.git</developerConnection>
@@ -60,10 +55,8 @@
   <properties>
     <commons.parent.dir>${basedir}</commons.parent.dir>
     <commons.encoding>UTF-8</commons.encoding>
-
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-
     <!-- bare ID without major version or commons- prefix -->
     <commons.componentid>vfs</commons.componentid>
     <commons.packageId>vfs2</commons.packageId>
@@ -89,7 +82,6 @@
     <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
     <commons.release.desc>(requires Java 8 or above)</commons.release.desc>
     <commons.release.isDistModule>false</commons.release.isDistModule>
-
     <!-- make sure bundle plugin has dependency informations for 'optional' -->
     <commons.osgi.excludeDependencies />
     <commons.osgi.import>
@@ -116,7 +108,6 @@
     <!-- project.build.outputTimestamp is managed by Maven plugins, see https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
     <project.build.outputTimestamp>2025-02-14T13:36:40Z</project.build.outputTimestamp>
   </properties>
-
   <build>
     <!-- japicmp:cmp needs package to work from a jar -->
     <defaultGoal>clean verify apache-rat:check japicmp:cmp javadoc:javadoc spotbugs:check pmd:check checkstyle:check</defaultGoal>
@@ -195,7 +186,6 @@
         </plugin>
       </plugins>
     </pluginManagement>
-
     <resources>
       <resource>
         <directory>${basedir}/osgi</directory>
@@ -205,7 +195,6 @@
         </includes>
       </resource>
     </resources>
-
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -277,7 +266,6 @@
       </plugin>
     </plugins>
   </build>
-
   <reporting>
     <plugins>
       <plugin>
@@ -352,7 +340,6 @@
       -->
     </plugins>
   </reporting>
-
   <dependencyManagement>
     <dependencies>
       <!-- artifacts of project, versions managed by release-plugin -->
@@ -378,7 +365,6 @@
         <artifactId>commons-vfs2-examples</artifactId>
         <version>${project.version}</version>
       </dependency>
-
       <!-- 3rd party dependencies -->
       <dependency>
         <groupId>commons-logging</groupId>
@@ -602,7 +588,6 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
   <distributionManagement>
     <site>
       <id>commons.site</id>
@@ -610,7 +595,6 @@
       <url>scm:svn:${commons.scmPubUrl}</url>
     </site>
   </distributionManagement>
-
   <!-- Releasing VFS as a multi-module build with binary artifacts is somewhat painful. This profile hooks into the commons-parent
     and the apache-pom to get the build done and then uses the assembly to package it up. -->
   <profiles>
