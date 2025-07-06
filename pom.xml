@@ -595,6 +595,10 @@
       <url>scm:svn:${commons.scmPubUrl}</url>
     </site>
   </distributionManagement>
+  <ciManagement>
+    <system>GitHub</system>
+    <url>https://github.com/apache/commons-vfs/actions</url>
+  </ciManagement>
   <!-- Releasing VFS as a multi-module build with binary artifacts is somewhat painful. This profile hooks into the commons-parent
     and the apache-pom to get the build done and then uses the assembly to package it up. -->
   <profiles>
