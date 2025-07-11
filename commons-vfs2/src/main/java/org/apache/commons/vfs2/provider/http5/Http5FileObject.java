@@ -34,6 +34,7 @@ import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpHead;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.protocol.HttpClientContext;
 import org.apache.hc.client5.http.utils.DateUtils;
 import org.apache.hc.core5.http.ClassicHttpResponse;
@@ -122,6 +123,12 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
         final ClassicHttpResponse httpResponse = executeHttpUriRequest(getRequest);
         final int status = httpResponse.getCode();
 
+        if (status != HttpStatus.SC_OK) {
+            if (httpResponse instanceof CloseableHttpResponse) {
+                ((CloseableHttpResponse) httpResponse).close();
+            }
+        }
+
         if (status == HttpStatus.SC_NOT_FOUND) {
             throw new FileNotFoundException(getName());
         }
@@ -153,6 +160,10 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
     protected FileType doGetType() throws Exception {
         lastHeadResponse = executeHttpUriRequest(new HttpHead(getInternalURI()));
         final int status = lastHeadResponse.getCode();
+
+        if (lastHeadResponse instanceof CloseableHttpResponse) {
+            ((CloseableHttpResponse) lastHeadResponse).close();
+        }
 
         if (status == HttpStatus.SC_OK
                 || status == HttpStatus.SC_METHOD_NOT_ALLOWED /* method is not allowed, but resource exist */) {
