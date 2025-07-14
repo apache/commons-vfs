@@ -50,11 +50,14 @@ final class MonitoredHttpResponseContentInputStream extends MonitorInputStream {
 
     @Override
     protected void onClose() throws IOException {
-        // Replace the response's entity with a dummy entity in order to prevent
-        // exhausting all data (VFS-805)
-        httpResponse.setEntity(NullEntity.INSTANCE);
-        // Note that this also calls close on the dummy entity
-        httpResponse.close();
+        try {
+            // Replace the response's entity with a dummy entity in order to prevent
+            // exhausting all data (VFS-805)
+            httpResponse.setEntity(NullEntity.INSTANCE);
+            // Note that this also calls close on the dummy entity
+        } finally {
+            httpResponse.close();
+        }
     }
 
 }
