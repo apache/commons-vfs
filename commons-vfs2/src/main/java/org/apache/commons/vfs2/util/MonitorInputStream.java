@@ -78,7 +78,6 @@ public class MonitorInputStream extends BufferedInputStream {
         if (alreadyClosed) {
             return;
         }
-
         // Close the stream
         IOException exc = null;
         try {
@@ -86,14 +85,12 @@ public class MonitorInputStream extends BufferedInputStream {
         } catch (final IOException ioe) {
             exc = ioe;
         }
-
         // Notify that the stream has been closed
         try {
             onClose();
         } catch (final IOException ioe) {
             exc = ioe;
         }
-
         if (exc != null) {
             throw exc;
         }
@@ -143,12 +140,10 @@ public class MonitorInputStream extends BufferedInputStream {
         if (isClosed()) {
             return EOF_CHAR;
         }
-
         final int ch = super.read();
         if (ch != EOF_CHAR) {
             count.incrementAndGet();
         }
-
         return ch;
     }
 
@@ -166,7 +161,6 @@ public class MonitorInputStream extends BufferedInputStream {
         if (isClosed()) {
             return EOF_CHAR;
         }
-
         final int numRead = super.read(buffer, offset, length);
         if (numRead != EOF_CHAR) {
             count.addAndGet(numRead);
