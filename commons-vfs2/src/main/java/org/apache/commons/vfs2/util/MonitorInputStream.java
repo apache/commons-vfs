@@ -63,7 +63,6 @@ public class MonitorInputStream extends BufferedInputStream {
         if (isClosed()) {
             return 0;
         }
-
         return super.available();
     }
 
