@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.vfs2.provider.http4;
 
 import java.io.IOException;
@@ -33,6 +34,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpHead;
@@ -58,8 +60,7 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
     private final String urlCharset;
 
     /**
-     * Internal URI mapped to this {@code FileObject}.
-     * For example, the internal URI of {@code http4://example.com/a.txt} is {@code http://example.com/a.txt}.
+     * Internal URI mapped to this {@code FileObject}. For example, the internal URI of {@code http4://example.com/a.txt} is {@code http://example.com/a.txt}.
      */
     private final URI internalURI;
 
@@ -71,25 +72,23 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
     /**
      * Constructs {@code Http4FileObject}.
      *
-     * @param name file name
+     * @param name       file name
      * @param fileSystem file system
      * @throws FileSystemException if any error occurs
      */
-    protected Http4FileObject(final AbstractFileName name, final FS fileSystem)
-            throws FileSystemException {
+    protected Http4FileObject(final AbstractFileName name, final FS fileSystem) throws FileSystemException {
         this(name, fileSystem, Http4FileSystemConfigBuilder.getInstance());
     }
 
     /**
      * Constructs {@code Http4FileObject}.
      *
-     * @param name file name
+     * @param name       file name
      * @param fileSystem file system
-     * @param builder {@code Http4FileSystemConfigBuilder} object
+     * @param builder    {@code Http4FileSystemConfigBuilder} object
      * @throws FileSystemException if any error occurs
      */
-    protected Http4FileObject(final AbstractFileName name, final FS fileSystem,
-            final Http4FileSystemConfigBuilder builder) throws FileSystemException {
+    protected Http4FileObject(final AbstractFileName name, final FS fileSystem, final Http4FileSystemConfigBuilder builder) throws FileSystemException {
         super(name, fileSystem);
         final FileSystemOptions fileSystemOptions = fileSystem.getFileSystemOptions();
         urlCharset = builder.getUrlCharset(fileSystemOptions);
@@ -107,14 +106,11 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
         if (lastHeadResponse == null) {
             return 0L;
         }
-
         final Header header = lastHeadResponse.getFirstHeader(HTTP.CONTENT_LEN);
-
         if (header == null) {
             // Assume 0 content-length
             return 0;
         }
-
         return Long.parseLong(header.getValue());
     }
 
@@ -123,26 +119,20 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
         final HttpGet getRequest = new HttpGet(getInternalURI());
         final HttpResponse httpResponse = executeHttpUriRequest(getRequest);
         final int status = httpResponse.getStatusLine().getStatusCode();
-
         if (status == HttpStatus.SC_NOT_FOUND) {
             throw new FileNotFoundException(getName());
         }
-
         if (status != HttpStatus.SC_OK) {
             throw new FileSystemException("vfs.provider.http/get.error", getName(), Integer.valueOf(status));
         }
-
         return new MonitoredHttpResponseContentInputStream(httpResponse, bufferSize);
     }
 
     @Override
     protected long doGetLastModifiedTime() throws Exception {
         FileSystemException.requireNonNull(lastHeadResponse, "vfs.provider.http/last-modified.error", getName());
-
         final Header header = lastHeadResponse.getFirstHeader("Last-Modified");
-
         FileSystemException.requireNonNull(header, "vfs.provider.http/last-modified.error", getName());
-
         return DateUtils.parseDate(header.getValue()).getTime();
     }
 
@@ -155,9 +145,7 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
     protected FileType doGetType() throws Exception {
         lastHeadResponse = executeHttpUriRequest(new HttpHead(getInternalURI()));
         final int status = lastHeadResponse.getStatusLine().getStatusCode();
-
-        if (status == HttpStatus.SC_OK
-                || status == HttpStatus.SC_METHOD_NOT_ALLOWED /* method is not allowed, but resource exist */) {
+        if (status == HttpStatus.SC_OK || status == HttpStatus.SC_METHOD_NOT_ALLOWED /* method is not allowed, but resource exist */) {
             return FileType.FILE;
         }
         if (status == HttpStatus.SC_NOT_FOUND || status == HttpStatus.SC_GONE) {
@@ -177,16 +165,18 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
     }
 
     /**
-     * Execute the request using the given {@code httpRequest} and return a {@code HttpResponse} from the execution.
+     * Executes the request using the given {@code httpRequest} and return a {@code HttpResponse} from the execution.
      *
-     * @param httpRequest {@code HttpUriRequest} object
-     * @return {@code HttpResponse} from the execution
-     * @throws IOException if IO error occurs
+     * @param httpRequest {@code HttpUriRequest} object.
+     * @return {@code HttpResponse} from the execution.
+     * @throws IOException in case of a problem or the connection was aborted.
+     * @throws ClientProtocolException in case of an HTTP protocol error.
      * @since 2.5.0
      */
     protected HttpResponse executeHttpUriRequest(final HttpUriRequest httpRequest) throws IOException {
-        final HttpClient httpClient = getAbstractFileSystem().getHttpClient();
-        final HttpClientContext httpClientContext = getAbstractFileSystem().getHttpClientContext();
+        final FS abstractFileSystem = getAbstractFileSystem();
+        final HttpClient httpClient = abstractFileSystem.getHttpClient();
+        final HttpClientContext httpClientContext = abstractFileSystem.getHttpClientContext();
         return httpClient.execute(httpRequest, httpClientContext);
     }
 
@@ -198,7 +188,7 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
     /**
      * Gets the internal {@code URI} object mapped to this file object.
      *
-     * @return the internal {@code URI} object mapped to this file object
+     * @return the internal {@code URI} object mapped to this file object.
      */
     protected URI getInternalURI() {
         return internalURI;
@@ -207,23 +197,23 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
     /**
      * Gets the last executed HEAD {@code HttpResponse} object.
      *
-     * @return the last executed HEAD {@code HttpResponse} object
-     * @throws IOException if IO error occurs
+     * @return the last executed HEAD {@code HttpResponse} object.
+     * @throws IOException in case of a problem or the connection was aborted.
+     * @throws ClientProtocolException in case of an HTTP protocol error.
      */
     HttpResponse getLastHeadResponse() throws IOException {
         if (lastHeadResponse != null) {
             return lastHeadResponse;
         }
-
         return executeHttpUriRequest(new HttpHead(getInternalURI()));
     }
 
     /**
      * Gets URL charset string.
+     *
      * @return URL charset string
      */
     protected String getUrlCharset() {
         return urlCharset;
     }
-
 }
