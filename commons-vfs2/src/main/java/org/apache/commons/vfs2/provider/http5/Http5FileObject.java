@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.vfs2.FileContentInfoFactory;
 import org.apache.commons.vfs2.FileNotFoundException;
 import org.apache.commons.vfs2.FileSystemException;
@@ -39,7 +40,6 @@ import org.apache.hc.client5.http.utils.DateUtils;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.HttpHeaders;
-import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.HttpStatus;
 
 /**
@@ -62,9 +62,9 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
     private final URI internalURI;
 
     /**
-     * The last executed HEAD {@code HttpResponse} object.
+     * The last executed HEAD {@code ClassicHttpResponse} object.
      */
-    private HttpResponse lastHeadResponse;
+    private ClassicHttpResponse lastHeadResponse;
 
     /**
      * Constructs {@code Http4FileObject}.
@@ -73,8 +73,7 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
      * @param fileSystem file system
      * @throws FileSystemException if any error occurs
      */
-    protected Http5FileObject(final AbstractFileName name, final FS fileSystem)
-            throws FileSystemException {
+    protected Http5FileObject(final AbstractFileName name, final FS fileSystem) throws FileSystemException {
         this(name, fileSystem, Http5FileSystemConfigBuilder.getInstance());
     }
 
@@ -105,42 +104,36 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
         if (lastHeadResponse == null) {
             return 0L;
         }
-
         final Header header = lastHeadResponse.getFirstHeader(HttpHeaders.CONTENT_LENGTH);
-
         if (header == null) {
             // Assume 0 content-length
             return 0;
         }
-
         return Long.parseLong(header.getValue());
     }
 
     @Override
     protected InputStream doGetInputStream(final int bufferSize) throws Exception {
         final HttpGet getRequest = new HttpGet(getInternalURI());
+        @SuppressWarnings("resource") // Caller closes
         final ClassicHttpResponse httpResponse = executeHttpUriRequest(getRequest);
         final int status = httpResponse.getCode();
-
         if (status == HttpStatus.SC_NOT_FOUND) {
+            IOUtils.closeQuietly(httpResponse);
             throw new FileNotFoundException(getName());
         }
-
         if (status != HttpStatus.SC_OK) {
+            IOUtils.closeQuietly(httpResponse);
             throw new FileSystemException("vfs.provider.http/get.error", getName(), Integer.valueOf(status));
         }
-
         return new MonitoredHttpResponseContentInputStream(httpResponse, bufferSize);
     }
 
     @Override
     protected long doGetLastModifiedTime() throws Exception {
         FileSystemException.requireNonNull(lastHeadResponse, "vfs.provider.http/last-modified.error", getName());
-
         final Header header = lastHeadResponse.getFirstHeader("Last-Modified");
-
         FileSystemException.requireNonNull(header, "vfs.provider.http/last-modified.error", getName());
-
         return DateUtils.parseStandardDate(header.getValue()).toEpochMilli();
     }
 
@@ -151,17 +144,16 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
 
     @Override
     protected FileType doGetType() throws Exception {
-        lastHeadResponse = executeHttpUriRequest(new HttpHead(getInternalURI()));
-        final int status = lastHeadResponse.getCode();
-
-        if (status == HttpStatus.SC_OK
-                || status == HttpStatus.SC_METHOD_NOT_ALLOWED /* method is not allowed, but resource exist */) {
-            return FileType.FILE;
+        try (ClassicHttpResponse response = lastHeadResponse = executeHttpUriRequest(new HttpHead(getInternalURI()))) {
+            final int status = response.getCode();
+            if (status == HttpStatus.SC_OK || status == HttpStatus.SC_METHOD_NOT_ALLOWED /* method is not allowed, but resource exist */) {
+                return FileType.FILE;
+            }
+            if (status == HttpStatus.SC_NOT_FOUND || status == HttpStatus.SC_GONE) {
+                return FileType.IMAGINARY;
+            }
+            throw new FileSystemException("vfs.provider.http/head.error", getName(), Integer.valueOf(status));
         }
-        if (status == HttpStatus.SC_NOT_FOUND || status == HttpStatus.SC_GONE) {
-            return FileType.IMAGINARY;
-        }
-        throw new FileSystemException("vfs.provider.http/head.error", getName(), Integer.valueOf(status));
     }
 
     @Override
@@ -175,15 +167,16 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
     }
 
     /**
-     * Execute the request using the given {@code httpRequest} and return a {@code ClassicHttpResponse} from the execution.
+     * Executes the request using the given {@code httpRequest} and return a {@code ClassicHttpResponse} from the execution.
      *
      * @param httpRequest {@code HttpUriRequest} object
      * @return {@code ClassicHttpResponse} from the execution
      * @throws IOException if IO error occurs
      */
     protected ClassicHttpResponse executeHttpUriRequest(final HttpUriRequest httpRequest) throws IOException {
-        final CloseableHttpClient httpClient = (CloseableHttpClient) getAbstractFileSystem().getHttpClient();
-        final HttpClientContext httpClientContext = getAbstractFileSystem().getHttpClientContext();
+        final FS abstractFileSystem = getAbstractFileSystem();
+        final CloseableHttpClient httpClient = (CloseableHttpClient) abstractFileSystem.getHttpClient();
+        final HttpClientContext httpClientContext = abstractFileSystem.getHttpClientContext();
         return httpClient.execute(httpRequest, httpClientContext);
     }
 
@@ -207,11 +200,10 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
      * @return the last executed HEAD {@code HttpResponse} object
      * @throws IOException if IO error occurs
      */
-    HttpResponse getLastHeadResponse() throws IOException {
+    ClassicHttpResponse getLastHeadResponse() throws IOException {
         if (lastHeadResponse != null) {
             return lastHeadResponse;
         }
-
         return executeHttpUriRequest(new HttpHead(getInternalURI()));
     }
 
