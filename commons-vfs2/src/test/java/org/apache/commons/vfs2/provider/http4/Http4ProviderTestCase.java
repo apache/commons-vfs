@@ -19,10 +19,13 @@ package org.apache.commons.vfs2.provider.http4;
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 
 import java.io.File;
+import java.io.InputStream;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
+import org.apache.commons.vfs2.CacheStrategy;
+import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileNotFolderException;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -30,6 +33,7 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.VFS;
+import org.apache.commons.vfs2.cache.SoftRefFilesCache;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.util.NHttpFileServer;
 import org.junit.Test;
@@ -189,6 +193,36 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
         assertEquals(60_000, builder.getSoTimeout(opts));
         assertEquals(60_000, builder.getSoTimeoutDuration(opts).toMillis());
         assertEquals("foo/bar", builder.getUserAgent(opts));
+    }
+
+    @Test
+    public void testReadFileOperations() throws Exception {
+        try (DefaultFileSystemManager manager = new DefaultFileSystemManager();
+                Http4FileProvider provider = new Http4FileProvider();
+                SoftRefFilesCache filesCache = new SoftRefFilesCache();) {
+            manager.addProvider("http4", provider);
+            manager.setFilesCache(filesCache);
+            manager.setCacheStrategy(CacheStrategy.ON_RESOLVE);
+            final String nonExistentFileUri = connectionUri + "/read-tests/nonexistent.txt";
+            try (FileObject nonExistentFileObject = manager.resolveFile(nonExistentFileUri); FileContent content = nonExistentFileObject.getContent();) {
+                // Attempt to read from the stream
+                final FileSystemException e = Assertions.assertThrows(FileSystemException.class, content::getInputStream);
+                Assertions.assertTrue(e.getCode().contains("read-not-file.error"),
+                        "Expected HTTP 404 Not Found error, but got: " + e.getMessage() + " " + e.getCode());
+            }
+            final String existentFileUri = connectionUri + "/read-tests/file1.txt";
+            try (FileObject existentFileObject = manager.resolveFile(existentFileUri)) {
+                Assertions.assertTrue(existentFileObject.exists(), "File should exist");
+                try (FileContent content = existentFileObject.getContent(); InputStream inputStream = content.getInputStream()) {
+                    Assertions.assertNotNull(inputStream, "InputStream should not be null");
+                    final int available = inputStream.available();
+                    Assertions.assertTrue(available > 0, "InputStream should have content available");
+                    final byte[] buffer = new byte[1024];
+                    final int bytesRead = inputStream.read(buffer);
+                    Assertions.assertTrue(bytesRead > 0, "InputStream should read non-empty content");
+                }
+            }
+        }
     }
 
     private void testResolveFolderSlash(final String uri, final boolean followRedirect) throws FileSystemException {
