@@ -18,8 +18,7 @@ package org.apache.commons.vfs2.provider.http4;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.Locale;
-
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -84,7 +83,7 @@ public class Http4FilesCacheTest {
         // We end up converting back to lowercase, but OK per RFC.
         final String queryStringUrl3 = "http4://alice%5C1234:secret@localhost:8080/";
         try (FileObject queryFile3 = fileSystemManager.resolveFile(queryStringUrl3)) {
-            assertEquals(queryStringUrl3.toLowerCase(Locale.ROOT), queryFile3.getURL().toExternalForm());
+            assertEquals(StringUtils.toRootLowerCase(queryStringUrl3), queryFile3.getURL().toExternalForm());
         }
     }
 
