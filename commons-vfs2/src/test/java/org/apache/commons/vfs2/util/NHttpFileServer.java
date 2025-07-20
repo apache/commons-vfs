@@ -45,6 +45,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.client5.http.utils.DateUtils;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.EndpointDetails;
@@ -94,7 +95,7 @@ public final class NHttpFileServer {
                 throws HttpException, IOException {
             println("Handling " + message + " in " + context);
             final HttpRequest request = message.getHead();
-            final String method = request.getMethod().toUpperCase(Locale.ROOT);
+            final String method = StringUtils.toRootUpperCase(request.getMethod());
             if (!method.equals("GET") && !method.equals("HEAD") && !method.equals("POST")) {
                 throw new MethodNotSupportedException(method + " method not supported");
             }
