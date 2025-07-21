@@ -237,7 +237,7 @@ public final class Shell {
         if (cmd.length > 1) {
             info(cmd[1]);
         } else {
-            System.out.println("Default manager: \"" + mgr.getClass().getName() + "\" " + "version " + getVersion(mgr.getClass()));
+            System.out.println("Default manager: \"" + mgr.getClass().getName() + "\" version " + getVersion(mgr.getClass()));
             final String[] schemes = mgr.getSchemes();
             final List<String> virtual = new ArrayList<>();
             final List<String> physical = new ArrayList<>();

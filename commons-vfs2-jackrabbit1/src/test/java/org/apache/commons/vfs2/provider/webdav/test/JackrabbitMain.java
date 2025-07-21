@@ -232,7 +232,7 @@ final class JackrabbitMain {
                 if (host == null) {
                     host = "localhost";
                 }
-                message("Apache Jackrabbit is now running at " + "http://" + host + ":" + connector.getPort() + "/");
+                message("Apache Jackrabbit is now running at http://" + host + ":" + connector.getPort() + "/");
             } catch (final Throwable t) {
                 System.err.println("Unable to start the server: " + t.getMessage());
                 System.exit(1);
