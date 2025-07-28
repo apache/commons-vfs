@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.vfs2.cache;
 
 import java.lang.ref.Reference;
@@ -23,9 +24,8 @@ import java.lang.ref.WeakReference;
 import org.apache.commons.vfs2.FileObject;
 
 /**
- * This implementation caches every file as long as it is strongly reachable by the Java vm. As soon as the object is no
- * longer reachable it will be discarded. In contrast to the SoftRefFilesCache this implementation might free resources
- * faster as it doesn't wait until a memory limitation.
+ * Caches every file as long as it is strongly reachable by the Java VM. As soon as the object is no longer reachable it will be discarded. In contrast to the
+ * {@link SoftRefFilesCache} this implementation might free resources faster as it doesn't wait until a memory limitation.
  *
  * @see java.lang.ref.WeakReference
  */
