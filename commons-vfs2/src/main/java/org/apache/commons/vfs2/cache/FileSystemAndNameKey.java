@@ -27,13 +27,13 @@ import org.apache.commons.vfs2.FileSystem;
  */
 final class FileSystemAndNameKey implements Comparable<FileSystemAndNameKey> {
 
-    /** The FileSystem */
+    /** The FileSystem. */
     private final FileSystem fileSystem;
 
-    /** The FileName */
+    /** The FileName. */
     private final FileName fileName;
 
-    /** Hash code to identify this object */
+    /** Hash code to identify this object. */
     private final int fileSystemId;
 
     FileSystemAndNameKey(final FileSystem fileSystem, final FileName fileName) {
