@@ -31,13 +31,13 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
 
     private static final Log LOG = LogFactory.getLog(StaticUserAuthenticator.class);
 
-    /** The user name */
+    /** The user name. */
     private final String userName;
 
-    /** The password */
+    /** The password. */
     private final String password;
 
-    /** The user domain */
+    /** The user domain. */
     private final String domain;
 
     /**
@@ -58,13 +58,11 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
             if (otherString == null) {
                 return 1;
             }
-
             return thisString.compareTo(otherString);
         }
         if (otherString != null) {
             return -1;
         }
-
         return 0;
     }
 
@@ -90,18 +88,14 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
         if (this == obj) {
             return true;
         }
-
         if (obj == null) {
             return false;
         }
-
         if (getClass() != obj.getClass()) {
             return false;
         }
-
         final StaticUserAuthenticator other = (StaticUserAuthenticator) obj;
-        return Objects.equals(domain, other.domain) && Objects.equals(userName, other.userName)
-            && Objects.equals(password, other.password);
+        return Objects.equals(domain, other.domain) && Objects.equals(userName, other.userName) && Objects.equals(password, other.password);
     }
 
     /**
