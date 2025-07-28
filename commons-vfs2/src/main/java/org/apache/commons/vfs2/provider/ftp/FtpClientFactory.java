@@ -21,6 +21,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.Proxy;
+import java.nio.charset.Charset;
 import java.time.Duration;
 
 import org.apache.commons.lang3.Range;
@@ -166,9 +167,9 @@ public final class FtpClientFactory {
                     if (connectTimeout != null) {
                         client.setDefaultTimeout(DurationUtils.toMillisInt(connectTimeout));
                     }
-                    final String controlEncoding = builder.getControlEncoding(fileSystemOptions);
+                    final Charset controlEncoding = builder.getControlEncodingCharset(fileSystemOptions);
                     if (controlEncoding != null) {
-                        client.setControlEncoding(controlEncoding);
+                        client.setControlEncoding(controlEncoding.name());
                     }
                     final Boolean autodetectUTF8 = builder.getAutodetectUtf8(fileSystemOptions);
                     if (autodetectUTF8 != null) {
