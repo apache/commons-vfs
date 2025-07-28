@@ -48,24 +48,18 @@ public class Http4FileContentInfoFactory implements FileContentInfoFactory {
     @SuppressWarnings("unchecked")
     @Override
     public FileContentInfo create(final FileContent fileContent) throws FileSystemException {
-        String contentMimeType = null;
-        String contentCharset = null;
-
-        try (Http4FileObject<Http4FileSystem> http4File = (Http4FileObject<Http4FileSystem>) FileObjectUtils
-                .getAbstractFileObject(fileContent.getFile())) {
+        try (Http4FileObject<Http4FileSystem> http4File = (Http4FileObject<Http4FileSystem>) FileObjectUtils.getAbstractFileObject(fileContent.getFile())) {
             final HttpResponse lastHeadResponse = http4File.getLastHeadResponse();
-
             final Header header = lastHeadResponse.getFirstHeader(HTTP.CONTENT_TYPE);
-
+            String contentMimeType = null;
+            String contentCharset = null;
             if (header != null) {
                 final ContentType contentType = ContentType.parse(header.getValue());
                 contentMimeType = contentType.getMimeType();
-
                 if (contentType.getCharset() != null) {
                     contentCharset = contentType.getCharset().name();
                 }
             }
-
             return new DefaultFileContentInfo(contentMimeType, contentCharset);
         } catch (final IOException e) {
             throw new FileSystemException(e);
