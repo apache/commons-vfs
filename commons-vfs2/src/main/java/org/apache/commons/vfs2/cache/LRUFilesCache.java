@@ -53,11 +53,11 @@ public class LRUFilesCache extends AbstractFilesCache {
         private static final long serialVersionUID = 20101208L;
 
         /** The FileSystem */
-        private final FileSystem filesystem;
+        private final FileSystem fileSystem;
 
         MyLRUMap(final FileSystem filesystem, final int size) {
             super(size, true);
-            this.filesystem = filesystem;
+            this.fileSystem = filesystem;
         }
 
         @Override
@@ -77,9 +77,9 @@ public class LRUFilesCache extends AbstractFilesCache {
                 if (super.removeLRU(linkEntry)) {
                     // force detach
                     IOUtils.closeQuietly(fileObject, e -> VfsLog.warn(getLogger(), log, Messages.getString("vfs.impl/LRUFilesCache-remove-ex.warn"), e));
-                    final Map<?, ?> files = fileSystemCache.get(filesystem);
+                    final Map<?, ?> files = fileSystemCache.get(fileSystem);
                     if (files.isEmpty()) {
-                        fileSystemCache.remove(filesystem);
+                        fileSystemCache.remove(fileSystem);
                     }
                     return true;
                 }
