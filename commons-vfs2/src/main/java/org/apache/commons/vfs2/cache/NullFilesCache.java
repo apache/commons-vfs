@@ -21,7 +21,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 
 /**
- * A {@link org.apache.commons.vfs2.FilesCache} implementation.
+ * A no-op {@link org.apache.commons.vfs2.FilesCache} implementation.
  * <p>
  * This implementation never ever caches a single file.
  * </p>
