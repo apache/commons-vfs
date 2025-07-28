@@ -36,7 +36,7 @@ import org.apache.commons.vfs2.VfsLog;
 import org.apache.commons.vfs2.util.Messages;
 
 /**
- * This implementation caches every file using {@link LRUMap}.
+ * Caches every file using an {@link LRUMap}.
  * <p>
  * The default constructor uses a LRU size of 100 per file system.
  * </p>
@@ -44,9 +44,10 @@ import org.apache.commons.vfs2.util.Messages;
 public class LRUFilesCache extends AbstractFilesCache {
 
     /**
-     * The file cache
+     * The file cache.
      */
     private class MyLRUMap extends LRUMap<FileName, FileObject> {
+
         /**
          * serialVersionUID format is YYYYMMDD for the date of the last binary change.
          */
@@ -88,7 +89,7 @@ public class LRUFilesCache extends AbstractFilesCache {
         }
     }
 
-    /** The default LRU size */
+    /** The default LRU size. */
     private static final int DEFAULT_LRU_SIZE = 100;
 
     /** The logger to use. */
@@ -111,7 +112,7 @@ public class LRUFilesCache extends AbstractFilesCache {
     /**
      * Constructs a new instance with the desired LRU size.
      *
-     * @param lruSize the LRU size
+     * @param lruSize the LRU size.
      */
     public LRUFilesCache(final int lruSize) {
         this.lruSize = lruSize;
@@ -147,7 +148,7 @@ public class LRUFilesCache extends AbstractFilesCache {
     /**
      * Gets or creates a new Map.
      *
-     * @param fileSystem the key
+     * @param fileSystem the key.
      * @return an existing or new Map.
      */
     protected Map<FileName, FileObject> getOrCreateFilesystemCache(final FileSystem fileSystem) {
