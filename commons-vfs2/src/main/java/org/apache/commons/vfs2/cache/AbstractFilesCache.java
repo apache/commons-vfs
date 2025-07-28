@@ -21,7 +21,7 @@ import org.apache.commons.vfs2.FilesCache;
 import org.apache.commons.vfs2.provider.AbstractVfsComponent;
 
 /**
- * Abstract base class for FilesCache implementations.
+ * Abstracts {@link FilesCache} implementations.
  */
 public abstract class AbstractFilesCache extends AbstractVfsComponent implements FilesCache {
 
