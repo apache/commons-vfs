@@ -75,6 +75,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" type="update" due-to="Gary Gregory">Bump org.apache.jackrabbit:jackrabbit-standalone-components from 2.20.16 to 2.20.17.</action>
       <action dev="ggregory" type="update" due-to="Gary Gregory">Bump commons-codec:commons-codec from 1.18.0 to 1.19.0.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-compress from 1.27.1 to 1.28.0.</action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory, Dependabot">Bump com.sun.mail:jakarta.mail from 2.0.1 to 2.0.2 #705.</action> 
     </release>
     <release version="2.10.0" date="2025-02-01" description="This is a feature and maintenance release. Java 8 or later is required.">
       <!-- FIX -->
