@@ -31,6 +31,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.io.function.Uncheck;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.time.TimeZones;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.ftp.FTPFile;
@@ -550,7 +551,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
             final FtpClient client = abstractFileSystem.getClient();
             if (!mdtmSet && client.hasFeature("MDTM")) {
                 final Instant mdtmInstant = client.mdtmInstant(relPath);
-                final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+                final Calendar calendar = Calendar.getInstance(TimeZones.GMT);
                 final long epochMilli = mdtmInstant.toEpochMilli();
                 calendar.setTimeInMillis(epochMilli);
                 ftpFile.setTimestamp(calendar);
