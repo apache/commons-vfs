@@ -89,7 +89,7 @@
     </commons.osgi.import>
     <!-- Avoid warnings about being unable to find jars during site building -->
     <dependency.locations.enabled>false</dependency.locations.enabled>
-    <hadoop.version>3.4.1</hadoop.version>
+    <hadoop.version>3.4.2</hadoop.version>
     <httpcore5.version>5.3.4</httpcore5.version>
     <httpclient5.version>5.5</httpclient5.version>
     <jackrabbit1.version>1.6.5</jackrabbit1.version>
