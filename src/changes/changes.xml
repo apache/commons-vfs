@@ -66,8 +66,8 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" type="update" due-to="Gary Gregory">Bump org.apache.ftpserver:ftpserver-core from 1.2.0 to 1.2.1.</action>
       <action dev="ggregory" type="update" due-to="Gary Gregory">Bump org.apache.mina:mina-core from 2.1.10 to 2.2.4.</action>
       <action dev="ggregory" type="update" due-to="Gary Gregory, Dependabot">Bump org.apache.httpcomponents.client5:httpclient5 from 5.4.1 to 5.5 #658, #667, #684, #690.</action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory, Dependabot">Bump org.apache.httpcomponents.core5:httpcore5 from 5.3.3 to 5.3.6 #673, #719, #722.</action>
       <action dev="ggregory" type="update" due-to="Gary Gregory, Dependabot">Bump org.slf4j:slf4j-simple from 2.0.16 to 2.0.17 #671.</action>
-      <action dev="ggregory" type="update" due-to="Gary Gregory, Dependabot">Bump org.apache.httpcomponents.core5:httpcore5 from 5.3.3 to 5.3.5 #673, #719.</action>
       <action dev="ggregory" type="update" due-to="Gary Gregory">Bump commons-io:commons-io from 2.18.0 to 2.20.0.</action>
       <action dev="ggregory" type="update" due-to="Gary Gregory">Bump org.apache.commons:commons-collections4 from 4.5.0-M3 to 4.5.0.</action>
       <action dev="ggregory" type="update" due-to="Gary Gregory, Dependabot">Bump org.apache.logging.log4j:log4j-bom from 2.24.3 to 2.25.1 #694.</action>
