@@ -91,7 +91,7 @@
     <dependency.locations.enabled>false</dependency.locations.enabled>
     <hadoop.version>3.4.2</hadoop.version>
     <httpcore5.version>5.3.6</httpcore5.version>
-    <httpclient5.version>5.5</httpclient5.version>
+    <httpclient5.version>5.5.1</httpclient5.version>
     <jackrabbit1.version>1.6.5</jackrabbit1.version>
     <!-- Don't use jackrabbit2 2.21.x, it's labeled "unstable". -->
     <!-- 2.22.0 requires Java 11. -->
