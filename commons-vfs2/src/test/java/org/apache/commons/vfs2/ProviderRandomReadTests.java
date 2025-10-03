@@ -17,7 +17,7 @@
 package org.apache.commons.vfs2;
 
 import org.apache.commons.vfs2.util.RandomAccessMode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Random read-only test case for file providers.

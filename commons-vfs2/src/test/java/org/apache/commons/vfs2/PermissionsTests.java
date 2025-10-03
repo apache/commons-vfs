@@ -21,7 +21,7 @@ import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.provider.local.LocalFileSystem;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
 /**

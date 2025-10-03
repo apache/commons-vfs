@@ -20,7 +20,7 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.impl.VirtualFileSystem;
 import org.apache.commons.vfs2.provider.ram.RamFileObject;
 import org.apache.commons.vfs2.util.FileObjectUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the cache strategy.

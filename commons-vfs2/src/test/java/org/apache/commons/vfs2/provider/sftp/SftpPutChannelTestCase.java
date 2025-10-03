@@ -26,7 +26,7 @@ import org.apache.sshd.common.FactoryManager;
 import org.apache.sshd.common.session.AbstractSession;
 import org.apache.sshd.server.session.ServerSession;
 import org.apache.sshd.server.session.SessionFactory;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
 /**

@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FilesCache;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Base class for different FilesCache tests.

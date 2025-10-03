@@ -19,7 +19,7 @@ package org.apache.commons.vfs2;
 import java.io.IOException;
 
 import org.apache.commons.vfs2.util.RandomAccessMode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
 /**

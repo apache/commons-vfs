@@ -17,7 +17,7 @@
 package org.apache.commons.vfs2.cache;
 
 import org.apache.commons.vfs2.FileObject;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link SoftRefFilesCache} used by {@link SoftRefFilesCacheTestCase}.

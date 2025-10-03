@@ -24,7 +24,7 @@ import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Additional naming tests for local file system.

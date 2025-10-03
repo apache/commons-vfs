@@ -16,7 +16,7 @@
  */
 package org.apache.commons.vfs2;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * File system test that do some delete operations.

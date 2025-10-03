@@ -22,7 +22,7 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.provider.UriParser;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Additional URL tests for local file system.

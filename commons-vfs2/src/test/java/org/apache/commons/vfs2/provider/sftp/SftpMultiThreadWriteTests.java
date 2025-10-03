@@ -30,7 +30,7 @@ import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.VFS;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * MultiThread tests for writing with SFTP provider.

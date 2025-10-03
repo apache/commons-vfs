@@ -21,7 +21,7 @@ import static org.apache.commons.vfs2.VfsTestUtils.assertSameMessage;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * URL Test cases for providers that supply structural info.

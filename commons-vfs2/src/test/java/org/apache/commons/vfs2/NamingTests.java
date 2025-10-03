@@ -18,7 +18,7 @@ package org.apache.commons.vfs2;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test cases for file naming.

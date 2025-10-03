@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * URL test cases for providers.

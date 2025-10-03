@@ -19,7 +19,7 @@ package org.apache.commons.vfs2;
 import java.net.URI;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * URI test cases for providers.

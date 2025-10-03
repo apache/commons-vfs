@@ -27,7 +27,7 @@ import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.AbstractTestSuite;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.LastModifiedTests;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class FtpMdtmOnLastModifiedTests extends LastModifiedTests {
 

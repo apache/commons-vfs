@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.provider.DelegateFileObject;
 import org.apache.commons.vfs2.util.WeakRefFileListener;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 class DebugFileListener implements FileListener {
 

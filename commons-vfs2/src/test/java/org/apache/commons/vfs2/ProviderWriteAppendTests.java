@@ -19,7 +19,7 @@ package org.apache.commons.vfs2;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * File system test that check that a file system can be modified.

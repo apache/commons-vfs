@@ -19,7 +19,7 @@ package org.apache.commons.vfs2;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Path test cases for providers.
