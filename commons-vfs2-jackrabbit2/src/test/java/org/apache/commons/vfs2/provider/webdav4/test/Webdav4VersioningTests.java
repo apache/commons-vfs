@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.provider.GenericURLFileName;
 import org.apache.commons.vfs2.provider.webdav4.Webdav4FileSystemConfigBuilder;
 import org.apache.jackrabbit.webdav.version.DeltaVConstants;
 import org.apache.jackrabbit.webdav.version.VersionControlledResource;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test to verify WebDAV Versioning support
