@@ -19,9 +19,9 @@
 
 ## Summary
 
-**Status:** Phase 2 Complete - Standalone Tests Migrated ✅  
-**Branch:** `feature/junit5-migration`  
-**Date:** 2025-10-03
+**Status:** Phase 3a Complete - JUnit 5 Lifecycle Methods Added ✅
+**Branch:** `feature/junit5-migration`
+**Date:** 2025-10-04
 
 ## Completed Work
 
@@ -31,10 +31,18 @@
 - [x] Established baseline test metrics
 
 ### Phase 2: Standalone Test Migration ✅
+
 - [x] Migrated all 43 JUnit 4 test files to JUnit 5
 - [x] All tests compile successfully
 - [x] All tests run successfully
 - [x] Test count increased from 3114 to 3122 (+8 tests)
+
+### Phase 3a: Infrastructure Lifecycle Migration ✅
+
+- [x] Added JUnit 5 `@BeforeEach` and `@AfterEach` lifecycle methods to `AbstractProviderTestCase`
+- [x] Implemented conditional execution to maintain JUnit 3 suite compatibility
+- [x] All 3122 tests continue to run successfully via JUnit 3 suite infrastructure
+- [x] Individual test methods can now be run directly via JUnit 5
 
 ## Migration Statistics
 
@@ -156,15 +164,16 @@ Tests run: 3122, Failures: 0, Errors: 22, Skipped: 9
 
 ## Remaining Work
 
-### Phase 3: Test Suite Infrastructure Migration
+### Phase 3b: Test Suite Infrastructure Migration
 
 The following items still need to be addressed:
 
 #### 1. JUnit 3 Legacy Infrastructure
-- [ ] Migrate `AbstractProviderTestCase` (extends `junit.framework.TestCase`)
+- [x] Add JUnit 5 lifecycle methods to `AbstractProviderTestCase` (Phase 3a complete)
 - [ ] Migrate `AbstractTestSuite` (extends `junit.extensions.TestSetup`)
 - [ ] Migrate `ProviderTestSuite` and related suite classes
 - [ ] Convert reflection-based test discovery to JUnit 5 approach
+- [ ] Remove `extends TestCase` from `AbstractProviderTestCase`
 
 #### 2. Files Excluded from Surefire
 Currently excluded with comment "Need to port fully to JUnit 4 or 5":
@@ -172,7 +181,8 @@ Currently excluded with comment "Need to port fully to JUnit 4 or 5":
 - [ ] Migrate ~40 `*Tests.java` files to proper JUnit 5 test classes
 
 #### 3. Capability-Based Test Filtering
-- [ ] Migrate capability checking from `runTest()` to `@BeforeEach` + `Assumptions`
+- [x] Add JUnit 5 capability checking with `@BeforeEach` + `Assumptions` (Phase 3a complete)
+- [ ] Remove JUnit 3 `runTest()` method (requires Phase 3b suite migration)
 
 ### Phase 4: Cleanup
 - [ ] Remove `junit-vintage-engine` dependency from all module POMs
@@ -189,6 +199,8 @@ Currently excluded with comment "Need to port fully to JUnit 4 or 5":
 1. `77023260` - Add JUnit 5 migration documentation
 2. `b696bc53` - Migrate JUnit 4 tests to JUnit 5 (41 files in commons-vfs2)
 3. `54e4eae0` - Migrate JUnit 4 tests in jackrabbit modules to JUnit 5 (2 files)
+4. `fcdfd449` - Add migration progress report
+5. `cda5789f` - Phase 3a: Add JUnit 5 lifecycle methods to AbstractProviderTestCase
 
 ## Next Steps
 
@@ -226,5 +238,7 @@ Currently excluded with comment "Need to port fully to JUnit 4 or 5":
 
 ## Conclusion
 
-Phase 2 is complete! All standalone JUnit 4 tests have been successfully migrated to JUnit 5. The migration is proceeding smoothly with no regressions. The next phase will focus on the more complex task of migrating the JUnit 3-style test suite infrastructure.
+Phase 3a is complete! JUnit 5 lifecycle methods have been successfully added to `AbstractProviderTestCase` while maintaining full backward compatibility with the existing JUnit 3 test suite infrastructure. All 3122 tests continue to run successfully. The hybrid approach allows individual test methods to be run directly via JUnit 5 while the full test suite continues to use the JUnit 3 infrastructure.
+
+The next phase (3b) will focus on migrating the test suite infrastructure (`AbstractTestSuite`, `ProviderTestSuite`) to use JUnit 5's `@Suite` and `@TestFactory` patterns, which will allow complete removal of the JUnit 3 `TestCase` dependency.
 
