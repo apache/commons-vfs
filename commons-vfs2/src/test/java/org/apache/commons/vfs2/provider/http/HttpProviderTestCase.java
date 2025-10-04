@@ -151,8 +151,13 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
         manager.addProvider("http", new HttpFileProvider());
     }
 
-    /** Ensure VFS-453 options are present. */
-    @Test
+    /**
+     * Ensure VFS-453 options are present.
+     * <p>
+     * Note: No @Test annotation - this test is run via suite() method using JUnit 3 infrastructure.
+     * Adding @Test would cause JUnit 5 to run it directly before suite setup, causing failures.
+     * </p>
+     */
     public void testHttpTimeoutConfig() {
         final FileSystemOptions options = new FileSystemOptions();
         final HttpFileSystemConfigBuilder builder = HttpFileSystemConfigBuilder.getInstance();
@@ -199,27 +204,23 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
         }
     }
 
-    @Test
+    // Note: No @Test annotations - these tests are run via suite() method using JUnit 3 infrastructure
     public void testResolveFolderSlashNoRedirectOff() throws FileSystemException {
         testResolveFolderSlash(connectionUri + "/read-tests", false);
     }
 
-    @Test
     public void testResolveFolderSlashNoRedirectOn() throws FileSystemException {
         testResolveFolderSlash(connectionUri + "/read-tests", true);
     }
 
-    @Test
     public void testResolveFolderSlashYesRedirectOff() throws FileSystemException {
         testResolveFolderSlash(connectionUri + "/read-tests/", false);
     }
 
-    @Test
     public void testResolveFolderSlashYesRedirectOn() throws FileSystemException {
         testResolveFolderSlash(connectionUri + "/read-tests/", true);
     }
 
-    @Test
     public void testResolveIPv6Url() throws FileSystemException {
         final String ipv6Url = "http://[fe80::1c42:dae:8370:aea6%en1]/file.txt";
 

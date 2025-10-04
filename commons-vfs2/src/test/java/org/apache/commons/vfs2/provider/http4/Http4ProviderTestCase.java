@@ -156,9 +156,14 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
         }
     }
 
-    /** Ensure VFS-453 options are present. */
+    /**
+     * Ensure VFS-453 options are present.
+     * <p>
+     * Note: No @Test annotation - this test is run via suite() method using JUnit 3 infrastructure.
+     * Adding @Test would cause JUnit 5 to run it directly before suite setup, causing failures.
+     * </p>
+     */
     @SuppressWarnings("deprecation")
-    @Test
     public void testHttpTimeoutConfig() {
         final FileSystemOptions opts = new FileSystemOptions();
         final Http4FileSystemConfigBuilder builder = Http4FileSystemConfigBuilder.getInstance();
@@ -195,7 +200,7 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
         assertEquals("foo/bar", builder.getUserAgent(opts));
     }
 
-    @Test
+    // Note: No @Test annotation - this test is run via suite() method using JUnit 3 infrastructure
     public void testReadFileOperations() throws Exception {
         try (DefaultFileSystemManager manager = new DefaultFileSystemManager();
                 Http4FileProvider provider = new Http4FileProvider();
@@ -238,27 +243,23 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
         }
     }
 
-    @Test
+    // Note: No @Test annotations - these tests are run via suite() method using JUnit 3 infrastructure
     public void testResolveFolderSlashNoRedirectOff() throws FileSystemException {
         testResolveFolderSlash(connectionUri + "/read-tests", false);
     }
 
-    @Test
     public void testResolveFolderSlashNoRedirectOn() throws FileSystemException {
         testResolveFolderSlash(connectionUri + "/read-tests", true);
     }
 
-    @Test
     public void testResolveFolderSlashYesRedirectOff() throws FileSystemException {
         testResolveFolderSlash(connectionUri + "/read-tests/", false);
     }
 
-    @Test
     public void testResolveFolderSlashYesRedirectOn() throws FileSystemException {
         testResolveFolderSlash(connectionUri + "/read-tests/", true);
     }
 
-    @Test
     public void testResolveIPv6Url() throws FileSystemException {
         final String ipv6Url = "http4://[fe80::1c42:dae:8370:aea6%en1]";
 
