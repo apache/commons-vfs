@@ -51,6 +51,12 @@ import org.junit.jupiter.api.BeforeEach;
  * executed only when tests are run directly via JUnit 5. When run via the JUnit 3 suite infrastructure,
  * the {@link #runTest()} method handles capability checking and cleanup.
  * </p>
+ * <p>
+ * <strong>TODO (Future Phase 4):</strong> Remove {@code extends TestCase} and migrate to pure JUnit 5.
+ * This requires migrating the test suite infrastructure ({@link AbstractTestSuite}, {@link ProviderTestSuite})
+ * to use JUnit 5's {@code @TestFactory} or {@code @Suite} patterns. See JUNIT5_MIGRATION_PHASE3B_PLAN.md
+ * for detailed migration plan.
+ * </p>
  */
 public abstract class AbstractProviderTestCase extends TestCase {
 

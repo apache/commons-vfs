@@ -46,6 +46,16 @@ import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
 
 /**
  * The suite of tests for a file system.
+ * <p>
+ * <strong>JUnit 3 Infrastructure:</strong> This class extends JUnit 3's {@code TestSetup} to provide
+ * suite-level setup and teardown for provider tests. It uses reflection to discover test methods
+ * and creates test instances dynamically.
+ * </p>
+ * <p>
+ * <strong>TODO (Future Phase 4):</strong> Migrate to JUnit 5's {@code @TestFactory} or {@code @Suite}
+ * pattern. This will allow removal of the {@code extends TestSetup} dependency and enable pure JUnit 5
+ * test execution. See JUNIT5_MIGRATION_PHASE3B_PLAN.md for detailed migration plan.
+ * </p>
  */
 public abstract class AbstractTestSuite extends TestSetup {
 

@@ -24,6 +24,14 @@ import org.apache.commons.vfs2.impl.VfsClassLoaderTests;
  * To be ran in the context of a provider using a wrapper such as
  * {@link org.apache.commons.vfs2.provider.local.LocalProviderTestCase}
  * </p>
+ * <p>
+ * <strong>JUnit 3 Infrastructure:</strong> This class extends {@link AbstractTestSuite} which uses
+ * JUnit 3's {@code TestSetup} pattern for suite-level setup and teardown.
+ * </p>
+ * <p>
+ * <strong>TODO (Future Phase 4):</strong> Migrate to JUnit 5's {@code @TestFactory} pattern.
+ * See JUNIT5_MIGRATION_PHASE3B_PLAN.md for detailed migration plan and examples.
+ * </p>
  */
 public class ProviderTestSuite extends AbstractTestSuite {
 

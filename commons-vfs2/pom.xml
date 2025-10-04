@@ -242,8 +242,11 @@
             <exclude>**/RunTest.java</exclude>
             <!-- inner classes -->
             <exclude>**/*$*</exclude>
-            <!-- Need to port fully to JUnit 4 or 5. -->
-            <!-- *Tests.java files with @Test methods should not be run since these classes are in fact JUnit 3 classes used in custom JUnit 3 test suites. -->
+            <!-- JUnit 3/5 Hybrid: *Tests.java files extend AbstractProviderTestCase (which extends TestCase) -->
+            <!-- and are designed to be run via JUnit 3 suite infrastructure (AbstractTestSuite, ProviderTestSuite). -->
+            <!-- They are discovered and executed via *ProviderTestCase.suite() methods using JUnit Vintage engine. -->
+            <!-- Running them directly would bypass suite-level setup (FileSystemManager creation, etc.). -->
+            <!-- TODO (Phase 4): Remove this exclusion after migrating to JUnit 5 @TestFactory pattern. -->
             <exclude>**/*Tests.java</exclude>
           </excludes>
         </configuration>
@@ -350,8 +353,11 @@
               <excludes>
                 <exclude>**/HdfsFileProviderTest.java</exclude>
                 <exclude>**/HdfsFileProviderTestCase.java</exclude>
-                <!-- Need to port fully to JUnit 4 or 5. -->
-                <!-- *Tests.java files with @Test methods should not be run since these classes are in fact JUnit 3 classes used in custom JUnit 3 test suites. -->
+                <!-- JUnit 3/5 Hybrid: *Tests.java files extend AbstractProviderTestCase (which extends TestCase) -->
+                <!-- and are designed to be run via JUnit 3 suite infrastructure (AbstractTestSuite, ProviderTestSuite). -->
+                <!-- They are discovered and executed via *ProviderTestCase.suite() methods using JUnit Vintage engine. -->
+                <!-- Running them directly would bypass suite-level setup (FileSystemManager creation, etc.). -->
+                <!-- TODO (Phase 4): Remove this exclusion after migrating to JUnit 5 @TestFactory pattern. -->
                 <exclude>**/*Tests.java</exclude>
               </excludes>
             </configuration>
