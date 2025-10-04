@@ -32,6 +32,9 @@ import org.apache.commons.io.input.UnsynchronizedByteArrayInputStream;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * File system test cases, which verifies the structure and naming functionality.
@@ -40,6 +43,13 @@ import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
  * </p>
  * <p>
  * Not intended to be executed individually, but instead to be part of a {@link ProviderTestSuite}.
+ * </p>
+ * <p>
+ * <strong>JUnit 3/5 Hybrid Approach:</strong> This class extends JUnit 3's {@code TestCase} to maintain
+ * compatibility with the existing test suite infrastructure ({@link AbstractTestSuite}, {@link ProviderTestSuite}).
+ * It also includes JUnit 5 lifecycle methods ({@code @BeforeEach}, {@code @AfterEach}) that are conditionally
+ * executed only when tests are run directly via JUnit 5. When run via the JUnit 3 suite infrastructure,
+ * the {@link #runTest()} method handles capability checking and cleanup.
  * </p>
  */
 public abstract class AbstractProviderTestCase extends TestCase {
@@ -276,6 +286,44 @@ public abstract class AbstractProviderTestCase extends TestCase {
             }
 
             throw new IllegalStateException(getClass().getName() + ": filesystem has open streams after: " + name);
+        }
+    }
+
+    /**
+     * JUnit 5 lifecycle method to check capabilities before each test.
+     * This complements the existing runTest() method for JUnit 3 compatibility.
+     * Uses Assumptions to skip tests when capabilities are not met.
+     * Only runs if readFolder is initialized (indicating JUnit 5 execution context).
+     */
+    @BeforeEach
+    public void checkCapabilitiesJunit5() throws FileSystemException {
+        // Only run if readFolder is initialized (JUnit 5 context)
+        // In JUnit 3 context, runTest() handles capability checking
+        if (readFolder == null) {
+            return;
+        }
+
+        final Capability[] caps = getRequiredCapabilities();
+        if (caps != null) {
+            for (final Capability cap : caps) {
+                final FileSystem fs = getFileSystem();
+                Assumptions.assumeTrue(fs.hasCapability(cap),
+                    () -> "Skipping test because file system does not have capability: " + cap);
+            }
+        }
+    }
+
+    /**
+     * JUnit 5 lifecycle method to verify file system is properly closed after each test.
+     * This complements the existing runTest() method for JUnit 3 compatibility.
+     * Only runs if readFolder is initialized (indicating JUnit 5 execution context).
+     */
+    @AfterEach
+    public void checkFileSystemClosedJunit5() throws FileSystemException {
+        // Only run if readFolder is initialized (JUnit 5 context)
+        // In JUnit 3 context, runTest() handles this check
+        if (readFolder != null && ((AbstractFileSystem) readFolder.getFileSystem()).isOpen()) {
+            throw new IllegalStateException(getClass().getName() + ": filesystem has open streams after test");
         }
     }
 
