@@ -30,12 +30,7 @@ public class ProviderTestSuiteJunit5 extends AbstractProviderTestSuite {
         this(providerConfig, "", false);
     }
 
-    public ProviderTestSuiteJunit5(final ProviderTestConfig providerConfig, final String prefix, final boolean nested) {
-        this(providerConfig, prefix, nested, false);
-    }
-
-    public ProviderTestSuiteJunit5(final ProviderTestConfig providerConfig, final String prefix, final boolean nested,
-        final boolean addEmptyDir) {
+    public ProviderTestSuiteJunit5(final ProviderTestConfig providerConfig, final String prefix, final boolean addEmptyDir) {
         super(providerConfig, prefix, addEmptyDir);
     }
 
