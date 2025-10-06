@@ -15,6 +15,17 @@
  * limitations under the License.
  */
 package org.apache.commons.vfs2.cache;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 
 import org.apache.commons.vfs2.FileObject;
 import org.junit.jupiter.api.Test;
@@ -36,7 +47,7 @@ public class DefaultFilesCacheTests extends AbstractFilesCacheTestsBase {
         // now the same test, unreferenced (compare only hashCode)
         final int hc1 = getFileHashCode();
         final int hc2 = getFileHashCode();
-        assertEquals("Hashcode of file changed, so most likely new instance", hc1, hc2);
+        assertEquals(hc1, hc2, "Hashcode of file changed, so most likely new instance");
     }
 
 }

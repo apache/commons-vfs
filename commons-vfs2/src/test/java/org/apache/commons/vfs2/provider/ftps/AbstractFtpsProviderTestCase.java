@@ -27,7 +27,6 @@ import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
-import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.ftpserver.FtpServer;
 import org.apache.ftpserver.FtpServerFactory;
@@ -45,37 +44,6 @@ import org.junit.jupiter.api.Assertions;
  * Abstract tests for FTP file systems.
  */
 abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
-
-    static final class FtpProviderTestSuite extends ProviderTestSuite {
-
-        private final boolean implicit;
-
-        public FtpProviderTestSuite(final AbstractFtpsProviderTestCase providerConfig) throws Exception {
-            super(providerConfig);
-            implicit = providerConfig.isImplicit();
-        }
-
-        @Override
-        protected void setUp() throws Exception {
-            if (getSystemTestUriOverride() == null) {
-                setUpClass(implicit);
-            }
-            super.setUp();
-        }
-
-        @Override
-        protected void tearDown() throws Exception {
-            try {
-                // This will report running threads of the FTP server.
-                // However, shutting down the FTP server first will always
-                // report an exception closing the manager, because the
-                // server is already down
-                super.tearDown();
-            } finally {
-                tearDownClass();
-            }
-        }
-    }
 
     private static final String LISTENER_NAME = "default";
 

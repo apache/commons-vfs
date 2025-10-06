@@ -16,7 +16,11 @@
  */
 package org.apache.commons.vfs2.provider.jar;
 
+import org.apache.commons.vfs2.AbstractProviderTestConfig;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.ProviderTestSuiteJunit5;
+import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.junit.jupiter.api.TestInstance;
 
 /**
@@ -26,7 +30,26 @@ import org.junit.jupiter.api.TestInstance;
 public class NestedJarTest extends ProviderTestSuiteJunit5 {
 
     public NestedJarTest() throws Exception {
-        super(new NestedJarTestCase(), "", true);
+        super(new NestedJarTestConfig(), "", true);
+    }
+
+    /**
+     * Configuration for nested JAR provider tests.
+     */
+    private static class NestedJarTestConfig extends AbstractProviderTestConfig {
+
+        @Override
+        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
+            final FileObject nested = JarProviderTest.getTestJar(manager, "nested.jar");
+            final FileObject testJar = nested.resolveFile("test.jar");
+            // Need to resolve as a JAR file system
+            return manager.resolveFile("jar:" + testJar.getURL().toString() + "!/");
+        }
+
+        @Override
+        public void prepare(final DefaultFileSystemManager manager) throws Exception {
+            manager.addProvider("jar", new JarFileProvider());
+        }
     }
 }
 

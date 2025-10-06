@@ -16,7 +16,16 @@
  */
 package org.apache.commons.vfs2.provider.tar;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getTestResource;
+
+import java.io.File;
+
+import org.apache.commons.vfs2.AbstractProviderTestConfig;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.ProviderTestSuiteJunit5;
+import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs2.provider.gzip.GzipFileProvider;
 import org.junit.jupiter.api.TestInstance;
 
 /**
@@ -26,7 +35,28 @@ import org.junit.jupiter.api.TestInstance;
 public class NestedTgzTest extends ProviderTestSuiteJunit5 {
 
     public NestedTgzTest() throws Exception {
-        super(new NestedTgzTestCase(), "", true);
+        super(new NestedTgzTestConfig(), "", true);
+    }
+
+    /**
+     * Configuration for nested TGZ provider tests.
+     */
+    private static class NestedTgzTestConfig extends AbstractProviderTestConfig {
+
+        @Override
+        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
+            final File nestedFile = getTestResource("nested.tgz");
+            final String nestedUri = "tgz:file:" + nestedFile.getAbsolutePath() + "!/";
+            final FileObject nestedTgz = manager.resolveFile(nestedUri);
+            return nestedTgz.resolveFile("test.tgz");
+        }
+
+        @Override
+        public void prepare(final DefaultFileSystemManager manager) throws Exception {
+            manager.addProvider("tar", new TarFileProvider());
+            manager.addProvider("tgz", new TarFileProvider());
+            manager.addProvider("gz", new GzipFileProvider());
+        }
     }
 }
 

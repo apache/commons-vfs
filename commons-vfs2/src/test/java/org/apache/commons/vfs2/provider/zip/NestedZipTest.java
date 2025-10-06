@@ -16,7 +16,15 @@
  */
 package org.apache.commons.vfs2.provider.zip;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getTestResource;
+
+import java.io.File;
+
+import org.apache.commons.vfs2.AbstractProviderTestConfig;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.ProviderTestSuiteJunit5;
+import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.junit.jupiter.api.TestInstance;
 
 /**
@@ -26,7 +34,26 @@ import org.junit.jupiter.api.TestInstance;
 public class NestedZipTest extends ProviderTestSuiteJunit5 {
 
     public NestedZipTest() throws Exception {
-        super(new NestedZipTestCase(), "", true);
+        super(new NestedZipTestConfig(), "", true);
+    }
+
+    /**
+     * Configuration for nested ZIP provider tests.
+     */
+    private static class NestedZipTestConfig extends AbstractProviderTestConfig {
+
+        @Override
+        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
+            final File nestedFile = getTestResource("nested.zip");
+            final String nestedUri = "zip:file:" + nestedFile.getAbsolutePath() + "!/";
+            final FileObject nestedZip = manager.resolveFile(nestedUri);
+            return nestedZip.resolveFile("test.zip");
+        }
+
+        @Override
+        public void prepare(final DefaultFileSystemManager manager) throws Exception {
+            manager.addProvider("zip", new ZipFileProvider());
+        }
     }
 }
 

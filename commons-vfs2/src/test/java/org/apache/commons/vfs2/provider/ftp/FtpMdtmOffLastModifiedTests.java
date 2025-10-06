@@ -15,6 +15,17 @@
  * limitations under the License.
  */
 package org.apache.commons.vfs2.provider.ftp;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 
@@ -24,7 +35,7 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
 import java.time.Duration;
 
-import org.apache.commons.vfs2.AbstractTestSuite;
+import org.apache.commons.vfs2.AbstractProviderTestSuite;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.LastModifiedTests;
 import org.junit.jupiter.api.Test;
@@ -44,7 +55,7 @@ public class FtpMdtmOffLastModifiedTests extends LastModifiedTests {
         // now try to match
         final long lastModTimeAccuracyMillis = (long) readFolder.getFileSystem().getLastModTimeAccuracy();
         final FileTime lastModifiedTime = Files
-            .getLastModifiedTime(Paths.get(getTestDirectory(), AbstractTestSuite.READ_TESTS_FOLDER, fileName));
+            .getLastModifiedTime(Paths.get(getTestDirectory(), AbstractProviderTestSuite.READ_TESTS_FOLDER, fileName));
         assertDeltaMillis("getLastModified on File", lastModifiedTime.toMillis(), lastModifiedTimeMillis,
             Math.max(lastModTimeAccuracyMillis, Duration.ofMinutes(1).toMillis()));
     }

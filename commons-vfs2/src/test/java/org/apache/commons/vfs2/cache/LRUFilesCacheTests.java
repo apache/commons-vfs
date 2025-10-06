@@ -15,6 +15,17 @@
  * limitations under the License.
  */
 package org.apache.commons.vfs2.cache;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 
 import java.util.Objects;
 
@@ -35,7 +46,7 @@ public class LRUFilesCacheTests extends AbstractFilesCacheTestsBase {
         final DefaultFileSystemManager manager = getManager();
         Assertions.assertNotNull(manager, "manager");
         final FilesCache filesCache = manager.getFilesCache();
-        assertTrue(Objects.toString(filesCache), filesCache instanceof LRUFilesCache);
+        assertTrue(filesCache instanceof LRUFilesCache, Objects.toString(filesCache));
     }
 
     @Test

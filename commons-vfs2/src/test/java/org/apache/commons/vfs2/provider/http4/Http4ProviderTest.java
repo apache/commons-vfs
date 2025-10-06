@@ -56,11 +56,6 @@ public class Http4ProviderTest extends ProviderTestSuiteJunit5 {
         if (getSystemTestUriOverride() == null) {
             server = NHttpFileServer.start(0, new File(getTestDirectory()), 5000);
             connectionUri = AbstractProviderTestConfig.getLocalHostUriString("http4", server.getPort());
-            
-            // Set static field in Http4ProviderTestCase for its test methods
-            final Field field = Http4ProviderTestCase.class.getDeclaredField("connectionUri");
-            field.setAccessible(true);
-            field.set(null, connectionUri);
         }
         super.setUp();
     }
@@ -75,7 +70,7 @@ public class Http4ProviderTest extends ProviderTestSuiteJunit5 {
     @Override
     protected void addBaseTests() throws Exception {
         super.addBaseTests();
-        addTests(Http4ProviderTestCase.class);
+        // HTTP4-specific tests are now part of this test suite
     }
 
     /**

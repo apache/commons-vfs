@@ -16,6 +16,18 @@
  */
 package org.apache.commons.vfs2;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+
 import java.net.URI;
 
 import org.apache.commons.lang3.ObjectUtils;
@@ -92,12 +104,12 @@ public class UriTests extends AbstractProviderTestCase {
         try (FileObject fileObject = getReadFolder().resolveFile("file with spaces.txt")) {
             final URI url = fileObject.getURI();
             final String string = url.toString();
-            assertTrue(string, string.contains("file%20with%20spaces.txt"));
+            assertTrue(string.contains("file%20with%20spaces.txt"), string);
         }
         try (FileObject fileObject = getReadFolder().resolveFile("file%20with%20spaces.txt")) {
             final URI url = fileObject.getURI();
             final String string = url.toString();
-            assertTrue(string, string.contains("file%20with%20spaces.txt"));
+            assertTrue(string.contains("file%20with%20spaces.txt"), string);
         }
     }
 
@@ -117,8 +129,8 @@ public class UriTests extends AbstractProviderTestCase {
         final FileObject f1 = getManager().resolveFile(uriStr, options);
         final FileObject f2 = getManager().resolveFile(uriStr, options);
 
-        assertEquals("Two files resolved by URI must be equals on " + uriStr, f1, f2);
-        assertSame("Resolving two times should not produce new filesystem on " + uriStr, f1.getFileSystem(), f2.getFileSystem());
+        assertEquals(f1, f2, "Two files resolved by URI must be equals on " + uriStr);
+        assertSame(f1.getFileSystem(), f2.getFileSystem(), "Resolving two times should not produce new filesystem on " + uriStr);
     }
 
 }

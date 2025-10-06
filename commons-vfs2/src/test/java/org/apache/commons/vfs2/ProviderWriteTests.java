@@ -16,7 +16,18 @@
  */
 package org.apache.commons.vfs2;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+
 
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
@@ -56,16 +67,16 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
         }
 
         public void assertFinished() {
-            assertEquals("Missing event", 0, events.size());
+            assertEquals(0, events.size(), "Missing event");
         }
 
         @Override
         public void fileChanged(final FileChangeEvent event) throws Exception {
-            assertFalse("Unexpected changed event", events.isEmpty());
-            assertSame("Expecting a changed event", CHANGED, events.remove(0));
-            assertEquals(Objects.toString(file), file, event.getFileObject());
+            assertFalse(events.isEmpty(), "Unexpected changed event");
+            assertSame(CHANGED, events.remove(0), "Expecting a changed event");
+            assertEquals(file, event.getFileObject(), Objects.toString(file));
             try {
-                assertFalse(Objects.toString(file), file.exists());
+                assertFalse(file.exists(), Objects.toString(file));
             } catch (final FileSystemException e) {
                 fail();
             }
@@ -76,11 +87,11 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
          */
         @Override
         public void fileCreated(final FileChangeEvent event) {
-            assertFalse("Unexpected create event", events.isEmpty());
-            assertSame("Expecting a create event", CREATE, events.remove(0));
-            assertEquals(Objects.toString(file), file, event.getFileObject());
+            assertFalse(events.isEmpty(), "Unexpected create event");
+            assertSame(CREATE, events.remove(0), "Expecting a create event");
+            assertEquals(file, event.getFileObject(), Objects.toString(file));
             try {
-                assertTrue(Objects.toString(file), file.exists());
+                assertTrue(file.exists(), Objects.toString(file));
             } catch (final FileSystemException e) {
                 fail();
             }
@@ -91,11 +102,11 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
          */
         @Override
         public void fileDeleted(final FileChangeEvent event) {
-            assertFalse("Unexpected delete event", events.isEmpty());
-            assertSame("Expecting a delete event", DELETE, events.remove(0));
-            assertEquals(Objects.toString(file), file, event.getFileObject());
+            assertFalse(events.isEmpty(), "Unexpected delete event");
+            assertSame(DELETE, events.remove(0), "Expecting a delete event");
+            assertEquals(file, event.getFileObject(), Objects.toString(file));
             try {
-                assertFalse(Objects.toString(file), file.exists());
+                assertFalse(file.exists(), Objects.toString(file));
             } catch (final FileSystemException e) {
                 fail();
             }

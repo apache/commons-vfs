@@ -16,7 +16,15 @@
  */
 package org.apache.commons.vfs2.provider.tar;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getTestResource;
+
+import java.io.File;
+
+import org.apache.commons.vfs2.AbstractProviderTestConfig;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.ProviderTestSuiteJunit5;
+import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.junit.jupiter.api.TestInstance;
 
 /**
@@ -26,7 +34,26 @@ import org.junit.jupiter.api.TestInstance;
 public class NestedTarTest extends ProviderTestSuiteJunit5 {
 
     public NestedTarTest() throws Exception {
-        super(new NestedTarTestCase(), "", true);
+        super(new NestedTarTestConfig(), "", true);
+    }
+
+    /**
+     * Configuration for nested TAR provider tests.
+     */
+    private static class NestedTarTestConfig extends AbstractProviderTestConfig {
+
+        @Override
+        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
+            final File nestedFile = getTestResource("nested.tar");
+            final String nestedUri = "tar:file:" + nestedFile.getAbsolutePath() + "!/";
+            final FileObject nestedTar = manager.resolveFile(nestedUri);
+            return nestedTar.resolveFile("test.tar");
+        }
+
+        @Override
+        public void prepare(final DefaultFileSystemManager manager) throws Exception {
+            manager.addProvider("tar", new TarFileProvider());
+        }
     }
 }
 

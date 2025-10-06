@@ -16,6 +16,23 @@
  */
 package org.apache.commons.vfs2;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+
+
+
+
+
+
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
@@ -74,14 +91,12 @@ public class PermissionsTests extends AbstractProviderTestCase {
     /**
      * Clean up the permission-modified file to not affect other tests.
      */
-    @Override
-    protected void tearDown() throws Exception {
+    @org.junit.jupiter.api.AfterEach
+    public void tearDown() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
         final FileObject file = scratchFolder.resolveFile(FILENAME);
         file.setWritable(true, true);
         file.delete();
-
-        super.tearDown();
     }
 
     /**

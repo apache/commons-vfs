@@ -15,9 +15,19 @@
  * limitations under the License.
  */
 package org.apache.commons.vfs2.cache;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 
 import org.apache.commons.vfs2.AbstractProviderTestCase;
-import org.apache.commons.vfs2.CacheTestSuite;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
@@ -85,7 +95,7 @@ public abstract class AbstractFilesCacheTestsBase extends AbstractProviderTestCa
 
         final FileObject fo2 = getWriteFolder().resolveFile("dir1");
 
-        assertNotSame("Objects after cache clear should be different", fo1, fo2);
+        assertNotSame(fo1, fo2, "Objects after cache clear should be different");
     }
 
 }

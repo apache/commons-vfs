@@ -16,6 +16,10 @@
  */
 package org.apache.commons.vfs2.provider.jar;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getTestResource;
+
+import java.io.File;
+
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -35,6 +39,14 @@ public class JarProviderTest extends ProviderTestSuiteJunit5 {
     }
 
     /**
+     * Returns a JAR file from the test resources.
+     */
+    public static FileObject getTestJar(final FileSystemManager manager, final String name) throws Exception {
+        final File jarFile = getTestResource(name);
+        return manager.resolveFile("jar:file:" + jarFile.getAbsolutePath() + "!/");
+    }
+
+    /**
      * Configuration for JAR provider tests.
      */
     private static class JarProviderTestConfig extends AbstractProviderTestConfig {
@@ -44,7 +56,7 @@ public class JarProviderTest extends ProviderTestSuiteJunit5 {
          */
         @Override
         public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-            return JarProviderTestCase.getTestJar(manager, "test.jar");
+            return JarProviderTest.getTestJar(manager, "test.jar");
         }
 
         /**

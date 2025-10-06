@@ -65,15 +65,6 @@ public class HttpProviderTest extends ProviderTestSuiteJunit5 {
         if (getSystemTestUriOverride() == null) {
             server = NHttpFileServer.start(0, new File(getTestDirectory()), 5000);
             connectionUri = AbstractProviderTestConfig.getLocalHostUriString("http", server.getPort());
-
-            // Also set the static field in HttpProviderTestCase for its test methods
-            try {
-                final java.lang.reflect.Field field = HttpProviderTestCase.class.getDeclaredField("connectionUri");
-                field.setAccessible(true);
-                field.set(null, connectionUri);
-            } catch (final Exception e) {
-                throw new RuntimeException("Failed to set connectionUri in HttpProviderTestCase", e);
-            }
         }
         super.setUp();
     }
@@ -92,8 +83,7 @@ public class HttpProviderTest extends ProviderTestSuiteJunit5 {
         // Add standard provider tests
         super.addBaseTests();
 
-        // Add HTTP-specific tests
-        addTests(HttpProviderTestCase.class);
+        // HTTP-specific tests are now part of this test suite
 
         // HttpAsyncServer returns 400 on link local requests from Httpclient
         // (e.g. Apache Web Server does the same https://bz.apache.org/bugzilla/show_bug.cgi?id=35122,

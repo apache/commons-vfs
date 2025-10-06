@@ -16,7 +16,16 @@
  */
 package org.apache.commons.vfs2.provider.tar;
 
+import static org.apache.commons.vfs2.VfsTestUtils.getTestResource;
+
+import java.io.File;
+
+import org.apache.commons.vfs2.AbstractProviderTestConfig;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.ProviderTestSuiteJunit5;
+import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs2.provider.bzip2.Bzip2FileProvider;
 import org.junit.jupiter.api.TestInstance;
 
 /**
@@ -26,7 +35,28 @@ import org.junit.jupiter.api.TestInstance;
 public class NestedTbz2Test extends ProviderTestSuiteJunit5 {
 
     public NestedTbz2Test() throws Exception {
-        super(new NestedTbz2TestCase(), "", true);
+        super(new NestedTbz2TestConfig(), "", true);
+    }
+
+    /**
+     * Configuration for nested TBZ2 provider tests.
+     */
+    private static class NestedTbz2TestConfig extends AbstractProviderTestConfig {
+
+        @Override
+        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
+            final File nestedFile = getTestResource("nested.tbz2");
+            final String nestedUri = "tbz2:file:" + nestedFile.getAbsolutePath() + "!/";
+            final FileObject nestedTbz2 = manager.resolveFile(nestedUri);
+            return nestedTbz2.resolveFile("test.tbz2");
+        }
+
+        @Override
+        public void prepare(final DefaultFileSystemManager manager) throws Exception {
+            manager.addProvider("tar", new TarFileProvider());
+            manager.addProvider("tbz2", new TarFileProvider());
+            manager.addProvider("bz2", new Bzip2FileProvider());
+        }
     }
 }
 

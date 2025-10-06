@@ -15,6 +15,17 @@
  * limitations under the License.
  */
 package org.apache.commons.vfs2.provider.test;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 
 import static org.apache.commons.vfs2.VfsTestUtils.assertSameMessage;
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
@@ -90,11 +101,11 @@ public class JunctionTests extends AbstractProviderTestCase {
 
         // Make sure the file at the junction point and its ancestors exist
         file = fs.resolveFile("/a/b");
-        assertTrue("Does not exist", file.exists());
+        assertTrue(file.exists(), "Does not exist");
         file = file.getParent();
-        assertTrue("Does not exist", file.exists());
+        assertTrue(file.exists(), "Does not exist");
         file = file.getParent();
-        assertTrue("Does not exist", file.exists());
+        assertTrue(file.exists(), "Does not exist");
     }
 
     /**
@@ -110,19 +121,19 @@ public class JunctionTests extends AbstractProviderTestCase {
 
         // Make sure the file at the junction point and its ancestors exist
         final FileObject file = fs.resolveFile("/a/hardref.txt");
-        assertSame("VirtualFileSystem does not use DelegateFO anymore?", file.getClass(), DelegateFileObject.class);
+        assertSame(file.getClass(), DelegateFileObject.class, "VirtualFileSystem does not use DelegateFO anymore?");
 
         // Do with a hard reference listener
         final FileListener listener1 = new DebugFileListener();
         file.getFileSystem().addListener(file, listener1);
         final FileObject real1 = baseDir.resolveFile("hardref.txt");
         real1.createFile();
-        assertEquals("Strong Listener was not notified (create)", "Listener false true false", listener1.toString());
+        assertEquals(listener1.toString(), "Strong Listener was not notified (create)", "Listener false true false");
         real1.delete();
-        assertEquals("Strong Listener was not notified (delete)", "Listener false true true", listener1.toString());
+        assertEquals(listener1.toString(), "Strong Listener was not notified (delete)", "Listener false true true");
 
         final FileObject file2 = fs.resolveFile("/a/weakref.txt");
-        assertSame("VirtualFileSystem does not use DelegateFO anymore?", file2.getClass(), DelegateFileObject.class);
+        assertSame(file2.getClass(), DelegateFileObject.class, "VirtualFileSystem does not use DelegateFO anymore?");
         // repeat with Weak reference listener
         final FileListener listener2 = new DebugFileListener();
         // since we hold the listener2 reference it should not get GC
@@ -141,9 +152,9 @@ public class JunctionTests extends AbstractProviderTestCase {
         final FileObject real2 = baseDir.resolveFile("weakref.txt");
         real2.createFile();
         try {
-            assertEquals("Weak Listener was abandoned", "Listener false true false", listener2.toString());
+            assertEquals(listener2.toString(), "Weak Listener was abandoned", "Listener false true false");
         } finally {
-            assertTrue("Don't contaminate the fs for the next time the test runs", file2.delete());
+            assertTrue(file2.delete(), "Don't contaminate the fs for the next time the test runs");
         }
     }
 

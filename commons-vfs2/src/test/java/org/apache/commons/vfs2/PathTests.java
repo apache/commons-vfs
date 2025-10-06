@@ -16,6 +16,18 @@
  */
 package org.apache.commons.vfs2;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -46,7 +58,7 @@ public class PathTests extends AbstractProviderTestCase {
         final String pathStr = readFolder.getPath().toString();
         try (FileObject fileObject = getManager().resolveFile(pathStr,
             readFolder.getFileSystem().getFileSystemOptions())) {
-            assertSame("file object", readFolder, fileObject);
+            assertSame(readFolder, fileObject, "file object");
         }
 
         // Try fetching the filesystem root by its Path
@@ -78,12 +90,12 @@ public class PathTests extends AbstractProviderTestCase {
         try (FileObject fileObject = getReadFolder().resolveFile("file with spaces.txt")) {
             final Path path = fileObject.getPath();
             final String string = path.toString();
-            assertTrue(string, string.contains("file%20with%20spaces.txt"));
+            assertTrue(string.contains("file%20with%20spaces.txt"), string);
         }
         try (FileObject fileObject = getReadFolder().resolveFile("file%20with%20spaces.txt")) {
             final Path path = fileObject.getPath();
             final String string = path.toString();
-            assertTrue(string, string.contains("file%20with%20spaces.txt"));
+            assertTrue(string.contains("file%20with%20spaces.txt"), string);
         }
     }
 
@@ -103,9 +115,9 @@ public class PathTests extends AbstractProviderTestCase {
             try (FileObject f1 = getManager().resolveFile(pathStr, options);
                 final FileObject f2 = getManager().resolveFile(pathStr, options)) {
 
-                assertEquals("Two files resolved by URI must be equals on " + pathStr, f1, f2);
-                assertSame("Resolving two times should not produce new filesystem on " + pathStr, f1.getFileSystem(),
-                    f2.getFileSystem());
+                assertEquals(f1, f2, "Two files resolved by URI must be equals on " + pathStr);
+                assertSame(f1.getFileSystem(), f2.getFileSystem(),
+                    "Resolving two times should not produce new filesystem on " + pathStr);
             }
         }
     }

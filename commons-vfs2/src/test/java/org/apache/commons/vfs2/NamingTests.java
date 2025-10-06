@@ -16,7 +16,22 @@
  */
 package org.apache.commons.vfs2;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+
+
+
+
+
 
 import org.junit.jupiter.api.Test;
 
@@ -214,16 +229,16 @@ public class NamingTests extends AbstractProviderTestCase {
         final FileName name = getManager().resolveName(baseName, "some-child", NameScope.CHILD);
 
         // Test path is absolute
-        assertTrue("is absolute", basePath.startsWith("/"));
+        assertTrue(basePath.startsWith("/"), "is absolute");
 
         // Test base name
-        assertEquals("base name", "some-child", name.getBaseName());
+        assertEquals(name.getBaseName(), "base name", "some-child");
 
         // Test absolute path
-        assertEquals("absolute path", basePath + "/some-child", name.getPath());
+        assertEquals(basePath + "/some-child", name.getPath(), "absolute path");
 
         // Test parent path
-        assertEquals("parent absolute path", basePath, name.getParent().getPath());
+        assertEquals(basePath, name.getParent().getPath(), "parent absolute path");
 
         // Try using a compound name to find a child
         assertBadName(name, "a/b", NameScope.CHILD);
@@ -327,19 +342,19 @@ public class NamingTests extends AbstractProviderTestCase {
 
         // Locate the base dir
         FileObject file = getManager().resolveFile(".");
-        assertSame("file object", getReadFolder(), file);
+        assertSame(getReadFolder(), file, "file object");
 
         // Locate a child
         file = getManager().resolveFile("some-child");
-        assertSame("file object", getReadFolder(), file.getParent());
+        assertSame(getReadFolder(), file.getParent(), "file object");
 
         // Locate a descendent
         file = getManager().resolveFile("some-folder/some-file");
-        assertSame("file object", getReadFolder(), file.getParent().getParent());
+        assertSame(getReadFolder(), file.getParent().getParent(), "file object");
 
         // Locate parent
         file = getManager().resolveFile("..");
-        assertSame("file object", getReadFolder().getParent(), file);
+        assertSame(getReadFolder().getParent(), file, "file object");
 
         // free basefile
         getManager().setBaseFile((FileObject) null);
@@ -413,13 +428,13 @@ public class NamingTests extends AbstractProviderTestCase {
         final FileName rootName = getReadFolder().getFileSystem().getRoot().getName();
 
         // Test that the root path is "/"
-        assertEquals("root path", "/", rootName.getPath());
+        assertEquals(rootName.getPath(), "root path", "/");
 
         // Test that the root base name is ""
-        assertEquals("root base name", "", rootName.getBaseName());
+        assertEquals(rootName.getBaseName(), "root base name", "");
 
         // Test that the root name has no parent
-        assertNull("root parent", rootName.getParent());
+        assertNull(rootName.getParent(), "root parent");
     }
 
 }

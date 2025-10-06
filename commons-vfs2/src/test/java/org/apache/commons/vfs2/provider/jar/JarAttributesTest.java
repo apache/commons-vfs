@@ -37,7 +37,7 @@ public class JarAttributesTest {
 
     @Test
     public void testAttributes() throws Exception {
-        final FileObject file = JarProviderTestCase.getTestJar(VFS.getManager(), "test.jar");
+        final FileObject file = JarProviderTest.getTestJar(VFS.getManager(), "test.jar");
 
         final Map<String, Object> attributes = file.getContent().getAttributes();
         assertEquals("1.0", attributes.get("Manifest-Version"));
@@ -47,7 +47,7 @@ public class JarAttributesTest {
 
     @Test
     public void testNestedAttributes() throws Exception {
-        final FileObject nested = JarProviderTestCase.getTestJar(VFS.getManager(), "nested.jar");
+        final FileObject nested = JarProviderTest.getTestJar(VFS.getManager(), "nested.jar");
         final FileObject file = nested.resolveFile("test.jar");
 
         final Map<String, Object> attributes = file.getContent().getAttributes();

@@ -15,6 +15,17 @@
  * limitations under the License.
  */
 package org.apache.commons.vfs2;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 
 import org.apache.commons.vfs2.util.RandomAccessMode;
 import org.junit.jupiter.api.Test;
@@ -45,37 +56,37 @@ public class ProviderRandomReadTests extends AbstractProviderTestCase {
             // read first byte
             byte c = ra.readByte();
             assertEquals(TEST_DATA.charAt(0), c);
-            assertEquals("fp", 1, ra.getFilePointer());
+            assertEquals(1, ra.getFilePointer(), "fp");
 
             // start at pos 4
             ra.seek(3);
             c = ra.readByte();
             assertEquals(TEST_DATA.charAt(3), c);
-            assertEquals("fp", 4, ra.getFilePointer());
+            assertEquals(4, ra.getFilePointer(), "fp");
 
             c = ra.readByte();
             assertEquals(TEST_DATA.charAt(4), c);
-            assertEquals("fp", 5, ra.getFilePointer());
+            assertEquals(5, ra.getFilePointer(), "fp");
 
             // restart at pos 4
             ra.seek(3);
             c = ra.readByte();
             assertEquals(TEST_DATA.charAt(3), c);
-            assertEquals("fp", 4, ra.getFilePointer());
+            assertEquals(4, ra.getFilePointer(), "fp");
 
             c = ra.readByte();
             assertEquals(TEST_DATA.charAt(4), c);
-            assertEquals("fp", 5, ra.getFilePointer());
+            assertEquals(5, ra.getFilePointer(), "fp");
 
             // advance to pos 11
             ra.seek(10);
             c = ra.readByte();
             assertEquals(TEST_DATA.charAt(10), c);
-            assertEquals("fp", 11, ra.getFilePointer());
+            assertEquals(11, ra.getFilePointer(), "fp");
 
             c = ra.readByte();
             assertEquals(TEST_DATA.charAt(11), c);
-            assertEquals("fp", 12, ra.getFilePointer());
+            assertEquals(12, ra.getFilePointer(), "fp");
         }
     }
 

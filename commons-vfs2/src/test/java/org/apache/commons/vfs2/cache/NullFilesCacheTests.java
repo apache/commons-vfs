@@ -15,6 +15,17 @@
  * limitations under the License.
  */
 package org.apache.commons.vfs2.cache;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
@@ -44,10 +55,10 @@ public class NullFilesCacheTests extends AbstractFilesCacheTestsBase {
         assertNull(cache.getFile(fs, fn));
 
         cache.putFile(fo);
-        assertNull(null, cache.getFile(fs, fn));
+        assertNull(cache.getFile(fs, fn));
 
         assertFalse(cache.putFileIfAbsent(fo)); // hmmm?
-        assertNull(null, cache.getFile(fs, fn));
+        assertNull(cache.getFile(fs, fn));
 
         cache.removeFile(fs, fn);
         assertNull(cache.getFile(fs, fn));
@@ -68,7 +79,7 @@ public class NullFilesCacheTests extends AbstractFilesCacheTestsBase {
         final FileObject dir1 = scratchFolder.resolveFile("dir1");
         final FileObject dir1_2 = scratchFolder.resolveFile("dir1");
 
-        assertNotSame("Should always be new instance with NullCache", dir1, dir1_2);
+        assertNotSame(dir1, dir1_2, "Should always be new instance with NullCache");
     }
 
 }

@@ -56,11 +56,6 @@ public class Http5ProviderTest extends ProviderTestSuiteJunit5 {
         if (getSystemTestUriOverride() == null) {
             server = NHttpFileServer.start(0, new File(getTestDirectory()), 5000);
             connectionUri = AbstractProviderTestConfig.getLocalHostUriString("http5", server.getPort());
-            
-            // Set static field in Http5ProviderTestCase for its test methods
-            final Field field = Http5ProviderTestCase.class.getDeclaredField("connectionUri");
-            field.setAccessible(true);
-            field.set(null, connectionUri);
         }
         super.setUp();
     }
@@ -75,7 +70,7 @@ public class Http5ProviderTest extends ProviderTestSuiteJunit5 {
     @Override
     protected void addBaseTests() throws Exception {
         super.addBaseTests();
-        addTests(Http5ProviderTestCase.class);
+        // HTTP5-specific tests are now part of this test suite
     }
 
     /**

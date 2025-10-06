@@ -17,6 +17,13 @@
 package org.apache.commons.vfs2;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -24,8 +31,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
-
-import junit.framework.TestCase;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.UnsynchronizedByteArrayInputStream;
@@ -42,23 +47,15 @@ import org.junit.jupiter.api.BeforeEach;
  * Works from a base folder, and assumes a particular structure under that base folder.
  * </p>
  * <p>
- * Not intended to be executed individually, but instead to be part of a {@link ProviderTestSuite}.
+ * Not intended to be executed individually, but instead to be part of a test suite using
+ * {@link AbstractProviderTestSuite}.
  * </p>
  * <p>
- * <strong>JUnit 3/5 Hybrid Approach:</strong> This class extends JUnit 3's {@code TestCase} to maintain
- * compatibility with the existing test suite infrastructure ({@link AbstractTestSuite}, {@link ProviderTestSuite}).
- * It also includes JUnit 5 lifecycle methods ({@code @BeforeEach}, {@code @AfterEach}) that are conditionally
- * executed only when tests are run directly via JUnit 5. When run via the JUnit 3 suite infrastructure,
- * the {@link #runTest()} method handles capability checking and cleanup.
- * </p>
- * <p>
- * <strong>TODO (Future Phase 4):</strong> Remove {@code extends TestCase} and migrate to pure JUnit 5.
- * This requires migrating the test suite infrastructure ({@link AbstractTestSuite}, {@link ProviderTestSuite})
- * to use JUnit 5's {@code @TestFactory} or {@code @Suite} patterns. See JUNIT5_MIGRATION_PHASE3B_PLAN.md
- * for detailed migration plan.
+ * <strong>Pure JUnit 5:</strong> This class uses JUnit 5 lifecycle methods ({@code @BeforeEach}, {@code @AfterEach})
+ * for capability checking and cleanup. Tests are dynamically generated via {@link AbstractProviderTestSuite}.
  * </p>
  */
-public abstract class AbstractProviderTestCase extends TestCase {
+public abstract class AbstractProviderTestCase {
 
     // Expected contents of "file1.txt"
     public static final String FILE1_CONTENT = "This is a test file.";
@@ -91,7 +88,7 @@ public abstract class AbstractProviderTestCase extends TestCase {
         final byte[] expectedBytes = expected.getBytes(StandardCharsets.UTF_8);
         // Check lengths
         final FileContent content = fileObject.getContent();
-        assertEquals("same content length", expectedBytes.length, content.getSize());
+        assertEquals(expectedBytes.length, content.getSize(), "same content length");
         // Compare input streams
         try (InputStream in = content.getInputStream()) {
             assertTrue(IOUtils.contentEquals(UnsynchronizedByteArrayInputStream.builder().setByteArray(expectedBytes).get(), in));
@@ -107,7 +104,7 @@ public abstract class AbstractProviderTestCase extends TestCase {
         // Get file content as a binary stream
         final byte[] expectedBytes = expected.getBytes(StandardCharsets.UTF_8);
         // Check lengths
-        assertEquals("same content length", expectedBytes.length, urlConnection.getContentLength());
+        assertEquals(expectedBytes.length, urlConnection.getContentLength(), "same content length");
         // Compare input streams
         try (InputStream in = urlConnection.getInputStream()) {
             assertTrue(IOUtils.contentEquals(UnsynchronizedByteArrayInputStream.builder().setByteArray(expectedBytes).get(), in));
@@ -203,7 +200,7 @@ public abstract class AbstractProviderTestCase extends TestCase {
 
     protected FileSystem getFileSystem() {
         final FileObject readFolder = getReadFolder();
-        assertNotNull("This test's read folder should not be null", readFolder);
+        assertNotNull(readFolder, "This test's read folder should not be null");
         return readFolder.getFileSystem();
     }
 
@@ -246,65 +243,11 @@ public abstract class AbstractProviderTestCase extends TestCase {
     }
 
     /**
-     * Runs the test. This implementation short-circuits the test if the provider being tested does not have the
-     * capabilities required by this test.
-     * <p>
-     * TODO - Handle negative caps as well: Only run a test if the provider does not have certain caps.
-     * </p>
-     * <p>
-     * TODO - Figure out how to remove the test from the TestResult if the test is skipped.
-     * </p>
-     */
-    @Override
-    protected void runTest() throws Throwable {
-        // Check the capabilities
-        final Capability[] caps = getRequiredCapabilities();
-        if (caps != null) {
-            for (final Capability cap2 : caps) {
-                final Capability cap = cap2;
-                final FileSystem fs = getFileSystem();
-                if (!fs.hasCapability(cap)) {
-                    // String name = fs.getClass().getName();
-                    // int index = name.lastIndexOf('.');
-                    // String fsName = (index > 0) ? name.substring(index + 1) : name;
-                    // System.out.println("skipping " + getName() + " because " +
-                    // fsName + " does not have capability " + cap);
-                    return;
-                }
-            }
-        }
-
-        // Provider has all the capabilities - execute the test
-        if (method != null) {
-            try {
-                method.invoke(this, (Object[]) null);
-            } catch (final InvocationTargetException e) {
-                throw e.getTargetException();
-            }
-        } else {
-            super.runTest();
-        }
-
-        if (readFolder != null && ((AbstractFileSystem) readFolder.getFileSystem()).isOpen()) {
-            String name = "unknown";
-            if (method != null) {
-                name = method.getName();
-            }
-
-            throw new IllegalStateException(getClass().getName() + ": filesystem has open streams after: " + name);
-        }
-    }
-
-    /**
      * JUnit 5 lifecycle method to check capabilities before each test.
-     * This complements the existing runTest() method for JUnit 3 compatibility.
      * Uses Assumptions to skip tests when capabilities are not met.
-     * Only runs if readFolder is initialized (indicating JUnit 5 execution context).
      */
     @BeforeEach
     public void checkCapabilitiesJunit5() throws FileSystemException {
-        // Only run if readFolder is initialized (JUnit 5 context)
-        // In JUnit 3 context, runTest() handles capability checking
         if (readFolder == null) {
             return;
         }
@@ -321,13 +264,9 @@ public abstract class AbstractProviderTestCase extends TestCase {
 
     /**
      * JUnit 5 lifecycle method to verify file system is properly closed after each test.
-     * This complements the existing runTest() method for JUnit 3 compatibility.
-     * Only runs if readFolder is initialized (indicating JUnit 5 execution context).
      */
     @AfterEach
     public void checkFileSystemClosedJunit5() throws FileSystemException {
-        // Only run if readFolder is initialized (JUnit 5 context)
-        // In JUnit 3 context, runTest() handles this check
         if (readFolder != null && ((AbstractFileSystem) readFolder.getFileSystem()).isOpen()) {
             throw new IllegalStateException(getClass().getName() + ": filesystem has open streams after test");
         }
@@ -343,11 +282,11 @@ public abstract class AbstractProviderTestCase extends TestCase {
         this.baseFolder = baseFolder;
         this.readFolder = readFolder;
         this.writeFolder = writeFolder;
-        assertNotNull("setConfig manager", manager);
-        assertNotNull("setConfig providerConfig", providerConfig);
-        assertNotNull("setConfig baseFolder", baseFolder);
-        assertNotNull("setConfig readFolder", readFolder);
-        assertNotNull("setConfig writeFolder", writeFolder);
+        assertNotNull(manager, "setConfig manager");
+        assertNotNull(providerConfig, "setConfig providerConfig");
+        assertNotNull(baseFolder, "setConfig baseFolder");
+        assertNotNull(readFolder, "setConfig readFolder");
+        assertNotNull(writeFolder, "setConfig writeFolder");
     }
 
     /**

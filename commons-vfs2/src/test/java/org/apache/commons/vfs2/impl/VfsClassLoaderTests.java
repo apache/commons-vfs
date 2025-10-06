@@ -16,6 +16,18 @@
  */
 package org.apache.commons.vfs2.impl;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
 
 import java.io.File;
@@ -140,8 +152,8 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
         }
 
         // verify test setup
-        assertSame("nested.jar is required for testing", nestedJar.getType(), FileType.FILE);
-        assertSame("test.jar is required for testing", testJar.getType(), FileType.FILE);
+        assertSame(FileType.FILE, nestedJar.getType(), "nested.jar is required for testing");
+        assertSame(FileType.FILE, testJar.getType(), "test.jar is required for testing");
 
         // System class loader (null) might be unpredictable in regards
         // to returning resources for META-INF/MANIFEST.MF (see VFS-500)
@@ -154,10 +166,10 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
         final URL url1 = urls.nextElement();
         final URL url2 = urls.nextElement();
 
-        assertTrue("First resource must refer to nested.jar but was " + url1,
-                url1.toString().endsWith("nested.jar!/META-INF/MANIFEST.MF"));
-        assertTrue("Second resource must refer to test.jar but was " + url2,
-                url2.toString().endsWith("test.jar!/META-INF/MANIFEST.MF"));
+        assertTrue(url1.toString().endsWith("nested.jar!/META-INF/MANIFEST.MF"),
+                "First resource must refer to nested.jar but was " + url1);
+        assertTrue(url2.toString().endsWith("test.jar!/META-INF/MANIFEST.MF"),
+                "Second resource must refer to test.jar but was " + url2);
     }
 
     /**
@@ -180,7 +192,7 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
 
         // setup test folder
         final FileObject dir = manager.resolveFile(baseDir, "read-tests/dir1/subdir4.jar");
-        assertSame("subdir4.jar/ is required for testing " + dir, dir.getType(), FileType.FOLDER);
+        assertSame(FileType.FOLDER, dir.getType(), "subdir4.jar/ is required for testing " + dir);
         assertFalse(manager.canCreateFileSystem(dir));
 
         // prepare classloader
@@ -191,8 +203,8 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
         // verify resource loading
         final Enumeration<URL> urls = loader.getResources("file1.txt");
         final URL url1 = urls.nextElement();
-        assertFalse("Only one hit expected", urls.hasMoreElements());
-        assertTrue("not pointing to resource " + url1, url1.toString().endsWith("subdir4.jar/file1.txt"));
+        assertFalse(urls.hasMoreElements(), "Only one hit expected");
+        assertTrue(url1.toString().endsWith("subdir4.jar/file1.txt"), "not pointing to resource " + url1);
     }
 
     /**
@@ -290,7 +302,7 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
                 }
                 printWriter.flush();
             }
-            assertTrue(exceptions.size() + " threads failed: " + exceptionMsg, exceptions.isEmpty());
+            assertTrue(exceptions.isEmpty(), exceptions.size() + " threads failed: " + exceptionMsg);
         }
     }
 
