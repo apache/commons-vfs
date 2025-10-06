@@ -478,7 +478,7 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
      * @throws FtpException
      * @throws IOException
      */
-    private static void setUpClass(final boolean isExecChannelClosed, final SessionFactory sessionFactory) throws IOException {
+    static void setUpClass(final boolean isExecChannelClosed, final SessionFactory sessionFactory) throws IOException {
         if (server != null) {
             return;
         }
@@ -557,7 +557,7 @@ abstract class AbstractSftpProviderTestCase extends AbstractProviderTestConfig {
      *
      * @throws InterruptedException
      */
-    private static void tearDownClass() throws InterruptedException {
+    static void tearDownClass() throws InterruptedException {
         if (server != null) {
             server.stop();
             server = null;
