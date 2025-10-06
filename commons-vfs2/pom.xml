@@ -86,9 +86,11 @@
       <artifactId>junit-jupiter</artifactId>
       <scope>test</scope>
     </dependency>
+    <!-- JUnit 4 for backward compatibility with old test cases (compile-only, not executed) -->
     <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -242,11 +244,8 @@
             <exclude>**/RunTest.java</exclude>
             <!-- inner classes -->
             <exclude>**/*$*</exclude>
-            <!-- JUnit 3/5 Hybrid: *Tests.java files extend AbstractProviderTestCase (which extends TestCase) -->
-            <!-- and are designed to be run via JUnit 3 suite infrastructure (AbstractTestSuite, ProviderTestSuite). -->
-            <!-- They are discovered and executed via *ProviderTestCase.suite() methods using JUnit Vintage engine. -->
-            <!-- Running them directly would bypass suite-level setup (FileSystemManager creation, etc.). -->
-            <!-- TODO (Phase 4): Remove this exclusion after migrating to JUnit 5 @TestFactory pattern. -->
+            <!-- *Tests.java files are test implementations designed to be run via test suites -->
+            <!-- They require suite-level setup and should not be run directly -->
             <exclude>**/*Tests.java</exclude>
           </excludes>
         </configuration>
@@ -353,11 +352,7 @@
               <excludes>
                 <exclude>**/HdfsFileProviderTest.java</exclude>
                 <exclude>**/HdfsFileProviderTestCase.java</exclude>
-                <!-- JUnit 3/5 Hybrid: *Tests.java files extend AbstractProviderTestCase (which extends TestCase) -->
-                <!-- and are designed to be run via JUnit 3 suite infrastructure (AbstractTestSuite, ProviderTestSuite). -->
-                <!-- They are discovered and executed via *ProviderTestCase.suite() methods using JUnit Vintage engine. -->
-                <!-- Running them directly would bypass suite-level setup (FileSystemManager creation, etc.). -->
-                <!-- TODO (Phase 4): Remove this exclusion after migrating to JUnit 5 @TestFactory pattern. -->
+                <!-- *Tests.java files are test implementations designed to be run via test suites -->
                 <exclude>**/*Tests.java</exclude>
               </excludes>
             </configuration>
