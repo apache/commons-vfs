@@ -79,6 +79,24 @@ public abstract class AbstractProviderTestSuite {
         this.addEmptyDir = addEmptyDir;
     }
 
+    protected DefaultFileSystemManager getManager() {
+        return manager;
+    }
+
+    /**
+     * Gets the read test folder.
+     */
+    protected FileObject getReadFolder() {
+        return readFolder;
+    }
+
+    /**
+     * Gets the write test folder.
+     */
+    protected FileObject getWriteFolder() {
+        return writeFolder;
+    }
+
     /**
      * Adds base tests - excludes the nested test cases.
      * Subclasses should override this method to add test classes via {@link #addTests(Class)}.

@@ -34,7 +34,10 @@ import org.apache.commons.vfs2.util.NHttpFileServer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * JUnit 5 test cases for the HTTP provider.
@@ -101,6 +104,92 @@ public class HttpProviderTest extends ProviderTestSuiteJunit5 {
         // if (getSystemTestUriOverride() == null) {
         //    addTests(IPv6LocalConnectionTests.class);
         // }
+    }
+
+    // ==================== HTTP-Specific Tests ====================
+
+    private void checkReadTestsFolder(final FileObject file) throws FileSystemException {
+        Assertions.assertNotNull(file.getChildren());
+        Assertions.assertTrue(file.getChildren().length > 0);
+    }
+
+    /** Ensure VFS-453 options are present. */
+    @Test
+    public void testHttpTimeoutConfig() {
+        final FileSystemOptions options = new FileSystemOptions();
+        final HttpFileSystemConfigBuilder builder = HttpFileSystemConfigBuilder.getInstance();
+
+        // ensure defaults are 0
+        assertEquals(0, builder.getConnectionTimeout(options));
+        assertEquals(0, builder.getConnectionTimeoutDuration(options).toMillis());
+        assertEquals(0, builder.getSoTimeout(options));
+        assertEquals("Jakarta-Commons-VFS", builder.getUserAgent(options));
+
+        // Set with deprecated milliseconds APIs.
+        builder.setConnectionTimeout(options, 60000);
+        builder.setSoTimeout(options, 60000);
+        builder.setUserAgent(options, "foo/bar");
+
+        // ensure changes are visible
+        assertEquals(60000, builder.getConnectionTimeout(options));
+        assertEquals(ONE_MINUTE, builder.getConnectionTimeoutDuration(options));
+        assertEquals(60000, builder.getSoTimeout(options));
+        assertEquals("foo/bar", builder.getUserAgent(options));
+
+        // Set with Duration APIs.
+        builder.setConnectionTimeout(options, ONE_MINUTE);
+        builder.setSoTimeout(options, ONE_MINUTE);
+
+        // ensure changes are visible
+        assertEquals(60000, builder.getConnectionTimeout(options));
+        assertEquals(ONE_MINUTE, builder.getConnectionTimeoutDuration(options));
+        assertEquals(60000, builder.getSoTimeout(options));
+        assertEquals(ONE_MINUTE, builder.getSoTimeoutDuration(options));
+        assertEquals("foo/bar", builder.getUserAgent(options));
+
+        // TODO: should also check the created HTTPClient
+    }
+
+    private void testResolveFolderSlash(final String uri, final boolean followRedirect) throws FileSystemException {
+        VFS.getManager().getFilesCache().close();
+        final FileSystemOptions opts = new FileSystemOptions();
+        HttpFileSystemConfigBuilder.getInstance().setFollowRedirect(opts, followRedirect);
+        try (FileObject file = VFS.getManager().resolveFile(uri, opts)) {
+            checkReadTestsFolder(file);
+        } catch (final FileNotFolderException e) {
+            // Expected: VFS HTTP does not support listing children yet.
+        }
+    }
+
+    @Test
+    public void testResolveFolderSlashNoRedirectOff() throws FileSystemException {
+        testResolveFolderSlash(connectionUri + "/read-tests", false);
+    }
+
+    @Test
+    public void testResolveFolderSlashNoRedirectOn() throws FileSystemException {
+        testResolveFolderSlash(connectionUri + "/read-tests", true);
+    }
+
+    @Test
+    public void testResolveFolderSlashYesRedirectOff() throws FileSystemException {
+        testResolveFolderSlash(connectionUri + "/read-tests/", false);
+    }
+
+    @Test
+    public void testResolveFolderSlashYesRedirectOn() throws FileSystemException {
+        testResolveFolderSlash(connectionUri + "/read-tests/", true);
+    }
+
+    @Test
+    public void testResolveIPv6Url() throws FileSystemException {
+        final String ipv6Url = "http://[fe80::1c42:dae:8370:aea6%en1]/file.txt";
+
+        @SuppressWarnings("rawtypes")
+        final FileObject fileObject = VFS.getManager().resolveFile(ipv6Url, new FileSystemOptions());
+
+        assertEquals("http://[fe80::1c42:dae:8370:aea6%en1]/", fileObject.getFileSystem().getRootURI());
+        assertEquals("http://[fe80::1c42:dae:8370:aea6%en1]/file.txt", fileObject.getName().getURI());
     }
 
     /**

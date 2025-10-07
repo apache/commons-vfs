@@ -17,19 +17,26 @@
 package org.apache.commons.vfs2.provider.http4;
 
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
+import org.apache.commons.vfs2.FileNotFolderException;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.ProviderTestSuiteJunit5;
+import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.util.NHttpFileServer;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * JUnit 5 test cases for the HTTP4 provider.
@@ -39,6 +46,7 @@ import org.junit.jupiter.api.AfterAll;
  */
 public class Http4ProviderTest extends ProviderTestSuiteJunit5 {
 
+    private static final Duration ONE_MINUTE = Duration.ofMinutes(1);
     private static NHttpFileServer server;
     private static final String TEST_URI = "test.http.uri";
     private static String connectionUri;
@@ -71,6 +79,91 @@ public class Http4ProviderTest extends ProviderTestSuiteJunit5 {
     protected void addBaseTests() throws Exception {
         super.addBaseTests();
         // HTTP4-specific tests are now part of this test suite
+    }
+
+    // ==================== HTTP4-Specific Tests ====================
+
+    private void checkReadTestsFolder(final FileObject file) throws FileSystemException {
+        Assertions.assertNotNull(file.getChildren());
+        Assertions.assertTrue(file.getChildren().length > 0);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Test
+    public void testHttpTimeoutConfig() {
+        final FileSystemOptions opts = new FileSystemOptions();
+        final Http4FileSystemConfigBuilder builder = Http4FileSystemConfigBuilder.getInstance();
+
+        // ensure defaults are 0
+        assertEquals(0, builder.getConnectionTimeout(opts));
+        assertEquals(0, builder.getConnectionTimeoutDuration(opts).toMillis());
+        assertEquals(0, builder.getSoTimeout(opts));
+        assertEquals("Jakarta-Commons-VFS", builder.getUserAgent(opts));
+
+        // Set with deprecated milliseconds APIs.
+        builder.setConnectionTimeout(opts, 60000);
+        builder.setSoTimeout(opts, 60000);
+        builder.setUserAgent(opts, "foo/bar");
+
+        // ensure changes are visible
+        assertEquals(60000, builder.getConnectionTimeout(opts));
+        assertEquals(ONE_MINUTE, builder.getConnectionTimeoutDuration(opts));
+        assertEquals(60000, builder.getSoTimeout(opts));
+        assertEquals("foo/bar", builder.getUserAgent(opts));
+
+        // Set with Duration APIs.
+        builder.setConnectionTimeout(opts, ONE_MINUTE);
+        builder.setSoTimeout(opts, ONE_MINUTE);
+
+        // ensure changes are visible
+        assertEquals(60000, builder.getConnectionTimeout(opts));
+        assertEquals(ONE_MINUTE, builder.getConnectionTimeoutDuration(opts));
+        assertEquals(60000, builder.getSoTimeout(opts));
+        assertEquals(ONE_MINUTE, builder.getSoTimeoutDuration(opts));
+        assertEquals("foo/bar", builder.getUserAgent(opts));
+    }
+
+    private void testResolveFolderSlash(final String uri, final boolean followRedirect) throws FileSystemException {
+        VFS.getManager().getFilesCache().close();
+        final FileSystemOptions opts = new FileSystemOptions();
+        Http4FileSystemConfigBuilder.getInstance().setFollowRedirect(opts, followRedirect);
+        try (FileObject file = VFS.getManager().resolveFile(uri, opts)) {
+            checkReadTestsFolder(file);
+        } catch (final FileNotFolderException e) {
+            // Expected: VFS HTTP does not support listing children yet.
+        }
+    }
+
+    @Test
+    public void testResolveFolderSlashNoRedirectOff() throws FileSystemException {
+        testResolveFolderSlash(connectionUri + "/read-tests", false);
+    }
+
+    @Test
+    public void testResolveFolderSlashNoRedirectOn() throws FileSystemException {
+        testResolveFolderSlash(connectionUri + "/read-tests", true);
+    }
+
+    @Test
+    public void testResolveFolderSlashYesRedirectOff() throws FileSystemException {
+        testResolveFolderSlash(connectionUri + "/read-tests/", false);
+    }
+
+    @Test
+    public void testResolveFolderSlashYesRedirectOn() throws FileSystemException {
+        testResolveFolderSlash(connectionUri + "/read-tests/", true);
+    }
+
+    @Test
+    public void testResolveIPv6Url() throws FileSystemException {
+        final String ipv6Url = "http4://[fe80::1c42:dae:8370:aea6%en1]";
+
+        @SuppressWarnings("rawtypes")
+        final Http4FileObject fileObject = (Http4FileObject)
+                VFS.getManager().resolveFile(ipv6Url, new FileSystemOptions());
+
+        assertEquals("http4://[fe80::1c42:dae:8370:aea6%en1]/", fileObject.getFileSystem().getRootURI());
+        assertEquals("http4://[fe80::1c42:dae:8370:aea6%en1]/", fileObject.getName().getURI());
     }
 
     /**
