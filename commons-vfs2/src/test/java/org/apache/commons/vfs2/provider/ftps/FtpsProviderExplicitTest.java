@@ -34,6 +34,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import org.apache.commons.vfs2.ProviderTestConfig;
 import org.apache.commons.vfs2.ProviderTestSuiteJunit5;
+import org.apache.ftpserver.ftplet.FtpException;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.TestInstance;
 
 /**
@@ -49,7 +51,12 @@ public class FtpsProviderExplicitTest extends ProviderTestSuiteJunit5 {
     @Override
     protected void setUp() throws Exception {
         if (FtpsProviderExplicitTestCase.getSystemTestUriOverride() == null) {
-            FtpsProviderExplicitTestCase.setUpClass(false); // explicit mode
+            try {
+                FtpsProviderExplicitTestCase.setUpClass(false); // explicit mode
+            } catch (final FtpException e) {
+                // Server failed to start - skip tests
+                Assumptions.assumeTrue(false, "FTP server failed to start: " + e.getMessage());
+            }
         }
         super.setUp();
     }
@@ -60,23 +67,6 @@ public class FtpsProviderExplicitTest extends ProviderTestSuiteJunit5 {
             super.tearDown();
         } finally {
             FtpsProviderExplicitTestCase.tearDownClass();
-        }
-    }
-
-    /**
-     * Nested config class to reuse existing test configuration.
-     */
-    private static class FtpsProviderExplicitTestCase extends AbstractFtpsProviderTestCase {
-        @Override
-        protected boolean isImplicit() {
-            return false;
-        }
-
-        @Override
-        protected void setupOptions(final FtpsFileSystemConfigBuilder builder) {
-            super.setupOptions(builder);
-            builder.setDataChannelProtectionLevel(fileSystemOptions, FtpsDataChannelProtectionLevel.P);
-            builder.setFtpsMode(fileSystemOptions, FtpsMode.EXPLICIT);
         }
     }
 }

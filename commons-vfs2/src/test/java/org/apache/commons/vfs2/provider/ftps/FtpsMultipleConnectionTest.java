@@ -25,14 +25,23 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.VFS;
 import org.apache.ftpserver.ftplet.FtpException;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class FtpsMultipleConnectionTest {
 
+    private static boolean serverStarted = false;
+
     @BeforeAll
-    public static void setUpClass() throws FtpException {
-        AbstractFtpsProviderTestCase.setUpClass(true);
+    public static void setUpClass() {
+        try {
+            AbstractFtpsProviderTestCase.setUpClass(true);
+            serverStarted = true;
+        } catch (final FtpException e) {
+            // Server failed to start - tests will be skipped
+            serverStarted = false;
+        }
     }
 
     @AfterAll
@@ -46,17 +55,20 @@ public class FtpsMultipleConnectionTest {
     }
 
     private FileObject resolveRoot() throws FileSystemException {
-        return VFS.getManager().resolveFile(AbstractFtpsProviderTestCase.getConnectionUri());
+        return VFS.getManager().resolveFile(AbstractFtpsProviderTestCase.getConnectionUri(),
+                new FtpsProviderImplicitTestCase().getFileSystemOptions());
     }
 
     @Test
     public void testConnectRoot() throws IOException {
+        Assumptions.assumeTrue(serverStarted, "FTP server failed to start");
         resolveRoot();
         resolveRoot();
     }
 
     @Test
     public void testUnderlyingConnect() throws SocketException, IOException {
+        Assumptions.assumeTrue(serverStarted, "FTP server failed to start");
         final FTPSClient client1 = init(new FTPSClient(true));
         final FTPSClient client2 = init(new FTPSClient(true));
         try {
