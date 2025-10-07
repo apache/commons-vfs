@@ -16,6 +16,11 @@
  */
 package org.apache.commons.vfs2.provider.webdav.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;

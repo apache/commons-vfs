@@ -34,7 +34,7 @@ import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
 import javax.jcr.Value;
 
-import junit.framework.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
@@ -140,7 +140,7 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
         return repository.login(new SimpleCredentials(USER_ID, PASSWORD_CHARS));
     }
 
-    private static String getSystemTestUriOverride() {
+    public static String getSystemTestUriOverride() {
         return System.getProperty(TEST_URI);
     }
 
@@ -194,7 +194,7 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
      *
      * @throws Exception
      */
-    private static void setUpClass() throws Exception {
+    public static void setUpClass() throws Exception {
         // Create temp dir for repo
         RepoDirectory = createTempDirectory();
         message("Created temp directory " + RepoDirectory);
@@ -226,43 +226,7 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
         jrMain.run();
     }
 
-    public static Test suite() throws Exception {
-        return new Webdav4ProviderTestSuite(new Webdav4ProviderTestCase()) {
-            @Override
-            protected void addBaseTests() throws Exception {
-                super.addBaseTests();
-                addTests(Webdav4ProviderTestCase.class);
 
-                if (getSystemTestUriOverride() == null) {
-                    addTests(IPv6LocalConnectionTests.class);
-                }
-            }
-
-            @Override
-            protected void setUp() throws Exception {
-                if (getSystemTestUriOverride() == null) {
-                    setUpClass();
-                }
-                try {
-                    // Since webdav4 is not registered in the standard file system configuration yet,
-                    // it must be registered manually here. Otherwise, HostFileNameParser#extractToPath() fails.
-                    final DefaultFileSystemManager manager = (DefaultFileSystemManager) VFS.getManager();
-                    if (!manager.hasProvider("webdav4")) {
-                        manager.addProvider("webdav4", new Webdav4FileProvider());
-                    }
-                    super.setUp();
-                } catch (final Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            protected void tearDown() throws Exception {
-                tearDownClass();
-                super.tearDown();
-            }
-        };
-    }
 
     /**
      * Tears down resources for this test case.
@@ -273,7 +237,7 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
      * </ol>
      * Stops the embedded Apache WebDAV Server.
      */
-    private static void tearDownClass() {
+    public static void tearDownClass() {
         // Stop Jackrabbit Main for graceful shutdown
         jrMain.shutdown();
 

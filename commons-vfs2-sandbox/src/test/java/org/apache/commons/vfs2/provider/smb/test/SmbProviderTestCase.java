@@ -16,15 +16,11 @@
  */
 package org.apache.commons.vfs2.provider.smb.test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.ProviderTestConfig;
-import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.smb.SmbFileProvider;
@@ -36,17 +32,6 @@ import org.junit.jupiter.api.Assertions;
 public class SmbProviderTestCase extends AbstractProviderTestConfig implements ProviderTestConfig {
 
     private static final String TEST_URI = "test.smb.uri";
-
-    public static Test suite() throws Exception {
-        if (System.getProperty(TEST_URI) != null) {
-            return new ProviderTestSuite(new SmbProviderTestCase());
-        }
-
-        // Cannot run IPv6LocalConnectionTests for smb, because there is no end-to-end test
-        // infrastructure implemented yet
-
-        return new TestSuite(SmbProviderTestCase.class);
-    }
 
     /**
      * Returns the base folder for tests.

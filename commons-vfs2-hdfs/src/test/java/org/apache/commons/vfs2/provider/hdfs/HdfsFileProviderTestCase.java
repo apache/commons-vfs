@@ -22,8 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-import junit.framework.Test;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.lang3.SystemUtils;
@@ -31,7 +29,7 @@ import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.ProviderTestConfig;
-import org.apache.commons.vfs2.ProviderTestSuite;
+import org.apache.commons.vfs2.ProviderTestSuiteJunit5;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
@@ -54,16 +52,16 @@ import org.junit.jupiter.api.condition.OS;
 public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
 
     @DisabledOnOs(value = OS.WINDOWS)
-    public static class HdfsProviderTestSuite extends ProviderTestSuite {
+    public static class HdfsProviderTestSuite extends ProviderTestSuiteJunit5 {
 
         // Turn off the MiniDFSCluster logging
         static {
             System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
         }
 
-        public HdfsProviderTestSuite(final ProviderTestConfig providerConfig, final boolean addEmptyDir)
+        public HdfsProviderTestSuite(final ProviderTestConfig providerConfig, final String prefix, final boolean addEmptyDir)
                 throws Exception {
-            super(providerConfig, addEmptyDir);
+            super(providerConfig, prefix, addEmptyDir);
         }
 
         @SuppressWarnings("deprecation")
@@ -141,12 +139,7 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
 
     private static MiniDFSCluster cluster;
 
-    /**
-     * Creates the test suite for the ZIP file system.
-     */
-    public static Test suite() throws Exception {
-        return new HdfsProviderTestSuite(new HdfsFileProviderTestCase(), false);
-    }
+
 
     /**
      * Returns the base folder for read tests.
