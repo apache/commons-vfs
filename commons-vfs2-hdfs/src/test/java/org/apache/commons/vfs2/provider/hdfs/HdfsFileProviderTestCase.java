@@ -17,6 +17,8 @@
 package org.apache.commons.vfs2.provider.hdfs;
 
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
