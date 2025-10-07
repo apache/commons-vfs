@@ -125,13 +125,24 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         embeddedFtpServer = serverFactory.createServer();
         embeddedFtpServer.start();
         Thread.yield();
-        if (embeddedFtpServer.isStopped() || embeddedFtpServer.isSuspended()) {
+
+        // Wait for server to be ready
+        int retries = 20; // Wait up to 2 seconds
+        while (retries-- > 0 && (embeddedFtpServer.isStopped() || embeddedFtpServer.isSuspended())) {
             try {
-                Thread.sleep(200);
+                Thread.sleep(100);
             } catch (final InterruptedException e) {
                 e.printStackTrace();
             }
         }
+
+        // Additional wait to ensure the server is fully ready to accept connections
+        try {
+            Thread.sleep(200);
+        } catch (final InterruptedException e) {
+            e.printStackTrace();
+        }
+
         socketPort = ((org.apache.ftpserver.impl.DefaultFtpServer) embeddedFtpServer).getListener(LISTENER_NAME).getPort();
         // System.out.println("Using port " + SocketPort);
         // System.out.printf("jdk.tls.disabledAlgorithms = %s%n", System.getProperty("jdk.tls.disabledAlgorithms"));
