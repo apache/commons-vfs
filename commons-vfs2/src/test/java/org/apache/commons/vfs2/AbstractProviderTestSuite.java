@@ -231,8 +231,8 @@ public abstract class AbstractProviderTestSuite {
             tests.add(DynamicTest.dynamicTest(testName, () -> {
                 // Create test instance
                 final AbstractProviderTestCase testCase = (AbstractProviderTestCase) testClass.getConstructor().newInstance();
-                testCase.setConfig(manager, providerConfig, baseFolder, readFolder, writeFolder);
                 testCase.addEmptyDir(addEmptyDir);
+                testCase.setConfig(manager, providerConfig, baseFolder, readFolder, writeFolder);
 
                 // Check capabilities before running the test
                 final Capability[] caps = testCase.getRequiredCapabilities();
