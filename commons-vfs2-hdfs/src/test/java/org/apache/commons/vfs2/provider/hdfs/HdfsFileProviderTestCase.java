@@ -38,7 +38,6 @@ import org.apache.hadoop.hdfs.DFSConfigKeys;
 import org.apache.hadoop.hdfs.MiniDFSCluster;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.junit.Assume;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.junit.jupiter.api.condition.OS;
@@ -89,7 +88,7 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
         @SuppressWarnings("deprecation")
         @Override
         protected void setUp() throws Exception {
-            Assume.assumeFalse(SystemUtils.IS_OS_WINDOWS);
+            // Windows is already disabled via @DisabledOnOs annotation
             System.setProperty("test.basedir", "../commons-vfs2/target/test-classes/test-data");
             Logger.getRootLogger().setLevel(Level.OFF);
 
