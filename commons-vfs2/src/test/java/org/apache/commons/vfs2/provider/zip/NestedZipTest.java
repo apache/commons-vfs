@@ -47,7 +47,9 @@ public class NestedZipTest extends ProviderTestSuiteJunit5 {
             final File nestedFile = getTestResource("nested.zip");
             final String nestedUri = "zip:file:" + nestedFile.getAbsolutePath() + "!/";
             final FileObject nestedZip = manager.resolveFile(nestedUri);
-            return nestedZip.resolveFile("test.zip");
+            final FileObject testZip = nestedZip.resolveFile("test.zip");
+            // Need to resolve as a ZIP file system
+            return manager.resolveFile("zip:" + testZip.getURL().toString() + "!/");
         }
 
         @Override

@@ -48,7 +48,9 @@ public class NestedTgzTest extends ProviderTestSuiteJunit5 {
             final File nestedFile = getTestResource("nested.tgz");
             final String nestedUri = "tgz:file:" + nestedFile.getAbsolutePath() + "!/";
             final FileObject nestedTgz = manager.resolveFile(nestedUri);
-            return nestedTgz.resolveFile("test.tgz");
+            final FileObject testTgz = nestedTgz.resolveFile("test.tgz");
+            // Need to resolve as a TGZ file system
+            return manager.resolveFile("tgz:" + testTgz.getURL().toString() + "!/");
         }
 
         @Override

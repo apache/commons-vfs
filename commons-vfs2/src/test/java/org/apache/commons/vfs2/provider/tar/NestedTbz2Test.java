@@ -48,7 +48,9 @@ public class NestedTbz2Test extends ProviderTestSuiteJunit5 {
             final File nestedFile = getTestResource("nested.tbz2");
             final String nestedUri = "tbz2:file:" + nestedFile.getAbsolutePath() + "!/";
             final FileObject nestedTbz2 = manager.resolveFile(nestedUri);
-            return nestedTbz2.resolveFile("test.tbz2");
+            final FileObject testTbz2 = nestedTbz2.resolveFile("test.tbz2");
+            // Need to resolve as a TBZ2 file system
+            return manager.resolveFile("tbz2:" + testTbz2.getURL().toString() + "!/");
         }
 
         @Override

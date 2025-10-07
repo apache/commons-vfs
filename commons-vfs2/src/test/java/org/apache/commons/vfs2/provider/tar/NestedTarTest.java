@@ -47,7 +47,9 @@ public class NestedTarTest extends ProviderTestSuiteJunit5 {
             final File nestedFile = getTestResource("nested.tar");
             final String nestedUri = "tar:file:" + nestedFile.getAbsolutePath() + "!/";
             final FileObject nestedTar = manager.resolveFile(nestedUri);
-            return nestedTar.resolveFile("test.tar");
+            final FileObject testTar = nestedTar.resolveFile("test.tar");
+            // Need to resolve as a TAR file system
+            return manager.resolveFile("tar:" + testTar.getURL().toString() + "!/");
         }
 
         @Override
