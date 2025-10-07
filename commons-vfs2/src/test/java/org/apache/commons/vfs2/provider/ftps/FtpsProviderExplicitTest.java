@@ -32,6 +32,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 
 
+import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.ProviderTestConfig;
 import org.apache.commons.vfs2.ProviderTestSuiteJunit5;
 import org.apache.ftpserver.ftplet.FtpException;
@@ -58,7 +59,12 @@ public class FtpsProviderExplicitTest extends ProviderTestSuiteJunit5 {
                 throw new TestAbortedException("FTP server failed to start: " + e.getMessage(), e);
             }
         }
-        super.setUp();
+        try {
+            super.setUp();
+        } catch (final FileSystemException e) {
+            // Could not connect to FTP server - abort test
+            throw new TestAbortedException("Could not connect to FTP server: " + e.getMessage(), e);
+        }
     }
 
     @Override
