@@ -35,8 +35,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.apache.commons.vfs2.ProviderTestConfig;
 import org.apache.commons.vfs2.ProviderTestSuiteJunit5;
 import org.apache.ftpserver.ftplet.FtpException;
-import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.TestInstance;
+import org.opentest4j.TestAbortedException;
 
 /**
  * Tests for FTPS file systems with explicit FTPS connection (JUnit 5).
@@ -54,8 +54,8 @@ public class FtpsProviderExplicitTest extends ProviderTestSuiteJunit5 {
             try {
                 FtpsProviderExplicitTestCase.setUpClass(false); // explicit mode
             } catch (final FtpException e) {
-                // Server failed to start - skip tests
-                Assumptions.assumeTrue(false, "FTP server failed to start: " + e.getMessage());
+                // Server failed to start - abort test
+                throw new TestAbortedException("FTP server failed to start: " + e.getMessage(), e);
             }
         }
         super.setUp();
