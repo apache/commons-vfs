@@ -118,7 +118,7 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
 
             // Copy the test directory into HDFS
             final Path base = new Path("/test-data");
-            assertTrue("Unable to create base directory", hdfs.mkdirs(base));
+            assertTrue(hdfs.mkdirs(base), "Unable to create base directory");
             copyTestResources(getTestDirectoryFile(), base);
 
             super.setUp();
