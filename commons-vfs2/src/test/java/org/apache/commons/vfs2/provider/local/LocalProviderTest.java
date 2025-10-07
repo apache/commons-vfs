@@ -24,6 +24,9 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.PermissionsTests;
 import org.apache.commons.vfs2.ProviderTestSuiteJunit5;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.TestInstance;
 
 /**
  * JUnit 5 tests for the local file system.
@@ -31,6 +34,11 @@ import org.apache.commons.vfs2.ProviderTestSuiteJunit5;
  * This class replaces {@link LocalProviderTestCase} with a pure JUnit 5 implementation.
  * </p>
  */
+@DisplayName("Local File System Provider Tests")
+@Tag("provider")
+@Tag("local")
+@Tag("filesystem")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class LocalProviderTest extends ProviderTestSuiteJunit5 {
 
     public LocalProviderTest() throws Exception {

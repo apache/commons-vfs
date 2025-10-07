@@ -32,6 +32,9 @@ import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.util.NHttpFileServer;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.TestInstance;
 
 /**
  * JUnit 5 test cases for the HTTP provider.
@@ -39,6 +42,11 @@ import org.junit.jupiter.api.Assertions;
  * This class replaces {@link HttpProviderTestCase} with a pure JUnit 5 implementation.
  * </p>
  */
+@DisplayName("HTTP Provider Tests")
+@Tag("provider")
+@Tag("http")
+@Tag("network")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class HttpProviderTest extends ProviderTestSuiteJunit5 {
 
     private static final Duration ONE_MINUTE = Duration.ofMinutes(1);
