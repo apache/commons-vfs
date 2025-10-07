@@ -128,9 +128,9 @@ public class JunctionTests extends AbstractProviderTestCase {
         file.getFileSystem().addListener(file, listener1);
         final FileObject real1 = baseDir.resolveFile("hardref.txt");
         real1.createFile();
-        assertEquals(listener1.toString(), "Strong Listener was not notified (create)", "Listener false true false");
+        assertEquals("Listener false true false", listener1.toString(), "Strong Listener was not notified (create)");
         real1.delete();
-        assertEquals(listener1.toString(), "Strong Listener was not notified (delete)", "Listener false true true");
+        assertEquals("Listener false true true", listener1.toString(), "Strong Listener was not notified (delete)");
 
         final FileObject file2 = fs.resolveFile("/a/weakref.txt");
         assertSame(file2.getClass(), DelegateFileObject.class, "VirtualFileSystem does not use DelegateFO anymore?");
@@ -152,7 +152,7 @@ public class JunctionTests extends AbstractProviderTestCase {
         final FileObject real2 = baseDir.resolveFile("weakref.txt");
         real2.createFile();
         try {
-            assertEquals(listener2.toString(), "Weak Listener was abandoned", "Listener false true false");
+            assertEquals("Listener false true false", listener2.toString(), "Weak Listener was abandoned");
         } finally {
             assertTrue(file2.delete(), "Don't contaminate the fs for the next time the test runs");
         }

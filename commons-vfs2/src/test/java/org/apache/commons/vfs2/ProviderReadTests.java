@@ -168,8 +168,8 @@ public class ProviderReadTests extends AbstractProviderTestCase {
             final FileObject ignored = getManager().createFileSystem(folder);
             fail("Should not be able to create a layered filesystem on a directory. " + ignored);
         } catch (final FileSystemException e) {
-            assertSame("Creation of layered filesystem should fail" + e, "vfs.impl/no-provider-for-file.error",
-                    e.getCode());
+            assertSame("vfs.impl/no-provider-for-file.error", e.getCode(),
+                    "Creation of layered filesystem should fail" + e);
         }
     }
 

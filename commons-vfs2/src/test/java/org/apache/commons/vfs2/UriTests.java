@@ -75,8 +75,8 @@ public class UriTests extends AbstractProviderTestCase {
         assertEquals(readFolder.isSymbolicLink(), file.isSymbolicLink());
         assertEquals(readFolder.isWriteable(), file.isWriteable());
         assertEquals(readFolder.toString(), file.toString());
-        assertEquals(String.format("file object %s %s, %s %s", readFolder.getClass(), ObjectUtils.identityHashCodeHex(readFolder), file.getClass(),
-                ObjectUtils.identityHashCodeHex(file)), readFolder.toString(), file.toString());
+        assertEquals(readFolder.toString(), file.toString(), String.format("file object %s %s, %s %s", readFolder.getClass(), ObjectUtils.identityHashCodeHex(readFolder), file.getClass(),
+                ObjectUtils.identityHashCodeHex(file)));
         // Try fetching the filesystem root by its URI
         final String rootUri = readFolder.getName().getRootURI();
         file = getManager().resolveFile(rootUri, readFolder.getFileSystem().getFileSystemOptions());

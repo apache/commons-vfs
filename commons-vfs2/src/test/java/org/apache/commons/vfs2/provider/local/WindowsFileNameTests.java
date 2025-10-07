@@ -52,9 +52,9 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
             final FileObject fo = manager.resolveFile(file);
             fail("Windows File Parser should not allow " + file + " " + fo);
         } catch (FileSystemException ex) {
-            assertEquals(ex.getCode(), "Exception code", "vfs.provider/invalid-absolute-uri.error");
+            assertEquals("vfs.provider/invalid-absolute-uri.error", ex.getCode(), "Exception code");
             ex = (FileSystemException) ex.getCause();
-            assertEquals(ex.getCode(), "Exception code", "vfs.provider.local/not-absolute-file-name.error");
+            assertEquals("vfs.provider.local/not-absolute-file-name.error", ex.getCode(), "Exception code");
         }
     }
 
@@ -67,9 +67,9 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
             final FileObject fo = manager.resolveFile(file);
             fail("Windows File Parser should not allow " + file + " " + fo);
         } catch (FileSystemException ex) {
-            assertEquals(ex.getCode(), "Exception code", "vfs.provider/invalid-absolute-uri.error");
+            assertEquals("vfs.provider/invalid-absolute-uri.error", ex.getCode(), "Exception code");
             ex = (FileSystemException) ex.getCause();
-            assertEquals(ex.getCode(), "Exception code", "vfs.provider.local/missing-share-name.error");
+            assertEquals("vfs.provider.local/missing-share-name.error", ex.getCode(), "Exception code");
         }
     }
 

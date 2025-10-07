@@ -232,7 +232,7 @@ public class NamingTests extends AbstractProviderTestCase {
         assertTrue(basePath.startsWith("/"), "is absolute");
 
         // Test base name
-        assertEquals(name.getBaseName(), "base name", "some-child");
+        assertEquals("some-child", name.getBaseName(), "base name");
 
         // Test absolute path
         assertEquals(basePath + "/some-child", name.getPath(), "absolute path");
@@ -428,10 +428,10 @@ public class NamingTests extends AbstractProviderTestCase {
         final FileName rootName = getReadFolder().getFileSystem().getRoot().getName();
 
         // Test that the root path is "/"
-        assertEquals(rootName.getPath(), "root path", "/");
+        assertEquals("/", rootName.getPath(), "root path");
 
         // Test that the root base name is ""
-        assertEquals(rootName.getBaseName(), "root base name", "");
+        assertEquals("", rootName.getBaseName(), "root base name");
 
         // Test that the root name has no parent
         assertNull(rootName.getParent(), "root parent");
