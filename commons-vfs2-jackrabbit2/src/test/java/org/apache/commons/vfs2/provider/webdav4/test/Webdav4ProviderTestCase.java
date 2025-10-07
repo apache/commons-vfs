@@ -299,7 +299,7 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
         manager.addProvider("tmp", new TemporaryFileProvider());
     }
 
-    @org.junit.Test
+    @org.junit.jupiter.api.Test
     public void testResolveIPv6Url() throws Exception {
         final String ipv6Url = "webdav4://user:pass@[fe80::1c42:dae:8370:aea6%en1]/file.txt";
 
