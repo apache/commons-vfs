@@ -43,13 +43,16 @@ public class SftpProviderClosedExecChannelTest extends ProviderTestSuiteJunit5 {
 
     @Override
     protected void addBaseTests() throws Exception {
-        addTests(ProviderReadTests.class);
-        addTests(ProviderWriteTests.class);
-        addTests(ProviderDeleteTests.class);
-        addTests(ProviderRenameTests.class);
-        addTests(NamingTests.class);
-        // VFS-405: set/get permissions
-        addTests(PermissionsTests.class);
+        // Only add base tests if we have a real SFTP server configured
+        if (SftpProviderTestUtil.getSystemTestUriOverride() != null) {
+            addTests(ProviderReadTests.class);
+            addTests(ProviderWriteTests.class);
+            addTests(ProviderDeleteTests.class);
+            addTests(ProviderRenameTests.class);
+            addTests(NamingTests.class);
+            // VFS-405: set/get permissions
+            addTests(PermissionsTests.class);
+        }
     }
 
     /**

@@ -42,15 +42,29 @@ public class SftpPermissionExceptionTest extends ProviderTestSuiteJunit5 {
         super(new SftpPermissionExceptionTestConfig(), "", false);
     }
 
+    @Override
+    protected void addBaseTests() throws Exception {
+        // Only add base tests if we have a real SFTP server configured
+        // Otherwise, only the @Test methods in this class will run
+        if (SftpProviderTestUtil.getSystemTestUriOverride() != null) {
+            super.addBaseTests();
+        }
+    }
+
     /**
      * Tests that getting an output stream on a read-only file throws an exception.
      * <p>
      * This test creates a read-only file and verifies that attempting to copy to it
      * throws a FileSystemException.
      * </p>
+     * <p>
+     * This test requires a real SFTP server configured via system property.
+     * </p>
      */
     @Test
     public void testGetOutputStreamException() throws Exception {
+        org.junit.jupiter.api.Assumptions.assumeTrue(SftpProviderTestUtil.getSystemTestUriOverride() != null,
+            "Test requires SFTP server configured via system property");
         final FileObject scratchFolder = getWriteFolder();
 
         // Create a read-only file

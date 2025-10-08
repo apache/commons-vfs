@@ -44,6 +44,15 @@ public class SftpPutChannelTest extends ProviderTestSuiteJunit5 {
         super(new SftpPutChannelTestConfig(), "", false);
     }
 
+    @Override
+    protected void addBaseTests() throws Exception {
+        // Only add base tests if we have a real SFTP server configured
+        // Otherwise, only the @Test methods in this class will run
+        if (SftpProviderTestUtil.getSystemTestUriOverride() != null) {
+            super.addBaseTests();
+        }
+    }
+
     /**
      * Tests that getting an input stream from a non-existent file throws an exception.
      * <p>
@@ -54,9 +63,14 @@ public class SftpPutChannelTest extends ProviderTestSuiteJunit5 {
      * easily accessible in the new JUnit 5 architecture. The test now focuses on verifying
      * that the exception is properly thrown.
      * </p>
+     * <p>
+     * This test requires a real SFTP server configured via system property.
+     * </p>
      */
     @Test
     public void testDoGetInputStream() throws Exception {
+        org.junit.jupiter.api.Assumptions.assumeTrue(SftpProviderTestUtil.getSystemTestUriOverride() != null,
+            "Test requires SFTP server configured via system property");
         final FileObject file = getReadFolder().resolveFile("file-does-not-exist.txt");
         assertThrows(FileSystemException.class, () -> {
             try (InputStream ignored = file.getContent().getInputStream()) {

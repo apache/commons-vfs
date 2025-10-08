@@ -155,12 +155,14 @@ public abstract class AbstractProviderTestSuite {
 
         // Locate the base folders
         baseFolder = providerConfig.getBaseTestFolder(manager);
-        readFolder = baseFolder.resolveFile(READ_TESTS_FOLDER);
-        writeFolder = baseFolder.resolveFile(WRITE_TESTS_FOLDER);
+        if (baseFolder != null) {
+            readFolder = baseFolder.resolveFile(READ_TESTS_FOLDER);
+            writeFolder = baseFolder.resolveFile(WRITE_TESTS_FOLDER);
 
-        // Make some assumptions about the read folder
-        assertTrue(readFolder.exists(), "Folder does not exist: " + readFolder);
-        assertNotEquals(FileName.ROOT_PATH, readFolder.getName().getPath());
+            // Make some assumptions about the read folder
+            assertTrue(readFolder.exists(), "Folder does not exist: " + readFolder);
+            assertNotEquals(FileName.ROOT_PATH, readFolder.getName().getPath());
+        }
     }
 
     @AfterAll
@@ -214,6 +216,12 @@ public abstract class AbstractProviderTestSuite {
         // Add test classes if not already added
         if (testClasses.isEmpty()) {
             addBaseTests();
+        }
+
+        // If no test classes were added and baseFolder is null, return empty stream
+        // This allows tests with only @Test methods (no base tests) to run
+        if (testClasses.isEmpty() && baseFolder == null) {
+            return Stream.empty();
         }
 
         if (testClasses.isEmpty()) {

@@ -48,10 +48,13 @@ public class SftpProviderStreamProxyModeTest extends ProviderTestSuiteJunit5 {
 
     @Override
     protected void addBaseTests() throws Exception {
-        // Just tries to read
-        addTests(ProviderReadTests.class);
-        // VFS-405: set/get permissions
-        addTests(PermissionsTests.class);
+        // Only add base tests if we have a real SFTP server configured
+        if (SftpProviderTestUtil.getSystemTestUriOverride() != null) {
+            // Just tries to read
+            addTests(ProviderReadTests.class);
+            // VFS-405: set/get permissions
+            addTests(PermissionsTests.class);
+        }
     }
 
     /**
