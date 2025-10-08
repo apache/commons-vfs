@@ -154,22 +154,10 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
      */
     synchronized static void tearDownClass() {
         if (embeddedFtpServer != null) {
-            // First suspend to stop accepting new connections
             embeddedFtpServer.suspend();
-
-            // Wait a bit for active connections to finish
-            try {
-                Thread.sleep(300);
-            } catch (final InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            // Now stop the server
             embeddedFtpServer.stop();
             Thread.yield();
-
-            // Wait for server to fully stop
-            int count = 20; // Increased from 10 to 20
+            int count = 10;
             while (count-- > 0 && !embeddedFtpServer.isStopped()) {
                 final int millis = 200;
                 System.out.println(String.format("Waiting %,d milliseconds for %s to stop", millis, embeddedFtpServer));
@@ -179,18 +167,9 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
                     e.printStackTrace();
                 }
             }
-
-            // Clear the reference
             embeddedFtpServer = null;
             socketPort = 0;
             connectionUri = null;
-
-            // Additional wait to ensure port is fully released and all resources cleaned up
-            try {
-                Thread.sleep(1000); // Increased from 500 to 1000
-            } catch (final InterruptedException e) {
-                e.printStackTrace();
-            }
         }
     }
 
