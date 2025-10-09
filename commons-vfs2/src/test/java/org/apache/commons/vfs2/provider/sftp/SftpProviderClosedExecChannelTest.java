@@ -44,7 +44,7 @@ public class SftpProviderClosedExecChannelTest extends ProviderTestSuiteJunit5 {
     @Override
     protected void addBaseTests() throws Exception {
         // Only add base tests if we have a real SFTP server configured
-        if (SftpProviderTestUtil.getSystemTestUriOverride() != null) {
+        if (System.getProperty("test.sftp.uri") != null) {
             addTests(ProviderReadTests.class);
             addTests(ProviderWriteTests.class);
             addTests(ProviderDeleteTests.class);
@@ -62,7 +62,7 @@ public class SftpProviderClosedExecChannelTest extends ProviderTestSuiteJunit5 {
 
         @Override
         public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-            final String uri = SftpProviderTestUtil.getSystemTestUriOverride();
+            final String uri = System.getProperty("test.sftp.uri");
             if (uri == null) {
                 return null;
             }

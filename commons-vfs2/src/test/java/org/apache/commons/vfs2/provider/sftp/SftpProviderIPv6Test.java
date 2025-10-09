@@ -55,7 +55,7 @@ public class SftpProviderIPv6Test extends ProviderTestSuiteJunit5 {
     @Override
     protected void addBaseTests() throws Exception {
         // Only add base tests if we have a real SFTP server configured
-        if (SftpProviderTestUtil.getSystemTestUriOverride() != null) {
+        if (System.getProperty("test.sftp.uri") != null) {
             addTests(IPv6LocalConnectionTests.class);
         }
         // Otherwise, only the @Test methods in this class will run (testResolveIPv6Url)
@@ -88,7 +88,7 @@ public class SftpProviderIPv6Test extends ProviderTestSuiteJunit5 {
 
         @Override
         public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-            final String uri = SftpProviderTestUtil.getSystemTestUriOverride();
+            final String uri = System.getProperty("test.sftp.uri");
             return uri != null ? manager.resolveFile(uri) : null;
         }
 

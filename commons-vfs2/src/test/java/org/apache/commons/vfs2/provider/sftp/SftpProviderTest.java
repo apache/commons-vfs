@@ -16,17 +16,24 @@
  */
 package org.apache.commons.vfs2.provider.sftp;
 
+import java.time.Duration;
+
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
+import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.PermissionsTests;
 import org.apache.commons.vfs2.ProviderTestSuiteJunit5;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
+import org.junit.jupiter.api.AfterAll;
+
+import com.jcraft.jsch.TestIdentityRepositoryFactory;
 
 /**
  * JUnit 5 tests for the SFTP file system provider.
  * <p>
  * This class replaces {@code SftpProviderTestCase} with a pure JUnit 5 implementation.
+ * Uses an embedded Apache SSHd server for testing.
  * </p>
  */
 public class SftpProviderTest extends ProviderTestSuiteJunit5 {
@@ -37,12 +44,20 @@ public class SftpProviderTest extends ProviderTestSuiteJunit5 {
 
     @Override
     protected void addBaseTests() throws Exception {
-        // Only add base tests if we have a real SFTP server configured
-        if (SftpProviderTestUtil.getSystemTestUriOverride() != null) {
-            super.addBaseTests();
-            // VFS-405: set/get permissions
-            addTests(PermissionsTests.class);
-            addTests(SftpMultiThreadWriteTests.class);
+        super.addBaseTests();
+        // VFS-405: set/get permissions
+        addTests(PermissionsTests.class);
+        addTests(SftpMultiThreadWriteTests.class);
+    }
+
+    /**
+     * Stops the embedded SFTP server after all tests.
+     */
+    @AfterAll
+    public static void stopSftpServer() throws InterruptedException {
+        // Only stop if we started it (not using external server)
+        if (System.getProperty("test.sftp.uri") == null) {
+            SftpTestServerHelper.stopServer();
         }
     }
 
@@ -53,8 +68,29 @@ public class SftpProviderTest extends ProviderTestSuiteJunit5 {
 
         @Override
         public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-            final String uri = SftpProviderTestUtil.getSystemTestUriOverride();
-            return uri != null ? manager.resolveFile(uri) : null;
+            // Check for external server override
+            String uri = System.getProperty("test.sftp.uri");
+            if (uri == null) {
+                // Start embedded server if not already running
+                if (!SftpTestServerHelper.isServerRunning()) {
+                    SftpTestServerHelper.startServer();
+                }
+                uri = SftpTestServerHelper.getConnectionUri();
+            }
+
+            if (uri == null) {
+                return null;
+            }
+
+            final FileSystemOptions fileSystemOptions = new FileSystemOptions();
+            final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
+            builder.setStrictHostKeyChecking(fileSystemOptions, "no");
+            builder.setUserInfo(fileSystemOptions, new TrustEveryoneUserInfo());
+            builder.setIdentityRepositoryFactory(fileSystemOptions, new TestIdentityRepositoryFactory());
+            builder.setConnectTimeout(fileSystemOptions, Duration.ofSeconds(60));
+            builder.setSessionTimeout(fileSystemOptions, Duration.ofSeconds(60));
+
+            return manager.resolveFile(uri, fileSystemOptions);
         }
 
         @Override

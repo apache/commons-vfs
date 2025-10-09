@@ -48,7 +48,7 @@ public class SftpPutChannelTest extends ProviderTestSuiteJunit5 {
     protected void addBaseTests() throws Exception {
         // Only add base tests if we have a real SFTP server configured
         // Otherwise, only the @Test methods in this class will run
-        if (SftpProviderTestUtil.getSystemTestUriOverride() != null) {
+        if (System.getProperty("test.sftp.uri") != null) {
             super.addBaseTests();
         }
     }
@@ -69,7 +69,7 @@ public class SftpPutChannelTest extends ProviderTestSuiteJunit5 {
      */
     @Test
     public void testDoGetInputStream() throws Exception {
-        org.junit.jupiter.api.Assumptions.assumeTrue(SftpProviderTestUtil.getSystemTestUriOverride() != null,
+        org.junit.jupiter.api.Assumptions.assumeTrue(System.getProperty("test.sftp.uri") != null,
             "Test requires SFTP server configured via system property");
         final FileObject file = getReadFolder().resolveFile("file-does-not-exist.txt");
         assertThrows(FileSystemException.class, () -> {
@@ -93,7 +93,7 @@ public class SftpPutChannelTest extends ProviderTestSuiteJunit5 {
 
         @Override
         public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-            final String uri = SftpProviderTestUtil.getSystemTestUriOverride();
+            final String uri = System.getProperty("test.sftp.uri");
             if (uri == null) {
                 return null;
             }

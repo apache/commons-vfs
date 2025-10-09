@@ -49,7 +49,7 @@ public class SftpProviderStreamProxyModeTest extends ProviderTestSuiteJunit5 {
     @Override
     protected void addBaseTests() throws Exception {
         // Only add base tests if we have a real SFTP server configured
-        if (SftpProviderTestUtil.getSystemTestUriOverride() != null) {
+        if (System.getProperty("test.sftp.uri") != null) {
             // Just tries to read
             addTests(ProviderReadTests.class);
             // VFS-405: set/get permissions
@@ -64,7 +64,7 @@ public class SftpProviderStreamProxyModeTest extends ProviderTestSuiteJunit5 {
 
         @Override
         public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-            String uri = SftpProviderTestUtil.getSystemTestUriOverride();
+            String uri = System.getProperty("test.sftp.uri");
             if (uri == null) {
                 return null;
             }
