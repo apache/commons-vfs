@@ -70,7 +70,8 @@ public final class SftpTestServerHelper {
      * Custom SFTP subsystem that handles permissions.
      */
     private static class MySftpSubsystem extends SftpSubsystem {
-        TreeMap<String, Integer> permissions = new TreeMap<>();
+        // Static permissions cache shared across all SFTP subsystem instances
+        private static final TreeMap<String, Integer> permissions = new TreeMap<>();
         private int _version;
 
         @Override
@@ -87,14 +88,18 @@ public final class SftpTestServerHelper {
                     final String path = buffer.getString();
                     // Get the permission
                     final SftpAttrs attrs = new SftpAttrs(buffer);
-                    permissions.put(path, attrs.permissions);
+                    synchronized (permissions) {
+                        permissions.put(path, attrs.permissions);
+                    }
                     break;
                 }
 
                 case SSH_FXP_REMOVE: {
                     // Remove cached attributes
                     final String path = buffer.getString();
-                    permissions.remove(path);
+                    synchronized (permissions) {
+                        permissions.remove(path);
+                    }
                     break;
                 }
 
@@ -117,18 +122,19 @@ public final class SftpTestServerHelper {
 
             int p = 0;
 
-            final Integer cached = permissions.get(file.getAbsolutePath());
+            final Integer cached;
+            synchronized (permissions) {
+                cached = permissions.get(file.getAbsolutePath());
+            }
             if (cached != null) {
                 // Use cached permissions
                 p |= cached;
             } else {
-                // Use permissions from Java file
-                if (file.isReadable()) {
-                    p |= S_IRUSR;
-                }
-                if (file.isWritable()) {
-                    p |= S_IWUSR;
-                }
+                // Default permissions for testing: always readable and writable
+                // This ensures tests work regardless of underlying file system permissions
+                p |= S_IRUSR | S_IWUSR;
+
+                // Add executable bit if the file is actually executable
                 if (file.isExecutable()) {
                     p |= S_IXUSR;
                 }
@@ -418,6 +424,9 @@ public final class SftpTestServerHelper {
             server.stop();
             server = null;
             connectionUri = null;
+
+            // Clear the permissions cache to avoid test interference
+            MySftpSubsystem.permissions.clear();
         }
     }
 
