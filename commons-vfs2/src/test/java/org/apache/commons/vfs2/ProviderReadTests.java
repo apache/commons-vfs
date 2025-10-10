@@ -16,6 +16,18 @@
  */
 package org.apache.commons.vfs2;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+
 import static org.apache.commons.vfs2.VfsTestUtils.assertSameMessage;
 
 import java.io.InputStream;
@@ -24,7 +36,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
 /**
@@ -72,7 +84,7 @@ public class ProviderReadTests extends AbstractProviderTestCase {
                 }
             }
 
-            assertEquals("count children of \"" + file.getName() + "\"", info.children.size(), length);
+            assertEquals(info.children.size(), length, "count children of \"" + file.getName() + "\"");
 
             // Recursively check each child
             for (final FileObject child : children) {
@@ -156,8 +168,8 @@ public class ProviderReadTests extends AbstractProviderTestCase {
             final FileObject ignored = getManager().createFileSystem(folder);
             fail("Should not be able to create a layered filesystem on a directory. " + ignored);
         } catch (final FileSystemException e) {
-            assertSame("Creation of layered filesystem should fail" + e, "vfs.impl/no-provider-for-file.error",
-                    e.getCode());
+            assertSame("vfs.impl/no-provider-for-file.error", e.getCode(),
+                    "Creation of layered filesystem should fail" + e);
         }
     }
 
@@ -258,10 +270,10 @@ public class ProviderReadTests extends AbstractProviderTestCase {
 
         // Start reading from the file
         try (InputStream instr = file.getContent().getInputStream()) {
-            assertEquals("read() from empty file should return EOF", -1, instr.read());
+            assertEquals(-1, instr.read(), "read() from empty file should return EOF");
 
             for (int i = 0; i < 5; i++) {
-                assertEquals("multiple read() at EOF should return EOF", -1, instr.read());
+                assertEquals(-1, instr.read(), "multiple read() at EOF should return EOF");
             }
         }
     }
@@ -273,7 +285,7 @@ public class ProviderReadTests extends AbstractProviderTestCase {
     public void testReadFileEOFMultiple() throws Exception {
         final FileObject file = getReadFolder().resolveFile("file1.txt");
         assertTrue(file.exists());
-        assertEquals("Expecting 20 bytes test-data file1.txt", 20, file.getContent().getSize());
+        assertEquals(20, file.getContent().getSize(), "Expecting 20 bytes test-data file1.txt");
 
         // Start reading from the file
         try (InputStream instr = file.getContent().getInputStream()) {
@@ -281,7 +293,7 @@ public class ProviderReadTests extends AbstractProviderTestCase {
             assertEquals(20, instr.read(buf));
 
             for (int i = 0; i < 5; i++) {
-                assertEquals("multiple read(byte[]) at EOF should return EOF", -1, instr.read(buf));
+                assertEquals(-1, instr.read(buf), "multiple read(byte[]) at EOF should return EOF");
             }
         }
     }

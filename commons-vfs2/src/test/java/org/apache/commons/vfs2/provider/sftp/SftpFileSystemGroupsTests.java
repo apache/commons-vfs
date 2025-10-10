@@ -21,8 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.apache.commons.vfs2.FileSystemOptions;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
@@ -37,7 +37,7 @@ public class SftpFileSystemGroupsTests {
     private final FileSystemOptions options = new FileSystemOptions();
     private Session session;
 
-    @Before
+    @BeforeEach
     public void setup() throws JSchException {
         session = new JSch().getSession("");
         fileSystem = new SftpFileSystem(null, session, options);

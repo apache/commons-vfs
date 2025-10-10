@@ -15,13 +15,24 @@
  * limitations under the License.
  */
 package org.apache.commons.vfs2.provider.local;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 
 import java.io.File;
 
 import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
 /**
@@ -44,7 +55,7 @@ public class FileNameTests extends AbstractProviderTestCase {
             final String uri = "file://" + fileName.replace(File.separatorChar, '/');
             final FileObject uriFile = manager.resolveFile(uri);
 
-            assertSame("file object", absFile, uriFile);
+            assertSame(absFile, uriFile, "file object");
         }
     }
 

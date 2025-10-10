@@ -15,6 +15,17 @@
  * limitations under the License.
  */
 package org.apache.commons.vfs2.provider.test;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 
 import static org.apache.commons.vfs2.VfsTestUtils.assertSameMessage;
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
@@ -29,7 +40,7 @@ import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.provider.DelegateFileObject;
 import org.apache.commons.vfs2.util.WeakRefFileListener;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 class DebugFileListener implements FileListener {
 
@@ -90,15 +101,15 @@ public class JunctionTests extends AbstractProviderTestCase {
 
         // Make sure the file at the junction point and its ancestors exist
         file = fs.resolveFile("/a/b");
-        assertTrue("Does not exist", file.exists());
+        assertTrue(file.exists(), "Does not exist");
         file = file.getParent();
-        assertTrue("Does not exist", file.exists());
+        assertTrue(file.exists(), "Does not exist");
         file = file.getParent();
-        assertTrue("Does not exist", file.exists());
+        assertTrue(file.exists(), "Does not exist");
     }
 
     /**
-     * Checks that change events from delegatedd files are fired.
+     * Checks that change events from delegated files are fired.
      */
     public void testEvent() throws Exception {
         // we use the VirtualFileSystem to check change event propagation of DecoratedFileObject
@@ -110,25 +121,36 @@ public class JunctionTests extends AbstractProviderTestCase {
 
         // Make sure the file at the junction point and its ancestors exist
         final FileObject file = fs.resolveFile("/a/hardref.txt");
-        assertSame("VirtualFileSystem does not use DelegateFO anymore?", file.getClass(), DelegateFileObject.class);
+        assertSame(file.getClass(), DelegateFileObject.class, "VirtualFileSystem does not use DelegateFO anymore?");
+
+        // Clean up any leftover files from previous test runs
+        if (file.exists()) {
+            file.delete();
+        }
 
         // Do with a hard reference listener
         final FileListener listener1 = new DebugFileListener();
         file.getFileSystem().addListener(file, listener1);
-        final FileObject real1 = baseDir.resolveFile("hardref.txt");
-        real1.createFile();
-        assertEquals("Strong Listener was not notified (create)", "Listener false true false", listener1.toString());
-        real1.delete();
-        assertEquals("Strong Listener was not notified (delete)", "Listener false true true", listener1.toString());
+        // Create and delete the file through the virtual file system to trigger events
+        file.createFile();
+        assertEquals("Listener false true false", listener1.toString(), "Strong Listener was not notified (create)");
+        file.delete();
+        assertEquals("Listener false true true", listener1.toString(), "Strong Listener was not notified (delete)");
 
         final FileObject file2 = fs.resolveFile("/a/weakref.txt");
-        assertSame("VirtualFileSystem does not use DelegateFO anymore?", file2.getClass(), DelegateFileObject.class);
+        assertSame(file2.getClass(), DelegateFileObject.class, "VirtualFileSystem does not use DelegateFO anymore?");
+
+        // Clean up any leftover files from previous test runs
+        if (file2.exists()) {
+            file2.delete();
+        }
+
         // repeat with Weak reference listener
         final FileListener listener2 = new DebugFileListener();
         // since we hold the listener2 reference it should not get GC
         WeakRefFileListener.installListener(file2, listener2);
 
-        // force the WekRefFileListener reference to (not) clear
+        // force the WeakRefFileListener reference to (not) clear
         System.gc();
         Thread.sleep(1000);
         System.gc();
@@ -138,12 +160,12 @@ public class JunctionTests extends AbstractProviderTestCase {
         System.gc();
         Thread.sleep(1000);
 
-        final FileObject real2 = baseDir.resolveFile("weakref.txt");
-        real2.createFile();
+        // Create the file through the virtual file system to trigger events
+        file2.createFile();
         try {
-            assertEquals("Weak Listener was abandoned", "Listener false true false", listener2.toString());
+            assertEquals("Listener false true false", listener2.toString(), "Weak Listener was abandoned");
         } finally {
-            assertTrue("Don't contaminate the fs for the next time the test runs", file2.delete());
+            assertTrue(file2.delete(), "Don't contaminate the fs for the next time the test runs");
         }
     }
 

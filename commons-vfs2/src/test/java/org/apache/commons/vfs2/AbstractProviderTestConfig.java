@@ -81,7 +81,6 @@ public abstract class AbstractProviderTestConfig extends AbstractProviderTestCas
         // default is do nothing.
     }
 
-    @Override
     public void tearDown() throws Exception {
         if (filesCache != null) {
             filesCache.close();

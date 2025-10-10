@@ -34,14 +34,13 @@ import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
 import javax.jcr.Value;
 
-import junit.framework.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
-import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.temp.TemporaryFileProvider;
@@ -139,7 +138,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig {
         return repository.login(new SimpleCredentials(USER_ID, PASSWORD));
     }
 
-    private static String getSystemTestUriOverride() {
+    public static String getSystemTestUriOverride() {
         return System.getProperty(TEST_URI);
     }
 
@@ -195,7 +194,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig {
      *
      * @throws Exception
      */
-    private static void setUpClass() throws Exception {
+    public static void setUpClass() throws Exception {
         // Create temp dir for repo
         RepoDirectory = createTempDirectory();
         message("Created temp directory " + RepoDirectory);
@@ -227,35 +226,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig {
         JrMain.run();
     }
 
-    public static Test suite() throws Exception {
-        return new ProviderTestSuite(new WebdavProviderTestCase()) {
-            @Override
-            protected void addBaseTests() throws Exception {
-                super.addBaseTests();
 
-                addTests(WebdavProviderTestCase.class);
-
-                // WebDAV underlying implementation doesn't support link-local IPv6 url (but WebDAV4 does)
-                // if (getSystemTestUriOverride() == null) {
-                //    addTests(IPv6LocalConnectionTests.class);
-                // }
-            }
-
-            @Override
-            protected void setUp() throws Exception {
-                if (getSystemTestUriOverride() == null) {
-                    setUpClass();
-                }
-                super.setUp();
-            }
-
-            @Override
-            protected void tearDown() throws Exception {
-                tearDownClass();
-                super.tearDown();
-            }
-        };
-    }
 
     /**
      * Tears down resources for this test case.
@@ -268,7 +239,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig {
      *
      * @throws Exception @throws
      */
-    private static void tearDownClass() throws Exception {
+    public static void tearDownClass() throws Exception {
         // Main JR shutdown
         JrMain.shutdown();
 
@@ -330,7 +301,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig {
         manager.addProvider("tmp", new TemporaryFileProvider());
     }
 
-    @org.junit.Test
+    @org.junit.jupiter.api.Test
     public void testResolveIPv6Url() throws Exception {
         final String ipv6Url = "webdav://user:pass@[fe80::1c42:dae:8370:aea6%en1]/file.txt";
 

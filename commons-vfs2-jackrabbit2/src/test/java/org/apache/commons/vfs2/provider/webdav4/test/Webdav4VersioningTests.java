@@ -16,6 +16,11 @@
  */
 package org.apache.commons.vfs2.provider.webdav4.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -29,7 +34,7 @@ import org.apache.commons.vfs2.provider.GenericURLFileName;
 import org.apache.commons.vfs2.provider.webdav4.Webdav4FileSystemConfigBuilder;
 import org.apache.jackrabbit.webdav.version.DeltaVConstants;
 import org.apache.jackrabbit.webdav.version.VersionControlledResource;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test to verify WebDAV Versioning support
