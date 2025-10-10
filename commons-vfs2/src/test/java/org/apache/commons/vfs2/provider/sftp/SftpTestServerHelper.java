@@ -134,8 +134,9 @@ public final class SftpTestServerHelper {
                 // This ensures tests work regardless of underlying file system permissions
                 p |= S_IRUSR | S_IWUSR;
 
-                // Add executable bit if the file is actually executable
-                if (file.isExecutable()) {
+                // For directories, always add execute bit (needed to traverse/access the directory)
+                // For files, add execute bit only if the file is actually executable
+                if (file.isDirectory() || file.isExecutable()) {
                     p |= S_IXUSR;
                 }
             }
@@ -161,14 +162,24 @@ public final class SftpTestServerHelper {
                     p |= 0040000;
                 }
 
+                // SSH_FILEXFER_ATTR_UIDGID constant doesn't exist in SSHD 0.8.0, use literal value 0x00000002
+                final int SSH_FILEXFER_ATTR_UIDGID = 0x00000002;
+                // Use UID/GID 1000 to match what TestCommandFactory returns for "id -u" and "id -G"
+                final int TEST_UID = 1000;
+                final int TEST_GID = 1000;
+
                 if (file.isFile()) {
-                    buffer.putInt(SSH_FILEXFER_ATTR_SIZE | SSH_FILEXFER_ATTR_PERMISSIONS | SSH_FILEXFER_ATTR_ACMODTIME);
+                    buffer.putInt(SSH_FILEXFER_ATTR_SIZE | SSH_FILEXFER_ATTR_UIDGID | SSH_FILEXFER_ATTR_PERMISSIONS | SSH_FILEXFER_ATTR_ACMODTIME);
                     buffer.putLong(file.getSize());
+                    buffer.putInt(TEST_UID); // UID - matches "id -u" output
+                    buffer.putInt(TEST_GID); // GID - matches "id -G" output
                     buffer.putInt(p);
                     buffer.putInt(file.getLastModified() / 1000);
                     buffer.putInt(file.getLastModified() / 1000);
                 } else if (file.isDirectory()) {
-                    buffer.putInt(SSH_FILEXFER_ATTR_PERMISSIONS | SSH_FILEXFER_ATTR_ACMODTIME);
+                    buffer.putInt(SSH_FILEXFER_ATTR_UIDGID | SSH_FILEXFER_ATTR_PERMISSIONS | SSH_FILEXFER_ATTR_ACMODTIME);
+                    buffer.putInt(TEST_UID); // UID - matches "id -u" output
+                    buffer.putInt(TEST_GID); // GID - matches "id -G" output
                     buffer.putInt(p);
                     buffer.putInt(file.getLastModified() / 1000);
                     buffer.putInt(file.getLastModified() / 1000);
