@@ -16,19 +16,10 @@
  */
 package org.apache.commons.vfs2.provider.ftps;
 
-import junit.framework.Test;
-
 /**
- * Tests for FTPS file systems with explicit FTPS connection.
+ * Configuration for FTPS file systems with explicit FTPS connection.
  */
 public class FtpsProviderExplicitTestCase extends AbstractFtpsProviderTestCase {
-
-    /**
-     * Creates the test suite for the ftps file system.
-     */
-    public static Test suite() throws Exception {
-        return new FtpProviderTestSuite(new FtpsProviderExplicitTestCase());
-    }
 
     @Override
     protected boolean isImplicit() {
@@ -41,5 +32,5 @@ public class FtpsProviderExplicitTestCase extends AbstractFtpsProviderTestCase {
         builder.setDataChannelProtectionLevel(fileSystemOptions, FtpsDataChannelProtectionLevel.P);
         builder.setFtpsMode(fileSystemOptions, FtpsMode.EXPLICIT);
     }
-
 }
+

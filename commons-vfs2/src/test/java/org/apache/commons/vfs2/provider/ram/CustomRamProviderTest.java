@@ -16,11 +16,14 @@
  */
 package org.apache.commons.vfs2.provider.ram;
 
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -134,7 +137,7 @@ public class CustomRamProviderTest {
         // Default FS
         final FileObject fo1 = manager.resolveFile("ram:/");
         final FileObject fo2 = manager.resolveFile("ram:/");
-        assertSame("Both files should exist in the same fs instance.", fo1.getFileSystem(), fo2.getFileSystem());
+        assertSame(fo1.getFileSystem(), fo2.getFileSystem(), "Both files should exist in the same fs instance.");
 
         FileSystemOptions fsOptions = fo1.getFileSystem().getFileSystemOptions();
         long maxFilesystemSize = RamFileSystemConfigBuilder.getInstance().getLongMaxSize(fsOptions);
@@ -143,8 +146,8 @@ public class CustomRamProviderTest {
         // Small FS
         final FileObject fo3 = manager.resolveFile("ram:/fo3", smallSizedFso);
         final FileObject fo4 = manager.resolveFile("ram:/", smallSizedFso);
-        assertSame("Both files should exist in the same FileSystem instance.", fo3.getFileSystem(), fo4.getFileSystem());
-        assertNotSame("Both files should exist in different FileSystem instance.", fo1.getFileSystem(), fo3.getFileSystem());
+        assertSame(fo3.getFileSystem(), fo4.getFileSystem(), "Both files should exist in the same FileSystem instance.");
+        assertNotSame(fo1.getFileSystem(), fo3.getFileSystem(), "Both files should exist in different FileSystem instance.");
 
         fsOptions = fo3.getFileSystem().getFileSystemOptions();
         maxFilesystemSize = RamFileSystemConfigBuilder.getInstance().getLongMaxSize(fsOptions);

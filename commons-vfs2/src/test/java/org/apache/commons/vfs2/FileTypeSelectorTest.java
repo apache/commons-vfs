@@ -20,11 +20,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * Tests FileTypeSelector.
  */
+@DisplayName("FileTypeSelector Tests")
 public class FileTypeSelectorTest {
 
     private static FileObject baseFolder;
@@ -59,26 +63,18 @@ public class FileTypeSelectorTest {
         }
     }
 
-    @Test
-    public void testFileOrFolders() throws Exception {
-        final FileSelector selector = new FileTypeSelector(FileType.FILE_OR_FOLDER);
+    @ParameterizedTest(name = "FileType.{0} should find {1} items")
+    @CsvSource({
+        "FILE_OR_FOLDER, 0",
+        "FILE, 5",
+        "FOLDER, 8"
+    })
+    @DisplayName("Test file type selector with different file types")
+    public void testFileTypeSelector(final FileType fileType, final int expectedCount) throws Exception {
+        final FileSelector selector = new FileTypeSelector(fileType);
         final FileObject[] foList = baseFolder.findFiles(selector);
-        // Why 0?
-        assertEquals(0, foList.length);
-    }
-
-    @Test
-    public void testFiles() throws Exception {
-        final FileSelector selector = new FileTypeSelector(FileType.FILE);
-        final FileObject[] foList = baseFolder.findFiles(selector);
-        assertEquals(5, foList.length);
-    }
-
-    @Test
-    public void testFolders() throws Exception {
-        final FileSelector selector = new FileTypeSelector(FileType.FOLDER);
-        final FileObject[] foList = baseFolder.findFiles(selector);
-        assertEquals(8, foList.length);
+        assertEquals(expectedCount, foList.length,
+            () -> "FileType." + fileType + " should find " + expectedCount + " items");
     }
 
 }

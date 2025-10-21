@@ -23,99 +23,112 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 /**
  * Test for {@link NameFileFilter}.
  */
 // CHECKSTYLE:OFF Test code
+@DisplayName("NameFileFilter Tests")
 public class NameFileFilterTest extends BaseFilterTest {
 
-    @Test
-    public void testAcceptList() {
+    @Nested
+    @DisplayName("List-based filtering")
+    class ListBasedFiltering {
 
-        // PREPARE
-        final List<String> list = new ArrayList<>();
-        list.add("test1.txt");
-        list.add("test2.txt");
-        final NameFileFilter filter = new NameFileFilter(list);
+        @Test
+        @DisplayName("Should accept files matching names in list (default case sensitivity)")
+        public void testAcceptList() {
+            // PREPARE
+            final List<String> list = new ArrayList<>();
+            list.add("test1.txt");
+            list.add("test2.txt");
+            final NameFileFilter filter = new NameFileFilter(list);
 
-        // TEST
-        assertTrue(filter.accept(createFileSelectInfo(new File("test1.txt"))));
-        assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
-        assertFalse(filter.accept(createFileSelectInfo(new File("Test2.txt"))));
-        assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
+            // TEST
+            assertTrue(filter.accept(createFileSelectInfo(new File("test1.txt"))));
+            assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
+            assertFalse(filter.accept(createFileSelectInfo(new File("Test2.txt"))));
+            assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
+        }
+
+        @Test
+        @DisplayName("Should accept files matching names in list (case insensitive)")
+        public void testAcceptListIOCaseInsensitive() {
+            // PREPARE
+            final List<String> list = new ArrayList<>();
+            list.add("test1.txt");
+            list.add("test2.txt");
+            final NameFileFilter filter = new NameFileFilter(IOCase.INSENSITIVE, list);
+
+            // TEST
+            assertTrue(filter.accept(createFileSelectInfo(new File("TEST1.txt"))));
+            assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
+            assertTrue(filter.accept(createFileSelectInfo(new File("Test2.txt"))));
+            assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
+        }
+
+        @Test
+        @DisplayName("Should accept files matching names in list (case sensitive)")
+        public void testAcceptListIOCaseSensitive() {
+            // PREPARE
+            final List<String> list = new ArrayList<>();
+            list.add("test1.txt");
+            list.add("test2.txt");
+            final NameFileFilter filter = new NameFileFilter(IOCase.SENSITIVE, list);
+
+            // TEST
+            assertFalse(filter.accept(createFileSelectInfo(new File("TEST1.txt"))));
+            assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
+            assertFalse(filter.accept(createFileSelectInfo(new File("Test2.txt"))));
+            assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
+        }
     }
 
-    @Test
-    public void testAcceptListIOCaseInsensitive() {
+    @Nested
+    @DisplayName("String-based filtering")
+    class StringBasedFiltering {
 
-        // PREPARE
-        final List<String> list = new ArrayList<>();
-        list.add("test1.txt");
-        list.add("test2.txt");
-        final NameFileFilter filter = new NameFileFilter(IOCase.INSENSITIVE, list);
+        @Test
+        @DisplayName("Should accept files matching exact name (default case sensitivity)")
+        public void testAcceptString() {
+            // PREPARE
+            final NameFileFilter filter = new NameFileFilter("test1.txt");
 
-        // TEST
-        assertTrue(filter.accept(createFileSelectInfo(new File("TEST1.txt"))));
-        assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
-        assertTrue(filter.accept(createFileSelectInfo(new File("Test2.txt"))));
-        assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
-    }
+            // TEST
+            assertTrue(filter.accept(createFileSelectInfo(new File("test1.txt"))));
+            assertFalse(filter.accept(createFileSelectInfo(new File("test2.txt"))));
+            assertFalse(filter.accept(createFileSelectInfo(new File("Test2.txt"))));
+            assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
+        }
 
-    @Test
-    public void testAcceptListIOCaseSensitive() {
+        @Test
+        @DisplayName("Should accept files matching exact name (case insensitive)")
+        public void testAcceptStringIOCaseInsensitive() {
+            // PREPARE
+            final NameFileFilter filter = new NameFileFilter(IOCase.INSENSITIVE, "test2.txt");
 
-        // PREPARE
-        final List<String> list = new ArrayList<>();
-        list.add("test1.txt");
-        list.add("test2.txt");
-        final NameFileFilter filter = new NameFileFilter(IOCase.SENSITIVE, list);
+            // TEST
+            assertFalse(filter.accept(createFileSelectInfo(new File("test1.txt"))));
+            assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
+            assertTrue(filter.accept(createFileSelectInfo(new File("Test2.txt"))));
+            assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
+        }
 
-        // TEST
-        assertFalse(filter.accept(createFileSelectInfo(new File("TEST1.txt"))));
-        assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
-        assertFalse(filter.accept(createFileSelectInfo(new File("Test2.txt"))));
-        assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
-    }
+        @Test
+        @DisplayName("Should accept files matching exact name (case sensitive)")
+        public void testAcceptStringIOCaseSensitive() {
+            // PREPARE
+            final NameFileFilter filter = new NameFileFilter(IOCase.SENSITIVE, "test2.txt");
 
-    @Test
-    public void testAcceptString() {
-
-        // PREPARE
-        final NameFileFilter filter = new NameFileFilter("test1.txt");
-
-        // TEST
-        assertTrue(filter.accept(createFileSelectInfo(new File("test1.txt"))));
-        assertFalse(filter.accept(createFileSelectInfo(new File("test2.txt"))));
-        assertFalse(filter.accept(createFileSelectInfo(new File("Test2.txt"))));
-        assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
-    }
-
-    @Test
-    public void testAcceptStringIOCaseInsensitive() {
-
-        // PREPARE
-        final NameFileFilter filter = new NameFileFilter(IOCase.INSENSITIVE, "test2.txt");
-
-        // TEST
-        assertFalse(filter.accept(createFileSelectInfo(new File("test1.txt"))));
-        assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
-        assertTrue(filter.accept(createFileSelectInfo(new File("Test2.txt"))));
-        assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
-    }
-
-    @Test
-    public void testAcceptStringIOCaseSensitive() {
-
-        // PREPARE
-        final NameFileFilter filter = new NameFileFilter(IOCase.SENSITIVE, "test2.txt");
-
-        // TEST
-        assertFalse(filter.accept(createFileSelectInfo(new File("test1.txt"))));
-        assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
-        assertFalse(filter.accept(createFileSelectInfo(new File("Test2.txt"))));
-        assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
+            // TEST
+            assertFalse(filter.accept(createFileSelectInfo(new File("test1.txt"))));
+            assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
+            assertFalse(filter.accept(createFileSelectInfo(new File("Test2.txt"))));
+            assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
+        }
     }
 
 }

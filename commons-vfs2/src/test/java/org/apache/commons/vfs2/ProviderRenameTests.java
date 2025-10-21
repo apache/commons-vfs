@@ -15,13 +15,24 @@
  * limitations under the License.
  */
 package org.apache.commons.vfs2;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * File system test that check that a file system can be renamed.
@@ -133,8 +144,8 @@ public class ProviderRenameTests extends AbstractProviderTestCase {
 
             final FileObject destFolder = scratchFolder.resolveFile("empty-target-folder");
             destFolder.createFolder();
-            assertTrue("new destination must be folder", destFolder.getType().hasChildren());
-            assertEquals("new destination must be empty", 0, destFolder.getChildren().length);
+            assertTrue(destFolder.getType().hasChildren(), "new destination must be folder");
+            assertEquals(0, destFolder.getChildren().length, "new destination must be empty");
 
             moveFile(destFolder, file, content);
         }
