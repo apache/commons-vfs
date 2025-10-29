@@ -15,13 +15,24 @@
  * limitations under the License.
  */
 package org.apache.commons.vfs2.provider.local;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 
 import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
 /**
@@ -41,9 +52,9 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
             final FileObject fo = manager.resolveFile(file);
             fail("Windows File Parser should not allow " + file + " " + fo);
         } catch (FileSystemException ex) {
-            assertEquals("Exception code", "vfs.provider/invalid-absolute-uri.error", ex.getCode());
+            assertEquals("vfs.provider/invalid-absolute-uri.error", ex.getCode(), "Exception code");
             ex = (FileSystemException) ex.getCause();
-            assertEquals("Exception code", "vfs.provider.local/not-absolute-file-name.error", ex.getCode());
+            assertEquals("vfs.provider.local/not-absolute-file-name.error", ex.getCode(), "Exception code");
         }
     }
 
@@ -56,9 +67,9 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
             final FileObject fo = manager.resolveFile(file);
             fail("Windows File Parser should not allow " + file + " " + fo);
         } catch (FileSystemException ex) {
-            assertEquals("Exception code", "vfs.provider/invalid-absolute-uri.error", ex.getCode());
+            assertEquals("vfs.provider/invalid-absolute-uri.error", ex.getCode(), "Exception code");
             ex = (FileSystemException) ex.getCause();
-            assertEquals("Exception code", "vfs.provider.local/missing-share-name.error", ex.getCode());
+            assertEquals("vfs.provider.local/missing-share-name.error", ex.getCode(), "Exception code");
         }
     }
 

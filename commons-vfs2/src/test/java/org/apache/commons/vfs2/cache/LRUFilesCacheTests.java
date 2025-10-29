@@ -16,16 +16,20 @@
  */
 package org.apache.commons.vfs2.cache;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Objects;
 
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FilesCache;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
-import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
- * Tests for {@link LRUFilesCache} used by {@link LRUFilesCacheTestCase}.
+ * Tests for {@link LRUFilesCache}.
  */
 public class LRUFilesCacheTests extends AbstractFilesCacheTestsBase {
 
@@ -33,15 +37,15 @@ public class LRUFilesCacheTests extends AbstractFilesCacheTestsBase {
     public void testClass() {
         @SuppressWarnings("resource")
         final DefaultFileSystemManager manager = getManager();
-        Assertions.assertNotNull(manager, "manager");
+        assertNotNull(manager, "manager");
         final FilesCache filesCache = manager.getFilesCache();
-        assertTrue(Objects.toString(filesCache), filesCache instanceof LRUFilesCache);
+        assertTrue(filesCache instanceof LRUFilesCache, Objects.toString(filesCache));
     }
 
     @Test
     public void testFilesCache() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
-        Assertions.assertNotNull(scratchFolder, "scratchFolder");
+        assertNotNull(scratchFolder, "scratchFolder");
 
         // releasable
         final FileObject dir1 = scratchFolder.resolveFile("dir1");

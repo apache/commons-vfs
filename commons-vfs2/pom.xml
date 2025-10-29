@@ -87,11 +87,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
       <scope>test</scope>
@@ -242,8 +237,8 @@
             <exclude>**/RunTest.java</exclude>
             <!-- inner classes -->
             <exclude>**/*$*</exclude>
-            <!-- Need to port fully to JUnit 4 or 5. -->
-            <!-- *Tests.java files with @Test methods should not be run since these classes are in fact JUnit 3 classes used in custom JUnit 3 test suites. -->
+            <!-- *Tests.java files are test implementations designed to be run via test suites -->
+            <!-- They require suite-level setup and should not be run directly -->
             <exclude>**/*Tests.java</exclude>
           </excludes>
         </configuration>
@@ -350,8 +345,7 @@
               <excludes>
                 <exclude>**/HdfsFileProviderTest.java</exclude>
                 <exclude>**/HdfsFileProviderTestCase.java</exclude>
-                <!-- Need to port fully to JUnit 4 or 5. -->
-                <!-- *Tests.java files with @Test methods should not be run since these classes are in fact JUnit 3 classes used in custom JUnit 3 test suites. -->
+                <!-- *Tests.java files are test implementations designed to be run via test suites -->
                 <exclude>**/*Tests.java</exclude>
               </excludes>
             </configuration>
