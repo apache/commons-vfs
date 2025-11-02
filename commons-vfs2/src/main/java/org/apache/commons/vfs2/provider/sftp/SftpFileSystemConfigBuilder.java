@@ -509,7 +509,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param options             The FileSystem options.
      * @param configRepository An config repository.
-     * @see <a href="http://www.jcraft.com/jsch/examples/OpenSSHConfig.java.html">OpenSSHConfig</a>
+     * @see <a href="https://www.jcraft.com/jsch/examples/OpenSSHConfig.java.html">OpenSSHConfig</a>
      */
     public void setConfigRepository(final FileSystemOptions options, final ConfigRepository configRepository) {
         this.setParam(options, CONFIG_REPOSITORY, configRepository);
@@ -612,7 +612,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param options    The FileSystem options.
      * @param factory An identity repository.
-     * @see <a href="http://www.jcraft.com/jsch-agent-proxy/">JSch agent proxy</a>
+     * @see <a href="https://www.jcraft.com/jsch-agent-proxy/">JSch agent proxy</a>
      */
     public void setIdentityRepositoryFactory(final FileSystemOptions options, final IdentityRepositoryFactory factory) {
         this.setParam(options, IDENTITY_REPOSITORY_FACTORY, factory);
