@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -30,6 +31,7 @@ import java.io.InputStreamReader;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.JavaVersion;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -47,16 +49,14 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.DisabledOnOs;
-import org.junit.jupiter.api.condition.OS;
 
 /**
  * This test class uses the Hadoop MiniDFSCluster class to create an embedded Hadoop cluster.
- * <P>
+ * <p>
  * This will only work on systems that Hadoop supports.
+ * </p>
  */
 @SuppressWarnings("resource")
-@DisabledOnOs(value = OS.WINDOWS)
 public class HdfsFileProviderTest {
 
     // Turn off the MiniDFSCluster logging
@@ -108,6 +108,7 @@ public class HdfsFileProviderTest {
 
     @BeforeAll
     public static void setUp() throws Exception {
+        assumeTrue(SystemUtils.isJavaVersionAtMost(JavaVersion.JAVA_22));
         System.setProperty("test.basedir", "../commons-vfs2/target/test-classes/test-data");
         Logger.getRootLogger().setLevel(Level.ERROR);
 
@@ -140,7 +141,9 @@ public class HdfsFileProviderTest {
         if (null != hdfs) {
             hdfs.close();
         }
-        manager.close();
+        if (manager != null) {
+            manager.close();
+        }
     }
 
     @AfterEach
