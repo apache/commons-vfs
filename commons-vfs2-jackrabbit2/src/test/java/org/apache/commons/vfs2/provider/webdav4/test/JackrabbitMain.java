@@ -79,9 +79,10 @@ public class JackrabbitMain {
 
     /**
      * Constructs Main application instance.
-     * <P>
-     * <EM>Note:</EM> Constructor is protected because other projects such as Commons VFS can extend this for some reasons
+     * <p>
+     * <em>Note:</em> Constructor is protected because other projects such as Commons VFS can extend this for some reasons
      *       (e.g, unit testing against Jackrabbit WebDAV).
+     * </p>
      */
     protected JackrabbitMain(final String[] args) throws ParseException {
         options.addOption("?", "help", false, "print this message");
@@ -216,9 +217,10 @@ public class JackrabbitMain {
 
     /**
      * Run this Main application.
-     * <P>
-     * <EM>Note:</EM> this is public because this can be used by other projects in unit tests. e.g, Commons-VFS.
+     * <p>
+     * <em>Note:</em> this is public because this can be used by other projects in unit tests. e.g, Commons-VFS.
      * @throws Exception if any exception occurs
+     * </p>
      */
     public void run() throws Exception {
         String defaultFile = "jackrabbit-standalone.jar";
@@ -310,10 +312,11 @@ public class JackrabbitMain {
 
     /**
      * Shutdown this Main application.
-     * <P>
-     * <EM>Note:</EM> this is public because this can be used by other projects in unit tests for graceful shutdown.
+     * <p>
+     * <em>Note:</em> this is public because this can be used by other projects in unit tests for graceful shutdown.
      * e.g, Commons-VFS. If this is not invoked properly, some unexpected exceptions may occur on shutdown hook
      * due to an unexpected, invalid state for org.apache.lucene.index.IndexFileDeleter for instance.
+     * </p>
      */
     public void shutdown() {
         try {

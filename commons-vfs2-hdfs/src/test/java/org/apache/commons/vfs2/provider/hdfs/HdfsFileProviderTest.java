@@ -82,12 +82,14 @@ public class HdfsFileProviderTest {
 
     /**
      * Add {@code dfs.datanode.data.dir.perm} setting if OS needs it.
-     * <P>
+     * <p>
      * MiniDFSCluster will check the permissions on the data directories, but does not do a good job of setting them
      * properly. We need to get the users umask and set the appropriate Hadoop property so that the data directories
      * will be created with the correct permissions.
-     * <P>
+     * </p>
+     * <p>
      * Will do nothing on Windows.
+     * </p>
      */
     public static void setUmask(final Configuration config) {
         try {

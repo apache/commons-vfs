@@ -48,8 +48,9 @@ import org.junit.jupiter.api.condition.OS;
 
 /**
  * This test class uses the Hadoop MiniDFSCluster class to create an embedded Hadoop cluster.
- * <P>
+ * <p>
  * This will only work on systems that Hadoop supports.
+ * </p>
  */
 @DisabledForJreRange(min = JRE.JAVA_23)
 @DisabledOnOs(OS.WINDOWS)
