@@ -16,26 +16,17 @@
  */
 package org.apache.commons.vfs2;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
-
-
-
-
-
-
 
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
+import org.apache.commons.io.file.PathUtils;
+import org.apache.commons.io.file.StandardDeleteOption;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.provider.local.LocalFileSystem;
 import org.junit.jupiter.api.AfterEach;
@@ -48,24 +39,20 @@ import org.junit.jupiter.api.Test;
  */
 public class PermissionsTests extends AbstractProviderTestCase {
 
-    public static final String FILENAME = "permission.txt";
+    public static final String FILE_NAME = "permission.txt";
 
     private FileObject createTestFile() throws Exception {
         // Get the scratch folder
         final FileObject scratchFolder = getWriteFolder();
         assertNotNull(scratchFolder);
-
         // Make sure the test folder is empty
         scratchFolder.delete(Selectors.EXCLUDE_SELF);
         scratchFolder.createFolder();
-
         // Create direct child of the test folder
-        final FileObject file = scratchFolder.resolveFile(FILENAME);
+        final FileObject file = scratchFolder.resolveFile(FILE_NAME);
         assertFalse(file.exists());
-
         // Create the source file
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
-
         try (OutputStream os = file.getContent().getOutputStream()) {
             os.write(content.getBytes(StandardCharsets.UTF_8));
         }
@@ -94,9 +81,14 @@ public class PermissionsTests extends AbstractProviderTestCase {
     @AfterEach
     public void tearDown() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
-        final FileObject file = scratchFolder.resolveFile(FILENAME);
+        final FileObject file = scratchFolder.resolveFile(FILE_NAME);
         file.setWritable(true, true);
-        file.delete();
+        if (!file.delete()) {
+            final Path path = file.getPath();
+            if (getFileSystem() instanceof LocalFileSystem) {
+                PathUtils.deleteFile(path, StandardDeleteOption.OVERRIDE_READ_ONLY);
+            }
+        }
     }
 
     /**
@@ -105,20 +97,16 @@ public class PermissionsTests extends AbstractProviderTestCase {
     @Test
     public void testExecutable() throws Exception {
         final FileObject file = createTestFile();
-
         // On Windows, all files are executable
         if (isWindows()) {
             assertTrue(file.isExecutable(), "File expected to be executable: " + file);
-
         } else {
             // Set the executable flag for owner
             assertTrue(file.setExecutable(true, true), "Setting executable permission failed: " + file);
             assertTrue(file.isExecutable(), "File expected to be executable: " + file);
-
             // Set the executable flag for all
             assertTrue(file.setExecutable(true, false), "Setting executable permission failed: " + file);
             assertTrue(file.isExecutable(), "File expected to be executable: " + file);
-
             // Clear the executable flag
             assertTrue(file.setExecutable(false, true), "Setting executable permission failed: " + file);
             assertFalse(file.isExecutable(), "File expected to be not executable: " + file);
@@ -131,7 +119,6 @@ public class PermissionsTests extends AbstractProviderTestCase {
     @Test
     public void testReadable() throws Exception {
         final FileObject file = createTestFile();
-
         if (isWindows()) {
             // On Windows, all owned files are readable
             assertTrue(file.isReadable(), "File expected to be readable: " + file);
@@ -139,11 +126,9 @@ public class PermissionsTests extends AbstractProviderTestCase {
             // Set the readable permission for owner
             assertTrue(file.setReadable(true, true), "Setting read permission failed: " + file);
             assertTrue(file.isReadable(), "File expected to be readable: " + file);
-
             // Set the readable permission for all
             assertTrue(file.setReadable(true, false), "Setting read permission failed: " + file);
             assertTrue(file.isReadable(), "File expected to be readable: " + file);
-
             // Clear the readable permission
             assertTrue(file.setReadable(false, true), "Setting read permission failed: " + file);
             assertFalse(file.isReadable(), "File expected to be not readable: " + file);
@@ -156,15 +141,12 @@ public class PermissionsTests extends AbstractProviderTestCase {
     @Test
     public void testWriteable() throws Exception {
         final FileObject file = createTestFile();
-
         // Set the write permission for owner
         assertTrue(file.setWritable(true, true), "Setting write permission failed: " + file);
         assertTrue(file.isWriteable(), "File expected to be writable: " + file);
-
         // Set the write permission for all
         assertTrue(file.setWritable(true, false), "Setting write permission failed: " + file);
         assertTrue(file.isWriteable(), "File expected to be writable: " + file);
-
         // Clear the write permission
         assertTrue(file.setWritable(false, true), "Setting write permission failed: " + file);
         assertFalse(file.isWriteable(), "File expected to be not writable: " + file);
