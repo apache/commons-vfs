@@ -16,19 +16,22 @@
  */
 package org.apache.commons.vfs2.cache;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.apache.commons.vfs2.AbstractProviderTestCase;
-import org.apache.commons.vfs2.CacheTestSuite;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FilesCache;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Base class for different FilesCache tests.
- * <p>
- * Make sure {@link CacheTestSuite} is configured with correct FilesCache.
  */
 public abstract class AbstractFilesCacheTestsBase extends AbstractProviderTestCase {
 
@@ -85,7 +88,7 @@ public abstract class AbstractFilesCacheTestsBase extends AbstractProviderTestCa
 
         final FileObject fo2 = getWriteFolder().resolveFile("dir1");
 
-        assertNotSame("Objects after cache clear should be different", fo1, fo2);
+        assertNotSame(fo1, fo2, "Objects after cache clear should be different");
     }
 
 }

@@ -41,3 +41,29 @@ mvn -V -Ptest-deploy -Prelease deploy
 
 Assemble all sites into one:
 mvn -V -Ptest-deploy -Prelease site:stage
+
+Testing
+-------
+
+Apache Commons VFS uses JUnit 5 (Jupiter) for testing, with JUnit Vintage engine for backward
+compatibility with legacy JUnit 3 test suites.
+
+Run all tests:
+mvn test
+
+Run tests for a specific module:
+mvn test -pl commons-vfs2
+
+Run a specific test class:
+mvn test -Dtest=StandardFileSystemManagerTest
+
+Test Architecture:
+- Standalone tests use JUnit 5 (@Test, @BeforeEach, @AfterEach)
+- Provider tests use a hybrid JUnit 3/5 approach for compatibility
+- Test suites are discovered via JUnit Vintage engine
+- Total test count: 3122+ tests across all providers
+
+For more information on the JUnit 5 migration, see:
+- JUNIT5_MIGRATION_PROGRESS.md - Current migration status
+- JUNIT5_MIGRATION_PHASE3B_PLAN.md - Future migration plans
+- JUNIT5_MIGRATION_INDEX.md - Complete migration documentation index

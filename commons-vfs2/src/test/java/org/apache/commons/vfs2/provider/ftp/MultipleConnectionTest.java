@@ -34,16 +34,16 @@ public class MultipleConnectionTest {
 
     @BeforeAll
     public static void setUpClass() throws FtpException {
-        FtpProviderTestCase.setUpClass(getTestDirectory(), null, null);
+        FtpProviderTest.setUpClass(getTestDirectory(), null, null);
     }
 
     @AfterAll
     public static void tearDownClass() {
-        FtpProviderTestCase.tearDownClass();
+        FtpProviderTest.tearDownClass();
     }
 
     private FileObject resolveRoot() throws FileSystemException {
-        return VFS.getManager().resolveFile(FtpProviderTestCase.getConnectionUri());
+        return VFS.getManager().resolveFile(FtpProviderTest.getConnectionUri());
     }
 
     @Test
@@ -58,8 +58,8 @@ public class MultipleConnectionTest {
         final FTPClient client2 = new FTPClient();
         try {
             final String hostname = "localhost";
-            client1.connect(hostname, FtpProviderTestCase.getSocketPort());
-            client2.connect(hostname, FtpProviderTestCase.getSocketPort());
+            client1.connect(hostname, FtpProviderTest.getSocketPort());
+            client2.connect(hostname, FtpProviderTest.getSocketPort());
         } finally {
             client1.disconnect();
             client2.disconnect();

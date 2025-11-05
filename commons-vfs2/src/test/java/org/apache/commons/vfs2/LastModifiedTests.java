@@ -16,13 +16,29 @@
  */
 package org.apache.commons.vfs2;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+
+
+
+
+
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
 /**
@@ -72,9 +88,9 @@ public class LastModifiedTests extends AbstractProviderTestCase {
         final long lastModTimeAccuracyMillis = (long) file.getFileSystem().getLastModTimeAccuracy();
         // System.out.println("Accuracy on " + file.getFileSystem().getRootURI() + " is " + lastModTimeAccuracy + " as
         // told by " + file.getFileSystem().getClass().getCanonicalName());
-        assertTrue("Accuracy must be positive", lastModTimeAccuracyMillis >= 0);
+        assertTrue(lastModTimeAccuracyMillis >= 0, "Accuracy must be positive");
         // just any sane limit
-        assertTrue("Accuracy must be < 2m", lastModTimeAccuracyMillis < Duration.ofMinutes(2).toMillis());
+        assertTrue(lastModTimeAccuracyMillis < Duration.ofMinutes(2).toMillis(), "Accuracy must be < 2m");
     }
 
     /**

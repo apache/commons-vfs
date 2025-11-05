@@ -27,7 +27,6 @@ import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
-import org.apache.commons.vfs2.ProviderTestSuite;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.ftpserver.FtpServer;
 import org.apache.ftpserver.FtpServerFactory;
@@ -45,37 +44,6 @@ import org.junit.jupiter.api.Assertions;
  * Abstract tests for FTP file systems.
  */
 abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
-
-    static final class FtpProviderTestSuite extends ProviderTestSuite {
-
-        private final boolean implicit;
-
-        public FtpProviderTestSuite(final AbstractFtpsProviderTestCase providerConfig) throws Exception {
-            super(providerConfig);
-            implicit = providerConfig.isImplicit();
-        }
-
-        @Override
-        protected void setUp() throws Exception {
-            if (getSystemTestUriOverride() == null) {
-                setUpClass(implicit);
-            }
-            super.setUp();
-        }
-
-        @Override
-        protected void tearDown() throws Exception {
-            try {
-                // This will report running threads of the FTP server.
-                // However, shutting down the FTP server first will always
-                // report an exception closing the manager, because the
-                // server is already down
-                super.tearDown();
-            } finally {
-                tearDownClass();
-            }
-        }
-    }
 
     private static final String LISTENER_NAME = "default";
 
@@ -157,13 +125,24 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         embeddedFtpServer = serverFactory.createServer();
         embeddedFtpServer.start();
         Thread.yield();
-        if (embeddedFtpServer.isStopped() || embeddedFtpServer.isSuspended()) {
+
+        // Wait for server to be ready
+        int retries = 20; // Wait up to 2 seconds
+        while (retries-- > 0 && (embeddedFtpServer.isStopped() || embeddedFtpServer.isSuspended())) {
             try {
-                Thread.sleep(200);
+                Thread.sleep(100);
             } catch (final InterruptedException e) {
                 e.printStackTrace();
             }
         }
+
+        // Additional wait to ensure the server is fully ready to accept connections
+        try {
+            Thread.sleep(200);
+        } catch (final InterruptedException e) {
+            e.printStackTrace();
+        }
+
         socketPort = ((org.apache.ftpserver.impl.DefaultFtpServer) embeddedFtpServer).getListener(LISTENER_NAME).getPort();
         // System.out.println("Using port " + SocketPort);
         // System.out.printf("jdk.tls.disabledAlgorithms = %s%n", System.getProperty("jdk.tls.disabledAlgorithms"));
@@ -189,6 +168,8 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
                 }
             }
             embeddedFtpServer = null;
+            socketPort = 0;
+            connectionUri = null;
         }
     }
 

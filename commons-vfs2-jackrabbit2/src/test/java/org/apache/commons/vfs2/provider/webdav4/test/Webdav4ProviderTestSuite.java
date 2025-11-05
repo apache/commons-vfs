@@ -26,7 +26,7 @@ import org.apache.commons.vfs2.ProviderRandomReadWriteTests;
 import org.apache.commons.vfs2.ProviderReadTests;
 import org.apache.commons.vfs2.ProviderRenameTests;
 import org.apache.commons.vfs2.ProviderTestConfig;
-import org.apache.commons.vfs2.ProviderTestSuite;
+import org.apache.commons.vfs2.ProviderTestSuiteJunit5;
 import org.apache.commons.vfs2.ProviderWriteAppendTests;
 import org.apache.commons.vfs2.ProviderWriteTests;
 import org.apache.commons.vfs2.UriTests;
@@ -36,12 +36,12 @@ import org.apache.commons.vfs2.UrlTests;
 /**
  * The suite of tests for a file system.
  */
-public class Webdav4ProviderTestSuite extends ProviderTestSuite {
+public class Webdav4ProviderTestSuite extends ProviderTestSuiteJunit5 {
     /**
      * Adds the tests for a file system to this suite.
      */
     public Webdav4ProviderTestSuite(final ProviderTestConfig providerConfig) throws Exception {
-        this(providerConfig, "", false, false);
+        this(providerConfig, "", false);
     }
 
     /**
@@ -49,12 +49,12 @@ public class Webdav4ProviderTestSuite extends ProviderTestSuite {
      */
     public Webdav4ProviderTestSuite(final ProviderTestConfig providerConfig, final boolean addEmptyDir)
             throws Exception {
-        this(providerConfig, "", false, addEmptyDir);
+        this(providerConfig, "", addEmptyDir);
     }
 
     protected Webdav4ProviderTestSuite(final ProviderTestConfig providerConfig, final String prefix,
-            final boolean nested, final boolean addEmptyDir) throws Exception {
-        super(providerConfig, prefix, nested, addEmptyDir);
+            final boolean addEmptyDir) throws Exception {
+        super(providerConfig, prefix, addEmptyDir);
     }
 
     /**

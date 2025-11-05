@@ -15,6 +15,17 @@
  * limitations under the License.
  */
 package org.apache.commons.vfs2;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 
 import static org.apache.commons.vfs2.VfsTestUtils.assertSameMessage;
 
@@ -22,7 +33,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test cases for reading file content.
@@ -36,7 +47,7 @@ public class ContentTests extends AbstractProviderTestCase {
         for (final FileInfo fileInfo : expected.children.values()) {
             final FileObject child = folder.resolveFile(fileInfo.baseName, NameScope.CHILD);
 
-            assertTrue(child.getName().toString(), child.exists());
+            assertTrue(child.exists(), child.getName().toString());
             if (fileInfo.type == FileType.FILE) {
                 assertSameContent(fileInfo.content, child);
             } else {
@@ -134,23 +145,23 @@ public class ContentTests extends AbstractProviderTestCase {
     public void testExists() throws Exception {
         // Test a file
         FileObject file = getReadFolder().resolveFile("file1.txt");
-        assertTrue("file exists", file.exists());
-        assertNotSame("file exists", file.getType(), FileType.IMAGINARY);
+        assertTrue(file.exists(), "file exists");
+        assertNotSame(file.getType(), FileType.IMAGINARY, "file exists");
 
         // Test a folder
         file = getReadFolder().resolveFile("dir1");
-        assertTrue("folder exists", file.exists());
-        assertNotSame("folder exists", file.getType(), FileType.IMAGINARY);
+        assertTrue(file.exists(), "folder exists");
+        assertNotSame(file.getType(), FileType.IMAGINARY, "folder exists");
 
         // Test an unknown file
         file = getReadFolder().resolveFile("unknown-child");
-        assertFalse("unknown file does not exist", file.exists());
-        assertSame("unknown file does not exist", file.getType(), FileType.IMAGINARY);
+        assertFalse(file.exists(), "unknown file does not exist");
+        assertSame(file.getType(), FileType.IMAGINARY, "unknown file does not exist");
 
         // Test an unknown file in an unknown folder
         file = getReadFolder().resolveFile("unknown-folder/unknown-child");
-        assertFalse("unknown file does not exist", file.exists());
-        assertSame("unknown file does not exist", file.getType(), FileType.IMAGINARY);
+        assertFalse(file.exists(), "unknown file does not exist");
+        assertSame(file.getType(), FileType.IMAGINARY, "unknown file does not exist");
     }
 
     @Test
@@ -244,21 +255,21 @@ public class ContentTests extends AbstractProviderTestCase {
         // Test when both exist
         FileObject folder = getReadFolder().resolveFile("dir1");
         FileObject child = folder.resolveFile("file3.txt");
-        assertTrue("folder exists", folder.exists());
-        assertTrue("child exists", child.exists());
+        assertTrue(folder.exists(), "folder exists");
+        assertTrue(child.exists(), "child exists");
         assertSame(folder, child.getParent());
 
         // Test when file does not exist
         child = folder.resolveFile("unknown-file");
-        assertTrue("folder exists", folder.exists());
-        assertFalse("child does not exist", child.exists());
+        assertTrue(folder.exists(), "folder exists");
+        assertFalse(child.exists(), "child does not exist");
         assertSame(folder, child.getParent());
 
         // Test when neither exists
         folder = getReadFolder().resolveFile("unknown-folder");
         child = folder.resolveFile("unknown-file");
-        assertFalse("folder does not exist", folder.exists());
-        assertFalse("child does not exist", child.exists());
+        assertFalse(folder.exists(), "folder does not exist");
+        assertFalse(child.exists(), "child does not exist");
         assertSame(folder, child.getParent());
 
         // Test the parent of the root of the file system
@@ -267,7 +278,7 @@ public class ContentTests extends AbstractProviderTestCase {
         final FileObject root = fileSystem.getRoot();
         if (fileSystem.getParentLayer() == null) {
             // No parent layer, so parent should be null
-            assertNull("root has null parent", root.getParent());
+            assertNull(root.getParent(), "root has null parent");
         } else {
             // Parent should be parent of parent layer.
             assertSame(fileSystem.getParentLayer().getParent(), root.getParent());

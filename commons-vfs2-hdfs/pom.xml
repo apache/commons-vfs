@@ -67,8 +67,10 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
+      <!-- Hadoop test utilities (GenericTestUtils, MiniDFSCluster) require JUnit 4 -->
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -86,7 +88,7 @@
         <exclusion>
          <!-- VFS-606 - tools.jar not available in Java 9
               This exclusion can be removed after upgrading Hadoop
-              to 2.7.1 or later  
+              to 2.7.1 or later
           -->
           <groupId>jdk.tools</groupId>
           <artifactId>jdk.tools</artifactId>
@@ -170,8 +172,7 @@
             <derby.stream.error.file>target/derby.log</derby.stream.error.file>
           </systemPropertyVariables>
           <excludes>
-            <!-- Need to port fully to JUnit 4 or 5. -->
-            <!-- *Tests.java files with @Test methods should not be run since these classes are in fact JUnit 3 classes used in custom JUnit 3 test suites. -->
+            <!-- *Tests.java files are test implementations run via provider test suites, not standalone tests. -->
             <exclude>**/*Tests.java</exclude>
           </excludes>
         </configuration>

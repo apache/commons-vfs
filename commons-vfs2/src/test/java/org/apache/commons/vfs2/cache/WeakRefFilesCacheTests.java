@@ -16,8 +16,11 @@
  */
 package org.apache.commons.vfs2.cache;
 
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.apache.commons.vfs2.FileObject;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link WeakRefFilesCache} used by {@link WeakRefFilesCacheTestCase}.

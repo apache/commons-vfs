@@ -16,8 +16,11 @@
  */
 package org.apache.commons.vfs2.cache;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+
 import org.apache.commons.vfs2.FileObject;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link DefaultFilesCache} used by {@link DefaultFilesCacheTestCase}.
@@ -36,7 +39,7 @@ public class DefaultFilesCacheTests extends AbstractFilesCacheTestsBase {
         // now the same test, unreferenced (compare only hashCode)
         final int hc1 = getFileHashCode();
         final int hc2 = getFileHashCode();
-        assertEquals("Hashcode of file changed, so most likely new instance", hc1, hc2);
+        assertEquals(hc1, hc2, "Hashcode of file changed, so most likely new instance");
     }
 
 }

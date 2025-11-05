@@ -16,13 +16,25 @@
  */
 package org.apache.commons.vfs2;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+
 import static org.apache.commons.vfs2.VfsTestUtils.assertSameMessage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * URL test cases for providers.
@@ -43,12 +55,12 @@ public class UrlTests extends AbstractProviderTestCase {
         try (FileObject fileObject = getReadFolder().resolveFile("file with spaces.txt")) {
             final URL url = fileObject.getURL();
             final String string = url.toString();
-            assertTrue(string, string.contains("file%20with%20spaces.txt"));
+            assertTrue(string.contains("file%20with%20spaces.txt"), string);
         }
         try (FileObject fileObject = getReadFolder().resolveFile("file%20with%20spaces.txt")) {
             final URL url = fileObject.getURL();
             final String string = url.toString();
-            assertTrue(string, string.contains("file%20with%20spaces.txt"));
+            assertTrue(string.contains("file%20with%20spaces.txt"), string);
         }
     }
 
@@ -99,7 +111,7 @@ public class UrlTests extends AbstractProviderTestCase {
     private void testURLContent(final FileObject readFolder) throws FileSystemException, IOException, Exception {
         // Test non-empty file
         FileObject file = readFolder.resolveFile("file1.txt");
-        assertTrue(file.toString(), file.exists());
+        assertTrue(file.exists(), file.toString());
 
         URLConnection urlCon = file.getURL().openConnection();
         assertSameURLContent(FILE1_CONTENT, urlCon);
@@ -127,9 +139,9 @@ public class UrlTests extends AbstractProviderTestCase {
         final FileObject f1 = getManager().resolveFile(uri, options);
         final FileObject f2 = getManager().resolveFile(uri, options);
 
-        assertEquals("Two files resolved by URI must be equals on " + uri, f1, f2);
-        assertSame("Resolving two times should not produce new filesystem on " + uri, f1.getFileSystem(),
-            f2.getFileSystem());
+        assertEquals(f1, f2, "Two files resolved by URI must be equals on " + uri);
+        assertSame(f1.getFileSystem(), f2.getFileSystem(),
+            "Resolving two times should not produce new filesystem on " + uri);
     }
 
 }

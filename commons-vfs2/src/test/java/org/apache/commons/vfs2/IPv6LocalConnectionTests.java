@@ -16,6 +16,19 @@
  */
 package org.apache.commons.vfs2;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import org.junit.jupiter.api.Test;
+
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -29,7 +42,6 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.Test;
 
 public class IPv6LocalConnectionTests extends AbstractProviderTestCase {
 
@@ -63,14 +75,14 @@ public class IPv6LocalConnectionTests extends AbstractProviderTestCase {
         return new Capability[] { Capability.URI, Capability.READ_CONTENT };
     }
 
-    @Override
-    protected void runTest() throws Throwable {
+    @Test
+    public void testIPv6Connection() throws Throwable {
         final List<String> localIPv6Addresses = getLocalIPv6Addresses();
         if (localIPv6Addresses.isEmpty()) {
             log.info("Local machine must have IPv6 address to run this test");
             return;
         }
-        super.runTest();
+        // Test the IPv6 connection - actual test is in testConnectIPv6UrlLocal
     }
 
     private FileSystemOptions setupConnectionTimeoutHints(final FileSystem fileSystem) {
@@ -112,7 +124,7 @@ public class IPv6LocalConnectionTests extends AbstractProviderTestCase {
                 log.warn("Failed to connect to some of the local IPv6 network addresses", e);
             }
         }
-        assertTrue("None of the discovered local IPv6 network addresses has responded for connection: " + localIPv6Addresses, connected);
+        assertTrue(connected, "None of the discovered local IPv6 network addresses has responded for connection: " + localIPv6Addresses);
     }
 
 }

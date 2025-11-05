@@ -99,15 +99,15 @@ public class DelegatingFileSystemOptionsBuilderTest {
         delegate.setConfigClass(opts, "sftp", "userinfo", TrustEveryoneUserInfo.class);
         delegate.setConfigStrings(opts, "sftp", "identities", identityPaths);
 
-        assertEquals(Http5FileSystemConfigBuilder.getInstance().getProxyHost(opts), "proxy", "http.proxyHost");
-        assertEquals(Http5FileSystemConfigBuilder.getInstance().getProxyPort(opts), 8080, "http.proxyPort");
-        assertSame(SftpFileSystemConfigBuilder.getInstance().getUserInfo(opts).getClass(), TrustEveryoneUserInfo.class, "sftp.userInfo");
+        assertEquals("proxy", Http5FileSystemConfigBuilder.getInstance().getProxyHost(opts), "http.proxyHost");
+        assertEquals(8080, Http5FileSystemConfigBuilder.getInstance().getProxyPort(opts), "http.proxyPort");
+        assertSame(TrustEveryoneUserInfo.class, SftpFileSystemConfigBuilder.getInstance().getUserInfo(opts).getClass(), "sftp.userInfo");
 
         final File[] identities = SftpFileSystemConfigBuilder.getInstance().getIdentities(opts);
         assertNotNull(identities, "sftp.identities");
-        assertEquals(identities.length, identityPaths.length, "sftp.identities size");
+        assertEquals(identityPaths.length, identities.length, "sftp.identities size");
         for (int iterIdentities = 0; iterIdentities < identities.length; iterIdentities++) {
-            assertEquals(identities[iterIdentities].getAbsolutePath(), new File(identityPaths[iterIdentities]).getAbsolutePath(),
+            assertEquals(new File(identityPaths[iterIdentities]).getAbsolutePath(), identities[iterIdentities].getAbsolutePath(),
                     "sftp.identities #" + iterIdentities);
         }
     }
