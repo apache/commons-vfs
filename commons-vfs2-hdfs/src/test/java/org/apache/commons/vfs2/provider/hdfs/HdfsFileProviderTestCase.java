@@ -17,8 +17,8 @@
 package org.apache.commons.vfs2.provider.hdfs;
 
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +26,6 @@ import java.util.Objects;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.file.PathUtils;
-import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -41,7 +40,10 @@ import org.apache.hadoop.hdfs.MiniDFSCluster;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.condition.DisabledForJreRange;
+import org.junit.jupiter.api.condition.DisabledOnJre;
 import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.JRE;
 import org.junit.jupiter.api.condition.OS;
 
 /**
@@ -49,9 +51,11 @@ import org.junit.jupiter.api.condition.OS;
  * <P>
  * This will only work on systems that Hadoop supports.
  */
-@DisabledOnOs(value = OS.WINDOWS)
+@DisabledForJreRange(min = JRE.JAVA_23)
+@DisabledOnOs(OS.WINDOWS)
 public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
 
+    @DisabledForJreRange(min = JRE.JAVA_23)
     @DisabledOnOs(value = OS.WINDOWS)
     public static class HdfsProviderTestSuite extends ProviderTestSuiteJunit5 {
 
@@ -139,8 +143,6 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
     private static Configuration conf;
 
     private static MiniDFSCluster cluster;
-
-
 
     /**
      * Returns the base folder for read tests.

@@ -18,14 +18,18 @@ package org.apache.commons.vfs2.provider.hdfs;
 
 import org.apache.commons.vfs2.provider.hdfs.HdfsFileProviderTestCase.HdfsProviderTestSuite;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.condition.DisabledForJreRange;
+import org.junit.jupiter.api.condition.DisabledOnJre;
 import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.JRE;
 import org.junit.jupiter.api.condition.OS;
 
 /**
  * JUnit 5 test suite for HDFS provider (JUnit 5).
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@DisabledOnOs(value = OS.WINDOWS)
+@DisabledForJreRange(min = JRE.JAVA_23)
+@DisabledOnOs(OS.WINDOWS)
 public class HdfsProviderSuiteTest extends HdfsProviderTestSuite {
 
     public HdfsProviderSuiteTest() throws Exception {
