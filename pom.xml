@@ -43,7 +43,6 @@
   </modules>
   <!-- commons-vfs2-sandbox is in profile include-sandbox -->
   <issueManagement>
-    <system>jira</system>
     <url>https://issues.apache.org/jira/browse/VFS</url>
   </issueManagement>
   <scm>
