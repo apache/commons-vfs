@@ -55,6 +55,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" type="fix" due-to="Gary Gregory">Make sure org.apache.commons.vfs2.provider.http5.MonitoredHttpResponseContentInputStream.onClose() always closes its ClassicHttpResponse.</action>
       <action dev="ggregory" type="fix" due-to="Gary Gregory, WANGWEI">org.apache.commons.vfs2.provider.http5.Http5FileObject.doGetInputStream(int) now closes its ClassicHttpResponse on a non-200 OK response.</action>
       <action dev="ggregory" type="fix" due-to="Guillaume Nodet, Gary Gregory">Complete JUnit 5 Migration #730.</action>
+      <action dev="ggregory" type="fix" due-to="Guillaume Nodet, Gary Gregory">org.apache.commons.vfs2.provider.sftp.SftpClientFactory might now always resolve the current directory properly on Java 25.</action>
       <!-- ADD -->
       <action dev="ggregory" type="add" due-to="Gary Gregory">Add org.apache.commons.vfs2.provider.ftp.FTPClientWrapper.sendOptions(String, String).</action>
       <action dev="ggregory" type="add" due-to="Gary Gregory">Add FtpFileSystemConfigBuilder.getControlEncodingCharset(FileSystemOptions) and deprecate getControlEncoding(FileSystemOptions).</action>

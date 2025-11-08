@@ -22,6 +22,7 @@ import java.time.Duration;
 import java.util.Objects;
 import java.util.Properties;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.SystemProperties;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.time.DurationUtils;
@@ -307,7 +308,7 @@ public final class SftpClientFactory {
                 return sshDir;
             }
         }
-        return new File("");
+        return FileUtils.current();
     }
 
     private static void setConfigRepository(final JSch jsch, final File sshDir, final ConfigRepository configRepository, final boolean loadOpenSSHConfig)
