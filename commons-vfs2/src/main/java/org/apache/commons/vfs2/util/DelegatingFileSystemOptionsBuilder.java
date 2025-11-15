@@ -134,7 +134,7 @@ public class DelegatingFileSystemOptionsBuilder {
             type = objectType;
         }
 
-        final Class<? extends Object> valueClass = ctx.values[0].getClass();
+        final Class<?> valueClass = ctx.values[0].getClass();
         if (type.isAssignableFrom(valueClass)) {
             // can set value directly
             invokeSetter(valueParameter, ctx, configSetter, ctx.values);
