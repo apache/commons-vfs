@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.filter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.File;
 import java.io.IOException;
@@ -100,6 +101,11 @@ public class SizeFileFilterTest extends BaseFilterTest {
         zipFile = new File(getTempDir(), SizeFileFilterTest.class.getName() + ".zip");
         zipDir(testDir, "", zipFile);
         zipFileObj = getZipFileObject(zipFile);
+    }
+
+    @Test
+    public void testSizeFilterSizeNegative(){
+        assertThrows(IllegalArgumentException.class, () -> new SizeFileFilter(-1));
     }
 
     @Test
