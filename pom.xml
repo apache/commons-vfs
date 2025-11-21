@@ -163,13 +163,6 @@
                 <semanticVersionLevel>PATCH</semanticVersionLevel>
               </overrideCompatibilityChangeParameter>
             </overrideCompatibilityChangeParameters>
-            <excludes>
-              <!-- Remove this section after 2.10.0 -->
-              <!-- Package moved to new module commons-vfs-hdfs -->
-              <exclude>org.apache.commons.vfs2.provider.hdfs</exclude>
-              <!-- Package moved to new module commons-vfs-ant -->
-              <exclude>org.apache.commons.vfs2.tasks</exclude>
-            </excludes>
           </parameter>
         </configuration>
       </plugin>
