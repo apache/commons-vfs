@@ -232,7 +232,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-            <argLine>-Xmx64m</argLine>
+            <argLine>@{argLine} -Xmx64m</argLine>
         </configuration>
       </plugin>
       <plugin>
@@ -630,8 +630,8 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <!-- For AbstractTestSuite output of debug information. -->
-              <!-- ${argLine} must be there for JaCoCo. -->
-              <argLine>${argLine} --add-opens java.base/java.lang=ALL-UNNAMED</argLine>
+              <!-- @{argLine} must be there for JaCoCo. -->
+              <argLine>@{argLine} --add-opens java.base/java.lang=ALL-UNNAMED</argLine>
             </configuration>
           </plugin>
         </plugins>
