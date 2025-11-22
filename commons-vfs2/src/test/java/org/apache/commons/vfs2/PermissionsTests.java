@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.File;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -83,11 +84,13 @@ public class PermissionsTests extends AbstractProviderTestCase {
         final FileObject file = scratchFolder.resolveFile(FILE_NAME);
         try {
             file.setReadable(true, false);
+            file.getParent().setReadable(true, false);
         } catch (final FileSystemException e) {
             e.printStackTrace();
         }
         try {
             file.setWritable(true, false);
+            file.getParent().setWritable(true, false);
         } catch (final FileSystemException e) {
             e.printStackTrace();
         }
@@ -95,7 +98,13 @@ public class PermissionsTests extends AbstractProviderTestCase {
             final Path path = file.getPath();
             if ((getFileSystem() instanceof LocalFileSystem)
                     && (PathUtils.deleteFile(path, StandardDeleteOption.OVERRIDE_READ_ONLY).getFileCounter().get() == 0)) {
-                System.err.println("Test tear down can't delete " + path);
+                File f = path.toFile();
+                if (!f.delete()) {
+                    f.deleteOnExit();
+                }
+                if (f.exists()) {
+                    System.err.println("Test tear down can't delete " + path);
+                }
             }
         }
     }
