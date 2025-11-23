@@ -130,17 +130,17 @@
           <artifactId>apache-rat-plugin</artifactId>
           <!-- Should agree with config in reporting section -->
           <configuration>
-            <excludes combine.children="append">
+            <inputExcludes combine.children="append">
               <!--  trivial test data text files -->
-              <exclude>**/src/test/resources/test-data/**/*.bin</exclude>
-              <exclude>**/src/test/resources/test-data/**/*.txt</exclude>
-              <exclude>**/src/test/resources/test-data/**/*.tgz</exclude>
-              <exclude>**/src/test/resources/test-data/**/*.tbz2</exclude>
-              <exclude>**/src/test/resources/test-data/test.mf</exclude>
+              <inputExclude>**/src/test/resources/test-data/**/*.bin</inputExclude>
+              <inputExclude>**/src/test/resources/test-data/**/*.txt</inputExclude>
+              <inputExclude>**/src/test/resources/test-data/**/*.tgz</inputExclude>
+              <inputExclude>**/src/test/resources/test-data/**/*.tbz2</inputExclude>
+              <inputExclude>**/src/test/resources/test-data/test.mf</inputExclude>
               <!--  implicite exclude does not work if sandbox profile is not activated -->
-              <exclude>commons-vfs2-sandbox/**</exclude>
-              <exclude>**/dist/target/**</exclude>
-            </excludes>
+              <inputExclude>commons-vfs2-sandbox/**</inputExclude>
+              <inputExclude>**/dist/target/**</inputExclude>
+            </inputExcludes>
           </configuration>
         </plugin>
       <plugin>
