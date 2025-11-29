@@ -16,18 +16,7 @@
  */
 package org.apache.commons.vfs2;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
-
-import org.junit.jupiter.api.Test;
 
 import java.net.Inet6Address;
 import java.net.InetAddress;
@@ -40,8 +29,10 @@ import java.util.Enumeration;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.jupiter.api.Test;
 
 public class IPv6LocalConnectionTests extends AbstractProviderTestCase {
 
@@ -112,7 +103,7 @@ public class IPv6LocalConnectionTests extends AbstractProviderTestCase {
         final List<String> localIPv6Addresses = getLocalIPv6Addresses();
         boolean connected = false;
         for (final String ipv6Address : localIPv6Addresses) {
-            final String ipv6Url = StringUtils.replace(getReadFolder().getURL().toString(), "localhost", "[" + ipv6Address + "]");
+            final String ipv6Url = Strings.CS.replace(getReadFolder().getURL().toString(), "localhost", "[" + ipv6Address + "]");
             try {
                 final FileSystem fileSystem = getFileSystem();
 
