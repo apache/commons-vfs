@@ -16,7 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.local;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
@@ -62,7 +62,7 @@ public class GenericFileNameParser extends LocalFileNameParser {
         // TODO - this class isn't generic at all. Need to fix this
         // Looking for "/"
         final String prefix = "/";
-        if (!StringUtils.startsWith(name, prefix)) {
+        if (!Strings.CS.startsWith(name, prefix)) {
             throw new FileSystemException("vfs.provider.local/not-absolute-file-name.error", uri);
         }
         // do not strip the separator, BUT also return it ...

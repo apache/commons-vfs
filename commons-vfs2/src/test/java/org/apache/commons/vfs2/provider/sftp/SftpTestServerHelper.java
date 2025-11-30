@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.TreeMap;
 
 import org.apache.commons.io.file.PathUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.sshd.SshServer;
 import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.Session;
@@ -379,7 +379,7 @@ public final class SftpTestServerHelper {
         server.setSubsystemFactories(list);
 
         // Set up authentication
-        server.setPasswordAuthenticator((username, password, session) -> StringUtils.equals(username, password));
+        server.setPasswordAuthenticator((username, password, session) -> Strings.CS.equals(username, password));
         server.setPublickeyAuthenticator((username, key, session) -> true);
 
         // Set up forwarding
