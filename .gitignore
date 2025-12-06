@@ -15,3 +15,7 @@
 /jetty.log_IS_UNDEFINED
 maven-eclipse.xml
 target/
+
+# NetBeans files
+nb-configuration.xml
+nbactions.xml
