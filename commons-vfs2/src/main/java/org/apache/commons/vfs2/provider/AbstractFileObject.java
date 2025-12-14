@@ -654,9 +654,9 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     /**
      * Creates an output stream to write the file content to. Is only called if:
      * <ul>
-     * <li>{@link #doIsWriteable} returns true.
+     * <li>{@link #doIsWriteable} returns true.</li>
      * <li>{@link #doGetType} returns {@link FileType#FILE}, or {@link #doGetType} returns {@link FileType#IMAGINARY},
-     * and the file's parent exists and is a folder.
+     * and the file's parent exists and is a folder.</li>
      * </ul>
      * It is guaranteed that there are no open stream (input or output) for this file when this method is called.
      * <p>

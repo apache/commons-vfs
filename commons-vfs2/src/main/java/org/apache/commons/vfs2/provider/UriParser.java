@@ -481,9 +481,9 @@ public final class UriParser {
     /**
      * Normalizes a path. Does the following:
      * <ul>
-     * <li>Removes empty path elements.
-     * <li>Handles '.' and '..' elements.
-     * <li>Removes trailing separator.
+     * <li>Removes empty path elements.</li>
+     * <li>Handles '.' and '..' elements.</li>
+     * <li>Removes trailing separator.</li>
      * </ul>
      * <p>
      * Its assumed that the separators are already fixed.

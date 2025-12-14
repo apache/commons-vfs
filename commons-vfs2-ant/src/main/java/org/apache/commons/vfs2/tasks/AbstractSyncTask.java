@@ -34,10 +34,10 @@ import org.apache.tools.ant.Project;
  * An abstract file synchronization task. Scans a set of source files and folders, and a destination folder, and
  * performs actions on missing and out-of-date files. Specifically, performs actions on the following:
  * <ul>
- * <li>Missing destination file.
- * <li>Missing source file.
- * <li>Out-of-date destination file.
- * <li>Up-to-date destination file.
+ * <li>Missing destination file.</li>
+ * <li>Missing source file.</li>
+ * <li>Out-of-date destination file.</li>
+ * <li>Up-to-date destination file.</li>
  * </ul>
  *
  * <ul>

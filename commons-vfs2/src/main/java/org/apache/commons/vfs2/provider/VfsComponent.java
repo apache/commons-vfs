@@ -25,10 +25,10 @@ import org.apache.commons.vfs2.FileSystemException;
  * This interface is used to manage the lifecycle of all VFS components. This includes all implementations of the
  * following interfaces:
  * <ul>
- * <li>{@link FileProvider}
- * <li>{@link org.apache.commons.vfs2.FileSystem}
- * <li>{@link FileReplicator}
- * <li>{@link TemporaryFileStore}
+ * <li>{@link FileProvider}</li>
+ * <li>{@link org.apache.commons.vfs2.FileSystem}</li>
+ * <li>{@link FileReplicator}</li>
+ * <li>{@link TemporaryFileStore}</li>
  * </ul>
  */
 public interface VfsComponent extends Closeable {
