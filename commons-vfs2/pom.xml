@@ -16,8 +16,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <name>Apache Commons VFS</name>
   <artifactId>commons-vfs2</artifactId>
@@ -144,16 +144,12 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
   <properties>
     <commons.parent.dir>${basedir}/..</commons.parent.dir>
-    <commons.osgi.import>
-        org.apache.hc.client5.http.*;resolution:=optional,
-        *
+    <commons.osgi.import> org.apache.hc.client5.http.*;resolution:=optional, * 
     </commons.osgi.import>
     <project.build.outputTimestamp>2025-02-14T13:36:40Z</project.build.outputTimestamp>
   </properties>
-
   <build>
     <pluginManagement>
       <plugins>
@@ -173,7 +169,6 @@
         </includes>
       </resource>
     </resources>
-
     <testResources>
       <testResource>
         <directory>src/test/resources</directory>
@@ -188,8 +183,34 @@
         </includes>
       </testResource>
     </testResources>
-
     <plugins>
+      <plugin>
+        <!-- HACK to workaround random failures when some tests don't delete test fixtures. -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>clean-test-directory</id>
+            <phase>test</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+            <configuration>
+              <force>true</force>
+              <excludeDefaultDirectories>true</excludeDefaultDirectories>
+              <filesets>
+                <fileset>
+                  <directory>${project.build.directory}/test-classes/test-data/write-tests</directory>
+                  <includes>
+                    <include>**/*</include>
+                  </includes>
+                  <followSymlinks>false</followSymlinks>
+                </fileset>
+              </filesets>
+            </configuration>
+          </execution>
+        </executions>      
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -201,7 +222,6 @@
           </execution>
         </executions>
       </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
@@ -221,7 +241,6 @@
           </execution>
         </executions>
       </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -245,7 +264,6 @@
       </plugin>
     </plugins>
   </build>
-
   <profiles>
     <profile>
       <id>webdav</id>
@@ -266,7 +284,6 @@
         </plugins>
       </build>
     </profile>
-
     <profile>
       <id>ftp</id>
       <activation>
@@ -286,7 +303,6 @@
         </plugins>
       </build>
     </profile>
-
     <profile>
       <id>sftp</id>
       <activation>
@@ -306,7 +322,6 @@
         </plugins>
       </build>
     </profile>
-
     <profile>
       <id>http</id>
       <activation>
@@ -326,7 +341,6 @@
         </plugins>
       </build>
     </profile>
-
     <!-- On Windows we disable hdfs tests by default. -->
     <profile>
       <id>no-test-hdfs</id>
@@ -356,12 +370,10 @@
     <!-- Profile to build and run the benchmarks. Use 'mvn test -Pbenchmark', and add '-Dbenchmark=foo' to run only the foo benchmark -->
     <profile>
       <id>benchmark</id>
-
       <properties>
         <skipTests>true</skipTests>
         <benchmark>org.apache</benchmark>
       </properties>
-
       <dependencies>
         <dependency>
           <groupId>org.openjdk.jmh</groupId>
@@ -369,7 +381,6 @@
           <scope>test</scope>
         </dependency>
       </dependencies>
-
       <build>
         <plugins>
           <!-- Enable the compilation of the benchmarks -->
@@ -414,5 +425,4 @@
       </build>
     </profile>
   </profiles>
-
 </project>
