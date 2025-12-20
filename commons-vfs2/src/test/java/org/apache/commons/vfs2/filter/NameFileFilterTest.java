@@ -23,7 +23,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -31,15 +30,15 @@ import org.junit.jupiter.api.Test;
  * Test for {@link NameFileFilter}.
  */
 // CHECKSTYLE:OFF Test code
-@DisplayName("NameFileFilter Tests")
+/** NameFileFilter Tests */
 public class NameFileFilterTest extends BaseFilterTest {
 
     @Nested
-    @DisplayName("List-based filtering")
+    /** List-based filtering */
     class ListBasedFiltering {
 
         @Test
-        @DisplayName("Should accept files matching names in list (default case sensitivity)")
+        /** Should accept files matching names in list (default case sensitivity) */
         public void testAcceptList() {
             // PREPARE
             final List<String> list = new ArrayList<>();
@@ -55,7 +54,7 @@ public class NameFileFilterTest extends BaseFilterTest {
         }
 
         @Test
-        @DisplayName("Should accept files matching names in list (case insensitive)")
+        /** Should accept files matching names in list (case insensitive) */
         public void testAcceptListIOCaseInsensitive() {
             // PREPARE
             final List<String> list = new ArrayList<>();
@@ -71,7 +70,7 @@ public class NameFileFilterTest extends BaseFilterTest {
         }
 
         @Test
-        @DisplayName("Should accept files matching names in list (case sensitive)")
+        /** Should accept files matching names in list (case sensitive) */
         public void testAcceptListIOCaseSensitive() {
             // PREPARE
             final List<String> list = new ArrayList<>();
@@ -88,11 +87,11 @@ public class NameFileFilterTest extends BaseFilterTest {
     }
 
     @Nested
-    @DisplayName("String-based filtering")
+    /** String-based filtering */
     class StringBasedFiltering {
 
         @Test
-        @DisplayName("Should accept files matching exact name (default case sensitivity)")
+        /** Should accept files matching exact name (default case sensitivity) */
         public void testAcceptString() {
             // PREPARE
             final NameFileFilter filter = new NameFileFilter("test1.txt");
@@ -105,7 +104,7 @@ public class NameFileFilterTest extends BaseFilterTest {
         }
 
         @Test
-        @DisplayName("Should accept files matching exact name (case insensitive)")
+        /** Should accept files matching exact name (case insensitive) */
         public void testAcceptStringIOCaseInsensitive() {
             // PREPARE
             final NameFileFilter filter = new NameFileFilter(IOCase.INSENSITIVE, "test2.txt");
@@ -118,7 +117,7 @@ public class NameFileFilterTest extends BaseFilterTest {
         }
 
         @Test
-        @DisplayName("Should accept files matching exact name (case sensitive)")
+        /** Should accept files matching exact name (case sensitive) */
         public void testAcceptStringIOCaseSensitive() {
             // PREPARE
             final NameFileFilter filter = new NameFileFilter(IOCase.SENSITIVE, "test2.txt");

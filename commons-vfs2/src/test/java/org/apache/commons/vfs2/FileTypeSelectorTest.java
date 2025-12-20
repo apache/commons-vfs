@@ -20,15 +20,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * Tests FileTypeSelector.
  */
-@DisplayName("FileTypeSelector Tests")
+/** FileTypeSelector Tests */
 public class FileTypeSelectorTest {
 
     private static FileObject baseFolder;
@@ -69,7 +67,7 @@ public class FileTypeSelectorTest {
         "FILE, 5",
         "FOLDER, 8"
     })
-    @DisplayName("Test file type selector with different file types")
+    /** Test file type selector with different file types */
     public void testFileTypeSelector(final FileType fileType, final int expectedCount) throws Exception {
         final FileSelector selector = new FileTypeSelector(fileType);
         final FileObject[] foList = baseFolder.findFiles(selector);

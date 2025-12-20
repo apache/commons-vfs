@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider.http;
 
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.time.Duration;
@@ -32,12 +33,9 @@ import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.util.NHttpFileServer;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * JUnit 5 test cases for the HTTP provider.
@@ -45,7 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * This class replaces {@link HttpProviderTestCase} with a pure JUnit 5 implementation.
  * </p>
  */
-@DisplayName("HTTP Provider Tests")
+/** HTTP Provider Tests */
 @Tag("provider")
 @Tag("http")
 @Tag("network")

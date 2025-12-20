@@ -24,7 +24,6 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.PermissionsTests;
 import org.apache.commons.vfs2.ProviderTestSuiteJunit5;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.TestInstance;
 
@@ -34,7 +33,7 @@ import org.junit.jupiter.api.TestInstance;
  * This class replaces {@link LocalProviderTestCase} with a pure JUnit 5 implementation.
  * </p>
  */
-@DisplayName("Local File System Provider Tests")
+/** Local File System Provider Tests */
 @Tag("provider")
 @Tag("local")
 @Tag("filesystem")
