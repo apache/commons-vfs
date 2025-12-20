@@ -81,30 +81,28 @@ public class PermissionsTests extends AbstractProviderTestCase {
     @AfterEach
     public void tearDown() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
-        final FileObject file = scratchFolder.resolveFile(FILE_NAME);
+        final FileObject fileObject = scratchFolder.resolveFile(FILE_NAME);
         try {
-            file.setReadable(true, false);
-            file.getParent().setReadable(true, false);
+            fileObject.setReadable(true, false);
+            fileObject.getParent().setReadable(true, false);
         } catch (final FileSystemException e) {
             e.printStackTrace();
         }
         try {
-            file.setWritable(true, false);
-            file.getParent().setWritable(true, false);
+            fileObject.setWritable(true, false);
+            fileObject.getParent().setWritable(true, false);
         } catch (final FileSystemException e) {
             e.printStackTrace();
         }
-        if (!file.delete()) {
-            final Path path = file.getPath();
-            if ((getFileSystem() instanceof LocalFileSystem)
-                    && (PathUtils.deleteFile(path, StandardDeleteOption.OVERRIDE_READ_ONLY).getFileCounter().get() == 0)) {
-                File f = path.toFile();
-                if (!f.delete()) {
-                    f.deleteOnExit();
-                }
-                if (f.exists()) {
-                    System.err.println("Test tear down can't delete " + path);
-                }
+        final Path path = fileObject.getPath();
+        if ((getFileSystem() instanceof LocalFileSystem) && (PathUtils.deleteFile(path, StandardDeleteOption.OVERRIDE_READ_ONLY).getFileCounter().get() == 0)) {
+            File file = path.toFile();
+            if (!file.delete()) {
+                System.err.println("\tTest deleteOnExit: " + path);
+                file.deleteOnExit();
+            }
+            if (file.exists()) {
+                System.err.println("\tTest tear down can't delete " + path);
             }
         }
     }
