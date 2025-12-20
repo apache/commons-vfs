@@ -18,7 +18,6 @@ package org.apache.commons.vfs2.provider.ftp;
 
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 
-import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;

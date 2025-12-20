@@ -19,7 +19,6 @@ package org.apache.commons.vfs2.provider.ftp;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
-import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
@@ -29,7 +28,6 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.IPv6LocalConnectionTests;
 import org.apache.commons.vfs2.ProviderTestSuiteJunit5;
-import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.GenericFileName;
 import org.junit.jupiter.api.Test;

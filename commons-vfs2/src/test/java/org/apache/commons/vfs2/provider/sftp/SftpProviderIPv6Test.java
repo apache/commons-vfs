@@ -25,9 +25,9 @@ import java.io.IOException;
 
 import org.apache.commons.io.input.NullInputStream;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
+import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
-import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;

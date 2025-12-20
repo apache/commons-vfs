@@ -20,6 +20,7 @@ import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
@@ -27,7 +28,6 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.ProviderTestSuiteJunit5;
-import org.apache.commons.vfs2.impl.DecoratedFileObject;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.ftpserver.FtpServer;
 import org.apache.ftpserver.FtpServerFactory;
@@ -44,8 +44,6 @@ import org.apache.ftpserver.usermanager.impl.BaseUser;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.TestInstance;
-
-import java.net.URL;
 
 /**
  * JUnit 5 tests for FTP file systems with homeDirIsRoot=true.

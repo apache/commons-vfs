@@ -20,7 +20,6 @@ import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
