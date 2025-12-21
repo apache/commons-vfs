@@ -71,7 +71,7 @@ public class PermissionsTests extends AbstractProviderTestCase {
     /**
      * Returns true if the file system is a LocalFileSystem on Windows
      */
-    private boolean isWindows() {
+    private boolean isWindowsLocal() {
         return SystemUtils.IS_OS_WINDOWS && getFileSystem() instanceof LocalFileSystem;
     }
 
@@ -81,30 +81,28 @@ public class PermissionsTests extends AbstractProviderTestCase {
     @AfterEach
     public void tearDown() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
-        final FileObject file = scratchFolder.resolveFile(FILE_NAME);
+        final FileObject fileObject = scratchFolder.resolveFile(FILE_NAME);
         try {
-            file.setReadable(true, false);
-            file.getParent().setReadable(true, false);
+            fileObject.setReadable(true, false);
+            fileObject.getParent().setReadable(true, false);
         } catch (final FileSystemException e) {
             e.printStackTrace();
         }
         try {
-            file.setWritable(true, false);
-            file.getParent().setWritable(true, false);
+            fileObject.setWritable(true, false);
+            fileObject.getParent().setWritable(true, false);
         } catch (final FileSystemException e) {
             e.printStackTrace();
         }
-        if (!file.delete()) {
-            final Path path = file.getPath();
-            if ((getFileSystem() instanceof LocalFileSystem)
-                    && (PathUtils.deleteFile(path, StandardDeleteOption.OVERRIDE_READ_ONLY).getFileCounter().get() == 0)) {
-                File f = path.toFile();
-                if (!f.delete()) {
-                    f.deleteOnExit();
-                }
-                if (f.exists()) {
-                    System.err.println("Test tear down can't delete " + path);
-                }
+        final Path path = fileObject.getPath();
+        if ((getFileSystem() instanceof LocalFileSystem) && (PathUtils.deleteFile(path, StandardDeleteOption.OVERRIDE_READ_ONLY).getFileCounter().get() == 0)) {
+            File file = path.toFile();
+            if (!file.delete()) {
+                System.err.println("\tTest deleteOnExit: " + path);
+                file.deleteOnExit();
+            }
+            if (file.exists()) {
+                System.err.println("\tTest tear down can't delete " + path);
             }
         }
     }
@@ -116,7 +114,7 @@ public class PermissionsTests extends AbstractProviderTestCase {
     public void testExecutable() throws Exception {
         final FileObject file = createTestFile();
         // On Windows, all files are executable
-        if (isWindows()) {
+        if (isWindowsLocal()) {
             assertTrue(file.isExecutable(), "File expected to be executable: " + file);
         } else {
             // Set the executable flag for owner
@@ -137,7 +135,7 @@ public class PermissionsTests extends AbstractProviderTestCase {
     @Test
     public void testReadable() throws Exception {
         final FileObject file = createTestFile();
-        if (isWindows()) {
+        if (isWindowsLocal()) {
             // On Windows, all owned files are readable
             assertTrue(file.isReadable(), "File expected to be readable: " + file);
         } else {
@@ -168,6 +166,9 @@ public class PermissionsTests extends AbstractProviderTestCase {
         // Clear the write permission
         assertTrue(file.setWritable(false, true), "Setting write permission failed: " + file);
         assertFalse(file.isWriteable(), "File expected to be not writable: " + file);
+        // Set the write permission for all
+        assertTrue(file.setWritable(true, false), "Setting write permission failed: " + file);
+        assertTrue(file.isWriteable(), "File expected to be writable: " + file);
     }
 
 }
