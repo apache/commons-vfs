@@ -23,14 +23,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 import org.junit.jupiter.api.Test;
 
 /**
  */
 public class LocalFileRandomAccessContentTest {
-
-    private final int EOF = -1;
 
     /**
      * test LocalFileRandomAccessContent InputStream read one byte 0xff; see VFS-624.
@@ -39,16 +38,15 @@ public class LocalFileRandomAccessContentTest {
     public void testInputStreamRead0xff() throws IOException {
         // open test file,this file has only one byte data 0xff
         final File file = new File("src/test/resources/test-data/0xff_file.txt");
-
         // read test data,first data should be 0xFF instead of -1. Will read -1 finally (EOF)
-        try (InputStream in = new LocalFileRandomAccessContent(file, RandomAccessMode.READ).getInputStream()) {
+        try (@SuppressWarnings("resource") // acccess an ivar that closes the same resource.
+        InputStream in = new LocalFileRandomAccessContent(file, RandomAccessMode.READ).getInputStream()) {
             // read first data
             final int read = in.read();
-            assertNotEquals(EOF, read);
+            assertNotEquals(IOUtils.EOF, read);
             assertEquals(0xFF, read);
-
             // read EOF
-            assertEquals(EOF, in.read());
+            assertEquals(IOUtils.EOF, in.read());
         }
     }
 
