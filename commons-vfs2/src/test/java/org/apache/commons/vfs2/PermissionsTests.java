@@ -71,7 +71,7 @@ public class PermissionsTests extends AbstractProviderTestCase {
     /**
      * Returns true if the file system is a LocalFileSystem on Windows
      */
-    private boolean isWindows() {
+    private boolean isWindowsLocal() {
         return SystemUtils.IS_OS_WINDOWS && getFileSystem() instanceof LocalFileSystem;
     }
 
@@ -114,7 +114,7 @@ public class PermissionsTests extends AbstractProviderTestCase {
     public void testExecutable() throws Exception {
         final FileObject file = createTestFile();
         // On Windows, all files are executable
-        if (isWindows()) {
+        if (isWindowsLocal()) {
             assertTrue(file.isExecutable(), "File expected to be executable: " + file);
         } else {
             // Set the executable flag for owner
@@ -135,7 +135,7 @@ public class PermissionsTests extends AbstractProviderTestCase {
     @Test
     public void testReadable() throws Exception {
         final FileObject file = createTestFile();
-        if (isWindows()) {
+        if (isWindowsLocal()) {
             // On Windows, all owned files are readable
             assertTrue(file.isReadable(), "File expected to be readable: " + file);
         } else {
@@ -166,6 +166,9 @@ public class PermissionsTests extends AbstractProviderTestCase {
         // Clear the write permission
         assertTrue(file.setWritable(false, true), "Setting write permission failed: " + file);
         assertFalse(file.isWriteable(), "File expected to be not writable: " + file);
+        // Set the write permission for all
+        assertTrue(file.setWritable(true, false), "Setting write permission failed: " + file);
+        assertTrue(file.isWriteable(), "File expected to be writable: " + file);
     }
 
 }
