@@ -41,7 +41,7 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Constructor
+     * Constructs a new instance.
      */
     private RamFileSystemConfigBuilder() {
         super("ram.");
