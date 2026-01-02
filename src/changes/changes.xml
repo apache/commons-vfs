@@ -67,7 +67,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="ggregory" type="add" due-to="Gary Gregory">Add FileObject.close(FileObject).</action>
       <action dev="ggregory" type="add" due-to="Michael Hausegger">Add tests to SizeFileFilterTest and URIUtilsTest #743.</action>
       <!-- UPDATE -->
-      <action dev="ggregory" type="update" due-to="Gary Gregory, Dependabot">Bump org.apache.commons:commons-parent from 81 to 92 #715, #721, #742.</action>
+      <action dev="ggregory" type="update" due-to="Gary Gregory, Dependabot">Bump org.apache.commons:commons-parent from 81 to 94 #715, #721, #742.</action>
       <action dev="ggregory" type="update" due-to="Gary Gregory">Bump org.apache.ftpserver:ftpserver-core from 1.2.0 to 1.2.1.</action>
       <action dev="ggregory" type="update" due-to="Gary Gregory">Bump org.apache.mina:mina-core from 2.1.10 to 2.2.5 #745.</action>
       <action dev="ggregory" type="update" due-to="Gary Gregory, Dependabot">Bump org.apache.httpcomponents.client5:httpclient5 from 5.4.1 to 5.6 #658, #667, #684, #690, #726.</action>
