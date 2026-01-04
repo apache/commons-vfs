@@ -33,6 +33,7 @@ import org.apache.commons.vfs2.provider.FileProvider;
  * A provider for SMB (Samba, Windows share) file systems.
  */
 public class SmbFileProvider extends AbstractOriginatingFileProvider implements FileProvider {
+
     /** Authentication data supported by this provider. */
     public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = {
             UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD, UserAuthenticationData.DOMAIN };
