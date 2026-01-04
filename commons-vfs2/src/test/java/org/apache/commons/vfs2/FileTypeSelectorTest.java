@@ -26,7 +26,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 /**
  * Tests FileTypeSelector.
  */
-/** FileTypeSelector Tests */
 public class FileTypeSelectorTest {
 
     private static FileObject baseFolder;
