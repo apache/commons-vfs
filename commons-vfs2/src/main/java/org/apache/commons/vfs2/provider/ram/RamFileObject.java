@@ -183,8 +183,8 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem> {
      * (non-Javadoc)
      *
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doSetLastModifiedTime(long)
+     * @since 2.0
      */
-    /** @since 2.0 */
     @Override
     protected boolean doSetLastModifiedTime(final long modtime) throws Exception {
         data.setLastModified(modtime);
