@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.filter.FileFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class FileFileFilterExample {
+
     /**
      * Invokes this example from the command line.
      *

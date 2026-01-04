@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.filter.EmptyFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class EmptyFileFilterExample {
+
     /**
      * Invokes this example from the command line.
      *

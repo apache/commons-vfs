@@ -58,6 +58,7 @@ public final class Shell {
             return "N/A";
         }
     }
+
     /**
      * Invokes this example from the command line.
      *

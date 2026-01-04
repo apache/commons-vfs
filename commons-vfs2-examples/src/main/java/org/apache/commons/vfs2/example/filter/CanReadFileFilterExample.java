@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.filter.CanReadFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class CanReadFileFilterExample {
+
     /**
      * Invokes this example from the command line.
      *

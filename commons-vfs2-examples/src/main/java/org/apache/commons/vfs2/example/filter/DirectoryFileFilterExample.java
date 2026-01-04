@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.filter.DirectoryFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class DirectoryFileFilterExample {
+
     /**
      * Invokes this example from the command line.
      *

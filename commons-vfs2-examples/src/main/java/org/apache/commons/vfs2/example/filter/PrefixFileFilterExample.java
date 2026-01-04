@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.filter.PrefixFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class PrefixFileFilterExample {
+
     /**
      * Invokes this example from the command line.
      *

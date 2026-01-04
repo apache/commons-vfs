@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.VFS;
  * Example which prints all properties of the file passed as first parameter.
  */
 public final class ShowProperties {
+
     /** Maximum number of children to show. */
     private static final int SHOW_MAX = 5;
 

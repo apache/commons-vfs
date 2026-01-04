@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.filter.CanWriteFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class CanWriteFileFilterExample {
+
     /**
      * Invokes this example from the command line.
      *

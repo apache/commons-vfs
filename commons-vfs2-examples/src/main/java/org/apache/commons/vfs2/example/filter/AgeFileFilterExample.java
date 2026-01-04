@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.filter.AgeFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class AgeFileFilterExample {
+
     /**
      * Invokes this example from the command line.
      *

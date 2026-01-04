@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.filter.SuffixFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class SuffixFileFilterExample {
+
     /**
      * Invokes this example from the command line.
      *

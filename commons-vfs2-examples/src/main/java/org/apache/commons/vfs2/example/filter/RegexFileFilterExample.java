@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.filter.RegexFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class RegexFileFilterExample {
+
     /**
      * Invokes this example from the command line.
      *

@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.filter.WildcardFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class WildcardFileFilterExample {
+
     /**
      * Invokes this example from the command line.
      *

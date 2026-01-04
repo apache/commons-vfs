@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.filter.SizeFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class SizeFileFilterExample {
+
     /**
      * Invokes this example from the command line.
      *

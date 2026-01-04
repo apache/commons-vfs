@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.filter.HiddenFileFilter;
  */
 // CHECKSTYLE:OFF Example code
 public final class HiddenFileFilterExample {
+
     /**
      * Invokes this example from the command line.
      *
