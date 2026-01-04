@@ -218,7 +218,6 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-    /**
      * Gets the connection timeout.
      *
      * @param opts The FileSystem options.
