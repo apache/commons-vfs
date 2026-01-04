@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Test;
  * Tests {@link Webdav4FileName}.
  */
 public class Webdav4FileNameTest {
+
     /**
      * If the resolved path ends without a '/'
      */
