@@ -257,6 +257,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
     public String getKeyStoreFile(final FileSystemOptions opts) {
         return getParam(opts, KEYSTORE_FILE);
     }
+
     /**
      * Gets keystore pass phrase for SSL connections.
      * @param opts the file system options to modify
@@ -285,6 +286,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
     public int getMaxConnectionsPerHost(final FileSystemOptions opts) {
         return getInteger(opts, MAX_HOST_CONNECTIONS, DEFAULT_MAX_HOST_CONNECTIONS);
     }
+
     /**
      * Gets the maximum number of connections allowed.
      *

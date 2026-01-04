@@ -39,6 +39,7 @@ import com.jcraft.jsch.SocketFactory;
  * @since 2.1
  */
 public class SftpStreamProxy implements Proxy {
+
     /**
      * Command format using bash built-in TCP stream.
      */

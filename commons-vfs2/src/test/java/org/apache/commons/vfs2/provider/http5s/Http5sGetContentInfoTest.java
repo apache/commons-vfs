@@ -79,6 +79,7 @@ public class Http5sGetContentInfoTest {
             builder.setKeyStoreType(opts, "JCEKS");
             return opts;
         }
+
     /**
      * Tests VFS-427 NPE on Http5FileObject.getContent().getContentInfo().
      *

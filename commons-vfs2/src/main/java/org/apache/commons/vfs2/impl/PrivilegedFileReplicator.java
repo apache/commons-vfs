@@ -39,6 +39,7 @@ public class PrivilegedFileReplicator implements FileReplicator, VfsComponent {
      * An action that closes the wrapped replicator.
      */
     private final class CloseAction implements PrivilegedAction<Object> {
+
         /**
          * Performs the action.
          */
@@ -48,10 +49,12 @@ public class PrivilegedFileReplicator implements FileReplicator, VfsComponent {
             return null;
         }
     }
+
     /**
      * An action that initializes the wrapped replicator.
      */
     private final class InitAction implements PrivilegedExceptionAction<Object> {
+
         /**
          * Performs the action.
          */

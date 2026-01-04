@@ -607,6 +607,7 @@ public class Http5FileSystemConfigBuilder extends FileSystemConfigBuilder {
     public void setProxyPort(final FileSystemOptions opts, final int proxyPort) {
         setParam(opts, "proxyPort", Integer.valueOf(proxyPort));
     }
+
     /**
      * Sets the proxy-scheme to use for http connection. You have to set the ProxyHost too if you would like to have the
      * proxy really used.

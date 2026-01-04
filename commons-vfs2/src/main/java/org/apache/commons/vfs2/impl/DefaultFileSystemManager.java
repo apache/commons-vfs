@@ -139,6 +139,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * The cache strategy
      */
     private CacheStrategy fileCacheStrategy;
+
     /**
      * Class which decorates all returned fileObjects
      */

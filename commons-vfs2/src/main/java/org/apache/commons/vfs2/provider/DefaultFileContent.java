@@ -90,6 +90,7 @@ public final class DefaultFileContent implements FileContent {
             }
         }
     }
+
     /**
      * An output stream for writing content.
      */
@@ -135,6 +136,7 @@ public final class DefaultFileContent implements FileContent {
             }
         }
     }
+
     /**
      * An input/output stream for reading/writing content on random positions
      */

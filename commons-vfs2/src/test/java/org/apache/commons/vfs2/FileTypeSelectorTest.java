@@ -66,6 +66,7 @@ public class FileTypeSelectorTest {
         "FILE, 5",
         "FOLDER, 8"
     })
+
     /** Test file type selector with different file types */
     public void testFileTypeSelector(final FileType fileType, final int expectedCount) throws Exception {
         final FileSelector selector = new FileTypeSelector(fileType);

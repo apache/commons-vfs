@@ -99,6 +99,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
             }
         }
     }
+
     /**
      * An OutputStream that monitors for end-of-file.
      */
