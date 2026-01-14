@@ -57,7 +57,7 @@ public interface FileSystemManager extends AutoCloseable {
      * Adds the specified FileOperationProvider for the specified scheme.
      * <p>
      * Several FileOperationProvider's might be registered for the same scheme. For example, for {@code "file"} scheme
-     * we can register {@code SvnWsOperationProvider} and {@code CvsOperationProvider.}
+     * we can register {@code SvnWsOperationProvider} and {@code CvsOperationProvider}.
      * </p>
      *
      * @param scheme The scheme associated with this provider.
