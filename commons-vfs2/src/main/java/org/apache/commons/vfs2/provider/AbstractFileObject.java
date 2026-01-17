@@ -1337,17 +1337,11 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             if (!fileSystem.hasCapability(Capability.RANDOM_ACCESS_READ)) {
                 throw new FileSystemException("vfs.provider/random-access-read-not-supported.error");
             }
-            if (!isReadable()) {
-                throw new FileSystemException("vfs.provider/read-not-readable.error", fileName);
-            }
         }
 
         if (mode.requestWrite()) {
             if (!fileSystem.hasCapability(Capability.RANDOM_ACCESS_WRITE)) {
                 throw new FileSystemException("vfs.provider/random-access-write-not-supported.error");
-            }
-            if (!isWriteable()) {
-                throw new FileSystemException("vfs.provider/write-read-only.error", fileName);
             }
         }
 
