@@ -336,22 +336,18 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
         synchronized (monitorMap) {
             if (monitorMap.get(file.getName()) == null) {
                 monitorMap.put(file.getName(), new FileMonitorAgent(this, file));
-
                 try {
                     if (listener != null) {
                         file.getFileSystem().addListener(file, listener);
                     }
-
                     if (file.getType().hasChildren() && recursive) {
                         // Traverse the children
                         // Add depth first
                         Stream.of(file.getChildren()).forEach(this::addFile);
                     }
-
                 } catch (final FileSystemException fse) {
                     LOG.error(fse.getLocalizedMessage(), fse);
                 }
-
             }
         }
     }
@@ -364,7 +360,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
             try {
                 monitorThread.join();
             } catch (final InterruptedException e) {
-                // ignore
+                Thread.currentThread().interrupt();
             }
             monitorThread = null;
         }
@@ -451,9 +447,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
                 } catch (final FileSystemException fse) {
                     parent = null;
                 }
-
                 monitorMap.remove(fn);
-
                 if (parent != null) { // Not the root
                     final FileMonitorAgent parentAgent = monitorMap.get(parent.getName());
                     if (parentAgent != null) {
@@ -484,35 +478,30 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
                 if (agent != null) {
                     agent.check();
                 }
-
                 if (getChecksPerRun() > 0 && (iterFileNames + 1) % getChecksPerRun() == 0) {
                     try {
                         Thread.sleep(getDelayDuration().toMillis());
                     } catch (final InterruptedException e) {
-                        // Woke up.
+                        Thread.currentThread().interrupt();
                     }
                 }
-
                 if (monitorThread.isInterrupted() || !runFlag) {
                     continue mainloop;
                 }
             }
-
             while (!addStack.empty()) {
                 addFile(addStack.pop());
             }
-
             while (!deleteStack.empty()) {
                 removeFile(deleteStack.pop());
             }
-
             try {
                 Thread.sleep(getDelayDuration().toMillis());
             } catch (final InterruptedException e) {
+                Thread.currentThread().interrupt();
                 continue;
             }
         }
-
         runFlag = true;
     }
 
