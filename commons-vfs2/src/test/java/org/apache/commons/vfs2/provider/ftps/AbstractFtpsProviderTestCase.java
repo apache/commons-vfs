@@ -132,6 +132,7 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
             try {
                 Thread.sleep(100);
             } catch (final InterruptedException e) {
+                Thread.currentThread().interrupt();
                 e.printStackTrace();
             }
         }
@@ -164,6 +165,7 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
                 try {
                     Thread.sleep(millis);
                 } catch (final InterruptedException e) {
+                    Thread.currentThread().interrupt();
                     e.printStackTrace();
                 }
             }
