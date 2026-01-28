@@ -186,6 +186,7 @@ public class SftpFileSystem extends AbstractFileSystem {
                     Thread.sleep(SLEEP_MILLIS);
                 } catch (final InterruptedException e) {
                     // Someone asked us to stop.
+                    Thread.currentThread().interrupt();
                     break;
                 }
             }
