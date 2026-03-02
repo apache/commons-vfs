@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.util;
 
 import org.apache.commons.lang3.CharSequenceUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.UserAuthenticator;
@@ -34,10 +35,8 @@ public final class UserAuthenticatorUtils {
      * @param authenticatorTypes An array of types describing the data to be retrieved.
      * @return A UserAuthenticationData object containing the data requested.
      */
-    public static UserAuthenticationData authenticate(final FileSystemOptions options,
-        final UserAuthenticationData.Type[] authenticatorTypes) {
-        final UserAuthenticator auth = DefaultFileSystemConfigBuilder.getInstance().getUserAuthenticator(options);
-        return authenticate(auth, authenticatorTypes);
+    public static UserAuthenticationData authenticate(final FileSystemOptions options, final UserAuthenticationData.Type[] authenticatorTypes) {
+        return authenticate(DefaultFileSystemConfigBuilder.getInstance().getUserAuthenticator(options), authenticatorTypes);
     }
 
     /**
@@ -49,10 +48,7 @@ public final class UserAuthenticatorUtils {
      */
     public static UserAuthenticationData authenticate(final UserAuthenticator auth,
             final UserAuthenticationData.Type[] authenticatorTypes) {
-        if (auth == null) {
-            return null;
-        }
-        return auth.requestAuthentication(authenticatorTypes);
+        return auth != null ? auth.requestAuthentication(authenticatorTypes) : null;
     }
 
     /**
@@ -78,18 +74,15 @@ public final class UserAuthenticatorUtils {
         if (overriddenValue != null) {
             return overriddenValue;
         }
-        if (data == null) {
-            return null;
-        }
-        return data.getData(type);
+        return data != null ? data.getData(type) : null;
     }
 
     /**
      * Converts a string to a char array (null-safe).
      *
      * @param string The String to convert.
-     * @return The character array.
-     * @deprecated Use {@link CharSequenceUtils#toCharArray(CharSequence)} instead.
+     * @return A new character array.
+     * @deprecated Use {@link CharSequenceUtils#toCharArray(CharSequence)}.
      */
     @Deprecated
     public static char[] toChar(final String string) {
@@ -100,13 +93,12 @@ public final class UserAuthenticatorUtils {
      * Converts the given data to a string (null-safe).
      *
      * @param data A character array containing the data to convert to a String.
-     * @return The String.
+     * @return A new String.
+     * @deprecated Use {@link StringUtils#valueOf(char[])}.
      */
+    @Deprecated
     public static String toString(final char[] data) {
-        if (data == null) {
-            return null;
-        }
-        return new String(data);
+        return StringUtils.valueOf(data);
     }
 
     private UserAuthenticatorUtils() {

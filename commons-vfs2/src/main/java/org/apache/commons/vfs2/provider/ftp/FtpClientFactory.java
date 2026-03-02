@@ -36,7 +36,6 @@ import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.ftp.parser.FTPFileEntryParserFactory;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
-import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 
 /**
  * Creates {@link FtpClient} instances.
@@ -185,8 +184,8 @@ public final class FtpClientFactory {
                         throw new FileSystemException("vfs.provider.ftp/connect-rejected.error", hostname);
                     }
                     // Login
-                    if (!client.login(UserAuthenticatorUtils.toString(username), UserAuthenticatorUtils.toString(password))) {
-                        throw new FileSystemException("vfs.provider.ftp/login.error", hostname, UserAuthenticatorUtils.toString(username));
+                    if (!client.login(StringUtils.valueOf(username), StringUtils.valueOf(password))) {
+                        throw new FileSystemException("vfs.provider.ftp/login.error", hostname, StringUtils.valueOf(username));
                     }
                     FtpFileType fileType = builder.getFileType(fileSystemOptions);
                     if (fileType == null) {

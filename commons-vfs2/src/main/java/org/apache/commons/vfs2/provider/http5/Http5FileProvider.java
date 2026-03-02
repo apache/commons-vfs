@@ -232,7 +232,7 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
         final BasicCredentialsProvider credsProvider = new BasicCredentialsProvider();
         clientContext.setCredentialsProvider(credsProvider);
 
-        final String username = UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
+        final String username = StringUtils.valueOf(UserAuthenticatorUtils.getData(authData,
                 UserAuthenticationData.USERNAME, CharSequenceUtils.toCharArray(rootName.getUserName())));
         final char[] password = UserAuthenticatorUtils.getData(authData,
                 UserAuthenticationData.PASSWORD, CharSequenceUtils.toCharArray(rootName.getPassword()));
@@ -254,7 +254,7 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
 
                 if (proxyAuthData != null) {
                     final UsernamePasswordCredentials proxyCreds = new UsernamePasswordCredentials(
-                            UserAuthenticatorUtils.toString(
+                            StringUtils.valueOf(
                                     UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.USERNAME, null)),
                             UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.PASSWORD, null));
 

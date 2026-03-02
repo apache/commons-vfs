@@ -241,9 +241,9 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
         final CredentialsProvider credsProvider = new BasicCredentialsProvider();
         clientContext.setCredentialsProvider(credsProvider);
 
-        final String username = UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
+        final String username = StringUtils.valueOf(UserAuthenticatorUtils.getData(authData,
                 UserAuthenticationData.USERNAME, CharSequenceUtils.toCharArray(rootName.getUserName())));
-        final String password = UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
+        final String password = StringUtils.valueOf(UserAuthenticatorUtils.getData(authData,
                 UserAuthenticationData.PASSWORD, CharSequenceUtils.toCharArray(rootName.getPassword())));
 
         if (!StringUtils.isEmpty(username)) {
@@ -262,9 +262,9 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
 
                 if (proxyAuthData != null) {
                     final UsernamePasswordCredentials proxyCreds = new UsernamePasswordCredentials(
-                            UserAuthenticatorUtils.toString(
+                            StringUtils.valueOf(
                                     UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.USERNAME, null)),
-                            UserAuthenticatorUtils.toString(
+                            StringUtils.valueOf(
                                     UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.PASSWORD, null)));
 
                     credsProvider.setCredentials(new AuthScope(proxyHost.getHostName(), proxyHost.getPort()),

@@ -24,6 +24,7 @@ import java.nio.file.FileSystemException;
 import javax.tools.FileObject;
 
 import org.apache.commons.lang3.CharSequenceUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.FileTypeHasNoContentException;
@@ -76,7 +77,7 @@ public class SmbFileObject extends AbstractFileObject<SmbFileSystem> {
             NtlmPasswordAuthentication auth = null;
             if (authData != null) {
                 auth = new NtlmPasswordAuthentication(
-                        UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
+                        StringUtils.valueOf(UserAuthenticatorUtils.getData(authData,
                                 UserAuthenticationData.DOMAIN, CharSequenceUtils.toCharArray(smbFileName.getDomain()))),
                         UserAuthenticatorUtils
                                 .toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
