@@ -24,13 +24,15 @@ import org.junit.jupiter.api.Test;
 
 public class UserAuthenticationDataTest {
 
+    private static final char[] DATA = "PMC".toCharArray();
+    
     @Test
     public void testCharacterBasedData() {
         final UserAuthenticationData data = new UserAuthenticationData();
-        final char[] array = "PMC".toCharArray();
+        final char[] array = DATA.clone();
         data.setData(UserAuthenticationData.USERNAME, array);
         data.setData(UserAuthenticationData.DOMAIN, "Apache".toCharArray());
-        assertSame(array, data.getData(UserAuthenticationData.USERNAME));
+        assertArrayEquals(array, data.getData(UserAuthenticationData.USERNAME));
         assertArrayEquals("Apache".toCharArray(), data.getData(UserAuthenticationData.DOMAIN));
         data.setData(UserAuthenticationData.DOMAIN, "Apache Commons".toCharArray());
         assertArrayEquals("Apache Commons".toCharArray(), data.getData(UserAuthenticationData.DOMAIN));
@@ -39,17 +41,16 @@ public class UserAuthenticationDataTest {
         data.cleanup();
         assertNull(data.getData(UserAuthenticationData.USERNAME));
         assertNull(data.getData(UserAuthenticationData.DOMAIN));
-        final char[] nulls = { 0, 0, 0 };
-        assertArrayEquals(nulls, array);
+        assertArrayEquals(DATA, array);
     }
 
     @Test
     public void testCustomType() {
         final UserAuthenticationData.Type type = new UserAuthenticationData.Type("JUNIT");
         final UserAuthenticationData data = new UserAuthenticationData();
-        final char[] array = "test".toCharArray();
+        final char[] array = DATA.clone();
         data.setData(type, array);
-        assertSame(array, data.getData(type));
+        assertArrayEquals(array, data.getData(type));
     }
 
 }

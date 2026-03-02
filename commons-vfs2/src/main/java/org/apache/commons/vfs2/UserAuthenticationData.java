@@ -21,6 +21,7 @@ import java.util.Objects;
 import java.util.TreeMap;
 
 import org.apache.commons.lang3.ArrayFill;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * Contains various authentication data.
@@ -61,7 +62,8 @@ public class UserAuthenticationData {
         }
 
         /**
-         * @return The hash code.
+         * {@inheritDoc}
+         *
          * @since 2.0
          */
         @Override
@@ -70,6 +72,8 @@ public class UserAuthenticationData {
         }
 
         /**
+         * {@inheritDoc}
+         *
          * @return The type.
          * @since 2.0
          */
@@ -99,7 +103,7 @@ public class UserAuthenticationData {
     }
 
     /**
-     * Deletes all data stored within this authenticator.
+     * Clears all data stored within this authenticator.
      */
     public void cleanup() {
         // step 1: nullify character buffers
@@ -121,12 +125,12 @@ public class UserAuthenticationData {
     }
 
     /**
-     * Sets a data to this collection.
+     * Sets a typed char array. The array is cloned before storage.
      *
-     * @param type The Type to add
-     * @param data The data associated with the Type
+     * @param type The Type to add.
+     * @param data The data associated with the Type.
      */
     public void setData(final Type type, final char[] data) {
-        authenticationData.put(type, data);
+        authenticationData.put(type, ObjectUtils.clone(data));
     }
 }
