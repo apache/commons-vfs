@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.ftps;
 
+import org.apache.commons.lang3.CharSequenceUtils;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPSClient;
 import org.apache.commons.vfs2.FileSystemException;
@@ -46,9 +47,9 @@ final class FtpsClientWrapper extends FTPClientWrapper {
             throws FileSystemException {
         return FtpsClientFactory.createConnection(rootName.getHostName(), rootName.getPort(),
                 UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
-                        UserAuthenticatorUtils.toChar(rootName.getUserName())),
+                        CharSequenceUtils.toCharArray(rootName.getUserName())),
                 UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
-                        UserAuthenticatorUtils.toChar(rootName.getPassword())),
+                        CharSequenceUtils.toCharArray(rootName.getPassword())),
                 rootName.getPath(), getFileSystemOptions());
     }
 }

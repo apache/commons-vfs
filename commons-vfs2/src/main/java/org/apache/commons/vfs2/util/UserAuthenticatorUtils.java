@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.util;
 
+import org.apache.commons.lang3.CharSequenceUtils;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.UserAuthenticator;
@@ -88,12 +89,11 @@ public final class UserAuthenticatorUtils {
      *
      * @param string The String to convert.
      * @return The character array.
+     * @deprecated Use {@link CharSequenceUtils#toCharArray(CharSequence)} instead.
      */
+    @Deprecated
     public static char[] toChar(final String string) {
-        if (string == null) {
-            return null;
-        }
-        return string.toCharArray();
+        return CharSequenceUtils.toCharArray(string);
     }
 
     /**

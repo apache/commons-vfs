@@ -18,11 +18,11 @@ package org.apache.commons.vfs2.auth;
 
 import java.util.Objects;
 
+import org.apache.commons.lang3.CharSequenceUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.UserAuthenticator;
-import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 
 /**
  * Provides always the same credentials data passed in with the constructor.
@@ -117,11 +117,11 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
         final UserAuthenticationData data = new UserAuthenticationData();
         for (final UserAuthenticationData.Type type : types) {
             if (type == UserAuthenticationData.DOMAIN) {
-                data.setData(UserAuthenticationData.DOMAIN, UserAuthenticatorUtils.toChar(domain));
+                data.setData(UserAuthenticationData.DOMAIN, CharSequenceUtils.toCharArray(domain));
             } else if (type == UserAuthenticationData.USERNAME) {
-                data.setData(UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(userName));
+                data.setData(UserAuthenticationData.USERNAME, CharSequenceUtils.toCharArray(userName));
             } else if (type == UserAuthenticationData.PASSWORD) {
-                data.setData(UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(password));
+                data.setData(UserAuthenticationData.PASSWORD, CharSequenceUtils.toCharArray(password));
             } else if (LOG.isDebugEnabled()) {
                 LOG.debug(StaticUserAuthenticator.class.getSimpleName()
                         + " does not support authentication data type '" + type

@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.time.Instant;
 
+import org.apache.commons.lang3.CharSequenceUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.ftp.FTPClient;
@@ -126,9 +127,9 @@ public class FTPClientWrapper implements FtpClient {
         throws FileSystemException {
         return FtpClientFactory.createConnection(rootFileName.getHostName(), rootFileName.getPort(),
             UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
-                UserAuthenticatorUtils.toChar(rootFileName.getUserName())),
+                CharSequenceUtils.toCharArray(rootFileName.getUserName())),
             UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
-                UserAuthenticatorUtils.toChar(rootFileName.getPassword())),
+                CharSequenceUtils.toCharArray(rootFileName.getPassword())),
             rootFileName.getPath(), getFileSystemOptions());
     }
 

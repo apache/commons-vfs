@@ -34,6 +34,7 @@ import java.util.stream.Stream;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 
+import org.apache.commons.lang3.CharSequenceUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
@@ -232,9 +233,9 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
         clientContext.setCredentialsProvider(credsProvider);
 
         final String username = UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
-                UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName())));
+                UserAuthenticationData.USERNAME, CharSequenceUtils.toCharArray(rootName.getUserName())));
         final char[] password = UserAuthenticatorUtils.getData(authData,
-                UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword()));
+                UserAuthenticationData.PASSWORD, CharSequenceUtils.toCharArray(rootName.getPassword()));
 
         if (!StringUtils.isEmpty(username)) {
             // set root port

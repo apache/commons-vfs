@@ -19,10 +19,12 @@ package org.apache.commons.vfs2.provider.smb;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
+import java.nio.file.FileSystemException;
 
+import javax.tools.FileObject;
+
+import org.apache.commons.lang3.CharSequenceUtils;
 import org.apache.commons.vfs2.FileName;
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.FileTypeHasNoContentException;
 import org.apache.commons.vfs2.RandomAccessContent;
@@ -75,13 +77,13 @@ public class SmbFileObject extends AbstractFileObject<SmbFileSystem> {
             if (authData != null) {
                 auth = new NtlmPasswordAuthentication(
                         UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
-                                UserAuthenticationData.DOMAIN, UserAuthenticatorUtils.toChar(smbFileName.getDomain()))),
+                                UserAuthenticationData.DOMAIN, CharSequenceUtils.toCharArray(smbFileName.getDomain()))),
                         UserAuthenticatorUtils
                                 .toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
-                                        UserAuthenticatorUtils.toChar(smbFileName.getUserName()))),
+                                        CharSequenceUtils.toCharArray(smbFileName.getUserName()))),
                         UserAuthenticatorUtils
                                 .toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
-                                        UserAuthenticatorUtils.toChar(smbFileName.getPassword()))));
+                                        CharSequenceUtils.toCharArray(smbFileName.getPassword()))));
             }
 
             // if auth == null SmbFile uses default credentials

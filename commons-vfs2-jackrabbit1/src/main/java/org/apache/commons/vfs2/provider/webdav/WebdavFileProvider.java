@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.lang3.CharSequenceUtils;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
@@ -90,9 +91,9 @@ public class WebdavFileProvider extends HttpFileProvider {
             httpClient = HttpClientFactory.createConnection(WebdavFileSystemConfigBuilder.getInstance(), "http",
                     rootName.getHostName(), rootName.getPort(),
                     UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
-                            UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName()))),
+                            UserAuthenticationData.USERNAME, CharSequenceUtils.toCharArray(rootName.getUserName()))),
                     UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
-                            UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword()))),
+                            UserAuthenticationData.PASSWORD, CharSequenceUtils.toCharArray(rootName.getPassword()))),
                     fsOpts);
         } finally {
             UserAuthenticatorUtils.cleanup(authData);
