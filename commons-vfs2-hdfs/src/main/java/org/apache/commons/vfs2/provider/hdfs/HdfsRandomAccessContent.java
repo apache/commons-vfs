@@ -38,10 +38,10 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent {
     private final Path path;
 
     /**
-     * Create random access content.
+     * Creates a new instance for random access content.
      *
-     * @param path A Hadoop Path
-     * @param fs A Hadoop FileSystem
+     * @param path A Hadoop Path.
+     * @param fs A Hadoop FileSystem.
      * @throws IOException when the path cannot be processed.
      */
     public HdfsRandomAccessContent(final Path path, final FileSystem fs) throws IOException {
