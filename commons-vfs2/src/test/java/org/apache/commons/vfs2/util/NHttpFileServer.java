@@ -23,11 +23,13 @@ import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
@@ -56,12 +58,14 @@ import org.apache.hc.core5.http.nio.entity.AsyncEntityProducers;
 import org.apache.hc.core5.http.nio.entity.NoopEntityConsumer;
 import org.apache.hc.core5.http.nio.ssl.BasicServerTlsStrategy;
 import org.apache.hc.core5.http.nio.ssl.FixedPortStrategy;
+import org.apache.hc.core5.http.nio.support.AbstractAsyncServerAuthFilter;
 import org.apache.hc.core5.http.nio.support.AsyncResponseBuilder;
 import org.apache.hc.core5.http.nio.support.BasicRequestConsumer;
 import org.apache.hc.core5.http.protocol.HttpContext;
 import org.apache.hc.core5.http.protocol.HttpCoreContext;
 import org.apache.hc.core5.http.protocol.HttpDateGenerator;
 import org.apache.hc.core5.io.CloseMode;
+import org.apache.hc.core5.net.URIAuthority;
 import org.apache.hc.core5.reactor.IOReactorConfig;
 import org.apache.hc.core5.reactor.IOReactorStatus;
 import org.apache.hc.core5.reactor.ListenerEndpoint;
@@ -157,6 +161,40 @@ public final class NHttpFileServer {
 
     }
 
+    private static final class BasicAuthFilter extends AbstractAsyncServerAuthFilter<String> {
+
+        private final String expectedCredentials;
+        private final String realm;
+
+        BasicAuthFilter(final String username, final String password, final String realm) {
+            super(true);
+            this.expectedCredentials = username + ":" + password;
+            this.realm = realm;
+        }
+
+        @Override
+        protected boolean authenticate(final String challengeResponse, final URIAuthority authority,
+                final String requestUri, final HttpContext context) {
+            return expectedCredentials.equals(challengeResponse);
+        }
+
+        @Override
+        protected String generateChallenge(final String challengeResponse, final URIAuthority authority,
+                final String requestUri, final HttpContext context) {
+            return "Basic realm=\"" + realm + "\"";
+        }
+
+        @Override
+        protected String parseChallengeResponse(final String authorizationValue, final HttpContext context) throws HttpException {
+            if (authorizationValue == null || !authorizationValue.startsWith("Basic ")) {
+                return null;
+            }
+            final byte[] decoded = Base64.getDecoder().decode(authorizationValue.substring(6));
+            return new String(decoded, StandardCharsets.UTF_8);
+        }
+
+    }
+
     public static final boolean DEBUG = Boolean.getBoolean(NHttpFileServer.class.getSimpleName() + ".debug");
 
     public static void main(final String[] args) throws Exception {
@@ -184,17 +222,39 @@ public final class NHttpFileServer {
         return new NHttpFileServer(port, docRoot).start();
     }
 
+    public static NHttpFileServer startWithBasicAuth(final int port, final File docRoot, final long waitMillis, final String username, final String password) throws KeyManagementException, UnrecoverableKeyException,
+            NoSuchAlgorithmException, KeyStoreException, CertificateException, IOException, InterruptedException, ExecutionException {
+        return new NHttpFileServer(port, docRoot)
+                .withBasicAuth(username, password)
+                .start();
+    }
+
     private final File docRoot;
 
     private ListenerEndpoint listenerEndpoint;
 
     private final int port;
 
+    private String authRealm;
+
+    private String authUsername;
+
+    private String authPassword;
+
     private HttpAsyncServer server;
+
+
 
     private NHttpFileServer(final int port, final File docRoot) {
         this.port = port;
         this.docRoot = docRoot;
+    }
+
+    public NHttpFileServer withBasicAuth(final String username, final String password) {
+        this.authRealm = "restricted";
+        this.authUsername = username;
+        this.authPassword = password;
+        return this;
     }
 
     private void awaitTermination() throws InterruptedException {
@@ -248,10 +308,15 @@ public final class NHttpFileServer {
                 .build();
         // @formatter:on
 
-        server = bootstrap
-                .setExceptionCallback(Exception::printStackTrace)
+        bootstrap.setExceptionCallback(Exception::printStackTrace)
                 .setIOReactorConfig(config)
-                .register("*", new HttpFileHandler(docRoot)).create();
+                .register("*", new HttpFileHandler(docRoot));
+
+        if (authUsername != null) {
+            bootstrap.addFilterFirst("auth", new BasicAuthFilter(authUsername, authPassword, authRealm));
+        }
+
+        server = bootstrap.create();
 
         Runtime.getRuntime().addShutdownHook(new Thread(this::close));
 
