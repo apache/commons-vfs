@@ -107,8 +107,7 @@ public final class UserAuthenticatorUtils {
      * @since 2.11.0
      */
     public static char[] getPasswordChars(final GenericFileName rootName, final UserAuthenticationData authData) {
-        final String password = getPassword(rootName, authData);
-        return password != null ? password.toCharArray() : null;
+        return toChar(getPassword(rootName, authData));
     }
 
     /**
@@ -132,32 +131,27 @@ public final class UserAuthenticatorUtils {
      * @since 2.11.0
      */
     public static char[] getUserNameChars(final GenericFileName rootName, final UserAuthenticationData authData) {
-        final String userName = getUserName(rootName, authData);
-        return userName != null ? userName.toCharArray() : null;
+        return toChar(getUserName(rootName, authData));
     }
 
     /**
      * Converts a string to a char array (null-safe).
      *
      * @param string The String to convert.
-     * @return A new character array.
-     * @deprecated Use {@link CharSequenceUtils#toCharArray(CharSequence)}.
+     * @return The character array.
      */
-    @Deprecated
     public static char[] toChar(final String string) {
-        return CharSequenceUtils.toCharArray(string);
+        return string != null ? string.toCharArray() : null;
     }
 
     /**
      * Converts the given data to a string (null-safe).
      *
-     * @param data A character array containing the data to convert to a String.
-     * @return A new String.
-     * @deprecated Use {@link StringUtils#valueOf(char[])}.
+     * @param value A character array containing the data to convert to a String.
+     * @return The String.
      */
-    @Deprecated
-    public static String toString(final char[] data) {
-        return StringUtils.valueOf(data);
+    public static String toString(final char[] value) {
+        return value != null ? new String(value) : null;
     }
 
     private UserAuthenticatorUtils() {
