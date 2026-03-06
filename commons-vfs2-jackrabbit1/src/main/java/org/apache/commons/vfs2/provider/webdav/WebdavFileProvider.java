@@ -21,8 +21,6 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.lang3.CharSequenceUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
@@ -83,23 +81,18 @@ public class WebdavFileProvider extends HttpFileProvider {
         // Create the file system
         final GenericFileName rootName = (GenericFileName) name;
         final FileSystemOptions fsOpts = fileSystemOptions == null ? new FileSystemOptions() : fileSystemOptions;
-
         UserAuthenticationData authData = null;
         HttpClient httpClient;
         try {
             authData = UserAuthenticatorUtils.authenticate(fsOpts, AUTHENTICATOR_TYPES);
-
             httpClient = HttpClientFactory.createConnection(WebdavFileSystemConfigBuilder.getInstance(), "http",
                     rootName.getHostName(), rootName.getPort(),
-                    StringUtils.valueOf(UserAuthenticatorUtils.getData(authData,
-                            UserAuthenticationData.USERNAME, CharSequenceUtils.toCharArray(rootName.getUserName()))),
-                    StringUtils.valueOf(UserAuthenticatorUtils.getData(authData,
-                            UserAuthenticationData.PASSWORD, CharSequenceUtils.toCharArray(rootName.getPassword()))),
+                    UserAuthenticatorUtils.getUserName(rootName, authData),
+                    UserAuthenticatorUtils.getPassword(rootName, authData),
                     fsOpts);
         } finally {
             UserAuthenticatorUtils.cleanup(authData);
         }
-
         return new WebdavFileSystem(rootName, httpClient, fsOpts);
     }
 

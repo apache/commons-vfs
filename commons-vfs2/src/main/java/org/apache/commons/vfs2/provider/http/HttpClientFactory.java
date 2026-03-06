@@ -84,11 +84,8 @@ public final class HttpClientFactory {
 
                     if (authData != null) {
                         final UsernamePasswordCredentials proxyCreds = new UsernamePasswordCredentials(
-                            StringUtils.valueOf(
-                                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, null)),
-                            StringUtils.valueOf(
-                                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, null)));
-
+                            UserAuthenticatorUtils.getUserName(null, authData),
+                            UserAuthenticatorUtils.getPassword(null, authData));
                         final AuthScope scope = new AuthScope(proxyHost, AuthScope.ANY_PORT);
                         client.getState().setProxyCredentials(scope, proxyCreds);
                     }

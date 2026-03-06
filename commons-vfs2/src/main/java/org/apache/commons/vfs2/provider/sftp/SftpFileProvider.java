@@ -20,7 +20,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.apache.commons.lang3.CharSequenceUtils;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystem;
@@ -61,12 +60,9 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider {
         UserAuthenticationData authData = null;
         try {
             authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, AUTHENTICATOR_TYPES);
-
             return SftpClientFactory.createConnection(rootName.getHostName(), rootName.getPort(),
-                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
-                            CharSequenceUtils.toCharArray(rootName.getUserName())),
-                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
-                            CharSequenceUtils.toCharArray(rootName.getPassword())),
+                    UserAuthenticatorUtils.getUserNameChars(rootName, authData),
+                    UserAuthenticatorUtils.getPasswordChars(rootName, authData),
                     fileSystemOptions);
         } catch (final Exception e) {
             throw new FileSystemException("vfs.provider.sftp/connect.error", rootName, e);

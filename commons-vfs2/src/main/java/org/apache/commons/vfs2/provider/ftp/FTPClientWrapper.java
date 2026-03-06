@@ -21,7 +21,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.time.Instant;
 
-import org.apache.commons.lang3.CharSequenceUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.ftp.FTPClient;
@@ -118,19 +117,17 @@ public class FTPClientWrapper implements FtpClient {
     /**
      * Creates an FTPClient.
      *
-     * @param rootFileName the root file name.
+     * @param rootName the root file name.
      * @param authData authentication data.
      * @return an FTPClient.
      * @throws FileSystemException if an error occurs while establishing a connection.
      */
-    protected FTPClient createClient(final GenericFileName rootFileName, final UserAuthenticationData authData)
+    protected FTPClient createClient(final GenericFileName rootName, final UserAuthenticationData authData)
         throws FileSystemException {
-        return FtpClientFactory.createConnection(rootFileName.getHostName(), rootFileName.getPort(),
-            UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
-                CharSequenceUtils.toCharArray(rootFileName.getUserName())),
-            UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
-                CharSequenceUtils.toCharArray(rootFileName.getPassword())),
-            rootFileName.getPath(), getFileSystemOptions());
+        return FtpClientFactory.createConnection(rootName.getHostName(), rootName.getPort(),
+            UserAuthenticatorUtils.getUserNameChars(rootName, authData),
+            UserAuthenticatorUtils.getPasswordChars(rootName, authData),
+            rootName.getPath(), getFileSystemOptions());
     }
 
     @Override

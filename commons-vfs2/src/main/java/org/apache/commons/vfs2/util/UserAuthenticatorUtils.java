@@ -22,6 +22,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.UserAuthenticator;
 import org.apache.commons.vfs2.impl.DefaultFileSystemConfigBuilder;
+import org.apache.commons.vfs2.provider.GenericFileName;
 
 /**
  * Helps with authentication.
@@ -62,19 +63,77 @@ public final class UserAuthenticatorUtils {
         }
     }
 
+    private static String get(final String value, final UserAuthenticationData authData, final UserAuthenticationData.Type type) {
+        return StringUtils.valueOf(getData(authData, type, value != null ? CharSequenceUtils.toCharArray(value) : null));
+    }
+
     /**
      * Gets a copy of the data of a given type from the UserAuthenticationData or null if there is no data or data of this type available.
      *
      * @param data            The UserAuthenticationData.
      * @param type            The type of the element to retrieve.
-     * @param overrideValue The override value.
+     * @param override The override value.
      * @return The data of the given type as a character array or null if the data is not available.
+     * @see #getPassword(GenericFileName, UserAuthenticationData)
+     * @see #getPasswordChars(GenericFileName, UserAuthenticationData)
+     * @see #getUserName(GenericFileName, UserAuthenticationData)
+     * @see #getUserNameChars(GenericFileName, UserAuthenticationData)
      */
-    public static char[] getData(final UserAuthenticationData data, final UserAuthenticationData.Type type, final char[] overrideValue) {
-        if (overrideValue != null) {
-            return overrideValue;
+    public static char[] getData(final UserAuthenticationData data, final UserAuthenticationData.Type type, final char[] override) {
+        if (override != null) {
+            return override;
         }
         return data != null ? data.getData(type) : null;
+    }
+
+    /**
+     * Gets the password from the UserAuthenticationData or from the root name if there is no password in the UserAuthenticationData.
+     *
+     * @param rootName The root name.
+     * @param authData The UserAuthenticationData.
+     * @return The password from the UserAuthenticationData or from the root name if there is no password in the UserAuthenticationData.
+     * @since 2.11.0
+     */
+    public static String getPassword(final GenericFileName rootName, final UserAuthenticationData authData) {
+        return get(rootName != null ? rootName.getPassword() : null, authData, UserAuthenticationData.PASSWORD);
+    }
+
+    /**
+     * Gets the password from the UserAuthenticationData or from the root name if there is no password in the UserAuthenticationData.
+     *
+     * @param rootName The root name.
+     * @param authData The UserAuthenticationData.
+     * @return The password from the UserAuthenticationData or from the root name if there is no password in the UserAuthenticationData.
+     * @since 2.11.0
+     */
+    public static char[] getPasswordChars(final GenericFileName rootName, final UserAuthenticationData authData) {
+        final String password = getPassword(rootName, authData);
+        return password != null ? password.toCharArray() : null;
+    }
+
+    /**
+     * Gets the user name from the UserAuthenticationData or from the root name if there is no user name in the UserAuthenticationData.
+     *
+     * @param rootName The root name.
+     * @param authData The UserAuthenticationData.
+     * @return The user name as a String or null if there is no user name in the UserAuthenticationData and the root name does not contain a user name.
+     * @since 2.11.0
+     */
+    public static String getUserName(final GenericFileName rootName, final UserAuthenticationData authData) {
+        return get(rootName != null ? rootName.getUserName() : null, authData, UserAuthenticationData.USERNAME);
+    }
+
+    /**
+     * Gets the user name from the UserAuthenticationData or from the root name if there is no user name in the UserAuthenticationData.
+     *
+     * @param rootName The root name.
+     * @param authData The UserAuthenticationData.
+     * @return The user name as a String or null if there is no user name in the UserAuthenticationData and the root name does not contain a user name.
+     * @since 2.11.0
+     */
+    public static char[] getUserNameChars(final GenericFileName rootName, final UserAuthenticationData authData) {
+        final String userName = getUserName(rootName, authData);
+        return userName != null ? userName.toCharArray() : null;
     }
 
     /**

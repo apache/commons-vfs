@@ -34,7 +34,6 @@ import java.util.stream.Stream;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 
-import org.apache.commons.lang3.CharSequenceUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
@@ -230,13 +229,9 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
         final HttpClientContext clientContext = HttpClientContext.create();
         final BasicCredentialsProvider credsProvider = new BasicCredentialsProvider();
         clientContext.setCredentialsProvider(credsProvider);
-        final String rootUser = rootName.getUserName();
-        final String userName = StringUtils.valueOf(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
-                rootUser != null ? CharSequenceUtils.toCharArray(rootUser) : null));
+        final String userName = UserAuthenticatorUtils.getUserName(rootName, authData);
         if (!StringUtils.isEmpty(userName)) {
-            final String rootPassword = rootName.getPassword();
-            final char[] password = UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
-                    rootPassword != null ? CharSequenceUtils.toCharArray(rootPassword) : null);
+            final char[] password = UserAuthenticatorUtils.getPasswordChars(rootName, authData);
             credsProvider.setCredentials(new AuthScope(rootName.getHostName(), rootName.getPort()),
                     new UsernamePasswordCredentials(userName, password.clone()));
         }
@@ -248,8 +243,8 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
                         new UserAuthenticationData.Type[] {UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD});
                 if (proxyAuthData != null) {
                     final UsernamePasswordCredentials proxyCreds = new UsernamePasswordCredentials(
-                            StringUtils.valueOf(UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.USERNAME, null)),
-                            UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.PASSWORD, null));
+                            UserAuthenticatorUtils.getUserName(null, authData),
+                            UserAuthenticatorUtils.getPassword(null, authData).toCharArray());
                     // set proxy host port
                     credsProvider.setCredentials(new AuthScope(proxyHost.getHostName(), proxyHost.getPort()), proxyCreds);
                 }
