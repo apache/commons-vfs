@@ -236,41 +236,30 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
     protected HttpClientContext createHttpClientContext(final Http4FileSystemConfigBuilder builder,
             final GenericFileName rootName, final FileSystemOptions fileSystemOptions,
             final UserAuthenticationData authData) {
-
         final HttpClientContext clientContext = HttpClientContext.create();
         final CredentialsProvider credsProvider = new BasicCredentialsProvider();
         clientContext.setCredentialsProvider(credsProvider);
-
-        final String username = StringUtils.valueOf(UserAuthenticatorUtils.getData(authData,
-                UserAuthenticationData.USERNAME, CharSequenceUtils.toCharArray(rootName.getUserName())));
-        final String password = StringUtils.valueOf(UserAuthenticatorUtils.getData(authData,
-                UserAuthenticationData.PASSWORD, CharSequenceUtils.toCharArray(rootName.getPassword())));
-
-        if (!StringUtils.isEmpty(username)) {
-            credsProvider.setCredentials(new AuthScope(rootName.getHostName(), rootName.getPort()),
-                    new UsernamePasswordCredentials(username, password));
+        final String rootUserName = rootName.getUserName();
+        final String userName = StringUtils.valueOf(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
+                rootUserName != null ? CharSequenceUtils.toCharArray(rootUserName) : null));
+        if (!StringUtils.isEmpty(userName)) {
+            final String rootPassword = rootName.getPassword();
+            final String password = StringUtils.valueOf(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
+                    rootPassword != null ? CharSequenceUtils.toCharArray(rootPassword) : null));
+            credsProvider.setCredentials(new AuthScope(rootName.getHostName(), rootName.getPort()), new UsernamePasswordCredentials(userName, password));
         }
-
         final HttpHost proxyHost = getProxyHttpHost(builder, fileSystemOptions);
-
         if (proxyHost != null) {
             final UserAuthenticator proxyAuth = builder.getProxyAuthenticator(fileSystemOptions);
-
             if (proxyAuth != null) {
                 final UserAuthenticationData proxyAuthData = UserAuthenticatorUtils.authenticate(proxyAuth,
-                    new UserAuthenticationData.Type[] {UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD});
-
+                        new UserAuthenticationData.Type[] {UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD});
                 if (proxyAuthData != null) {
                     final UsernamePasswordCredentials proxyCreds = new UsernamePasswordCredentials(
-                            StringUtils.valueOf(
-                                    UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.USERNAME, null)),
-                            StringUtils.valueOf(
-                                    UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.PASSWORD, null)));
-
-                    credsProvider.setCredentials(new AuthScope(proxyHost.getHostName(), proxyHost.getPort()),
-                            proxyCreds);
+                            StringUtils.valueOf(UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.USERNAME, null)),
+                            StringUtils.valueOf(UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.PASSWORD, null)));
+                    credsProvider.setCredentials(new AuthScope(proxyHost.getHostName(), proxyHost.getPort()), proxyCreds);
                 }
-
                 if (builder.isPreemptiveAuth(fileSystemOptions)) {
                     final AuthCache authCache = new BasicAuthCache();
                     final BasicScheme basicAuth = new BasicScheme();
@@ -279,7 +268,6 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
                 }
             }
         }
-
         return clientContext;
     }
 

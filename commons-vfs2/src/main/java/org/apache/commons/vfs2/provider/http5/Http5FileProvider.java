@@ -227,42 +227,32 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
     protected HttpClientContext createHttpClientContext(final Http5FileSystemConfigBuilder builder,
             final GenericFileName rootName, final FileSystemOptions fileSystemOptions,
             final UserAuthenticationData authData) {
-
         final HttpClientContext clientContext = HttpClientContext.create();
         final BasicCredentialsProvider credsProvider = new BasicCredentialsProvider();
         clientContext.setCredentialsProvider(credsProvider);
-
-        final String username = StringUtils.valueOf(UserAuthenticatorUtils.getData(authData,
-                UserAuthenticationData.USERNAME, CharSequenceUtils.toCharArray(rootName.getUserName())));
-        final char[] password = UserAuthenticatorUtils.getData(authData,
-                UserAuthenticationData.PASSWORD, CharSequenceUtils.toCharArray(rootName.getPassword()));
-
-        if (!StringUtils.isEmpty(username)) {
-            // set root port
+        final String rootUser = rootName.getUserName();
+        final String userName = StringUtils.valueOf(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
+                rootUser != null ? CharSequenceUtils.toCharArray(rootUser) : null));
+        if (!StringUtils.isEmpty(userName)) {
+            final String rootPassword = rootName.getPassword();
+            final char[] password = UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
+                    rootPassword != null ? CharSequenceUtils.toCharArray(rootPassword) : null);
             credsProvider.setCredentials(new AuthScope(rootName.getHostName(), rootName.getPort()),
-                    new UsernamePasswordCredentials(username, password));
+                    new UsernamePasswordCredentials(userName, password.clone()));
         }
-
         final HttpHost proxyHost = getProxyHttpHost(builder, fileSystemOptions);
-
         if (proxyHost != null) {
             final UserAuthenticator proxyAuth = builder.getProxyAuthenticator(fileSystemOptions);
-
             if (proxyAuth != null) {
                 final UserAuthenticationData proxyAuthData = UserAuthenticatorUtils.authenticate(proxyAuth,
-                    new UserAuthenticationData.Type[] {UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD});
-
+                        new UserAuthenticationData.Type[] {UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD});
                 if (proxyAuthData != null) {
                     final UsernamePasswordCredentials proxyCreds = new UsernamePasswordCredentials(
-                            StringUtils.valueOf(
-                                    UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.USERNAME, null)),
+                            StringUtils.valueOf(UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.USERNAME, null)),
                             UserAuthenticatorUtils.getData(proxyAuthData, UserAuthenticationData.PASSWORD, null));
-
                     // set proxy host port
-                    credsProvider.setCredentials(new AuthScope(proxyHost.getHostName(), proxyHost.getPort()),
-                            proxyCreds);
+                    credsProvider.setCredentials(new AuthScope(proxyHost.getHostName(), proxyHost.getPort()), proxyCreds);
                 }
-
                 if (builder.isPreemptiveAuth(fileSystemOptions)) {
                     final AuthCache authCache = new BasicAuthCache();
                     final BasicScheme basicAuth = new BasicScheme();
@@ -271,18 +261,15 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
                 }
             }
         }
-
         return clientContext;
     }
 
     private HttpRoutePlanner createHttpRoutePlanner(final Http5FileSystemConfigBuilder builder,
             final FileSystemOptions fileSystemOptions) {
         final HttpHost proxyHost = getProxyHttpHost(builder, fileSystemOptions);
-
         if (proxyHost != null) {
             return new DefaultProxyRoutePlanner(proxyHost);
         }
-
         return new SystemDefaultRoutePlanner(ProxySelector.getDefault());
     }
 

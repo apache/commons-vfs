@@ -67,12 +67,12 @@ public final class UserAuthenticatorUtils {
      *
      * @param data            The UserAuthenticationData.
      * @param type            The type of the element to retrieve.
-     * @param overriddenValue The default value.
+     * @param overrideValue The override value.
      * @return The data of the given type as a character array or null if the data is not available.
      */
-    public static char[] getData(final UserAuthenticationData data, final UserAuthenticationData.Type type, final char[] overriddenValue) {
-        if (overriddenValue != null) {
-            return overriddenValue;
+    public static char[] getData(final UserAuthenticationData data, final UserAuthenticationData.Type type, final char[] overrideValue) {
+        if (overrideValue != null) {
+            return overrideValue;
         }
         return data != null ? data.getData(type) : null;
     }
