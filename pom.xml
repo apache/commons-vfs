@@ -94,7 +94,7 @@
     <jackrabbit1.version>1.6.5</jackrabbit1.version>
     <!-- Don't use jackrabbit2 2.21.x, it's labeled "unstable". -->
     <!-- 2.22.0 requires Java 11. -->
-    <jackrabbit2.version>2.20.17</jackrabbit2.version>
+    <jackrabbit2.version>2.22.3</jackrabbit2.version>
     <slf4j.version>2.0.17</slf4j.version>
     <log4j2.version>2.25.3</log4j2.version>
     <collections4.version>4.5.0</collections4.version>
