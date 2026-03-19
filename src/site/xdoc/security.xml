@@ -51,5 +51,10 @@
       <li><a href="https://www.cve.org/CVERecord?id=CVE-2025-30474">CVE-2025-30474</a>: Apache Commons VFS: Failing to find an FTP file can reveal the URI's password in an error message</li>
       </ul>
     </section>
+    <section name="Safe Deserialization">
+      <p>
+      For information about safe deserialization, please see <a href="https://commons.apache.org/io/description.html#Safe_Deserialization">Safe Deserialization</a>.
+      </p>
+    </section>
   </body>
 </document>
