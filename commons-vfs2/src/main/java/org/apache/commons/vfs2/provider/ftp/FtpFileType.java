@@ -19,7 +19,7 @@ package org.apache.commons.vfs2.provider.ftp;
 import org.apache.commons.net.ftp.FTP;
 
 /**
- * The FTP file types.
+ * Enumerates FTP file types.
  *
  * @since 2.1
  */

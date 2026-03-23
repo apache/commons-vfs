@@ -23,7 +23,7 @@ import java.util.Objects;
 import org.apache.commons.lang3.ArraySorter;
 
 /**
- * An enumerated type representing the modes of a random access content.
+ * Enumerates the modes of a random access content.
  * <p>
  * TODO Replace with {@link AccessMode}.
  * </p>

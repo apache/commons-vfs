@@ -17,7 +17,7 @@
 package org.apache.commons.vfs2;
 
 /**
- * An enumerated type that represents a file's type.
+ * Enumerates a file's type.
  */
 public enum FileType {
 

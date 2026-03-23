@@ -17,7 +17,7 @@
 package org.apache.commons.vfs2.provider.hdfs;
 
 /**
- * HDFS file content attributes.
+ * Enumerates HDFS file content attributes.
  *
  * @since 2.1
  */

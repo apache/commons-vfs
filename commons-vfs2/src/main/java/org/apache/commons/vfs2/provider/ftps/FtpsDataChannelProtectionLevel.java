@@ -17,7 +17,7 @@
 package org.apache.commons.vfs2.provider.ftps;
 
 /**
- * Protection level of the data channel in a FTPS communication.
+ * Enumerates protection levels of the data channel in a FTPS communication.
  * <ul>
  * <li>C - Clear</li>
  * <li>S - Safe</li>

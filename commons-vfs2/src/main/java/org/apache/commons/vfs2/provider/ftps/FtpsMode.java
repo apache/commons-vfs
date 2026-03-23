@@ -17,7 +17,7 @@
 package org.apache.commons.vfs2.provider.ftps;
 
 /**
- * Mode of the FTPS connection.
+ * Enumerates modes of the FTPS connection.
  *
  * <p>
  * Note, that implicit mode is not standardized and considered as deprecated. Some unit tests for VFS fail with implicit

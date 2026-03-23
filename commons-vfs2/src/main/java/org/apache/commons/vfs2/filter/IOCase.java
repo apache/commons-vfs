@@ -20,7 +20,7 @@ import java.io.File;
 import java.util.Objects;
 
 /**
- * Enumeration of IO case sensitivity.
+ * Enumerates IO case sensitivity options.
  * <p>
  * Different filing systems have different rules for case-sensitivity. Windows
  * is case-insensitive, Unix is case-sensitive.

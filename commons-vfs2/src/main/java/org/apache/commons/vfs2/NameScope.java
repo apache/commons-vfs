@@ -17,7 +17,7 @@
 package org.apache.commons.vfs2;
 
 /**
- * An enumerated type for file name scope, used when resolving a name relative to a file.
+ * Enumerates file name scopes, used when resolving a name relative to a file.
  */
 public enum NameScope {
 

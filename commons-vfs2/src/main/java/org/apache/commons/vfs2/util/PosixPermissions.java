@@ -28,7 +28,7 @@ import java.util.Map;
 public class PosixPermissions {
 
     /**
-     * Permission types.
+     * Enumerates permission types.
      */
     public enum Type {
 

@@ -17,7 +17,7 @@
 package org.apache.commons.vfs2;
 
 /**
- * An enumerated type to deal with the various cache strategies.
+ * Enumerates the various cache strategies.
  */
 public enum CacheStrategy {
 

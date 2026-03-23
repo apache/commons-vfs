@@ -17,7 +17,7 @@
 package org.apache.commons.vfs2;
 
 /**
- * An enumerated type representing the capabilities of files and file systems.
+ * Enumerates the capabilities of files and file systems.
  */
 public enum Capability {
 
