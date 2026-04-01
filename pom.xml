@@ -100,7 +100,7 @@
     <collections4.version>4.5.0</collections4.version>
     <jsch.version>0.1.55</jsch.version>
     <httpclient3.version>3.1</httpclient3.version>
-    <ant.version>1.10.15</ant.version>
+    <ant.version>1.10.16</ant.version>
     <clirr.skip>true</clirr.skip>
     <japicmp.skip>false</japicmp.skip>
     <jacoco.skip>false</jacoco.skip>
