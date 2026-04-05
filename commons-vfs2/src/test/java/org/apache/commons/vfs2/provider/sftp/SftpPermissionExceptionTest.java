@@ -98,6 +98,7 @@ public class SftpPermissionExceptionTest extends ProviderTestSuiteJunit5 {
             return manager.resolveFile(uri, fileSystemOptions);
         }
 
+        @Override
         public void prepare(final DefaultFileSystemManager manager) throws Exception {
             manager.addProvider("sftp", new SftpFileProvider());
         }
