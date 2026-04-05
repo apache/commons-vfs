@@ -148,21 +148,6 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     }
 
     /**
-     * {@inheritDoc}
-     * <p>
-     * Clears the cached {@code attrs} regardless of the {@code attached} state.
-     * The {@code attrs} field can be populated without going through {@code attach()}
-     * (e.g. via {@code setStat()} in {@code doListChildrenResolved()}), so
-     * {@code doDetach()} alone may not clear it if the file was never attached.
-     * </p>
-     */
-    @Override
-    public synchronized void refresh() throws FileSystemException {
-        super.refresh();
-        attrs = null;
-    }
-
-    /**
      * Returns the size of the file content (in bytes).
      */
     @Override
@@ -509,6 +494,19 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     @SuppressWarnings("resource") // does not allocate
     private void putChannel(final ChannelSftp channel) {
         getAbstractFileSystem().putChannel(channel);
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Clears the cached {@code attrs} regardless of the {@code attached} state. The {@code attrs} field can be populated without going through {@code attach()}
+     * (e.g. via {@code setStat()} in {@code doListChildrenResolved()}), so {@code doDetach()} alone may not clear it if the file was never attached.
+     * </p>
+     */
+    @Override
+    public synchronized void refresh() throws FileSystemException {
+        super.refresh();
+        attrs = null;
     }
 
     /**
