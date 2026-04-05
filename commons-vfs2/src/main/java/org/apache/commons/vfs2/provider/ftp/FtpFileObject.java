@@ -558,7 +558,19 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
                 mdtmSet = true;
             }
         }
-        return ftpFile.getTimestamp().getTime().getTime();
+        // Synthetic FTPFile from CWD optimization has no timestamp.
+        // Lazily fetch the real FTPFile via parent LIST when needed.
+        if (ftpFile.getTimestamp() == null) {
+            final FtpFileObject parent = (FtpFileObject) FileObjectUtils.getAbstractFileObject(getParent());
+            if (parent != null) {
+                final FTPFile realFile = parent.getChildFile(UriParser.decode(getName().getBaseName()), false);
+                if (realFile != null) {
+                    ftpFile = realFile;
+                }
+            }
+        }
+        final Calendar timestamp = ftpFile.getTimestamp();
+        return timestamp != null ? timestamp.getTime().getTime() : DEFAULT_TIMESTAMP;
     }
 
     /**
@@ -630,34 +642,48 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
             final FtpFileObject parent = (FtpFileObject) FileObjectUtils.getAbstractFileObject(getParent());
             final FTPFile newFileInfo;
             if (parent != null) {
-                newFileInfo = parent.getChildFile(UriParser.decode(getName().getBaseName()), flush);
+                // Try CWD first: if it succeeds, this is a directory and we avoid
+                // the expensive parent LIST which opens a data channel and transfers
+                // the entire directory listing. If CWD fails, fall back to parent
+                // LIST to handle files, symlinks, and non-existent paths.
+                //
+                // Note: CWD follows symlinks transparently, so a symlink-to-directory
+                // is classified as a plain directory here. This is acceptable because
+                // FTP symlink behavior is provider-internal (doGetType resolves symlinks
+                // to their target type) and not exposed to users via isSymbolicLink(),
+                // which always returns false for FTP (doIsSymbolicLink is not overridden).
+                final FTPFile cwdResult = verifyDirectory();
+                if (cwdResult != null) {
+                    newFileInfo = cwdResult;
+                } else {
+                    newFileInfo = parent.getChildFile(UriParser.decode(getName().getBaseName()), flush);
+                }
             } else {
                 // Root-level resource: no parent to query via getChildFile().
-                // Verify the directory exists using CWD, which is a lightweight
-                // control-channel command (no data transfer). Previously this
-                // assumed the root always exists, causing exists() to return true
-                // for non-existent FTP folders.
-                newFileInfo = verifyRootDirectory();
+                newFileInfo = verifyDirectory();
             }
             ftpFile = newFileInfo == null ? UNKNOWN : newFileInfo;
         }
     }
 
     /**
-     * Verifies a root-level FTP directory exists by attempting to CWD into it.
+     * Verifies an FTP directory exists by attempting to CWD into it.
      * Returns an FTPFile with DIRECTORY_TYPE if CWD succeeds, or {@code null} if it fails.
+     * CWD is used instead of LIST because it is a lightweight control-channel command
+     * that does not transfer directory contents.
      * <p>
-     * Uses CWD "." (the current directory) rather than CWD "/" to verify
-     * the logical root. With {@code userDirIsRoot=true}, the logical root
-     * is the user's login directory, not the server root "/".
+     * For root-level files (relPath is null), uses CWD "." to check the current
+     * directory rather than CWD "/". This is correct for both userDirIsRoot
+     * configurations: with userDirIsRoot=true the logical root is the user's login
+     * directory, not the server root "/".
      * </p>
      */
-    private FTPFile verifyRootDirectory() throws IOException {
+    private FTPFile verifyDirectory() throws IOException {
         final FtpClient client = getAbstractFileSystem().getClient();
         try {
-            // relPath is always null for the root (constructor maps "." to null),
-            // so this always resolves to CWD ".". The relPath check is defensive.
-            if (client.changeDirectory(relPath != null ? relPath : ".")) {
+            // relPath is null for the root (constructor maps "." to null).
+            // For non-root paths, isDirectory() saves/restores the working directory.
+            if (client.isDirectory(relPath != null ? relPath : ".")) {
                 final FTPFile result = new FTPFile();
                 result.setType(FTPFile.DIRECTORY_TYPE);
                 return result;
