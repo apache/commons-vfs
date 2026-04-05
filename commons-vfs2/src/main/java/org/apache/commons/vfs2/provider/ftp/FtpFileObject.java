@@ -610,6 +610,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
                 super.refresh();
                 synchronized (getFileSystem()) {
                     ftpFile = null;
+                    childMap = null;
                 }
                 /*
                  * VFS-210 try { // this will tell the parent to recreate its children collection getInfo(true); } catch

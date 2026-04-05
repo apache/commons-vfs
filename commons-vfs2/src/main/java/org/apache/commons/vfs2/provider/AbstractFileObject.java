@@ -482,15 +482,16 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                     doDetach();
                 } finally {
                     attached = false;
-                    setFileType(null);
-                    parent = null;
-
-                    // fs.fileDetached(this);
-
-                    removeChildrenCache();
-                    // children = null;
                 }
             }
+            // Always clear cached state, even if not attached.
+            // Cached fields like FtpFileObject.childMap can be populated without
+            // going through attach() (e.g. via getChildFile() -> doGetChildren()).
+            // Without this, refresh() silently skips clearing stale data when
+            // attached is false, causing exists() to return incorrect results.
+            setFileType(null);
+            parent = null;
+            removeChildrenCache();
         }
     }
 
