@@ -63,6 +63,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="Vaishnavi Kumbhar, Gary Gregory" issue="VFS-861">Http5FileProvider Basic authentication fails: UserAuthenticationData.setData(Type, char[]) should clone its array input.</action>
       <action type="fix" dev="ggregory" due-to="Vaishnavi Kumbhar, Gary Gregory" issue="VFS-861">Http5FileProvider Basic authentication fails: UserAuthenticationData.setData(Type, char[]) should clone its array input.</action>
       <action type="fix" dev="ggregory" due-to="Gary Gregory, Ilan Goldfeld">Fix FtpFileObject.exists() returning true for root-level folders after connection drop #757.</action>
+      <action type="fix" dev="ggregory" due-to="Gary Gregory, Ilan Goldfeld">Fix refresh() not clearing cached state when file was never attached #758.</action>
       <!-- ADD -->
       <action type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.vfs2.provider.ftp.FTPClientWrapper.sendOptions(String, String).</action>
       <action type="add" dev="ggregory" due-to="Gary Gregory">Add FtpFileSystemConfigBuilder.getControlEncodingCharset(FileSystemOptions) and deprecate getControlEncoding(FileSystemOptions).</action>
