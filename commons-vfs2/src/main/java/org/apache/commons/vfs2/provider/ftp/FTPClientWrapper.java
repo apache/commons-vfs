@@ -369,7 +369,7 @@ public class FTPClientWrapper implements FtpClient {
      * @throws IOException                  If an I/O error occurs while either sending the command or receiving the server reply.
      * @since 2.11.0
      */
-    public int sendOptions(final String commandName, String commandOptions) throws IOException {
+    public int sendOptions(final String commandName, final String commandOptions) throws IOException {
         // Commons Net 3.12.0
         // return getFtpClient().opts(commandName, commandOptions);
         return getFtpClient().sendCommand("OPTS", commandName + ' ' + commandOptions);
