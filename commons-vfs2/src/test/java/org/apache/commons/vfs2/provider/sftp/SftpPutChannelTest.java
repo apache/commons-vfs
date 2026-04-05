@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider.sftp;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.InputStream;
 
@@ -69,15 +70,13 @@ public class SftpPutChannelTest extends ProviderTestSuiteJunit5 {
      */
     @Test
     public void testDoGetInputStream() throws Exception {
-        org.junit.jupiter.api.Assumptions.assumeTrue(System.getProperty("test.sftp.uri") != null,
-            "Test requires SFTP server configured via system property");
+        assumeTrue(System.getProperty("test.sftp.uri") != null, "Test requires SFTP server configured via system property");
         final FileObject file = getReadFolder().resolveFile("file-does-not-exist.txt");
         assertThrows(FileSystemException.class, () -> {
             try (InputStream ignored = file.getContent().getInputStream()) {
                 // Should throw exception before reaching here
             }
         });
-
         // Original test also verified channel count:
         // final int channelCount = AbstractSftpProviderTestCase.getChannelCount();
         // assertEquals(0, channelCount, "Expected 0 channels after exception");

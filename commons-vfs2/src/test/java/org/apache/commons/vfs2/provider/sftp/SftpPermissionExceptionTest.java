@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider.sftp;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
@@ -63,21 +64,17 @@ public class SftpPermissionExceptionTest extends ProviderTestSuiteJunit5 {
      */
     @Test
     public void testGetOutputStreamException() throws Exception {
-        org.junit.jupiter.api.Assumptions.assumeTrue(System.getProperty("test.sftp.uri") != null,
-            "Test requires SFTP server configured via system property");
+        assumeTrue(System.getProperty("test.sftp.uri") != null, "Test requires SFTP server configured via system property");
         final FileObject scratchFolder = getWriteFolder();
-
         // Create a read-only file
         final FileObject readOnlyFile = scratchFolder.resolveFile("read-only-file.txt");
         readOnlyFile.createFile();
         readOnlyFile.setWritable(false, false);
-
         // Try to copy to the read-only file - should throw exception
         final FileObject sourceFile = scratchFolder.resolveFile("file1.txt");
         assertThrows(FileSystemException.class, () -> {
             readOnlyFile.copyFrom(sourceFile, null);
         });
-
         // Clean up
         readOnlyFile.setWritable(true, false);
         readOnlyFile.delete();

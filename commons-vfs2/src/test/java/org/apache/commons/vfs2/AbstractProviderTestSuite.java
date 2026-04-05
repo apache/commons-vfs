@@ -20,6 +20,7 @@ import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -267,8 +268,7 @@ public abstract class AbstractProviderTestSuite {
                     for (final Capability cap : caps) {
                         if (!fs.hasCapability(cap)) {
                             // Skip test if capability is not supported
-                            org.junit.jupiter.api.Assumptions.assumeTrue(false,
-                                "Skipping test because file system does not have capability: " + cap);
+                            assumeTrue(false, "Skipping test because file system does not have capability: " + cap);
                         }
                     }
                 }
