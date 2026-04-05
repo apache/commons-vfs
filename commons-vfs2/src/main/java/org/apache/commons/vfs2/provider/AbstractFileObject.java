@@ -222,7 +222,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      */
     @Override
     public void close() throws FileSystemException {
-        AtomicReference<Exception> ref = new AtomicReference<>();
+        final AtomicReference<Exception> ref = new AtomicReference<>();
         synchronized (fileSystem) {
             // Close the content
             IOUtils.closeQuietly(content, ref::set);
