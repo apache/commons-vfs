@@ -72,9 +72,7 @@ public class SftpPermissionExceptionTest extends ProviderTestSuiteJunit5 {
         readOnlyFile.setWritable(false, false);
         // Try to copy to the read-only file - should throw exception
         final FileObject sourceFile = scratchFolder.resolveFile("file1.txt");
-        assertThrows(FileSystemException.class, () -> {
-            readOnlyFile.copyFrom(sourceFile, null);
-        });
+        assertThrows(FileSystemException.class, () -> readOnlyFile.copyFrom(sourceFile, null));
         // Clean up
         readOnlyFile.setWritable(true, false);
         readOnlyFile.delete();
