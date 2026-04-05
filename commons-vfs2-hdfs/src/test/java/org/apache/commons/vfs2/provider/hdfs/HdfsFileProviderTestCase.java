@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider.hdfs;
 
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -74,7 +75,7 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
         private void copyTestResources(final File directory, final Path parent) throws Exception {
             final File[] listFiles = Objects.requireNonNull(Objects.requireNonNull(directory, "directory").listFiles(),
                     () -> directory.toString() + " no data, directory exists: " + directory.exists() + ", current: " + PathUtils.current().toAbsolutePath().normalize());
-            Assertions.assertNotNull(directory, directory::toString);
+            assertNotNull(directory, directory::toString);
             for (final File file : listFiles) {
                 if (file.isFile()) {
                     final Path src = new Path(file.getAbsolutePath());
@@ -117,7 +118,7 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
                 cluster = new MiniDFSCluster(PORT, conf, 1, true, true, true, null, null, null, null);
                 cluster.waitActive();
             } catch (final IOException e) {
-                Assertions.fail("Error setting up mini cluster", e);
+                fail("Error setting up mini cluster", e);
             }
             hdfs = cluster.getFileSystem();
 

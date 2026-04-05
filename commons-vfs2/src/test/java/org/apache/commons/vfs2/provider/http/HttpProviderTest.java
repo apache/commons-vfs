@@ -18,6 +18,8 @@ package org.apache.commons.vfs2.provider.http;
 
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.time.Duration;
@@ -32,7 +34,6 @@ import org.apache.commons.vfs2.ProviderTestSuiteJunit5;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.util.NHttpFileServer;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -108,8 +109,8 @@ public class HttpProviderTest extends ProviderTestSuiteJunit5 {
     // ==================== HTTP-Specific Tests ====================
 
     private void checkReadTestsFolder(final FileObject file) throws FileSystemException {
-        Assertions.assertNotNull(file.getChildren());
-        Assertions.assertTrue(file.getChildren().length > 0);
+        assertNotNull(file.getChildren());
+        assertTrue(file.getChildren().length > 0);
     }
 
     /** Ensure VFS-453 options are present. */

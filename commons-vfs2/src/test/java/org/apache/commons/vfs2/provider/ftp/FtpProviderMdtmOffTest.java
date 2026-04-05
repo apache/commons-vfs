@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider.ftp;
 
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -45,7 +46,6 @@ import org.apache.ftpserver.usermanager.Md5PasswordEncryptor;
 import org.apache.ftpserver.usermanager.PropertiesUserManagerFactory;
 import org.apache.ftpserver.usermanager.impl.BaseUser;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
 
 /**
  * JUnit 5 tests for FTP file systems with MDTM disabled.
@@ -111,7 +111,7 @@ public class FtpProviderMdtmOffTest extends ProviderTestSuiteJunit5 {
         final PropertiesUserManagerFactory propertiesUserManagerFactory = new PropertiesUserManagerFactory();
         propertiesUserManagerFactory.setPasswordEncryptor(new Md5PasswordEncryptor());
         final URL userPropsResource = ClassLoader.getSystemClassLoader().getResource(USER_PROPS_RES);
-        Assertions.assertNotNull(userPropsResource, USER_PROPS_RES);
+        assertNotNull(userPropsResource, USER_PROPS_RES);
         propertiesUserManagerFactory.setUrl(userPropsResource);
         final UserManager userManager = propertiesUserManagerFactory.createUserManager();
         final BaseUser user = (BaseUser) userManager.getUserByName("test");

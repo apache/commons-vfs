@@ -18,6 +18,8 @@ package org.apache.commons.vfs2.provider.http4;
 
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.time.Duration;
@@ -34,7 +36,6 @@ import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.util.NHttpFileServer;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -83,8 +84,8 @@ public class Http4ProviderTest extends ProviderTestSuiteJunit5 {
     // ==================== HTTP4-Specific Tests ====================
 
     private void checkReadTestsFolder(final FileObject file) throws FileSystemException {
-        Assertions.assertNotNull(file.getChildren());
-        Assertions.assertTrue(file.getChildren().length > 0);
+        assertNotNull(file.getChildren());
+        assertTrue(file.getChildren().length > 0);
     }
 
     @SuppressWarnings("deprecation")

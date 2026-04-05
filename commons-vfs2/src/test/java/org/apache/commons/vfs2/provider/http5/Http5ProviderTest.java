@@ -18,6 +18,8 @@ package org.apache.commons.vfs2.provider.http5;
 
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.time.Duration;
@@ -35,7 +37,6 @@ import org.apache.commons.vfs2.cache.SoftRefFilesCache;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.util.NHttpFileServer;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -84,8 +85,8 @@ public class Http5ProviderTest extends ProviderTestSuiteJunit5 {
     // ==================== HTTP5-Specific Tests ====================
 
     private void checkReadTestsFolder(final FileObject file) throws FileSystemException {
-        Assertions.assertNotNull(file.getChildren());
-        Assertions.assertTrue(file.getChildren().length > 0);
+        assertNotNull(file.getChildren());
+        assertTrue(file.getChildren().length > 0);
     }
 
     @SuppressWarnings("deprecation")
@@ -175,7 +176,7 @@ public class Http5ProviderTest extends ProviderTestSuiteJunit5 {
             manager.addProvider("http5", provider);
             manager.init();
             try (FileObject fo = manager.resolveFile(connectionUri + "/read-tests/file1.txt")) {
-                Assertions.assertNotNull(fo.getContent().getInputStream());
+                assertNotNull(fo.getContent().getInputStream());
             }
         }
     }

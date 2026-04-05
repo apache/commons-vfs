@@ -17,6 +17,8 @@
 package org.apache.commons.vfs2.provider.ftps;
 
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.net.URL;
@@ -38,7 +40,6 @@ import org.apache.ftpserver.ssl.SslConfigurationFactory;
 import org.apache.ftpserver.usermanager.Md5PasswordEncryptor;
 import org.apache.ftpserver.usermanager.PropertiesUserManagerFactory;
 import org.apache.ftpserver.usermanager.impl.BaseUser;
-import org.junit.jupiter.api.Assertions;
 
 /**
  * Abstract tests for FTP file systems.
@@ -91,7 +92,7 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
         // TODO Update to SHA512
         propertiesUserManagerFactory.setPasswordEncryptor(new Md5PasswordEncryptor());
         final URL userPropsResource = ClassLoader.getSystemClassLoader().getResource(USER_PROPS_RES);
-        Assertions.assertNotNull(userPropsResource, USER_PROPS_RES);
+        assertNotNull(userPropsResource, USER_PROPS_RES);
         propertiesUserManagerFactory.setUrl(userPropsResource);
         final UserManager userManager = propertiesUserManagerFactory.createUserManager();
         final BaseUser user = (BaseUser) userManager.getUserByName("test");
@@ -104,11 +105,11 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
 
         // define SSL configuration
         final URL serverJksResource = ClassLoader.getSystemClassLoader().getResource(SERVER_JKS_RES);
-        Assertions.assertNotNull(serverJksResource, SERVER_JKS_RES);
+        assertNotNull(serverJksResource, SERVER_JKS_RES);
         // System.out.println("Loading " + serverJksResource);
         final SslConfigurationFactory sllConfigFactory = new SslConfigurationFactory();
         final File keyStoreFile = FileUtils.toFile(serverJksResource);
-        Assertions.assertTrue(keyStoreFile.exists(), keyStoreFile.toString());
+        assertTrue(keyStoreFile.exists(), keyStoreFile.toString());
         sllConfigFactory.setKeystoreFile(keyStoreFile);
         sllConfigFactory.setKeystorePassword("password");
 

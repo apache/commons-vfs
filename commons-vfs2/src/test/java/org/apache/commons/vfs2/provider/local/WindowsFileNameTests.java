@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider.local;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -26,7 +27,6 @@ import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -42,7 +42,7 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
         try {
             final String file = "file://////";
             final DefaultFileSystemManager manager = getManager();
-            Assertions.assertNotNull(manager, "Unexpected null manager for test " + this);
+            assertNotNull(manager, "Unexpected null manager for test " + this);
             final FileObject fo = manager.resolveFile(file);
             fail("Windows File Parser should not allow " + file + " " + fo);
         } catch (FileSystemException ex) {
@@ -57,7 +57,7 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
         try {
             final String file = "file://///";
             final DefaultFileSystemManager manager = getManager();
-            Assertions.assertNotNull(manager, "Unexpected null manager for test " + this);
+            assertNotNull(manager, "Unexpected null manager for test " + this);
             final FileObject fo = manager.resolveFile(file);
             fail("Windows File Parser should not allow " + file + " " + fo);
         } catch (FileSystemException ex) {
@@ -74,7 +74,7 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
 
         for (final String name : tests) {
             final DefaultFileSystemManager manager = getManager();
-            Assertions.assertNotNull(manager, "Unexpected null manager for test " + this);
+            assertNotNull(manager, "Unexpected null manager for test " + this);
             final FileName fn = manager.resolveFile(name).getName();
 
             // the following tests work for Windows file names only
@@ -101,7 +101,7 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
         for (final String name : tests) {
             try {
                 final DefaultFileSystemManager manager = getManager();
-                Assertions.assertNotNull(manager, "Unexpected null manager for test " + this);
+                assertNotNull(manager, "Unexpected null manager for test " + this);
                 final FileName fn = manager.resolveFile(name).getName();
                 fail("should not accept root " + name);
             } catch (final FileSystemException ex) {

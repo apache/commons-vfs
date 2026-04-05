@@ -17,6 +17,10 @@
 
 package org.apache.commons.vfs2.provider.sftp;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
 
 import org.apache.commons.vfs2.FileObject;
@@ -24,7 +28,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.VfsTestUtils;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -81,15 +84,15 @@ public class SftpRefreshCachedStateTest {
                     break;
                 }
             }
-            Assertions.assertNotNull(file, "File should be found in parent listing");
+            assertNotNull(file, "File should be found in parent listing");
             // Delete the file directly on the filesystem.
-            Assertions.assertTrue(tempFile.delete(), "Temp file should be deleted");
+            assertTrue(tempFile.delete(), "Temp file should be deleted");
             // Refresh the child. Before the fix, refresh() skipped clearing attrs
             // because attached == false (attrs was set via setStat, not attach).
             file.refresh();
             // exists() must return false. Before the fix, doGetType() found the stale
             // attrs (non-null), skipped statSelf(), and returned FILE instead of IMAGINARY.
-            Assertions.assertFalse(file.exists(), "exists() must return false after file is deleted and refreshed");
+            assertFalse(file.exists(), "exists() must return false after file is deleted and refreshed");
         } finally {
             tempFile.delete();
         }

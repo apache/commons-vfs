@@ -17,6 +17,9 @@
 package org.apache.commons.vfs2.provider.bzip2;
 
 import static org.apache.commons.vfs2.VfsTestUtils.getTestResource;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +29,6 @@ import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.provider.compressed.CompressedFileFileObject;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class Bzip2Test {
@@ -35,21 +37,21 @@ public class Bzip2Test {
     public void testBZip2() throws IOException {
         final File testResource = getTestResource("bla.txt.bz2");
         try (FileObject bz2FileObject = VFS.getManager().resolveFile("bz2://" + testResource)) {
-            Assertions.assertTrue(bz2FileObject.exists());
-            Assertions.assertTrue(bz2FileObject.isFolder());
+            assertTrue(bz2FileObject.exists());
+            assertTrue(bz2FileObject.isFolder());
             try (FileObject fileObjectDir = bz2FileObject.resolveFile("bla.txt")) {
-                Assertions.assertTrue(fileObjectDir.exists());
-                Assertions.assertTrue(bz2FileObject.isFolder());
+                assertTrue(fileObjectDir.exists());
+                assertTrue(bz2FileObject.isFolder());
                 try (FileObject fileObject = fileObjectDir.resolveFile("bla.txt")) {
-                    Assertions.assertTrue(fileObject.exists());
-                    Assertions.assertFalse(fileObject.isFolder());
-                    Assertions.assertTrue(fileObject.isFile());
+                    assertTrue(fileObject.exists());
+                    assertFalse(fileObject.isFolder());
+                    assertTrue(fileObject.isFile());
                     try (FileContent content = fileObject.getContent()) {
-                        Assertions.assertEquals(CompressedFileFileObject.SIZE_UNDEFINED, content.getSize());
+                        assertEquals(CompressedFileFileObject.SIZE_UNDEFINED, content.getSize());
                         // blows up, Commons Compress?
                         final String string = content.getString(StandardCharsets.UTF_8);
-                        Assertions.assertEquals(26, string.length());
-                        Assertions.assertEquals("Hallo, dies ist ein Test.\n", string);
+                        assertEquals(26, string.length());
+                        assertEquals("Hallo, dies ist ein Test.\n", string);
                     }
                 }
             }

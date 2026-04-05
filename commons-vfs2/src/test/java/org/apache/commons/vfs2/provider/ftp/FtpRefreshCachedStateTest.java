@@ -17,6 +17,9 @@
 
 package org.apache.commons.vfs2.provider.ftp;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
 import java.time.Duration;
 
@@ -25,7 +28,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.VfsTestUtils;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -84,9 +86,9 @@ public class FtpRefreshCachedStateTest {
             final FileObject file = manager.resolveFile(FtpProviderTest.getConnectionUri() + "/refresh-test-file.txt", options);
             // Verify the file exists. This populates the parent's childMap
             // via setFTPFile() → getParent().getChildFile() → doGetChildren().
-            Assertions.assertTrue(file.exists(), "File should exist on the FTP server");
+            assertTrue(file.exists(), "File should exist on the FTP server");
             // Delete the file directly on the filesystem.
-            Assertions.assertTrue(tempFile.delete(), "Temp file should be deleted");
+            assertTrue(tempFile.delete(), "Temp file should be deleted");
             // Refresh the parent to clear its cached childMap, then refresh the file.
             // Before the fix, the parent's refresh() skipped clearing childMap because
             // the parent was never attached (attached == false).
@@ -94,7 +96,7 @@ public class FtpRefreshCachedStateTest {
             parent.refresh();
             file.refresh();
             // exists() must return false now that the file is deleted.
-            Assertions.assertFalse(file.exists(), "exists() must return false after file is deleted and parent is refreshed");
+            assertFalse(file.exists(), "exists() must return false after file is deleted and parent is refreshed");
         } finally {
             tempFile.delete();
         }

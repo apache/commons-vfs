@@ -16,10 +16,12 @@
  */
 package org.apache.commons.vfs2;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.io.IOException;
 
 import org.apache.commons.vfs2.util.RandomAccessMode;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -63,25 +65,25 @@ public class ProviderRandomSetLengthTests extends AbstractProviderTestCase {
 
             // Write long string
             ra.writeBytes(TEST_DATA);
-            Assertions.assertEquals( TEST_DATA.length(), ra.length(),fileString);
+            assertEquals( TEST_DATA.length(), ra.length(),fileString);
 
             // Shrink to length 1
             ra.setLength(1);
-            Assertions.assertEquals(1, ra.length(), fileString);
+            assertEquals(1, ra.length(), fileString);
             // now read 1
             ra.seek(0);
-            Assertions.assertEquals(TEST_DATA.charAt(0), ra.readByte(), fileString);
+            assertEquals(TEST_DATA.charAt(0), ra.readByte(), fileString);
 
             try {
                 ra.readByte();
-                Assertions.fail("Expected " + Exception.class.getName());
+                fail("Expected " + Exception.class.getName());
             } catch (final IOException e) {
                 // Expected
             }
 
             // Grow to length 2
             ra.setLength(2);
-            Assertions.assertEquals(2, ra.length(), fileString);
+            assertEquals(2, ra.length(), fileString);
             // We have an undefined extra byte
             ra.seek(1);
             ra.readByte();

@@ -17,6 +17,11 @@
 
 package org.apache.commons.vfs2.provider.gzip;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -25,7 +30,6 @@ import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class GzipTest {
@@ -39,12 +43,12 @@ public class GzipTest {
         try (FileObject localFileObject = manager.resolveFile(gzFile.getAbsolutePath());
                 FileObject gzFileObjectDir = manager.createFileSystem(localFileObject);
                 FileObject gzFileObject = gzFileObjectDir.resolveFile("好.txt")) {
-            Assertions.assertInstanceOf(GzipFileObject.class, gzFileObjectDir);
-            Assertions.assertTrue(gzFileObjectDir.isFolder());
-            Assertions.assertInstanceOf(GzipFileObject.class, gzFileObject);
-            Assertions.assertFalse(gzFileObject.isFolder());
+            assertInstanceOf(GzipFileObject.class, gzFileObjectDir);
+            assertTrue(gzFileObjectDir.isFolder());
+            assertInstanceOf(GzipFileObject.class, gzFileObject);
+            assertFalse(gzFileObject.isFolder());
             try (FileContent content = gzFileObject.getContent()) {
-                Assertions.assertEquals("aaa", content.getString(StandardCharsets.UTF_8));
+                assertEquals("aaa", content.getString(StandardCharsets.UTF_8));
             }
         }
     }
