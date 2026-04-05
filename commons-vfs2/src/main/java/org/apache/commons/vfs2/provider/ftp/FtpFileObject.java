@@ -631,11 +631,39 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
             if (parent != null) {
                 newFileInfo = parent.getChildFile(UriParser.decode(getName().getBaseName()), flush);
             } else {
-                // Assume the root is a directory and exists
-                newFileInfo = new FTPFile();
-                newFileInfo.setType(FTPFile.DIRECTORY_TYPE);
+                // Root-level resource: no parent to query via getChildFile().
+                // Verify the directory exists using CWD, which is a lightweight
+                // control-channel command (no data transfer). Previously this
+                // assumed the root always exists, causing exists() to return true
+                // for non-existent FTP folders.
+                newFileInfo = verifyRootDirectory();
             }
             ftpFile = newFileInfo == null ? UNKNOWN : newFileInfo;
+        }
+    }
+
+    /**
+     * Verifies a root-level FTP directory exists by attempting to CWD into it.
+     * Returns an FTPFile with DIRECTORY_TYPE if CWD succeeds, or {@code null} if it fails.
+     * <p>
+     * Uses CWD "." (the current directory) rather than CWD "/" to verify
+     * the logical root. With {@code userDirIsRoot=true}, the logical root
+     * is the user's login directory, not the server root "/".
+     * </p>
+     */
+    private FTPFile verifyRootDirectory() throws IOException {
+        final FtpClient client = getAbstractFileSystem().getClient();
+        try {
+            // relPath is always null for the root (constructor maps "." to null),
+            // so this always resolves to CWD ".". The relPath check is defensive.
+            if (client.changeDirectory(relPath != null ? relPath : ".")) {
+                final FTPFile result = new FTPFile();
+                result.setType(FTPFile.DIRECTORY_TYPE);
+                return result;
+            }
+            return null;
+        } finally {
+            getAbstractFileSystem().putClient(client);
         }
     }
 }

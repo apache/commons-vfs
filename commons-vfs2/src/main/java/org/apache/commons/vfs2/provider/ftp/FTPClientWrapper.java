@@ -64,6 +64,17 @@ public class FTPClientWrapper implements FtpClient {
         getFtpClient(); // fail-fast
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public boolean changeDirectory(final String relPath) throws IOException {
+        try {
+            return getFtpClient().changeWorkingDirectory(relPath);
+        } catch (final IOException e) {
+            disconnect();
+            return getFtpClient().changeWorkingDirectory(relPath);
+        }
+    }
+
     @Override
     public boolean abort() throws IOException {
         try {
