@@ -64,7 +64,7 @@ public interface FtpClient {
      * @param relPath The pathname of the directory to change to.
      * @return true if successfully completed, false if not.
      * @throws IOException If an I/O error occurs.
-     * @since 2.12.0
+     * @since 2.11.0
      */
     default boolean changeDirectory(String relPath) throws IOException {
         return false;
