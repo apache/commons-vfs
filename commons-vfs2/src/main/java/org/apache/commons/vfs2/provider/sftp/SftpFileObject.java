@@ -346,10 +346,15 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
                 continue;
             }
 
-            final FileObject fo = getFileSystem().resolveFile(getFileSystem().getFileSystemManager()
+            final FileObject fo = resolveFileInternal(getFileSystem().getFileSystemManager()
                     .resolveName(getName(), UriParser.encode(name), NameScope.CHILD));
 
-            ((SftpFileObject) FileObjectUtils.getAbstractFileObject(fo)).setStat(stat.getAttrs());
+            final SftpFileObject sftpChild = (SftpFileObject) FileObjectUtils.getAbstractFileObject(fo);
+            sftpChild.setStat(stat.getAttrs());
+            // Clear cached type so it re-evaluates from the fresh attrs.
+            // Without this, a cached type from a prior listing is returned
+            // without consulting the updated attrs.
+            sftpChild.injectType(null);
 
             children.add(fo);
         }
