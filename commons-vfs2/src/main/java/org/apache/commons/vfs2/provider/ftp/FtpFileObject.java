@@ -504,6 +504,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
             final boolean freshList = childMap == null;
             inRefresh.set(true);
             final FileObject[] result = super.getChildren();
+            // [VFS-862] Fix ON_RESOLVE triggering refresh on internal navigation.
             // If a fresh LIST was done, propagate the new metadata to cached
             // child objects so they reflect the latest directory listing.
             if (freshList && childMap != null) {
