@@ -1306,7 +1306,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 if (name == null) {
                     return null;
                 }
-                parent = fileSystem.resolveFile(name);
+                parent = fileSystem.resolveFileInternal(name);
             }
             return parent;
         }
@@ -1805,7 +1805,26 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     private FileObject resolveFile(final FileName child) throws FileSystemException {
-        return fileSystem.resolveFile(child);
+        return resolveFileInternal(child);
+    }
+
+    /**
+     * Resolves a file by name for internal navigation, skipping the
+     * {@link org.apache.commons.vfs2.CacheStrategy#ON_RESOLVE} refresh. Cache policy should only
+     * apply to external API calls, not internal VFS plumbing like
+     * {@link #getParent()}, {@link #getChildren()}, or symlink resolution.
+     * <p>
+     * Subclasses should use this instead of {@code getFileSystem().resolveFile()}
+     * when navigating to related files (parent, children, link targets).
+     * </p>
+     *
+     * @param name The FileName to resolve.
+     * @return The resolved FileObject.
+     * @throws FileSystemException if an error occurs.
+     * @since 2.11.0
+     */
+    protected FileObject resolveFileInternal(final FileName name) throws FileSystemException {
+        return fileSystem.resolveFileInternal(name);
     }
 
     /**

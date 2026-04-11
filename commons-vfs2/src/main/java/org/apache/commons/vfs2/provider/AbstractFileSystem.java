@@ -377,7 +377,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      */
     @Override
     public FileObject getRoot() throws FileSystemException {
-        return resolveFile(rootName);
+        return resolveFileInternal(rootName);
     }
 
     /**
@@ -525,11 +525,39 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      */
     @Override
     public FileObject resolveFile(final FileName name) throws FileSystemException {
-        return resolveFile(name, true);
+        return resolveFile(name, true, true);
     }
 
-    private synchronized FileObject resolveFile(final FileName name, final boolean useCache)
-            throws FileSystemException {
+    /**
+     * Resolves a file by name for internal navigation (e.g. {@code getParent()},
+     * {@code resolveFiles()} in {@code getChildren()}). Skips the
+     * {@link CacheStrategy#ON_RESOLVE} refresh, since cache policy should only
+     * apply to external API calls, not internal VFS plumbing. Without this,
+     * {@code ON_RESOLVE} triggers a refresh cascade where each child's
+     * {@code getParent()} refreshes the parent, clearing its cached state and
+     * causing O(N) redundant operations.
+     *
+     * @param name The FileName to resolve.
+     * @return The resolved FileObject.
+     * @throws FileSystemException if an error occurs.
+     * @since 2.11.0
+     */
+    synchronized FileObject resolveFileInternal(final FileName name) throws FileSystemException {
+        return resolveFile(name, true, false);
+    }
+
+    /**
+     * Resolves a file by name.
+     *
+     * @param name The FileName to resolve.
+     * @param useCache whether to use the file cache.
+     * @param applyRefreshPolicy whether to apply the {@link CacheStrategy#ON_RESOLVE} refresh.
+     *        Should be {@code true} for external API calls and {@code false} for internal navigation.
+     * @return The resolved FileObject.
+     * @throws FileSystemException if an error occurs.
+     */
+    private synchronized FileObject resolveFile(final FileName name, final boolean useCache,
+            final boolean applyRefreshPolicy) throws FileSystemException {
         if (!rootName.getRootURI().equals(name.getRootURI())) {
             throw new FileSystemException("vfs.provider/mismatched-fs-for-name.error", name, rootName,
                     name.getRootURI());
@@ -561,7 +589,8 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
         /*
           resync the file information if requested
          */
-        if (getFileSystemManager().getCacheStrategy().equals(CacheStrategy.ON_RESOLVE)) {
+        if (applyRefreshPolicy
+                && getFileSystemManager().getCacheStrategy().equals(CacheStrategy.ON_RESOLVE)) {
             file.refresh();
         }
         return file;

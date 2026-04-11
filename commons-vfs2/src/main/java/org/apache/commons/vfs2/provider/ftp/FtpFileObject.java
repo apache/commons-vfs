@@ -501,8 +501,29 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
              * has C children, P parents, there will be (C * P) listings made with (C * (P + 1)) refreshes, when there
              * should really only be 1 listing and C refreshes.
              */
+            final boolean freshList = childMap == null;
             inRefresh.set(true);
-            return super.getChildren();
+            final FileObject[] result = super.getChildren();
+            // [VFS-862] Fix ON_RESOLVE triggering refresh on internal navigation.
+            // If a fresh LIST was done, propagate the new metadata to cached
+            // child objects so they reflect the latest directory listing.
+            if (freshList && childMap != null) {
+                synchronized (getFileSystem()) {
+                    for (final FileObject child : result) {
+                        final FtpFileObject ftpChild = (FtpFileObject) FileObjectUtils
+                                .getAbstractFileObject(child);
+                        final FTPFile entry = childMap.get(
+                                UriParser.decode(child.getName().getBaseName()));
+                        if (entry != null) {
+                            ftpChild.ftpFile = entry;
+                            ftpChild.linkDestination = null;
+                            ftpChild.mdtmSet = false;
+                            ftpChild.injectType(null);
+                        }
+                    }
+                }
+            }
+            return result;
         } finally {
             inRefresh.set(false);
         }
@@ -530,7 +551,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
             final FileName parent = getName().getParent();
             final FileName relativeTo = parent == null ? getName() : parent;
             final FileName linkDestinationName = getFileSystem().getFileSystemManager().resolveName(relativeTo, path);
-            linkDestination = getFileSystem().resolveFile(linkDestinationName);
+            linkDestination = resolveFileInternal(linkDestinationName);
         }
         return linkDestination;
     }

@@ -36,6 +36,9 @@ import javax.jcr.Value;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Collections;
+
+import org.apache.commons.httpclient.Header;
 import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
@@ -284,7 +287,25 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig {
                 .getFileSystemConfigBuilder("webdav");
         final FileSystemOptions opts = new FileSystemOptions();
         builder.setRootURI(opts, uri);
-        return manager.resolveFile(uri, opts);
+        final FileObject baseFolder = manager.resolveFile(uri, opts);
+
+        // Disable HTTP persistent connections for the embedded Jackrabbit 1.x
+        // test server. Jackrabbit 1.x bundles Jetty 6.x which does not drain
+        // unconsumed request bodies before sending error responses (e.g. 404),
+        // violating HTTP/1.1 persistent connection requirements. This leaves
+        // stale request bytes on the connection that corrupt subsequent requests.
+        // See https://github.com/jetty/jetty.project/issues/651
+        // See https://github.com/jetty/jetty.project/issues/4117
+        final java.lang.reflect.Method getClient =
+                org.apache.commons.vfs2.provider.http.HttpFileSystem.class
+                        .getDeclaredMethod("getClient");
+        getClient.setAccessible(true);
+        ((org.apache.commons.httpclient.HttpClient) getClient.invoke(
+                baseFolder.getFileSystem())).getParams().setParameter(
+                        "http.default-headers",
+                        Collections.singletonList(new Header("Connection", "close")));
+
+        return baseFolder;
     }
 
     @Override
