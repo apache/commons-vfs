@@ -18,30 +18,29 @@
 package org.apache.commons.vfs2.provider.sftp;
 
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectoryFile;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
-import org.apache.commons.vfs2.*;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.auth.StaticUserAuthenticator;
 import org.apache.commons.vfs2.impl.DefaultFileSystemConfigBuilder;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
-import org.apache.sshd.SshServer;
-import org.apache.sshd.common.KeyPairProvider;
-import org.apache.sshd.common.NamedFactory;
-import org.apache.sshd.common.Session;
-import org.apache.sshd.server.Command;
-import org.apache.sshd.server.FileSystemFactory;
-import org.apache.sshd.server.FileSystemView;
-import org.apache.sshd.server.SshFile;
-import org.apache.sshd.server.filesystem.NativeSshFile;
-import org.apache.sshd.server.sftp.SftpSubsystem;
+import org.apache.sshd.common.file.virtualfs.VirtualFileSystemFactory;
+import org.apache.sshd.server.SshServer;
+import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
+import org.apache.sshd.sftp.server.SftpSubsystemFactory;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -53,10 +52,6 @@ import com.jcraft.jsch.TestIdentityRepositoryFactory;
  * <p>
  * Verifies that credentials supplied via {@link DefaultFileSystemConfigBuilder#setUserAuthenticator}
  * are correctly propagated to the SFTP server.
- * </p>
- * <p>
- * Uses SSHD 0.8.0 with an explicit RSA {@link KeyPairProvider} for Java 17 compatibility
- * (the default DSA key generation is disabled on modern JDKs).
  * </p>
  */
 public class SftpPasswordAuthTest {
@@ -73,35 +68,22 @@ public class SftpPasswordAuthTest {
         sshServer = SshServer.setUpDefaultServer();
         sshServer.setPort(0);
 
-        final KeyPairGenerator hostKeyGen = KeyPairGenerator.getInstance("RSA");
-        hostKeyGen.initialize(2048);
-        final KeyPair hostKey = hostKeyGen.generateKeyPair();
-        sshServer.setKeyPairProvider(new KeyPairProvider() {
-            @Override
-            public KeyPair loadKey(final String type) {
-                return KeyPairProvider.SSH_RSA.equals(type) ? hostKey : null;
-            }
-            @Override
-            public String getKeyTypes() {
-                return KeyPairProvider.SSH_RSA;
-            }
-        });
+        final Path tmpKeyFile = Files.createTempFile("sshd-test-key", ".ser");
+        tmpKeyFile.toFile().deleteOnExit();
+        final SimpleGeneratorHostKeyProvider keyProvider = new SimpleGeneratorHostKeyProvider(tmpKeyFile);
+        keyProvider.setAlgorithm("RSA");
+        sshServer.setKeyPairProvider(keyProvider);
 
         sshServer.setPasswordAuthenticator(
                 (user, pass, session) -> TEST_USERNAME.equals(user) && TEST_PASSWORD.equals(pass));
 
-        final List<NamedFactory<Command>> subsystems = new ArrayList<>();
-        subsystems.add(new NamedFactory<Command>() {
-            @Override
-            public Command create() { return new SftpSubsystem(); }
-            @Override
-            public String getName() { return "sftp"; }
-        });
-        sshServer.setSubsystemFactories(subsystems);
+        sshServer.setSubsystemFactories(Collections.singletonList(new SftpSubsystemFactory()));
 
-        sshServer.setFileSystemFactory(new TestFileSystemFactory());
+        final File homeDir = getTestDirectoryFile();
+        sshServer.setFileSystemFactory(
+                new VirtualFileSystemFactory(homeDir.toPath().toAbsolutePath()));
+
         sshServer.start();
-
         serverPort = sshServer.getPort();
 
         manager = new DefaultFileSystemManager();
@@ -127,7 +109,7 @@ public class SftpPasswordAuthTest {
     private static void stopServerWithTimeout(final long timeoutMs) {
         final Thread stopThread = new Thread(() -> {
             try {
-                sshServer.stop(true);
+                sshServer.close();
             } catch (final Exception e) {
                 // ignore
             }
@@ -204,44 +186,5 @@ public class SftpPasswordAuthTest {
                 file.exists();
             }
         }, "Expected FileSystemException when accessing a resource with wrong credentials");
-    }
-    
-    private static class TestFileSystemFactory implements FileSystemFactory {
-        @Override
-        public FileSystemView createFileSystemView(final Session session) {
-            final String home = getTestDirectoryFile().getAbsolutePath();
-            final String user = session.getUsername();
-            return new FileSystemView() {
-                @Override
-                public SshFile getFile(final SshFile baseDir, final String file) {
-                    return getFile(baseDir.getAbsolutePath(), file);
-                }
-                @Override
-                public SshFile getFile(final String file) {
-                    return getFile(home, file);
-                }
-                private SshFile getFile(final String dir, final String file) {
-                    final String normalized = NativeSshFile.normalizeSeparateChar(file);
-                    final String homeNorm = NativeSshFile.normalizeSeparateChar(home);
-                    final String prefix = removePrefix(homeNorm);
-                    String userFile = removePrefix(normalized);
-                    final File f = userFile.startsWith(prefix)
-                            ? new File(userFile)
-                            : new File(prefix, userFile);
-                    userFile = removePrefix(NativeSshFile.normalizeSeparateChar(f.getAbsolutePath()));
-                    return new AccessibleNativeSshFile(userFile, f, user);
-                }
-                private String removePrefix(final String s) {
-                    final int idx = s.indexOf('/');
-                    return idx < 1 ? s : s.substring(idx);
-                }
-            };
-        }
-    }
-
-    private static class AccessibleNativeSshFile extends NativeSshFile {
-        AccessibleNativeSshFile(final String fileName, final File file, final String userName) {
-            super(fileName, file, userName);
-        }
     }
 }
