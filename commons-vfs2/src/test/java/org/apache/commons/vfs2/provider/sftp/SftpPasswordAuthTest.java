@@ -29,6 +29,7 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.Collections;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
@@ -50,46 +51,64 @@ import com.jcraft.jsch.TestIdentityRepositoryFactory;
 /**
  * Tests SFTP password authentication using {@link StaticUserAuthenticator}.
  * <p>
- * Verifies that credentials supplied via {@link DefaultFileSystemConfigBuilder#setUserAuthenticator}
- * are correctly propagated to the SFTP server.
+ * Verifies that credentials supplied via {@link DefaultFileSystemConfigBuilder#setUserAuthenticator} are correctly propagated to the SFTP server.
  * </p>
  */
 public class SftpPasswordAuthTest {
 
     private static final String TEST_USERNAME = "testuser";
+
     private static final String TEST_PASSWORD = "testpass";
 
     private static SshServer sshServer;
+
     private static int serverPort;
+
     private static DefaultFileSystemManager manager;
+
+    private static String baseUri() {
+        return String.format("sftp://%s@localhost:%d", TEST_USERNAME, serverPort);
+    }
+
+    private static void configureSftpOptions(final FileSystemOptions opts) throws FileSystemException {
+        final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
+        builder.setStrictHostKeyChecking(opts, "no");
+        builder.setUserInfo(opts, new TrustEveryoneUserInfo());
+        builder.setIdentityRepositoryFactory(opts, new TestIdentityRepositoryFactory());
+        builder.setConnectTimeout(opts, Duration.ofSeconds(60));
+        builder.setSessionTimeout(opts, Duration.ofSeconds(60));
+    }
 
     @BeforeAll
     static void setUp() throws Exception {
         sshServer = SshServer.setUpDefaultServer();
         sshServer.setPort(0);
-
         final Path tmpKeyFile = Files.createTempFile("sshd-test-key", ".ser");
         tmpKeyFile.toFile().deleteOnExit();
         final SimpleGeneratorHostKeyProvider keyProvider = new SimpleGeneratorHostKeyProvider(tmpKeyFile);
         keyProvider.setAlgorithm("RSA");
         sshServer.setKeyPairProvider(keyProvider);
-
-        sshServer.setPasswordAuthenticator(
-                (user, pass, session) -> TEST_USERNAME.equals(user) && TEST_PASSWORD.equals(pass));
-
+        sshServer.setPasswordAuthenticator((user, pass, session) -> TEST_USERNAME.equals(user) && TEST_PASSWORD.equals(pass));
         sshServer.setSubsystemFactories(Collections.singletonList(new SftpSubsystemFactory()));
-
         final File homeDir = getTestDirectoryFile();
-        sshServer.setFileSystemFactory(
-                new VirtualFileSystemFactory(homeDir.toPath().toAbsolutePath()));
-
+        sshServer.setFileSystemFactory(new VirtualFileSystemFactory(homeDir.toPath().toAbsolutePath()));
         sshServer.start();
         serverPort = sshServer.getPort();
-
         manager = new DefaultFileSystemManager();
         manager.addProvider("sftp", new SftpFileProvider());
         manager.addProvider("file", new DefaultLocalFileProvider());
         manager.init();
+    }
+
+    private static void stopServerWithTimeout(final long timeoutMs) {
+        final Thread stopThread = new Thread(() -> IOUtils.closeQuietly(sshServer), "sshd-stop");
+        stopThread.setDaemon(true);
+        stopThread.start();
+        try {
+            stopThread.join(timeoutMs);
+        } catch (final InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     @AfterAll
@@ -106,42 +125,12 @@ public class SftpPasswordAuthTest {
         }
     }
 
-    private static void stopServerWithTimeout(final long timeoutMs) {
-        final Thread stopThread = new Thread(() -> {
-            try {
-                sshServer.close();
-            } catch (final Exception e) {
-                // ignore
-            }
-        }, "sshd-stop");
-        stopThread.setDaemon(true);
-        stopThread.start();
-        try {
-            stopThread.join(timeoutMs);
-        } catch (final InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-    }
-
-    private static String baseUri() {
-        return String.format("sftp://%s@localhost:%d", TEST_USERNAME, serverPort);
-    }
-
     private FileSystemOptions authOptions() throws FileSystemException {
         final FileSystemOptions opts = new FileSystemOptions();
         final StaticUserAuthenticator auth = new StaticUserAuthenticator(null, TEST_USERNAME, TEST_PASSWORD);
         DefaultFileSystemConfigBuilder.getInstance().setUserAuthenticator(opts, auth);
         configureSftpOptions(opts);
         return opts;
-    }
-
-    private static void configureSftpOptions(final FileSystemOptions opts) throws FileSystemException {
-        final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
-        builder.setStrictHostKeyChecking(opts, "no");
-        builder.setUserInfo(opts, new TrustEveryoneUserInfo());
-        builder.setIdentityRepositoryFactory(opts, new TestIdentityRepositoryFactory());
-        builder.setConnectTimeout(opts, Duration.ofSeconds(60));
-        builder.setSessionTimeout(opts, Duration.ofSeconds(60));
     }
 
     @Test
@@ -179,7 +168,6 @@ public class SftpPasswordAuthTest {
         final StaticUserAuthenticator auth = new StaticUserAuthenticator(null, "wronguser", "wrongpassword");
         DefaultFileSystemConfigBuilder.getInstance().setUserAuthenticator(opts, auth);
         configureSftpOptions(opts);
-
         final String wrongUserUri = String.format("sftp://wronguser@localhost:%d/read-tests/file1.txt", serverPort);
         assertThrows(FileSystemException.class, () -> {
             try (FileObject file = manager.resolveFile(wrongUserUri, opts)) {
