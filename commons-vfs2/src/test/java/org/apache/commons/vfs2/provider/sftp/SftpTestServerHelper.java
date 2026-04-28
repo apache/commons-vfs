@@ -83,21 +83,12 @@ public final class SftpTestServerHelper {
                 final SftpSubsystemProxy subsystem, final Path file,
                 final Set<PosixFilePermission> perms, final LinkOption... options) throws IOException {
             permissionsCache.put(file.toAbsolutePath().toString(), new HashSet<>(perms));
-            try {
-                SftpFileSystemAccessor.super.setFilePermissions(subsystem, file, perms, options);
-            } catch (final UnsupportedOperationException | IOException ignored) {
-                // Silently swallow on systems without native POSIX support
-            }
         }
 
         @Override
         public void setFileOwner(
                 final SftpSubsystemProxy subsystem, final Path file,
                 final Principal owner, final LinkOption... options) throws IOException {
-            // No-op: the test server always reports TEST_UID/TEST_GID via
-            // resolveReportedFileAttributes, so the client sends those back
-            // in setStat. Silently ignore to avoid chown failures on
-            // non-root Unix processes.
         }
 
         @Override
@@ -108,24 +99,56 @@ public final class SftpTestServerHelper {
         }
 
         @Override
+        public void setFileAttribute(
+                final SftpSubsystemProxy subsystem, final Path file,
+                final String view, final String attribute, final Object value,
+                final LinkOption... options) throws IOException {
+            if ("uid".equals(attribute) || "gid".equals(attribute)) {
+                // No-op: SSHD routes integer uid/gid through setFileAttribute
+                // (not setFileOwner/setGroupOwner). The default calls
+                // Files.setAttribute(file, "unix:uid", ...) which throws
+                // IOException on non-root Unix when the uid doesn't match.
+                return;
+            }
+            try {
+                SftpFileSystemAccessor.super.setFileAttribute(subsystem, file, view, attribute, value, options);
+            } catch (final IOException | RuntimeException ignored) {
+                // Silently swallow; covers platforms without native POSIX
+                // support and edge-cases where the rooted file system
+                // rejects certain attribute writes.
+            }
+        }
+
+        @Override
         public Map<String, ?> readFileAttributes(
                 final SftpSubsystemProxy subsystem, final Path file,
                 final String view, final LinkOption... options) throws IOException {
+            Map<String, ?> result;
+            boolean synthetic = false;
             try {
-                return SftpFileSystemAccessor.super.readFileAttributes(subsystem, file, view, options);
+                result = SftpFileSystemAccessor.super.readFileAttributes(subsystem, file, view, options);
             } catch (final UnsupportedOperationException | IllegalArgumentException e) {
                 if (view.startsWith("unix:") || view.startsWith("posix:")) {
                     final Map<String, Object> attrs = new HashMap<>(
                             Files.readAttributes(file, "basic:*", options));
-                    final Set<PosixFilePermission> cached =
-                            permissionsCache.get(file.toAbsolutePath().toString());
-                    attrs.put("permissions", cached != null ? cached : defaultPermissions(file, options));
                     attrs.put("uid", TEST_UID);
                     attrs.put("gid", TEST_GID);
-                    return attrs;
+                    result = attrs;
+                    synthetic = true;
+                } else {
+                    throw e;
                 }
-                throw e;
             }
+            if (view.startsWith("unix:") || view.startsWith("posix:") || synthetic) {
+                final Map<String, Object> attrs = new HashMap<>(result);
+                final Set<PosixFilePermission> cached =
+                        permissionsCache.get(file.toAbsolutePath().toString());
+                attrs.put("permissions", cached != null ? cached : defaultPermissions(file, options));
+                attrs.put("uid", TEST_UID);
+                attrs.put("gid", TEST_GID);
+                return attrs;
+            }
+            return result;
         }
 
         @Override
