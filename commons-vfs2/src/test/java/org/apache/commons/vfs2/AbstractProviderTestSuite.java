@@ -120,9 +120,8 @@ public abstract class AbstractProviderTestSuite {
      * Asserts that the temp dir is empty or gone.
      */
     private void checkTempDir(final String assertMsg) {
-        if (tempDir.exists()) {
-            assertTrue(tempDir.isDirectory() && ArrayUtils.isEmpty(tempDir.list()),
-                assertMsg + " (" + tempDir.getAbsolutePath() + ")");
+        if (tempDir != null && tempDir.exists()) {
+            assertTrue(tempDir.isDirectory() && ArrayUtils.isEmpty(tempDir.list()), assertMsg + " (" + tempDir.getAbsolutePath() + ")");
         }
     }
 
