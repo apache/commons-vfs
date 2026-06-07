@@ -98,11 +98,11 @@ public class PermissionsTests extends AbstractProviderTestCase {
         if ((getFileSystem() instanceof LocalFileSystem) && (PathUtils.deleteFile(path, StandardDeleteOption.OVERRIDE_READ_ONLY).getFileCounter().get() == 0)) {
             File file = path.toFile();
             if (!file.delete()) {
-                System.err.println("\tTest deleteOnExit: " + path);
+                System.err.printf("\ttearDown(): deleteOnExit(%s)%n", path);
                 file.deleteOnExit();
             }
             if (file.exists()) {
-                System.err.println("\tTest tear down can't delete " + path);
+                System.err.printf("\ttearDown(): file.exists()%n", path);
             }
         }
     }
