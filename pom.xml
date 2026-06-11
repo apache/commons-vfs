@@ -89,7 +89,7 @@
     <!-- Avoid warnings about being unable to find jars during site building -->
     <dependency.locations.enabled>false</dependency.locations.enabled>
     <!-- hadoop.version version 3.5.0 requires Java 17: https://central.sonatype.com/artifact/org.apache.hadoop/hadoop-main/3.5.0 -->
-    <hadoop.version>3.4.3</hadoop.version>
+    <hadoop.version>3.5.0</hadoop.version>
     <httpcore5.version>5.4.2</httpcore5.version>
     <httpclient5.version>5.6.1</httpclient5.version>
     <jackrabbit1.version>1.6.5</jackrabbit1.version>
