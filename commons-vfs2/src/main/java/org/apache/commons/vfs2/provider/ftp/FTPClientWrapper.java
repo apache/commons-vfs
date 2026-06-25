@@ -64,6 +64,32 @@ public class FTPClientWrapper implements FtpClient {
         getFtpClient(); // fail-fast
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public boolean isDirectory(final String relPath) throws IOException {
+        try {
+            return isDirectoryWithCwd(relPath);
+        } catch (final IOException e) {
+            disconnect();
+            return isDirectoryWithCwd(relPath);
+        }
+    }
+
+    private boolean isDirectoryWithCwd(final String relPath) throws IOException {
+        // CWD "." checks the current directory without changing it — no save/restore needed.
+        if (".".equals(relPath)) {
+            return getFtpClient().changeWorkingDirectory(relPath);
+        }
+        final String saved = getFtpClient().printWorkingDirectory();
+        try {
+            return getFtpClient().changeWorkingDirectory(relPath);
+        } finally {
+            if (saved != null) {
+                getFtpClient().changeWorkingDirectory(saved);
+            }
+        }
+    }
+
     @Override
     public boolean abort() throws IOException {
         try {
