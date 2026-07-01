@@ -95,6 +95,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-logging:commons-logging from 1.3.5 to 1.4.0.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Bump org.apache.ant:ant from 1.10.15 to 1.10.17 #760.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">[test] Bump mina.sshd.version from 3.0.0-M3 to 3.0.0-M4 (#768).</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">[test] Bump org.slf4j:slf4j-log4j12 from 1.5.11 to 2.0.18 (#770).</action>
     </release>
     <release version="2.10.0" date="2025-02-01" description="This is a feature and maintenance release. Java 8 or later is required.">
       <!-- FIX -->
