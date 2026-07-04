@@ -95,7 +95,7 @@ for (int i = 0; i < children.length; i++) {
                 </p>
                 <p>
                     There is also an internal cache of each file object avoid the need to access the network layer. Now it's possible
-                    to configure this behaviour through the use of <a href="commons-vfs2/apidocs/org/apache/commons/vfs2/CacheStrategy.html">CacheStrategy</a>.
+                    to configure this behavior through the use of <a href="commons-vfs2/apidocs/org/apache/commons/vfs2/CacheStrategy.html">CacheStrategy</a>.
                     <br />
                     Do this on the DefaultFileSystemManager. For example:
                     <code>
