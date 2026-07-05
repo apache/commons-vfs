@@ -138,7 +138,7 @@ public class HdfsFileProviderTest {
 
     @AfterAll
     public static void tearDown() throws Exception {
-        if (null != hdfs) {
+        if (hdfs != null) {
             hdfs.close();
         }
         if (manager != null) {
@@ -148,7 +148,7 @@ public class HdfsFileProviderTest {
 
     @AfterEach
     public void after() throws Exception {
-        if (null != hdfs) {
+        if (hdfs != null) {
             hdfs.delete(DIR1_PATH, true);
         }
     }

@@ -133,7 +133,7 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
         @Override
         protected void tearDown() throws Exception {
             super.tearDown();
-            if (null != hdfs) {
+            if (hdfs != null) {
                 hdfs.close();
             }
         }

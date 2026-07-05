@@ -73,7 +73,7 @@ public class HdfsFileSystem extends AbstractFileSystem {
      */
     @Override
     public void close() {
-        if (null != fs) {
+        if (fs != null) {
             Uncheck.run(fs::close);
         }
         super.close();
@@ -148,7 +148,7 @@ public class HdfsFileSystem extends AbstractFileSystem {
             }
         }
 
-        final boolean useCache = null != getFileSystemManager().getFilesCache();
+        final boolean useCache = getFileSystemManager().getFilesCache() != null;
         FileObject fileObject = useCache ? getFileFromCache(name) : null;
         if (null == fileObject) {
             String path;

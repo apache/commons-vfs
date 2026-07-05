@@ -153,7 +153,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
     @Override
     protected long doGetLastModifiedTime() throws Exception {
         doAttach();
-        if (null != stat) {
+        if (stat != null) {
             return stat.getModificationTime();
         }
         return -1;
