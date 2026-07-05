@@ -150,7 +150,7 @@ public class HdfsFileSystem extends AbstractFileSystem {
 
         final boolean useCache = getFileSystemManager().getFilesCache() != null;
         FileObject fileObject = useCache ? getFileFromCache(name) : null;
-        if (null == fileObject) {
+        if (fileObject == null) {
             String path;
             try {
                 path = URLDecoder.decode(name.getPath(), StandardCharsets.UTF_8.name());

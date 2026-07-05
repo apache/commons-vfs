@@ -117,7 +117,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
      */
     @Override
     protected Map<String, Object> doGetAttributes() throws Exception {
-        if (null == stat) {
+        if (stat == null) {
             return super.doGetAttributes();
         }
         final Map<String, Object> attrs = new HashMap<>();
@@ -190,7 +190,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
     protected FileType doGetType() throws Exception {
         try {
             doAttach();
-            if (null == stat) {
+            if (stat == null) {
                 return FileType.IMAGINARY;
             }
             if (stat.isDirectory()) {
