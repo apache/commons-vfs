@@ -401,7 +401,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Sets the active port range.
      *
      * @param options   The FileSystemOptions.
-     * @param portRange the Range of active ports
+     * @param portRange The Range of active ports
      * @since 2.10.0
      */
     public void setActivePortRange(final FileSystemOptions options, final Range<Integer> portRange) {
@@ -426,7 +426,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * </p>
      *
      * @param options The FileSystemOptions.
-     * @param duration the timeout duration in milliseconds
+     * @param duration The timeout duration in milliseconds
      * @since 2.8.0
      */
     public void setConnectTimeout(final FileSystemOptions options, final Duration duration) {
@@ -440,7 +440,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * </p>
      *
      * @param options The FileSystemOptions.
-     * @param duration the timeout duration.
+     * @param duration The timeout duration.
      * @since 2.1
      * @deprecated Use {@link #setConnectTimeout(FileSystemOptions, Duration)}.
      */
@@ -453,7 +453,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * See {@link org.apache.commons.net.ftp.FTP#setControlEncoding} for details and examples.
      *
      * @param options The FileSystemOptions.
-     * @param encoding the encoding to use
+     * @param encoding The encoding to use
      * @since 2.11.0
      */
     public void setControlEncoding(final FileSystemOptions options, final Charset encoding) {
@@ -464,7 +464,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * See {@link org.apache.commons.net.ftp.FTP#setControlEncoding} for details and examples.
      *
      * @param options The FileSystemOptions.
-     * @param encoding the encoding to use
+     * @param encoding The encoding to use
      * @since 2.0
      * @deprecated Use {@link #setControlEncoding(FileSystemOptions, Charset)}.
      */
@@ -600,8 +600,8 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * You might need to make sure that {@link #setPassiveMode(FileSystemOptions, boolean) passive mode} is activated.
      * </p>
      *
-     * @param options the FileSystem options.
-     * @param proxy the Proxy
+     * @param options The FileSystem options.
+     * @param proxy The Proxy
      * @since 2.1
      */
     public void setProxy(final FileSystemOptions options, final Proxy proxy) {
@@ -653,7 +653,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * See {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
      *
      * @param options The FileSystemOptions.
-     * @param shortMonthNames an array of short month name Strings.
+     * @param shortMonthNames An array of short month name Strings.
      */
     public void setShortMonthNames(final FileSystemOptions options, final String[] shortMonthNames) {
         String[] clone = null;

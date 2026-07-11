@@ -27,7 +27,7 @@ public interface FileNameParser {
     /**
      * Check if a character needs encoding (%nn).
      *
-     * @param ch the character
+     * @param ch The character
      * @return true if character should be encoded
      */
     boolean encodeCharacter(char ch);

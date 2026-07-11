@@ -46,9 +46,9 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
     /**
      * Creates a non-root file.
      *
-     * @param fileSystem the file system this file belongs to.
-     * @param rootFile the root file for the file system.
-     * @param name the file name on this file system.
+     * @param fileSystem The file system this file belongs to.
+     * @param rootFile The root file for the file system.
+     * @param name The file name on this file system.
      */
     protected LocalFile(final LocalFileSystem fileSystem, final String rootFile, final AbstractFileName name) {
         super(name, fileSystem);

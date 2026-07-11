@@ -92,7 +92,7 @@ public class CanReadFileFilter implements FileFilter, Serializable {
     /**
      * Checks to see if the file can be read.
      *
-     * @param fileSelectInfo the File to check.
+     * @param fileSelectInfo The File to check.
      * @return {@code true} if the file can be read, otherwise {@code false}.
      * @throws FileSystemException Thrown for file system errors.
      */

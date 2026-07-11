@@ -37,7 +37,7 @@ public interface FilesCache {
      * Gets a FileObject from the cache by name.
      *
      * @param fileSystem The FileSystem.
-     * @param fileName the name
+     * @param fileName The name
      * @return The file object or null if file is not cached
      */
     FileObject getFile(FileSystem fileSystem, FileName fileName);
@@ -45,14 +45,14 @@ public interface FilesCache {
     /**
      * Adds a FileObject to the cache.
      *
-     * @param file the file
+     * @param file The file
      */
     void putFile(FileObject file);
 
     /**
      * Adds a FileObject to the cache if it isn't already present.
      *
-     * @param file the file
+     * @param file The file
      * @return true if the file was stored, false otherwise.
      */
     boolean putFileIfAbsent(FileObject file);

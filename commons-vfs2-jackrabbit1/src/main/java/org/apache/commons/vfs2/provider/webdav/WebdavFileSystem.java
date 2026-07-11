@@ -60,7 +60,7 @@ public class WebdavFileSystem extends HttpFileSystem {
     /**
      * Creates a file object. This method is called only if the requested file is not cached.
      *
-     * @param name the FileName.
+     * @param name The FileName.
      * @return The created FileObject.
      */
     @Override

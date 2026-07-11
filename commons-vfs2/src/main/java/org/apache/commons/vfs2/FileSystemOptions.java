@@ -117,7 +117,7 @@ public final class FileSystemOptions implements Cloneable, Comparable<FileSystem
     /**
      * Constructs a new instance with the given options.
      *
-     * @param options the options.
+     * @param options The options.
      * @since 2.10.0
      */
     public FileSystemOptions(final Map<FileSystemOptionKey, Object> options) {

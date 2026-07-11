@@ -68,7 +68,7 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
     /**
      * Adds a file.
      *
-     * @param file the file to add.
+     * @param file The file to add.
      */
     protected void addFile(final Object file) {
         synchronized (copies) {
@@ -79,7 +79,7 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
     /**
      * Allocates a new temporary file.
      *
-     * @param baseName the base file name.
+     * @param baseName The base file name.
      * @return The created File.
      * @throws FileSystemException if an error occurs.
      */
@@ -120,7 +120,7 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
      * Adds a file.
      *
      * @param parent ignored.
-     * @param baseName the base file name.
+     * @param baseName The base file name.
      * @return A File.
      * @throws FileSystemException if a file system error occurs.
      */

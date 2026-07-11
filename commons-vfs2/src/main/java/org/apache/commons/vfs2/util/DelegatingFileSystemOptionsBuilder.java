@@ -95,7 +95,7 @@ public class DelegatingFileSystemOptionsBuilder {
      * Pass in your fileSystemManager instance.
      * </p>
      *
-     * @param manager the manager to use to get the fileSystemConfigBuilder associated to a scheme
+     * @param manager The manager to use to get the fileSystemConfigBuilder associated to a scheme
      */
     public DelegatingFileSystemOptionsBuilder(final FileSystemManager manager) {
         this.manager = manager;

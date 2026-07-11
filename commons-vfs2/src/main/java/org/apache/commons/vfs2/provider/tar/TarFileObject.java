@@ -41,9 +41,9 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem> {
     /**
      * Constructs a new instance.
      *
-     * @param fileName the file name.
-     * @param entry the archive entry.
-     * @param fileSystem the file system.
+     * @param fileName The file name.
+     * @param entry The archive entry.
+     * @param fileSystem The file system.
      * @param tarExists whether the tar file exists.
      */
     protected TarFileObject(final AbstractFileName fileName, final TarArchiveEntry entry, final TarFileSystem fileSystem,

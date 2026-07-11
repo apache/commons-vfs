@@ -24,7 +24,7 @@ public interface FileFilter {
     /**
      * Determines if a file or folder should be selected.
      *
-     * @param fileSelectInfo the file or folder to select.
+     * @param fileSelectInfo The file or folder to select.
      * @return true if the file should be selected.
      * @throws FileSystemException Thrown for file system errors (since 2.4.)
      */

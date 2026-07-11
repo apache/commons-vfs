@@ -46,7 +46,7 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
     /**
      * Add new FileOperation to list of known operations.
      *
-     * @param operationClass a class implementing FileOperation.
+     * @param operationClass A class implementing FileOperation.
      * @throws FileSystemException if instances of the class cannot be assigned to FileOperation.
      */
     protected final void addOperation(final Class<? extends FileOperation> operationClass) throws FileSystemException {
@@ -62,9 +62,9 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
     /**
      * Gather available operations for the specified FileObject and put them into specified operationsList.
      *
-     * @param operationsList the list of available operations for the specified FileObject. The operationList contains
+     * @param operationsList The list of available operations for the specified FileObject. The operationList contains
      *            classes of available operations, e.g. Class objects.
-     * @param file the FileObject for which we want to get the list of available operations.
+     * @param file The FileObject for which we want to get the list of available operations.
      * @throws FileSystemException if list of operations cannot be retrieved.
      */
     @Override
@@ -76,9 +76,9 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
     /**
      * Gather available operations for the specified FileObject and put them into specified operationsList.
      *
-     * @param availableOperations the list of available operations for the specified FileObject.
+     * @param availableOperations The list of available operations for the specified FileObject.
      * @param resultList List to be filled with applicable operations.
-     * @param file the FileObject for which we want to get the list of available operations.
+     * @param file The FileObject for which we want to get the list of available operations.
      * @throws FileSystemException if list of operations cannot be retrieved.
      * @see #collectOperations(Collection operationsList, FileObject file)
      */
@@ -86,8 +86,8 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
         Collection<Class<? extends FileOperation>> resultList, FileObject file) throws FileSystemException;
 
     /**
-     * @param file the FileObject for which we need an operation.
-     * @param operationClass the Class which instance we are needed.
+     * @param file The FileObject for which we need an operation.
+     * @param operationClass The Class which instance we are needed.
      * @return The required operation instance.
      * @throws FileSystemException if operation cannot be retrieved.
      */
@@ -100,8 +100,8 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
     /**
      * Gets operation instance for specified FileOperation subclass.
      *
-     * @param file the file this operation should act on.
-     * @param operationClass the class of a file operation interface to instantiate.
+     * @param file The file this operation should act on.
+     * @param operationClass The class of a file operation interface to instantiate.
      * @return A new file operation
      * @throws FileSystemException if operation cannot be instantiated.
      */
@@ -110,7 +110,7 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
     /**
      * Find class implementing a specific operation interface.
      *
-     * @param operationClass the interface which is requested.
+     * @param operationClass The interface which is requested.
      * @return never returns null
      * @throws FileSystemException if operationClass is not a known FileOperation interface.
      */

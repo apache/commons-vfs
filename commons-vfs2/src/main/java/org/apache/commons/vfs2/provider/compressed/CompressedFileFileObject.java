@@ -46,9 +46,9 @@ public abstract class CompressedFileFileObject<FS extends CompressedFileFileSyst
     /**
      * Constructs a new instance.
      *
-     * @param fileName the file name.
-     * @param container the container.
-     * @param fileSystem the file system.
+     * @param fileName The file name.
+     * @param container The container.
+     * @param fileSystem The file system.
      */
     protected CompressedFileFileObject(final AbstractFileName fileName, final FileObject container, final FS fileSystem) {
         super(fileName, fileSystem);

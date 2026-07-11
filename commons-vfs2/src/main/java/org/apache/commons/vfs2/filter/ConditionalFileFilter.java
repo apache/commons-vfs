@@ -33,7 +33,7 @@ public interface ConditionalFileFilter {
      * Adds the specified file filter to the list of file filters at the end of the
      * list.
      *
-     * @param fileFilter the filter to be added
+     * @param fileFilter The filter to be added
      */
     void addFileFilter(FileFilter fileFilter);
 
@@ -57,7 +57,7 @@ public interface ConditionalFileFilter {
      * Sets the list of file filters, replacing any previously configured file
      * filters on this filter.
      *
-     * @param fileFilters the list of filters
+     * @param fileFilters The list of filters
      */
     void setFileFilters(List<FileFilter> fileFilters);
 

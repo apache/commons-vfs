@@ -200,7 +200,7 @@ public interface FileSystemManager extends AutoCloseable {
     /**
      * Gets Providers for file operations.
      *
-     * @param scheme the scheme for which we want to get the list af registered providers.
+     * @param scheme The scheme for which we want to get the list af registered providers.
      * @return The registered FileOperationProviders for the specified scheme. If there were no providers registered for
      *         the scheme, it returns null.
      *
@@ -308,7 +308,7 @@ public interface FileSystemManager extends AutoCloseable {
      * Resolves a name, relative to this file name. Equivalent to calling
      * {@code resolveName( path, NameScope.FILE_SYSTEM )}.
      *
-     * @param root the base file name
+     * @param root The base file name
      * @param name The name to resolve.
      * @return A {@link FileName} object representing the resolved file name.
      * @throws FileSystemException If the name is invalid.
@@ -319,7 +319,7 @@ public interface FileSystemManager extends AutoCloseable {
      * Resolves a name, relative to the "root" file name. Refer to {@link NameScope} for a description of how names are
      * resolved.
      *
-     * @param root the base file name
+     * @param root The base file name
      * @param name The name to resolve.
      * @param scope The {@link NameScope} to use when resolving the name.
      * @return A {@link FileName} object representing the resolved file name.

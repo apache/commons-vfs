@@ -105,7 +105,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         /**
          * Sets the host name.
          *
-         * @param hostName the host name.
+         * @param hostName The host name.
          * @since 2.0
          */
         public void setHostName(final String hostName) {
@@ -115,7 +115,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         /**
          * Sets the user password.
          *
-         * @param password the user password.
+         * @param password The user password.
          * @since 2.0
          */
         public void setPassword(final String password) {
@@ -125,7 +125,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         /**
          * Sets the connection port.
          *
-         * @param port the port number or -1.
+         * @param port The port number or -1.
          * @since 2.0
          */
         public void setPort(final int port) {
@@ -135,7 +135,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         /**
          * Sets the connection schema.
          *
-         * @param scheme the connection scheme.
+         * @param scheme The connection scheme.
          * @since 2.0
          */
         public void setScheme(final String scheme) {
@@ -145,7 +145,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         /**
          * Sets the user name.
          *
-         * @param userName the user name.
+         * @param userName The user name.
          * @since 2.0
          */
         public void setUserName(final String userName) {

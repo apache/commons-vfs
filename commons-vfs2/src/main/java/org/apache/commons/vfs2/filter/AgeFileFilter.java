@@ -58,9 +58,9 @@ public class AgeFileFilter implements FileFilter, Serializable {
      * Tests if the specified {@code File} is newer than the specified time
      * reference.
      *
-     * @param fileObject the {@code File} of which the modification date must
+     * @param fileObject The {@code File} of which the modification date must
      *                   be compared, must not be {@code null}
-     * @param timeMillis the time reference measured in milliseconds since the epoch
+     * @param timeMillis The time reference measured in milliseconds since the epoch
      *                   (00:00:00 GMT, January 1, 1970)
      * @return true if the {@code File} exists and has been modified after the
      *         given time reference.
@@ -87,7 +87,7 @@ public class AgeFileFilter implements FileFilter, Serializable {
      * Constructs a new age file filter for files older than (at or before) a
      * certain cutoff date.
      *
-     * @param cutoffDate the threshold age of the files
+     * @param cutoffDate The threshold age of the files
      */
     public AgeFileFilter(final Date cutoffDate) {
         this(cutoffDate, true);
@@ -97,7 +97,7 @@ public class AgeFileFilter implements FileFilter, Serializable {
      * Constructs a new age file filter for files on any one side of a certain
      * cutoff date.
      *
-     * @param cutoffDate  the threshold age of the files
+     * @param cutoffDate  The threshold age of the files
      * @param acceptOlder if true, older files (at or before the cutoff) are
      *                    accepted, else newer ones (after the cutoff).
      */
@@ -109,7 +109,7 @@ public class AgeFileFilter implements FileFilter, Serializable {
      * Constructs a new age file filter for files older than (at or before) a
      * certain File (whose last modification time will be used as reference).
      *
-     * @param cutoffReference the file whose last modification time is used as the
+     * @param cutoffReference The file whose last modification time is used as the
      *                        threshold age of the files
      *
      * @throws FileSystemException Error reading the last modification time from the
@@ -123,7 +123,7 @@ public class AgeFileFilter implements FileFilter, Serializable {
      * Constructs a new age file filter for files on any one side of a certain File
      * (whose last modification time will be used as reference).
      *
-     * @param cutoffReference the file whose last modification time is used as the
+     * @param cutoffReference The file whose last modification time is used as the
      *                        threshold age of the files
      * @param acceptOlder     if true, older files (at or before the cutoff) are
      *                        accepted, else newer ones (after the cutoff).
@@ -139,7 +139,7 @@ public class AgeFileFilter implements FileFilter, Serializable {
      * Constructs a new age file filter for files equal to or older than a certain
      * cutoff.
      *
-     * @param cutoff the threshold age of the files
+     * @param cutoff The threshold age of the files
      */
     public AgeFileFilter(final long cutoff) {
         this(cutoff, true);
@@ -149,7 +149,7 @@ public class AgeFileFilter implements FileFilter, Serializable {
      * Constructs a new age file filter for files on any one side of a certain
      * cutoff.
      *
-     * @param cutoff      the threshold age of the files
+     * @param cutoff      The threshold age of the files
      * @param acceptOlder if true, older files (at or before the cutoff) are
      *                    accepted, else newer ones (after the cutoff).
      */
@@ -166,7 +166,7 @@ public class AgeFileFilter implements FileFilter, Serializable {
      * files are required, file <strong>IS</strong> selected.
      * </p>
      *
-     * @param fileInfo the File to check
+     * @param fileInfo The File to check
      * @return true if the file name matches
      * @throws FileSystemException Thrown for file system errors.
      */

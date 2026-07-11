@@ -141,8 +141,8 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     /**
      * Constructs a new instance for subclasses.
      *
-     * @param fileName the file name.
-     * @param fileSystem the file system.
+     * @param fileName The file name.
+     * @param fileSystem The file system.
      */
     protected AbstractFileObject(final AbstractFileName fileName, final AFS fileSystem) {
         this.fileName = fileName;
@@ -182,7 +182,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     /**
      * Tests if a simple rename to the file name of {@code newfile} is possible.
      *
-     * @param newfile the new file name
+     * @param newfile The new file name
      * @return true if rename is possible
      */
     @Override
@@ -244,7 +244,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     /**
      * Compares two FileObjects (ignores case).
      *
-     * @param file the object to compare.
+     * @param file The object to compare.
      * @return A negative integer, zero, or a positive integer when this object is less than, equal to, or greater than
      *         the given object.
      */
@@ -1487,7 +1487,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     /**
      * Sets the file type.
      *
-     * @param fileType the file type.
+     * @param fileType The file type.
      */
     protected void injectType(final FileType fileType) {
         setFileType(fileType);
@@ -1845,7 +1845,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * Returns a child by name.
      *
      * @param name The name of the child to locate.
-     * @param scope the NameScope.
+     * @param scope The NameScope.
      * @return The FileObject for the file or null if the child does not exist.
      * @throws FileSystemException if an error occurs.
      */

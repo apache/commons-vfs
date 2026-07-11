@@ -60,8 +60,8 @@ public class WeakRefFileListener implements FileListener {
     /**
      * Constructs a new instance.
      *
-     * @param file the file object.
-     * @param listener the file listener.
+     * @param file The file object.
+     * @param listener The file listener.
      */
     protected WeakRefFileListener(final FileObject file, final FileListener listener) {
         fs = file.getFileSystem();

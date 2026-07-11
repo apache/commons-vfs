@@ -27,7 +27,7 @@ public class ChangedEvent extends AbstractFileChangeEvent {
     /**
      * Constructs a new instance.
      *
-     * @param fileObject the file object.
+     * @param fileObject The file object.
      */
     public ChangedEvent(final FileObject fileObject) {
         super(fileObject);

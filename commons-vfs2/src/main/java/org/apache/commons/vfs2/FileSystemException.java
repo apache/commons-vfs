@@ -93,7 +93,7 @@ public class FileSystemException extends IOException {
     /**
      * Constructs exception with the specified detail message.
      *
-     * @param code the error code of the message.
+     * @param code The error code of the message.
      */
     public FileSystemException(final String code) {
         this(code, null, (Object[]) null);
@@ -102,7 +102,7 @@ public class FileSystemException extends IOException {
     /**
      * Constructs exception with the specified detail message.
      *
-     * @param code the error code of the message.
+     * @param code The error code of the message.
      * @param info one context information.
      */
     public FileSystemException(final String code, final Object info) {
@@ -112,7 +112,7 @@ public class FileSystemException extends IOException {
     /**
      * Constructs exception with the specified detail message.
      *
-     * @param code the error code of the message.
+     * @param code The error code of the message.
      * @param info array of complementary info (context).
      */
     public FileSystemException(final String code, final Object... info) {
@@ -122,9 +122,9 @@ public class FileSystemException extends IOException {
     /**
      * Constructs exception with the specified detail message and cause.
      *
-     * @param code the error code of the message.
+     * @param code The error code of the message.
      * @param info one context information.
-     * @param cause the cause.
+     * @param cause The cause.
      */
     public FileSystemException(final String code, final Object info, final Throwable cause) {
         this(code, cause, info);
@@ -133,9 +133,9 @@ public class FileSystemException extends IOException {
     /**
      * Constructs exception with the specified detail message.
      *
-     * @param code the error code of the message.
+     * @param code The error code of the message.
      * @param info array of complementary info (context).
-     * @param cause the cause.
+     * @param cause The cause.
      * @deprecated Use instead {@link #FileSystemException(String, Throwable, Object[])}. Will be removed in 3.0.
      */
     @Deprecated
@@ -146,8 +146,8 @@ public class FileSystemException extends IOException {
     /**
      * Constructs exception with the specified detail message.
      *
-     * @param code the error code of the message.
-     * @param cause the original cause
+     * @param code The error code of the message.
+     * @param cause The original cause
      */
     public FileSystemException(final String code, final Throwable cause) {
         this(code, cause, (Object[]) null);
@@ -156,9 +156,9 @@ public class FileSystemException extends IOException {
     /**
      * Constructs exception with the specified detail message.
      *
-     * @param code the error code of the message.
+     * @param code The error code of the message.
      * @param info array of complementary info (context).
-     * @param cause the cause.
+     * @param cause The cause.
      */
     public FileSystemException(final String code, final Throwable cause, final Object... info) {
         super(code, cause);
@@ -182,7 +182,7 @@ public class FileSystemException extends IOException {
     /**
      * Constructs wrapper exception.
      *
-     * @param cause the root cause to wrap.
+     * @param cause The root cause to wrap.
      */
     public FileSystemException(final Throwable cause) {
         this(cause.getMessage(), cause, (Object[]) null);

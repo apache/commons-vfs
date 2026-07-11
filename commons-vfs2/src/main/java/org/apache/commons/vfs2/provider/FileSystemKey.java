@@ -34,7 +34,7 @@ final class FileSystemKey implements Comparable<FileSystemKey> {
      * Creates the FS key.
      *
      * @param key must implement Comparable, and must be self-comparable.
-     * @param fileSystemOptions the required options, may be null.
+     * @param fileSystemOptions The required options, may be null.
      */
     FileSystemKey(final Comparable<?> key, final FileSystemOptions fileSystemOptions) {
         this.key = key;

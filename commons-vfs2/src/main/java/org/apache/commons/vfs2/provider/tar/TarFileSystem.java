@@ -105,7 +105,7 @@ public class TarFileSystem extends AbstractFileSystem {
     /**
      * Creates a new TarArchiveInputStream.
      *
-     * @param file the file.
+     * @param file The file.
      * @return A new TarArchiveInputStream.
      * @throws FileSystemException if a file system error occurs.
      */
@@ -127,8 +127,8 @@ public class TarFileSystem extends AbstractFileSystem {
     /**
      * Creates a new TarFileObject.
      *
-     * @param fileName the file name.
-     * @param entry the archive entry.
+     * @param fileName The file name.
+     * @param entry The archive entry.
      * @return A new TarFileObject.
      */
     protected TarFileObject createTarFileObject(final AbstractFileName fileName, final TarArchiveEntry entry) {

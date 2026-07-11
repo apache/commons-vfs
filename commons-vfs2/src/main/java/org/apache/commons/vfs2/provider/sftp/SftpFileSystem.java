@@ -357,7 +357,7 @@ public class SftpFileSystem extends AbstractFileSystem {
     /**
      * Returns a channel to the pool.
      *
-     * @param channelSftp the SFTP channel.
+     * @param channelSftp The SFTP channel.
      */
     protected void putChannel(final ChannelSftp channelSftp) {
         if (idleChannel == null) {

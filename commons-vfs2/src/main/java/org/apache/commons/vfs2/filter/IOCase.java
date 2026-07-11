@@ -71,7 +71,7 @@ public enum IOCase {
     /**
      * Factory method to create an IOCase from a name.
      *
-     * @param name the name to find
+     * @param name The name to find
      * @return The IOCase object
      * @throws IllegalArgumentException if the name is invalid
      */
@@ -93,8 +93,8 @@ public enum IOCase {
     /**
      * Constructs a new instance.
      *
-     * @param name      the name
-     * @param sensitive the sensitivity
+     * @param name      The name
+     * @param sensitive The sensitivity
      */
     IOCase(final String name, final boolean sensitive) {
         this.name = name;
@@ -107,8 +107,8 @@ public enum IOCase {
      * This method mimics {@link String#compareTo} but takes case-sensitivity into
      * account.
      *
-     * @param str1 the first string to compare, not null
-     * @param str2 the second string to compare, not null
+     * @param str1 The first string to compare, not null
+     * @param str2 The second string to compare, not null
      * @return true if equal using the case rules
      * @throws NullPointerException if either string is null
      */
@@ -124,8 +124,8 @@ public enum IOCase {
      * This method mimics {@link String#endsWith} but takes case-sensitivity into
      * account.
      *
-     * @param str the string to check, not null
-     * @param end the end to compare against, not null
+     * @param str The string to check, not null
+     * @param end The end to compare against, not null
      * @return true if equal using the case rules
      * @throws NullPointerException if either string is null
      */
@@ -140,8 +140,8 @@ public enum IOCase {
      * This method mimics {@link String#equals} but takes case-sensitivity into
      * account.
      *
-     * @param str1 the first string to compare, not null
-     * @param str2 the second string to compare, not null
+     * @param str1 The first string to compare, not null
+     * @param str2 The second string to compare, not null
      * @return true if equal using the case rules
      * @throws NullPointerException if either string is null
      */
@@ -158,9 +158,9 @@ public enum IOCase {
      * This method mimics parts of {@link String#indexOf(String, int)} but takes
      * case-sensitivity into account.
      *
-     * @param str           the string to check, not null
-     * @param strStartIndex the index to start at in str
-     * @param search        the start to search for, not null
+     * @param str           The string to check, not null
+     * @param strStartIndex The index to start at in str
+     * @param search        The start to search for, not null
      * @return The first index of the search String, -1 if no match or {@code null}
      *         string input
      * @throws NullPointerException if either string is null
@@ -186,9 +186,9 @@ public enum IOCase {
      * {@link String#regionMatches(boolean, int, String, int, int)} but takes
      * case-sensitivity into account.
      *
-     * @param str           the string to check, not null
-     * @param strStartIndex the index to start at in str
-     * @param search        the start to search for, not null
+     * @param str           The string to check, not null
+     * @param strStartIndex The index to start at in str
+     * @param search        The start to search for, not null
      * @return true if equal using the case rules
      * @throws NullPointerException if either string is null
      */
@@ -202,8 +202,8 @@ public enum IOCase {
      * This method mimics {@link String#startsWith(String)} but takes
      * case-sensitivity into account.
      *
-     * @param str   the string to check, not null
-     * @param start the start to compare against, not null
+     * @param str   The string to check, not null
+     * @param start The start to compare against, not null
      * @return true if equal using the case rules
      * @throws NullPointerException if either string is null
      */

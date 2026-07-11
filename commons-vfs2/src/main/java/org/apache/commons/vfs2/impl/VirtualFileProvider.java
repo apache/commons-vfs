@@ -43,7 +43,7 @@ public class VirtualFileProvider extends AbstractVfsContainer {
      * This gets called from DefaultFileManager#_closeFileSystem.
      * </p>
      *
-     * @param fileSystem the file system remembered by this provider.
+     * @param fileSystem The file system remembered by this provider.
      */
     void closeFileSystem(final FileSystem fileSystem) {
         final AbstractFileSystem fs = (AbstractFileSystem) fileSystem;

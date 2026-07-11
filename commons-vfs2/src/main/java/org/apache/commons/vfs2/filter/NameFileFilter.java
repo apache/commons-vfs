@@ -60,7 +60,7 @@ public class NameFileFilter implements FileFilter, Serializable {
      *
      * @param caseSensitivity how to handle case sensitivity, null means
      *                        case-sensitive
-     * @param names           the names to allow, must not be null
+     * @param names           The names to allow, must not be null
      */
     public NameFileFilter(final IOCase caseSensitivity, final List<String> names) {
         if (names == null) {
@@ -76,7 +76,7 @@ public class NameFileFilter implements FileFilter, Serializable {
      *
      * @param caseSensitivity how to handle case sensitivity, null means
      *                        case-sensitive
-     * @param names           the names to allow, must not be null
+     * @param names           The names to allow, must not be null
      */
     public NameFileFilter(final IOCase caseSensitivity, final String... names) {
         if (names == null) {
@@ -89,7 +89,7 @@ public class NameFileFilter implements FileFilter, Serializable {
     /**
      * Constructs a new case-sensitive name file filter for a list of names.
      *
-     * @param names the names to allow, must not be null
+     * @param names The names to allow, must not be null
      */
     public NameFileFilter(final List<String> names) {
         this(null, names);
@@ -102,7 +102,7 @@ public class NameFileFilter implements FileFilter, Serializable {
      * This would be inadvisable however.
      * </p>
      *
-     * @param names the names to allow, must not be null
+     * @param names The names to allow, must not be null
      */
     public NameFileFilter(final String... names) {
         this(null, names);
@@ -111,7 +111,7 @@ public class NameFileFilter implements FileFilter, Serializable {
     /**
      * Checks to see if the file name matches.
      *
-     * @param fileSelectInfo the File to check
+     * @param fileSelectInfo The File to check
      * @return true if the file name matches
      */
     @Override

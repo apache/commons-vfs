@@ -76,7 +76,7 @@ public class Webdav4FileName extends GenericURLFileName {
      * Reappend the trailing slash ( / ) if this FileName is a directory and not ROOT
      * because many WEBDav-Servers require the trailing slash if the request access a directory
      *
-     * @param charset the charset used for the path encoding
+     * @param charset The charset used for the path encoding
      * @return The encoded path.
      * @throws FileSystemException If some other error occurs.
      */

@@ -41,7 +41,7 @@ public class FileNotFolderException extends FileSystemException {
      * Constructs exception with the specified detail message.
      *
      * @param info one context information.
-     * @param cause the cause.
+     * @param cause The cause.
      */
     public FileNotFolderException(final Object info, final Throwable cause) {
         super("vfs.provider/list-children-not-folder.error", info, cause);

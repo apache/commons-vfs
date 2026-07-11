@@ -45,8 +45,8 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
     /**
      * Constructs a new instance.
      *
-     * @param fileSystem the file system.
-     * @param fileName the file name.
+     * @param fileSystem The file system.
+     * @param fileName The file name.
      */
     protected UrlFileObject(final UrlFileSystem fileSystem, final AbstractFileName fileName) {
         super(fileName, fileSystem);
@@ -55,7 +55,7 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
     /**
      * Creates a URL from the given file name.
      *
-     * @param name the file name.
+     * @param name The file name.
      * @return A new URL.
      * @throws IOException if an I/O error occurs.
      */

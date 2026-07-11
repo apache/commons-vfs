@@ -65,7 +65,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
      * Splits a string into a number of tokens. The text is split by '?' and '*'.
      * Where multiple '*' occur consecutively they are collapsed into a single '*'.
      *
-     * @param text the text to split
+     * @param text The text to split
      * @return The array of tokens, never null
      */
     // CHECKSTYLE:OFF Cyclomatic complexity of 12 is OK here
@@ -111,8 +111,8 @@ public class WildcardFileFilter implements FileFilter, Serializable {
      * work properly at present in match strings.
      * </p>
      *
-     * @param fileName        the file name to match on
-     * @param wildcardMatcher the wildcard string to match against
+     * @param fileName        The file name to match on
+     * @param wildcardMatcher The wildcard string to match against
      * @param caseSensitivity what case sensitivity rule to use, null means
      *                        case-sensitive
      *
@@ -213,7 +213,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
      *
      * @param caseSensitivity how to handle case sensitivity, null means
      *                        case-sensitive
-     * @param wildcards       the list of wildcards to match, not null
+     * @param wildcards       The list of wildcards to match, not null
      */
     public WildcardFileFilter(final IOCase caseSensitivity, final List<String> wildcards) {
         if (wildcards == null) {
@@ -229,7 +229,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
      *
      * @param caseSensitivity how to handle case sensitivity, null means
      *                        case-sensitive
-     * @param wildcards       the array of wildcards to match, not null
+     * @param wildcards       The array of wildcards to match, not null
      */
     public WildcardFileFilter(final IOCase caseSensitivity, final String... wildcards) {
         if (wildcards == null) {
@@ -242,7 +242,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
     /**
      * Constructs a new case-sensitive wildcard filter for a list of wildcards.
      *
-     * @param wildcards the list of wildcards to match, not null
+     * @param wildcards The list of wildcards to match, not null
      */
     public WildcardFileFilter(final List<String> wildcards) {
         this(null, wildcards);
@@ -254,7 +254,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
      * The array is not cloned, so could be changed after constructing the instance.
      * This would be inadvisable however.
      *
-     * @param wildcards the array of wildcards to match
+     * @param wildcards The array of wildcards to match
      */
     public WildcardFileFilter(final String... wildcards) {
         this(null, wildcards);
@@ -263,7 +263,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
     /**
      * Checks to see if the file name matches one of the wildcards.
      *
-     * @param fileSelectInfo the file to check
+     * @param fileSelectInfo The file to check
      * @return true if the file name matches one of the wildcards
      */
     @Override

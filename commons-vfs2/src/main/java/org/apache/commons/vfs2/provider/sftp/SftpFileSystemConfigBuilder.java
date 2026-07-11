@@ -668,7 +668,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Sets the proxy username to use for the SFTP connection.
      *
      * @param options         The FileSystem options.
-     * @param proxyCommand the port
+     * @param proxyCommand The port
      * @see #getProxyOptions
      * @since 2.1
      */
@@ -682,7 +682,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * You MUST also set the proxy port to use the proxy.
      *
      * @param options      The FileSystem options.
-     * @param proxyHost the host
+     * @param proxyHost The host
      * @see #setProxyPort
      */
     public void setProxyHost(final FileSystemOptions options, final String proxyHost) {
@@ -693,7 +693,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Sets the proxy username to use for the SFTP connection.
      *
      * @param options         The FileSystem options.
-     * @param proxyOptions the options
+     * @param proxyOptions The options
      * @see #getProxyOptions
      * @since 2.1
      */
@@ -705,7 +705,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Sets the proxy password to use for the SFTP connection.
      *
      * @param options          The FileSystem options.
-     * @param proxyPassword the username used to connect to the proxy
+     * @param proxyPassword The username used to connect to the proxy
      * @see #getProxyPassword
      * @since 2.1
      */
@@ -720,7 +720,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * </p>
      *
      * @param options      The FileSystem options.
-     * @param proxyPort the port
+     * @param proxyPort The port
      * @see #setProxyHost
      */
     public void setProxyPort(final FileSystemOptions options, final int proxyPort) {
@@ -739,7 +739,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * </ul>
      *
      * @param options      The FileSystem options.
-     * @param proxyType the type of the proxy to use.
+     * @param proxyType The type of the proxy to use.
      */
     public void setProxyType(final FileSystemOptions options, final ProxyType proxyType) {
         this.setParam(options, PROXY_TYPE, proxyType);
@@ -749,7 +749,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Sets the proxy username to use for the SFTP connection.
      *
      * @param options      The FileSystem options.
-     * @param proxyUser the username used to connect to the proxy
+     * @param proxyUser The username used to connect to the proxy
      * @see #getProxyUser
      * @since 2.1
      */

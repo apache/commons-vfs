@@ -59,7 +59,7 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
      * </p>
      *
      * @param key The root file of the file system, part of the cache key.
-     * @param fs the file system to add.
+     * @param fs The file system to add.
      * @throws FileSystemException if any error occurs.
      */
     protected void addFileSystem(final Comparable<?> key, final FileSystem fs) throws FileSystemException {
@@ -106,7 +106,7 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
      * Creates a layered file system. This method throws a 'not supported' exception.
      *
      * @param scheme The protocol to use to access the file.
-     * @param file a FileObject.
+     * @param file A FileObject.
      * @param fileSystemOptions Options to the file system.
      * @return A FileObject associated with the new FileSystem.
      * @throws FileSystemException if an error occurs.
@@ -184,7 +184,7 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
     /**
      * Sets the file name parser.
      *
-     * @param parser a file name parser.
+     * @param parser A file name parser.
      */
     protected void setFileNameParser(final FileNameParser parser) {
         this.fileNameParser = parser;

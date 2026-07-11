@@ -114,7 +114,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
     /**
      * Delete a file
      *
-     * @param file the {@link RamFileObject} file to delete.
+     * @param file The {@link RamFileObject} file to delete.
      * @throws FileSystemException Thrown for file system errors.
      */
     void delete(final RamFileObject file) throws FileSystemException {
@@ -181,7 +181,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
     /**
      * Saves a file
      *
-     * @param file the {@link RamFileObject} file to save.
+     * @param file The {@link RamFileObject} file to save.
      * @throws FileSystemException Thrown for file system errors.
      */
     void save(final RamFileObject file) throws FileSystemException {
@@ -219,8 +219,8 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
     /**
      * Import the given file with the name relative to the given root
      *
-     * @param fo the source {@link FileObject} file to import.
-     * @param root the {@link FileObject} root.
+     * @param fo The source {@link FileObject} file to import.
+     * @param root The {@link FileObject} root.
      * @throws FileSystemException Thrown for file system errors.
      */
     private void toRamFileObject(final FileObject fo, final FileObject root) throws FileSystemException {

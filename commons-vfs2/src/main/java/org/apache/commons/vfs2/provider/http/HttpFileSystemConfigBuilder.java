@@ -227,7 +227,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Gets the user agent string.
      *
-     * @param opts the file system options to modify
+     * @param opts The file system options to modify
      * @return User provided User-Agent string, otherwise default of: Commons-VFS
      */
     public String getUserAgent(final FileSystemOptions opts) {
@@ -320,7 +320,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * conversation outweighs any architectural desire to use a stronger authentication scheme than basic/preemptive.
      *
      * @param opts The FileSystemOptions.
-     * @param preemptiveAuth the desired setting; true=enabled and false=disabled.
+     * @param preemptiveAuth The desired setting; true=enabled and false=disabled.
      */
     public void setPreemptiveAuth(final FileSystemOptions opts, final boolean preemptiveAuth) {
         setParam(opts, KEY_PREEMPTIVE_AUTHENTICATION, Boolean.valueOf(preemptiveAuth));
@@ -343,7 +343,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * </p>
      *
      * @param opts The FileSystem options.
-     * @param proxyHost the host
+     * @param proxyHost The host
      * @see #setProxyPort
      */
     public void setProxyHost(final FileSystemOptions opts, final String proxyHost) {
@@ -355,7 +355,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * proxy really used.
      *
      * @param opts The FileSystem options.
-     * @param proxyPort the port
+     * @param proxyPort The port
      * @see #setProxyHost
      */
     public void setProxyPort(final FileSystemOptions opts, final int proxyPort) {
@@ -390,7 +390,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Sets the charset used for url encoding.
      *
      * @param opts The FileSystem options.
-     * @param charset the charset name.
+     * @param charset The charset name.
      */
     public void setUrlCharset(final FileSystemOptions opts, final String charset) {
         setParam(opts, "urlCharset", charset);
@@ -399,7 +399,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Sets the user agent to attach to the outgoing http methods.
      *
-     * @param opts the file system options to modify
+     * @param opts The file system options to modify
      * @param userAgent User Agent String
      */
     public void setUserAgent(final FileSystemOptions opts, final String userAgent) {

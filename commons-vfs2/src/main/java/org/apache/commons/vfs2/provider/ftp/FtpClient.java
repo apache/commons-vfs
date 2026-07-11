@@ -109,7 +109,7 @@ public interface FtpClient {
     /**
      * Queries the server for a supported feature.
      *
-     * @param feature the name of the feature, converted to upper case.
+     * @param feature The name of the feature, converted to upper case.
      * @return {@code true} if the feature is present, {@code false} if the feature is not present or the FTP command
      *         failed.
      *

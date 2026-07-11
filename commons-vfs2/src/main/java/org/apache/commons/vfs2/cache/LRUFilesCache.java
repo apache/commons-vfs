@@ -112,7 +112,7 @@ public class LRUFilesCache extends AbstractFilesCache {
     /**
      * Constructs a new instance with the desired LRU size.
      *
-     * @param lruSize the LRU size.
+     * @param lruSize The LRU size.
      */
     public LRUFilesCache(final int lruSize) {
         this.lruSize = lruSize;
@@ -148,7 +148,7 @@ public class LRUFilesCache extends AbstractFilesCache {
     /**
      * Gets or creates a new Map.
      *
-     * @param fileSystem the key.
+     * @param fileSystem The key.
      * @return An existing or new Map.
      */
     protected Map<FileName, FileObject> getOrCreateFilesystemCache(final FileSystem fileSystem) {

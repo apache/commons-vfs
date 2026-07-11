@@ -61,7 +61,7 @@ public class DirectoryFileFilter implements FileFilter, Serializable {
     /**
      * Checks to see if the file is a directory.
      *
-     * @param fileSelectInfo the File to check
+     * @param fileSelectInfo The File to check
      * @return {@code true} if the file is a directory
      * @throws FileSystemException Thrown for file system errors.
      */

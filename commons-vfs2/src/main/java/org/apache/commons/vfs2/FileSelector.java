@@ -27,7 +27,7 @@ public interface FileSelector {
      * Tests if a file or folder should be selected. This method is called in depthwise order (that is, it is
      * called for the children of a folder before it is called for the folder itself).
      *
-     * @param fileInfo the file or folder to select.
+     * @param fileInfo The file or folder to select.
      * @return true if the file should be selected.
      * @throws Exception if an error occurs.
      */
@@ -40,7 +40,7 @@ public interface FileSelector {
      * This method is called on a folder before {@link #includeFile} is called.
      * </p>
      *
-     * @param fileInfo the file or folder to select.
+     * @param fileInfo The file or folder to select.
      * @return true if the folder should be traversed.
      * @throws Exception if an error occurs.
      * @since 2.10.0
@@ -56,7 +56,7 @@ public interface FileSelector {
      * This method is called on a folder before {@link #includeFile} is called.
      * </p>
      *
-     * @param fileInfo the file or folder to select.
+     * @param fileInfo The file or folder to select.
      * @return true if the folder should be traversed.
      * @throws Exception if an error occurs.
      * @deprecated Use {@link #traverseDescendants(FileSelectInfo)}.

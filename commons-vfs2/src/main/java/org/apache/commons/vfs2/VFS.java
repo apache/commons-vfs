@@ -120,7 +120,7 @@ public final class VFS {
     /**
      * Sets the file system manager.
      *
-     * @param manager the file system manager
+     * @param manager The file system manager
      * @since 2.2
      */
     public static synchronized void setManager(final FileSystemManager manager) {

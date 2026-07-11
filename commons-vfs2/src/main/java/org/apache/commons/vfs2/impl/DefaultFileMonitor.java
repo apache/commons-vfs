@@ -320,7 +320,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
     /**
      * Constructs a new instance with the given listener.
      *
-     * @param listener the listener.
+     * @param listener The listener.
      */
     public DefaultFileMonitor(final FileListener listener) {
         this.listener = listener;
@@ -508,7 +508,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor, AutoCloseable 
     /**
      * Sets the number of files to check per run. An additional delay will be added if there are more files to check.
      *
-     * @param checksPerRun a value less than 1 will disable this feature
+     * @param checksPerRun A value less than 1 will disable this feature
      */
     public void setChecksPerRun(final int checksPerRun) {
         this.checksPerRun = checksPerRun;

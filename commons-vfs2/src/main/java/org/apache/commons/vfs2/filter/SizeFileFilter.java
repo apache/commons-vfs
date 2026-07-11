@@ -60,7 +60,7 @@ public class SizeFileFilter implements FileFilter, Serializable {
      * Constructs a new size file filter for files equal to or larger than a certain
      * size.
      *
-     * @param size the threshold size of the files - Must be non-negative.
+     * @param size The threshold size of the files - Must be non-negative.
      */
     public SizeFileFilter(final long size) {
         this(size, true);
@@ -70,7 +70,7 @@ public class SizeFileFilter implements FileFilter, Serializable {
      * Constructs a new size file filter for files based on a certain size
      * threshold.
      *
-     * @param size         the threshold size of the files - Must be non-negative.
+     * @param size         The threshold size of the files - Must be non-negative.
      * @param acceptLarger if true, files equal to or larger are accepted, otherwise
      *                     smaller ones (but not equal to)
      */
@@ -93,7 +93,7 @@ public class SizeFileFilter implements FileFilter, Serializable {
      * Non-existing files return always false (will never be accepted).
      * </p>
      *
-     * @param fileSelectInfo the File to check
+     * @param fileSelectInfo The File to check
      * @return true if the file name matches
      * @throws FileSystemException Thrown for file system errors.
      */

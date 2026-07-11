@@ -305,7 +305,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     /**
      * Adds a scheme.
      *
-     * @param rootUri the URI containing the scheme to add.
+     * @param rootUri The URI containing the scheme to add.
      */
     protected void addVirtualFileSystemScheme(String rootUri) {
         if (rootUri.indexOf(':') != -1) {
@@ -603,7 +603,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     }
 
     /**
-     * @param scheme the scheme for which we want to get the list af registered providers.
+     * @param scheme The scheme for which we want to get the list af registered providers.
      * @return The registered FileOperationProviders for the specified scheme. If there were no providers registered for
      *         the scheme, it returns null.
      *
@@ -892,9 +892,9 @@ public class DefaultFileSystemManager implements FileSystemManager {
     /**
      * Resolves a name, relative to the root.
      *
-     * @param base the base file name
-     * @param name the name
-     * @param scope the {@link NameScope}
+     * @param base The base file name
+     * @param name The name
+     * @param scope The {@link NameScope}
      * @return The FileName of the file.
      * @throws FileSystemException if an error occurs.
      */

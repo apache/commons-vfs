@@ -40,8 +40,8 @@ public class LayeredFileName extends AbstractFileName {
      *
      * @param scheme The scheme.
      * @param outerUri outer file name.
-     * @param path the absolute path, maybe empty or null.
-     * @param type the file type.
+     * @param path The absolute path, maybe empty or null.
+     * @param type The file type.
      */
     public LayeredFileName(final String scheme, final FileName outerUri, final String path, final FileType type) {
         super(scheme, path, type);

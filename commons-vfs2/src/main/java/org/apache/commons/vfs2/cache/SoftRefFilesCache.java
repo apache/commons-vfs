@@ -114,8 +114,8 @@ public class SoftRefFilesCache extends AbstractFilesCache {
     /**
      * Constructs a new Reference.
      *
-     * @param file a file object.
-     * @param referenceQueue a ReferenceQueue.
+     * @param file A file object.
+     * @param referenceQueue A ReferenceQueue.
      * @return A new Reference on the given input.
      */
     protected Reference<FileObject> createReference(final FileObject file, final ReferenceQueue<FileObject> referenceQueue) {
@@ -147,7 +147,7 @@ public class SoftRefFilesCache extends AbstractFilesCache {
     /**
      * Gets or creates a new Map.
      *
-     * @param fileSystem the key.
+     * @param fileSystem The key.
      * @return An existing or new Map.
      */
     protected synchronized Map<FileName, Reference<FileObject>> getOrCreateFilesystemCache(final FileSystem fileSystem) {

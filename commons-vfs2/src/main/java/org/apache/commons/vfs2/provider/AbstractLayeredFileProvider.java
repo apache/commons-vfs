@@ -38,7 +38,7 @@ public abstract class AbstractLayeredFileProvider extends AbstractFileProvider {
      * Creates a layered file system.
      *
      * @param scheme The protocol to use.
-     * @param file a FileObject.
+     * @param file A FileObject.
      * @param fileSystemOptions Options to access the FileSystem.
      * @return A FileObject associated with the new FileSystem.
      * @throws FileSystemException if an error occurs.

@@ -29,7 +29,7 @@ public interface FileOperations {
     /**
      * Gets the file operation for the given class.
      *
-     * @param operationClass the operation Class.
+     * @param operationClass The operation Class.
      * @return An operation implementing the given {@code operationClass}.
      * @throws FileSystemException if an error occurs.
      */
@@ -46,7 +46,7 @@ public interface FileOperations {
     /**
      * Tests @return whether an operation {@code operationClass} is available.
      *
-     * @param operationClass the operation Class.
+     * @param operationClass The operation Class.
      * @return whether an operation {@code operationClass} is available.
      * @throws FileSystemException if an error occurs.
      */

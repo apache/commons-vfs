@@ -38,9 +38,9 @@ public interface FileOperationProvider {
     /**
      * Gather available operations for the specified FileObject and put them into specified operationsList.
      *
-     * @param operationsList the list of available operations for the specified FileObject. The operationList contains
+     * @param operationsList The list of available operations for the specified FileObject. The operationList contains
      *            classes of available operations, e.g. Class objects.
-     * @param file the FileObject for which we want to get the list of available operations.
+     * @param file The FileObject for which we want to get the list of available operations.
      * @throws FileSystemException if list of operations cannot be retrieved.
      */
     void collectOperations(Collection<Class<? extends FileOperation>> operationsList, FileObject file) throws FileSystemException;
@@ -48,8 +48,8 @@ public interface FileOperationProvider {
     /**
      * Gets implementation for a given FileObject and FileOperation interface.
      *
-     * @param file the FileObject for which we need an operation.
-     * @param operationClass the Class which instance we are needed.
+     * @param file The FileObject for which we need an operation.
+     * @param operationClass The Class which instance we are needed.
      * @return The required operation instance.
      * @throws FileSystemException if operation cannot be retrieved.
      */

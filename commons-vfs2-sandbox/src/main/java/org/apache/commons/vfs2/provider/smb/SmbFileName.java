@@ -34,15 +34,15 @@ public class SmbFileName extends GenericFileName {
     /**
      * Constructs a new instance.
      *
-     * @param scheme the scheme.
-     * @param hostName the host name.
-     * @param port the port.
-     * @param userName the user name.
-     * @param password the password.
-     * @param domain the domain.
-     * @param share the share.
-     * @param path the absolute path, maybe empty or null.
-     * @param type the file type.
+     * @param scheme The scheme.
+     * @param hostName The host name.
+     * @param port The port.
+     * @param userName The user name.
+     * @param password The password.
+     * @param domain The domain.
+     * @param share The share.
+     * @param path The absolute path, maybe empty or null.
+     * @param type The file type.
      */
     protected SmbFileName(final String scheme, final String hostName, final int port, final String userName,
             final String password, final String domain, final String share, final String path, final FileType type) {

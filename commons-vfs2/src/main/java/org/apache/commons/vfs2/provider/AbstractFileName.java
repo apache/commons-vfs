@@ -95,8 +95,8 @@ public abstract class AbstractFileName implements FileName {
      * Constructs a new instance for subclasses.
      *
      * @param scheme The scheme.
-     * @param absolutePath the absolute path, maybe empty or null.
-     * @param type the file type.
+     * @param absolutePath The absolute path, maybe empty or null.
+     * @param type The file type.
      */
     public AbstractFileName(final String scheme, final String absolutePath, final FileType type) {
         rootUri = null;

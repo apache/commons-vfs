@@ -608,7 +608,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
     /**
      * Returns the resource name from the path.
      *
-     * @param path the path to the file.
+     * @param path The path to the file.
      * @return The resource name
      */
     private String resourceName(String path) {

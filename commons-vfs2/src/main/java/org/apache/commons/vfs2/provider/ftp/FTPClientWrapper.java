@@ -53,8 +53,8 @@ public class FTPClientWrapper implements FtpClient {
     /**
      * Constructs a new instance.
      *
-     * @param rootFileName the root file name.
-     * @param fileSystemOptions the file system options.
+     * @param rootFileName The root file name.
+     * @param fileSystemOptions The file system options.
      * @throws FileSystemException if a file system error occurs.
      */
     protected FTPClientWrapper(final GenericFileName rootFileName, final FileSystemOptions fileSystemOptions)
@@ -128,7 +128,7 @@ public class FTPClientWrapper implements FtpClient {
     /**
      * Creates an FTPClient.
      *
-     * @param rootName the root file name.
+     * @param rootName The root file name.
      * @param authData authentication data.
      * @return An FTPClient.
      * @throws FileSystemException if an error occurs while establishing a connection.

@@ -106,7 +106,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Closes the given file object.
      *
-     * @param fileObject a file object, may be null.
+     * @param fileObject A file object, may be null.
      * @throws FileSystemException See {@link FileObject#close()}.
      * @since 2.11.0
      */
@@ -119,7 +119,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Queries the file if it is possible to rename it to newfile.
      *
-     * @param newfile the new file(-name)
+     * @param newfile The new file(-name)
      * @return true it this is the case
      */
     boolean canRenameTo(FileObject newfile);
@@ -229,7 +229,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Finds the set of matching descendants of this file.
      *
-     * @param selector the selector used to determine if the file should be selected
+     * @param selector The selector used to determine if the file should be selected
      * @param depthwise controls the ordering in the list. e.g. deepest first
      * @param selected container for selected files. list needs not to be empty.
      * @throws FileSystemException if an error occurs.
@@ -431,7 +431,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
      * If the destFile exists, it is deleted first.
      * </p>
      *
-     * @param destFile the New file name.
+     * @param destFile The New file name.
      * @throws FileSystemException If this file is read-only, or if the source file does not exist, or on error copying
      *             the file.
      */
@@ -459,7 +459,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
      * Refer to {@link NameScope} for a description of how names are resolved in the different scopes.
      *
      * @param name The name to resolve.
-     * @param scope the NameScope for the file.
+     * @param scope The NameScope for the file.
      * @return The file.
      * @throws FileSystemException On error parsing the path, or on error finding the file.
      */

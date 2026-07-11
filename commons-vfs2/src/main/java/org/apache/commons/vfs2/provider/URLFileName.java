@@ -102,7 +102,7 @@ public class URLFileName extends GenericFileName {
     /**
      * Gets the path encoded suitable for url like file system e.g. (http, webdav).
      *
-     * @param charset the charset used for the path encoding
+     * @param charset The charset used for the path encoding
      * @return The encoded path.
      * @throws URIException If an error occurs encoding the URI.
      * @throws FileSystemException If some other error occurs.

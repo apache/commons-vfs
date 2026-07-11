@@ -107,7 +107,7 @@ public final class FtpClientFactory {
         /**
          * Creates a new client.
          *
-         * @param fileSystemOptions the file system options.
+         * @param fileSystemOptions The file system options.
          * @return A new client.
          * @throws FileSystemException if a file system error occurs.
          */
@@ -241,8 +241,8 @@ public final class FtpClientFactory {
         /**
          * Sets up a new client.
          *
-         * @param client the client.
-         * @param fileSystemOptions the file system options.
+         * @param client The client.
+         * @param fileSystemOptions The file system options.
          * @throws IOException if an IO error occurs.
          */
         protected abstract void setupOpenConnection(C client, FileSystemOptions fileSystemOptions) throws IOException;

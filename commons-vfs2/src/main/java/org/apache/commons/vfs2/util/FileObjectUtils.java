@@ -36,7 +36,7 @@ public final class FileObjectUtils {
     /**
      * Null-safe call to {@link FileObject#exists()}.
      *
-     * @param fileObject the file object to test, may be null.
+     * @param fileObject The file object to test, may be null.
      * @return false if {@code fileObject} is null, otherwise, see {@link FileObject#exists()}.
      * @throws FileSystemException On error determining if this file exists.
      * @since 2.4
@@ -143,7 +143,7 @@ public final class FileObjectUtils {
     /**
      * Reads the given file into a new {@link Properties}.
      *
-     * @param fileObject the file to read
+     * @param fileObject The file to read
      * @return A new {@link Properties}.
      * @throws IOException On error getting this file's content.
      * @throws FileSystemException On error getting this file's content.
@@ -157,8 +157,8 @@ public final class FileObjectUtils {
     /**
      * Reads the given file into a new given {@link Properties}.
      *
-     * @param fileObject the file to read
-     * @param properties the destination
+     * @param fileObject The file to read
+     * @param properties The destination
      * @return A new {@link Properties}.
      * @throws FileSystemException On error getting this file's content.
      * @throws IOException On error getting this file's content.

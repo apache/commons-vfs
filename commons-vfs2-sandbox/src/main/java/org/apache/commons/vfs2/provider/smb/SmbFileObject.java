@@ -53,8 +53,8 @@ public class SmbFileObject extends AbstractFileObject<SmbFileSystem> {
     /**
      * Constructs a new instance.
      *
-     * @param fileName the file name.
-     * @param fileSystem the file system.
+     * @param fileName The file name.
+     * @param fileSystem The file system.
      * @throws FileSystemException not thrown.
      */
     protected SmbFileObject(final AbstractFileName fileName, final SmbFileSystem fileSystem) throws FileSystemException {

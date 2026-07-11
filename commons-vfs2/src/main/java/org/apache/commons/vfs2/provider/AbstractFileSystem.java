@@ -188,7 +188,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     /**
      * Decorates the given file object.
      *
-     * @param file the file object.
+     * @param file The file object.
      * @return The decorated file object.
      * @throws FileSystemException if a file system error occurs.
      */
@@ -219,7 +219,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     /**
      * Creates a temporary local copy of a file and its descendants.
      *
-     * @param file the start of the tree.
+     * @param file The start of the tree.
      * @param selector selection what to do with children.
      * @return replicated root file.
      * @throws Exception any Exception is wrapped as FileSystemException.
@@ -404,7 +404,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     /**
      * Tests whether this file system has a particular capability.
      *
-     * @param capability the Capability to check for.
+     * @param capability The Capability to check for.
      * @return true if the FileSystem has the Capability, false otherwise.
      */
     @Override
@@ -450,7 +450,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     /**
      * Adds a file object to the cache.
      *
-     * @param file the file to add.
+     * @param file The file to add.
      */
     protected void putFileToCache(final FileObject file) {
         getFilesCache().putFile(file);
@@ -612,7 +612,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     /**
      * Sets the attribute with the specified name. The default implementation simply throws an exception.
      *
-     * @param attrName the attribute name.
+     * @param attrName The attribute name.
      * @param value The object to associate with the attribute.
      * @throws FileSystemException if an error occurs.
      */

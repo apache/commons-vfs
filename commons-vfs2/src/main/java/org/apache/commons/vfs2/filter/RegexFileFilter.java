@@ -117,7 +117,7 @@ public class RegexFileFilter implements FileFilter, Serializable {
     /**
      * Checks to see if the file name matches one of the regular expressions.
      *
-     * @param fileSelectInfo the File to check
+     * @param fileSelectInfo The File to check
      * @return true if the file matches one of the regular expressions
      */
     @Override

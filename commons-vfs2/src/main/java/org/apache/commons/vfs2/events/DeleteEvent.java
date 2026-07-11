@@ -27,7 +27,7 @@ public class DeleteEvent extends AbstractFileChangeEvent {
     /**
      * Constructs a new instance.
      *
-     * @param fileObject the file object.
+     * @param fileObject The file object.
      */
     public DeleteEvent(final FileObject fileObject) {
         super(fileObject);

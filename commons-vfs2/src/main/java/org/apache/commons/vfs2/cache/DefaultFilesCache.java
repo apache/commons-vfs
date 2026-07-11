@@ -86,7 +86,7 @@ public class DefaultFilesCache extends AbstractFilesCache {
     /**
      * Gets or creates a Map.
      *
-     * @param fileSystem the key
+     * @param fileSystem The key
      * @return An existing or new Map.
      */
     protected ConcurrentMap<FileName, FileObject> getOrCreateFilesystemCache(final FileSystem fileSystem) {

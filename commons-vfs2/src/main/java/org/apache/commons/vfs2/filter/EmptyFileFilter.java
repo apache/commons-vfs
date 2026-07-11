@@ -79,7 +79,7 @@ public class EmptyFileFilter implements FileFilter, Serializable {
     /**
      * Checks to see if the file is empty. A non-existing file is also considered empty.
      *
-     * @param fileSelectInfo the file or directory to check
+     * @param fileSelectInfo The file or directory to check
      * @return {@code true} if the file or directory is <em>empty</em>, otherwise {@code false}.
      * @throws FileSystemException Thrown for file system errors.
      */

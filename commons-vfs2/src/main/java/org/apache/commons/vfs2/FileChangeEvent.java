@@ -29,7 +29,7 @@ public class FileChangeEvent {
     /**
      * Constructs a new instance.
      *
-     * @param fileObject the file object.
+     * @param fileObject The file object.
      */
     public FileChangeEvent(final FileObject fileObject) {
         this.fileObject = fileObject;

@@ -59,7 +59,7 @@ public class SuffixFileFilter implements FileFilter, Serializable {
      * Constructs a new Suffix file filter for a list of suffixes specifying
      * case-sensitivity.
      *
-     * @param suffixes        the suffixes to allow, must not be null
+     * @param suffixes        The suffixes to allow, must not be null
      * @param caseSensitivity how to handle case sensitivity, null means
      *                        case-sensitive
      */
@@ -75,7 +75,7 @@ public class SuffixFileFilter implements FileFilter, Serializable {
      * Constructs a new Suffix file filter for an array of suffixes specifying
      * case-sensitivity.
      *
-     * @param suffixes        the suffixes to allow, must not be null
+     * @param suffixes        The suffixes to allow, must not be null
      * @param caseSensitivity how to handle case sensitivity, null means
      *                        case-sensitive
      */
@@ -90,7 +90,7 @@ public class SuffixFileFilter implements FileFilter, Serializable {
     /**
      * Constructs a new Suffix file filter for a list of suffixes.
      *
-     * @param suffixes the suffixes to allow, must not be null
+     * @param suffixes The suffixes to allow, must not be null
      */
     public SuffixFileFilter(final List<String> suffixes) {
         this(IOCase.SENSITIVE, suffixes);
@@ -99,7 +99,7 @@ public class SuffixFileFilter implements FileFilter, Serializable {
     /**
      * Constructs a new Suffix file filter for an array of suffixes.
      *
-     * @param suffixes the suffixes to allow, must not be null
+     * @param suffixes The suffixes to allow, must not be null
      */
     public SuffixFileFilter(final String... suffixes) {
         this(IOCase.SENSITIVE, suffixes);
@@ -108,7 +108,7 @@ public class SuffixFileFilter implements FileFilter, Serializable {
     /**
      * Checks to see if the file name ends with the suffix.
      *
-     * @param fileSelectInfo the File to check
+     * @param fileSelectInfo The File to check
      * @return true if the file name ends with one of our suffixes
      */
     @Override

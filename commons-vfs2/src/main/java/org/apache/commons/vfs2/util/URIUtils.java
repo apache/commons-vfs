@@ -53,9 +53,9 @@ public class URIUtils {
          * to be used when decoding content of HTTP elements (such as response
          * headers)
          *
-         * @param data the byte array to be encoded
-         * @param offset the index of the first byte to encode
-         * @param length the number of bytes to encode
+         * @param data The byte array to be encoded
+         * @param offset The index of the first byte to encode
+         * @param length The number of bytes to encode
          * @return The string representation of the byte array
          */
         static String getAsciiString(final byte[] data, final int offset, final int length) {
@@ -66,8 +66,8 @@ public class URIUtils {
          * Converts the specified string to a byte array.  If the charset is not supported the
          * default system charset is used.
          *
-         * @param data the string to be encoded
-         * @param charsetName the desired character encoding
+         * @param data The string to be encoded
+         * @param charsetName The desired character encoding
          * @return The resulting byte array.
          */
         static byte[] getBytes(final String data, final String charsetName) {
@@ -185,7 +185,7 @@ public class URIUtils {
      * Escape and encode a string regarded as the path component of an URI with
      * the default protocol charset.
      *
-     * @param unescaped an unescaped string
+     * @param unescaped An unescaped string
      * @return The escaped string
      */
     public static String encodePath(final String unescaped) {
@@ -196,8 +196,8 @@ public class URIUtils {
      * Escape and encode a string regarded as the path component of an URI with
      * a given charset.
      *
-     * @param unescaped an unescaped string
-     * @param charset the charset
+     * @param unescaped An unescaped string
+     * @param charset The charset
      * @return The escaped string
      */
     public static String encodePath(final String unescaped, final String charset) {

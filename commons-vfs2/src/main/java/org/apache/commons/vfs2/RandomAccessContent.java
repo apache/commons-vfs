@@ -80,7 +80,7 @@ public interface RandomAccessContent extends DataOutput, DataInput, Closeable {
      * {@link #seek(long)}</b>
      * </p>
      *
-     * @param pos the offset position, measured in bytes from the beginning of the file, at which to set the file
+     * @param pos The offset position, measured in bytes from the beginning of the file, at which to set the file
      *            pointer.
      * @throws IOException if {@code pos} is less than {@code 0} or if an I/O error occurs.
      */

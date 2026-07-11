@@ -96,7 +96,7 @@ public class CombinedResources extends ResourceBundle {
     /**
      * Loads resources.
      *
-     * @param locale a Locale.
+     * @param locale A Locale.
      */
     protected void loadResources(final Locale locale) {
         if (locale == null) {
@@ -120,7 +120,7 @@ public class CombinedResources extends ResourceBundle {
     /**
      * Loads a resource.
      *
-     * @param resourceName the resource to load.
+     * @param resourceName The resource to load.
      */
     protected void loadResources(String resourceName) {
         ClassLoader loader = getClass().getClassLoader();

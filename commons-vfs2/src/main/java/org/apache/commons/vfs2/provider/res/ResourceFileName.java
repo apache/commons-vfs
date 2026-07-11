@@ -31,8 +31,8 @@ public class ResourceFileName extends AbstractFileName {
      * Constructs a new instance.
      *
      * @param scheme The scheme.
-     * @param path the absolute path, maybe empty or null.
-     * @param type the file type.
+     * @param path The absolute path, maybe empty or null.
+     * @param type The file type.
      */
     protected ResourceFileName(final String scheme, final String path, final FileType type) {
         super(scheme, path, type);

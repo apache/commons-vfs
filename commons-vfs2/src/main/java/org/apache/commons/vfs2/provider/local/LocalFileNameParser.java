@@ -41,9 +41,9 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser {
      * Creates a FileName.
      *
      * @param scheme The scheme.
-     * @param rootFile the root file.
-     * @param path the path.
-     * @param fileType the file type.
+     * @param rootFile The root file.
+     * @param path The path.
+     * @param fileType The file type.
      * @return A FileName.
      */
     protected abstract FileName createFileName(String scheme, String rootFile, String path, FileType fileType);
@@ -51,8 +51,8 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser {
     /**
      * Pops the root prefix off a URI, which has had the scheme removed.
      *
-     * @param name the URI to modify.
-     * @param uri the whole URI for error reporting.
+     * @param name The URI to modify.
+     * @param uri The whole URI for error reporting.
      * @return The root prefix extracted.
      * @throws FileSystemException if an error occurs.
      */

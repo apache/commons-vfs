@@ -85,8 +85,8 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
     /**
      * Constructs a new instance.
      *
-     * @param fileName the file name.
-     * @param fileSystem the file system.
+     * @param fileName The file name.
+     * @param fileSystem The file system.
      */
     protected HttpFileObject(final AbstractFileName fileName, final FS fileSystem) {
         this(fileName, fileSystem, HttpFileSystemConfigBuilder.getInstance());
@@ -95,8 +95,8 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
     /**
      * Constructs a new instance.
      *
-     * @param fileName the file name.
-     * @param fileSystem the file system.
+     * @param fileName The file name.
+     * @param fileSystem The file system.
      * @param builder Configuration options for HTTP.
      */
     protected HttpFileObject(final AbstractFileName fileName, final FS fileSystem,

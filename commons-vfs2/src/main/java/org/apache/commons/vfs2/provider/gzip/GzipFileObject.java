@@ -55,9 +55,9 @@ public class GzipFileObject extends CompressedFileFileObject<GzipFileSystem> {
     /**
      * Constructs a new instance.
      *
-     * @param fileName the file name.
-     * @param container the container.
-     * @param fileSystem the file system.
+     * @param fileName The file name.
+     * @param container The container.
+     * @param fileSystem The file system.
      */
     protected GzipFileObject(final AbstractFileName fileName, final FileObject container, final GzipFileSystem fileSystem) {
         super(fileName, container, fileSystem);

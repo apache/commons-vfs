@@ -143,8 +143,8 @@ public class LargeTarTest {
     /**
      * Search for the expected file in a given list, without using the full path.
      *
-     * @param expectedFile the expected file.
-     * @param files a list of files to search.
+     * @param expectedFile The expected file.
+     * @param files A list of files to search.
      * @return {@code true} if {@code expectedFile} is in {@code files}.
      */
     protected boolean fileExists(final String expectedFile, final List<FileObject> files) {

@@ -40,7 +40,7 @@ public class DecoratedFileObject implements FileObject {
     /**
      * Constructs a new instance to decorate the given FileObject.
      *
-     * @param fileObject the FileObject to decorate.
+     * @param fileObject The FileObject to decorate.
      */
     public DecoratedFileObject(final FileObject fileObject) {
         this.fileObject = fileObject;

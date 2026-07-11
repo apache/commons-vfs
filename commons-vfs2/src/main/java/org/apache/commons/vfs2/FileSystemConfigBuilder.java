@@ -61,7 +61,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Boolean.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @return The option in {@code opts} or system properties, otherwise null.
      * @see #getBoolean(FileSystemOptions, String, Boolean)
      * @since 2.0
@@ -74,7 +74,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Boolean.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @param defaultValue value to return if option is not present.
      * @return The option in {@code opts} or system properties, otherwise {@code defaultValue}.
      * @see #getBoolean(FileSystemOptions, String, Boolean)
@@ -89,7 +89,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Boolean.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @param defaultValue value to return if option is not present.
      * @return The option in {@code opts} or system properties, otherwise {@code defaultValue}.
      * @see #getBoolean(FileSystemOptions, String, Boolean)
@@ -104,7 +104,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Byte.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @return The option in {@code opts} or system properties, otherwise null.
      * @see #getByte(FileSystemOptions, String, Byte)
      * @since 2.0
@@ -117,7 +117,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Byte.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @param defaultValue value to return if option is not present.
      * @return The option in {@code opts} or system properties, otherwise {@code defaultValue}.
      * @see #getByte(FileSystemOptions, String, Byte)
@@ -131,7 +131,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Byte.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @param defaultValue value to return if option is not present.
      * @return The option in {@code opts} or system properties, otherwise {@code defaultValue}.
      * @since 2.0
@@ -144,7 +144,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Character.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @return The option in {@code opts} or system properties, otherwise null.
      * @see #getCharacter(FileSystemOptions, String, Character)
      * @since 2.0
@@ -157,7 +157,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Character.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @param defaultValue value to return if option is not present.
      * @return The option in {@code opts} or system properties, otherwise {@code defaultValue}.
      * @see #getCharacter(FileSystemOptions, String, Character)
@@ -171,7 +171,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Character.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @param defaultValue value to return if option is not present.
      * @return The option in {@code opts} or system properties, otherwise {@code defaultValue}.
      * @since 2.0
@@ -193,7 +193,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Charset.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @return The option in {@code opts} or system properties, otherwise null.
      * @see #getCharset(FileSystemOptions, String, Charset)
      * @since 2.11.0
@@ -206,7 +206,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Charset.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @param defaultValue value to return if option is not present.
      * @return The option in {@code opts} or system properties, otherwise {@code defaultValue}.
      * @since 2.11.0
@@ -227,7 +227,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Double.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @return The option in {@code opts} or system properties, otherwise null.
      * @see #getDouble(FileSystemOptions, String, Double)
      * @since 2.0
@@ -240,7 +240,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Double.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @param defaultValue value to return if option is not present.
      * @return The option in {@code opts} or system properties, otherwise {@code defaultValue}.
      * @see #getDouble(FileSystemOptions, String, Double)
@@ -255,7 +255,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Double.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @param defaultValue value to return if option is not present.
      * @return The option in {@code opts} or system properties, otherwise {@code defaultValue}.
      * @since 2.0
@@ -269,7 +269,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Duration.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @return The option in {@code opts} or system properties, otherwise null.
      * @see #getLong(FileSystemOptions, String, Long)
      * @since 2.8.0
@@ -282,7 +282,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Duration.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @param defaultValue value to return if option is not present.
      * @return The option in {@code opts} or system properties, otherwise {@code defaultValue}.
      * @since 2.8.0
@@ -296,7 +296,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Duration bound to the integer range.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @return The option in {@code opts} or system properties, otherwise null.
      * @see #getLong(FileSystemOptions, String, Long)
      * @since 2.8.0
@@ -309,7 +309,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Duration bound to the integer range.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @param defaultValue value to return if option is not present.
      * @return The option in {@code opts} or system properties, otherwise {@code defaultValue}.
      * @since 2.8.0
@@ -325,7 +325,7 @@ public abstract class FileSystemConfigBuilder {
      * @param <E> enumeration type.
      * @param enumClass class of enumeration type.
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @return The option in {@code opts} or system properties, otherwise null.
      * @see #getEnum(Class, FileSystemOptions, String, Enum)
      * @throws IllegalArgumentException if option value is not a known enumeration.
@@ -342,7 +342,7 @@ public abstract class FileSystemConfigBuilder {
      * @param <E> enumeration type.
      * @param enumClass class of enumeration type.
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @param defaultValue value to return if option is not present.
      * @return The option in {@code opts} or system properties, otherwise {@code defaultValue}.
      * @see #getEnum(Class, FileSystemOptions, String, Enum)
@@ -366,7 +366,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Float.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @return The option in {@code opts} or system properties, otherwise null.
      * @see #getFloat(FileSystemOptions, String, Float)
      * @throws NumberFormatException if option value is not a valid float.
@@ -380,7 +380,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Float.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @param defaultValue value to return if option is not present.
      * @return The option in {@code opts} or system properties, otherwise {@code defaultValue}.
      * @see #getFloat(FileSystemOptions, String, Float)
@@ -395,7 +395,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Float.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @param defaultValue value to return if option is not present.
      * @return The option in {@code opts} or system properties, otherwise {@code defaultValue}.
      * @throws NumberFormatException if option value is not a valid float.
@@ -409,7 +409,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as an Integer.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @return The option in {@code opts} or system properties, otherwise null.
      * @see #getInteger(FileSystemOptions, String, Integer)
      * @throws NumberFormatException if option value is not a valid integer.
@@ -423,7 +423,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as an Integer.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @param defaultValue value to return if option is not present.
      * @return The option in {@code opts} or system properties, otherwise {@code defaultValue}.
      * @see #getInteger(FileSystemOptions, String, Integer)
@@ -438,7 +438,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as an Integer.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @param defaultValue value to return if option is not present.
      * @return The option in {@code opts} or system properties, otherwise {@code defaultValue}.
      * @throws NumberFormatException if option value is not a valid integer.
@@ -453,7 +453,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Long.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @return The option in {@code opts} or system properties, otherwise null.
      * @see #getLong(FileSystemOptions, String, Long)
      * @throws NumberFormatException if option value is not a valid long.
@@ -467,7 +467,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Long.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @param defaultValue value to return if option is not present.
      * @return The option in {@code opts} or system properties, otherwise {@code defaultValue}.
      * @see #getLong(FileSystemOptions, String, Long)
@@ -482,7 +482,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Long.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @param defaultValue value to return if option is not present.
      * @return The option in {@code opts} or system properties, otherwise {@code defaultValue}.
      * @throws NumberFormatException if option value is not a valid long.
@@ -570,7 +570,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Short.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @return The option in {@code opts} or system properties, otherwise null
      * @see #getShort(FileSystemOptions, String, Short)
      * @throws NumberFormatException if option value is not a valid short.
@@ -584,7 +584,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Short.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @param defaultValue value to return if option is not present.
      * @return The option in {@code opts} or system properties, otherwise {@code defaultValue}.
      * @see #getShort(FileSystemOptions, String, Short)
@@ -599,7 +599,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a Short.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @param defaultValue value to return if option is not present.
      * @return The option in {@code opts} or system properties, otherwise {@code defaultValue}.
      * @throws NumberFormatException if option value is not a valid short.
@@ -613,7 +613,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a String.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @return The option in {@code opts} or system properties, otherwise null.
      * @see #getString(FileSystemOptions, String, String)
      * @since 2.0
@@ -626,7 +626,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets a named option as a String.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option name.
+     * @param name The option name.
      * @param defaultValue value to return if option is not present.
      * @return The option in {@code opts} or system properties, otherwise {@code defaultValue}.
      * @since 2.0
@@ -640,7 +640,7 @@ public abstract class FileSystemConfigBuilder {
      * Checks the named setting specified.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the option to check in {@code opts} or system properties.
+     * @param name The option to check in {@code opts} or system properties.
      * @return true if option exists.
      * @since 2.0
      */
@@ -652,7 +652,7 @@ public abstract class FileSystemConfigBuilder {
      * Checks if option exists.
      *
      * @param fileSystemOptions file system options to query, may be null.
-     * @param name the name to look up in {@code opts}.
+     * @param name The name to look up in {@code opts}.
      * @return true if opts have the named parameter.
      * @since 1.0
      */
@@ -663,7 +663,7 @@ public abstract class FileSystemConfigBuilder {
     /**
      * Sets the named parameter.
      *
-     * @param fileSystemOptions the file system options to modify.
+     * @param fileSystemOptions The file system options to modify.
      * @param name set option with this name.
      * @param value boolean value to set.
      * @since 2.1
@@ -675,7 +675,7 @@ public abstract class FileSystemConfigBuilder {
     /**
      * Sets the named parameter.
      *
-     * @param fileSystemOptions the file system options to modify.
+     * @param fileSystemOptions The file system options to modify.
      * @param name set option with this name.
      * @param value object value to set.
      * @since 1.0
@@ -687,7 +687,7 @@ public abstract class FileSystemConfigBuilder {
     /**
      * Sets the root URI of the file system.
      *
-     * @param fileSystemOptions the file system options to modify.
+     * @param fileSystemOptions The file system options to modify.
      * @param rootURI The creator name to be associated with the file.
      * @since 2.0
      */
@@ -698,7 +698,7 @@ public abstract class FileSystemConfigBuilder {
     /**
      * Converts the given primitive boolean to a Boolean object.
      *
-     * @param value a primitive boolean.
+     * @param value A primitive boolean.
      * @return The given primitive boolean as Boolean object.
      * @since 2.7.0
      */
@@ -709,7 +709,7 @@ public abstract class FileSystemConfigBuilder {
     /**
      * Converts the given name into a System property key.
      *
-     * @param name a name to combine with the builder prefix.
+     * @param name A name to combine with the builder prefix.
      * @return name of system property.
      * @since 2.1
      */

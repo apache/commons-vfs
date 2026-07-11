@@ -227,8 +227,8 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
     /**
      * Constructs a new instance.
      *
-     * @param fileName the file name.
-     * @param fileSystem the file system.
+     * @param fileName The file name.
+     * @param fileSystem The file system.
      */
     protected WebdavFileObject(final AbstractFileName fileName, final WebdavFileSystem fileSystem) {
         super(fileName, fileSystem, WebdavFileSystemConfigBuilder.getInstance());
@@ -589,7 +589,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
     /**
      * Returns the resource name from the path.
      *
-     * @param path the path to the file.
+     * @param path The path to the file.
      * @return The resource name
      */
     private String resourceName(String path) {
@@ -603,7 +603,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
     /**
      * Prepares a Method object.
      *
-     * @param method the HttpMethod.
+     * @param method The HttpMethod.
      * @throws FileSystemException if an error occurs encoding the uri.
      * @throws URIException if the URI is in error.
      */

@@ -102,8 +102,8 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     /**
      * Constructs a new instance.
      *
-     * @param fileName the file name.
-     * @param fileSystem the file system.
+     * @param fileName The file name.
+     * @param fileSystem The file system.
      * @throws FileSystemException if a file system error occurs.
      */
     protected SftpFileObject(final AbstractFileName fileName, final SftpFileSystem fileSystem) throws FileSystemException {

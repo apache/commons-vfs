@@ -45,7 +45,7 @@ public abstract class AbstractVfsContainer extends AbstractVfsComponent {
      * component is closed.
      * </p>
      *
-     * @param component the component to add.
+     * @param component The component to add.
      * @throws FileSystemException if any error occurs.
      */
     protected void addComponent(final Object component) throws FileSystemException {
@@ -82,7 +82,7 @@ public abstract class AbstractVfsContainer extends AbstractVfsComponent {
     /**
      * Removes a subcomponent from this component.
      *
-     * @param component the component to remove.
+     * @param component The component to remove.
      */
     protected void removeComponent(final Object component) {
         synchronized (components) {

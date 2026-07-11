@@ -179,7 +179,7 @@ public interface FileName extends Comparable<FileName> {
     /**
      * Tests if another file name is a descendent of this file name.
      *
-     * @param descendent the FileName to check.
+     * @param descendent The FileName to check.
      * @return true if the other FileName is a descendent of this file name.
      */
     boolean isDescendent(FileName descendent);
@@ -187,8 +187,8 @@ public interface FileName extends Comparable<FileName> {
     /**
      * Tests if another file name is a descendent of this file name.
      *
-     * @param descendent the FileName to check.
-     * @param nameScope the NameScope of the FileName.
+     * @param descendent The FileName to check.
+     * @param nameScope The NameScope of the FileName.
      * @return true if the other FileName is a descendent of this file name.
      */
     boolean isDescendent(FileName descendent, NameScope nameScope);

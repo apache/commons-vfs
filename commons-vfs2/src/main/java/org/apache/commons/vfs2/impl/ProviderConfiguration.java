@@ -76,7 +76,7 @@ public class ProviderConfiguration {
     /**
      * sets the class name.
      *
-     * @param className the class name.
+     * @param className The class name.
      */
     public void setClassName(final String className) {
         this.className = className;
@@ -85,7 +85,7 @@ public class ProviderConfiguration {
     /**
      * Sets the dependency.
      *
-     * @param dependency the dependency.
+     * @param dependency The dependency.
      */
     public void setDependency(final String dependency) {
         dependencies.add(dependency);
@@ -94,7 +94,7 @@ public class ProviderConfiguration {
     /**
      * Sets the scheme.
      *
-     * @param scheme the scheme.
+     * @param scheme The scheme.
      */
     public void setScheme(final String scheme) {
         schemes.add(scheme);

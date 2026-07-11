@@ -30,7 +30,7 @@ public abstract class AbstractRandomAccessStreamContent extends AbstractRandomAc
     /**
      * Constructs a new instance for subclasses.
      *
-     * @param mode the RandomAccessMode.
+     * @param mode The RandomAccessMode.
      */
     protected AbstractRandomAccessStreamContent(final RandomAccessMode mode) {
         super(mode);

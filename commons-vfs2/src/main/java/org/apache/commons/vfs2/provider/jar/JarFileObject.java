@@ -42,9 +42,9 @@ public class JarFileObject extends ZipFileObject {
     /**
      * Constructs a new instance.
      *
-     * @param fileName the file name.
-     * @param entry the zip entry.
-     * @param fileSystem the file system.
+     * @param fileName The file name.
+     * @param entry The zip entry.
+     * @param fileSystem The file system.
      * @param zipExists Whether the zip file exists.
      * @throws FileSystemException if a file system error occurs.
      */

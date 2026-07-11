@@ -39,7 +39,7 @@ public class UserAuthenticationData {
         /**
          * Creates a new Type.
          *
-         * @param type the type
+         * @param type The type
          */
         public Type(final String type) {
             this.type = type;

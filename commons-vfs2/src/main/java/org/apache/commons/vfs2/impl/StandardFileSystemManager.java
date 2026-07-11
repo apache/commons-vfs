@@ -104,7 +104,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
     /**
      * Adds a provider from a provider definition.
      *
-     * @param providerDef the provider definition
+     * @param providerDef The provider definition
      * @param isDefault true if the default should be used.
      * @throws FileSystemException if an error occurs.
      */

@@ -69,7 +69,7 @@ public abstract class AbstractSyncTask extends VfsTask {
         /**
          * Sets the file.
          *
-         * @param file the file.
+         * @param file The file.
          */
         public void setFile(final String file) {
             this.file = file;

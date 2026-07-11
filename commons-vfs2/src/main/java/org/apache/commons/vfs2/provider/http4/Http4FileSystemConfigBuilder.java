@@ -251,7 +251,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * Gets keystore file path to be used in SSL connections.
-     * @param opts the file system options to modify
+     * @param opts The file system options to modify
      * @return keystore file path to be used in SSL connections
      */
     public String getKeyStoreFile(final FileSystemOptions opts) {
@@ -260,7 +260,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * Gets keystore pass phrase for SSL connections.
-     * @param opts the file system options to modify
+     * @param opts The file system options to modify
      * @return keystore pass phrase for SSL connections
      */
     String getKeyStorePass(final FileSystemOptions opts) {
@@ -269,7 +269,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * Gets keystore type for SSL connections.
-     * @param opts the file system options to modify
+     * @param opts The file system options to modify
      * @return keystore type for SSL connections
      * @since 2.7.0
      */
@@ -380,7 +380,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Gets the user agent string.
      *
-     * @param opts the file system options to modify
+     * @param opts The file system options to modify
      * @return User provided User-Agent string, otherwise default of: Commons-VFS
      */
     public String getUserAgent(final FileSystemOptions opts) {
@@ -484,7 +484,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * Sets keystore file path for SSL connections.
-     * @param opts the file system options to modify
+     * @param opts The file system options to modify
      * @param keyStoreFile keystore file path
      */
     public void setKeyStoreFile(final FileSystemOptions opts, final String keyStoreFile) {
@@ -493,7 +493,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * Sets keystore pass phrase for SSL connections.
-     * @param opts the file system options to modify
+     * @param opts The file system options to modify
      * @param keyStorePass keystore pass phrase for SSL connections
      */
     public void setKeyStorePass(final FileSystemOptions opts, final String keyStorePass) {
@@ -502,7 +502,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * Sets keystore type for SSL connections.
-     * @param opts the file system options to modify
+     * @param opts The file system options to modify
      * @param keyStoreType keystore type for SSL connections
      * @since 2.7.0
      */
@@ -536,7 +536,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * conversation outweighs any architectural desire to use a stronger authentication scheme than basic/preemptive.
      *
      * @param opts The FileSystemOptions.
-     * @param preemptiveAuth the desired setting; true=enabled and false=disabled.
+     * @param preemptiveAuth The desired setting; true=enabled and false=disabled.
      */
     public void setPreemptiveAuth(final FileSystemOptions opts, final boolean preemptiveAuth) {
         setParam(opts, KEY_PREEMPTIVE_AUTHENTICATION, Boolean.valueOf(preemptiveAuth));
@@ -559,7 +559,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * </p>
      *
      * @param opts The FileSystem options.
-     * @param proxyHost the host
+     * @param proxyHost The host
      * @see #setProxyPort
      */
     public void setProxyHost(final FileSystemOptions opts, final String proxyHost) {
@@ -571,7 +571,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * proxy really used.
      *
      * @param opts The FileSystem options.
-     * @param proxyPort the port
+     * @param proxyPort The port
      * @see #setProxyHost
      */
     public void setProxyPort(final FileSystemOptions opts, final int proxyPort) {
@@ -583,7 +583,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * proxy really used.
      *
      * @param opts The FileSystem options.
-     * @param proxyScheme the protocol scheme
+     * @param proxyScheme The protocol scheme
      * @see #setProxyHost
      * @since 2.7.0
      */
@@ -617,7 +617,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Sets the charset used for URL encoding.
      *
      * @param opts The FileSystem options.
-     * @param charset the charset name.
+     * @param charset The charset name.
      */
     public void setUrlCharset(final FileSystemOptions opts, final String charset) {
         setParam(opts, "urlCharset", charset);
@@ -626,7 +626,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Sets the user agent to attach to the outgoing http methods.
      *
-     * @param opts the file system options to modify
+     * @param opts The file system options to modify
      * @param userAgent User Agent String
      */
     public void setUserAgent(final FileSystemOptions opts, final String userAgent) {

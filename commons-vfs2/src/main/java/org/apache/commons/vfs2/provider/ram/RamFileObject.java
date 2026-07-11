@@ -46,8 +46,8 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem> {
     /**
      * Constructs a new instance.
      *
-     * @param fileName the file name.
-     * @param fileSystem the file system.
+     * @param fileName The file name.
+     * @param fileSystem The file system.
      */
     protected RamFileObject(final AbstractFileName fileName, final RamFileSystem fileSystem) {
         super(fileName, fileSystem);

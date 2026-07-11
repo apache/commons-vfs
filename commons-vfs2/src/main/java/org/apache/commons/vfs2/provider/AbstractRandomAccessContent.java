@@ -34,7 +34,7 @@ public abstract class AbstractRandomAccessContent implements RandomAccessContent
     /**
      * Constructs a new instance for subclasses.
      *
-     * @param mode the RandomAccessMode.
+     * @param mode The RandomAccessMode.
      */
     protected AbstractRandomAccessContent(final RandomAccessMode mode) {
         Objects.requireNonNull(mode, "mode");

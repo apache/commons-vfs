@@ -56,8 +56,8 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
     /**
      * Constructs a new instance.
      *
-     * @param fileName the file name.
-     * @param fileSystem the file system.
+     * @param fileName The file name.
+     * @param fileSystem The file system.
      * @param fileObject My file object.
      * @throws FileSystemException For subclasses to throw.
      */
@@ -282,7 +282,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
     /**
      * Renames the file.
      *
-     * @param newFile the new location/name.
+     * @param newFile The new location/name.
      * @throws Exception Any thrown Exception is wrapped in FileSystemException.
      * @since 2.0
      */

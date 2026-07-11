@@ -55,8 +55,8 @@ public class VFSClassLoader extends SecureClassLoader {
     /**
      * Constructors a new VFSClassLoader for the given file.
      *
-     * @param file the file to load the classes and resources from.
-     * @param manager the FileManager to use when trying to create a layered Jar file system.
+     * @param file The file to load the classes and resources from.
+     * @param manager The FileManager to use when trying to create a layered Jar file system.
      * @throws FileSystemException if an error occurs.
      */
     public VFSClassLoader(final FileObject file, final FileSystemManager manager) throws FileSystemException {
@@ -66,9 +66,9 @@ public class VFSClassLoader extends SecureClassLoader {
     /**
      * Constructors a new VFSClassLoader for the given file.
      *
-     * @param file the file to load the classes and resources from.
-     * @param manager the FileManager to use when trying to create a layered Jar file system.
-     * @param parent the parent class loader for delegation.
+     * @param file The file to load the classes and resources from.
+     * @param manager The FileManager to use when trying to create a layered Jar file system.
+     * @param parent The parent class loader for delegation.
      * @throws FileSystemException if an error occurs.
      */
     public VFSClassLoader(final FileObject file, final FileSystemManager manager, final ClassLoader parent)
@@ -79,8 +79,8 @@ public class VFSClassLoader extends SecureClassLoader {
     /**
      * Constructors a new VFSClassLoader for the given files. The files will be searched in the order specified.
      *
-     * @param files the files to load the classes and resources from.
-     * @param manager the FileManager to use when trying to create a layered Jar file system.
+     * @param files The files to load the classes and resources from.
+     * @param manager The FileManager to use when trying to create a layered Jar file system.
      * @throws FileSystemException if an error occurs.
      */
     public VFSClassLoader(final FileObject[] files, final FileSystemManager manager) throws FileSystemException {
@@ -91,9 +91,9 @@ public class VFSClassLoader extends SecureClassLoader {
      * Constructors a new VFSClassLoader for the given FileObjects. The FileObjects will be searched in the order
      * specified.
      *
-     * @param files the FileObjects to load the classes and resources from.
-     * @param manager the FileManager to use when trying to create a layered Jar file system.
-     * @param parent the parent class loader for delegation.
+     * @param files The FileObjects to load the classes and resources from.
+     * @param manager The FileManager to use when trying to create a layered Jar file system.
+     * @param parent The parent class loader for delegation.
      * @throws FileSystemException if an error occurs.
      */
     public VFSClassLoader(final FileObject[] files, final FileSystemManager manager, final ClassLoader parent)
@@ -106,7 +106,7 @@ public class VFSClassLoader extends SecureClassLoader {
      * Appends the specified FileObjects to the list of FileObjects to search for classes and resources.
      *
      * @param manager The FileSystemManager.
-     * @param files the FileObjects to append to the search path.
+     * @param files The FileObjects to append to the search path.
      * @throws FileSystemException if an error occurs.
      */
     private void addFileObjects(final FileSystemManager manager, final FileObject[] files) throws FileSystemException {
@@ -262,7 +262,7 @@ public class VFSClassLoader extends SecureClassLoader {
     /**
      * Calls super.getPermissions both for the code source and also adds the permissions granted to the parent layers.
      *
-     * @param cs the CodeSource.
+     * @param cs The CodeSource.
      * @return The PermissionCollections.
      */
     @Override

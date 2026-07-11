@@ -146,9 +146,9 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     /**
      * Constructs a new instance.
      *
-     * @param fileName the file name.
-     * @param fileSystem the file system.
-     * @param rootName the root name.
+     * @param fileName The file name.
+     * @param fileSystem The file system.
+     * @param rootName The root name.
      * @throws FileSystemException if an file system error occurs.
      */
     protected FtpFileObject(final AbstractFileName fileName, final FtpFileSystem fileSystem, final FileName rootName)
@@ -456,7 +456,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     /**
      * Called by child file objects, to locate their FTP file info.
      *
-     * @param name the file name in its native form i.e. without URI stuff (%nn)
+     * @param name The file name in its native form i.e. without URI stuff (%nn)
      * @param flush recreate children cache
      */
     private FTPFile getChildFile(final String name, final boolean flush) throws IOException {

@@ -40,7 +40,7 @@ public class FileFilterSelector extends FileDepthSelector {
 
     /**
      * Constructs a new instance with a FileFilter.
-     * @param fileFilter the FileFilter.
+     * @param fileFilter The FileFilter.
      */
     public FileFilterSelector(final FileFilter fileFilter) {
         super(1, 1);

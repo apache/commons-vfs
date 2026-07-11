@@ -28,7 +28,7 @@ public abstract class AbstractFileChangeEvent extends FileChangeEvent {
     /**
      * Constructs a new instance for subclasses.
      *
-     * @param fileObject the file object.
+     * @param fileObject The file object.
      */
     public AbstractFileChangeEvent(final FileObject fileObject) {
         super(fileObject);

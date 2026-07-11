@@ -35,14 +35,14 @@ public class GenericFileName extends AbstractFileName {
     /**
      * Constructs a new instance.
      *
-     * @param scheme the scheme.
-     * @param hostName the host name.
-     * @param port the port.
-     * @param defaultPort the default port.
-     * @param userName the user name.
-     * @param password the password.
-     * @param path the absolute path, maybe empty or null.
-     * @param type the file type.
+     * @param scheme The scheme.
+     * @param hostName The host name.
+     * @param port The port.
+     * @param defaultPort The default port.
+     * @param userName The user name.
+     * @param password The password.
+     * @param path The absolute path, maybe empty or null.
+     * @param type The file type.
      */
     protected GenericFileName(final String scheme, final String hostName, final int port, final int defaultPort,
         final String userName, final String password, final String path, final FileType type) {
@@ -60,7 +60,7 @@ public class GenericFileName extends AbstractFileName {
      * If anything was added, it will be '@' terminated.
      * </p>
      *
-     * @param buffer the string buffer to modify.
+     * @param buffer The string buffer to modify.
      * @param addPassword flag if password should be added or replaced with placeholder (false).
      */
     protected void appendCredentials(final StringBuilder buffer, final boolean addPassword) {

@@ -27,7 +27,7 @@ public class CreateEvent extends AbstractFileChangeEvent {
     /**
      * Constructs a new instance.
      *
-     * @param fileObject the file object.
+     * @param fileObject The file object.
      */
     public CreateEvent(final FileObject fileObject) {
         super(fileObject);

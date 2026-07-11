@@ -102,7 +102,7 @@ public class ZipFileSystem extends AbstractFileSystem {
     /**
      * Creates a Zip file.
      *
-     * @param file the underlying file.
+     * @param file The underlying file.
      * @return A Zip file.
      * @throws FileSystemException if a file system error occurs.
      */
@@ -117,8 +117,8 @@ public class ZipFileSystem extends AbstractFileSystem {
     /**
      * Creates a new Zip file object.
      *
-     * @param fileName the underlying file.
-     * @param entry the Zip entry.
+     * @param fileName The underlying file.
+     * @param entry The Zip entry.
      * @return A new ZipFileObject.
      * @throws FileSystemException if a file system error occurs.
      */

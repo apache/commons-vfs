@@ -41,7 +41,7 @@ public class FileNotFoundException extends FileSystemException {
      * Constructs exception with the specified detail message and cause.
      *
      * @param info one context information.
-     * @param cause the cause.
+     * @param cause The cause.
      */
     public FileNotFoundException(final Object info, final Throwable cause) {
         super("vfs.provider/read-not-file.error", info, cause);

@@ -41,9 +41,9 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem> {
     /**
      * Constructs a new instance.
      *
-     * @param fileName the file name.
+     * @param fileName The file name.
      * @param entry The zip entry.
-     * @param fileSystem the file system.
+     * @param fileSystem The file system.
      * @param zipExists whether the zip file exists.
      */
     protected ZipFileObject(final AbstractFileName fileName, final ZipEntry entry, final ZipFileSystem fileSystem, final boolean zipExists) {
