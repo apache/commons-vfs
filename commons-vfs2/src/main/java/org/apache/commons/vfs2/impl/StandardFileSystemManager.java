@@ -236,7 +236,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
     /**
      * Gets a new DefaultFileReplicator.
      *
-     * @return a new DefaultFileReplicator.
+     * @return A new DefaultFileReplicator.
      */
     protected DefaultFileReplicator createDefaultFileReplicator() {
         return new DefaultFileReplicator();

@@ -71,7 +71,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
         }
 
         /**
-         * @return a hash code value for this object.
+         * @return A hash code value for this object.
          * @since 2.0
          */
         @Override

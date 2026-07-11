@@ -58,7 +58,7 @@ public class HttpFileProvider extends AbstractOriginatingFileProvider {
     /**
      * Creates a {@link FileSystem}.
      *
-     * @return a new FileSystem, never null.
+     * @return A new FileSystem, never null.
      */
     @Override
     protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)

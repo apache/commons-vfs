@@ -118,7 +118,7 @@ public class UserAuthenticationData {
      * Gets a data from the collection.
      *
      * @param type The Type to retrieve.
-     * @return a character array containing the data associated with the type.
+     * @return A character array containing the data associated with the type.
      */
     public char[] getData(final Type type) {
         return authenticationData.get(type);

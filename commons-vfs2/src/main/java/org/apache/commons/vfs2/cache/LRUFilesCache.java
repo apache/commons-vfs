@@ -149,7 +149,7 @@ public class LRUFilesCache extends AbstractFilesCache {
      * Gets or creates a new Map.
      *
      * @param fileSystem the key.
-     * @return an existing or new Map.
+     * @return An existing or new Map.
      */
     protected Map<FileName, FileObject> getOrCreateFilesystemCache(final FileSystem fileSystem) {
         return fileSystemCache.computeIfAbsent(fileSystem, k -> new MyLRUMap(k, lruSize));

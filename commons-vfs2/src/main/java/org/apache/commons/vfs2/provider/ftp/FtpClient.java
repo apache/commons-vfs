@@ -134,7 +134,7 @@ public interface FtpClient {
      * </p>
      *
      * @param relPath The file or directory to list.
-     * @return an array of FTPFile.
+     * @return An array of FTPFile.
      * @throws IOException If an I/O error occurs.
      */
     FTPFile[] listFiles(String relPath) throws IOException;

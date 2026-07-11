@@ -111,7 +111,7 @@ public class FTPClientWrapper implements FtpClient {
     /**
      * Creates an FTP client.
      *
-     * @return a new FTP client.
+     * @return A new FTP client.
      * @throws FileSystemException if an error occurs while establishing a connection.
      */
     private FTPClient createClient() throws FileSystemException {
@@ -130,7 +130,7 @@ public class FTPClientWrapper implements FtpClient {
      *
      * @param rootName the root file name.
      * @param authData authentication data.
-     * @return an FTPClient.
+     * @return An FTPClient.
      * @throws FileSystemException if an error occurs while establishing a connection.
      */
     protected FTPClient createClient(final GenericFileName rootName, final UserAuthenticationData authData)

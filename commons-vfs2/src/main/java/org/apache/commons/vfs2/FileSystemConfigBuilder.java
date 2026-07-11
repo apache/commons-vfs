@@ -548,7 +548,7 @@ public abstract class FileSystemConfigBuilder {
      * Gets the system property for the given name.
      *
      * @param name The name to lookup combined with the prefix.
-     * @return a system property or null.
+     * @return A system property or null.
      * @since 2.1
      */
     private String getProperty(final String name) {

@@ -245,7 +245,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * Compares two FileObjects (ignores case).
      *
      * @param file the object to compare.
-     * @return a negative integer, zero, or a positive integer when this object is less than, equal to, or greater than
+     * @return A negative integer, zero, or a positive integer when this object is less than, equal to, or greater than
      *         the given object.
      */
     @Override
@@ -785,7 +785,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * Lists the children of this file. Is only called if {@link #doGetType} returns {@link FileType#FOLDER}. The return
      * value of this method is cached, so the implementation can be expensive.
      *
-     * @return a possible empty String array if the file is a directory or null or an exception if the file is not a
+     * @return A possible empty String array if the file is a directory or null or an exception if the file is not a
      *         directory or can't be read.
      * @throws Exception if an error occurs.
      */
@@ -1050,7 +1050,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     /**
      * Returns the children of the file.
      *
-     * @return an array of FileObjects, one per child.
+     * @return An array of FileObjects, one per child.
      * @throws FileSystemException if an error occurs.
      */
     @Override
@@ -1644,7 +1644,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     /**
      * Returns an iterator over a set of all FileObject in this file object.
      *
-     * @return an Iterator.
+     * @return An Iterator.
      */
     @Override
     public Iterator<FileObject> iterator() {

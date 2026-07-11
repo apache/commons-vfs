@@ -43,7 +43,7 @@ public final class OsFamily {
     /**
      * Returns the OS families that this family belongs to.
      *
-     * @return an array of OSFamily objects that this family belongs to.
+     * @return An array of OSFamily objects that this family belongs to.
      */
     public OsFamily[] getFamilies() {
         return families;

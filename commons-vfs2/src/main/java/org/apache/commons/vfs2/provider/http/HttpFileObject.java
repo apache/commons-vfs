@@ -221,7 +221,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
     /**
      * Gets a new FileContentInfoFactory.
      *
-     * @return a new FileContentInfoFactory.
+     * @return A new FileContentInfoFactory.
      */
     @Override
     protected FileContentInfoFactory getFileContentInfoFactory() {
@@ -240,7 +240,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
     /**
      * Gets a new HeadMethod.
      *
-     * @return a new HeadMethod.
+     * @return A new HeadMethod.
      * @throws IOException if an IO error occurs.
      */
     HeadMethod getHeadMethod() throws IOException {

@@ -143,7 +143,7 @@ public abstract class AbstractFileName implements FileName {
     /**
      * Creates a URI.
      *
-     * @return a URI.
+     * @return A URI.
      */
     protected String createURI() {
         return createURI(false, true);

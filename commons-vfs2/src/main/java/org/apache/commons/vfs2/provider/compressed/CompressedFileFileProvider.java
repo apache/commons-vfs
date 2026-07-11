@@ -45,7 +45,7 @@ public abstract class CompressedFileFileProvider extends AbstractLayeredFileProv
      * @param name a file name.
      * @param file a file object.
      * @param fileSystemOptions the file system options.
-     * @return a FileSystem.
+     * @return A FileSystem.
      * @throws FileSystemException if a file system error occurs.
      */
     protected abstract FileSystem createFileSystem(FileName name, FileObject file, FileSystemOptions fileSystemOptions) throws FileSystemException;

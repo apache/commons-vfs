@@ -120,7 +120,7 @@ public class SuffixFileFilter implements FileFilter, Serializable {
     /**
      * Provides a String representation of this file filter.
      *
-     * @return a String representation
+     * @return A String representation
      */
     @Override
     public String toString() {

@@ -51,7 +51,7 @@ public final class HttpClientFactory {
      * @param username The username.
      * @param password The password
      * @param fileSystemOptions The file system options.
-     * @return a new HttpClient connection.
+     * @return A new HttpClient connection.
      * @throws FileSystemException if an error occurs.
      * @since 2.0
      */
@@ -138,7 +138,7 @@ public final class HttpClientFactory {
      * @param username The user name.
      * @param password The user password.
      * @param fileSystemOptions The file system options.
-     * @return a new HttpClient connection.
+     * @return A new HttpClient connection.
      * @throws FileSystemException if an error occurs.
      */
     public static HttpClient createConnection(final String scheme, final String hostname, final int port, final String username, final String password,

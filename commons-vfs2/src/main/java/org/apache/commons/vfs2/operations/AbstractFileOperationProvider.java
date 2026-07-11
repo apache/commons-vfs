@@ -102,7 +102,7 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
      *
      * @param file the file this operation should act on.
      * @param operationClass the class of a file operation interface to instantiate.
-     * @return a new file operation
+     * @return A new file operation
      * @throws FileSystemException if operation cannot be instantiated.
      */
     protected abstract FileOperation instantiateOperation(FileObject file, Class<? extends FileOperation> operationClass) throws FileSystemException;

@@ -45,7 +45,7 @@ public class HdfsFileContentInfoFactory implements FileContentInfoFactory {
      * Creates a FileContentInfo for the given FileContent.
      *
      * @param fileContent Use this FileContent to create a matching FileContentInfo
-     * @return a FileContentInfo for the given FileContent with content set to "text/plain" and encoding set to "UTF-8"
+     * @return A FileContentInfo for the given FileContent with content set to "text/plain" and encoding set to "UTF-8"
      * @throws FileSystemException when a problem occurs creating the FileContentInfo.
      */
     @Override

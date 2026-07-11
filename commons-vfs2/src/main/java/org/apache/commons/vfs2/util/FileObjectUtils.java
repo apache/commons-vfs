@@ -144,7 +144,7 @@ public final class FileObjectUtils {
      * Reads the given file into a new {@link Properties}.
      *
      * @param fileObject the file to read
-     * @return a new {@link Properties}.
+     * @return A new {@link Properties}.
      * @throws IOException On error getting this file's content.
      * @throws FileSystemException On error getting this file's content.
      * @throws IOException On error getting this file's content.
@@ -159,7 +159,7 @@ public final class FileObjectUtils {
      *
      * @param fileObject the file to read
      * @param properties the destination
-     * @return a new {@link Properties}.
+     * @return A new {@link Properties}.
      * @throws FileSystemException On error getting this file's content.
      * @throws IOException On error getting this file's content.
      * @since 2.4

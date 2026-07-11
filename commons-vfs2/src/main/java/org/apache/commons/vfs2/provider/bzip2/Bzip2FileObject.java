@@ -44,7 +44,7 @@ public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem> {
      *
      * @param name Unused.
      * @param inputStream The input stream to wrap.
-     * @return a new compressor input stream.
+     * @return A new compressor input stream.
      * @throws IOException if the stream content is malformed or an I/O error occurs.
      */
     public static InputStream wrapInputStream(final String name, final InputStream inputStream) throws IOException {

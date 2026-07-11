@@ -24,7 +24,7 @@ public class FreeSocketPortUtil {
     /**
      * Finds a free local socket port.
      *
-     * @return a free local socket port.
+     * @return A free local socket port.
      * @throws IOException
      */
     public static int findFreeLocalPort() throws IOException {

@@ -25,7 +25,7 @@ public interface FileContentInfoFactory {
      * Creates a FileContentInfo for the given FileContent.
      *
      * @param fileContent Use this FileContent to create a matching FileContentInfo
-     * @return a FileContentInfo for the given FileContent.
+     * @return A FileContentInfo for the given FileContent.
      * @throws FileSystemException when a problem occurs creating the FileContentInfo.
      */
     FileContentInfo create(FileContent fileContent) throws FileSystemException;

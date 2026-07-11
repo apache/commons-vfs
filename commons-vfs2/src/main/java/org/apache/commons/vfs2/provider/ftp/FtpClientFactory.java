@@ -108,7 +108,7 @@ public final class FtpClientFactory {
          * Creates a new client.
          *
          * @param fileSystemOptions the file system options.
-         * @return a new client.
+         * @return A new client.
          * @throws FileSystemException if a file system error occurs.
          */
         protected abstract C createClient(FileSystemOptions fileSystemOptions) throws FileSystemException;

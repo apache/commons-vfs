@@ -178,7 +178,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
      * @param builder Configuration options builder for http4 provider
      * @param rootName The root path
      * @param fileSystemOptions The file system options
-     * @return an {@link HttpClient} object
+     * @return An {@link HttpClient} object
      * @throws FileSystemException if an error occurs.
      */
     protected HttpClient createHttpClient(final Http4FileSystemConfigBuilder builder, final GenericFileName rootName,
@@ -192,7 +192,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
      * @param builder Configuration options builder for HTTP4 provider
      * @param rootName The root path
      * @param fileSystemOptions The FileSystem options
-     * @return an {@link HttpClientBuilder} object
+     * @return An {@link HttpClientBuilder} object
      * @throws FileSystemException if an error occurs
      */
     protected HttpClientBuilder createHttpClientBuilder(final Http4FileSystemConfigBuilder builder, final GenericFileName rootName,
@@ -230,7 +230,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
      * @param rootName The root path
      * @param fileSystemOptions The FileSystem options
      * @param authData The {@code UserAuthenticationData} object
-     * @return an {@link HttpClientContext} object
+     * @return An {@link HttpClientContext} object
      */
     protected HttpClientContext createHttpClientContext(final Http4FileSystemConfigBuilder builder,
             final GenericFileName rootName, final FileSystemOptions fileSystemOptions,
@@ -282,7 +282,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
      *
      * @param builder Configuration options builder for HTTP4 provider
      * @param fileSystemOptions The FileSystem options
-     * @return a {@link SSLContext} for HttpClient
+     * @return A {@link SSLContext} for HttpClient
      * @throws FileSystemException if an error occurs
      */
     protected SSLContext createSSLContext(final Http4FileSystemConfigBuilder builder,

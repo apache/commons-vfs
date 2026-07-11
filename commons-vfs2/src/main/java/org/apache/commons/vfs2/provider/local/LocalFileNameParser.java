@@ -44,7 +44,7 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser {
      * @param rootFile the root file.
      * @param path the path.
      * @param fileType the file type.
-     * @return a FileName.
+     * @return A FileName.
      */
     protected abstract FileName createFileName(String scheme, String rootFile, String path, FileType fileType);
 

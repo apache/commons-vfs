@@ -56,7 +56,7 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
      * Creates a URL from the given file name.
      *
      * @param name the file name.
-     * @return a new URL.
+     * @return A new URL.
      * @throws IOException if an I/O error occurs.
      */
     protected URL createURL(final FileName name) throws IOException {

@@ -39,7 +39,7 @@ public abstract class AbstractRandomAccessStreamContent extends AbstractRandomAc
     /**
      * Gets a DataInputStream.
      *
-     * @return a DataInputStream.
+     * @return A DataInputStream.
      * @throws IOException if an IO error occurs.
      */
     protected abstract DataInputStream getDataInputStream() throws IOException;

@@ -28,7 +28,7 @@ public interface IdentityRepositoryFactory {
      * Creates an Identity repository for a given JSch instance.
      *
      * @param jsch JSch context
-     * @return a new IdentityRepository
+     * @return A new IdentityRepository
      */
     IdentityRepository create(JSch jsch);
 }

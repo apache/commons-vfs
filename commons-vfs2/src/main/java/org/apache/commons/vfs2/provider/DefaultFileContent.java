@@ -439,7 +439,7 @@ public final class DefaultFileContent implements FileContent {
     /**
      * Returns a read-only map of this file's attributes.
      *
-     * @return a Map of the file's attributes.
+     * @return A Map of the file's attributes.
      * @throws FileSystemException if an error occurs.
      */
     @Override

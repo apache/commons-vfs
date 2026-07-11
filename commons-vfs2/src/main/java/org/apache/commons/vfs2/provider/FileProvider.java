@@ -61,14 +61,14 @@ public interface FileProvider {
      * These are the same as on the file system, but available before the first file system was instantiated.
      * </p>
      *
-     * @return a Collection of the file systems Capabilities.
+     * @return A Collection of the file systems Capabilities.
      */
     Collection<Capability> getCapabilities();
 
     /**
      * Gets the configbuilder usable to collect the needed fileSystemOptions.
      *
-     * @return a FileSystemConfigBuilder for the particular file system.
+     * @return A FileSystemConfigBuilder for the particular file system.
      */
     FileSystemConfigBuilder getConfigBuilder();
 

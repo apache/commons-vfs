@@ -133,7 +133,7 @@ public enum RandomAccessMode {
     /**
      * Converts this instance to an array of {@link AccessMode}.
      *
-     * @return an array of {@link AccessMode}.
+     * @return An array of {@link AccessMode}.
      * @since 2.10.0
      */
     public AccessMode[] toAccessModes() {

@@ -30,7 +30,7 @@ public interface FileOperations {
      * Gets the file operation for the given class.
      *
      * @param operationClass the operation Class.
-     * @return an operation implementing the given {@code operationClass}.
+     * @return An operation implementing the given {@code operationClass}.
      * @throws FileSystemException if an error occurs.
      */
     FileOperation getOperation(Class<? extends FileOperation> operationClass) throws FileSystemException;
