@@ -108,7 +108,7 @@ public final class VFS {
     /**
      * Resets the FileSystemManager to the default.
      *
-     * @return the new FileSystemManager.
+     * @return The new FileSystemManager.
      * @throws FileSystemException if an error occurs creating the manager.
      * @since 2.5.0
      */

@@ -140,7 +140,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
     /**
      * Gets file content info.
      *
-     * @return the file content info of the delegee.
+     * @return The file content info of the delegee.
      * @throws Exception Any thrown Exception is wrapped in FileSystemException.
      * @since 2.0
      */

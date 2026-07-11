@@ -42,7 +42,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
     /**
      * Gets the singleton builder.
      *
-     * @return the singleton builder.
+     * @return The singleton builder.
      */
     public static FtpsFileSystemConfigBuilder getInstance() {
         return BUILDER;
@@ -92,7 +92,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
      * Gets the KeyManager used to provide a client-side certificate if the FTPS server requests it.
      *
      * @param opts The FileSystemOptions.
-     * @return the key manager instance or {@code null}
+     * @return The key manager instance or {@code null}
      * @see org.apache.commons.net.ftp.FTPSClient#setKeyManager(KeyManager)
      * @since 2.1
      */
@@ -108,7 +108,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
      * </p>
      *
      * @param opts The FileSystemOptions.
-     * @return the trust manager instance or {@code null}
+     * @return The trust manager instance or {@code null}
      * @see org.apache.commons.net.ftp.FTPSClient#setTrustManager(TrustManager)
      * @since 2.1
      */

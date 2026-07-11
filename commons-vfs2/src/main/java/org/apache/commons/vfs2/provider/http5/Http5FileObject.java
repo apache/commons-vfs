@@ -188,7 +188,7 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
     /**
      * Gets the internal {@code URI} object mapped to this file object.
      *
-     * @return the internal {@code URI} object mapped to this file object
+     * @return The internal {@code URI} object mapped to this file object
      */
     protected URI getInternalURI() {
         return internalURI;
@@ -197,7 +197,7 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
     /**
      * Gets the last executed HEAD {@code HttpResponse} object.
      *
-     * @return the last executed HEAD {@code HttpResponse} object
+     * @return The last executed HEAD {@code HttpResponse} object
      * @throws IOException if IO error occurs
      */
     ClassicHttpResponse getLastHeadResponse() throws IOException {

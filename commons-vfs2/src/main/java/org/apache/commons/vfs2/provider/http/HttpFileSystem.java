@@ -81,7 +81,7 @@ public class HttpFileSystem extends AbstractFileSystem {
     /**
      * Gets the HTTP client.
      *
-     * @return the HttpClient.
+     * @return The HttpClient.
      */
     protected HttpClient getClient() {
         return httpClient;

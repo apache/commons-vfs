@@ -77,7 +77,7 @@ public interface FileName extends Comparable<FileName> {
      * This path cannot be used to resolve the path again.
      * </p>
      *
-     * @return the friendly URI as a String.
+     * @return The friendly URI as a String.
      */
     String getFriendlyURI();
 
@@ -129,14 +129,14 @@ public interface FileName extends Comparable<FileName> {
     /**
      * Gets the root of the file system.
      *
-     * @return the file system root.
+     * @return The file system root.
      */
     FileName getRoot();
 
     /**
      * Gets the root URI string of the file system this file belongs to.
      *
-     * @return the root URI string.
+     * @return The root URI string.
      */
     String getRootURI();
 
@@ -164,7 +164,7 @@ public interface FileName extends Comparable<FileName> {
     /**
      * Gets the absolute URI string of this file.
      *
-     * @return the absolute URI string of this file.
+     * @return The absolute URI string of this file.
      */
     String getURI();
 

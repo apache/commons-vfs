@@ -125,7 +125,7 @@ public class DecoratedFileObject implements FileObject {
     /**
      * Gets the decorated fileObject.
      *
-     * @return the decorated fileObject.
+     * @return The decorated fileObject.
      */
     public FileObject getDecoratedFileObject() {
         return fileObject;

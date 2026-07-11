@@ -36,7 +36,7 @@ public final class WebdavMethodRetryHandler implements HttpMethodRetryHandler {
     /**
      * Gets the singleton instance.
      *
-     * @return the singleton instance.
+     * @return The singleton instance.
      */
     public static WebdavMethodRetryHandler getInstance() {
         return INSTANCE;

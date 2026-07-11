@@ -211,7 +211,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
      * Encodes the given path.
      *
      * @param unescaped An unescaped path.
-     * @return the encoded path.
+     * @return The encoded path.
      * @throws URIException if the default protocol charset is not supported
      */
     protected String encodePath(final String unescaped) throws URIException {
@@ -264,7 +264,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
     /**
      * Gets the URL charset name.
      *
-     * @return the URL charset name.
+     * @return The URL charset name.
      */
     protected String getUrlCharset() {
         return urlCharset;
@@ -273,7 +273,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
     /**
      * Gets the user agent.
      *
-     * @return the user agent.
+     * @return The user agent.
      */
     protected String getUserAgent() {
         return userAgent;

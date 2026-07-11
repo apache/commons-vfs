@@ -153,7 +153,7 @@ public class VirtualFileSystem extends AbstractFileSystem {
      * Locates the junction point for the junction containing the given file.
      *
      * @param name The FileName.
-     * @return the FileName where the junction occurs.
+     * @return The FileName where the junction occurs.
      */
     private FileName getJunctionForFile(final FileName name) {
         if (junctions.containsKey(name)) {

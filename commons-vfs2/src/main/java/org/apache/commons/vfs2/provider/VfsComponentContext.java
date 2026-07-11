@@ -35,7 +35,7 @@ public interface VfsComponentContext {
     /**
      * Gets the file system manager for the current context.
      *
-     * @return the file system manager
+     * @return The file system manager
      */
     FileSystemManager getFileSystemManager();
 
@@ -91,7 +91,7 @@ public interface VfsComponentContext {
      * Returns a {@link FileObject} for a local file.
      *
      * @param file The File to convert to a FileObject.
-     * @return the FileObject.
+     * @return The FileObject.
      * @throws FileSystemException if an error occurs.
      */
     FileObject toFileObject(File file) throws FileSystemException;

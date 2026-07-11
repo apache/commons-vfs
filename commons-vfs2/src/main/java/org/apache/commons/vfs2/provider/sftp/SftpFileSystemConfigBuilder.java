@@ -136,7 +136,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Gets the singleton builder.
      *
-     * @return the singleton builder.
+     * @return The singleton builder.
      */
     public static SftpFileSystemConfigBuilder getInstance() {
         return BUILDER;
@@ -166,7 +166,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Gets the config repository.
      *
      * @param options The FileSystem options.
-     * @return the ConfigRepository
+     * @return The ConfigRepository
      */
     public ConfigRepository getConfigRepository(final FileSystemOptions options) {
         return getParam(options, CONFIG_REPOSITORY);
@@ -202,7 +202,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Gets the file name encoding.
      *
      * @param options The FileSystem options.
-     * @return the file name encoding
+     * @return The file name encoding
      */
     public String getFileNameEncoding(final FileSystemOptions options) {
         return this.getString(options, ENCODING);
@@ -215,7 +215,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * </p>
      *
      * @param options The FileSystem options.
-     * @return the array of identity Files.
+     * @return The array of identity Files.
      * @see #setIdentities
      * @deprecated As of 2.1 use {@link #getIdentityInfo(FileSystemOptions)}
      */
@@ -232,7 +232,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Gets the identity infos.
      *
      * @param options The FileSystem options.
-     * @return the array of identity info.
+     * @return The array of identity info.
      * @see #setIdentityInfo
      */
     public IdentityInfo[] getIdentityInfo(final FileSystemOptions options) {
@@ -247,7 +247,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Gets the identity providers.
      *
      * @param options The FileSystem options.
-     * @return the array of identity providers.
+     * @return The array of identity providers.
      * @see #setIdentityProvider
      * @since 2.4
      */
@@ -259,7 +259,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Gets the identity repository factory.
      *
      * @param options The FileSystem options.
-     * @return the IdentityRepositoryFactory
+     * @return The IdentityRepositoryFactory
      */
     public IdentityRepositoryFactory getIdentityRepositoryFactory(final FileSystemOptions options) {
         return getParam(options, IDENTITY_REPOSITORY_FACTORY);
@@ -269,7 +269,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Gets the option value for specific key exchange algorithm.
      *
      * @param options The FileSystem options.
-     * @return the option value for specific key exchange algorithm.
+     * @return The option value for specific key exchange algorithm.
      * @see #setKeyExchangeAlgorithm(FileSystemOptions, String)
      * @since 2.4
      */
@@ -281,7 +281,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Gets the known hosts File.
      *
      * @param options The FileSystem options.
-     * @return the known hosts File.
+     * @return The known hosts File.
      * @see #setKnownHosts
      */
     public File getKnownHosts(final FileSystemOptions options) {
@@ -415,7 +415,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Gets the option value The host key checking.
      *
      * @param options The FileSystem options.
-     * @return the option value The host key checking.
+     * @return The option value The host key checking.
      * @see #setStrictHostKeyChecking(FileSystemOptions, String)
      */
     public String getStrictHostKeyChecking(final FileSystemOptions options) {

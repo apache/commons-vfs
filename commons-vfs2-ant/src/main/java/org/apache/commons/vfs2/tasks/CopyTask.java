@@ -73,7 +73,7 @@ public class CopyTask extends AbstractSyncTask {
     /**
      * Tests whether overwrite is enabled.
      *
-     * @return the current value of overwrite
+     * @return The current value of overwrite
      */
     public boolean isOverwrite() {
         return overwrite;
@@ -82,7 +82,7 @@ public class CopyTask extends AbstractSyncTask {
     /**
      * Tests whether preserve last modified is enabled.
      *
-     * @return the current value of preserveLastModified
+     * @return The current value of preserveLastModified
      */
     public boolean isPreserveLastModified() {
         return preserveLastModified;

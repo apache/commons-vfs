@@ -66,7 +66,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
      * Where multiple '*' occur consecutively they are collapsed into a single '*'.
      *
      * @param text the text to split
-     * @return the array of tokens, never null
+     * @return The array of tokens, never null
      */
     // CHECKSTYLE:OFF Cyclomatic complexity of 12 is OK here
     static String[] splitOnTokens(final String text) {

@@ -89,7 +89,7 @@ public class PosixPermissions {
         /**
          * Gets the mask for this permission.
          *
-         * @return the mask for this permission.
+         * @return The mask for this permission.
          */
         public int getMask() {
             return mask;
@@ -212,7 +212,7 @@ public class PosixPermissions {
      *
      * @param executable Whether the new permissions should be readable.
      * @param ownerOnly Whether the new permissions are only for the owner.
-     * @return the new permissions.
+     * @return The new permissions.
      */
     public int makeExecutable(final boolean executable, final boolean ownerOnly) {
         final EnumMap<Type, Boolean> map = new EnumMap<>(Type.class);
@@ -229,7 +229,7 @@ public class PosixPermissions {
      *
      * @param readable Whether the new permissions should be readable.
      * @param ownerOnly Whether the new permissions are only for the owner.
-     * @return the new permissions.
+     * @return The new permissions.
      */
     public Integer makeReadable(final boolean readable, final boolean ownerOnly) {
         final EnumMap<Type, Boolean> map = new EnumMap<>(Type.class);
@@ -246,7 +246,7 @@ public class PosixPermissions {
      *
      * @param writable Whether the new permissions should be readable.
      * @param ownerOnly Whether the new permissions are only for the owner.
-     * @return the new permissions.
+     * @return The new permissions.
      */
     public Integer makeWritable(final boolean writable, final boolean ownerOnly) {
         final EnumMap<Type, Boolean> map = new EnumMap<>(Type.class);

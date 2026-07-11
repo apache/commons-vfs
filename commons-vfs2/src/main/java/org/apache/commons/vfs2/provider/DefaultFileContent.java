@@ -506,7 +506,7 @@ public final class DefaultFileContent implements FileContent {
     /**
      * Returns the file that this is the content of.
      *
-     * @return the FileObject.
+     * @return The FileObject.
      */
     @Override
     public FileObject getFile() {
@@ -813,7 +813,7 @@ public final class DefaultFileContent implements FileContent {
      * Writes this content to another FileContent.
      *
      * @param fileContent The target FileContent.
-     * @return the total number of bytes written
+     * @return The total number of bytes written
      * @throws IOException if an error occurs writing the content.
      * @since 2.1
      */
@@ -828,7 +828,7 @@ public final class DefaultFileContent implements FileContent {
      * Writes this content to another FileObject.
      *
      * @param file The target FileObject.
-     * @return the total number of bytes written
+     * @return The total number of bytes written
      * @throws IOException if an error occurs writing the content.
      * @since 2.1
      */
@@ -841,7 +841,7 @@ public final class DefaultFileContent implements FileContent {
      * Writes this content to an OutputStream.
      *
      * @param output The target OutputStream.
-     * @return the total number of bytes written
+     * @return The total number of bytes written
      * @throws IOException if an error occurs writing the content.
      * @since 2.1
      */
@@ -855,7 +855,7 @@ public final class DefaultFileContent implements FileContent {
      *
      * @param output The target OutputStream.
      * @param bufferSize The buffer size to write data chunks.
-     * @return the total number of bytes written.
+     * @return The total number of bytes written.
      * @throws IOException if an error occurs writing the file.
      * @since 2.1
      */

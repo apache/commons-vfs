@@ -235,7 +235,7 @@ public abstract class AbstractFileName implements FileName {
     /**
      * Gets the URI without a password.
      *
-     * @return the URI without a password.
+     * @return The URI without a password.
      */
     @Override
     public String getFriendlyURI() {
@@ -257,7 +257,7 @@ public abstract class AbstractFileName implements FileName {
     /**
      * Gets the name of the parent of the file.
      *
-     * @return the FileName of the parent.
+     * @return The FileName of the parent.
      */
     @Override
     public FileName getParent() {
@@ -436,7 +436,7 @@ public abstract class AbstractFileName implements FileName {
     /**
      * Gets the string to end a URI.
      *
-     * @return the string to end a URI
+     * @return The string to end a URI
      */
     protected String getUriTrailer() {
         return getType().hasChildren() ? "/" : "";
@@ -533,7 +533,7 @@ public abstract class AbstractFileName implements FileName {
     /**
      * Returns the URI of the file.
      *
-     * @return the FileName as a URI.
+     * @return The FileName as a URI.
      */
     @Override
     public String toString() {

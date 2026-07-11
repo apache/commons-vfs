@@ -31,7 +31,7 @@ public class GenericFileNameParser extends LocalFileNameParser {
     /**
      * Gets the singleton instance, never null.
      *
-     * @return the singleton instance.
+     * @return The singleton instance.
      */
     public static GenericFileNameParser getInstance() {
         return INSTANCE;

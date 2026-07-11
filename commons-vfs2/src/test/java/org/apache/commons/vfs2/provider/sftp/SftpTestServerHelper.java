@@ -239,7 +239,7 @@ public final class SftpTestServerHelper {
     /**
      * Gets the connection URI for the embedded server.
      *
-     * @return the connection URI, or null if server is not started
+     * @return The connection URI, or null if server is not started
      */
     public static String getConnectionUri() {
         return connectionUri;

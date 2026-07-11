@@ -63,7 +63,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Gets the singleton builder.
      *
-     * @return the singleton builder.
+     * @return The singleton builder.
      */
     public static HttpFileSystemConfigBuilder getInstance() {
         return BUILDER;
@@ -116,7 +116,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Gets the cookies to add to the request.
      *
      * @param opts The FileSystem options.
-     * @return the Cookie array.
+     * @return The Cookie array.
      */
     public Cookie[] getCookies(final FileSystemOptions opts) {
         return getParam(opts, "cookies");
@@ -218,7 +218,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Gets the charset used for url encoding.
      *
      * @param opts The FileSystem options.
-     * @return the charset name.
+     * @return The charset name.
      */
     public String getUrlCharset(final FileSystemOptions opts) {
         return getString(opts, "urlCharset");

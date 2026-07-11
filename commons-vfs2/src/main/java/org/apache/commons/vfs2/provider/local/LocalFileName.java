@@ -76,7 +76,7 @@ public class LocalFileName extends AbstractFileName {
     /**
      * Returns the decoded URI of the file.
      *
-     * @return the FileName as a URI.
+     * @return The FileName as a URI.
      */
     @Override
     public String toString() {

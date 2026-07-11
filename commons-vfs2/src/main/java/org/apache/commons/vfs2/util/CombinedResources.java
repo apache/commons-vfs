@@ -69,7 +69,7 @@ public class CombinedResources extends ResourceBundle {
     /**
      * Gets the resource name.
      *
-     * @return the resource name.
+     * @return The resource name.
      */
     public String getResourceName() {
         return resourceName;

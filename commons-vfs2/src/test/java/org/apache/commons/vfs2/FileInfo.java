@@ -71,7 +71,7 @@ public class FileInfo {
     /**
      * Returns the base name for the file.
      *
-     * @return the base name
+     * @return The base name
      */
     public String getBaseName() {
         return baseName;
@@ -79,7 +79,7 @@ public class FileInfo {
 
     /**
      * Returns a {@code Map} of this {@code FileInfo}'s children.
-     * @return the {@code FileInfo}'s children
+     * @return The {@code FileInfo}'s children
      */
     public Map<String, FileInfo> getChildren() {
         return children;
@@ -88,7 +88,7 @@ public class FileInfo {
     /**
      * Returns file's content.
      *
-     * @return the content as a {@code String}
+     * @return The content as a {@code String}
      */
     public String getContent() {
         return content;

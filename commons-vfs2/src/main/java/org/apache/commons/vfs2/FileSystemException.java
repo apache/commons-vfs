@@ -191,7 +191,7 @@ public class FileSystemException extends IOException {
     /**
      * Gets error code of the exception. Could be used as key for internationalization.
      *
-     * @return the code.
+     * @return The code.
      */
     public String getCode() {
         return super.getMessage();
@@ -200,7 +200,7 @@ public class FileSystemException extends IOException {
     /**
      * Gets array of complementary info (context). Could be used as parameter for internationalization.
      *
-     * @return the context info.
+     * @return The context info.
      */
     public String[] getInfo() {
         return info;

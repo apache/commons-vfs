@@ -251,7 +251,7 @@ public class SftpFileSystem extends AbstractFileSystem {
     /**
      * Gets the (numeric) group IDs.
      *
-     * @return the (numeric) group IDs.
+     * @return The (numeric) group IDs.
      * @throws JSchException If a problem occurs while retrieving the group IDs.
      * @throws IOException   if an I/O error is detected.
      * @since 2.1
@@ -345,7 +345,7 @@ public class SftpFileSystem extends AbstractFileSystem {
      * Parses the output of the 'id -G' command
      *
      * @param output The output from the command
-     * @return the (numeric) group IDs.
+     * @return The (numeric) group IDs.
      */
     int[] parseGroupIdOutput(final StringBuilder output) {
         // Retrieve the different groups

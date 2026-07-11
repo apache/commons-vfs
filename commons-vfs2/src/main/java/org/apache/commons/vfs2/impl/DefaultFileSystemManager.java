@@ -596,7 +596,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     /**
      * Gets the logger used by this manager.
      *
-     * @return the Logger.
+     * @return The Logger.
      */
     protected Log getLogger() {
         return log;
@@ -604,7 +604,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * @param scheme the scheme for which we want to get the list af registered providers.
-     * @return the registered FileOperationProviders for the specified scheme. If there were no providers registered for
+     * @return The registered FileOperationProviders for the specified scheme. If there were no providers registered for
      *         the scheme, it returns null.
      *
      * @throws FileSystemException if an error occurs.
@@ -1190,7 +1190,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * Converts a local file into a {@link FileObject}.
      *
      * @param file The input File.
-     * @return the created FileObject
+     * @return The created FileObject
      * @throws FileSystemException if an error occurs creating the file.
      */
     @Override

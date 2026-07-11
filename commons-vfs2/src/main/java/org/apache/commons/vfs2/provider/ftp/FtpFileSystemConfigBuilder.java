@@ -65,7 +65,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Gets the singleton instance.
      *
-     * @return the singleton instance.
+     * @return The singleton instance.
      */
     public static FtpFileSystemConfigBuilder getInstance() {
         return BUILDER;
@@ -101,7 +101,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Gets the active port range.
      *
      * @param options The FileSystemOptions.
-     * @return the Range of active ports
+     * @return The Range of active ports
      * @since 2.10.0
      */
     public Range<Integer> getActivePortRange(final FileSystemOptions options) {
@@ -235,7 +235,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param options The FileSystemOptions.
      * @see #setEntryParser
-     * @return the key to the EntryParser.
+     * @return The key to the EntryParser.
      */
     public String getEntryParser(final FileSystemOptions options) {
         return getString(options, FACTORY_KEY);
@@ -289,7 +289,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Gets the Proxy.
      *
      * @param options The FileSystemOptions.
-     * @return the Proxy
+     * @return The Proxy
      * @since 2.1
      */
     public Proxy getProxy(final FileSystemOptions options) {

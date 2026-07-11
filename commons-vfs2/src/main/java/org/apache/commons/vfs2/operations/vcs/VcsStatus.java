@@ -137,7 +137,7 @@ public enum VcsStatus {
     /**
      * Gets the status.
      *
-     * @return the status of FileObject
+     * @return The status of FileObject
      */
     public int getStatus() {
         return status;

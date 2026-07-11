@@ -186,7 +186,7 @@ public class URIUtils {
      * the default protocol charset.
      *
      * @param unescaped an unescaped string
-     * @return the escaped string
+     * @return The escaped string
      */
     public static String encodePath(final String unescaped) {
         return encodePath(unescaped, DEFAULT_PROTOCOL_CHARSET);
@@ -198,7 +198,7 @@ public class URIUtils {
      *
      * @param unescaped an unescaped string
      * @param charset the charset
-     * @return the escaped string
+     * @return The escaped string
      */
     public static String encodePath(final String unescaped, final String charset) {
         if (unescaped == null) {

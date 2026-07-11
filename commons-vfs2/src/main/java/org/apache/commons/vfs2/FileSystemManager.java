@@ -156,28 +156,28 @@ public interface FileSystemManager extends AutoCloseable {
     /**
      * Gets the cache strategy used.
      *
-     * @return the CacheStrategy.
+     * @return The CacheStrategy.
      */
     CacheStrategy getCacheStrategy();
 
     /**
      * Gets the class to use to determine the content-type (mime-type).
      *
-     * @return the FileContentInfoFactory.
+     * @return The FileContentInfoFactory.
      */
     FileContentInfoFactory getFileContentInfoFactory();
 
     /**
      * Gets the file object decorator used.
      *
-     * @return the file object decorator Class.
+     * @return The file object decorator Class.
      */
     Class<?> getFileObjectDecorator();
 
     /**
      * Gets the constructor associated to the fileObjectDecorator. We cache it here for performance reasons.
      *
-     * @return the Constructor associated with the FileObjectDecorator.
+     * @return The Constructor associated with the FileObjectDecorator.
      */
     Constructor<?> getFileObjectDecoratorConst();
 
@@ -201,7 +201,7 @@ public interface FileSystemManager extends AutoCloseable {
      * Gets Providers for file operations.
      *
      * @param scheme the scheme for which we want to get the list af registered providers.
-     * @return the registered FileOperationProviders for the specified scheme. If there were no providers registered for
+     * @return The registered FileOperationProviders for the specified scheme. If there were no providers registered for
      *         the scheme, it returns null.
      *
      * @throws FileSystemException if an error occurs.
@@ -227,7 +227,7 @@ public interface FileSystemManager extends AutoCloseable {
     /**
      * Returns a stream handler factory to enable URL lookup using this FileSystemManager.
      *
-     * @return the URLStreamHandlerFactory.
+     * @return The URLStreamHandlerFactory.
      */
     URLStreamHandlerFactory getURLStreamHandlerFactory();
 

@@ -97,7 +97,7 @@ public class Http4FileSystem extends AbstractFileSystem {
     /**
      * Gets the internal {@link HttpClient} instance.
      *
-     * @return the internal {@link HttpClient} instance
+     * @return The internal {@link HttpClient} instance
      */
     protected HttpClient getHttpClient() {
         return httpClient;
@@ -106,7 +106,7 @@ public class Http4FileSystem extends AbstractFileSystem {
     /**
      * Gets the internal {@link HttpClientContext} instance.
      *
-     * @return the internal {@link HttpClientContext} instance
+     * @return The internal {@link HttpClientContext} instance
      */
     protected HttpClientContext getHttpClientContext() {
         return httpClientContext;
@@ -115,7 +115,7 @@ public class Http4FileSystem extends AbstractFileSystem {
     /**
      * Gets the internal base {@code URI} instance.
      *
-     * @return the internal base {@code URI} instance
+     * @return The internal base {@code URI} instance
      */
     protected URI getInternalBaseURI() {
         return internalBaseURI;

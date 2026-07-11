@@ -112,7 +112,7 @@ public class IdentityInfo implements IdentityProvider {
     /**
      * Gets the passphrase of the private key.
      *
-     * @return the passphrase
+     * @return The passphrase
      * @since 2.10.0
      */
     public byte[] getPassphrase() {
@@ -122,7 +122,7 @@ public class IdentityInfo implements IdentityProvider {
     /**
      * Gets the passphrase of the private key.
      *
-     * @return the passphrase
+     * @return The passphrase
      * @since 2.1
      * @deprecated Use {@link #getPassphrase()}.
      */
@@ -134,7 +134,7 @@ public class IdentityInfo implements IdentityProvider {
     /**
      * Gets the file with the private key.
      *
-     * @return the file
+     * @return The file
      * @since 2.1
      */
     public File getPrivateKey() {
@@ -144,7 +144,7 @@ public class IdentityInfo implements IdentityProvider {
     /**
      * Gets the file with the public key.
      *
-     * @return the file
+     * @return The file
      * @since 2.1
      */
     public File getPublicKey() {

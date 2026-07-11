@@ -46,7 +46,7 @@ public final class Webdav4FileSystemConfigBuilder extends Http4FileSystemConfigB
     /**
      * Gets the singleton builder.
      *
-     * @return the singleton builder.
+     * @return The singleton builder.
      */
     public static Webdav4FileSystemConfigBuilder getInstance() {
         return BUILDER;

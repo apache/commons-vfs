@@ -33,7 +33,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser {
     /**
      * Gets the singleton instance.
      *
-     * @return the singleton instance.
+     * @return The singleton instance.
      */
     public static LayeredFileNameParser getInstance() {
         return INSTANCE;
@@ -61,7 +61,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser {
      * Pops the root prefix off a URI, which has had the scheme removed.
      *
      * @param uri string builder which gets modified.
-     * @return the extracted root name.
+     * @return The extracted root name.
      */
     protected String extractRootName(final StringBuilder uri) {
         // Looking for <name>!<abspath> (staring at the end)

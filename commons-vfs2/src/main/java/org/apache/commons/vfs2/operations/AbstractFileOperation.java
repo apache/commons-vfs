@@ -42,7 +42,7 @@ public abstract class AbstractFileOperation implements FileOperation {
     /**
      * Gets the instance of FileObject for this FileOperation.
      *
-     * @return the instance of FileObject for this FileOperation.
+     * @return The instance of FileObject for this FileOperation.
      */
     protected FileObject getFileObject() {
         return fileObject;

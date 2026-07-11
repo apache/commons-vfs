@@ -36,7 +36,7 @@ public class ZipFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Gets the singleton instance.
      *
-     * @return the singleton instance.
+     * @return The singleton instance.
      */
     public static final ZipFileSystemConfigBuilder getInstance() {
         return INSTANCE;
@@ -53,7 +53,7 @@ public class ZipFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Gets the Charset from the FileSystemOptions or {@link StandardCharsets#UTF_8} if absent.
      *
      * @param fileSystemOptions The source FileSystemOptions.
-     * @return the Charset from the FileSystemOptions.
+     * @return The Charset from the FileSystemOptions.
      */
     public Charset getCharset(final FileSystemOptions fileSystemOptions) {
         return getParamOrDefault(fileSystemOptions, KEY_CHARSET, StandardCharsets.UTF_8);

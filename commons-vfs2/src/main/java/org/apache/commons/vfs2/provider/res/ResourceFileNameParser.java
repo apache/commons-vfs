@@ -32,7 +32,7 @@ public class ResourceFileNameParser extends GenericFileNameParser {
     /**
      * Gets the singleton instance.
      *
-     * @return the singleton instance.
+     * @return The singleton instance.
      */
     public static GenericFileNameParser getInstance() {
         return INSTANCE;

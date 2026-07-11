@@ -38,7 +38,7 @@ public interface FilesCache {
      *
      * @param fileSystem The FileSystem.
      * @param fileName the name
-     * @return the file object or null if file is not cached
+     * @return The file object or null if file is not cached
      */
     FileObject getFile(FileSystem fileSystem, FileName fileName);
 

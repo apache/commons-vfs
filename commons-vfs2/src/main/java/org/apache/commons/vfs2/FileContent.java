@@ -118,7 +118,7 @@ public interface FileContent extends Closeable {
     /**
      * Gets the content info. e.g. type, encoding, ...
      *
-     * @return the FileContentInfo
+     * @return The FileContentInfo
      * @throws FileSystemException if an error occurs.
      */
     FileContentInfo getContentInfo() throws FileSystemException;
@@ -259,7 +259,7 @@ public interface FileContent extends Closeable {
      * </p>
      *
      * @param mode The mode to use to access the file.
-     * @return the stream for reading and writing the file's content.
+     * @return The stream for reading and writing the file's content.
      * @throws FileSystemException If the file is read-only, or is being read, or is being written, or on error opening
      *         the stream.
      */
@@ -357,7 +357,7 @@ public interface FileContent extends Closeable {
      *
      * @param output The target OutputStream.
      * @throws IOException if an error occurs writing the content.
-     * @return the total number of bytes written
+     * @return The total number of bytes written
      * @since 2.1
      */
     long write(FileContent output) throws IOException;
@@ -367,7 +367,7 @@ public interface FileContent extends Closeable {
      *
      * @param file The target FileObject.
      * @throws IOException if an error occurs writing the content.
-     * @return the total number of bytes written
+     * @return The total number of bytes written
      * @since 2.1
      */
     long write(FileObject file) throws IOException;
@@ -376,7 +376,7 @@ public interface FileContent extends Closeable {
      * Writes this content to an OutputStream.
      *
      * @param output The target OutputStream.
-     * @return the total number of bytes written
+     * @return The total number of bytes written
      * @throws IOException if an error occurs writing the content.
      * @since 2.1
      */
@@ -387,7 +387,7 @@ public interface FileContent extends Closeable {
      *
      * @param output The target OutputStream.
      * @param bufferSize The buffer size to write data chunks.
-     * @return the total number of bytes written
+     * @return The total number of bytes written
      * @throws IOException if an error occurs writing the file.
      * @since 2.1
      */

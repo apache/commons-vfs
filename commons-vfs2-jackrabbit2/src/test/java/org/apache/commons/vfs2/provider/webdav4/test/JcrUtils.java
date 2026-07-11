@@ -61,7 +61,7 @@ final class JcrUtils {
      *
      * @param parent parent node
      * @param name name of the child node
-     * @return the child node
+     * @return The child node
      * @throws RepositoryException if the child node cannot be accessed or created
      */
     public static Node getOrAddFolder(final Node parent, final String name) throws RepositoryException {
@@ -79,7 +79,7 @@ final class JcrUtils {
      * @param parent parent node
      * @param name name of the child node
      * @param type type of the child node, ignored if the child already exists
-     * @return the child node
+     * @return The child node
      * @throws RepositoryException if the child node cannot be accessed or created
      */
     public static Node getOrAddNode(final Node parent, final String name, final String type)
@@ -118,7 +118,7 @@ final class JcrUtils {
      * @param name name of the file
      * @param mime media type of the file
      * @param data binary content of the file
-     * @return the child node
+     * @return The child node
      * @throws RepositoryException if the child node cannot be created or updated
      */
     public static Node putFile(final Node parent, final String name, final String mime, final InputStream data)
@@ -155,7 +155,7 @@ final class JcrUtils {
      * @param mime media type of the file
      * @param data binary content of the file
      * @param date date of last modification
-     * @return the child node
+     * @return The child node
      * @throws RepositoryException if the child node cannot be created or updated
      */
     public static Node putFile(final Node parent, final String name, final String mime, final InputStream data,

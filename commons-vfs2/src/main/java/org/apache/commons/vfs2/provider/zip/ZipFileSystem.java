@@ -141,7 +141,7 @@ public class ZipFileSystem extends AbstractFileSystem {
     /**
      * Gets the Charset, defaults to {@link StandardCharsets#UTF_8}, the value used in {@link ZipFile}.
      *
-     * @return the Charset.
+     * @return The Charset.
      */
     protected Charset getCharset() {
         return charset;
@@ -158,7 +158,7 @@ public class ZipFileSystem extends AbstractFileSystem {
     /**
      * Gets the zip file.
      *
-     * @return the zip file.
+     * @return The zip file.
      * @throws FileSystemException if a file system error occurs.
      */
     protected ZipFile getZipFile() throws FileSystemException {

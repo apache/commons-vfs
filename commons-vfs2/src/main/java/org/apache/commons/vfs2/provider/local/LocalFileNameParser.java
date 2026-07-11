@@ -53,7 +53,7 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser {
      *
      * @param name the URI to modify.
      * @param uri the whole URI for error reporting.
-     * @return the root prefix extracted.
+     * @return The root prefix extracted.
      * @throws FileSystemException if an error occurs.
      */
     protected abstract String extractRootPrefix(String uri, StringBuilder name) throws FileSystemException;

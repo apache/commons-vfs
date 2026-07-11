@@ -40,7 +40,7 @@ public class ProviderConfiguration {
     /**
      * Gets the class name.
      *
-     * @return the class name.
+     * @return The class name.
      */
     public String getClassName() {
         return className;
@@ -49,7 +49,7 @@ public class ProviderConfiguration {
     /**
      * Gets the dependency.
      *
-     * @return the dependency.
+     * @return The dependency.
      */
     public List<String> getDependencies() {
         return dependencies;
@@ -58,7 +58,7 @@ public class ProviderConfiguration {
     /**
      * Gets the schema.
      *
-     * @return the scheme.
+     * @return The scheme.
      */
     public List<String> getSchemes() {
         return schemes;

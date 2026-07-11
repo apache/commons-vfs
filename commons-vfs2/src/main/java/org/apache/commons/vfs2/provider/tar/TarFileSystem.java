@@ -161,7 +161,7 @@ public class TarFileSystem extends AbstractFileSystem {
      * Returns the input stream for the given entry.
      *
      * @param entry The entry to seek.
-     * @return the input stream for the given entry.
+     * @return The input stream for the given entry.
      * @throws FileSystemException If an I/O error occurs.
      */
     public InputStream getInputStream(final TarArchiveEntry entry) throws FileSystemException {
@@ -183,7 +183,7 @@ public class TarFileSystem extends AbstractFileSystem {
     /**
      * Gets the TarArchiveInputStream.
      *
-     * @return the TarArchiveInputStream.
+     * @return The TarArchiveInputStream.
      * @throws FileSystemException if a file system error occurs.
      */
     protected TarArchiveInputStream getTarFile() throws FileSystemException {

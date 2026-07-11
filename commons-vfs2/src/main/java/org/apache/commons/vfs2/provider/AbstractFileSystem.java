@@ -189,7 +189,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      * Decorates the given file object.
      *
      * @param file the file object.
-     * @return the decorated file object.
+     * @return The decorated file object.
      * @throws FileSystemException if a file system error occurs.
      */
     protected FileObject decorateFileObject(FileObject file) throws FileSystemException {
@@ -301,7 +301,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      * Gets the attribute with the specified name. The default implementation simply throws an exception.
      *
      * @param attrName The name of the attribute.
-     * @return the Object associated with the attribute or null if no object is.
+     * @return The Object associated with the attribute or null if no object is.
      * @throws FileSystemException if an error occurs.
      */
     @Override
@@ -331,7 +331,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     /**
      * Gets the FileSystemManager used to instantiate this file system.
      *
-     * @return the FileSystemManager.
+     * @return The FileSystemManager.
      */
     @Override
     public FileSystemManager getFileSystemManager() {
@@ -341,7 +341,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     /**
      * Gets the FileSystemOptions used to instantiate this file system.
      *
-     * @return the FileSystemOptions.
+     * @return The FileSystemOptions.
      */
     @Override
     public FileSystemOptions getFileSystemOptions() {
@@ -383,7 +383,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     /**
      * Gets the name of the root of this file system.
      *
-     * @return the root FileName.
+     * @return The root FileName.
      */
     @Override
     public FileName getRootName() {

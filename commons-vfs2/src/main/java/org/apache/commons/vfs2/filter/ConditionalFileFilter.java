@@ -40,7 +40,7 @@ public interface ConditionalFileFilter {
     /**
      * Gets this conditional file filter's list of file filters.
      *
-     * @return the file filter list
+     * @return The file filter list
      */
     List<FileFilter> getFileFilters();
 

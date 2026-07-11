@@ -173,7 +173,7 @@ public class FTPClientWrapper implements FtpClient {
     /**
      * Gets the FileSystemOptions.
      *
-     * @return the FileSystemOptions.
+     * @return The FileSystemOptions.
      */
     public FileSystemOptions getFileSystemOptions() {
         return fileSystemOptions;
@@ -182,7 +182,7 @@ public class FTPClientWrapper implements FtpClient {
     /**
      * Package-private for debugging only, consider private.
      *
-     * @return the actual FTP client.
+     * @return The actual FTP client.
      * @throws FileSystemException if an error occurs while establishing a connection.
      */
     FTPClient getFtpClient() throws FileSystemException {

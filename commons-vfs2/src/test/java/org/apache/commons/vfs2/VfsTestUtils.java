@@ -101,7 +101,7 @@ public abstract class VfsTestUtils {
      *
      * {@link #getTestDirectoryFile()} should be preferred.
      *
-     * @return the test directory as a String
+     * @return The test directory as a String
      */
     public static String getTestDirectory() {
         return System.getProperty(TEST_BASE_DIR, "target/test-classes/test-data");

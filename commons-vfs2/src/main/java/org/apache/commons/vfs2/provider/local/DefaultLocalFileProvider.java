@@ -73,7 +73,7 @@ public class DefaultLocalFileProvider extends AbstractOriginatingFileProvider im
      * Finds a local file.
      *
      * @param file The File to locate.
-     * @return the located FileObject.
+     * @return The located FileObject.
      * @throws FileSystemException if an error occurs.
      */
     @Override
@@ -85,7 +85,7 @@ public class DefaultLocalFileProvider extends AbstractOriginatingFileProvider im
      * Finds a local file, from its local name.
      *
      * @param name The name of the file to locate.
-     * @return the located FileObject.
+     * @return The located FileObject.
      * @throws FileSystemException if an error occurs.
      */
     @Override

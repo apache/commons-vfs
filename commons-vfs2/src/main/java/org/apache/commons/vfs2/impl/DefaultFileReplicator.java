@@ -147,7 +147,7 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
      * Create the temporary file name.
      *
      * @param baseName The base to prepend to the file name being created.
-     * @return the name of the File.
+     * @return The name of the File.
      */
     protected String createFilename(final String baseName) {
         // BUG29007
@@ -177,7 +177,7 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
     /**
      * Gets the file count.
      *
-     * @return the file count.
+     * @return The file count.
      */
     protected long getFilecount() {
         return fileCount;
@@ -209,7 +209,7 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
      * <p>
      * Notice: The system awaits that the returning object can be cast to a {@link File}.
      *
-     * @return the File that was removed.
+     * @return The File that was removed.
      */
     protected Object removeFile() {
         synchronized (copies) {
@@ -233,7 +233,7 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
      *
      * @param srcFile The file to copy.
      * @param selector The FileSelector.
-     * @return the created File.
+     * @return The created File.
      * @throws FileSystemException if an error occurs copying the file.
      */
     @Override

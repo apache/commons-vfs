@@ -44,7 +44,7 @@ public interface RandomAccessContent extends DataOutput, DataInput, Closeable {
     /**
      * Returns the current offset in this file.
      *
-     * @return the offset from the beginning of the file, in bytes, at which the next read or write occurs.
+     * @return The offset from the beginning of the file, in bytes, at which the next read or write occurs.
      * @throws IOException if an I/O error occurs.
      */
     long getFilePointer() throws IOException;
@@ -55,7 +55,7 @@ public interface RandomAccessContent extends DataOutput, DataInput, Closeable {
      * <strong>Notice: If you use {@link #seek(long)} you have to re-get the InputStream</strong>
      * </p>
      *
-     * @return the InputStream.
+     * @return The InputStream.
      * @throws IOException if an I/O error occurs.
      */
     InputStream getInputStream() throws IOException;
@@ -63,7 +63,7 @@ public interface RandomAccessContent extends DataOutput, DataInput, Closeable {
     /**
      * Returns the length of this file.
      *
-     * @return the length of this file, measured in bytes.
+     * @return The length of this file, measured in bytes.
      * @throws IOException if an I/O error occurs.
      */
     long length() throws IOException;

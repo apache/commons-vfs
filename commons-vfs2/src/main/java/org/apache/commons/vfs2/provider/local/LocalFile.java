@@ -254,7 +254,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
     /**
      * Gets the local file that this file object represents.
      *
-     * @return the local file that this file object represents.
+     * @return The local file that this file object represents.
      */
     protected File getLocalFile() {
         return file;

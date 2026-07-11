@@ -31,7 +31,7 @@ public final class ResourceFileSystemConfigBuilder extends FileSystemConfigBuild
     /**
      * Gets the singleton builder.
      *
-     * @return the singleton builder.
+     * @return The singleton builder.
      */
     public static ResourceFileSystemConfigBuilder getInstance() {
         return BUILDER;
@@ -45,7 +45,7 @@ public final class ResourceFileSystemConfigBuilder extends FileSystemConfigBuild
      * Gets the class loader from the FileSystemOptions.
      *
      * @param fileSystemOptions The source FileSystemOptions.
-     * @return the class loader from the FileSystemOptions.
+     * @return The class loader from the FileSystemOptions.
      */
     public ClassLoader getClassLoader(final FileSystemOptions fileSystemOptions) {
         return getParam(fileSystemOptions, ClassLoader.class.getName());

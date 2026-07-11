@@ -241,7 +241,7 @@ public class DelegatingFileSystemOptionsBuilder {
     /**
      * Gets the FileSystemManager.
      *
-     * @return the FileSystemManager.
+     * @return The FileSystemManager.
      */
     protected FileSystemManager getManager() {
         return manager;

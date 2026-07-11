@@ -149,7 +149,7 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
     /**
      * Gets the FileSystemConfigBuilder.
      *
-     * @return the FileSystemConfigBuilder.
+     * @return The FileSystemConfigBuilder.
      */
     @Override
     public FileSystemConfigBuilder getConfigBuilder() {
@@ -159,7 +159,7 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
     /**
      * Gets the file name parser.
      *
-     * @return the file name parser.
+     * @return The file name parser.
      */
     protected FileNameParser getFileNameParser() {
         return fileNameParser;

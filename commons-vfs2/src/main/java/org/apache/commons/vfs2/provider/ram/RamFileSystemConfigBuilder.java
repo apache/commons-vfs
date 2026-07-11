@@ -34,7 +34,7 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Gets the singleton builder.
      *
-     * @return the singleton builder.
+     * @return The singleton builder.
      */
     public static RamFileSystemConfigBuilder getInstance() {
         return SINGLETON;

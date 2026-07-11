@@ -69,7 +69,7 @@ public class URLFileName extends GenericFileName {
     /**
      * Appends query string to the URI.
      *
-     * @return the URI
+     * @return The URI
      */
     @Override
     protected String createURI() {
@@ -88,7 +88,7 @@ public class URLFileName extends GenericFileName {
     /**
      * Gets the path and query string e.g. /path/servlet?param1=true.
      *
-     * @return the path and its query string
+     * @return The path and its query string
      */
     public String getPathQuery() {
         final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
@@ -129,7 +129,7 @@ public class URLFileName extends GenericFileName {
     /**
      * Gets the query string.
      *
-     * @return the query string part of the file name
+     * @return The query string part of the file name
      */
     public String getQueryString() {
         return queryString;

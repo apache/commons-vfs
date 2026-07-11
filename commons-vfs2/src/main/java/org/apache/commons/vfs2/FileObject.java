@@ -192,7 +192,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
      * </p>
      *
      * @param selector The selector to use to select which files to delete.
-     * @return the number of deleted objects
+     * @return The number of deleted objects
      * @throws FileSystemException If this file or one of its descendants is read-only, or on error deleting this file
      *             or one of its descendants.
      */
@@ -201,7 +201,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Deletes this file and all children.
      *
-     * @return the number of deleted files.
+     * @return The number of deleted files.
      * @throws FileSystemException if an error occurs.
      * @see #delete(FileSelector)
      * @see Selectors#SELECT_ALL
@@ -289,7 +289,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Gets the name of this file.
      *
-     * @return the FileName, not {@code null}.
+     * @return The FileName, not {@code null}.
      */
     FileName getName();
 
@@ -304,7 +304,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Gets a Path representing this file.
      *
-     * @return the Path for the file.
+     * @return The Path for the file.
      * @since 2.7.0
      */
     default Path getPath() {
@@ -329,7 +329,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Gets a URI representing this file.
      *
-     * @return the URI for the file, not {@code null}.
+     * @return The URI for the file, not {@code null}.
      * @since 2.7.0
      */
     default URI getURI() {
@@ -339,7 +339,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Gets a URL representing this file.
      *
-     * @return the URL for the file.
+     * @return The URL for the file.
      * @throws FileSystemException if an error occurs.
      */
     URL getURL() throws FileSystemException;

@@ -392,7 +392,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * Deletes this file, and all children matching the {@code selector}.
      *
      * @param selector The FileSelector.
-     * @return the number of deleted files.
+     * @return The number of deleted files.
      * @throws FileSystemException if an error occurs.
      */
     @Override
@@ -429,7 +429,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     /**
      * Deletes this file and all children. Shorthand for {@code delete(Selectors.SELECT_ALL)}
      *
-     * @return the number of deleted files.
+     * @return The number of deleted files.
      * @throws FileSystemException if an error occurs.
      * @see #delete(FileSelector)
      * @see Selectors#SELECT_ALL
@@ -693,7 +693,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * Determines the type of this file. Must not return null. The return value of this method is cached, so the
      * implementation can be expensive.
      *
-     * @return the type of the file.
+     * @return The type of the file.
      * @throws Exception if an error occurs.
      */
     protected abstract FileType doGetType() throws Exception;
@@ -1127,7 +1127,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     /**
      * Returns the file's content.
      *
-     * @return the FileContent for this FileObject.
+     * @return The FileContent for this FileObject.
      * @throws FileSystemException if an error occurs.
      */
     @Override
@@ -1284,7 +1284,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     /**
      * Returns the parent of the file.
      *
-     * @return the parent FileObject.
+     * @return The parent FileObject.
      * @throws FileSystemException if an error occurs.
      */
     @Override
@@ -1905,7 +1905,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     /**
      * Returns the URI as a String.
      *
-     * @return the URI as a String.
+     * @return The URI as a String.
      */
     @Override
     public String toString() {

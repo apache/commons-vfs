@@ -79,7 +79,7 @@ public class BytesIdentityInfo implements IdentityProvider {
     /**
      * Gets the passphrase.
      *
-     * @return the passphrase.
+     * @return The passphrase.
      * @since 2.10.0
      */
     public byte[] getPassphrase() {
@@ -89,7 +89,7 @@ public class BytesIdentityInfo implements IdentityProvider {
     /**
      * Gets the passphrase.
      *
-     * @return the passphrase.
+     * @return The passphrase.
      * @deprecated Use {@link #getPassphrase()}.
      */
     @Deprecated
@@ -100,7 +100,7 @@ public class BytesIdentityInfo implements IdentityProvider {
     /**
      * Gets the private key.
      *
-     * @return the private key.
+     * @return The private key.
      */
     public byte[] getPrivateKeyBytes() {
         return Utils.clone(privateKey);
@@ -109,7 +109,7 @@ public class BytesIdentityInfo implements IdentityProvider {
     /**
      * Gets the public key.
      *
-     * @return the public key.
+     * @return The public key.
      */
     public byte[] getPublicKeyBytes() {
         return Utils.clone(publicKey);

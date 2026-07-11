@@ -55,7 +55,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         /**
          * Gets the host name.
          *
-         * @return the host name.
+         * @return The host name.
          * @since 2.0
          */
         public String getHostName() {
@@ -65,7 +65,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         /**
          * Gets the user password.
          *
-         * @return the password or null.
+         * @return The password or null.
          * @since 2.0
          */
         public String getPassword() {
@@ -75,7 +75,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         /**
          * Gets the port.
          *
-         * @return the port or -1.
+         * @return The port or -1.
          * @since 2.0
          */
         public int getPort() {
@@ -85,7 +85,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         /**
          * Gets the connection schema.
          *
-         * @return the connection scheme.
+         * @return The connection scheme.
          * @since 2.0
          */
         public String getScheme() {
@@ -95,7 +95,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         /**
          * Gets the user name.
          *
-         * @return the user name or null.
+         * @return The user name or null.
          * @since 2.0
          */
         public String getUserName() {
@@ -185,7 +185,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
      * Extracts the hostname from a URI.
      *
      * @param name string buffer with the "scheme://[userinfo@]" part has been removed already. Will be modified.
-     * @return the host name or null.
+     * @return The host name or null.
      */
     protected String extractHostName(final StringBuilder name) {
         final int maxlen = name.length();
@@ -344,7 +344,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
      * Extracts the user info from a URI.
      *
      * @param name string buffer with the "scheme://" part has been removed already. Will be modified.
-     * @return the user information up to the '@' or null.
+     * @return The user information up to the '@' or null.
      */
     protected String extractUserInfo(final StringBuilder name) {
         final int maxlen = name.length();
@@ -369,7 +369,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
     /**
      * Gets the default port.
      *
-     * @return the default port.
+     * @return The default port.
      */
     public int getDefaultPort() {
         return defaultPort;

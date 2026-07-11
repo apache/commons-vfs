@@ -100,7 +100,7 @@ public class ProviderReadTests extends AbstractProviderTestCase {
     /**
      * Returns the read folder named "dir1".
      *
-     * @return the read folder named "dir1".
+     * @return The read folder named "dir1".
      * @throws FileSystemException
      */
     protected FileObject getReadFolderDir1() throws FileSystemException {

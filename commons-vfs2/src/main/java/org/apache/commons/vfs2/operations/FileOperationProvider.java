@@ -50,7 +50,7 @@ public interface FileOperationProvider {
      *
      * @param file the FileObject for which we need an operation.
      * @param operationClass the Class which instance we are needed.
-     * @return the required operation instance.
+     * @return The required operation instance.
      * @throws FileSystemException if operation cannot be retrieved.
      */
     FileOperation getOperation(FileObject file, Class<? extends FileOperation> operationClass) throws FileSystemException;

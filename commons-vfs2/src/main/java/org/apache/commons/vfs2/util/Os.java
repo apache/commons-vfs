@@ -161,7 +161,7 @@ public final class Os {
      * Locates an OsFamily by name (case-insensitive).
      *
      * @param name The family name to lookup.
-     * @return the OS family, or null if not found.
+     * @return The OS family, or null if not found.
      */
     public static OsFamily getFamily(final String name) {
         for (final OsFamily osFamily : ALL_FAMILIES) {

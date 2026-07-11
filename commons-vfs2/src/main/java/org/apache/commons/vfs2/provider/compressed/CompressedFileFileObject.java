@@ -108,7 +108,7 @@ public abstract class CompressedFileFileObject<FS extends CompressedFileFileSyst
     /**
      * Gets the container.
      *
-     * @return the container.
+     * @return The container.
      */
     protected FileObject getContainer() {
         return container;

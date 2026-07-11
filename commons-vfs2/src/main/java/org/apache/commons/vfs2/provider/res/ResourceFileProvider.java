@@ -57,7 +57,7 @@ public class ResourceFileProvider extends AbstractFileProvider {
      * @param baseFile The base file.
      * @param uri The URI of the file to locate.
      * @param fileSystemOptions The FileSystem options.
-     * @return the FileObject.
+     * @return The FileObject.
      * @throws FileSystemException if an error occurs.
      */
     @Override

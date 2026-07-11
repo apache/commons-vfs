@@ -80,7 +80,7 @@ public interface FileSystem {
      * typically don't know the value of the underlying real file system.
      * </p>
      *
-     * @return the accuracy of the last modification time in milliseconds. A value of 0 means perfectly accurate,
+     * @return The accuracy of the last modification time in milliseconds. A value of 0 means perfectly accurate,
      *         anything {@literal > 0} might be off by this value. For example, sftp has an accuracy of 1000
      *         milliseconds.
      */
@@ -105,7 +105,7 @@ public interface FileSystem {
     /**
      * Returns the name of the root file of this file system. The root name always contains a path String of "/".
      *
-     * @return the root FileName.
+     * @return The root FileName.
      */
     FileName getRootName();
 

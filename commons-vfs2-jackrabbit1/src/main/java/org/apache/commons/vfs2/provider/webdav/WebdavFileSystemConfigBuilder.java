@@ -34,7 +34,7 @@ public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBui
     /**
      * Gets the singleton builder.
      *
-     * @return the singleton builder.
+     * @return The singleton builder.
      */
     public static HttpFileSystemConfigBuilder getInstance() {
         return BUILDER;

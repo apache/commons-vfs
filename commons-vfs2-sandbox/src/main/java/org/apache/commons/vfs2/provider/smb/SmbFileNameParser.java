@@ -35,7 +35,7 @@ public class SmbFileNameParser extends URLFileNameParser {
     /**
      * Gets the singleton instance.
      *
-     * @return the singleton instance.
+     * @return The singleton instance.
      */
     public static FileNameParser getInstance() {
         return INSTANCE;
