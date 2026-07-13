@@ -71,6 +71,20 @@ public interface FtpClient {
     }
 
     /**
+     * Tests whether a remote path is an existing directory by attempting to CWD into it.
+     * Implementations must save and restore the working directory to avoid side effects
+     * on subsequent operations that use relative paths.
+     *
+     * @param relPath The pathname to test.
+     * @return true if the path is an existing directory, false otherwise.
+     * @throws IOException If an I/O error occurs.
+     * @since 2.11.0
+     */
+    default boolean isDirectory(String relPath) throws IOException {
+        return false;
+    }
+
+    /**
      * Deletes a file on the FTP server.
      *
      * @param relPath The relPath of the file to be deleted.
