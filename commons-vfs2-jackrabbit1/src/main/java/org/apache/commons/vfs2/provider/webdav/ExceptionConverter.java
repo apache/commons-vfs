@@ -62,14 +62,17 @@ public final class ExceptionConverter {
                         msg = DomUtil.getChildText(exc, "message", null);
                     }
                     if (DomUtil.hasChildElement(exc, "class", null)) {
-                        final Class<?> cl = Class.forName(DomUtil.getChildText(exc, "class", null));
-                        final Constructor<?> excConstr = cl.getConstructor(String.class);
-                        final Object o = excConstr.newInstance(msg);
-                        if (o instanceof FileSystemException) {
-                            return (FileSystemException) o;
-                        }
-                        if (o instanceof Exception) {
-                            return new FileSystemException(msg, (Exception) o);
+                        final Class<?> cl = Class.forName(DomUtil.getChildText(exc, "class", null), false,
+                                ExceptionConverter.class.getClassLoader());
+                        if (Exception.class.isAssignableFrom(cl)) {
+                            final Constructor<?> excConstr = cl.getConstructor(String.class);
+                            final Object o = excConstr.newInstance(msg);
+                            if (o instanceof FileSystemException) {
+                                return (FileSystemException) o;
+                            }
+                            if (o instanceof Exception) {
+                                return new FileSystemException(msg, (Exception) o);
+                            }
                         }
                     }
                 }
