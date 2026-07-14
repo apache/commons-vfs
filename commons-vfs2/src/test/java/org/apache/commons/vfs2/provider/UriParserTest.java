@@ -61,6 +61,22 @@ public class UriParserTest {
     }
 
     @Test
+    public void testDecodePercentInsideBracketsInPath() throws FileSystemException {
+        assertEquals("/outside%text[inside%text]tail",
+                UriParser.decode("/outside%25text[inside%25text]tail"));
+        assertEquals("file:///outside%text[inside%text]tail",
+                UriParser.decode("file:///outside%25text[inside%25text]tail"));
+    }
+
+    @Test
+    public void testDecodePreservesPercentInsideIPv6Host() throws FileSystemException {
+        assertEquals("ftp://[fe80::1%25eth0]/path",
+                UriParser.decode("ftp://[fe80::1%25eth0]/path"));
+        assertEquals("ftp://host/outside%text[inside%text]tail",
+                UriParser.decode("ftp://host/outside%25text[inside%25text]tail"));
+    }
+
+    @Test
     public void testNormalScheme() {
         assertEquals("ftp", UriParser.extractScheme(schemes, "ftp://user:pass@host/some/path/some:file"));
     }

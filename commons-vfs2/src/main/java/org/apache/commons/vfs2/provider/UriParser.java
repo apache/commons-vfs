@@ -161,12 +161,29 @@ public final class UriParser {
         int index = offset;
         int count = length;
         boolean ipv6Host = false;
+        boolean authorityDetected = false;
+        boolean inAuthority = false;
+        int consecutiveSlashes = 0;
         for (; count > 0; count--, index++) {
             final char ch = buffer.charAt(index);
-            if (ch == '[') {
-                ipv6Host = true;
-            }
-            if (ch == ']') {
+            if (!authorityDetected) {
+                if (ch == '/') {
+                    consecutiveSlashes++;
+                    if (consecutiveSlashes == 2) {
+                        inAuthority = true;
+                        authorityDetected = true;
+                    }
+                } else {
+                    consecutiveSlashes = 0;
+                }
+            } else if (inAuthority) {
+                if (ch == '[') {
+                    ipv6Host = true;
+                    inAuthority = false;
+                } else if (ch == '/') {
+                    inAuthority = false;
+                }
+            } else if (ipv6Host && ch == ']') {
                 ipv6Host = false;
             }
             if (ch != '%' || ipv6Host) {
