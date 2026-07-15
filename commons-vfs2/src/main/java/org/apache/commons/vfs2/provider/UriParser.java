@@ -161,12 +161,37 @@ public final class UriParser {
         int index = offset;
         int count = length;
         boolean ipv6Host = false;
+        boolean authorityDetected = false;
+        boolean inAuthority = false;
+        boolean slashSeenBeforeColon = false;
+        // A network-path reference starts with "//" and its authority immediately follows.
+        if (count >= 2 && buffer.charAt(index) == '/' && buffer.charAt(index + 1) == '/') {
+            authorityDetected = true;
+            inAuthority = true;
+            index += 2;
+            count -= 2;
+        }
         for (; count > 0; count--, index++) {
             final char ch = buffer.charAt(index);
-            if (ch == '[') {
-                ipv6Host = true;
-            }
-            if (ch == ']') {
+            if (!authorityDetected) {
+                if (ch == '/') {
+                    // In this case, the URI has no authority
+                    slashSeenBeforeColon = true;
+                } else if (ch == ':' && !slashSeenBeforeColon && count >= 3
+                        && buffer.charAt(index + 1) == '/' && buffer.charAt(index + 2) == '/') {
+                    authorityDetected = true;
+                    inAuthority = true;
+                    index += 2;
+                    count -= 2;
+                }
+            } else if (inAuthority) {
+                if (ch == '[') {
+                    ipv6Host = true;
+                    inAuthority = false;
+                } else if (ch == '/') {
+                    inAuthority = false;
+                }
+            } else if (ipv6Host && ch == ']') {
                 ipv6Host = false;
             }
             if (ch != '%' || ipv6Host) {
