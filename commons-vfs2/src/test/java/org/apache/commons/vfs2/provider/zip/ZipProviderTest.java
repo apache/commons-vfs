@@ -34,10 +34,6 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
  */
 public class ZipProviderTest extends ProviderTestSuiteJunit5 {
 
-    public ZipProviderTest() throws Exception {
-        super(new ZipProviderTestConfig(), "", true);
-    }
-
     /**
      * Configuration for ZIP provider tests.
      */
@@ -62,6 +58,10 @@ public class ZipProviderTest extends ProviderTestSuiteJunit5 {
             manager.addExtensionMap("zip", "zip");
             manager.addMimeTypeMap(MIME_TYPE_APPLICATION_ZIP, "zip");
         }
+    }
+
+    public ZipProviderTest() throws Exception {
+        super(new ZipProviderTestConfig(), "", true);
     }
 }
 

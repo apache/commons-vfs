@@ -51,35 +51,38 @@ import org.junit.jupiter.api.TestInstance;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class FtpProviderUserDirTest extends ProviderTestSuiteJunit5 {
 
+    /**
+     * Configuration for FTP provider tests with homeDirIsRoot=true.
+     */
+    private static class FtpProviderUserDirTestConfig extends AbstractProviderTestConfig {
+
+        @Override
+        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
+            String uri = getSystemTestUriOverride();
+            if (uri == null) {
+                uri = connectionUri;
+            }
+            final FileSystemOptions options = new FileSystemOptions();
+            final FtpFileSystemConfigBuilder builder = FtpFileSystemConfigBuilder.getInstance();
+            builder.setUserDirIsRoot(options, true);
+            final FileObject remoteFolder = manager.resolveFile(uri, options);
+            return remoteFolder;
+        }
+
+        @Override
+        public void prepare(final DefaultFileSystemManager manager) throws Exception {
+            manager.addProvider("ftp", new FtpFileProvider());
+        }
+    }
     private static FtpServer server;
     private static int socketPort;
     private static String connectionUri;
     private static final String TEST_URI = "test.ftp.uri";
-    private static final String USER_PROPS_RES = "org.apache.ftpserver/users.properties";
 
-    public FtpProviderUserDirTest() throws Exception {
-        super(new FtpProviderUserDirTestConfig(), "", false);
-    }
+    private static final String USER_PROPS_RES = "org.apache.ftpserver/users.properties";
 
     protected static String getSystemTestUriOverride() {
         return System.getProperty(TEST_URI);
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        if (getSystemTestUriOverride() == null) {
-            setUpClass();
-        }
-        super.setUp();
-    }
-
-    @AfterAll
-    protected void tearDown() throws Exception {
-        try {
-            super.tearDown();
-        } finally {
-            tearDownClass();
-        }
     }
 
     /**
@@ -152,27 +155,24 @@ public class FtpProviderUserDirTest extends ProviderTestSuiteJunit5 {
         }
     }
 
-    /**
-     * Configuration for FTP provider tests with homeDirIsRoot=true.
-     */
-    private static class FtpProviderUserDirTestConfig extends AbstractProviderTestConfig {
+    public FtpProviderUserDirTest() throws Exception {
+        super(new FtpProviderUserDirTestConfig(), "", false);
+    }
 
-        @Override
-        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-            String uri = getSystemTestUriOverride();
-            if (uri == null) {
-                uri = connectionUri;
-            }
-            final FileSystemOptions options = new FileSystemOptions();
-            final FtpFileSystemConfigBuilder builder = FtpFileSystemConfigBuilder.getInstance();
-            builder.setUserDirIsRoot(options, true);
-            final FileObject remoteFolder = manager.resolveFile(uri, options);
-            return remoteFolder;
+    @Override
+    protected void setUp() throws Exception {
+        if (getSystemTestUriOverride() == null) {
+            setUpClass();
         }
+        super.setUp();
+    }
 
-        @Override
-        public void prepare(final DefaultFileSystemManager manager) throws Exception {
-            manager.addProvider("ftp", new FtpFileProvider());
+    @AfterAll
+    protected void tearDown() throws Exception {
+        try {
+            super.tearDown();
+        } finally {
+            tearDownClass();
         }
     }
 }

@@ -42,21 +42,6 @@ import com.jcraft.jsch.TestIdentityRepositoryFactory;
  */
 public class SftpProviderStreamProxyModeTest extends ProviderTestSuiteJunit5 {
 
-    public SftpProviderStreamProxyModeTest() throws Exception {
-        super(new SftpProviderStreamProxyModeTestConfig(), "", false);
-    }
-
-    @Override
-    protected void addBaseTests() throws Exception {
-        // Only add base tests if we have a real SFTP server configured
-        if (System.getProperty("test.sftp.uri") != null) {
-            // Just tries to read
-            addTests(ProviderReadTests.class);
-            // VFS-405: set/get permissions
-            addTests(PermissionsTests.class);
-        }
-    }
-
     /**
      * Configuration for SFTP stream proxy mode tests.
      */
@@ -108,6 +93,21 @@ public class SftpProviderStreamProxyModeTest extends ProviderTestSuiteJunit5 {
 
         public void prepare(final DefaultFileSystemManager manager) throws Exception {
             manager.addProvider("sftp", new SftpFileProvider());
+        }
+    }
+
+    public SftpProviderStreamProxyModeTest() throws Exception {
+        super(new SftpProviderStreamProxyModeTestConfig(), "", false);
+    }
+
+    @Override
+    protected void addBaseTests() throws Exception {
+        // Only add base tests if we have a real SFTP server configured
+        if (System.getProperty("test.sftp.uri") != null) {
+            // Just tries to read
+            addTests(ProviderReadTests.class);
+            // VFS-405: set/get permissions
+            addTests(PermissionsTests.class);
         }
     }
 }

@@ -34,10 +34,6 @@ import org.junit.jupiter.api.TestInstance;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class NestedTgzTest extends ProviderTestSuiteJunit5 {
 
-    public NestedTgzTest() throws Exception {
-        super(new NestedTgzTestConfig(), "", true);
-    }
-
     /**
      * Configuration for nested TGZ provider tests.
      */
@@ -59,6 +55,10 @@ public class NestedTgzTest extends ProviderTestSuiteJunit5 {
             manager.addProvider("tgz", new TarFileProvider());
             manager.addProvider("gz", new GzipFileProvider());
         }
+    }
+
+    public NestedTgzTest() throws Exception {
+        super(new NestedTgzTestConfig(), "", true);
     }
 }
 

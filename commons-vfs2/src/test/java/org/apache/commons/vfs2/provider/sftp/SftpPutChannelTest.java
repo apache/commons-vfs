@@ -41,6 +41,29 @@ import org.junit.jupiter.api.Test;
  */
 public class SftpPutChannelTest extends ProviderTestSuiteJunit5 {
 
+    /**
+     * Configuration for SFTP put channel tests.
+     */
+    private static class SftpPutChannelTestConfig extends AbstractProviderTestConfig {
+
+        @Override
+        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
+            final String uri = System.getProperty("test.sftp.uri");
+            if (uri == null) {
+                return null;
+            }
+            final FileSystemOptions fileSystemOptions = new FileSystemOptions();
+            final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
+            builder.setStrictHostKeyChecking(fileSystemOptions, "no");
+            builder.setUserInfo(fileSystemOptions, new TrustEveryoneUserInfo());
+            return manager.resolveFile(uri, fileSystemOptions);
+        }
+
+        public void prepare(final DefaultFileSystemManager manager) throws Exception {
+            manager.addProvider("sftp", new SftpFileProvider());
+        }
+    }
+
     public SftpPutChannelTest() throws Exception {
         super(new SftpPutChannelTestConfig(), "", false);
     }
@@ -83,29 +106,6 @@ public class SftpPutChannelTest extends ProviderTestSuiteJunit5 {
         //
         // However, accessing server internals is not easily possible in the new architecture,
         // so we focus on verifying the exception is thrown.
-    }
-
-    /**
-     * Configuration for SFTP put channel tests.
-     */
-    private static class SftpPutChannelTestConfig extends AbstractProviderTestConfig {
-
-        @Override
-        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-            final String uri = System.getProperty("test.sftp.uri");
-            if (uri == null) {
-                return null;
-            }
-            final FileSystemOptions fileSystemOptions = new FileSystemOptions();
-            final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
-            builder.setStrictHostKeyChecking(fileSystemOptions, "no");
-            builder.setUserInfo(fileSystemOptions, new TrustEveryoneUserInfo());
-            return manager.resolveFile(uri, fileSystemOptions);
-        }
-
-        public void prepare(final DefaultFileSystemManager manager) throws Exception {
-            manager.addProvider("sftp", new SftpFileProvider());
-        }
     }
 }
 

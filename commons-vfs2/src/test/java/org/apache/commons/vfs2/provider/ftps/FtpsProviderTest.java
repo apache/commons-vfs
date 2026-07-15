@@ -45,6 +45,16 @@ public class FtpsProviderTest {
             super(new FtpsProviderExplicitTestCase(), "", false);
         }
 
+        @Override
+        protected void setUp() throws Exception {
+            try {
+                super.setUp();
+            } catch (final FileSystemException e) {
+                // Could not connect to FTP server - abort test
+                throw new TestAbortedException("Could not connect to FTP server: " + e.getMessage(), e);
+            }
+        }
+
         @BeforeAll
         void setUpServer() throws Exception {
             if (FtpsProviderExplicitTestCase.getSystemTestUriOverride() == null) {
@@ -54,16 +64,6 @@ public class FtpsProviderTest {
                     // Server failed to start - abort all tests in this class
                     throw new TestAbortedException("FTP server failed to start: " + e.getMessage(), e);
                 }
-            }
-        }
-
-        @Override
-        protected void setUp() throws Exception {
-            try {
-                super.setUp();
-            } catch (final FileSystemException e) {
-                // Could not connect to FTP server - abort test
-                throw new TestAbortedException("Could not connect to FTP server: " + e.getMessage(), e);
             }
         }
 
@@ -93,6 +93,16 @@ public class FtpsProviderTest {
             super(new FtpsProviderImplicitTestCase(), "", false);
         }
 
+        @Override
+        protected void setUp() throws Exception {
+            try {
+                super.setUp();
+            } catch (final FileSystemException e) {
+                // Could not connect to FTP server - abort test
+                throw new TestAbortedException("Could not connect to FTP server: " + e.getMessage(), e);
+            }
+        }
+
         @BeforeAll
         void setUpServer() throws Exception {
             if (FtpsProviderImplicitTestCase.getSystemTestUriOverride() == null) {
@@ -102,16 +112,6 @@ public class FtpsProviderTest {
                     // Server failed to start - abort all tests in this class
                     throw new TestAbortedException("FTP server failed to start: " + e.getMessage(), e);
                 }
-            }
-        }
-
-        @Override
-        protected void setUp() throws Exception {
-            try {
-                super.setUp();
-            } catch (final FileSystemException e) {
-                // Could not connect to FTP server - abort test
-                throw new TestAbortedException("Could not connect to FTP server: " + e.getMessage(), e);
             }
         }
 

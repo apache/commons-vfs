@@ -38,29 +38,6 @@ import com.jcraft.jsch.TestIdentityRepositoryFactory;
  */
 public class SftpProviderTest extends ProviderTestSuiteJunit5 {
 
-    public SftpProviderTest() throws Exception {
-        super(new SftpProviderTestConfig(), "", false);
-    }
-
-    @Override
-    protected void addBaseTests() throws Exception {
-        super.addBaseTests();
-        // VFS-405: set/get permissions
-        addTests(PermissionsTests.class);
-        addTests(SftpMultiThreadWriteTests.class);
-    }
-
-    /**
-     * Stops the embedded SFTP server after all tests.
-     */
-    @AfterAll
-    public static void stopSftpServer() throws InterruptedException {
-        // Only stop if we started it (not using external server)
-        if (System.getProperty("test.sftp.uri") == null) {
-            SftpTestServerHelper.stopServer();
-        }
-    }
-
     /**
      * Configuration for SFTP provider tests.
      */
@@ -97,6 +74,29 @@ public class SftpProviderTest extends ProviderTestSuiteJunit5 {
         public void prepare(final DefaultFileSystemManager manager) throws Exception {
             manager.addProvider("sftp", new SftpFileProvider());
         }
+    }
+
+    /**
+     * Stops the embedded SFTP server after all tests.
+     */
+    @AfterAll
+    public static void stopSftpServer() throws InterruptedException {
+        // Only stop if we started it (not using external server)
+        if (System.getProperty("test.sftp.uri") == null) {
+            SftpTestServerHelper.stopServer();
+        }
+    }
+
+    public SftpProviderTest() throws Exception {
+        super(new SftpProviderTestConfig(), "", false);
+    }
+
+    @Override
+    protected void addBaseTests() throws Exception {
+        super.addBaseTests();
+        // VFS-405: set/get permissions
+        addTests(PermissionsTests.class);
+        addTests(SftpMultiThreadWriteTests.class);
     }
 }
 

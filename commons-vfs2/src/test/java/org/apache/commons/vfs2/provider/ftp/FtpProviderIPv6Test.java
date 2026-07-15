@@ -41,37 +41,6 @@ import org.junit.jupiter.api.Test;
  */
 public class FtpProviderIPv6Test extends ProviderTestSuiteJunit5 {
 
-    public FtpProviderIPv6Test() throws Exception {
-        super(new FtpProviderIPv6TestConfig(), "", false);
-    }
-
-    @Override
-    protected void addBaseTests() throws Exception {
-        // Only add base tests if we have a real FTP server configured
-        if (getSystemTestUriOverride() != null) {
-            addTests(IPv6LocalConnectionTests.class);
-        }
-        // Otherwise, only the @Test methods in this class will run (testResolveIPv6Url)
-    }
-
-    /**
-     * Tests resolving an IPv6 URL.
-     */
-    @Test
-    public void testResolveIPv6Url() throws FileSystemException {
-        final String ipv6Url = "ftp://[fe80::1c42:dae:8370:aea6%en1]/file.txt";
-        final FtpFileObject fileObject = (FtpFileObject) getManager().resolveFile(ipv6Url, new FileSystemOptions());
-        assertEquals("ftp://[fe80::1c42:dae:8370:aea6%en1]/", fileObject.getFileSystem().getRootURI());
-        assertEquals("file.txt", fileObject.getRelPath());
-    }
-
-    /**
-     * Gets the system test URI override.
-     */
-    private static String getSystemTestUriOverride() {
-        return System.getProperty("test.ftp.uri");
-    }
-
     /**
      * Configuration for FTP IPv6 tests.
      */
@@ -97,6 +66,37 @@ public class FtpProviderIPv6Test extends ProviderTestSuiteJunit5 {
             final GenericFileName rootName = (GenericFileName) name;
             return new FtpFileSystem(rootName, mock(FtpClient.class), fileSystemOptions);
         }
+    }
+
+    /**
+     * Gets the system test URI override.
+     */
+    private static String getSystemTestUriOverride() {
+        return System.getProperty("test.ftp.uri");
+    }
+
+    public FtpProviderIPv6Test() throws Exception {
+        super(new FtpProviderIPv6TestConfig(), "", false);
+    }
+
+    @Override
+    protected void addBaseTests() throws Exception {
+        // Only add base tests if we have a real FTP server configured
+        if (getSystemTestUriOverride() != null) {
+            addTests(IPv6LocalConnectionTests.class);
+        }
+        // Otherwise, only the @Test methods in this class will run (testResolveIPv6Url)
+    }
+
+    /**
+     * Tests resolving an IPv6 URL.
+     */
+    @Test
+    public void testResolveIPv6Url() throws FileSystemException {
+        final String ipv6Url = "ftp://[fe80::1c42:dae:8370:aea6%en1]/file.txt";
+        final FtpFileObject fileObject = (FtpFileObject) getManager().resolveFile(ipv6Url, new FileSystemOptions());
+        assertEquals("ftp://[fe80::1c42:dae:8370:aea6%en1]/", fileObject.getFileSystem().getRootURI());
+        assertEquals("file.txt", fileObject.getRelPath());
     }
 }
 

@@ -36,33 +36,32 @@ import org.junit.jupiter.api.TestInstance;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UrlProviderHttpTest extends ProviderTestSuiteJunit5 {
 
+    /**
+     * Configuration for URL provider HTTP tests.
+     */
+    private static class UrlProviderHttpTestConfig extends AbstractProviderTestConfig {
+
+        @Override
+        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
+            String uri = getSystemTestUriOverride();
+            if (uri == null) {
+                uri = connectionUri;
+            }
+            return manager.resolveFile(uri);
+        }
+
+        @Override
+        public void prepare(final DefaultFileSystemManager manager) throws Exception {
+            manager.addProvider("http", new UrlFileProvider());
+        }
+    }
     private static NHttpFileServer server;
     private static String connectionUri;
-    private static final String TEST_URI = "test.http.uri";
 
-    public UrlProviderHttpTest() throws Exception {
-        super(new UrlProviderHttpTestConfig(), "", false);
-    }
+    private static final String TEST_URI = "test.http.uri";
 
     protected static String getSystemTestUriOverride() {
         return System.getProperty(TEST_URI);
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        if (getSystemTestUriOverride() == null) {
-            setUpClass();
-        }
-        super.setUp();
-    }
-
-    @AfterAll
-    protected void tearDown() throws Exception {
-        try {
-            super.tearDown();
-        } finally {
-            tearDownClass();
-        }
     }
 
     /**
@@ -83,23 +82,24 @@ public class UrlProviderHttpTest extends ProviderTestSuiteJunit5 {
         }
     }
 
-    /**
-     * Configuration for URL provider HTTP tests.
-     */
-    private static class UrlProviderHttpTestConfig extends AbstractProviderTestConfig {
+    public UrlProviderHttpTest() throws Exception {
+        super(new UrlProviderHttpTestConfig(), "", false);
+    }
 
-        @Override
-        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-            String uri = getSystemTestUriOverride();
-            if (uri == null) {
-                uri = connectionUri;
-            }
-            return manager.resolveFile(uri);
+    @Override
+    protected void setUp() throws Exception {
+        if (getSystemTestUriOverride() == null) {
+            setUpClass();
         }
+        super.setUp();
+    }
 
-        @Override
-        public void prepare(final DefaultFileSystemManager manager) throws Exception {
-            manager.addProvider("http", new UrlFileProvider());
+    @AfterAll
+    protected void tearDown() throws Exception {
+        try {
+            super.tearDown();
+        } finally {
+            tearDownClass();
         }
     }
 }

@@ -29,10 +29,6 @@ import org.junit.jupiter.api.TestInstance;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class NestedJarTest extends ProviderTestSuiteJunit5 {
 
-    public NestedJarTest() throws Exception {
-        super(new NestedJarTestConfig(), "", true);
-    }
-
     /**
      * Configuration for nested JAR provider tests.
      */
@@ -50,6 +46,10 @@ public class NestedJarTest extends ProviderTestSuiteJunit5 {
         public void prepare(final DefaultFileSystemManager manager) throws Exception {
             manager.addProvider("jar", new JarFileProvider());
         }
+    }
+
+    public NestedJarTest() throws Exception {
+        super(new NestedJarTestConfig(), "", true);
     }
 }
 

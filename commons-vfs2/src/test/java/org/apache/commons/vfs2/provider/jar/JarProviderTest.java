@@ -34,18 +34,6 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
  */
 public class JarProviderTest extends ProviderTestSuiteJunit5 {
 
-    public JarProviderTest() throws Exception {
-        super(new JarProviderTestConfig(), "", true);
-    }
-
-    /**
-     * Returns a JAR file from the test resources.
-     */
-    public static FileObject getTestJar(final FileSystemManager manager, final String name) throws Exception {
-        final File jarFile = getTestResource(name);
-        return manager.resolveFile("jar:file:" + jarFile.getAbsolutePath() + "!/");
-    }
-
     /**
      * Configuration for JAR provider tests.
      */
@@ -66,6 +54,18 @@ public class JarProviderTest extends ProviderTestSuiteJunit5 {
         public void prepare(final DefaultFileSystemManager manager) throws Exception {
             manager.addProvider("jar", new JarFileProvider());
         }
+    }
+
+    /**
+     * Returns a JAR file from the test resources.
+     */
+    public static FileObject getTestJar(final FileSystemManager manager, final String name) throws Exception {
+        final File jarFile = getTestResource(name);
+        return manager.resolveFile("jar:file:" + jarFile.getAbsolutePath() + "!/");
+    }
+
+    public JarProviderTest() throws Exception {
+        super(new JarProviderTestConfig(), "", true);
     }
 }
 

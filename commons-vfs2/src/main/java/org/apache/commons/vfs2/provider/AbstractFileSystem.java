@@ -529,24 +529,6 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * Resolves a file by name for internal navigation (e.g. {@code getParent()},
-     * {@code resolveFiles()} in {@code getChildren()}). Skips the
-     * {@link CacheStrategy#ON_RESOLVE} refresh, since cache policy should only
-     * apply to external API calls, not internal VFS plumbing. Without this,
-     * {@code ON_RESOLVE} triggers a refresh cascade where each child's
-     * {@code getParent()} refreshes the parent, clearing its cached state and
-     * causing O(N) redundant operations.
-     *
-     * @param name The FileName to resolve.
-     * @return The resolved FileObject.
-     * @throws FileSystemException if an error occurs.
-     * @since 2.11.0
-     */
-    synchronized FileObject resolveFileInternal(final FileName name) throws FileSystemException {
-        return resolveFile(name, true, false);
-    }
-
-    /**
      * Resolves a file by name.
      *
      * @param name The FileName to resolve.
@@ -607,6 +589,24 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     public FileObject resolveFile(final String nameStr) throws FileSystemException {
         // Resolve the name, and create the file
         return resolveFile(getFileSystemManager().resolveName(rootName, nameStr));
+    }
+
+    /**
+     * Resolves a file by name for internal navigation (e.g. {@code getParent()},
+     * {@code resolveFiles()} in {@code getChildren()}). Skips the
+     * {@link CacheStrategy#ON_RESOLVE} refresh, since cache policy should only
+     * apply to external API calls, not internal VFS plumbing. Without this,
+     * {@code ON_RESOLVE} triggers a refresh cascade where each child's
+     * {@code getParent()} refreshes the parent, clearing its cached state and
+     * causing O(N) redundant operations.
+     *
+     * @param name The FileName to resolve.
+     * @return The resolved FileObject.
+     * @throws FileSystemException if an error occurs.
+     * @since 2.11.0
+     */
+    synchronized FileObject resolveFileInternal(final FileName name) throws FileSystemException {
+        return resolveFile(name, true, false);
     }
 
     /**

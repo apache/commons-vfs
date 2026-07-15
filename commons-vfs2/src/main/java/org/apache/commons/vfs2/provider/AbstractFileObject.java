@@ -1809,25 +1809,6 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * Resolves a file by name for internal navigation, skipping the
-     * {@link org.apache.commons.vfs2.CacheStrategy#ON_RESOLVE} refresh. Cache policy should only
-     * apply to external API calls, not internal VFS plumbing like
-     * {@link #getParent()}, {@link #getChildren()}, or symlink resolution.
-     * <p>
-     * Subclasses should use this instead of {@code getFileSystem().resolveFile()}
-     * when navigating to related files (parent, children, link targets).
-     * </p>
-     *
-     * @param name The FileName to resolve.
-     * @return The resolved FileObject.
-     * @throws FileSystemException if an error occurs.
-     * @since 2.11.0
-     */
-    protected FileObject resolveFileInternal(final FileName name) throws FileSystemException {
-        return fileSystem.resolveFileInternal(name);
-    }
-
-    /**
      * Finds a file, relative to this file.
      *
      * @param path The path of the file to locate. Can either be a relative path, which is resolved relative to this
@@ -1853,6 +1834,25 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     public FileObject resolveFile(final String name, final NameScope scope) throws FileSystemException {
         // return fs.resolveFile(this.name.resolveName(name, scope));
         return fileSystem.resolveFile(fileSystem.getFileSystemManager().resolveName(fileName, name, scope));
+    }
+
+    /**
+     * Resolves a file by name for internal navigation, skipping the
+     * {@link org.apache.commons.vfs2.CacheStrategy#ON_RESOLVE} refresh. Cache policy should only
+     * apply to external API calls, not internal VFS plumbing like
+     * {@link #getParent()}, {@link #getChildren()}, or symlink resolution.
+     * <p>
+     * Subclasses should use this instead of {@code getFileSystem().resolveFile()}
+     * when navigating to related files (parent, children, link targets).
+     * </p>
+     *
+     * @param name The FileName to resolve.
+     * @return The resolved FileObject.
+     * @throws FileSystemException if an error occurs.
+     * @since 2.11.0
+     */
+    protected FileObject resolveFileInternal(final FileName name) throws FileSystemException {
+        return fileSystem.resolveFileInternal(name);
     }
 
     private FileObject[] resolveFiles(final FileName[] children) throws FileSystemException {

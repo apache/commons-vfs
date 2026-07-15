@@ -46,26 +46,43 @@ import org.junit.jupiter.api.Test;
  */
 public class Http4ProviderTest extends ProviderTestSuiteJunit5 {
 
+    /**
+     * Configuration for HTTP4 provider tests.
+     */
+    private static class Http4ProviderTestConfig extends AbstractProviderTestConfig {
+
+        @Override
+        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
+            String uri = getSystemTestUriOverride();
+            if (uri == null) {
+                uri = connectionUri;
+            }
+            return manager.resolveFile(uri, getFileSystemOptions());
+        }
+
+        private FileSystemOptions getFileSystemOptions() {
+            final FileSystemOptions opts = new FileSystemOptions();
+            final Http4FileSystemConfigBuilder builder = Http4FileSystemConfigBuilder.getInstance();
+            builder.setMaxTotalConnections(opts, 200);
+            builder.setMaxConnectionsPerHost(opts, 200);
+            return opts;
+        }
+
+        @Override
+        public void prepare(final DefaultFileSystemManager manager) throws Exception {
+            if (!manager.hasProvider("http4")) {
+                manager.addProvider("http4", new Http4FileProvider());
+            }
+        }
+    }
     private static final Duration ONE_MINUTE = Duration.ofMinutes(1);
     private static NHttpFileServer server;
     private static final String TEST_URI = "test.http.uri";
-    private static String connectionUri;
 
-    public Http4ProviderTest() throws Exception {
-        super(new Http4ProviderTestConfig(), "", false);
-    }
+    private static String connectionUri;
 
     private static String getSystemTestUriOverride() {
         return System.getProperty(TEST_URI);
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        if (getSystemTestUriOverride() == null) {
-            server = NHttpFileServer.start(0, new File(getTestDirectory()), 5000);
-            connectionUri = AbstractProviderTestConfig.getLocalHostUriString("http4", server.getPort());
-        }
-        super.setUp();
     }
 
     @AfterAll
@@ -73,6 +90,10 @@ public class Http4ProviderTest extends ProviderTestSuiteJunit5 {
         if (server != null) {
             server.shutdown(5000, TimeUnit.SECONDS);
         }
+    }
+
+    public Http4ProviderTest() throws Exception {
+        super(new Http4ProviderTestConfig(), "", false);
     }
 
     @Override
@@ -86,6 +107,15 @@ public class Http4ProviderTest extends ProviderTestSuiteJunit5 {
     private void checkReadTestsFolder(final FileObject file) throws FileSystemException {
         assertNotNull(file.getChildren());
         assertTrue(file.getChildren().length > 0);
+    }
+
+    @Override
+    protected void setUp() throws Exception {
+        if (getSystemTestUriOverride() == null) {
+            server = NHttpFileServer.start(0, new File(getTestDirectory()), 5000);
+            connectionUri = AbstractProviderTestConfig.getLocalHostUriString("http4", server.getPort());
+        }
+        super.setUp();
     }
 
     @SuppressWarnings("deprecation")
@@ -164,36 +194,6 @@ public class Http4ProviderTest extends ProviderTestSuiteJunit5 {
 
         assertEquals("http4://[fe80::1c42:dae:8370:aea6%en1]/", fileObject.getFileSystem().getRootURI());
         assertEquals("http4://[fe80::1c42:dae:8370:aea6%en1]/", fileObject.getName().getURI());
-    }
-
-    /**
-     * Configuration for HTTP4 provider tests.
-     */
-    private static class Http4ProviderTestConfig extends AbstractProviderTestConfig {
-
-        @Override
-        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-            String uri = getSystemTestUriOverride();
-            if (uri == null) {
-                uri = connectionUri;
-            }
-            return manager.resolveFile(uri, getFileSystemOptions());
-        }
-
-        @Override
-        public void prepare(final DefaultFileSystemManager manager) throws Exception {
-            if (!manager.hasProvider("http4")) {
-                manager.addProvider("http4", new Http4FileProvider());
-            }
-        }
-
-        private FileSystemOptions getFileSystemOptions() {
-            final FileSystemOptions opts = new FileSystemOptions();
-            final Http4FileSystemConfigBuilder builder = Http4FileSystemConfigBuilder.getInstance();
-            builder.setMaxTotalConnections(opts, 200);
-            builder.setMaxConnectionsPerHost(opts, 200);
-            return opts;
-        }
     }
 }
 

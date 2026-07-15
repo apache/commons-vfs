@@ -33,10 +33,6 @@ import org.junit.jupiter.api.TestInstance;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class NestedZipTest extends ProviderTestSuiteJunit5 {
 
-    public NestedZipTest() throws Exception {
-        super(new NestedZipTestConfig(), "", true);
-    }
-
     /**
      * Configuration for nested ZIP provider tests.
      */
@@ -56,6 +52,10 @@ public class NestedZipTest extends ProviderTestSuiteJunit5 {
         public void prepare(final DefaultFileSystemManager manager) throws Exception {
             manager.addProvider("zip", new ZipFileProvider());
         }
+    }
+
+    public NestedZipTest() throws Exception {
+        super(new NestedZipTestConfig(), "", true);
     }
 }
 

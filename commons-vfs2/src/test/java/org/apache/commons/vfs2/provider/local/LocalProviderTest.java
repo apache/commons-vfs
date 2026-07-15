@@ -39,6 +39,16 @@ import org.junit.jupiter.api.TestInstance;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class LocalProviderTest extends ProviderTestSuiteJunit5 {
 
+    /**
+     * Configuration for local file system tests.
+     */
+    private static class LocalProviderTestConfig extends AbstractProviderTestConfig {
+        @Override
+        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
+            return manager.toFileObject(getTestDirectoryFile());
+        }
+    }
+
     public LocalProviderTest() throws Exception {
         super(new LocalProviderTestConfig(), "", false);
     }
@@ -55,16 +65,6 @@ public class LocalProviderTest extends ProviderTestSuiteJunit5 {
 
         if (SystemUtils.IS_OS_WINDOWS) {
             addTests(WindowsFileNameTests.class);
-        }
-    }
-
-    /**
-     * Configuration for local file system tests.
-     */
-    private static class LocalProviderTestConfig extends AbstractProviderTestConfig {
-        @Override
-        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-            return manager.toFileObject(getTestDirectoryFile());
         }
     }
 }

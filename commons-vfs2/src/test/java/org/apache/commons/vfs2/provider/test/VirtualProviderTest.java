@@ -33,16 +33,6 @@ import org.apache.commons.vfs2.ProviderTestSuiteJunit5;
  */
 public class VirtualProviderTest extends ProviderTestSuiteJunit5 {
 
-    public VirtualProviderTest() throws Exception {
-        super(new VirtualProviderTestConfig(), "", false);
-    }
-
-    @Override
-    protected void addBaseTests() throws Exception {
-        super.addBaseTests();
-        addTests(JunctionTests.class);
-    }
-
     /**
      * Configuration for virtual provider tests.
      */
@@ -57,6 +47,16 @@ public class VirtualProviderTest extends ProviderTestSuiteJunit5 {
             final FileObject baseFile = manager.toFileObject(baseDir);
             return manager.createVirtualFileSystem(baseFile);
         }
+    }
+
+    public VirtualProviderTest() throws Exception {
+        super(new VirtualProviderTestConfig(), "", false);
+    }
+
+    @Override
+    protected void addBaseTests() throws Exception {
+        super.addBaseTests();
+        addTests(JunctionTests.class);
     }
 }
 

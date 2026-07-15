@@ -48,17 +48,6 @@ public interface FtpClient {
     OutputStream appendFileStream(String relPath) throws IOException;
 
     /**
-     * There are a few FTPClient methods that do not complete the entire sequence of FTP commands to complete a transaction.
-     * These commands require some action by the programmer after the reception of a positive intermediate command. After
-     * the programmer's code completes its actions, it must call this method to receive the completion reply from the server
-     * and verify the success of the entire transaction.
-     *
-     * @return true if successfully completed, false if not.
-     * @throws IOException If an I/O error occurs.
-     */
-    boolean completePendingCommand() throws IOException;
-
-    /**
      * Changes the current working directory of the FTP session.
      *
      * @param relPath The pathname of the directory to change to.
@@ -69,6 +58,17 @@ public interface FtpClient {
     default boolean changeDirectory(String relPath) throws IOException {
         return false;
     }
+
+    /**
+     * There are a few FTPClient methods that do not complete the entire sequence of FTP commands to complete a transaction.
+     * These commands require some action by the programmer after the reception of a positive intermediate command. After
+     * the programmer's code completes its actions, it must call this method to receive the completion reply from the server
+     * and verify the success of the entire transaction.
+     *
+     * @return true if successfully completed, false if not.
+     * @throws IOException If an I/O error occurs.
+     */
+    boolean completePendingCommand() throws IOException;
 
     /**
      * Deletes a file on the FTP server.

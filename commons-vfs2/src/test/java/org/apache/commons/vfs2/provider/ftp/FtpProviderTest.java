@@ -52,37 +52,60 @@ import org.junit.jupiter.api.AfterAll;
  */
 public class FtpProviderTest extends ProviderTestSuiteJunit5 {
 
+    /**
+     * Configuration for FTP provider tests.
+     */
+    private static class FtpProviderTestConfig extends AbstractProviderTestConfig {
+
+        private final boolean mdtmLastModifiedTime;
+
+        FtpProviderTestConfig(final boolean mdtmLastModifiedTime) {
+            this.mdtmLastModifiedTime = mdtmLastModifiedTime;
+        }
+
+        @Override
+        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
+            String uri = getSystemTestUriOverride();
+            if (uri == null) {
+                uri = connectionUri;
+            }
+            final FileSystemOptions options = new FileSystemOptions();
+            final FtpFileSystemConfigBuilder builder = FtpFileSystemConfigBuilder.getInstance();
+            init(builder, options);
+            final FileObject remoteFolder = manager.resolveFile(uri, options);
+            final FtpFileObject ftpFileObject = remoteFolder instanceof DecoratedFileObject
+                    ? (FtpFileObject) ((DecoratedFileObject) remoteFolder).getDecoratedFileObject()
+                    : (FtpFileObject) remoteFolder;
+            final FtpFileSystem ftpFileSystem = (FtpFileSystem) ftpFileObject.getFileSystem();
+            final FTPClientWrapper client = (FTPClientWrapper) ftpFileSystem.getClient();
+            return remoteFolder;
+        }
+
+        protected void init(final FtpFileSystemConfigBuilder builder, final FileSystemOptions options) {
+            builder.setUserDirIsRoot(options, false);
+            builder.setPassiveMode(options, true);
+            builder.setFileType(options, FtpFileType.BINARY);
+            builder.setConnectTimeout(options, Duration.ofSeconds(10));
+            final Charset charset = StandardCharsets.UTF_8;
+            final String charsetName = charset.name();
+            builder.setControlEncoding(options, charsetName);
+            builder.setControlEncoding(options, charset);
+            builder.setControlKeepAliveReplyTimeout(options, Duration.ofSeconds(35));
+            builder.setControlKeepAliveTimeout(options, Duration.ofSeconds(30));
+            builder.setMdtmLastModifiedTime(options, mdtmLastModifiedTime);
+        }
+
+        @Override
+        public void prepare(final DefaultFileSystemManager manager) throws Exception {
+            manager.addProvider("ftp", new FtpFileProvider());
+        }
+    }
     private static FtpServer server;
     private static int socketPort;
     private static String connectionUri;
     private static final String TEST_URI = "test.ftp.uri";
+
     private static final String USER_PROPS_RES = "org.apache.ftpserver/users.properties";
-
-    private final boolean mdtmLastModifiedTime = false;
-
-    public FtpProviderTest() throws Exception {
-        super(new FtpProviderTestConfig(false), "", false);
-    }
-
-    protected static String getSystemTestUriOverride() {
-        return System.getProperty(TEST_URI);
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        if (getSystemTestUriOverride() == null) {
-            setUpClass(getFtpRootDir(), getFtpFileSystem(), getCommandFactory());
-        }
-        super.setUp();
-    }
-
-    @AfterAll
-    public static void tearDownClass() {
-        if (server != null) {
-            server.stop();
-            server = null;
-        }
-    }
 
     public static String getConnectionUri() {
         return connectionUri;
@@ -90,6 +113,10 @@ public class FtpProviderTest extends ProviderTestSuiteJunit5 {
 
     public static int getSocketPort() {
         return socketPort;
+    }
+
+    protected static String getSystemTestUriOverride() {
+        return System.getProperty(TEST_URI);
     }
 
     /**
@@ -126,69 +153,42 @@ public class FtpProviderTest extends ProviderTestSuiteJunit5 {
         connectionUri = "ftp://test:test@localhost:" + socketPort;
     }
 
-    protected String getFtpRootDir() {
-        return getTestDirectory();
+    @AfterAll
+    public static void tearDownClass() {
+        if (server != null) {
+            server.stop();
+            server = null;
+        }
     }
 
-    protected FileSystemFactory getFtpFileSystem() throws IOException {
-        return null;
+    private final boolean mdtmLastModifiedTime = false;
+
+    public FtpProviderTest() throws Exception {
+        super(new FtpProviderTestConfig(false), "", false);
     }
 
     protected CommandFactory getCommandFactory() {
         return null;
     }
 
+    protected FileSystemFactory getFtpFileSystem() throws IOException {
+        return null;
+    }
+
+    protected String getFtpRootDir() {
+        return getTestDirectory();
+    }
+
     protected boolean getUserDirIsRoot() {
         return false;
     }
 
-    /**
-     * Configuration for FTP provider tests.
-     */
-    private static class FtpProviderTestConfig extends AbstractProviderTestConfig {
-
-        private final boolean mdtmLastModifiedTime;
-
-        FtpProviderTestConfig(final boolean mdtmLastModifiedTime) {
-            this.mdtmLastModifiedTime = mdtmLastModifiedTime;
+    @Override
+    protected void setUp() throws Exception {
+        if (getSystemTestUriOverride() == null) {
+            setUpClass(getFtpRootDir(), getFtpFileSystem(), getCommandFactory());
         }
-
-        @Override
-        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-            String uri = getSystemTestUriOverride();
-            if (uri == null) {
-                uri = connectionUri;
-            }
-            final FileSystemOptions options = new FileSystemOptions();
-            final FtpFileSystemConfigBuilder builder = FtpFileSystemConfigBuilder.getInstance();
-            init(builder, options);
-            final FileObject remoteFolder = manager.resolveFile(uri, options);
-            final FtpFileObject ftpFileObject = remoteFolder instanceof DecoratedFileObject
-                    ? (FtpFileObject) ((DecoratedFileObject) remoteFolder).getDecoratedFileObject()
-                    : (FtpFileObject) remoteFolder;
-            final FtpFileSystem ftpFileSystem = (FtpFileSystem) ftpFileObject.getFileSystem();
-            final FTPClientWrapper client = (FTPClientWrapper) ftpFileSystem.getClient();
-            return remoteFolder;
-        }
-
-        @Override
-        public void prepare(final DefaultFileSystemManager manager) throws Exception {
-            manager.addProvider("ftp", new FtpFileProvider());
-        }
-
-        protected void init(final FtpFileSystemConfigBuilder builder, final FileSystemOptions options) {
-            builder.setUserDirIsRoot(options, false);
-            builder.setPassiveMode(options, true);
-            builder.setFileType(options, FtpFileType.BINARY);
-            builder.setConnectTimeout(options, Duration.ofSeconds(10));
-            final Charset charset = StandardCharsets.UTF_8;
-            final String charsetName = charset.name();
-            builder.setControlEncoding(options, charsetName);
-            builder.setControlEncoding(options, charset);
-            builder.setControlKeepAliveReplyTimeout(options, Duration.ofSeconds(35));
-            builder.setControlKeepAliveTimeout(options, Duration.ofSeconds(30));
-            builder.setMdtmLastModifiedTime(options, mdtmLastModifiedTime);
-        }
+        super.setUp();
     }
 }
 

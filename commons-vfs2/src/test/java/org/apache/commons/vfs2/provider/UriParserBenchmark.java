@@ -33,11 +33,8 @@ public class UriParserBenchmark {
     private static final String PATH_TO_ENCODE = "file:///this/is/path/to/encode/for/testing/encode.perf";
     private static final char[] ENCODE_RESERVED = new char[] {' ', '#'};
 
-    @Benchmark
-    public void normalisePath() throws FileSystemException {
-        final StringBuilder path = new StringBuilder(PATH_TO_NORMALIZE);
-        UriParser.fixSeparators(path);
-        UriParser.normalisePath(path);
+    public void encode() throws FileSystemException {
+        UriParser.encode(PATH_TO_ENCODE, ENCODE_RESERVED);
     }
 
     @Benchmark
@@ -45,7 +42,10 @@ public class UriParserBenchmark {
         UriParser.extractScheme(SCHEMES, PATH_TO_NORMALIZE);
     }
 
-    public void encode() throws FileSystemException {
-        UriParser.encode(PATH_TO_ENCODE, ENCODE_RESERVED);
+    @Benchmark
+    public void normalisePath() throws FileSystemException {
+        final StringBuilder path = new StringBuilder(PATH_TO_NORMALIZE);
+        UriParser.fixSeparators(path);
+        UriParser.normalisePath(path);
     }
 }

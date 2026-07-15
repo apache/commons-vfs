@@ -37,24 +37,6 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
  */
 public class SftpProviderClosedExecChannelTest extends ProviderTestSuiteJunit5 {
 
-    public SftpProviderClosedExecChannelTest() throws Exception {
-        super(new SftpProviderClosedExecChannelTestConfig(), "", false);
-    }
-
-    @Override
-    protected void addBaseTests() throws Exception {
-        // Only add base tests if we have a real SFTP server configured
-        if (System.getProperty("test.sftp.uri") != null) {
-            addTests(ProviderReadTests.class);
-            addTests(ProviderWriteTests.class);
-            addTests(ProviderDeleteTests.class);
-            addTests(ProviderRenameTests.class);
-            addTests(NamingTests.class);
-            // VFS-405: set/get permissions
-            addTests(PermissionsTests.class);
-        }
-    }
-
     /**
      * Configuration for SFTP closed exec channel tests.
      */
@@ -76,6 +58,24 @@ public class SftpProviderClosedExecChannelTest extends ProviderTestSuiteJunit5 {
 
         public void prepare(final DefaultFileSystemManager manager) throws Exception {
             manager.addProvider("sftp", new SftpFileProvider());
+        }
+    }
+
+    public SftpProviderClosedExecChannelTest() throws Exception {
+        super(new SftpProviderClosedExecChannelTestConfig(), "", false);
+    }
+
+    @Override
+    protected void addBaseTests() throws Exception {
+        // Only add base tests if we have a real SFTP server configured
+        if (System.getProperty("test.sftp.uri") != null) {
+            addTests(ProviderReadTests.class);
+            addTests(ProviderWriteTests.class);
+            addTests(ProviderDeleteTests.class);
+            addTests(ProviderRenameTests.class);
+            addTests(NamingTests.class);
+            // VFS-405: set/get permissions
+            addTests(PermissionsTests.class);
         }
     }
 }

@@ -39,10 +39,6 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
  */
 public class ZipProviderWithCharsetNullTest extends ProviderTestSuiteJunit5 {
 
-    public ZipProviderWithCharsetNullTest() throws Exception {
-        super(new ZipProviderWithCharsetNullTestConfig(), "", true);
-    }
-
     /**
      * Configuration for ZIP provider tests with null charset.
      */
@@ -71,6 +67,10 @@ public class ZipProviderWithCharsetNullTest extends ProviderTestSuiteJunit5 {
             manager.addExtensionMap("zip", "zip");
             manager.addMimeTypeMap(MIME_TYPE_APPLICATION_ZIP, "zip");
         }
+    }
+
+    public ZipProviderWithCharsetNullTest() throws Exception {
+        super(new ZipProviderWithCharsetNullTestConfig(), "", true);
     }
 }
 

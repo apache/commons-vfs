@@ -34,10 +34,6 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
  */
 public class TemporaryProviderTest extends ProviderTestSuiteJunit5 {
 
-    public TemporaryProviderTest() throws Exception {
-        super(new TemporaryProviderTestConfig(), "", false);
-    }
-
     /**
      * Configuration for temporary provider tests.
      */
@@ -59,6 +55,10 @@ public class TemporaryProviderTest extends ProviderTestSuiteJunit5 {
             final File baseDir = getTestDirectoryFile();
             manager.addProvider("tmp", new TemporaryFileProvider(baseDir));
         }
+    }
+
+    public TemporaryProviderTest() throws Exception {
+        super(new TemporaryProviderTestConfig(), "", false);
     }
 }
 

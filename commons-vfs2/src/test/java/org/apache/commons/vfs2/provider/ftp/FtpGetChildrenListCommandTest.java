@@ -63,6 +63,15 @@ public class FtpGetChildrenListCommandTest {
     private static final AtomicInteger listCommandCount = new AtomicInteger();
     private static final LIST defaultListCommand = new LIST();
 
+    private static FileSystemOptions createOptions() {
+        final FileSystemOptions options = new FileSystemOptions();
+        final FtpFileSystemConfigBuilder builder = FtpFileSystemConfigBuilder.getInstance();
+        builder.setUserDirIsRoot(options, true);
+        builder.setPassiveMode(options, true);
+        builder.setConnectTimeout(options, Duration.ofSeconds(10));
+        return options;
+    }
+
     private File[] testFiles;
 
     @BeforeEach
@@ -97,15 +106,6 @@ public class FtpGetChildrenListCommandTest {
                 f.delete();
             }
         }
-    }
-
-    private static FileSystemOptions createOptions() {
-        final FileSystemOptions options = new FileSystemOptions();
-        final FtpFileSystemConfigBuilder builder = FtpFileSystemConfigBuilder.getInstance();
-        builder.setUserDirIsRoot(options, true);
-        builder.setPassiveMode(options, true);
-        builder.setConnectTimeout(options, Duration.ofSeconds(10));
-        return options;
     }
 
     /**

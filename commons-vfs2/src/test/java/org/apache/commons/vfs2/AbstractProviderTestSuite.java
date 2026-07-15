@@ -80,24 +80,6 @@ public abstract class AbstractProviderTestSuite {
         this.addEmptyDir = addEmptyDir;
     }
 
-    protected DefaultFileSystemManager getManager() {
-        return manager;
-    }
-
-    /**
-     * Gets the read test folder.
-     */
-    protected FileObject getReadFolder() {
-        return readFolder;
-    }
-
-    /**
-     * Gets the write test folder.
-     */
-    protected FileObject getWriteFolder() {
-        return writeFolder;
-    }
-
     /**
      * Adds base tests - excludes the nested test cases.
      * Subclasses should override this method to add test classes via {@link #addTests(Class)}.
@@ -123,6 +105,109 @@ public abstract class AbstractProviderTestSuite {
         if (tempDir != null && tempDir.exists()) {
             assertTrue(tempDir.isDirectory() && ArrayUtils.isEmpty(tempDir.list()), assertMsg + " (" + tempDir.getAbsolutePath() + ")");
         }
+    }
+
+    /**
+     * Creates dynamic tests for a single test class.
+     */
+    private Stream<DynamicTest> createTestsForClass(final Class<?> testClass) throws Exception {
+        final List<DynamicTest> tests = new ArrayList<>();
+
+        // Locate the test methods
+        final Method[] methods = testClass.getMethods();
+        for (final Method method : methods) {
+            if (!method.getName().startsWith("test") || Modifier.isStatic(method.getModifiers())
+                || method.getReturnType() != Void.TYPE || method.getParameterTypes().length != 0) {
+                continue;
+            }
+
+            // Create a dynamic test for this method
+            final String testName = prefix + method.getName();
+            tests.add(DynamicTest.dynamicTest(testName, () -> {
+                // Create test instance
+                final AbstractProviderTestCase testCase = (AbstractProviderTestCase) testClass.getConstructor().newInstance();
+                testCase.addEmptyDir(addEmptyDir);
+                testCase.setConfig(manager, providerConfig, baseFolder, readFolder, writeFolder);
+
+                // Check capabilities before running the test
+                final Capability[] caps = testCase.getRequiredCapabilities();
+                if (caps != null) {
+                    final FileSystem fs = testCase.getFileSystem();
+                    for (final Capability cap : caps) {
+                        if (!fs.hasCapability(cap)) {
+                            // Skip test if capability is not supported
+                            assumeTrue(false, "Skipping test because file system does not have capability: " + cap);
+                        }
+                    }
+                }
+
+                // Run the test method
+                try {
+                    method.invoke(testCase);
+                } catch (final java.lang.reflect.InvocationTargetException e) {
+                    throw e.getTargetException();
+                }
+
+                // Check that file system is properly closed
+                if (readFolder != null && ((org.apache.commons.vfs2.provider.AbstractFileSystem) readFolder.getFileSystem()).isOpen()) {
+                    throw new IllegalStateException(testClass.getName() + ": filesystem has open streams after: " + method.getName());
+                }
+            }));
+        }
+
+        return tests.stream();
+    }
+
+    protected DefaultFileSystemManager getManager() {
+        return manager;
+    }
+
+    /**
+     * Gets the read test folder.
+     */
+    protected FileObject getReadFolder() {
+        return readFolder;
+    }
+
+    /**
+     * Gets the write test folder.
+     */
+    protected FileObject getWriteFolder() {
+        return writeFolder;
+    }
+
+    /**
+     * Creates dynamic tests for all test classes added via {@link #addTests(Class)}.
+     */
+    @TestFactory
+    Stream<DynamicTest> providerTests() throws Exception {
+        // Ensure setUp() has been called
+        // Note: @TestFactory is evaluated before @BeforeAll in some JUnit 5 versions
+        setUp();
+
+        // Add test classes if not already added
+        if (testClasses.isEmpty()) {
+            addBaseTests();
+        }
+
+        // If no test classes were added and baseFolder is null, return empty stream
+        // This allows tests with only @Test methods (no base tests) to run
+        if (testClasses.isEmpty() && baseFolder == null) {
+            return Stream.empty();
+        }
+
+        if (testClasses.isEmpty()) {
+            fail("No test classes added");
+        }
+
+        return testClasses.stream()
+            .flatMap(testClass -> {
+                try {
+                    return createTestsForClass(testClass);
+                } catch (final Exception e) {
+                    throw new RuntimeException("Failed to create tests for " + testClass.getName(), e);
+                }
+            });
     }
 
     @BeforeAll
@@ -202,91 +287,6 @@ public abstract class AbstractProviderTestSuite {
         // Make sure temp directory is empty or gone
         checkTempDir("Temp dir not empty after test");
         VFS.close();
-    }
-
-    /**
-     * Creates dynamic tests for all test classes added via {@link #addTests(Class)}.
-     */
-    @TestFactory
-    Stream<DynamicTest> providerTests() throws Exception {
-        // Ensure setUp() has been called
-        // Note: @TestFactory is evaluated before @BeforeAll in some JUnit 5 versions
-        setUp();
-
-        // Add test classes if not already added
-        if (testClasses.isEmpty()) {
-            addBaseTests();
-        }
-
-        // If no test classes were added and baseFolder is null, return empty stream
-        // This allows tests with only @Test methods (no base tests) to run
-        if (testClasses.isEmpty() && baseFolder == null) {
-            return Stream.empty();
-        }
-
-        if (testClasses.isEmpty()) {
-            fail("No test classes added");
-        }
-
-        return testClasses.stream()
-            .flatMap(testClass -> {
-                try {
-                    return createTestsForClass(testClass);
-                } catch (final Exception e) {
-                    throw new RuntimeException("Failed to create tests for " + testClass.getName(), e);
-                }
-            });
-    }
-
-    /**
-     * Creates dynamic tests for a single test class.
-     */
-    private Stream<DynamicTest> createTestsForClass(final Class<?> testClass) throws Exception {
-        final List<DynamicTest> tests = new ArrayList<>();
-
-        // Locate the test methods
-        final Method[] methods = testClass.getMethods();
-        for (final Method method : methods) {
-            if (!method.getName().startsWith("test") || Modifier.isStatic(method.getModifiers())
-                || method.getReturnType() != Void.TYPE || method.getParameterTypes().length != 0) {
-                continue;
-            }
-
-            // Create a dynamic test for this method
-            final String testName = prefix + method.getName();
-            tests.add(DynamicTest.dynamicTest(testName, () -> {
-                // Create test instance
-                final AbstractProviderTestCase testCase = (AbstractProviderTestCase) testClass.getConstructor().newInstance();
-                testCase.addEmptyDir(addEmptyDir);
-                testCase.setConfig(manager, providerConfig, baseFolder, readFolder, writeFolder);
-
-                // Check capabilities before running the test
-                final Capability[] caps = testCase.getRequiredCapabilities();
-                if (caps != null) {
-                    final FileSystem fs = testCase.getFileSystem();
-                    for (final Capability cap : caps) {
-                        if (!fs.hasCapability(cap)) {
-                            // Skip test if capability is not supported
-                            assumeTrue(false, "Skipping test because file system does not have capability: " + cap);
-                        }
-                    }
-                }
-
-                // Run the test method
-                try {
-                    method.invoke(testCase);
-                } catch (final java.lang.reflect.InvocationTargetException e) {
-                    throw e.getTargetException();
-                }
-
-                // Check that file system is properly closed
-                if (readFolder != null && ((org.apache.commons.vfs2.provider.AbstractFileSystem) readFolder.getFileSystem()).isOpen()) {
-                    throw new IllegalStateException(testClass.getName() + ": filesystem has open streams after: " + method.getName());
-                }
-            }));
-        }
-
-        return tests.stream();
     }
 }
 

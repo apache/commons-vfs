@@ -34,10 +34,6 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
  */
 public class UrlProviderTest extends ProviderTestSuiteJunit5 {
 
-    public UrlProviderTest() throws Exception {
-        super(new UrlProviderTestConfig(), "", false);
-    }
-
     /**
      * Configuration for URL provider tests.
      */
@@ -59,6 +55,10 @@ public class UrlProviderTest extends ProviderTestSuiteJunit5 {
         public void prepare(final DefaultFileSystemManager manager) throws Exception {
             manager.addProvider("file", new UrlFileProvider());
         }
+    }
+
+    public UrlProviderTest() throws Exception {
+        super(new UrlProviderTestConfig(), "", false);
     }
 }
 

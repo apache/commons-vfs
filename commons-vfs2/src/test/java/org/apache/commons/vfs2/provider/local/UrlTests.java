@@ -39,6 +39,34 @@ import org.junit.jupiter.api.Test;
 public class UrlTests extends AbstractProviderTestCase {
 
     /**
+     * Tests that getURL() round-trips correctly when a directory name contains brackets.
+     */
+    @Test
+    public void testGetUrlRoundTripWithBracketsInPath() throws Exception {
+        final Path tmp = Files.createTempDirectory("vfs-roundtrip");
+        try {
+            final Path child = tmp.resolve("outside%text[inside%text]tail");
+            Files.createDirectories(child);
+
+            final FileSystemManager mgr = VFS.getManager();
+            final FileObject a = mgr.resolveFile(child.toUri().toString());
+            final FileObject b = mgr.resolveFile(a.getURL().toString());
+
+            assertEquals(a.getName().getPath(), b.getName().getPath());
+        } finally {
+            try (Stream<Path> walk = Files.walk(tmp)) {
+                walk.sorted(Comparator.reverseOrder())
+                        .forEach(p -> {
+                            try {
+                                Files.delete(p);
+                            } catch (final IOException ignore) { // NOPMD
+                            }
+                        });
+            }
+        }
+    }
+
+    /**
      * Tests FindFiles with a file name that has a hash sign in it.
      */
     @Test
@@ -69,34 +97,6 @@ public class UrlTests extends AbstractProviderTestCase {
         final FileObject file = getReadFolder().resolveFile("test-hash-#test.txt");
 
         assertEquals(file.toString(), UriParser.decode(file.getURL().toString()));
-    }
-
-    /**
-     * Tests that getURL() round-trips correctly when a directory name contains brackets.
-     */
-    @Test
-    public void testGetUrlRoundTripWithBracketsInPath() throws Exception {
-        final Path tmp = Files.createTempDirectory("vfs-roundtrip");
-        try {
-            final Path child = tmp.resolve("outside%text[inside%text]tail");
-            Files.createDirectories(child);
-
-            final FileSystemManager mgr = VFS.getManager();
-            final FileObject a = mgr.resolveFile(child.toUri().toString());
-            final FileObject b = mgr.resolveFile(a.getURL().toString());
-
-            assertEquals(a.getName().getPath(), b.getName().getPath());
-        } finally {
-            try (Stream<Path> walk = Files.walk(tmp)) {
-                walk.sorted(Comparator.reverseOrder())
-                        .forEach(p -> {
-                            try {
-                                Files.delete(p);
-                            } catch (final IOException ignore) { // NOPMD
-                            }
-                        });
-            }
-        }
     }
 
 }

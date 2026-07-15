@@ -34,10 +34,6 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
  */
 public class TgzProviderTest extends ProviderTestSuiteJunit5 {
 
-    public TgzProviderTest() throws Exception {
-        super(new TgzProviderTestConfig(), "", true);
-    }
-
     /**
      * Configuration for TGZ provider tests.
      */
@@ -61,6 +57,10 @@ public class TgzProviderTest extends ProviderTestSuiteJunit5 {
             manager.addProvider("tgz", new TarFileProvider());
             manager.addProvider("tar", new TarFileProvider());
         }
+    }
+
+    public TgzProviderTest() throws Exception {
+        super(new TgzProviderTestConfig(), "", true);
     }
 }
 

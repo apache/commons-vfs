@@ -47,26 +47,43 @@ import org.junit.jupiter.api.Test;
  */
 public class Http5ProviderTest extends ProviderTestSuiteJunit5 {
 
+    /**
+     * Configuration for HTTP5 provider tests.
+     */
+    private static class Http5ProviderTestConfig extends AbstractProviderTestConfig {
+
+        @Override
+        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
+            String uri = getSystemTestUriOverride();
+            if (uri == null) {
+                uri = connectionUri;
+            }
+            return manager.resolveFile(uri, getFileSystemOptions());
+        }
+
+        private FileSystemOptions getFileSystemOptions() {
+            final FileSystemOptions opts = new FileSystemOptions();
+            final Http5FileSystemConfigBuilder builder = Http5FileSystemConfigBuilder.getInstance();
+            builder.setMaxTotalConnections(opts, 200);
+            builder.setMaxConnectionsPerHost(opts, 200);
+            return opts;
+        }
+
+        @Override
+        public void prepare(final DefaultFileSystemManager manager) throws Exception {
+            if (!manager.hasProvider("http5")) {
+                manager.addProvider("http5", new Http5FileProvider());
+            }
+        }
+    }
     private static final Duration ONE_MINUTE = Duration.ofMinutes(1);
     private static NHttpFileServer server;
     private static final String TEST_URI = "test.http.uri";
-    private static String connectionUri;
 
-    public Http5ProviderTest() throws Exception {
-        super(new Http5ProviderTestConfig(), "", false);
-    }
+    private static String connectionUri;
 
     private static String getSystemTestUriOverride() {
         return System.getProperty(TEST_URI);
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        if (getSystemTestUriOverride() == null) {
-            server = NHttpFileServer.start(0, new File(getTestDirectory()), 5000);
-            connectionUri = AbstractProviderTestConfig.getLocalHostUriString("http5", server.getPort());
-        }
-        super.setUp();
     }
 
     @AfterAll
@@ -74,6 +91,10 @@ public class Http5ProviderTest extends ProviderTestSuiteJunit5 {
         if (server != null) {
             server.shutdown(5000, TimeUnit.SECONDS);
         }
+    }
+
+    public Http5ProviderTest() throws Exception {
+        super(new Http5ProviderTestConfig(), "", false);
     }
 
     @Override
@@ -87,6 +108,15 @@ public class Http5ProviderTest extends ProviderTestSuiteJunit5 {
     private void checkReadTestsFolder(final FileObject file) throws FileSystemException {
         assertNotNull(file.getChildren());
         assertTrue(file.getChildren().length > 0);
+    }
+
+    @Override
+    protected void setUp() throws Exception {
+        if (getSystemTestUriOverride() == null) {
+            server = NHttpFileServer.start(0, new File(getTestDirectory()), 5000);
+            connectionUri = AbstractProviderTestConfig.getLocalHostUriString("http5", server.getPort());
+        }
+        super.setUp();
     }
 
     @SuppressWarnings("deprecation")
@@ -122,6 +152,20 @@ public class Http5ProviderTest extends ProviderTestSuiteJunit5 {
         assertEquals(60000, builder.getSoTimeout(opts));
         assertEquals(ONE_MINUTE, builder.getSoTimeoutDuration(opts));
         assertEquals("foo/bar", builder.getUserAgent(opts));
+    }
+
+    @Test
+    public void testReadFileOperations() throws Exception {
+        try (DefaultFileSystemManager manager = new DefaultFileSystemManager();
+                Http5FileProvider provider = new Http5FileProvider();
+                SoftRefFilesCache filesCache = new SoftRefFilesCache();) {
+            manager.setFilesCache(filesCache);
+            manager.addProvider("http5", provider);
+            manager.init();
+            try (FileObject fo = manager.resolveFile(connectionUri + "/read-tests/file1.txt")) {
+                assertNotNull(fo.getContent().getInputStream());
+            }
+        }
     }
 
     private void testResolveFolderSlash(final String uri, final boolean followRedirect) throws FileSystemException {
@@ -165,50 +209,6 @@ public class Http5ProviderTest extends ProviderTestSuiteJunit5 {
 
         assertEquals("http5://[fe80::1c42:dae:8370:aea6%en1]/", fileObject.getFileSystem().getRootURI());
         assertEquals("http5://[fe80::1c42:dae:8370:aea6%en1]/", fileObject.getName().getURI());
-    }
-
-    @Test
-    public void testReadFileOperations() throws Exception {
-        try (DefaultFileSystemManager manager = new DefaultFileSystemManager();
-                Http5FileProvider provider = new Http5FileProvider();
-                SoftRefFilesCache filesCache = new SoftRefFilesCache();) {
-            manager.setFilesCache(filesCache);
-            manager.addProvider("http5", provider);
-            manager.init();
-            try (FileObject fo = manager.resolveFile(connectionUri + "/read-tests/file1.txt")) {
-                assertNotNull(fo.getContent().getInputStream());
-            }
-        }
-    }
-
-    /**
-     * Configuration for HTTP5 provider tests.
-     */
-    private static class Http5ProviderTestConfig extends AbstractProviderTestConfig {
-
-        @Override
-        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-            String uri = getSystemTestUriOverride();
-            if (uri == null) {
-                uri = connectionUri;
-            }
-            return manager.resolveFile(uri, getFileSystemOptions());
-        }
-
-        @Override
-        public void prepare(final DefaultFileSystemManager manager) throws Exception {
-            if (!manager.hasProvider("http5")) {
-                manager.addProvider("http5", new Http5FileProvider());
-            }
-        }
-
-        private FileSystemOptions getFileSystemOptions() {
-            final FileSystemOptions opts = new FileSystemOptions();
-            final Http5FileSystemConfigBuilder builder = Http5FileSystemConfigBuilder.getInstance();
-            builder.setMaxTotalConnections(opts, 200);
-            builder.setMaxConnectionsPerHost(opts, 200);
-            return opts;
-        }
     }
 }
 

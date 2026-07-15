@@ -34,10 +34,6 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
  */
 public class Tbz2ProviderTest extends ProviderTestSuiteJunit5 {
 
-    public Tbz2ProviderTest() throws Exception {
-        super(new Tbz2ProviderTestConfig(), "", true);
-    }
-
     /**
      * Configuration for TBZ2 provider tests.
      */
@@ -61,6 +57,10 @@ public class Tbz2ProviderTest extends ProviderTestSuiteJunit5 {
             manager.addProvider("tbz2", new TarFileProvider());
             manager.addProvider("tar", new TarFileProvider());
         }
+    }
+
+    public Tbz2ProviderTest() throws Exception {
+        super(new Tbz2ProviderTestConfig(), "", true);
     }
 }
 

@@ -34,10 +34,6 @@ import org.junit.jupiter.api.TestInstance;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class NestedTbz2Test extends ProviderTestSuiteJunit5 {
 
-    public NestedTbz2Test() throws Exception {
-        super(new NestedTbz2TestConfig(), "", true);
-    }
-
     /**
      * Configuration for nested TBZ2 provider tests.
      */
@@ -59,6 +55,10 @@ public class NestedTbz2Test extends ProviderTestSuiteJunit5 {
             manager.addProvider("tbz2", new TarFileProvider());
             manager.addProvider("bz2", new Bzip2FileProvider());
         }
+    }
+
+    public NestedTbz2Test() throws Exception {
+        super(new NestedTbz2TestConfig(), "", true);
     }
 }
 

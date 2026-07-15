@@ -56,8 +56,13 @@ public class UriParserTest {
     }
 
     @Test
-    public void testIPv6CheckUriEncoding() throws FileSystemException {
-        UriParser.checkUriEncoding("http://[fe80::14b5:1204:5410:64ca%en1]:8080");
+    public void testDecodePercentInsideBracketsAfterDoubleSlashInPath() throws FileSystemException {
+        assertEquals("file:/a//[inside%text]",
+                UriParser.decode("file:/a//[inside%25text]"));
+        assertEquals("/a//outside%text[inside%text]tail",
+                UriParser.decode("/a//outside%25text[inside%25text]tail"));
+        assertEquals("ftp://host/redirect=http://other/[inside%text]",
+                UriParser.decode("ftp://host/redirect=http://other/[inside%25text]"));
     }
 
     @Test
@@ -71,16 +76,6 @@ public class UriParserTest {
     }
 
     @Test
-    public void testDecodePercentInsideBracketsAfterDoubleSlashInPath() throws FileSystemException {
-        assertEquals("file:/a//[inside%text]",
-                UriParser.decode("file:/a//[inside%25text]"));
-        assertEquals("/a//outside%text[inside%text]tail",
-                UriParser.decode("/a//outside%25text[inside%25text]tail"));
-        assertEquals("ftp://host/redirect=http://other/[inside%text]",
-                UriParser.decode("ftp://host/redirect=http://other/[inside%25text]"));
-    }
-
-    @Test
     public void testDecodePreservesPercentInsideIPv6Host() throws FileSystemException {
         assertEquals("ftp://[fe80::1%25eth0]/path",
                 UriParser.decode("ftp://[fe80::1%25eth0]/path"));
@@ -88,6 +83,11 @@ public class UriParserTest {
                 UriParser.decode("//[fe80::1%25eth0]/path"));
         assertEquals("ftp://[fe80::1%25eth0]/[dir%name]",
                 UriParser.decode("ftp://[fe80::1%25eth0]/[dir%25name]"));
+    }
+
+    @Test
+    public void testIPv6CheckUriEncoding() throws FileSystemException {
+        UriParser.checkUriEncoding("http://[fe80::14b5:1204:5410:64ca%en1]:8080");
     }
 
     @Test

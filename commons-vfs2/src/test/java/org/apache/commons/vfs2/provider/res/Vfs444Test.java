@@ -38,6 +38,30 @@ import org.junit.jupiter.api.Test;
  */
 public class Vfs444Test extends ProviderTestSuiteJunit5 {
 
+    /**
+     * Configuration for VFS-444 tests.
+     */
+    private static class Vfs444TestConfig extends AbstractProviderTestConfig {
+
+        /**
+         * Returns the base folder for tests.
+         */
+        @Override
+        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
+            final String baseDir = getResourceTestDirectory();
+            return manager.resolveFile("zip:res:" + baseDir + "/test.zip");
+        }
+
+        /**
+         * Prepares the file system manager.
+         */
+        @Override
+        public void prepare(final DefaultFileSystemManager manager) throws Exception {
+            manager.addProvider("res", new ResourceFileProvider());
+            manager.addProvider("zip", new ZipFileProvider());
+        }
+    }
+
     public Vfs444Test() throws Exception {
         super(new Vfs444TestConfig(), "", true);
     }
@@ -92,30 +116,6 @@ public class Vfs444Test extends ProviderTestSuiteJunit5 {
         final FileObject result = getManager().resolveFile(uri);
         assertNotNull(result);
         assertTrue(result.exists());
-    }
-
-    /**
-     * Configuration for VFS-444 tests.
-     */
-    private static class Vfs444TestConfig extends AbstractProviderTestConfig {
-
-        /**
-         * Returns the base folder for tests.
-         */
-        @Override
-        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-            final String baseDir = getResourceTestDirectory();
-            return manager.resolveFile("zip:res:" + baseDir + "/test.zip");
-        }
-
-        /**
-         * Prepares the file system manager.
-         */
-        @Override
-        public void prepare(final DefaultFileSystemManager manager) throws Exception {
-            manager.addProvider("res", new ResourceFileProvider());
-            manager.addProvider("zip", new ZipFileProvider());
-        }
     }
 }
 

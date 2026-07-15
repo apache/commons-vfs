@@ -34,10 +34,6 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
  */
 public class TarProviderTest extends ProviderTestSuiteJunit5 {
 
-    public TarProviderTest() throws Exception {
-        super(new TarProviderTestConfig(), "", true);
-    }
-
     /**
      * Configuration for TAR provider tests.
      */
@@ -61,6 +57,10 @@ public class TarProviderTest extends ProviderTestSuiteJunit5 {
             manager.addProvider("tar", new TarFileProvider());
             manager.addMimeTypeMap(MIME_TYPE_APPLICATION_X_TAR, "tar");
         }
+    }
+
+    public TarProviderTest() throws Exception {
+        super(new TarProviderTestConfig(), "", true);
     }
 }
 

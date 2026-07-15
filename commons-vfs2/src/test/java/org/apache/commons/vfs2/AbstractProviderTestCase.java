@@ -163,6 +163,36 @@ public abstract class AbstractProviderTestCase {
     }
 
     /**
+     * JUnit 5 lifecycle method to check capabilities before each test.
+     * Uses Assumptions to skip tests when capabilities are not met.
+     */
+    @BeforeEach
+    public void checkCapabilitiesJunit5() throws FileSystemException {
+        if (readFolder == null) {
+            return;
+        }
+
+        final Capability[] caps = getRequiredCapabilities();
+        if (caps != null) {
+            for (final Capability cap : caps) {
+                final FileSystem fs = getFileSystem();
+                Assumptions.assumeTrue(fs.hasCapability(cap),
+                    () -> "Skipping test because file system does not have capability: " + cap);
+            }
+        }
+    }
+
+    /**
+     * JUnit 5 lifecycle method to verify file system is properly closed after each test.
+     */
+    @AfterEach
+    public void checkFileSystemClosedJunit5() throws FileSystemException {
+        if (readFolder != null && ((AbstractFileSystem) readFolder.getFileSystem()).isOpen()) {
+            throw new IllegalStateException(getClass().getName() + ": filesystem has open streams after test");
+        }
+    }
+
+    /**
      * creates a new uninitialized file system manager
      *
      * @throws Exception
@@ -234,36 +264,6 @@ public abstract class AbstractProviderTestCase {
      */
     protected FileObject getWriteFolder() {
         return writeFolder;
-    }
-
-    /**
-     * JUnit 5 lifecycle method to check capabilities before each test.
-     * Uses Assumptions to skip tests when capabilities are not met.
-     */
-    @BeforeEach
-    public void checkCapabilitiesJunit5() throws FileSystemException {
-        if (readFolder == null) {
-            return;
-        }
-
-        final Capability[] caps = getRequiredCapabilities();
-        if (caps != null) {
-            for (final Capability cap : caps) {
-                final FileSystem fs = getFileSystem();
-                Assumptions.assumeTrue(fs.hasCapability(cap),
-                    () -> "Skipping test because file system does not have capability: " + cap);
-            }
-        }
-    }
-
-    /**
-     * JUnit 5 lifecycle method to verify file system is properly closed after each test.
-     */
-    @AfterEach
-    public void checkFileSystemClosedJunit5() throws FileSystemException {
-        if (readFolder != null && ((AbstractFileSystem) readFolder.getFileSystem()).isOpen()) {
-            throw new IllegalStateException(getClass().getName() + ": filesystem has open streams after test");
-        }
     }
 
     /**

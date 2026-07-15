@@ -66,16 +66,6 @@ public class IPv6LocalConnectionTests extends AbstractProviderTestCase {
         return new Capability[] { Capability.URI, Capability.READ_CONTENT };
     }
 
-    @Test
-    public void testIPv6Connection() throws Throwable {
-        final List<String> localIPv6Addresses = getLocalIPv6Addresses();
-        if (localIPv6Addresses.isEmpty()) {
-            log.info("Local machine must have IPv6 address to run this test");
-            return;
-        }
-        // Test the IPv6 connection - actual test is in testConnectIPv6UrlLocal
-    }
-
     private FileSystemOptions setupConnectionTimeoutHints(final FileSystem fileSystem) {
         // Unfortunately there is no common way to set up timeouts for every protocol
         // So, we use this hacky approach to make this class generic and formally independent of protocols implementations
@@ -116,6 +106,16 @@ public class IPv6LocalConnectionTests extends AbstractProviderTestCase {
             }
         }
         assertTrue(connected, "None of the discovered local IPv6 network addresses has responded for connection: " + localIPv6Addresses);
+    }
+
+    @Test
+    public void testIPv6Connection() throws Throwable {
+        final List<String> localIPv6Addresses = getLocalIPv6Addresses();
+        if (localIPv6Addresses.isEmpty()) {
+            log.info("Local machine must have IPv6 address to run this test");
+            return;
+        }
+        // Test the IPv6 connection - actual test is in testConnectIPv6UrlLocal
     }
 
 }

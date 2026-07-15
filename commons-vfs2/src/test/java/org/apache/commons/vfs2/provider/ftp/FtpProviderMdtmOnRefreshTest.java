@@ -51,40 +51,54 @@ import org.junit.jupiter.api.AfterAll;
  */
 public class FtpProviderMdtmOnRefreshTest extends ProviderTestSuiteJunit5 {
 
+    /**
+     * Configuration for FTP provider tests with MDTM enabled and refresh behavior.
+     */
+    private static class FtpProviderMdtmOnRefreshTestConfig extends AbstractProviderTestConfig {
+
+        @Override
+        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
+            String uri = getSystemTestUriOverride();
+            if (uri == null) {
+                uri = connectionUri;
+            }
+            final FileSystemOptions options = new FileSystemOptions();
+            final FtpFileSystemConfigBuilder builder = FtpFileSystemConfigBuilder.getInstance();
+            init(builder, options);
+            final FileObject remoteFolder = manager.resolveFile(uri, options);
+            final FtpFileObject ftpFileObject = remoteFolder instanceof DecoratedFileObject
+                    ? (FtpFileObject) ((DecoratedFileObject) remoteFolder).getDecoratedFileObject()
+                    : (FtpFileObject) remoteFolder;
+            final FtpFileSystem ftpFileSystem = (FtpFileSystem) ftpFileObject.getFileSystem();
+            final FTPClientWrapper client = (FTPClientWrapper) ftpFileSystem.getClient();
+            return remoteFolder;
+        }
+
+        protected void init(final FtpFileSystemConfigBuilder builder, final FileSystemOptions options) {
+            builder.setUserDirIsRoot(options, false);
+            builder.setPassiveMode(options, true);
+            builder.setFileType(options, FtpFileType.BINARY);
+            builder.setConnectTimeout(options, Duration.ofSeconds(10));
+            final Charset charset = StandardCharsets.UTF_8;
+            final String charsetName = charset.name();
+            builder.setControlEncoding(options, charsetName);
+            builder.setControlEncoding(options, charset);
+            builder.setControlKeepAliveReplyTimeout(options, Duration.ofSeconds(35));
+            builder.setControlKeepAliveTimeout(options, Duration.ofSeconds(30));
+            builder.setMdtmLastModifiedTime(options, true);
+        }
+
+        @Override
+        public void prepare(final DefaultFileSystemManager manager) throws Exception {
+            manager.addProvider("ftp", new FtpFileProvider());
+        }
+    }
     private static FtpServer server;
     private static int socketPort;
     private static String connectionUri;
     private static final String TEST_URI = "test.ftp.uri";
+
     private static final String USER_PROPS_RES = "org.apache.ftpserver/users.properties";
-
-    public FtpProviderMdtmOnRefreshTest() throws Exception {
-        super(new FtpProviderMdtmOnRefreshTestConfig(), "", false);
-    }
-
-    @Override
-    protected void addBaseTests() throws Exception {
-        addTests(FtpMdtmOnRefreshLastModifiedTests.class);
-    }
-
-    protected static String getSystemTestUriOverride() {
-        return System.getProperty(TEST_URI);
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        if (getSystemTestUriOverride() == null) {
-            setUpClass(getTestDirectory(), null, null);
-        }
-        super.setUp();
-    }
-
-    @AfterAll
-    public static void tearDownClass() {
-        if (server != null) {
-            server.stop();
-            server = null;
-        }
-    }
 
     public static String getConnectionUri() {
         return connectionUri;
@@ -92,6 +106,10 @@ public class FtpProviderMdtmOnRefreshTest extends ProviderTestSuiteJunit5 {
 
     public static int getSocketPort() {
         return socketPort;
+    }
+
+    protected static String getSystemTestUriOverride() {
+        return System.getProperty(TEST_URI);
     }
 
     /**
@@ -135,47 +153,29 @@ public class FtpProviderMdtmOnRefreshTest extends ProviderTestSuiteJunit5 {
         connectionUri = "ftp://test:test@localhost:" + socketPort;
     }
 
-    /**
-     * Configuration for FTP provider tests with MDTM enabled and refresh behavior.
-     */
-    private static class FtpProviderMdtmOnRefreshTestConfig extends AbstractProviderTestConfig {
-
-        @Override
-        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-            String uri = getSystemTestUriOverride();
-            if (uri == null) {
-                uri = connectionUri;
-            }
-            final FileSystemOptions options = new FileSystemOptions();
-            final FtpFileSystemConfigBuilder builder = FtpFileSystemConfigBuilder.getInstance();
-            init(builder, options);
-            final FileObject remoteFolder = manager.resolveFile(uri, options);
-            final FtpFileObject ftpFileObject = remoteFolder instanceof DecoratedFileObject
-                    ? (FtpFileObject) ((DecoratedFileObject) remoteFolder).getDecoratedFileObject()
-                    : (FtpFileObject) remoteFolder;
-            final FtpFileSystem ftpFileSystem = (FtpFileSystem) ftpFileObject.getFileSystem();
-            final FTPClientWrapper client = (FTPClientWrapper) ftpFileSystem.getClient();
-            return remoteFolder;
+    @AfterAll
+    public static void tearDownClass() {
+        if (server != null) {
+            server.stop();
+            server = null;
         }
+    }
 
-        @Override
-        public void prepare(final DefaultFileSystemManager manager) throws Exception {
-            manager.addProvider("ftp", new FtpFileProvider());
-        }
+    public FtpProviderMdtmOnRefreshTest() throws Exception {
+        super(new FtpProviderMdtmOnRefreshTestConfig(), "", false);
+    }
 
-        protected void init(final FtpFileSystemConfigBuilder builder, final FileSystemOptions options) {
-            builder.setUserDirIsRoot(options, false);
-            builder.setPassiveMode(options, true);
-            builder.setFileType(options, FtpFileType.BINARY);
-            builder.setConnectTimeout(options, Duration.ofSeconds(10));
-            final Charset charset = StandardCharsets.UTF_8;
-            final String charsetName = charset.name();
-            builder.setControlEncoding(options, charsetName);
-            builder.setControlEncoding(options, charset);
-            builder.setControlKeepAliveReplyTimeout(options, Duration.ofSeconds(35));
-            builder.setControlKeepAliveTimeout(options, Duration.ofSeconds(30));
-            builder.setMdtmLastModifiedTime(options, true);
+    @Override
+    protected void addBaseTests() throws Exception {
+        addTests(FtpMdtmOnRefreshLastModifiedTests.class);
+    }
+
+    @Override
+    protected void setUp() throws Exception {
+        if (getSystemTestUriOverride() == null) {
+            setUpClass(getTestDirectory(), null, null);
         }
+        super.setUp();
     }
 }
 

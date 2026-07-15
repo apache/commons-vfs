@@ -48,6 +48,53 @@ import com.jcraft.jsch.JSchException;
  */
 public class SftpProviderIPv6Test extends ProviderTestSuiteJunit5 {
 
+    /**
+     * Mocked SFTP file provider for testing IPv6 without actual network connection.
+     */
+    private static class MockedClientSftpFileProvider extends SftpFileProvider {
+        @Override
+        protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions) {
+            final GenericFileName rootName = (GenericFileName) name;
+
+            final com.jcraft.jsch.Session sessionMock = mock(com.jcraft.jsch.Session.class);
+            final ChannelExec channelExecMock = mock(ChannelExec.class);
+
+            when(sessionMock.isConnected()).thenReturn(true);
+
+            try {
+                when(sessionMock.openChannel(anyString())).thenReturn(channelExecMock);
+            } catch (final JSchException e) {
+                throw new AssertionError("Should never happen", e);
+            }
+
+            when(channelExecMock.isClosed()).thenReturn(true);
+
+            try {
+                when(channelExecMock.getInputStream()).thenReturn(new NullInputStream());
+            } catch (final IOException e) {
+                throw new AssertionError("Should never happen", e);
+            }
+
+            return new SftpFileSystem(rootName, sessionMock, fileSystemOptions);
+        }
+    }
+
+    /**
+     * Configuration for SFTP IPv6 tests.
+     */
+    private static class SftpProviderIPv6TestConfig extends AbstractProviderTestConfig {
+
+        @Override
+        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
+            final String uri = System.getProperty("test.sftp.uri");
+            return uri != null ? manager.resolveFile(uri) : null;
+        }
+
+        public void prepare(final DefaultFileSystemManager manager) throws Exception {
+            manager.addProvider("sftp", new SftpFileProvider());
+        }
+    }
+
     public SftpProviderIPv6Test() throws Exception {
         super(new SftpProviderIPv6TestConfig(), "", false);
     }
@@ -78,53 +125,6 @@ public class SftpProviderIPv6Test extends ProviderTestSuiteJunit5 {
         } finally {
             getManager().removeProvider("sftp");
             getManager().addProvider("sftp", new SftpFileProvider());
-        }
-    }
-
-    /**
-     * Configuration for SFTP IPv6 tests.
-     */
-    private static class SftpProviderIPv6TestConfig extends AbstractProviderTestConfig {
-
-        @Override
-        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-            final String uri = System.getProperty("test.sftp.uri");
-            return uri != null ? manager.resolveFile(uri) : null;
-        }
-
-        public void prepare(final DefaultFileSystemManager manager) throws Exception {
-            manager.addProvider("sftp", new SftpFileProvider());
-        }
-    }
-
-    /**
-     * Mocked SFTP file provider for testing IPv6 without actual network connection.
-     */
-    private static class MockedClientSftpFileProvider extends SftpFileProvider {
-        @Override
-        protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions) {
-            final GenericFileName rootName = (GenericFileName) name;
-
-            final com.jcraft.jsch.Session sessionMock = mock(com.jcraft.jsch.Session.class);
-            final ChannelExec channelExecMock = mock(ChannelExec.class);
-
-            when(sessionMock.isConnected()).thenReturn(true);
-
-            try {
-                when(sessionMock.openChannel(anyString())).thenReturn(channelExecMock);
-            } catch (final JSchException e) {
-                throw new AssertionError("Should never happen", e);
-            }
-
-            when(channelExecMock.isClosed()).thenReturn(true);
-
-            try {
-                when(channelExecMock.getInputStream()).thenReturn(new NullInputStream());
-            } catch (final IOException e) {
-                throw new AssertionError("Should never happen", e);
-            }
-
-            return new SftpFileSystem(rootName, sessionMock, fileSystemOptions);
         }
     }
 }

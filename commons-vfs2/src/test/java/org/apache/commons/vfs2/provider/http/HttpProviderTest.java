@@ -52,6 +52,32 @@ import org.junit.jupiter.api.TestInstance;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class HttpProviderTest extends ProviderTestSuiteJunit5 {
 
+    /**
+     * Configuration for HTTP provider tests.
+     */
+    private static class HttpProviderTestConfig extends AbstractProviderTestConfig {
+
+        /**
+         * Returns the base folder for tests.
+         */
+        @Override
+        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
+            String uri = getSystemTestUriOverride();
+            if (uri == null) {
+                uri = connectionUri;
+            }
+            return manager.resolveFile(uri);
+        }
+
+        /**
+         * Prepares the file system manager.
+         */
+        @Override
+        public void prepare(final DefaultFileSystemManager manager) throws Exception {
+            manager.addProvider("http", new HttpFileProvider());
+        }
+    }
+
     private static final Duration ONE_MINUTE = Duration.ofMinutes(1);
 
     private static NHttpFileServer server;
@@ -72,24 +98,6 @@ public class HttpProviderTest extends ProviderTestSuiteJunit5 {
     }
 
     @Override
-    protected void setUp() throws Exception {
-        if (getSystemTestUriOverride() == null) {
-            server = NHttpFileServer.start(0, new File(getTestDirectory()), 5000);
-            connectionUri = AbstractProviderTestConfig.getLocalHostUriString("http", server.getPort());
-        }
-        super.setUp();
-    }
-
-    @Override
-    protected void tearDown() throws Exception {
-        if (server != null) {
-            server.close();
-            server = null;
-        }
-        super.tearDown();
-    }
-
-    @Override
     protected void addBaseTests() throws Exception {
         // Add standard provider tests
         super.addBaseTests();
@@ -106,11 +114,29 @@ public class HttpProviderTest extends ProviderTestSuiteJunit5 {
         // }
     }
 
-    // ==================== HTTP-Specific Tests ====================
-
     private void checkReadTestsFolder(final FileObject file) throws FileSystemException {
         assertNotNull(file.getChildren());
         assertTrue(file.getChildren().length > 0);
+    }
+
+    // ==================== HTTP-Specific Tests ====================
+
+    @Override
+    protected void setUp() throws Exception {
+        if (getSystemTestUriOverride() == null) {
+            server = NHttpFileServer.start(0, new File(getTestDirectory()), 5000);
+            connectionUri = AbstractProviderTestConfig.getLocalHostUriString("http", server.getPort());
+        }
+        super.setUp();
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        if (server != null) {
+            server.close();
+            server = null;
+        }
+        super.tearDown();
     }
 
     /** Ensure VFS-453 options are present. */
@@ -190,32 +216,6 @@ public class HttpProviderTest extends ProviderTestSuiteJunit5 {
 
         assertEquals("http://[fe80::1c42:dae:8370:aea6%en1]/", fileObject.getFileSystem().getRootURI());
         assertEquals("http://[fe80::1c42:dae:8370:aea6%en1]/file.txt", fileObject.getName().getURI());
-    }
-
-    /**
-     * Configuration for HTTP provider tests.
-     */
-    private static class HttpProviderTestConfig extends AbstractProviderTestConfig {
-
-        /**
-         * Returns the base folder for tests.
-         */
-        @Override
-        public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
-            String uri = getSystemTestUriOverride();
-            if (uri == null) {
-                uri = connectionUri;
-            }
-            return manager.resolveFile(uri);
-        }
-
-        /**
-         * Prepares the file system manager.
-         */
-        @Override
-        public void prepare(final DefaultFileSystemManager manager) throws Exception {
-            manager.addProvider("http", new HttpFileProvider());
-        }
     }
 }
 

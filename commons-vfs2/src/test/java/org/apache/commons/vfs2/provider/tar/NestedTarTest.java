@@ -33,10 +33,6 @@ import org.junit.jupiter.api.TestInstance;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class NestedTarTest extends ProviderTestSuiteJunit5 {
 
-    public NestedTarTest() throws Exception {
-        super(new NestedTarTestConfig(), "", true);
-    }
-
     /**
      * Configuration for nested TAR provider tests.
      */
@@ -56,6 +52,10 @@ public class NestedTarTest extends ProviderTestSuiteJunit5 {
         public void prepare(final DefaultFileSystemManager manager) throws Exception {
             manager.addProvider("tar", new TarFileProvider());
         }
+    }
+
+    public NestedTarTest() throws Exception {
+        super(new NestedTarTestConfig(), "", true);
     }
 }
 

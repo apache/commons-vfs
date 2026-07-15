@@ -34,10 +34,6 @@ import org.apache.commons.vfs2.provider.url.UrlFileProvider;
  */
 public class ResourceProviderTest extends ProviderTestSuiteJunit5 {
 
-    public ResourceProviderTest() throws Exception {
-        super(new ResourceProviderTestConfig(), "", false);
-    }
-
     /**
      * Configuration for resource provider tests.
      */
@@ -61,6 +57,10 @@ public class ResourceProviderTest extends ProviderTestSuiteJunit5 {
             manager.addProvider("file", new UrlFileProvider());
             manager.addProvider("jar", new JarFileProvider());
         }
+    }
+
+    public ResourceProviderTest() throws Exception {
+        super(new ResourceProviderTestConfig(), "", false);
     }
 }
 

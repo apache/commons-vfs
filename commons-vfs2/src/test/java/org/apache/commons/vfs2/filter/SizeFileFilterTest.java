@@ -104,11 +104,6 @@ public class SizeFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testSizeFilterSizeNegative(){
-        assertThrows(IllegalArgumentException.class, () -> new SizeFileFilter(-1));
-    }
-
-    @Test
     public void testSizeFileFilterLong() throws FileSystemException {
 
         final SizeFileFilter testee = new SizeFileFilter(4);
@@ -166,6 +161,11 @@ public class SizeFileFilterTest extends BaseFilterTest {
         files = zipFileObj.findFiles(new FileFilterSelector(new SizeRangeFileFilter(4, 4)));
         assertContains(files, optFile.getName());
         assertEquals(1, files.length);
+    }
+
+    @Test
+    public void testSizeFilterSizeNegative(){
+        assertThrows(IllegalArgumentException.class, () -> new SizeFileFilter(-1));
     }
 
     @Test
