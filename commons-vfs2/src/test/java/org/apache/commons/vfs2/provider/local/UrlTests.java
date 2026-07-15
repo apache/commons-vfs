@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
+import java.util.stream.Stream;
 
 import org.apache.commons.vfs2.AbstractProviderTestCase;
 import org.apache.commons.vfs2.FileObject;
@@ -86,14 +87,15 @@ public class UrlTests extends AbstractProviderTestCase {
 
             assertEquals(a.getName().getPath(), b.getName().getPath());
         } finally {
-            Files.walk(tmp)
-                    .sorted(Comparator.reverseOrder())
-                    .forEach(p -> {
-                        try {
-                            Files.delete(p);
-                        } catch (final IOException ignore) { // NOPMD
-                        }
-                    });
+            try (Stream<Path> walk = Files.walk(tmp)) {
+                walk.sorted(Comparator.reverseOrder())
+                        .forEach(p -> {
+                            try {
+                                Files.delete(p);
+                            } catch (final IOException ignore) { // NOPMD
+                            }
+                        });
+            }
         }
     }
 
