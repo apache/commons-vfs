@@ -18,6 +18,7 @@ package org.apache.commons.vfs2.provider;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.apache.commons.vfs2.FileSystemException;
@@ -73,6 +74,22 @@ public class UriParserTest {
                 UriParser.decode("file:///outside%25text[inside%25text]tail"));
         assertEquals("ftp://host/outside%text[inside%text]tail",
                 UriParser.decode("ftp://host/outside%25text[inside%25text]tail"));
+    }
+
+    @Test
+    public void testDecodeAcceptsAsciiHexDigits() throws FileSystemException {
+        // Valid ASCII escapes still decode, both letter cases.
+        assertEquals("../", UriParser.decode("%2e%2E%2f"));
+        assertEquals("Az", UriParser.decode("%41%7a"));
+    }
+
+    @Test
+    public void testDecodeRejectsNonAsciiHexDigits() {
+        // RFC 3986 pct-encoding is ASCII HEXDIG only. Fullwidth "2e2e2f" would otherwise decode to "../".
+        assertThrows(FileSystemException.class, () -> UriParser.decode("%２ｅ%２ｅ%２ｆ"));
+        // A single non-ASCII digit in either nibble is enough to reject: arabic-indic five (U+0665).
+        assertThrows(FileSystemException.class, () -> UriParser.decode("%4٥"));
+        assertThrows(FileSystemException.class, () -> UriParser.decode("%٥5"));
     }
 
     @Test

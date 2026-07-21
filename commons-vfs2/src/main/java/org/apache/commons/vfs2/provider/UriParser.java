@@ -48,6 +48,24 @@ public final class UriParser {
     private static final char LOW_MASK = 0x0F;
 
     /**
+     * Returns the value of an ASCII hexadecimal digit, or {@code -1} if the character is not one.
+     * <p>
+     * Unlike {@link Character#digit(char, int)}, this only accepts the ASCII digits {@code 0-9}, {@code a-f} and
+     * {@code A-F} that RFC 3986 permits in a percent-encoding, so Unicode look-alikes such as the fullwidth digits are
+     * rejected instead of silently decoded.
+     * </p>
+     *
+     * @param ch the character to convert.
+     * @return the value 0-15, or {@code -1} if {@code ch} is not an ASCII hexadecimal digit.
+     */
+    private static int hexDigit(final char ch) {
+        if (ch >= '0' && ch <= '9' || ch >= 'A' && ch <= 'F' || ch >= 'a' && ch <= 'f') {
+            return Character.digit(ch, HEX_BASE);
+        }
+        return -1;
+    }
+
+    /**
      * Encodes and appends a string to a StringBuilder.
      *
      * @param buffer The StringBuilder to append to.
@@ -88,8 +106,8 @@ public final class UriParser {
                 }
 
                 // Decode
-                final int dig1 = Character.digit(buffer.charAt(index + 1), HEX_BASE);
-                final int dig2 = Character.digit(buffer.charAt(index + 2), HEX_BASE);
+                final int dig1 = hexDigit(buffer.charAt(index + 1));
+                final int dig2 = hexDigit(buffer.charAt(index + 2));
                 if (dig1 == -1 || dig2 == -1) {
                     throw new FileSystemException("vfs.provider/invalid-escape-sequence.error",
                             buffer.substring(index, index + 3));
@@ -204,8 +222,8 @@ public final class UriParser {
             }
 
             // Decode
-            final int dig1 = Character.digit(buffer.charAt(index + 1), HEX_BASE);
-            final int dig2 = Character.digit(buffer.charAt(index + 2), HEX_BASE);
+            final int dig1 = hexDigit(buffer.charAt(index + 1));
+            final int dig2 = hexDigit(buffer.charAt(index + 2));
             if (dig1 == -1 || dig2 == -1) {
                 throw new FileSystemException("vfs.provider/invalid-escape-sequence.error",
                         buffer.substring(index, index + 3));
