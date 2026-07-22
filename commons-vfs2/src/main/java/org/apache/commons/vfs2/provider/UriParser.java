@@ -18,6 +18,7 @@ package org.apache.commons.vfs2.provider;
 
 import java.util.Arrays;
 
+import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
@@ -59,10 +60,7 @@ public final class UriParser {
      * @return the value 0-15, or {@code -1} if {@code ch} is not an ASCII hexadecimal digit.
      */
     private static int hexDigit(final char ch) {
-        if (ch >= '0' && ch <= '9' || ch >= 'A' && ch <= 'F' || ch >= 'a' && ch <= 'f') {
-            return Character.digit(ch, HEX_BASE);
-        }
-        return -1;
+        return CharUtils.isHex(ch) ? Character.digit(ch, HEX_BASE) : -1;
     }
 
     /**
