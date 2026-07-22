@@ -49,7 +49,7 @@ public interface VfsConsumer<T> {
      * @throws NullPointerException if {@code after} is null
      */
     default VfsConsumer<T> andThen(final VfsConsumer<? super T> after) {
-        Objects.requireNonNull(after);
+        Objects.requireNonNull(after, "after");
         return (final T t) -> {
             accept(t);
             after.accept(t);
