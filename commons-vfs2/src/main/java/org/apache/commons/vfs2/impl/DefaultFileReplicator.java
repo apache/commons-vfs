@@ -17,10 +17,11 @@
 package org.apache.commons.vfs2.impl;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Random;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.FileObject;
@@ -91,7 +92,7 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
             fileCount++;
         }
 
-        return createAndAddFile(tempDir, actualBaseName);
+        return createAndAddFile(getTempDir(), actualBaseName);
     }
 
     /**
@@ -125,7 +126,7 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
      * @throws FileSystemException if a file system error occurs.
      */
     protected File createAndAddFile(final File parent, final String baseName) throws FileSystemException {
-        final File file = createFile(tempDir, baseName);
+        final File file = createFile(getTempDir(), baseName);
         // Keep track to delete later
         addFile(file);
         return file;
@@ -184,17 +185,24 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
     }
 
     /**
-     * Initializes this component.
+     * Gets the directory that holds the replicated files, creating it on first use.
+     * <p>
+     * Unless a directory was supplied to {@link #DefaultFileReplicator(File)}, the directory is created with
+     * {@link Files#createTempDirectory(String, java.nio.file.attribute.FileAttribute...)}, which picks an
+     * unpredictable name and, on POSIX file systems, restricts it to the owner.
+     * </p>
      *
-     * @throws FileSystemException if an error occurs.
+     * @return the directory that holds the replicated files.
+     * @throws FileSystemException if the directory cannot be created.
      */
-    @Override
-    public void init() throws FileSystemException {
+    private synchronized File getTempDir() throws FileSystemException {
         if (tempDir == null) {
-            tempDir = new File(FileUtils.getTempDirectoryPath(), "vfs_cache").getAbsoluteFile();
+            try {
+                tempDir = Files.createTempDirectory("vfs_cache").toFile().getAbsoluteFile();
+            } catch (final IOException e) {
+                throw new FileSystemException("vfs.impl/init-replicator.error", e);
+            }
         }
-
-        fileCount = RANDOM.nextInt() & MASK;
 
         if (!tempDirMessageLogged) {
             final String message = Messages.getString("vfs.impl/temp-dir.debug", tempDir);
@@ -202,6 +210,18 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
 
             tempDirMessageLogged = true;
         }
+
+        return tempDir;
+    }
+
+    /**
+     * Initializes this component.
+     *
+     * @throws FileSystemException if an error occurs.
+     */
+    @Override
+    public void init() throws FileSystemException {
+        fileCount = RANDOM.nextInt() & MASK;
     }
 
     /**
