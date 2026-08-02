@@ -377,7 +377,7 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
      * This implementation always returns true.
      *
      * @return true if the file is writable.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     @Override
     protected boolean doIsWriteable() throws Exception {

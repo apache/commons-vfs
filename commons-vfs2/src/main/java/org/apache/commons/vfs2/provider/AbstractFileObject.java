@@ -195,7 +195,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      *
      * @param childName The name of the child.
      * @param newType The type of the child.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected void childrenChanged(final FileName childName, final FileType newType) throws Exception {
         // TODO - this may be called when not attached
@@ -473,7 +473,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * Detaches this file, invalidating all cached info. This will force a call to {@link #doAttach} next time this file
      * is used.
      *
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     private void detach() throws Exception {
         synchronized (fileSystem) {
@@ -505,7 +505,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * This implementation does nothing.
      * </p>
      *
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected void doAttach() throws Exception {
         // noop
@@ -530,7 +530,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * </ul>
      * This implementation throws an exception.
      *
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected void doCreateFolder() throws Exception {
         throw new FileSystemException("vfs.provider/create-folder-not-supported.error");
@@ -545,7 +545,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * </ul>
      * This implementation throws an exception.
      *
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected void doDelete() throws Exception {
         throw new FileSystemException("vfs.provider/delete-not-supported.error");
@@ -561,7 +561,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * This implementation does nothing.
      * </p>
      *
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected void doDetach() throws Exception {
         // noop
@@ -575,7 +575,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * </p>
      *
      * @return The attributes of the file.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected Map<String, Object> doGetAttributes() throws Exception {
         return Collections.emptyMap();
@@ -589,7 +589,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * </p>
      *
      * @return The certificates used to sign the file.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected Certificate[] doGetCertificates() throws Exception {
         return null;
@@ -600,7 +600,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * {@link FileType#FILE}.
      *
      * @return The size of the file in bytes.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected abstract long doGetContentSize() throws Exception;
 
@@ -615,7 +615,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * </p>
      *
      * @return An InputStream to read the file content.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected InputStream doGetInputStream() throws Exception {
         // Backward compatibility.
@@ -633,7 +633,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * </p>
      * @param bufferSize Buffer size hint.
      * @return An InputStream to read the file content.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected InputStream doGetInputStream(final int bufferSize) throws Exception {
         throw new UnsupportedOperationException(DO_GET_INPUT_STREAM_INT);
@@ -646,7 +646,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * </p>
      *
      * @return The last modification time.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected long doGetLastModifiedTime() throws Exception {
         throw new FileSystemException("vfs.provider/get-last-modified-not-supported.error");
@@ -669,7 +669,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      *
      * @param bAppend true if the file should be appended to, false if it should be overwritten.
      * @return An OutputStream to write to the file.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
         throw new FileSystemException("vfs.provider/write-not-supported.error");
@@ -683,7 +683,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      *
      * @param mode The mode to access the file.
      * @return The RandomAccessContext.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception {
         throw new FileSystemException("vfs.provider/random-access-not-supported.error");
@@ -694,7 +694,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * implementation can be expensive.
      *
      * @return The type of the file.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected abstract FileType doGetType() throws Exception;
 
@@ -706,7 +706,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * </p>
      *
      * @return true if the file is executable, false otherwise.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected boolean doIsExecutable() throws Exception {
         return false;
@@ -720,7 +720,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * </p>
      *
      * @return true if the file is hidden, false otherwise.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected boolean doIsHidden() throws Exception {
         return false;
@@ -734,7 +734,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * </p>
      *
      * @return true if the file is readable, false otherwise.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected boolean doIsReadable() throws Exception {
         return true;
@@ -760,7 +760,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * </p>
      *
      * @return true if the file is readable, false otherwise.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      * @since 2.4
      */
     protected boolean doIsSymbolicLink() throws Exception {
@@ -775,7 +775,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * </p>
      *
      * @return true if the file is writable.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected boolean doIsWriteable() throws Exception {
         return true;
@@ -787,7 +787,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      *
      * @return A possible empty String array if the file is a directory or null or an exception if the file is not a
      *         directory or can't be read.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected abstract String[] doListChildren() throws Exception;
 
@@ -805,7 +805,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * </p>
      *
      * @return The children of this FileObject.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected FileObject[] doListChildrenResolved() throws Exception {
         return null;
@@ -821,7 +821,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * </p>
      *
      * @param attrName The name of the attribute to remove.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      * @since 2.0
      */
     protected void doRemoveAttribute(final String attrName) throws Exception {
@@ -841,7 +841,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * </p>
      *
      * @param newFile A FileObject with the new file name.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected void doRename(final FileObject newFile) throws Exception {
         throw new FileSystemException("vfs.provider/rename-not-supported.error");
@@ -858,7 +858,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      *
      * @param attrName The attribute name.
      * @param value The value to be associated with the attribute name.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected void doSetAttribute(final String attrName, final Object value) throws Exception {
         throw new FileSystemException("vfs.provider/set-attribute-not-supported.error");
@@ -941,7 +941,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     /**
      * Called when the output stream for this file is closed.
      *
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected void endOutput() throws Exception {
         if (getType() == FileType.IMAGINARY) {
@@ -1413,7 +1413,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * This will only happen if you monitor the file using {@link org.apache.commons.vfs2.FileMonitor}.
      * </p>
      *
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected void handleChanged() throws Exception {
         // Notify the file system
@@ -1424,7 +1424,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * Called when this file is created. Updates cached info and notifies the parent and file system.
      *
      * @param newType The type of the file.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected void handleCreate(final FileType newType) throws Exception {
         synchronized (fileSystem) {
@@ -1449,7 +1449,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     /**
      * Called when this file is deleted. Updates cached info and notifies subclasses, parent and file system.
      *
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected void handleDelete() throws Exception {
         synchronized (fileSystem) {
@@ -1742,7 +1742,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      *
      * @param childName The name of the child.
      * @param newType The type of the child.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     private void notifyParent(final FileName childName, final FileType newType) throws Exception {
         if (parent == null) {
@@ -1764,7 +1764,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * This implementation does nothing.
      * </p>
      *
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected void onChange() throws Exception {
         // noop
@@ -1779,7 +1779,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      *
      * @param child The name of the child that changed.
      * @param newType The type of the file.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected void onChildrenChanged(final FileName child, final FileType newType) throws Exception {
         // noop

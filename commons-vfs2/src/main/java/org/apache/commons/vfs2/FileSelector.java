@@ -29,7 +29,7 @@ public interface FileSelector {
      *
      * @param fileInfo The file or folder to select.
      * @return true if the file should be selected.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     boolean includeFile(FileSelectInfo fileInfo) throws Exception;
 
@@ -42,7 +42,7 @@ public interface FileSelector {
      *
      * @param fileInfo The file or folder to select.
      * @return true if the folder should be traversed.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      * @since 2.10.0
      */
     default boolean traverseDescendants(final FileSelectInfo fileInfo) throws Exception {
@@ -58,7 +58,7 @@ public interface FileSelector {
      *
      * @param fileInfo The file or folder to select.
      * @return true if the folder should be traversed.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      * @deprecated Use {@link #traverseDescendants(FileSelectInfo)}.
      */
     @Deprecated

@@ -74,7 +74,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      *
      * @param baseName The base FileName.
      * @param type The FileType.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     public void attachChild(final FileName baseName, final FileType type) throws Exception {
         final FileType oldType = doGetType();
@@ -317,7 +317,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      * </p>
      *
      * @param event The FileChangeEvent.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     @Override
     public void fileChanged(final FileChangeEvent event) throws Exception {
@@ -333,7 +333,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      * Called when a file is created.
      *
      * @param event The FileChangeEvent.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     @Override
     public void fileCreated(final FileChangeEvent event) throws Exception {
@@ -349,7 +349,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      * Called when a file is deleted.
      *
      * @param event The FileChangeEvent.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     @Override
     public void fileDeleted(final FileChangeEvent event) throws Exception {
@@ -379,7 +379,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      * Checks whether the file's type has changed, and fires the appropriate events.
      *
      * @param oldType The old FileType.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     private void maybeTypeChanged(final FileType oldType) throws Exception {
         final FileType newType = doGetType();
@@ -408,7 +408,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      * Attaches or detaches the target file.
      *
      * @param fileObject The FileObject.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     public void setFile(final FileObject fileObject) throws Exception {
         final FileType oldType = doGetType();

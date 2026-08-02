@@ -257,7 +257,7 @@ public final class SftpTestServerHelper {
     /**
      * Starts the embedded SFTP server.
      *
-     * @throws IOException if server cannot be started
+     * @throws IOException Thrown if server cannot be started
      */
     public static synchronized void startServer() throws IOException {
         if (server != null) {

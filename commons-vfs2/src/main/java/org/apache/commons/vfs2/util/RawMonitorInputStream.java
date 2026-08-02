@@ -64,7 +64,7 @@ public class RawMonitorInputStream extends FilterInputStream {
      * Returns 0 if the stream is at EOF, else the underlying inputStream will be queried.
      *
      * @return The number of bytes that are available.
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     @Override
     public synchronized int available() throws IOException {
@@ -78,7 +78,7 @@ public class RawMonitorInputStream extends FilterInputStream {
     /**
      * Closes this input stream and releases any system resources associated with the stream.
      *
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     @Override
     public void close() throws IOException {
@@ -125,7 +125,7 @@ public class RawMonitorInputStream extends FilterInputStream {
     /**
      * Called after the stream has been closed. This implementation does nothing.
      *
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     protected void onClose() throws IOException {
         // noop
@@ -135,7 +135,7 @@ public class RawMonitorInputStream extends FilterInputStream {
      * Reads a character.
      *
      * @return The character that was read as an integer.
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     @Override
     public int read() throws IOException { // lgtm [java/non-sync-override]
@@ -158,7 +158,7 @@ public class RawMonitorInputStream extends FilterInputStream {
      * @param offset The offset at which to start reading.
      * @param length The maximum number of bytes to read.
      * @return The number of bytes read.
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     @Override
     public int read(final byte[] buffer, final int offset, final int length) throws IOException { // lgtm [java/non-sync-override]

@@ -49,7 +49,7 @@ public final class FileUtil {
      *
      * @param file The file to get the content of.
      * @return The content as a byte array.
-     * @throws IOException if the file content cannot be accessed.
+     * @throws IOException Thrown if the file content cannot be accessed.
      * @deprecated Use {@link org.apache.commons.vfs2.util.FileObjectUtils#getContentAsByteArray(FileObject)}.
      */
     @Deprecated
@@ -62,7 +62,7 @@ public final class FileUtil {
      *
      * @param file The FileObject to write.
      * @param output The OutputStream to write to.
-     * @throws IOException if an error occurs writing the file.
+     * @throws IOException Thrown if an error occurs writing the file.
      * @see FileContent#write(OutputStream)
      * @deprecated Use {@link org.apache.commons.vfs2.util.FileObjectUtils#writeContent(FileObject, OutputStream)}.
      */

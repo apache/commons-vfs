@@ -219,7 +219,7 @@ public class JackrabbitMain {
      * Run this Main application.
      * <p>
      * <em>Note:</em> this is public because this can be used by other projects in unit tests. e.g, Commons-VFS.
-     * @throws Exception if any exception occurs
+     * @throws Exception Thrown if any exception occurs
      * </p>
      */
     public void run() throws Exception {

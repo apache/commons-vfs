@@ -86,7 +86,7 @@ public interface FileContent extends Closeable {
      * Returns the content of a file as a byte array.
      *
      * @return The content as a byte array.
-     * @throws IOException if the file content cannot be accessed.
+     * @throws IOException Thrown if the file content cannot be accessed.
      * @since 2.4
      */
     default byte[] getByteArray() throws IOException {
@@ -278,7 +278,7 @@ public interface FileContent extends Closeable {
      *
      * @param charset The file character set, may be null.
      * @return The content as a byte array.
-     * @throws IOException if the file content cannot be accessed.
+     * @throws IOException Thrown if the file content cannot be accessed.
      * @since 2.4
      */
     default String getString(final Charset charset) throws IOException {
@@ -290,7 +290,7 @@ public interface FileContent extends Closeable {
      *
      * @param charset The file character set, may be null.
      * @return The content as a byte array.
-     * @throws IOException if the file content cannot be accessed.
+     * @throws IOException Thrown if the file content cannot be accessed.
      * @since 2.4
      */
     default String getString(final String charset) throws IOException {
@@ -356,7 +356,7 @@ public interface FileContent extends Closeable {
      * Writes this content to another FileContent.
      *
      * @param output The target OutputStream.
-     * @throws IOException if an error occurs writing the content.
+     * @throws IOException Thrown if an error occurs writing the content.
      * @return The total number of bytes written
      * @since 2.1
      */
@@ -366,7 +366,7 @@ public interface FileContent extends Closeable {
      * Writes this content to another FileObject.
      *
      * @param file The target FileObject.
-     * @throws IOException if an error occurs writing the content.
+     * @throws IOException Thrown if an error occurs writing the content.
      * @return The total number of bytes written
      * @since 2.1
      */
@@ -377,7 +377,7 @@ public interface FileContent extends Closeable {
      *
      * @param output The target OutputStream.
      * @return The total number of bytes written
-     * @throws IOException if an error occurs writing the content.
+     * @throws IOException Thrown if an error occurs writing the content.
      * @since 2.1
      */
     long write(OutputStream output) throws IOException;
@@ -388,7 +388,7 @@ public interface FileContent extends Closeable {
      * @param output The target OutputStream.
      * @param bufferSize The buffer size to write data chunks.
      * @return The total number of bytes written
-     * @throws IOException if an error occurs writing the file.
+     * @throws IOException Thrown if an error occurs writing the file.
      * @since 2.1
      */
     long write(OutputStream output, int bufferSize) throws IOException;

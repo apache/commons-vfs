@@ -212,7 +212,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
      *
      * @param unescaped An unescaped path.
      * @return The encoded path.
-     * @throws URIException if the default protocol charset is not supported
+     * @throws URIException Thrown if the default protocol charset is not supported
      */
     protected String encodePath(final String unescaped) throws URIException {
         return URIUtil.encodePath(unescaped);
@@ -241,7 +241,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
      * Gets a new HeadMethod.
      *
      * @return A new HeadMethod.
-     * @throws IOException if an IO error occurs.
+     * @throws IOException Thrown if an IO error occurs.
      */
     HeadMethod getHeadMethod() throws IOException {
         // need to synchronize on the file system as the detach method will clear out "method"
@@ -284,7 +284,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
      *
      * @param method The object which gets prepared to access the file object.
      * @throws FileSystemException if an error occurs.
-     * @throws URIException if path cannot be represented.
+     * @throws URIException Thrown if path cannot be represented.
      * @since 2.0 (was package)
      */
     protected void setupMethod(final HttpMethod method) throws FileSystemException, URIException {

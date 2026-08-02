@@ -171,7 +171,7 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
      *
      * @param httpRequest {@code HttpUriRequest} object
      * @return {@code ClassicHttpResponse} from the execution
-     * @throws IOException if IO error occurs
+     * @throws IOException Thrown if IO error occurs
      */
     protected ClassicHttpResponse executeHttpUriRequest(final HttpUriRequest httpRequest) throws IOException {
         final FS abstractFileSystem = getAbstractFileSystem();
@@ -198,7 +198,7 @@ public class Http5FileObject<FS extends Http5FileSystem> extends AbstractFileObj
      * Gets the last executed HEAD {@code HttpResponse} object.
      *
      * @return The last executed HEAD {@code HttpResponse} object
-     * @throws IOException if IO error occurs
+     * @throws IOException Thrown if IO error occurs
      */
     ClassicHttpResponse getLastHeadResponse() throws IOException {
         if (lastHeadResponse != null) {

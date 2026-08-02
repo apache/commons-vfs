@@ -270,7 +270,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
     /**
      * Enumerates resources from different class loaders.
      *
-     * @throws IOException if {@code getResource} failed.
+     * @throws IOException Thrown if {@code getResource} failed.
      * @see #findClassLoader()
      */
     private Enumeration<URL> enumerateResources(final String name) throws IOException {

@@ -28,7 +28,7 @@ public interface FileListener {
      * </p>
      *
      * @param event The FileChangeEvent.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     void fileChanged(FileChangeEvent event) throws Exception;
 
@@ -36,7 +36,7 @@ public interface FileListener {
      * Called when a file is created.
      *
      * @param event The FileChangeEvent.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     void fileCreated(FileChangeEvent event) throws Exception;
 
@@ -44,7 +44,7 @@ public interface FileListener {
      * Called when a file is deleted.
      *
      * @param event The FileChangeEvent.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     void fileDeleted(FileChangeEvent event) throws Exception;
 }

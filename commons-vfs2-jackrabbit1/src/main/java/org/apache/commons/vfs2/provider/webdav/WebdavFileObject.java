@@ -360,7 +360,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
      * This implementation always returns true.
      *
      * @return true if the file is writable.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     @Override
     protected boolean doIsWriteable() throws Exception {
@@ -605,7 +605,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
      *
      * @param method The HttpMethod.
      * @throws FileSystemException if an error occurs encoding the uri.
-     * @throws URIException if the URI is in error.
+     * @throws URIException Thrown if the URI is in error.
      */
     @Override
     protected void setupMethod(final HttpMethod method) throws FileSystemException, URIException {

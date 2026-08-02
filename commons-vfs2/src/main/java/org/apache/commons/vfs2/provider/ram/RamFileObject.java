@@ -222,7 +222,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem> {
 
     /**
      * @param newSize The new buffer size.
-     * @throws IOException if the new size exceeds the limit
+     * @throws IOException Thrown if the new size exceeds the limit
      */
     synchronized void resize(final long newSize) throws IOException {
         final RamFileSystem afs = getAbstractFileSystem();

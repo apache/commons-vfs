@@ -243,7 +243,7 @@ public final class FtpClientFactory {
          *
          * @param client The client.
          * @param fileSystemOptions The file system options.
-         * @throws IOException if an IO error occurs.
+         * @throws IOException Thrown if an IO error occurs.
          */
         protected abstract void setupOpenConnection(C client, FileSystemOptions fileSystemOptions) throws IOException;
     }

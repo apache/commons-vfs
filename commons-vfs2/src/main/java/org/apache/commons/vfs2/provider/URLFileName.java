@@ -141,7 +141,7 @@ public class URLFileName extends GenericFileName {
      * @param charset The character set.
      * @return The encoded URI
      * @throws FileSystemException if some other exception occurs.
-     * @throws URIException if an exception occurs encoding the URI.
+     * @throws URIException Thrown if an exception occurs encoding the URI.
      */
     public String getURIEncoded(final String charset) throws FileSystemException, URIException {
         final StringBuilder sb = new StringBuilder(BUFFER_SIZE);

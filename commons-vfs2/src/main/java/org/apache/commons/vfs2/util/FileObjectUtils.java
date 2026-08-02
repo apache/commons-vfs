@@ -73,7 +73,7 @@ public final class FileObjectUtils {
      *
      * @param file Gets the contents of this file object.
      * @return The content as a byte array.
-     * @throws IOException if the file content cannot be accessed.
+     * @throws IOException Thrown if the file content cannot be accessed.
      * @since 2.6.0
      */
     public static byte[] getContentAsByteArray(final FileObject file) throws IOException {
@@ -90,7 +90,7 @@ public final class FileObjectUtils {
      * @param file Gets the contents of this file object.
      * @param charset The file character set, may be null.
      * @return The content as a string.
-     * @throws IOException if the file content cannot be accessed.
+     * @throws IOException Thrown if the file content cannot be accessed.
      * @since 2.4
      */
     public static String getContentAsString(final FileObject file, final Charset charset) throws IOException {
@@ -107,7 +107,7 @@ public final class FileObjectUtils {
      * @param file Gets the contents of this file object.
      * @param charset The file character set, may be null.
      * @return The content as a string.
-     * @throws IOException if the file content cannot be accessed.
+     * @throws IOException Thrown if the file content cannot be accessed.
      * @since 2.4
      */
     public static String getContentAsString(final FileObject file, final String charset) throws IOException {
@@ -195,7 +195,7 @@ public final class FileObjectUtils {
      *
      * @param file The FileObject to write.
      * @param output The OutputStream to write to.
-     * @throws IOException if an error occurs writing the file.
+     * @throws IOException Thrown if an error occurs writing the file.
      * @see FileContent#write(OutputStream)
      * @since 2.6.0
      */

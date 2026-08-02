@@ -36,7 +36,7 @@ public interface RandomAccessContent extends DataOutput, DataInput, Closeable {
      * If this file has an associated channel then the channel is closed as well.
      * </p>
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     @Override
     void close() throws IOException;
@@ -45,7 +45,7 @@ public interface RandomAccessContent extends DataOutput, DataInput, Closeable {
      * Returns the current offset in this file.
      *
      * @return The offset from the beginning of the file, in bytes, at which the next read or write occurs.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     long getFilePointer() throws IOException;
 
@@ -56,7 +56,7 @@ public interface RandomAccessContent extends DataOutput, DataInput, Closeable {
      * </p>
      *
      * @return The InputStream.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     InputStream getInputStream() throws IOException;
 
@@ -64,7 +64,7 @@ public interface RandomAccessContent extends DataOutput, DataInput, Closeable {
      * Returns the length of this file.
      *
      * @return The length of this file, measured in bytes.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException Thrown if an I/O error occurs.
      */
     long length() throws IOException;
 
@@ -82,7 +82,7 @@ public interface RandomAccessContent extends DataOutput, DataInput, Closeable {
      *
      * @param pos The offset position, measured in bytes from the beginning of the file, at which to set the file
      *            pointer.
-     * @throws IOException if {@code pos} is less than {@code 0} or if an I/O error occurs.
+     * @throws IOException Thrown if {@code pos} is less than {@code 0} or if an I/O error occurs.
      */
     void seek(long pos) throws IOException;
 

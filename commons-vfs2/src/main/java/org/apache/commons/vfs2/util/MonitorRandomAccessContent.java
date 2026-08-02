@@ -41,7 +41,7 @@ public class MonitorRandomAccessContent implements RandomAccessContent {
     /**
      * Closes this content.
      *
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     @Override
     public void close() throws IOException {
@@ -90,7 +90,7 @@ public class MonitorRandomAccessContent implements RandomAccessContent {
     /**
      * Called after this stream is closed.
      *
-     * @throws IOException if subclass throws it.
+     * @throws IOException Thrown if subclass throws it.
      */
     @SuppressWarnings("unused") // IOException is needed because subclasses may need to throw it
     protected void onClose() throws IOException {

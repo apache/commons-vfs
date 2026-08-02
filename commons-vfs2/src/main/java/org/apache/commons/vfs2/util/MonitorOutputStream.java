@@ -76,7 +76,7 @@ public class MonitorOutputStream extends BufferedOutputStream {
      * This does nothing if the stream is closed already.
      * </p>
      *
-     * @throws IOException if an IO error occurs.
+     * @throws IOException Thrown if an IO error occurs.
      */
     @Override
     public void close() throws IOException {
@@ -116,7 +116,7 @@ public class MonitorOutputStream extends BufferedOutputStream {
     }
 
     /**
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      * @since 2.0
      */
     @Override
@@ -137,7 +137,7 @@ public class MonitorOutputStream extends BufferedOutputStream {
      * This implementation does nothing.
      * </p>
      *
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      */
     // IOException is needed because subclasses may need to throw it
     protected void onClose() throws IOException {
@@ -145,7 +145,7 @@ public class MonitorOutputStream extends BufferedOutputStream {
 
     /**
      * @param b The byte array.
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      * @since 2.0
      */
     @Override
@@ -158,7 +158,7 @@ public class MonitorOutputStream extends BufferedOutputStream {
      * @param b The byte array.
      * @param off The offset into the array.
      * @param len The number of bytes to write.
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      * @since 2.0
      */
     @Override
@@ -169,7 +169,7 @@ public class MonitorOutputStream extends BufferedOutputStream {
 
     /**
      * @param b The character to write.
-     * @throws IOException if an error occurs.
+     * @throws IOException Thrown if an error occurs.
      * @since 2.0
      */
     @Override

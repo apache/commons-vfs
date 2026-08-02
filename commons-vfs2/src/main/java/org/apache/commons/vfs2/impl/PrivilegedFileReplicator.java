@@ -80,7 +80,7 @@ public class PrivilegedFileReplicator implements FileReplicator, VfsComponent {
         /**
          * Performs the action.
          *
-         * @throws Exception if an error occurs.
+         * @throws Exception Thrown if an error occurs.
          */
         @Override
         public File run() throws Exception {

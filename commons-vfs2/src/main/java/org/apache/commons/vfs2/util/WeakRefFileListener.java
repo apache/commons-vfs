@@ -76,7 +76,7 @@ public class WeakRefFileListener implements FileListener {
      * </p>
      *
      * @param event The FileChangeEvent.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     @Override
     public void fileChanged(final FileChangeEvent event) throws Exception {
@@ -90,7 +90,7 @@ public class WeakRefFileListener implements FileListener {
      * Called when a file is created.
      *
      * @param event The FileChangeEvent.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     @Override
     public void fileCreated(final FileChangeEvent event) throws Exception {
@@ -104,7 +104,7 @@ public class WeakRefFileListener implements FileListener {
      * Called when a file is deleted.
      *
      * @param event The FileChangeEvent.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     @Override
     public void fileDeleted(final FileChangeEvent event) throws Exception {
@@ -119,7 +119,7 @@ public class WeakRefFileListener implements FileListener {
      * listeners.
      *
      * @return The FileListener.
-     * @throws Exception if an error occurs.
+     * @throws Exception Thrown if an error occurs.
      */
     protected FileListener getListener() throws Exception {
         final FileListener listener = this.listener.get();
