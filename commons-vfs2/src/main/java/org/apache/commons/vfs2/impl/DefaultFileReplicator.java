@@ -120,13 +120,13 @@ public class DefaultFileReplicator extends AbstractVfsComponent implements FileR
     /**
      * Adds a file.
      *
-     * @param parent ignored.
+     * @param parent The parent directory of the new file.
      * @param baseName The base file name.
      * @return A File.
      * @throws FileSystemException if a file system error occurs.
      */
     protected File createAndAddFile(final File parent, final String baseName) throws FileSystemException {
-        final File file = createFile(getTempDir(), baseName);
+        final File file = createFile(parent, baseName);
         // Keep track to delete later
         addFile(file);
         return file;
