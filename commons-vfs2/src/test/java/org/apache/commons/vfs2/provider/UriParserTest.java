@@ -57,6 +57,13 @@ public class UriParserTest {
     }
 
     @Test
+    public void testDecodeAcceptsAsciiHexDigits() throws FileSystemException {
+        // Valid ASCII escapes still decode, both letter cases.
+        assertEquals("../", UriParser.decode("%2e%2E%2f"));
+        assertEquals("Az", UriParser.decode("%41%7a"));
+    }
+
+    @Test
     public void testDecodePercentInsideBracketsAfterDoubleSlashInPath() throws FileSystemException {
         assertEquals("file:/a//[inside%text]",
                 UriParser.decode("file:/a//[inside%25text]"));
@@ -77,10 +84,13 @@ public class UriParserTest {
     }
 
     @Test
-    public void testDecodeAcceptsAsciiHexDigits() throws FileSystemException {
-        // Valid ASCII escapes still decode, both letter cases.
-        assertEquals("../", UriParser.decode("%2e%2E%2f"));
-        assertEquals("Az", UriParser.decode("%41%7a"));
+    public void testDecodePreservesPercentInsideIPv6Host() throws FileSystemException {
+        assertEquals("ftp://[fe80::1%25eth0]/path",
+                UriParser.decode("ftp://[fe80::1%25eth0]/path"));
+        assertEquals("//[fe80::1%25eth0]/path",
+                UriParser.decode("//[fe80::1%25eth0]/path"));
+        assertEquals("ftp://[fe80::1%25eth0]/[dir%name]",
+                UriParser.decode("ftp://[fe80::1%25eth0]/[dir%25name]"));
     }
 
     @Test
@@ -90,16 +100,6 @@ public class UriParserTest {
         // A single non-ASCII digit in either nibble is enough to reject: arabic-indic five (U+0665).
         assertThrows(FileSystemException.class, () -> UriParser.decode("%4٥"));
         assertThrows(FileSystemException.class, () -> UriParser.decode("%٥5"));
-    }
-
-    @Test
-    public void testDecodePreservesPercentInsideIPv6Host() throws FileSystemException {
-        assertEquals("ftp://[fe80::1%25eth0]/path",
-                UriParser.decode("ftp://[fe80::1%25eth0]/path"));
-        assertEquals("//[fe80::1%25eth0]/path",
-                UriParser.decode("//[fe80::1%25eth0]/path"));
-        assertEquals("ftp://[fe80::1%25eth0]/[dir%name]",
-                UriParser.decode("ftp://[fe80::1%25eth0]/[dir%25name]"));
     }
 
     @Test
