@@ -91,7 +91,7 @@
     <!-- hadoop.version version 3.5.0 requires Java 17: https://central.sonatype.com/artifact/org.apache.hadoop/hadoop-main/3.5.0 -->
     <hadoop.version>3.4.3</hadoop.version>
     <httpcore5.version>5.4.3</httpcore5.version>
-    <httpclient5.version>5.6.1</httpclient5.version>
+    <httpclient5.version>5.6.4</httpclient5.version>
     <jackrabbit1.version>1.6.5</jackrabbit1.version>
     <mina.sshd.version>3.0.0-M5</mina.sshd.version>
     <!-- Don't use jackrabbit2 2.21.x, it's labeled "unstable". -->
