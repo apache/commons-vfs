@@ -99,7 +99,7 @@
     <jackrabbit2.version>2.20.17</jackrabbit2.version>
     <slf4j.version>2.0.18</slf4j.version>
     <log4j2.version>2.26.1</log4j2.version>
-    <collections4.version>4.5.0</collections4.version>
+    <collections4.version>4.6.0</collections4.version>
     <jsch.version>0.1.55</jsch.version>
     <httpclient3.version>3.1</httpclient3.version>
     <ant.version>1.10.17</ant.version>
