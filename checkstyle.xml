@@ -100,8 +100,8 @@
     <module name="JavadocVariable">
       <property name="accessModifiers" value="protected" />
     </module>
-    <module name="JavadocStyle">
-      <property name="scope" value="public" />
+    <module name="JavadocMethod">
+      <property name="accessModifiers" value="public" />
     </module>
 
     <!-- Checks for Naming Conventions. -->
