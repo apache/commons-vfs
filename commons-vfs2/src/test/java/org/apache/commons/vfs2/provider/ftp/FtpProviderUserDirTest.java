@@ -94,8 +94,9 @@ public class FtpProviderUserDirTest extends ProviderTestSuiteJunit5 {
         }
 
         // Create test directory structure with homeDirIsRoot
-        final File testDir = new File(getTestDirectory());
-        final File rootDir = new File(testDir, "homeDirIsRoot");
+        // Use src/test/resources/test-data as source to avoid copying files modified by permission tests
+        final File testDir = new File("src/test/resources/test-data");
+        final File rootDir = new File(getTestDirectory(), "homeDirIsRoot");
         final File homesDir = new File(rootDir, "home");
         final File initialDir = new File(homesDir, "test");
         FileUtils.deleteDirectory(rootDir);
