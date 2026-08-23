@@ -62,7 +62,6 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
     protected URL createURL(final FileName name) throws IOException {
         if (name instanceof URLFileName) {
             final URLFileName urlName = (URLFileName) getName();
-
             // TODO: charset
             return new URL(urlName.getURIEncoded(null));
         }
@@ -87,9 +86,12 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
     @Override
     protected long doGetContentSize() throws Exception {
         final URLConnection conn = url.openConnection();
-        try (InputStream unused = conn.getInputStream()) {
-            return conn.getContentLength();
+        // Use HEAD for HTTP to avoid downloading body and to avoid Java 8 KeepAliveStream issues
+        if (conn instanceof HttpURLConnection) {
+            ((HttpURLConnection) conn).setRequestMethod("HEAD");
         }
+        conn.connect();
+        return conn.getContentLengthLong();
     }
 
     /**
@@ -97,7 +99,12 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
      */
     @Override
     protected InputStream doGetInputStream(final int bufferSize) throws Exception {
-        return url.openStream();
+        final URLConnection conn = url.openConnection();
+        if (conn instanceof HttpURLConnection) {
+            // Disable keep-alive for Java 8 to avoid Stream closed issues on subsequent metadata calls
+            conn.setRequestProperty("Connection", "close");
+        }
+        return conn.getInputStream();
     }
 
     /**
@@ -106,9 +113,11 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
     @Override
     protected long doGetLastModifiedTime() throws Exception {
         final URLConnection conn = url.openConnection();
-        try (InputStream unused = conn.getInputStream()) {
-            return conn.getLastModified();
+        if (conn instanceof HttpURLConnection) {
+            ((HttpURLConnection) conn).setRequestMethod("HEAD");
         }
+        conn.connect();
+        return conn.getLastModified();
     }
 
     /**
@@ -119,17 +128,20 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
         try {
             // Attempt to connect & check status
             final URLConnection conn = url.openConnection();
-            try (InputStream unused = conn.getInputStream()) {
-                if (conn instanceof HttpURLConnection) {
-                    final int status = ((HttpURLConnection) conn).getResponseCode();
-                    // 200 is good, maybe add more later...
-                    if (HttpURLConnection.HTTP_OK != status) {
-                        return FileType.IMAGINARY;
-                    }
-                }
-
-                return FileType.FILE;
+            if (conn instanceof HttpURLConnection) {
+                ((HttpURLConnection) conn).setRequestMethod("HEAD");
+                // Disable keep-alive for Java 8 to avoid Stream closed issues
+                conn.setRequestProperty("Connection", "close");
             }
+            conn.connect();
+            if (conn instanceof HttpURLConnection) {
+                final int status = ((HttpURLConnection) conn).getResponseCode();
+                // 200 is good, maybe add more later...
+                if (HttpURLConnection.HTTP_OK != status) {
+                    return FileType.IMAGINARY;
+                }
+            }
+            return FileType.FILE;
         } catch (final FileNotFoundException e) {
             return FileType.IMAGINARY;
         }

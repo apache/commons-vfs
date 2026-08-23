@@ -72,6 +72,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="fix" dev="ggregory" due-to="Naveed Khan, Gary Gregory">Reject non-ascii hex digits in UriParser percent-decoding (#774).</action>
       <action type="fix" dev="ggregory" due-to="Naveed Khan, Gary Gregory">Replace the shared vfs_cache temp dir in DefaultFileReplicator (#775).</action>
       <action type="fix" dev="ggregory" due-to="Naveed Khan, Gary Gregory">Fix FtpProviderUserDirTest on Java 8 on Ubuntu (#779).</action>
+      <action type="fix" dev="ggregory" due-to="Naveed Khan, Gary Gregory">Fix UrlFileObject when Java 8's KeepAliveStream reuse causes IOException: Stream closed.</action>
       <!-- ADD -->
       <action type="add" dev="ggregory" due-to="Gary Gregory">Add org.apache.commons.vfs2.provider.ftp.FTPClientWrapper.sendOptions(String, String).</action>
       <action type="add" dev="ggregory" due-to="Gary Gregory">Add FtpFileSystemConfigBuilder.getControlEncodingCharset(FileSystemOptions) and deprecate getControlEncoding(FileSystemOptions).</action>
