@@ -36,6 +36,7 @@ import org.apache.commons.vfs2.VfsLog;
 import org.apache.commons.vfs2.operations.FileOperationProvider;
 import org.apache.commons.vfs2.provider.FileProvider;
 import org.apache.commons.vfs2.util.Messages;
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -249,7 +250,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
      * @throws ParserConfigurationException if an error occurs.
      */
     private DocumentBuilder createDocumentBuilder() throws ParserConfigurationException {
-        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilderFactory factory = SecureDocumentBuilderFactory.newInstance();
         factory.setIgnoringElementContentWhitespace(true);
         factory.setIgnoringComments(true);
         factory.setExpandEntityReferences(true);
