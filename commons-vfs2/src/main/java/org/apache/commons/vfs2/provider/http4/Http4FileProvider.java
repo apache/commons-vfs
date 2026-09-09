@@ -67,7 +67,6 @@ import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.DefaultHostnameVerifier;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustAllStrategy;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.DefaultConnectionReuseStrategy;
 import org.apache.http.impl.NoConnectionReuseStrategy;
@@ -301,10 +300,9 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
             if (keystoreFileObject != null && keystoreFileObject.exists()) {
                 final String keystorePass = builder.getKeyStorePass(fileSystemOptions);
                 final char[] keystorePassChars = keystorePass != null ? keystorePass.toCharArray() : null;
-                sslContextBuilder.loadTrustMaterial(keystoreFileObject, keystorePassChars, TrustAllStrategy.INSTANCE);
-            } else {
-                sslContextBuilder.loadTrustMaterial(TrustAllStrategy.INSTANCE);
+                sslContextBuilder.loadTrustMaterial(keystoreFileObject, keystorePassChars);
             }
+            // Without a keystore, the JVM default trust store applies.
 
             return sslContextBuilder.build();
         } catch (final KeyStoreException e) {
