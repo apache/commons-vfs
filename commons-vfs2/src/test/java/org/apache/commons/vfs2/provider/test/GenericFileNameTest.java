@@ -56,6 +56,11 @@ public class GenericFileNameTest {
         testBadlyFormedUri("ftp://host:90a", "vfs.provider/missing-hostname-path-sep.error");
         testBadlyFormedUri("ftp://host?a", "vfs.provider/missing-hostname-path-sep.error");
 
+        // A '#' ends the authority, it must not be read as part of the user info or the host name
+        testBadlyFormedUri("ftp://host#@other/file", "vfs.provider/missing-hostname-path-sep.error");
+        testBadlyFormedUri("ftp://host#.other/file", "vfs.provider/missing-hostname-path-sep.error");
+        testBadlyFormedUri("ftp://[::1]#@other/file", "vfs.provider/missing-hostname-path-sep.error");
+
         // TODO Improperly accepted malformed uris
         // testBadlyFormedUri("ftp://host[a/file", "malformed uri");
         // testBadlyFormedUri("ftp://host]a/file", "malformed uri");
