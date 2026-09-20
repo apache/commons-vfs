@@ -665,6 +665,13 @@
         </plugins>
       </build>
     </profile>
+    <profile>
+      <id>alpha-beta</id>
+      <properties>
+        <httpcore5.version>5.5-beta2</httpcore5.version>
+        <httpclient5.version>5.7-alpha1</httpclient5.version>
+      </properties>
+    </profile>
   </profiles>
   <developers>
     <developer>
