@@ -88,7 +88,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.mina:mina-core from 2.1.10 to 2.2.9 (#745, #772, #777).</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Bump org.apache.httpcomponents.client5:httpclient5 from 5.4.1 to 5.6.4 #658, #667, #684, #690, #726.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Bump org.apache.httpcomponents.core5:httpcore5 from 5.3.3 to 5.4.3 #673, #719, #722, #769.</action>
-      <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Bump org.slf4j:slf4j-simple from 2.0.16 to 2.0.18 (#671, #778).</action>
+      <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Bump org.slf4j:slf4j-*) from 2.0.16 to 2.0.19, use the BOM POM org.slf4j:slf4j-bom (#671, #770, #778).</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-io:commons-io from 2.18.0 to 2.22.0.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump org.apache.commons:commons-collections4 from 4.5.0-M3 to 4.6.0.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Bump org.apache.logging.log4j:log4j-bom from 2.24.3 to 2.26.1 #694, #725, #749.</action>
@@ -102,7 +102,6 @@ The <action> type attribute can be add,update,fix,remove.
       <action type="update" dev="ggregory" due-to="Gary Gregory">Bump commons-logging:commons-logging from 1.3.5 to 1.4.0.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">Bump org.apache.ant:ant from 1.10.15 to 1.10.18 #760.</action>
       <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">[test] Bump mina.sshd.version from 3.0.0-M3 to 3.0.0-M5 (#768, #776).</action>
-      <action type="update" dev="ggregory" due-to="Gary Gregory, Dependabot">[test] Bump org.slf4j:slf4j-log4j12 from 1.5.11 to 2.0.18 (#770).</action>
     </release>
     <release version="2.10.0" date="2025-02-01" description="This is a feature and maintenance release. Java 8 or later is required.">
       <!-- FIX -->
