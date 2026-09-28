@@ -48,7 +48,9 @@ import org.apache.sshd.server.ExitCallback;
 import org.apache.sshd.server.SshServer;
 import org.apache.sshd.server.auth.UserAuthFactory;
 import org.apache.sshd.server.auth.UserAuthNoneFactory;
+import org.apache.sshd.server.auth.password.UserAuthPasswordFactory;
 import org.apache.sshd.server.auth.pubkey.AcceptAllPublickeyAuthenticator;
+import org.apache.sshd.server.auth.pubkey.UserAuthPublicKeyFactory;
 import org.apache.sshd.server.channel.ChannelSession;
 import org.apache.sshd.server.command.Command;
 import org.apache.sshd.server.command.CommandFactory;
@@ -277,12 +279,14 @@ public final class SftpTestServerHelper {
         server.setCommandFactory(new TestCommandFactory());
         final File homeDir = getTestDirectoryFile();
         server.setFileSystemFactory(new VirtualFileSystemFactory(homeDir.toPath().toAbsolutePath()));
-        server.start();
-        final List<UserAuthFactory> authFactories = new ArrayList<>(server.getUserAuthFactories());
+        final List<UserAuthFactory> authFactories = new ArrayList<>();
+        authFactories.add(UserAuthPasswordFactory.INSTANCE);
+        authFactories.add(UserAuthPublicKeyFactory.INSTANCE);
         authFactories.add(UserAuthNoneFactory.INSTANCE);
         server.setUserAuthFactories(authFactories);
+        server.start();
         final int socketPort = server.getPort();
-        connectionUri = String.format("sftp://%s@localhost:%d", DEFAULT_USER, socketPort);
+        connectionUri = String.format("sftp://%s:%s@localhost:%d", DEFAULT_USER, DEFAULT_USER, socketPort);
     }
 
     /**
