@@ -69,7 +69,6 @@ import org.apache.hc.client5.http.ssl.DefaultHostnameVerifier;
 import org.apache.hc.client5.http.ssl.NoopHostnameVerifier;
 import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
 import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactoryBuilder;
-import org.apache.hc.client5.http.ssl.TrustAllStrategy;
 import org.apache.hc.core5.http.ConnectionReuseStrategy;
 import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.HttpHeaders;
@@ -292,10 +291,9 @@ public class Http5FileProvider extends AbstractOriginatingFileProvider {
             if (keystoreFileObject != null && keystoreFileObject.exists()) {
                 final String keystorePass = builder.getKeyStorePass(fileSystemOptions);
                 final char[] keystorePassChars = keystorePass != null ? keystorePass.toCharArray() : null;
-                sslContextBuilder.loadTrustMaterial(keystoreFileObject, keystorePassChars, TrustAllStrategy.INSTANCE);
-            } else {
-                sslContextBuilder.loadTrustMaterial(TrustAllStrategy.INSTANCE);
+                sslContextBuilder.loadTrustMaterial(keystoreFileObject, keystorePassChars);
             }
+            // Without a keystore, the JVM default trust store applies.
 
             return sslContextBuilder.build();
         } catch (final KeyStoreException e) {
