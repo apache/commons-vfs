@@ -16,6 +16,8 @@
 github:
   description: "Apache Commons VFS"
   homepage: https://commons.apache.org/vfs/
+  autolink_jira:
+    - VFS
   
   pull_requests:
     # allow auto-merge
