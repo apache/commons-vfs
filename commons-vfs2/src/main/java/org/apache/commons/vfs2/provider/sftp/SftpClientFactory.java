@@ -48,22 +48,34 @@ import com.jcraft.jsch.UserInfo;
 public final class SftpClientFactory {
 
     /** Interface JSchLogger with JCL. */
-    private static final class JSchLogger implements Logger {
+    static final class JSchLogger implements Logger {
+
+        private final Log log;
+
+        /**
+         * Constructs a new instance.
+         *
+         * @param log the Commons Logging log to write to.
+         */
+        JSchLogger(final Log log) {
+            this.log = log;
+        }
+
         @Override
         public boolean isEnabled(final int level) {
             switch (level) {
             case FATAL:
-                return LOG.isFatalEnabled();
+                return log.isFatalEnabled();
             case ERROR:
-                return LOG.isErrorEnabled();
+                return log.isErrorEnabled();
             case WARN:
-                return LOG.isDebugEnabled();
+                return log.isWarnEnabled();
             case DEBUG:
-                return LOG.isDebugEnabled();
+                return log.isDebugEnabled();
             case INFO:
-                return LOG.isInfoEnabled();
+                return log.isInfoEnabled();
             default:
-                return LOG.isDebugEnabled();
+                return log.isDebugEnabled();
             }
         }
 
@@ -71,22 +83,22 @@ public final class SftpClientFactory {
         public void log(final int level, final String msg) {
             switch (level) {
             case FATAL:
-                LOG.fatal(msg);
+                log.fatal(msg);
                 break;
             case ERROR:
-                LOG.error(msg);
+                log.error(msg);
                 break;
             case WARN:
-                LOG.warn(msg);
+                log.warn(msg);
                 break;
             case DEBUG:
-                LOG.debug(msg);
+                log.debug(msg);
                 break;
             case INFO:
-                LOG.info(msg);
+                log.info(msg);
                 break;
             default:
-                LOG.debug(msg);
+                log.debug(msg);
             }
         }
     }
@@ -101,7 +113,7 @@ public final class SftpClientFactory {
     private static final Log LOG = LogFactory.getLog(SftpClientFactory.class);
 
     static {
-        JSch.setLogger(new JSchLogger());
+        JSch.setLogger(new JSchLogger(LOG));
     }
 
     private static void addIdentities(final JSch jsch, final File sshDir, final IdentityProvider[] identities)
