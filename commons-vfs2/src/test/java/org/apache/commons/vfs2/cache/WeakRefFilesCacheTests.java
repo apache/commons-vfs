@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for {@link WeakRefFilesCache} used by {@link WeakRefFilesCacheTestCase}.
+ * Tests for {@link WeakRefFilesCache} used by {@link WeakRefFilesCacheTest}.
  */
 public class WeakRefFilesCacheTests extends AbstractFilesCacheTestsBase {
 
