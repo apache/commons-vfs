@@ -414,7 +414,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             // VFS-210: It seems impossible to me that findFiles will return a list with hidden files/directories
             // in it, else it would not be hidden. Checking for the file-type seems ok in this case
             // If the file is a folder, make sure all its children have been deleted
-            if (file.getType().hasChildren() && file.getChildren().length != 0) {
+            if (file.getType().hasChildren() && hasChildren(file)) {
                 // Skip - as the selector forced us not to delete all files
                 continue;
             }
@@ -1798,6 +1798,23 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         } catch (final Exception e) {
             throw new FileSystemException("vfs.provider/resync.error", fileName, e);
         }
+    }
+
+    /**
+     * Tests whether a folder still has children. Children that were deleted through other file objects may not have
+     * updated the cached children of this one, for example with a {@code NullFilesCache} (VFS-714), so cached children
+     * are listed again before the folder is considered not empty.
+     *
+     * @param folder The folder.
+     * @return whether the folder has children.
+     * @throws FileSystemException if an error occurs.
+     */
+    private static boolean hasChildren(final AbstractFileObject<?> folder) throws FileSystemException {
+        if (folder.getChildren().length == 0) {
+            return false;
+        }
+        folder.refresh();
+        return folder.getChildren().length != 0;
     }
 
     private void removeChildrenCache() {

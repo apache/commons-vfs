@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for {@link DefaultFilesCache} used by {@link DefaultFilesCacheTestCase}.
+ * Tests for {@link DefaultFilesCache} used by {@link DefaultFilesCacheTest}.
  */
 public class DefaultFilesCacheTests extends AbstractFilesCacheTestsBase {
 

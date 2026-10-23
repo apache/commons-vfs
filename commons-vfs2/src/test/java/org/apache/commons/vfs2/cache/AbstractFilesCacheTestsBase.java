@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.cache;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -91,4 +92,21 @@ public abstract class AbstractFilesCacheTestsBase extends AbstractProviderTestCa
         assertNotSame(fo1, fo2, "Objects after cache clear should be different");
     }
 
+    /**
+     * Tests that deleting a folder deletes its descendants and the folder itself.
+     *
+     * @see <a href="https://issues.apache.org/jira/browse/VFS-714">VFS-714</a>
+     */
+    @Test
+    public void testDeleteAll() throws Exception {
+        getWriteFolder().resolveFile("vfs714").deleteAll();
+        final FileObject folder = getWriteFolder().resolveFile("vfs714");
+        folder.resolveFile("file1.txt").createFile();
+        folder.resolveFile("subfolder").createFolder();
+        folder.resolveFile("subfolder/file2.txt").createFile();
+
+        // vfs714, file1.txt, subfolder and subfolder/file2.txt
+        assertEquals(4, folder.deleteAll());
+        assertFalse(getWriteFolder().resolveFile("vfs714").exists());
+    }
 }
