@@ -21,7 +21,7 @@ project: Apache Commons VFS
 artifacts: [commons-vfs2, commons-vfs2-ant, commons-vfs2-hdfs, commons-vfs2-jackrabbit1, commons-vfs2-jackrabbit2]
 version_binding: 2.11.0-SNAPSHOT
 commit: 08d2eff08
-status: accepted           # maintainer 2026-10-27; all threat-model.md section 14 questions resolved
+status: accepted           # maintainer 2026-10-27; all maintainer questions resolved
 model_version: 0.1.0
 central_test: jdk-parity   # "report it only if the JDK would not call the same behavior legitimate"
 
@@ -83,7 +83,7 @@ component_families:
     in_model: false
     disposition: "OUT-OF-MODEL: unsupported-component"
 
-entry_points:        # per-parameter trust (threat-model-0.1.0.md section 6)
+entry_points:        # per-parameter trust ("What VFS does not promise" / downstream responsibilities)
   - entry: FileSystemManager.resolveFile(uri)
     parameter: uri-string
     attacker_controllable: false        # trusted configuration
@@ -113,7 +113,7 @@ entry_points:        # per-parameter trust (threat-model-0.1.0.md section 6)
     attacker_controllable: true         # server chooses
     caller_must_enforce: keep validating default
 
-config_knobs:        # section 5a
+config_knobs:        # security-relevant configuration
   - knob: StrictHostKeyChecking
     component: sftp
     default: "no"
@@ -149,7 +149,7 @@ config_knobs:        # section 5a
     security_relevant: true
     effect: trailing-separator handling in checkName (name-confinement correctness)
 
-properties_provided:     # section 8
+properties_provided:     # "What VFS itself promises"
   - id: namescope-confinement
     property: CHILD/DESCENDENT/DESCENDENT_OR_SELF keep a resolved name within the subtree
     violation_symptom: resolved FileObject escapes the base subtree (path traversal)
@@ -194,7 +194,7 @@ resource_policy:
     or OOM on a crafted archive or a slow/endless server is BY-DESIGN, not a
     violated property. The caller caps size and time.
 
-properties_not_provided:   # section 9 (disclaimed)
+properties_not_provided:   # "What VFS does not promise" (disclaimed)
   - cwe: CWE-22
     topic: path traversal on extraction (zip-slip)
     note: VFS normalizes names in its own namespace; destination checks on extraction to disk are the host's
@@ -217,7 +217,7 @@ false_friends:
   - ram-res-tmp-virtual-filesystems   # not isolation boundaries
   - namescope-child-descendent        # name helper, not a defense against a lying backend
 
-known_non_findings:        # section 11a -- suppression list
+known_non_findings:        # recurring false positives -- suppression list
   - id: nf-ssrf-lfi
     pattern: resolveFile connects to attacker-specified host or reads arbitrary local file
     disposition: "OUT-OF-MODEL: jdk-parity"
@@ -247,7 +247,7 @@ known_non_findings:        # section 11a -- suppression list
     pattern: SFTP accepts an unknown host key with the default configuration
     disposition: "OUT-OF-MODEL: non-default-build"   # maintainer 2026-10-27: host-key check is opt-in (StrictHostKeyChecking); default is developer-only; hardening proposed
 
-dispositions:             # section 13 -- closed set
+dispositions:             # triage -- closed set (from the family model)
   - {label: "VALID", licensed_by: [properties_provided, entry_points, adversary_model]}
   - {label: "VALID-HARDENING", licensed_by: [known_misuse_patterns]}
   - {label: "OUT-OF-MODEL: trusted-input", licensed_by: [entry_points, out_of_scope]}
