@@ -1,0 +1,271 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#      https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# Machine-readable companion to threat-model-0.1.0.md. DERIVED INDEX for tooling and
+# automated/AI triage; the prose document is canonical. Regenerate when the
+# prose changes.
+
+project: Apache Commons VFS
+artifacts: [commons-vfs2, commons-vfs2-ant, commons-vfs2-hdfs, commons-vfs2-jackrabbit1, commons-vfs2-jackrabbit2]
+version_binding: 2.11.0-SNAPSHOT
+commit: 08d2eff08
+status: accepted           # maintainer 2026-10-27; all threat-model.md section 14 questions resolved
+model_version: 0.1.0
+central_test: jdk-parity   # "report it only if the JDK would not call the same behavior legitimate"
+
+support_tiers:             # maintainer 2026-10-27 (Q-meta-1)
+  first_class: [file, ftp, ftps, sftp, http4, http4s, http5, http5s, zip, jar, tar, tgz, tbz2, gz, bz2, ram, res, tmp, url]
+  legacy_supported: [http, https, webdav]    # http/https superseded by http4/http5; webdav (jackrabbit1) by webdav4
+  optional_modules: [hdfs, webdav, webdav4]  # commons-vfs2-hdfs; jackrabbit1/2
+  in_model_note: a report against a legacy provider stays in-model unless marked deprecated/out
+
+component_families:
+  - name: core-api-and-name-resolution
+    representative: [FileSystemManager, VFS, FileObject, FileName, NameScope, UriParser, AbstractFileName]
+    touches_outside_process: false
+    in_model: true
+    note: the only family with VFS-authored security promises (name confinement, credential masking)
+  - name: local
+    representative: [file]
+    touches_outside_process: filesystem
+    in_model: true
+  - name: remote-network
+    representative: [ftp, ftps, sftp, http, https, http4, http4s, http5, http5s]
+    touches_outside_process: network
+    in_model: true
+    backend_bugs: upstream
+  - name: webdav
+    representative: [webdav, webdav4, webdav4s]
+    touches_outside_process: network
+    in_model: true
+    modules: [commons-vfs2-jackrabbit1, commons-vfs2-jackrabbit2]
+  - name: hdfs
+    representative: [hdfs]
+    touches_outside_process: network
+    in_model: true
+    backend_bugs: upstream
+  - name: archive-layered
+    representative: [zip, jar, tar, tgz, tbz2, gz, bz2]
+    touches_outside_process: false
+    in_model: true
+    note: highest untrusted-input surface (archive bytes and entry names)
+  - name: in-process
+    representative: [ram, res, tmp, url]
+    touches_outside_process: partial   # url inherits JDK-parity
+    in_model: true
+  - name: ant-tasks
+    representative: [commons-vfs2-ant]
+    touches_outside_process: per-task
+    in_model: true
+    trust: build-time
+  - name: examples
+    representative: [commons-vfs2-examples]
+    in_model: false
+    disposition: "OUT-OF-MODEL: unsupported-component"
+  - name: sandbox
+    representative: [smb, mime]
+    in_model: false
+    disposition: "OUT-OF-MODEL: unsupported-component"
+    note: ships under artifact commons-vfs2-sandbox (component id vfs-sandbox)
+  - name: tests
+    in_model: false
+    disposition: "OUT-OF-MODEL: unsupported-component"
+
+entry_points:        # per-parameter trust (threat-model-0.1.0.md section 6)
+  - entry: FileSystemManager.resolveFile(uri)
+    parameter: uri-string
+    attacker_controllable: false        # trusted configuration
+    caller_must_enforce: allow-list scheme/host/path if any part is untrusted
+  - entry: FileObject.resolveFile(name, scope)
+    parameter: relative-name + NameScope
+    attacker_controllable: when-used-as-containment-boundary
+    caller_must_enforce: rely on CHILD/DESCENDENT; VFS enforces the scope
+  - entry: FileContent.getInputStream
+    parameter: backend-bytes
+    attacker_controllable: true
+    caller_must_enforce: treat as untrusted; bound size and time
+  - entry: archive-providers
+    parameter: archive-bytes, entry-names, sizes, counts, nesting
+    attacker_controllable: true
+    caller_must_enforce: cap entries/size/depth; verify extraction destination
+  - entry: StaticUserAuthenticator / URI userinfo
+    parameter: credentials
+    attacker_controllable: false        # trusted configuration
+    caller_must_enforce: keep out of logs; avoid secrets in URIs
+  - entry: sftp-handshake
+    parameter: server-host-key
+    attacker_controllable: true         # server chooses
+    caller_must_enforce: set StrictHostKeyChecking + known-hosts
+  - entry: ftps-https-handshake
+    parameter: server-certificate
+    attacker_controllable: true         # server chooses
+    caller_must_enforce: keep validating default
+
+config_knobs:        # section 5a
+  - knob: StrictHostKeyChecking
+    component: sftp
+    default: "no"
+    security_relevant: true
+    secure_default: false               # INSECURE DEFAULT -- see open question Q5.2
+    effect: host key unverified -> SFTP MITM possible until caller sets yes/ask
+    source: SftpFileSystemConfigBuilder.java:422
+    maintainer_ruling: dev-only            # maintainer 2026-10-27
+    report_vs_default: "OUT-OF-MODEL: non-default-build"
+    hardening_proposed: "VFS-867: change default to ask/yes"
+  - knob: TrustManager
+    component: ftps
+    default: getValidateServerCertificateTrustManager
+    security_relevant: true
+    secure_default: true
+    effect: FTPS validates server cert by default; override is non-default-build
+    source: FtpsFileSystemConfigBuilder.java:120
+  - knob: httpclient-defaults
+    component: [http4, http5, webdav]
+    default: library-defaults
+    security_relevant: true
+    secure_default: true                # verification on; inferred (Q5.1)
+    effect: redirect-following and hostname verification per HttpClient version
+  - knob: Cryptor / encrypted URI password
+    component: core-util
+    default: off; built-in non-secret key
+    security_relevant: true
+    secure_default: n/a
+    effect: obfuscation, not confidentiality (false friend)
+  - knob: VFS.isUriStyle
+    component: core
+    default: provider-dependent
+    security_relevant: true
+    effect: trailing-separator handling in checkName (name-confinement correctness)
+
+properties_provided:     # section 8
+  - id: namescope-confinement
+    property: CHILD/DESCENDENT/DESCENDENT_OR_SELF keep a resolved name within the subtree
+    violation_symptom: resolved FileObject escapes the base subtree (path traversal)
+    severity: security-critical
+    provenance: documented
+    source: [NameScope.java, AbstractFileName.java:53]
+    broken_by_cve: CVE-2025-27553
+  - id: credential-masking
+    property: URI password shown as *** in VFS exception messages and getFriendlyURI()
+    violation_symptom: cleartext URI password in a VFS-produced diagnostic
+    severity: security-critical
+    provenance: documented
+    source: [FileSystemException.java:172, GenericFileName.java:66]
+    note: getURI() returns the real password by design (round-trippable)
+    broken_by_cve: CVE-2025-30474
+  - id: path-normalization
+    property: UriParser.normalisePath collapses . and .. deterministically
+    violation_symptom: uncollapsed .. feeding a confinement bypass
+    severity: correctness-security-relevant
+    provenance: documented
+    source: UriParser.java:523
+  - id: ftps-cert-validation-default
+    property: FTPS validates the server certificate by default
+    violation_symptom: connection completes against an invalid cert with defaults
+    severity: security-relevant-default
+    provenance: documented
+    source: FtpsFileSystemConfigBuilder.java:120
+  - id: memory-safety
+    property: pure-Java core cannot cause OOB access
+    severity: baseline
+    provenance: inferred
+  - id: content-fidelity
+    property: bytes read/written/copied are unaltered
+    severity: correctness-only
+    provenance: inferred
+
+resource_policy:
+  guarantee: none
+  statement: >
+    VFS makes no resource bound against adversarial input: no cap on uncompressed
+    archive size, entry count, nesting depth, listing size, or wall-clock. A hang
+    or OOM on a crafted archive or a slow/endless server is BY-DESIGN, not a
+    violated property. The caller caps size and time.
+
+properties_not_provided:   # section 9 (disclaimed)
+  - cwe: CWE-22
+    topic: path traversal on extraction (zip-slip)
+    note: VFS normalizes names in its own namespace; destination checks on extraction to disk are the host's
+  - cwe: CWE-918
+    topic: SSRF and local file disclosure via caller-supplied URI
+    note: resolving/following a URI is jdk-parity; VFS is not an allow-list
+  - cwe: CWE-400/CWE-409
+    topic: resource exhaustion (archive bombs, hostile/slow servers)
+  - cwe: CWE-300
+    topic: SFTP MITM under default StrictHostKeyChecking=no
+  - cwe: CWE-502
+    topic: deserialization of untrusted data (VFS is not a deserialization sink)
+  - cwe: CWE-345
+    topic: no authentication/integrity of fetched content
+  - topic: symlink following on local FS (jdk-parity, not a jail)
+
+false_friends:
+  - uri-password-encryption-Cryptor   # built-in key: obfuscation not confidentiality
+  - password-masking                  # diagnostic hygiene, not access control
+  - ram-res-tmp-virtual-filesystems   # not isolation boundaries
+  - namescope-child-descendent        # name helper, not a defense against a lying backend
+
+known_non_findings:        # section 11a -- suppression list
+  - id: nf-ssrf-lfi
+    pattern: resolveFile connects to attacker-specified host or reads arbitrary local file
+    disposition: "OUT-OF-MODEL: jdk-parity"
+  - id: nf-redirect
+    pattern: HTTP provider follows a redirect to another host
+    disposition: "OUT-OF-MODEL: jdk-parity"
+  - id: nf-archive-bomb
+    pattern: zip/tar provider OOMs or hangs on a crafted archive
+    disposition: "BY-DESIGN: property-disclaimed"
+  - id: nf-serializable-gadget
+    pattern: FileSystemException/FileName is Serializable therefore a deserialization gadget
+    disposition: "OUT-OF-MODEL: adversary-not-in-scope"
+  - id: nf-geturi-password
+    pattern: FileName.getURI() returns a cleartext password
+    disposition: "BY-DESIGN: property-disclaimed"
+    caveat: a leak via VFS's own exception/friendly-URI path is VALID (property namescope credential-masking)
+  - id: nf-non-crypto-primitive
+    pattern: non-constant-time comparison / non-crypto hash / non-CSPRNG
+    disposition: "BY-DESIGN: property-disclaimed"
+  - id: nf-unsupported-component
+    pattern: insecure code in examples / sandbox / tests
+    disposition: "OUT-OF-MODEL: unsupported-component"
+  - id: nf-tls-rejects-selfsigned
+    pattern: FTPS/HTTPS fails against a self-signed certificate
+    disposition: not-a-finding   # validating default working as intended
+  - id: sftp-unknown-hostkey-default
+    pattern: SFTP accepts an unknown host key with the default configuration
+    disposition: "OUT-OF-MODEL: non-default-build"   # maintainer 2026-10-27: host-key check is opt-in (StrictHostKeyChecking); default is developer-only; hardening proposed
+
+dispositions:             # section 13 -- closed set
+  - {label: "VALID", licensed_by: [properties_provided, entry_points, adversary_model]}
+  - {label: "VALID-HARDENING", licensed_by: [known_misuse_patterns]}
+  - {label: "OUT-OF-MODEL: trusted-input", licensed_by: [entry_points, out_of_scope]}
+  - {label: "OUT-OF-MODEL: adversary-not-in-scope", licensed_by: [adversary_model]}
+  - {label: "OUT-OF-MODEL: jdk-parity", licensed_by: [scope, known_non_findings]}
+  - {label: "OUT-OF-MODEL: unsupported-component", licensed_by: [out_of_scope]}
+  - {label: "OUT-OF-MODEL: non-default-build", licensed_by: [config_knobs]}
+  - {label: "OUT-OF-MODEL: upstream", licensed_by: [memory-safety, out_of_scope]}
+  - {label: "BY-DESIGN: property-disclaimed", licensed_by: [properties_not_provided, false_friends]}
+  - {label: "KNOWN-NON-FINDING", licensed_by: [known_non_findings]}
+  - {label: "MODEL-GAP", licensed_by: [conditions_that_change_the_model]}
+
+cves:
+  - id: CVE-2025-27553
+    class: CWE-22
+    broke: namescope-confinement
+    fixed_in: 2.10.0
+  - id: CVE-2025-30474
+    class: credential-disclosure
+    broke: credential-masking
+    fixed_in: 2.10.0
