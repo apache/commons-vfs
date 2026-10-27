@@ -25,11 +25,10 @@ status: accepted           # maintainer 2026-10-27; all maintainer questions res
 model_version: 0.1.0
 central_test: jdk-parity   # "report it only if the JDK would not call the same behavior legitimate"
 
-support_tiers:             # maintainer 2026-10-27 (Q-meta-1)
-  first_class: [file, ftp, ftps, sftp, http4, http4s, http5, http5s, zip, jar, tar, tgz, tbz2, gz, bz2, ram, res, tmp, url]
-  legacy_supported: [http, https, webdav]    # http/https superseded by http4/http5; webdav (jackrabbit1) by webdav4
-  optional_modules: [hdfs, webdav, webdav4]  # commons-vfs2-hdfs; jackrabbit1/2
-  in_model_note: a report against a legacy provider stays in-model unless marked deprecated/out
+support_tiers:             # maintainer 2026-10-27
+  core: [file, ftp, ftps, sftp, http, https, http4, http4s, http5, http5s, zip, jar, tar, tgz, tbz2, gz, bz2, ram, res, tmp, url]
+  separate_modules: [hdfs, webdav, webdav4, webdav4s]   # commons-vfs2-hdfs; jackrabbit1 (webdav); jackrabbit2 (webdav4/webdav4s)
+  in_model_note: all supported providers (core and modules) are in model
 
 component_families:
   - name: core-api-and-name-resolution
