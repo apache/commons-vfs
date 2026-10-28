@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 
 import com.jcraft.jsch.ChannelExec;
@@ -49,6 +50,29 @@ public class SftpStreamProxy implements Proxy {
      * Command format using netcat command.
      */
     public static final String NETCAT_COMMAND = "nc -q 0 %s %d";
+
+    /**
+     * Characters, besides letters and digits, found in a host name or an IP address literal.
+     */
+    private static final String HOST_NAME_CHARS = "-._:%[]";
+
+    /**
+     * Checks that the shell on the proxy host reads the target host as one word of the command and not as an option. The target host comes from the file
+     * URI, which does not limit it to the characters of a host name.
+     *
+     * @param targetHost The target host name.
+     * @throws FileSystemException if the target host is not a host name or an IP address literal.
+     */
+    private static void checkTargetHost(final String targetHost) throws FileSystemException {
+        boolean valid = !targetHost.isEmpty() && targetHost.charAt(0) != '-';
+        for (int i = 0; valid && i < targetHost.length(); i++) {
+            final char ch = targetHost.charAt(i);
+            valid = Character.isLetterOrDigit(ch) || HOST_NAME_CHARS.indexOf(ch) >= 0;
+        }
+        if (!valid) {
+            throw new FileSystemException("vfs.provider.sftp/proxy-target-host.error", targetHost);
+        }
+    }
 
     private ChannelExec channel;
 
@@ -135,6 +159,7 @@ public class SftpStreamProxy implements Proxy {
     @Override
     public void connect(final SocketFactory socketFactory, final String targetHost, final int targetPort,
             final int timeout) throws Exception {
+        checkTargetHost(targetHost);
         session = SftpClientFactory.createConnection(proxyHost, proxyPort, proxyUser.toCharArray(),
                 proxyPassword.toCharArray(), proxyOptions);
         channel = (ChannelExec) session.openChannel("exec");
