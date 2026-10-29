@@ -27,13 +27,10 @@ HDFS, archive, and in-process schemes). The URI and `FileSystemOptions` are
 trusted configuration: connecting to or reading whatever a URI names is doing
 what the caller asked, not a vulnerability.
 
-VFS guarantees two things of its own, and a break of either is a valid finding:
-`NameScope` subtree confinement (a name resolved with `CHILD` or `DESCENDENT`
-cannot escape its base folder) and the masking of URI passwords in the
-diagnostics VFS itself produces (such as `getFriendlyURI()`). Everything else is
-triaged against the family model.
+VFS guarantees one thing of its own: `NameScope` subtree confinement — a name
+resolved with `CHILD` or `DESCENDENT` cannot escape its base folder. A break of
+that is a valid finding; everything else triages against the family model.
 
-VFS adds no resource bounds (archive bombs and slow servers are the caller's
-problem), no zip-slip defense when a host writes archive entries to disk, and no
-sandbox around untrusted URIs (SSRF/LFI is the host's own choice). The SFTP
-provider leaves `StrictHostKeyChecking` off by default.
+VFS adds no resource bounds, no zip-slip defense when a host writes archive
+entries to disk, and no sandbox around untrusted URIs (SSRF/LFI is the host's
+own choice).
