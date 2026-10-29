@@ -46,13 +46,10 @@
     </section>
     <section name="Threat Model">
       <p>
-        The <a href="threat-model-0.1.0.html">Apache Commons VFS Threat Model</a> describes the implicit
-        security contract between Commons VFS and the applications that embed it: what the library assumes
-        about its caller and inputs, the security properties it provides and those it deliberately does not,
-        and how inbound vulnerability reports, scanner output, and AI-generated findings are triaged against
-        that model. It is a VFS-specific amendment to the Apache Commons family threat model; see
-        <a href="https://commons.apache.org/security.html">Apache Commons Security</a> for the
-        foundation-wide security policy.
+        The <a href="threat-model-0.1.0.html">Apache Commons VFS Threat Model</a> is a
+        VFS-specific amendment to the Apache Commons family threat model; see
+        <a href="https://commons.apache.org/security.html">Apache Commons Security</a>
+        for the foundation-wide security policy.
       </p>
     </section>
     <section name="Security Vulnerabilities">
