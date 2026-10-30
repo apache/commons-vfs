@@ -105,6 +105,7 @@ public class JunctionTests extends AbstractProviderTestCase {
     /**
      * Checks that change events from delegated files are fired.
      */
+    @Test
     public void testEvent() throws Exception {
         // we use the VirtualFileSystem to check change event propagation of DecoratedFileObject
         final FileSystem fs = getManager().createVirtualFileSystem("vfs://").getFileSystem();
