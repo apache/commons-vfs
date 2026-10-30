@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.provider.AbstractRandomAccessStreamContent;
 import org.apache.commons.vfs2.util.MonitorInputStream;
@@ -81,10 +82,23 @@ final class HttpRandomAccessContent<FS extends HttpFileSystem> extends AbstractR
         monitorInputStream = new HttpFileObject.HttpInputStream(getMethod);
         // If the range request was ignored
         if (status == HttpURLConnection.HTTP_OK) {
-            final long skipped = monitorInputStream.skip(filePointer);
-            if (skipped != filePointer) {
-                throw new FileSystemException("vfs.provider.http/get-range.error", fileObject.getName(),
-                        Long.valueOf(filePointer), Integer.valueOf(status));
+            try {
+                final long skipped = IOUtils.skip(monitorInputStream, filePointer);
+                if (skipped != filePointer) {
+                    throw new FileSystemException("vfs.provider.http/get-range.error", fileObject.getName(),
+                            Long.valueOf(filePointer), Integer.valueOf(status));
+                }
+            } catch (final IOException e) {
+                try {
+                    IOUtils.closeQuietly(monitorInputStream, closeException -> {
+                        if (closeException != e) {
+                            e.addSuppressed(closeException);
+                        }
+                    });
+                } finally {
+                    monitorInputStream = null;
+                }
+                throw e;
             }
         }
         dataInputStream = new DataInputStream(new FilterInputStream(monitorInputStream) {
