@@ -14,9 +14,11 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --->
-# Apache Commons VFS Threat Model
+# Apache Commons VFS Threat Model version 2.11.0
 
-This is a VFS-specific amendment to the
+This model applies to Commons VFS 2.11.0 and later; the version in its file name
+is that VFS release, not the umbrella model's `0.1.0`. It is a VFS-specific
+amendment to the
 [Apache Commons Threat Model v0.1.0](https://commons.apache.org/threat-model-0.1.0.html),
 which governs everything not stated here; report findings per the
 [Apache Commons security process](https://commons.apache.org/security.html).

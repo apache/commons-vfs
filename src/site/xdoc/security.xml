@@ -46,7 +46,7 @@
     </section>
     <section name="Threat Model">
       <p>
-        The <a href="threat-model-0.1.0.html">Apache Commons VFS Threat Model</a> is a
+        The <a href="threat-model-2.11.0.html">Apache Commons VFS Threat Model</a> is a
         VFS-specific amendment to the Apache Commons family threat model; see
         <a href="https://commons.apache.org/security.html">Apache Commons Security</a>
         for the foundation-wide security policy.
