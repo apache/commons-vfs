@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 /**
  * File system test that do some delete operations.
  */
-public class ProviderDeleteTests extends AbstractProviderTestCase {
+public class ProviderDeleteTests extends AbstractProviderTest {
 
     private static class FileNameSelector implements FileSelector {
         final String baseName;

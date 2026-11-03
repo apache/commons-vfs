@@ -32,7 +32,7 @@ import com.jcraft.jsch.TestIdentityRepositoryFactory;
 /**
  * JUnit 5 tests for the SFTP file system provider.
  * <p>
- * This class replaces {@code SftpProviderTestCase} with a pure JUnit 5 implementation.
+ * Uses JUnit 5.
  * Uses an embedded Apache SSHd server for testing.
  * </p>
  */

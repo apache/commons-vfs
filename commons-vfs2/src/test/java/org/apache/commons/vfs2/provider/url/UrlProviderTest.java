@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 /**
  * JUnit 5 test cases for the generic URL provider.
  * <p>
- * This class replaces {@link UrlProviderTestCase} with a pure JUnit 5 implementation.
+ * Uses JUnit 5.
  * </p>
  */
 public class UrlProviderTest extends ProviderTestSuiteJunit5 {

@@ -26,13 +26,13 @@ import org.junit.jupiter.api.TestInstance;
 public class WebdavProviderTest extends ProviderTestSuiteJunit5 {
 
     public WebdavProviderTest() throws Exception {
-        super(new WebdavProviderTestCase(), "", false);
+        super(new WebdavProviderConfigTest(), "", false);
     }
 
     @Override
     protected void addBaseTests() throws Exception {
         super.addBaseTests();
-        addTests(WebdavProviderTestCase.class);
+        addTests(WebdavProviderConfigTest.class);
         // WebDAV underlying implementation doesn't support link-local IPv6 url (but WebDAV4 does)
         // if (getSystemTestUriOverride() == null) {
         //    addTests(IPv6LocalConnectionTests.class);
@@ -41,15 +41,15 @@ public class WebdavProviderTest extends ProviderTestSuiteJunit5 {
 
     @Override
     protected void setUp() throws Exception {
-        if (WebdavProviderTestCase.getSystemTestUriOverride() == null) {
-            WebdavProviderTestCase.setUpClass();
+        if (WebdavProviderConfigTest.getSystemTestUriOverride() == null) {
+            WebdavProviderConfigTest.setUpClass();
         }
         super.setUp();
     }
 
     @Override
     protected void tearDown() throws Exception {
-        WebdavProviderTestCase.tearDownClass();
+        WebdavProviderConfigTest.tearDownClass();
         super.tearDown();
     }
 }

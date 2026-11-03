@@ -25,7 +25,7 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 /**
  * A partial {@link org.apache.commons.vfs2.ProviderTestConfig} implementation.
  */
-public abstract class AbstractProviderTestConfig extends AbstractProviderTestCase implements ProviderTestConfig {
+public abstract class AbstractProviderTestConfig extends AbstractProviderTest implements ProviderTestConfig {
 
     public static final String MIME_TYPE_APPLICATION_OCTET_STREAM = "application/octet-stream";
 

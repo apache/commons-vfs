@@ -362,7 +362,7 @@
             <configuration>
               <excludes>
                 <exclude>**/HdfsFileProviderTest.java</exclude>
-                <exclude>**/HdfsFileProviderTestCase.java</exclude>
+                <exclude>**/HdfsFileProviderConfigTest.java</exclude>
                 <!-- *Tests.java files are test implementations designed to be run via test suites -->
                 <exclude>**/*Tests.java</exclude>
               </excludes>

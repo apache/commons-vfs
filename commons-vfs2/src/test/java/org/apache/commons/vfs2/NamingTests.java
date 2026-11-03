@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
  * TODO - Add tests for all FileName methods.
  * </p>
  */
-public class NamingTests extends AbstractProviderTestCase {
+public class NamingTests extends AbstractProviderTest {
 
     /**
      * Asserts that a particular relative name is invalid for a particular scope.

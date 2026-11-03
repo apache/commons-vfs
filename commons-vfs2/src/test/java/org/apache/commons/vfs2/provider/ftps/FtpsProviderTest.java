@@ -42,7 +42,7 @@ public class FtpsProviderTest {
     class ExplicitMode extends ProviderTestSuiteJunit5 {
 
         public ExplicitMode() throws Exception {
-            super(new FtpsProviderExplicitTestCase(), "", false);
+            super(new FtpsProviderExplicitTest(), "", false);
         }
 
         @Override
@@ -57,9 +57,9 @@ public class FtpsProviderTest {
 
         @BeforeAll
         void setUpServer() throws Exception {
-            if (FtpsProviderExplicitTestCase.getSystemTestUriOverride() == null) {
+            if (FtpsProviderExplicitTest.getSystemTestUriOverride() == null) {
                 try {
-                    FtpsProviderExplicitTestCase.setUpClass(false); // explicit mode
+                    FtpsProviderExplicitTest.setUpClass(false); // explicit mode
                 } catch (final FtpException e) {
                     // Server failed to start - abort all tests in this class
                     throw new TestAbortedException("FTP server failed to start: " + e.getMessage(), e);
@@ -72,7 +72,7 @@ public class FtpsProviderTest {
             try {
                 tearDown();
             } finally {
-                FtpsProviderExplicitTestCase.tearDownClass();
+                FtpsProviderExplicitTest.tearDownClass();
             }
         }
     }
@@ -90,7 +90,7 @@ public class FtpsProviderTest {
     class ImplicitMode extends ProviderTestSuiteJunit5 {
 
         public ImplicitMode() throws Exception {
-            super(new FtpsProviderImplicitTestCase(), "", false);
+            super(new FtpsProviderImplicitTest(), "", false);
         }
 
         @Override
@@ -105,9 +105,9 @@ public class FtpsProviderTest {
 
         @BeforeAll
         void setUpServer() throws Exception {
-            if (FtpsProviderImplicitTestCase.getSystemTestUriOverride() == null) {
+            if (FtpsProviderImplicitTest.getSystemTestUriOverride() == null) {
                 try {
-                    FtpsProviderImplicitTestCase.setUpClass(true); // implicit mode
+                    FtpsProviderImplicitTest.setUpClass(true); // implicit mode
                 } catch (final FtpException e) {
                     // Server failed to start - abort all tests in this class
                     throw new TestAbortedException("FTP server failed to start: " + e.getMessage(), e);
@@ -120,7 +120,7 @@ public class FtpsProviderTest {
             try {
                 tearDown();
             } finally {
-                FtpsProviderImplicitTestCase.tearDownClass();
+                FtpsProviderImplicitTest.tearDownClass();
             }
         }
     }

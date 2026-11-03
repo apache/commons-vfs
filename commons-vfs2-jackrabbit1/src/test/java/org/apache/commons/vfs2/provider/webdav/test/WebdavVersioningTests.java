@@ -25,7 +25,7 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-import org.apache.commons.vfs2.AbstractProviderTestCase;
+import org.apache.commons.vfs2.AbstractProviderTest;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.FileType;
@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Test to verify WebDAV Versioning support
  */
-public class WebdavVersioningTests extends AbstractProviderTestCase {
+public class WebdavVersioningTests extends AbstractProviderTest {
 
     /**
      * Sets up a scratch folder for the test to use.

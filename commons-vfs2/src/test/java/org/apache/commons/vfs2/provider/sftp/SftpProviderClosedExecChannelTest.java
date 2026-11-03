@@ -32,7 +32,7 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 /**
  * JUnit 5 tests for SFTP provider with closed exec channel.
  * <p>
- * This class replaces {@code SftpProviderClosedExecChannelTestCase} with a pure JUnit 5 implementation.
+ * Uses JUnit 5.
  * </p>
  */
 public class SftpProviderClosedExecChannelTest extends ProviderTestSuiteJunit5 {

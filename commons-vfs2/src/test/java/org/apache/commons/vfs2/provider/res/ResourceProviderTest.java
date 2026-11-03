@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.provider.url.UrlFileProvider;
 /**
  * JUnit 5 test cases for the resource provider.
  * <p>
- * This class replaces {@link ResourceProviderTestCase} with a pure JUnit 5 implementation.
+ * Uses JUnit 5.
  * </p>
  */
 public class ResourceProviderTest extends ProviderTestSuiteJunit5 {

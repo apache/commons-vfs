@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 /**
  * File system test that check that a file system can be renamed.
  */
-public class ProviderRenameTests extends AbstractProviderTestCase {
+public class ProviderRenameTests extends AbstractProviderTest {
 
     /**
      * Sets up a scratch folder for the test to use.

@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 /**
  * File system test that check that a file system can be modified.
  */
-public class ProviderWriteAppendTests extends AbstractProviderTestCase {
+public class ProviderWriteAppendTests extends AbstractProviderTest {
 
     /**
      * Sets up a scratch folder for the test to use.

@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Assertions;
 /**
  * Tests for the SMB file system.
  */
-public class SmbProviderTestCase extends AbstractProviderTestConfig implements ProviderTestConfig {
+public class SmbProviderConfigTest extends AbstractProviderTestConfig implements ProviderTestConfig {
 
     private static final String TEST_URI = "test.smb.uri";
 

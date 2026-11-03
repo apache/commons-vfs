@@ -44,7 +44,7 @@ import org.apache.ftpserver.usermanager.impl.BaseUser;
 /**
  * Abstract tests for FTP file systems.
  */
-abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
+abstract class AbstractFtpsProviderTest extends AbstractProviderTestConfig {
 
     private static final String LISTENER_NAME = "default";
 

@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import org.apache.commons.vfs2.AbstractProviderTestCase;
+import org.apache.commons.vfs2.AbstractProviderTest;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
  * <p>
  * Only executed on Windows.
  */
-public class WindowsFileNameTests extends AbstractProviderTestCase {
+public class WindowsFileNameTests extends AbstractProviderTest {
 
     @Test
     public void testWindowsFileNameParserError() {

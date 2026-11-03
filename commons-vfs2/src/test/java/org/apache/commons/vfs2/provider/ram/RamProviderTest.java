@@ -36,7 +36,7 @@ import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
 /**
  * JUnit 5 tests for the RAM file system.
  * <p>
- * This class replaces {@link RamProviderTestCase} with a pure JUnit 5 implementation.
+ * Uses JUnit 5.
  * </p>
  */
 public class RamProviderTest extends ProviderTestSuiteJunit5 {

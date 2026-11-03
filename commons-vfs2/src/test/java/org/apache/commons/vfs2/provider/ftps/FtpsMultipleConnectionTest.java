@@ -36,7 +36,7 @@ public class FtpsMultipleConnectionTest {
     @BeforeAll
     public static void setUpClass() {
         try {
-            AbstractFtpsProviderTestCase.setUpClass(true);
+            AbstractFtpsProviderTest.setUpClass(true);
             serverStarted = true;
         } catch (final FtpException e) {
             // Server failed to start - tests will be skipped
@@ -46,7 +46,7 @@ public class FtpsMultipleConnectionTest {
 
     @AfterAll
     public static void tearDownClass() {
-        AbstractFtpsProviderTestCase.tearDownClass();
+        AbstractFtpsProviderTest.tearDownClass();
     }
 
     private FTPSClient init(final FTPSClient client) {
@@ -55,8 +55,8 @@ public class FtpsMultipleConnectionTest {
     }
 
     private FileObject resolveRoot() throws FileSystemException {
-        return VFS.getManager().resolveFile(AbstractFtpsProviderTestCase.getConnectionUri(),
-                new FtpsProviderImplicitTestCase().getFileSystemOptions());
+        return VFS.getManager().resolveFile(AbstractFtpsProviderTest.getConnectionUri(),
+                new FtpsProviderImplicitTest().getFileSystemOptions());
     }
 
     @Test
@@ -73,8 +73,8 @@ public class FtpsMultipleConnectionTest {
         final FTPSClient client2 = init(new FTPSClient(true));
         try {
             final String hostname = "localhost";
-            client1.connect(hostname, AbstractFtpsProviderTestCase.getSocketPort());
-            client2.connect(hostname, AbstractFtpsProviderTestCase.getSocketPort());
+            client1.connect(hostname, AbstractFtpsProviderTest.getSocketPort());
+            client2.connect(hostname, AbstractFtpsProviderTest.getSocketPort());
         } finally {
             if (client1 != null) {
                 client1.disconnect();

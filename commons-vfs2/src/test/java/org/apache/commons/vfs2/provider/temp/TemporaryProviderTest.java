@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 /**
  * JUnit 5 test cases for the tmp: file provider.
  * <p>
- * This class replaces {@link TemporaryProviderTestCase} with a pure JUnit 5 implementation.
+ * Uses JUnit 5.
  * </p>
  */
 public class TemporaryProviderTest extends ProviderTestSuiteJunit5 {

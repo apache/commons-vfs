@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Test;
 /**
  * JUnit 5 test cases for the HTTP4 provider.
  * <p>
- * This class replaces {@link Http4ProviderTestCase} with a pure JUnit 5 implementation.
+ * Uses JUnit 5.
  * </p>
  */
 public class Http4ProviderTest extends ProviderTestSuiteJunit5 {

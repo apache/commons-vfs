@@ -28,7 +28,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.vfs2.AbstractProviderTestCase;
+import org.apache.commons.vfs2.AbstractProviderTest;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.Selectors;
@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
 /**
  * MultiThread tests for writing with SFTP provider.
  */
-public class SftpMultiThreadWriteTests extends AbstractProviderTestCase {
+public class SftpMultiThreadWriteTests extends AbstractProviderTest {
 
     /**
      * Sets up a scratch folder for the test to use.

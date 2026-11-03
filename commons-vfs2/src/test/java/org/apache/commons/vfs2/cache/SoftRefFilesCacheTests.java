@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for {@link SoftRefFilesCache} used by {@link SoftRefFilesCacheTestCase}.
+ * Tests for {@link SoftRefFilesCache}.
  */
 public class SoftRefFilesCacheTests extends AbstractFilesCacheTestsBase {
 

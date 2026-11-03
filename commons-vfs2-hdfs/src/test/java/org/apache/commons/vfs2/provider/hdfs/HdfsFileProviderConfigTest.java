@@ -55,7 +55,7 @@ import org.junit.jupiter.api.condition.OS;
  */
 @DisabledForJreRange(min = JRE.JAVA_23)
 @DisabledOnOs(OS.WINDOWS)
-public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
+public class HdfsFileProviderConfigTest extends AbstractProviderTestConfig {
 
     @DisabledForJreRange(min = JRE.JAVA_23)
     @DisabledOnOs(value = OS.WINDOWS)

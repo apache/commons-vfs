@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 /**
  * JUnit 5 tests for SFTP provider permission exception handling.
  * <p>
- * This class replaces {@code SftpPermissionExceptionTestCase} with a pure JUnit 5 implementation.
+ * Uses JUnit 5.
  * </p>
  * <p>
  * Tests that permission exceptions are properly handled when attempting to write to read-only files.

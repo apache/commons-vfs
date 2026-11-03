@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 /**
  * JUnit 5 tests for the Jar file system.
  * <p>
- * This class replaces {@link JarProviderTestCase} with a pure JUnit 5 implementation.
+ * Uses JUnit 5.
  * </p>
  */
 public class JarProviderTest extends ProviderTestSuiteJunit5 {

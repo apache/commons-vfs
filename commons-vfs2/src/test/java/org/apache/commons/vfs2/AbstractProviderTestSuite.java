@@ -91,9 +91,9 @@ public abstract class AbstractProviderTestSuite {
      */
     protected void addTests(final Class<?> testClass) throws Exception {
         // Verify the class
-        if (!AbstractProviderTestCase.class.isAssignableFrom(testClass)) {
+        if (!AbstractProviderTest.class.isAssignableFrom(testClass)) {
             throw new Exception("Test class " + testClass.getName() + " is not assignable to "
-                + AbstractProviderTestCase.class.getName());
+                + AbstractProviderTest.class.getName());
         }
         testClasses.add(testClass);
     }
@@ -125,7 +125,7 @@ public abstract class AbstractProviderTestSuite {
             final String testName = prefix + method.getName();
             tests.add(DynamicTest.dynamicTest(testName, () -> {
                 // Create test instance
-                final AbstractProviderTestCase testCase = (AbstractProviderTestCase) testClass.getConstructor().newInstance();
+                final AbstractProviderTest testCase = (AbstractProviderTest) testClass.getConstructor().newInstance();
                 testCase.addEmptyDir(addEmptyDir);
                 testCase.setConfig(manager, providerConfig, baseFolder, readFolder, writeFolder);
 

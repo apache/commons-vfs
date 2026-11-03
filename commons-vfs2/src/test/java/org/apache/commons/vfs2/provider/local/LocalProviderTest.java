@@ -30,7 +30,7 @@ import org.junit.jupiter.api.TestInstance;
 /**
  * JUnit 5 tests for the local file system.
  * <p>
- * This class replaces {@link LocalProviderTestCase} with a pure JUnit 5 implementation.
+ * Uses JUnit 5.
  * </p>
  */
 @Tag("provider")

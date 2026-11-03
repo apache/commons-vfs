@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
  *
  * Used by Local and SFTP File System.
  */
-public class PermissionsTests extends AbstractProviderTestCase {
+public class PermissionsTests extends AbstractProviderTest {
 
     public static final String FILE_NAME = "permission.txt";
 

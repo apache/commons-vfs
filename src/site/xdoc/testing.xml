@@ -82,10 +82,10 @@
 > winutils.exe systeminfo
 8518668288,8520572928,4102033408,4544245760,8,1600000,6042074
 > mvn -P!no-test-hdfs clean test     # runs all test and HDFS tests
-> mvn clean test -Dtest=org.apache.commons.vfs2.provider.hdfs.test.HdfsFileProviderTest,org.apache.commons.vfs2.provider.hdfs.test.HdfsFileProviderTestCase
+> mvn clean test -Dtest=org.apache.commons.vfs2.provider.hdfs.HdfsFileProviderTest,org.apache.commons.vfs2.provider.hdfs.HdfsFileProviderConfigTest
 ...
-Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.006 sec - in org.apache.commons.vfs2.provider.hdfs.test.HdfsFileProviderTest
-Tests run: 77, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.728 sec - in org.apache.commons.vfs2.provider.hdfs.test.HdfsFileProviderTestCase]]></source>
+Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.006 sec - in org.apache.commons.vfs2.provider.hdfs.HdfsFileProviderTest
+Tests run: 77, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.728 sec - in org.apache.commons.vfs2.provider.hdfs.HdfsFileProviderConfigTest]]></source>
         </section>
 
         <section name="Running SMB tests against Windows">

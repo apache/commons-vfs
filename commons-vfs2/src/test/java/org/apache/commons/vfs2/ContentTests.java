@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Test cases for reading file content.
  */
-public class ContentTests extends AbstractProviderTestCase {
+public class ContentTests extends AbstractProviderTest {
 
     /**
      * Asserts every file in a folder exists and has the expected content.

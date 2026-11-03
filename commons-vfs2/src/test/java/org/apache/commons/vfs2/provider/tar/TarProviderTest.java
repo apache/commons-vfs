@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 /**
  * JUnit 5 tests for the Tar file system.
  * <p>
- * This class replaces {@link TarProviderTestCase} with a pure JUnit 5 implementation.
+ * Uses JUnit 5.
  * </p>
  */
 public class TarProviderTest extends ProviderTestSuiteJunit5 {

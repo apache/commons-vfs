@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 
-import org.apache.commons.vfs2.AbstractProviderTestCase;
+import org.apache.commons.vfs2.AbstractProviderTest;
 import org.apache.commons.vfs2.FileChangeEvent;
 import org.apache.commons.vfs2.FileListener;
 import org.apache.commons.vfs2.FileObject;
@@ -66,7 +66,7 @@ class DebugFileListener implements FileListener {
 /**
  * Additional junction test cases.
  */
-public class JunctionTests extends AbstractProviderTestCase {
+public class JunctionTests extends AbstractProviderTest {
 
     private FileObject getBaseDir() throws FileSystemException {
         final File file = getTestDirectoryFile();

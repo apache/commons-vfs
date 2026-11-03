@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 /**
  * URL test cases for providers.
  */
-public class UrlTests extends AbstractProviderTestCase {
+public class UrlTests extends AbstractProviderTest {
 
     /**
      * Returns the capabilities required by the tests of this test case. The tests are not run if the provider being

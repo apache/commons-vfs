@@ -47,7 +47,7 @@ import org.junit.jupiter.api.AfterAll;
 /**
  * JUnit 5 tests for FTP file systems.
  * <p>
- * This class replaces {@link FtpProviderTestCase} with a pure JUnit 5 implementation.
+ * Uses JUnit 5.
  * </p>
  */
 public class FtpProviderTest extends ProviderTestSuiteJunit5 {

@@ -34,7 +34,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.jupiter.api.Test;
 
-public class IPv6LocalConnectionTests extends AbstractProviderTestCase {
+public class IPv6LocalConnectionTests extends AbstractProviderTest {
 
     private static final String LOOPBACK = "0:0:0:0:0:0:0:1";
     private static final Log log = LogFactory.getLog(IPv6LocalConnectionTests.class);

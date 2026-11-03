@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Test the cache strategy.
  */
-public class ProviderCacheStrategyTests extends AbstractProviderTestCase {
+public class ProviderCacheStrategyTests extends AbstractProviderTest {
 
     public void assertContains(final FileObject[] fos, final String string) {
         for (final FileObject fo : fos) {

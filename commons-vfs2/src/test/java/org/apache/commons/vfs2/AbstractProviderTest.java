@@ -49,7 +49,7 @@ import org.junit.jupiter.api.BeforeEach;
  * for capability checking and cleanup. Tests are dynamically generated via {@link AbstractProviderTestSuite}.
  * </p>
  */
-public abstract class AbstractProviderTestCase {
+public abstract class AbstractProviderTest {
 
     // Expected contents of "file1.txt"
     public static final String FILE1_CONTENT = "This is a test file.";
@@ -301,7 +301,7 @@ public abstract class AbstractProviderTestCase {
 
     @Override
     public String toString() {
-        return "AbstractProviderTestCase [baseFolder=" + baseFolder + ", readFolder=" + readFolder + ", writeFolder="
+        return "AbstractProviderTest [baseFolder=" + baseFolder + ", readFolder=" + readFolder + ", writeFolder="
                 + writeFolder + ", manager=" + manager + ", providerConfig=" + providerConfig + ", method=" + method
                 + ", addEmptyDir=" + addEmptyDir + "]";
     }

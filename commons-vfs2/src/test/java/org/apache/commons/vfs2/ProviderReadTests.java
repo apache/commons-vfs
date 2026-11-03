@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
  * <p>
  * TODO - Test getLastModified(), getAttribute().
  */
-public class ProviderReadTests extends AbstractProviderTestCase {
+public class ProviderReadTests extends AbstractProviderTest {
 
     /**
      * Walks a folder structure, asserting it contains exactly the expected files and folders.

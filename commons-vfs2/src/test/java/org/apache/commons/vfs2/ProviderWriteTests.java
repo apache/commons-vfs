@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
 /**
  * File system test that check that a file system can be modified.
  */
-public class ProviderWriteTests extends AbstractProviderTestCase {
+public class ProviderWriteTests extends AbstractProviderTest {
 
     /**
      * A test listener.

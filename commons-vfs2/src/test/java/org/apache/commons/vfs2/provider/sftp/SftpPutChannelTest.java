@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 /**
  * JUnit 5 tests for SFTP provider channel pool management.
  * <p>
- * This class replaces {@code SftpPutChannelTestCase} with a pure JUnit 5 implementation.
+ * Uses JUnit 5.
  * </p>
  * <p>
  * Tests that the channel pool is properly managed when exceptions occur.
@@ -101,7 +101,6 @@ public class SftpPutChannelTest extends ProviderTestSuiteJunit5 {
             }
         });
         // Original test also verified channel count:
-        // final int channelCount = AbstractSftpProviderTestCase.getChannelCount();
         // assertEquals(0, channelCount, "Expected 0 channels after exception");
         //
         // However, accessing server internals is not easily possible in the new architecture,

@@ -42,7 +42,7 @@ import org.junit.jupiter.api.Test;
 /**
  * JUnit 5 test cases for the HTTP5 provider.
  * <p>
- * This class replaces {@link Http5ProviderTestCase} with a pure JUnit 5 implementation.
+ * Uses JUnit 5.
  * </p>
  */
 public class Http5ProviderTest extends ProviderTestSuiteJunit5 {
