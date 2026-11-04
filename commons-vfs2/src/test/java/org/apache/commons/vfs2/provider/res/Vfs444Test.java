@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Test cases for VFS-444.
  * <p>
- * This class replaces {@code Vfs444TestCase} with a pure JUnit 5 implementation.
+ * Uses JUnit 5.
  * </p>
  */
 public class Vfs444Test extends ProviderTestSuiteJunit5 {

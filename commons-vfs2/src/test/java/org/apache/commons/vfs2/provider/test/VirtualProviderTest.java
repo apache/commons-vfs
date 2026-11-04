@@ -28,7 +28,7 @@ import org.apache.commons.vfs2.ProviderTestSuiteJunit5;
 /**
  * JUnit 5 test cases for the virtual file system provider.
  * <p>
- * This class replaces {@link VirtualProviderTestCase} with a pure JUnit 5 implementation.
+ * Uses JUnit 5.
  * </p>
  */
 public class VirtualProviderTest extends ProviderTestSuiteJunit5 {

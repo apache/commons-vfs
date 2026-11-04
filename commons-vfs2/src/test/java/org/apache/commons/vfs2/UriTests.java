@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 /**
  * URI test cases for providers.
  */
-public class UriTests extends AbstractProviderTestCase {
+public class UriTests extends AbstractProviderTest {
 
     /**
      * Returns the capabilities required by the tests of this test case. The tests are not run if the provider being tested does not support all the required

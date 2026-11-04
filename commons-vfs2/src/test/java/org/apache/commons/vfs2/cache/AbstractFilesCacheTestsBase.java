@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.apache.commons.vfs2.AbstractProviderTestCase;
+import org.apache.commons.vfs2.AbstractProviderTest;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Base class for different FilesCache tests.
  */
-public abstract class AbstractFilesCacheTestsBase extends AbstractProviderTestCase {
+public abstract class AbstractFilesCacheTestsBase extends AbstractProviderTest {
 
     /** Helper method, may be used in cache specific tests. */
     protected int getFileHashCode() throws FileSystemException {

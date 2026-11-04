@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.webdav.test;
+package org.apache.commons.vfs2.provider.webdav4.test;
 
 import static org.apache.commons.vfs2.VfsTestUtils.getTestDirectory;
 
@@ -36,38 +36,37 @@ import javax.jcr.Value;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.Collections;
-
-import org.apache.commons.httpclient.Header;
 import org.apache.commons.io.file.PathUtils;
 import org.apache.commons.vfs2.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.IPv6LocalConnectionTests;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.temp.TemporaryFileProvider;
-import org.apache.commons.vfs2.provider.webdav.WebdavFileProvider;
-import org.apache.commons.vfs2.provider.webdav.WebdavFileSystemConfigBuilder;
+import org.apache.commons.vfs2.provider.webdav4.Webdav4FileProvider;
+import org.apache.commons.vfs2.provider.webdav4.Webdav4FileSystemConfigBuilder;
 import org.apache.commons.vfs2.util.FreeSocketPortUtil;
 import org.apache.jackrabbit.core.TransientRepository;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 
 /**
- * Test cases for the WebDAV provider.
+ * Test cases for the WebDAV4 provider.
+ * Do NOT use org.apache.jackrabbit.standalone.Main.
  */
-public class WebdavProviderTestCase extends AbstractProviderTestConfig {
-
-    private static final char[] PASSWORD = {};
+public class Webdav4ProviderConfigTest extends AbstractProviderTestConfig {
 
     private static final String USER_ID = "admin";
 
+    private static final String PASSWORD = "admin";
+
+    private static final char[] PASSWORD_CHARS = PASSWORD.toCharArray();
+
     private static int SocketPort;
 
-    private static final String TEST_URI = "test.webdav.uri";
+    private static final String TEST_URI = "test.webdav4.uri";
 
-    private static JackrabbitMain JrMain;
+    private static JackrabbitMain jrMain;
 
     /**
      * Use %40 for @ in URLs
@@ -76,13 +75,13 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig {
 
     private static Path RepoDirectory;
 
-    private static final boolean DEBUG = Boolean.getBoolean("WebdavProviderTestCase.Debug");
+    private static final boolean DEBUG = Boolean.getBoolean("Webdav4ProviderConfigTest.Debug");
 
     static Path createTempDirectory() throws IOException {
         // create base folder
         final Path base = Paths.get("target/test").normalize();
         Files.createDirectories(base);
-        final Path tempFile = Files.createTempFile(base, "WebdavProviderTestCase_", ".tmp");
+        final Path tempFile = Files.createTempFile(base, "WebdavProviderConfigTest_", ".tmp");
         Files.delete(tempFile);
         Files.createDirectories(base);
 
@@ -138,25 +137,23 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig {
     }
 
     private static Session getSession(final TransientRepository repository) throws RepositoryException {
-        return repository.login(new SimpleCredentials(USER_ID, PASSWORD));
+        return repository.login(new SimpleCredentials(USER_ID, PASSWORD_CHARS));
     }
 
     public static String getSystemTestUriOverride() {
         return System.getProperty(TEST_URI);
     }
 
-    private static TransientRepository getTransientRepository(final Path repoDirectory) throws IOException {
-        // Jackrabbit 1.6:
-        // TransientRepository repository = new TransientRepository(repoDirectory);
-        // Jackrabbit 1.5.2:
+    private static TransientRepository getTransientRepository(final Path repoDirectory) {
         return new TransientRepository(repoDirectory.resolve("repository.xml").toString(), repoDirectory.toString());
     }
 
     private static void importFiles(final Node parent, final File sourceDir) throws RepositoryException, IOException {
         final File[] files = sourceDir.listFiles();
+        // System.out.printf("Test importing %,d files from %s...%n", files.length, sourceDir);
         for (final File file : files) {
             if (file.isFile()) {
-                try (InputStream data = Files.newInputStream(file.toPath())) {
+                try (final InputStream data = Files.newInputStream(file.toPath())) {
                     message("Importing file " + file);
                     JcrUtils.putFile(parent, file.getName(), MIME_TYPE_APPLICATION_OCTET_STREAM, data);
                 }
@@ -206,7 +203,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig {
         dump(RepoDirectory);
         // Start server with temp repo
         startJackrabbit(RepoDirectory);
-        message("Returned from org.apache.jackrabbit.standalone.Main " + SocketPort);
+        message("Returned from " + JackrabbitMain.class.getName() +  " " + SocketPort);
     }
 
     /**
@@ -217,16 +214,16 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig {
      */
     private static void startJackrabbit(final Path repoDirectory) throws Exception {
         boolean quiet = false;
+
         if (!DEBUG) {
-            Logger.getLogger("org.apache.jackrabbit").setLevel(Level.WARN);
-            Logger.getLogger("org.apache.commons.httpclient").setLevel(Level.ERROR);
-            Logger.getLogger("org.apache.commons.vfs2").setLevel(Level.WARN);
-            Logger.getLogger("org.mortbay").setLevel(Level.WARN);
             quiet = true;
         }
-        JrMain = new JackrabbitMain(new String[] { "--port", Integer.toString(SocketPort), "--repo",
-                repoDirectory.toString(), quiet ? "--quiet" : "" });
-        JrMain.run();
+
+        jrMain = new JackrabbitMain(new String[] { "--port", Integer.toString(SocketPort), "--repo", repoDirectory.toString(),
+                quiet ? "--quiet" : "" }) {
+        };
+
+        jrMain.run();
     }
 
 
@@ -239,12 +236,10 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig {
      * <li>Remove temporary repository directory.</li>
      * </ol>
      * Stops the embedded Apache WebDAV Server.
-     *
-     * @throws Exception @throws
      */
-    public static void tearDownClass() throws Exception {
-        // Main JR shutdown
-        JrMain.shutdown();
+    public static void tearDownClass() {
+        // Stop Jackrabbit Main for graceful shutdown
+        jrMain.shutdown();
 
         if (DEBUG) {
             message("Skipping cleanup of " + RepoDirectory);
@@ -266,12 +261,12 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig {
         }
     }
 
-    public WebdavProviderTestCase() throws IOException {
+    public Webdav4ProviderConfigTest() throws IOException {
         SocketPort = FreeSocketPortUtil.findFreeLocalPort();
         message("FreeSocketPortUtil.findFreeLocalPort() = " + SocketPort);
         // Use %40 for @ in a URL
         // Any user id and password will do with the default Jackrabbit set up.
-        ConnectionUri = String.format("webdav://%s@localhost:%d/repository/default", USER_ID, SocketPort);
+        ConnectionUri = String.format("webdav4://%s:%s@localhost:%d/repository/default", USER_ID, PASSWORD, SocketPort);
     }
 
     /**
@@ -283,29 +278,11 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig {
         if (uri == null) {
             uri = ConnectionUri;
         }
-        final WebdavFileSystemConfigBuilder builder = (WebdavFileSystemConfigBuilder) manager
-                .getFileSystemConfigBuilder("webdav");
+        final Webdav4FileSystemConfigBuilder builder = (Webdav4FileSystemConfigBuilder) manager
+                .getFileSystemConfigBuilder("webdav4");
         final FileSystemOptions opts = new FileSystemOptions();
         builder.setRootURI(opts, uri);
-        final FileObject baseFolder = manager.resolveFile(uri, opts);
-
-        // Disable HTTP persistent connections for the embedded Jackrabbit 1.x
-        // test server. Jackrabbit 1.x bundles Jetty 6.x which does not drain
-        // unconsumed request bodies before sending error responses (e.g. 404),
-        // violating HTTP/1.1 persistent connection requirements. This leaves
-        // stale request bytes on the connection that corrupt subsequent requests.
-        // See https://github.com/jetty/jetty.project/issues/651
-        // See https://github.com/jetty/jetty.project/issues/4117
-        final java.lang.reflect.Method getClient =
-                org.apache.commons.vfs2.provider.http.HttpFileSystem.class
-                        .getDeclaredMethod("getClient");
-        getClient.setAccessible(true);
-        ((org.apache.commons.httpclient.HttpClient) getClient.invoke(
-                baseFolder.getFileSystem())).getParams().setParameter(
-                        "http.default-headers",
-                        Collections.singletonList(new Header("Connection", "close")));
-
-        return baseFolder;
+        return manager.resolveFile(uri, opts);
     }
 
     @Override
@@ -318,17 +295,17 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig {
      */
     @Override
     public void prepare(final DefaultFileSystemManager manager) throws Exception {
-        manager.addProvider("webdav", new WebdavFileProvider());
+        manager.addProvider("webdav4", new Webdav4FileProvider());
         manager.addProvider("tmp", new TemporaryFileProvider());
     }
 
     @org.junit.jupiter.api.Test
     public void testResolveIPv6Url() throws Exception {
-        final String ipv6Url = "webdav://user:pass@[fe80::1c42:dae:8370:aea6%en1]/file.txt";
+        final String ipv6Url = "webdav4://user:pass@[fe80::1c42:dae:8370:aea6%en1]/file.txt";
 
         final FileObject fileObject = VFS.getManager().resolveFile(ipv6Url, new FileSystemOptions());
 
-        assertEquals("webdav://user:pass@[fe80::1c42:dae:8370:aea6%en1]/", fileObject.getFileSystem().getRootURI());
-        assertEquals("webdav://user:pass@[fe80::1c42:dae:8370:aea6%en1]/file.txt", fileObject.getName().getURI());
+        assertEquals("webdav4://user:pass@[fe80::1c42:dae:8370:aea6%en1]/", fileObject.getFileSystem().getRootURI());
+        assertEquals("webdav4://user:pass@[fe80::1c42:dae:8370:aea6%en1]/file.txt", fileObject.getName().getURI());
     }
 }

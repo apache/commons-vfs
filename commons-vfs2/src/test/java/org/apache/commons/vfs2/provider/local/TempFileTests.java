@@ -23,7 +23,7 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.apache.commons.vfs2.AbstractProviderTestCase;
+import org.apache.commons.vfs2.AbstractProviderTest;
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Additional naming tests for local file system.
  */
-public class TempFileTests extends AbstractProviderTestCase {
+public class TempFileTests extends AbstractProviderTest {
 
     /**
      * https://issues.apache.org/jira/browse/VFS-790.

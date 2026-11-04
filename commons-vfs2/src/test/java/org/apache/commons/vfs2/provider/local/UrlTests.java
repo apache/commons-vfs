@@ -25,7 +25,7 @@ import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
-import org.apache.commons.vfs2.AbstractProviderTestCase;
+import org.apache.commons.vfs2.AbstractProviderTest;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.Selectors;
@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Additional URL tests for local file system.
  */
-public class UrlTests extends AbstractProviderTestCase {
+public class UrlTests extends AbstractProviderTest {
 
     /**
      * Tests that getURL() round-trips correctly when a directory name contains brackets.

@@ -17,25 +17,20 @@
 package org.apache.commons.vfs2.provider.ftps;
 
 /**
- * Configuration for FTPS file systems with implicit FTPS connection.
- *
- * TODO: Fails for concurrent access. Note, that the implicit mode is not standardized and the protocol may differ
- * between the FTPS servers.
- *
- * @see <a href="https://en.wikipedia.org/wiki/FTPS#Implicit">Wikipedia: FTPS/Implicit</a>
+ * Configuration for FTPS file systems with explicit FTPS connection.
  */
-public class FtpsProviderImplicitTestCase extends AbstractFtpsProviderTestCase {
+public class FtpsProviderExplicitTest extends AbstractFtpsProviderTest {
 
     @Override
     protected boolean isImplicit() {
-        return true;
+        return false;
     }
 
     @Override
     protected void setupOptions(final FtpsFileSystemConfigBuilder builder) {
         super.setupOptions(builder);
         builder.setDataChannelProtectionLevel(fileSystemOptions, FtpsDataChannelProtectionLevel.P);
-        builder.setFtpsMode(fileSystemOptions, FtpsMode.IMPLICIT);
+        builder.setFtpsMode(fileSystemOptions, FtpsMode.EXPLICIT);
     }
 }
 

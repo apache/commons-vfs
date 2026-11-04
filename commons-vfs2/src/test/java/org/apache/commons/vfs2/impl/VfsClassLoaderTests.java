@@ -43,7 +43,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.output.StringBuilderWriter;
-import org.apache.commons.vfs2.AbstractProviderTestCase;
+import org.apache.commons.vfs2.AbstractProviderTest;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -54,7 +54,7 @@ import org.junit.jupiter.api.Test;
 /**
  * VfsClassLoader test cases.
  */
-public class VfsClassLoaderTests extends AbstractProviderTestCase {
+public class VfsClassLoaderTests extends AbstractProviderTest {
 
     private class LoadClass implements Runnable {
         private final VFSClassLoader loader;
@@ -135,12 +135,12 @@ public class VfsClassLoaderTests extends AbstractProviderTestCase {
         }
 
         // build search path without using #getBaseFolder()
-        // because NestedJarTestCase redefines it
+        // because NestedJarTest redefines it
         final File baseDir = getTestDirectoryFile();
         final FileObject nestedJar = manager.resolveFile(baseDir, "nested.jar");
         final FileObject testJar = manager.resolveFile(baseDir, "test.jar");
 
-        // test setup needs to know about .jar extension - i.e. NestedJarTestCase
+        // test setup needs to know about .jar extension - i.e. NestedJarTest
         if (!manager.canCreateFileSystem(nestedJar)) {
             System.out.println("VfsClassLoaderTests no layered .jar provider, skipping.");
             return;

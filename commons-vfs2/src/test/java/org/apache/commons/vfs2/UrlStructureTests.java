@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 /**
  * URL Test cases for providers that supply structural info.
  */
-public class UrlStructureTests extends AbstractProviderTestCase {
+public class UrlStructureTests extends AbstractProviderTest {
 
     /**
      * Returns the capabilities required by the tests of this test case.

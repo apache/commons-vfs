@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 /**
  * JUnit 5 tests for the Zip file system.
  * <p>
- * This class replaces {@link ZipProviderTestCase} with a pure JUnit 5 implementation.
+ * Uses JUnit 5.
  * </p>
  */
 public class ZipProviderTest extends ProviderTestSuiteJunit5 {

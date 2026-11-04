@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Test cases for getting and setting file last modified time.
  */
-public class LastModifiedTests extends AbstractProviderTestCase {
+public class LastModifiedTests extends AbstractProviderTest {
 
     protected static final Duration ONE_DAY = Duration.ofDays(1);
 

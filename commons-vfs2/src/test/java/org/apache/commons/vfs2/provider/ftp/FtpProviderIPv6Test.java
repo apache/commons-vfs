@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
 /**
  * JUnit 5 tests for FTP provider with IPv6 support.
  * <p>
- * This class replaces {@code FtpProviderIPv6TestCase} with a pure JUnit 5 implementation.
+ * Uses JUnit 5.
  * This test uses mocked providers and doesn't require actual file system access.
  * </p>
  */

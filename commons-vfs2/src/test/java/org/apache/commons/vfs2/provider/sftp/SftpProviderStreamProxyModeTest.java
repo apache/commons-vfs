@@ -32,7 +32,7 @@ import com.jcraft.jsch.TestIdentityRepositoryFactory;
 /**
  * JUnit 5 tests for SFTP provider with stream proxy mode.
  * <p>
- * This class replaces {@code SftpProviderStreamProxyModeTestCase} with a pure JUnit 5 implementation.
+ * Uses JUnit 5.
  * </p>
  * <p>
  * VFS-440: stream proxy test suite.

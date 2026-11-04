@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Random set length test cases for file providers.
  */
-public class ProviderRandomSetLengthTests extends AbstractProviderTestCase {
+public class ProviderRandomSetLengthTests extends AbstractProviderTest {
 
     private static final String TEST_DATA = "This is a test file.";
 

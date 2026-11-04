@@ -43,7 +43,7 @@ import com.jcraft.jsch.JSchException;
 /**
  * JUnit 5 tests for SFTP provider with IPv6 support.
  * <p>
- * This class replaces {@code SftpProviderIPv6TestCase} with a pure JUnit 5 implementation.
+ * Uses JUnit 5.
  * </p>
  */
 public class SftpProviderIPv6Test extends ProviderTestSuiteJunit5 {

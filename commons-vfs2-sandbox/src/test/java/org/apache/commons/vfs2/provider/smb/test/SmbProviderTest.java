@@ -31,7 +31,7 @@ public class SmbProviderTest extends ProviderTestSuiteJunit5 {
     private static final String TEST_URI = "test.smb.uri";
 
     public SmbProviderTest() throws Exception {
-        super(new SmbProviderTestCase(), "", true);
+        super(new SmbProviderConfigTest(), "", true);
     }
 
     @Override

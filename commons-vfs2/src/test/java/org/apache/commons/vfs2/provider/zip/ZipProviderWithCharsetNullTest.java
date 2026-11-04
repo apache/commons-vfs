@@ -34,7 +34,7 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 /**
  * JUnit 5 tests for the ZIP file system with null charset configuration.
  * <p>
- * This class replaces {@code ZipProviderWithCharsetNullTestCase} with a pure JUnit 5 implementation.
+ * Uses JUnit 5.
  * </p>
  */
 public class ZipProviderWithCharsetNullTest extends ProviderTestSuiteJunit5 {

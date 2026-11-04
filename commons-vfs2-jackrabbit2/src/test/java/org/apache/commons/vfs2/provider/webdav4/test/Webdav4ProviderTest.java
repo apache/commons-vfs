@@ -29,23 +29,23 @@ import org.junit.jupiter.api.TestInstance;
 public class Webdav4ProviderTest extends Webdav4ProviderTestSuite {
 
     public Webdav4ProviderTest() throws Exception {
-        super(new Webdav4ProviderTestCase(), "", false);
+        super(new Webdav4ProviderConfigTest(), "", false);
     }
 
     @Override
     protected void addBaseTests() throws Exception {
         super.addBaseTests();
-        addTests(Webdav4ProviderTestCase.class);
+        addTests(Webdav4ProviderConfigTest.class);
 
-        if (Webdav4ProviderTestCase.getSystemTestUriOverride() == null) {
+        if (Webdav4ProviderConfigTest.getSystemTestUriOverride() == null) {
             addTests(IPv6LocalConnectionTests.class);
         }
     }
 
     @Override
     protected void setUp() throws Exception {
-        if (Webdav4ProviderTestCase.getSystemTestUriOverride() == null) {
-            Webdav4ProviderTestCase.setUpClass();
+        if (Webdav4ProviderConfigTest.getSystemTestUriOverride() == null) {
+            Webdav4ProviderConfigTest.setUpClass();
         }
         try {
             // Since webdav4 is not registered in the standard file system configuration yet,
@@ -62,7 +62,7 @@ public class Webdav4ProviderTest extends Webdav4ProviderTestSuite {
 
     @Override
     protected void tearDown() throws Exception {
-        Webdav4ProviderTestCase.tearDownClass();
+        Webdav4ProviderConfigTest.tearDownClass();
         super.tearDown();
     }
 }

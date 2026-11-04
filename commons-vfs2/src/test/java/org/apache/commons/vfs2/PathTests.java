@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Path test cases for providers.
  */
-public class PathTests extends AbstractProviderTestCase {
+public class PathTests extends AbstractProviderTest {
 
     /**
      * Returns the capabilities required by the tests of this test case. The tests are not run if the provider being

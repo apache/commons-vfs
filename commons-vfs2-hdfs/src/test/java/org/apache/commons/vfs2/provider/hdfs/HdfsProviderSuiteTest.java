@@ -16,7 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.hdfs;
 
-import org.apache.commons.vfs2.provider.hdfs.HdfsFileProviderTestCase.HdfsProviderTestSuite;
+import org.apache.commons.vfs2.provider.hdfs.HdfsFileProviderConfigTest.HdfsProviderTestSuite;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.condition.DisabledForJreRange;
 import org.junit.jupiter.api.condition.DisabledOnJre;
@@ -33,7 +33,7 @@ import org.junit.jupiter.api.condition.OS;
 public class HdfsProviderSuiteTest extends HdfsProviderTestSuite {
 
     public HdfsProviderSuiteTest() throws Exception {
-        super(new HdfsFileProviderTestCase(), "", false);
+        super(new HdfsFileProviderConfigTest(), "", false);
     }
 }
 

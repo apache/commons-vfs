@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Random read-only test case for file providers.
  */
-public class ProviderRandomReadTests extends AbstractProviderTestCase {
+public class ProviderRandomReadTests extends AbstractProviderTest {
 
     private static final String TEST_DATA = "This is a test file.";
 

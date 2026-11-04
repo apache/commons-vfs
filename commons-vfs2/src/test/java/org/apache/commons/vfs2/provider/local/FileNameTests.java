@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.io.File;
 
-import org.apache.commons.vfs2.AbstractProviderTestCase;
+import org.apache.commons.vfs2.AbstractProviderTest;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Additional naming tests for local file system.
  */
-public class FileNameTests extends AbstractProviderTestCase {
+public class FileNameTests extends AbstractProviderTest {
 
     /**
      * Tests resolution of an absolute file name.
