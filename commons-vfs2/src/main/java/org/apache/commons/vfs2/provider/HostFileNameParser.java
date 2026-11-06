@@ -158,7 +158,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
             return ch == ']';
         }
 
-        return ch == '/' || ch == ';' || ch == '?' || ch == ':' || ch == '@' || ch == '&' || ch == '=' || ch == '+'
+        return ch == '/' || ch == ';' || ch == '?' || ch == '#' || ch == ':' || ch == '@' || ch == '&' || ch == '=' || ch == '+'
                 || ch == '$' || ch == ',';
     }
 
@@ -356,7 +356,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
                 name.delete(0, pos + 1);
                 return userInfo;
             }
-            if (ch == '/' || ch == '?') {
+            if (ch == '/' || ch == '?' || ch == '#') {
                 // Not allowed in user info
                 break;
             }
