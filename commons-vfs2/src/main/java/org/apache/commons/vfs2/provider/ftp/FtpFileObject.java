@@ -154,7 +154,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     protected FtpFileObject(final AbstractFileName fileName, final FtpFileSystem fileSystem, final FileName rootName)
             throws FileSystemException {
         super(fileName, fileSystem);
-        final String relPath = UriParser.decode(rootName.getRelativeName(fileName));
+        final String relPath = checkPath(UriParser.decode(rootName.getRelativeName(fileName)));
         if (".".equals(relPath)) {
             // do not use the "." as path against the ftp-server
             // e.g. the uu.net ftp-server do a recursive listing then
@@ -164,6 +164,24 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         } else {
             this.relPath = relPath;
         }
+    }
+
+    /**
+     * Checks that a path can be sent to the server as an FTP command argument.
+     * <p>
+     * RFC 959 ends each command with CRLF, so a carriage return or line feed in a path is read by the server as the end
+     * of the command, followed by a command of its own.
+     * </p>
+     *
+     * @param path The path to check, null is allowed.
+     * @return The given path.
+     * @throws FileSystemException If the path holds a carriage return or line feed.
+     */
+    private static String checkPath(final String path) throws FileSystemException {
+        if (path != null && (path.indexOf('\r') >= 0 || path.indexOf('\n') >= 0)) {
+            throw new FileSystemException("vfs.provider.ftp/invalid-path-chars.error");
+        }
+        return path;
     }
 
     /**
@@ -241,7 +259,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         final FtpClient client = getAbstractFileSystem().getClient();
         try {
             final String path = ftpFile != null && ftpFile.isSymbolicLink()
-                    ? getFileSystem().getFileSystemManager().resolveName(getParent().getName(), ftpFile.getLink()).getPath()
+                    ? checkPath(getFileSystem().getFileSystemManager().resolveName(getParent().getName(), ftpFile.getLink()).getPath())
                     : relPath;
             final FTPFile[] tmpChildren = client.listFiles(path);
             if (ArrayUtils.isEmpty(tmpChildren)) {
