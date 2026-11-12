@@ -46,6 +46,8 @@ public final class FtpsClientFactory {
         protected FTPSClient createClient(final FileSystemOptions fileSystemOptions) throws FileSystemException {
             final FTPSClient client = new FTPSClient(builder.getFtpsMode(fileSystemOptions) == FtpsMode.IMPLICIT);
 
+            client.setEndpointCheckingEnabled(builder.getEndpointCheckingEnabled(fileSystemOptions));
+
             final TrustManager trustManager = builder.getTrustManager(fileSystemOptions);
             if (trustManager != null) {
                 client.setTrustManager(trustManager);

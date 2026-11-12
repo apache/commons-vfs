@@ -38,6 +38,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
     private static final String PROT = PREFIX + ".PROT";
     private static final String KEY_MANAGER = PREFIX + ".KEY_MANAGER";
     private static final String TRUST_MANAGER = PREFIX + ".TRUST_MANAGER";
+    private static final String ENDPOINT_CHECKING_ENABLED = PREFIX + ".ENDPOINT_CHECKING_ENABLED";
 
     /**
      * Gets the singleton builder.
@@ -62,6 +63,19 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
      */
     public FtpsDataChannelProtectionLevel getDataChannelProtectionLevel(final FileSystemOptions opts) {
         return getEnum(FtpsDataChannelProtectionLevel.class, opts, PROT);
+    }
+
+    /**
+     * Gets whether the FTPS server host name is verified against its certificate during the TLS handshake, defaulting
+     * to {@code true}.
+     *
+     * @param opts The FileSystemOptions.
+     * @return {@code true} if TLS endpoint identity checking is enabled.
+     * @see org.apache.commons.net.ftp.FTPSClient#setEndpointCheckingEnabled(boolean)
+     * @since 2.11.0
+     */
+    public boolean getEndpointCheckingEnabled(final FileSystemOptions opts) {
+        return getBoolean(opts, ENDPOINT_CHECKING_ENABLED, true);
     }
 
     /**
@@ -132,6 +146,23 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
      */
     public void setDataChannelProtectionLevel(final FileSystemOptions opts, final FtpsDataChannelProtectionLevel prot) {
         setParam(opts, PROT, prot);
+    }
+
+    /**
+     * Sets whether the FTPS server host name is verified against its certificate during the TLS handshake.
+     * <p>
+     * When enabled (the default), the handshake fails unless the certificate presented by the server matches the host
+     * that was connected to, so a man-in-the-middle holding an unrelated but otherwise trusted certificate cannot
+     * impersonate the server. Disable only when connecting to a server whose certificate cannot carry the host name.
+     * </p>
+     *
+     * @param opts The FileSystemOptions.
+     * @param endpointCheckingEnabled whether to verify the server host name against its certificate.
+     * @see org.apache.commons.net.ftp.FTPSClient#setEndpointCheckingEnabled(boolean)
+     * @since 2.11.0
+     */
+    public void setEndpointCheckingEnabled(final FileSystemOptions opts, final boolean endpointCheckingEnabled) {
+        setParam(opts, ENDPOINT_CHECKING_ENABLED, Boolean.valueOf(endpointCheckingEnabled));
     }
 
     /**
