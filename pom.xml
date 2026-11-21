@@ -90,7 +90,7 @@
     <dependency.locations.enabled>false</dependency.locations.enabled>
     <!-- hadoop.version version 3.5.0 requires Java 17: https://central.sonatype.com/artifact/org.apache.hadoop/hadoop-main/3.5.0 -->
     <hadoop.version>3.4.3</hadoop.version>
-    <httpcore5.version>5.4.4</httpcore5.version>
+    <httpcore5.version>5.5</httpcore5.version>
     <httpclient5.version>5.6.5</httpclient5.version>
     <jackrabbit1.version>1.6.5</jackrabbit1.version>
     <mina.sshd.version>3.0.0-M7</mina.sshd.version>
@@ -396,11 +396,6 @@
         <version>4.5.14</version>
       </dependency>
       <dependency>
-        <groupId>org.apache.httpcomponents.core5</groupId>
-        <artifactId>httpcore5</artifactId>
-        <version>${httpcore5.version}</version>
-      </dependency>
-      <dependency>
         <groupId>org.apache.httpcomponents.client5</groupId>
         <artifactId>httpclient5</artifactId>
         <version>${httpclient5.version}</version>
@@ -551,6 +546,14 @@
         <scope>import</scope>
         <type>pom</type>
       </dependency>
+      <!-- Import after the logging BOMs so their SLF4J and Log4j versions take precedence. -->
+      <dependency>
+        <groupId>org.apache.httpcomponents.core5</groupId>
+        <artifactId>httpcore5-bom</artifactId>
+        <version>${httpcore5.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
       <!-- HDFS test dependencies -->
       <dependency>
         <groupId>org.apache.hadoop</groupId>
@@ -686,7 +689,7 @@
     <profile>
       <id>alpha-beta</id>
       <properties>
-        <httpcore5.version>5.5-beta2</httpcore5.version>
+        <httpcore5.version>5.5</httpcore5.version>
         <httpclient5.version>5.7-alpha1</httpclient5.version>
       </properties>
     </profile>
