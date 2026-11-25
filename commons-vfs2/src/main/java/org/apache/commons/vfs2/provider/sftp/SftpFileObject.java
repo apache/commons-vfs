@@ -95,6 +95,34 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     }
     private static final long MOD_TIME_FACTOR = 1000L;
 
+    /**
+     * Characters that must be encoded in a child name so that it is not parsed as part of the URI, see
+     * {@link org.apache.commons.vfs2.provider.URLFileNameParser#encodeCharacter(char)}.
+     */
+    private static final char[] RESERVED_NAME_CHARS = {'?'};
+
+    /**
+     * Escapes the characters that JSch treats as glob wildcards ({@code *} and {@code ?}) and its escape character (backslash), so that the
+     * {@link ChannelSftp} methods that expand wildcards operate on the file with this exact path.
+     *
+     * @param path The decoded path.
+     * @return The escaped path.
+     */
+    static String escapeGlob(final String path) {
+        if (path == null) {
+            return null;
+        }
+        final StringBuilder buffer = new StringBuilder(path.length());
+        for (int i = 0; i < path.length(); i++) {
+            final char c = path.charAt(i);
+            if (c == '\\' || c == '*' || c == '?') {
+                buffer.append('\\');
+            }
+            buffer.append(c);
+        }
+        return buffer.toString();
+    }
+
     private SftpATTRS attrs;
 
     private final String relPath;
@@ -132,9 +160,9 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
         final ChannelSftp channel = getAbstractFileSystem().getChannel();
         try {
             if (isFile()) {
-                channel.rm(relPath);
+                channel.rm(escapeGlob(relPath));
             } else {
-                channel.rmdir(relPath);
+                channel.rmdir(escapeGlob(relPath));
             }
         } finally {
             putChannel(channel);
@@ -187,7 +215,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
                     putChannel(channel);
                     throw new FileSystemException("vfs.provider/read-not-file.error", getName());
                 }
-                inputStream = channel.get(relPath);
+                inputStream = channel.get(escapeGlob(relPath));
             } catch (final SftpException e) {
                 putChannel(channel);
                 if (e.id == ChannelSftp.SSH_FX_NO_SUCH_FILE) {
@@ -220,7 +248,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
 
         final ChannelSftp channel = getAbstractFileSystem().getChannel();
         try {
-            return new SftpOutputStream(channel, channel.put(relPath, bAppend ? ChannelSftp.APPEND : ChannelSftp.OVERWRITE));
+            return new SftpOutputStream(channel, channel.put(escapeGlob(relPath), bAppend ? ChannelSftp.APPEND : ChannelSftp.OVERWRITE));
         } catch (final Exception ex) {
             putChannel(channel);
             throw ex;
@@ -294,13 +322,13 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
 
         try {
             // try the direct way to list the directory on the server to avoid too many round trips
-            vector = channel.ls(relPath);
+            vector = channel.ls(escapeGlob(relPath));
         } catch (final SftpException e) {
             String workingDirectory = null;
             try {
                 if (relPath != null) {
                     workingDirectory = channel.pwd();
-                    channel.cd(relPath);
+                    channel.cd(escapeGlob(relPath));
                 }
             } catch (final SftpException ex) {
                 // VFS-210: seems not to be a directory
@@ -315,7 +343,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
             } finally {
                 try {
                     if (relPath != null) {
-                        channel.cd(workingDirectory);
+                        channel.cd(escapeGlob(workingDirectory));
                     }
                 } catch (final SftpException xe) {
                     throw new FileSystemException("vfs.provider.sftp/change-work-directory-back.error",
@@ -347,7 +375,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
             }
 
             final FileObject fo = resolveFileInternal(getFileSystem().getFileSystemManager()
-                    .resolveName(getName(), UriParser.encode(name), NameScope.CHILD));
+                    .resolveName(getName(), UriParser.encode(name, RESERVED_NAME_CHARS), NameScope.CHILD));
 
             final SftpFileObject sftpChild = (SftpFileObject) FileObjectUtils.getAbstractFileObject(fo);
             sftpChild.setStat(stat.getAttrs());
@@ -370,7 +398,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
         final ChannelSftp channel = getAbstractFileSystem().getChannel();
         try {
             final SftpFileObject newSftpFileObject = (SftpFileObject) FileObjectUtils.getAbstractFileObject(newFile);
-            channel.rename(relPath, newSftpFileObject.relPath);
+            channel.rename(escapeGlob(relPath), escapeGlob(newSftpFileObject.relPath));
         } finally {
             putChannel(channel);
         }
@@ -436,7 +464,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     private synchronized void flushStat() throws IOException, SftpException {
         final ChannelSftp channel = getAbstractFileSystem().getChannel();
         try {
-            channel.setStat(relPath, attrs);
+            channel.setStat(escapeGlob(relPath), attrs);
         } finally {
             putChannel(channel);
         }
@@ -451,7 +479,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
         // Using InputStream directly from the channel
         // is much faster than the memory method.
         try {
-            return new SftpInputStream(channel, channel.get(getName().getPathDecoded(), null, filePointer));
+            return new SftpInputStream(channel, channel.get(escapeGlob(getName().getPathDecoded()), null, filePointer));
         } catch (final SftpException e) {
             putChannel(channel);
             throw new FileSystemException(e);
@@ -530,14 +558,14 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
         ChannelSftp channelSftp = null;
         try {
             channelSftp = getAbstractFileSystem().getChannel();
-            setStat(channelSftp.stat(relPath));
+            setStat(channelSftp.stat(escapeGlob(relPath)));
         } catch (final SftpException e) {
             try {
                 // maybe the channel has some problems, so recreate the channel and retry
                 if (e.id != ChannelSftp.SSH_FX_NO_SUCH_FILE) {
                     channelSftp.disconnect();
                     channelSftp = getAbstractFileSystem().getChannel();
-                    setStat(channelSftp.stat(relPath));
+                    setStat(channelSftp.stat(escapeGlob(relPath)));
                 } else {
                     // Really does not exist
                     attrs = null;
